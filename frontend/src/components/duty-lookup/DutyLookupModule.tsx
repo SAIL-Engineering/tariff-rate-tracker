@@ -173,43 +173,43 @@ export function DutyLookupModule() {
       {activeTab === 'lookup' && (
         <div className="space-y-5">
           {productHistory.length > 0 && (
-            <div className="grid gap-5 grid-cols-1 xl:grid-cols-[1fr_380px]">
-              <div className="space-y-5">
-                {/* Timeline chart with integrated detail panel */}
-                <DutyTimeline
-                  rates={productHistory}
-                  onSelectEntry={handleTimelineSelect}
-                  selectedIndex={selectedTimelineIdx}
-                  countryName={countryName}
-                />
-
-                {/* Rate comparison table (synced with timeline) */}
-                <RateComparisonTable
-                  entries={productHistory}
-                  onSelectEntry={handleTableSelect}
-                  selectedIndex={selectedTimelineIdx}
-                />
-              </div>
-
-              <div className="space-y-5">
-                {/* Stack breakdown for selected rate */}
-                {lookupResult && (
-                  <DutyStackBreakdown
-                    rate={lookupResult}
+            <>
+              {/* Rate history: timeline + table (left) with stack breakdown (right) */}
+              <div className="grid gap-5 grid-cols-1 xl:grid-cols-[1fr_380px]">
+                <div className="space-y-5">
+                  <DutyTimeline
+                    rates={productHistory}
+                    onSelectEntry={handleTimelineSelect}
+                    selectedIndex={selectedTimelineIdx}
                     countryName={countryName}
-                    label={selectedTimelineIdx != null ? `Period: ${lookupResult.revision}` : 'Current Rate'}
                   />
-                )}
 
-                {/* Calculator */}
-                <DutyCalculatorPanel
-                  rates={productHistory}
-                  currentRate={lookupResult}
-                  countryName={countryName}
-                  htsCode={htsCode}
-                />
+                  <RateComparisonTable
+                    entries={productHistory}
+                    onSelectEntry={handleTableSelect}
+                    selectedIndex={selectedTimelineIdx}
+                  />
+                </div>
+
+                <div className="space-y-5">
+                  {lookupResult && (
+                    <DutyStackBreakdown
+                      rate={lookupResult}
+                      countryName={countryName}
+                      label={selectedTimelineIdx != null ? `Period: ${lookupResult.revision}` : 'Current Rate'}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
+
+              {/* Duty calculator — full width below rate history */}
+              <DutyCalculatorPanel
+                rates={productHistory}
+                currentRate={lookupResult}
+                countryName={countryName}
+                htsCode={htsCode}
+              />
+            </>
           )}
 
           {productHistory.length === 0 && !lookupError && (

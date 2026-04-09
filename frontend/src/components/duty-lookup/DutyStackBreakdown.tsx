@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TariffProgramBadge } from './TariffProgramBadge';
 import type { ProductRate, AuthorityKey } from '@/types/tariff';
-import { AUTHORITIES, AUTHORITY_MAP, MFN_COLOR, STACK_COLORS } from '@/types/tariff';
+import { AUTHORITIES, AUTHORITY_MAP, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP, hasStatutoryDelta } from '@/types/tariff';
 import { formatRate, formatRateShort, formatHtsCode, formatDate } from '@/utils/formatters';
 import {
   Layers, Shield, Info, ChevronDown, ChevronUp, ShieldCheck,
@@ -61,9 +61,9 @@ function TotalEffectiveBar({ rate }: { rate: ProductRate }) {
 }
 
 function PunitiveCard({
-  authorityKey, rate, label, ch99Prefix, color, bgClass, textClass, borderClass,
+  authorityKey, rate, statutoryRate, label, ch99Prefix, color, bgClass, textClass, borderClass,
 }: {
-  authorityKey: AuthorityKey; rate: number; label: string;
+  authorityKey: AuthorityKey; rate: number; statutoryRate?: number; label: string;
   ch99Prefix?: string; color: string; bgClass: string; textClass: string; borderClass: string;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -82,6 +82,11 @@ function PunitiveCard({
             </div>
             {ch99Prefix && (
               <span className="text-[10px] font-mono text-[#353CED] mt-0.5 block">{ch99Prefix}</span>
+            )}
+            {statutoryRate != null && Math.abs(statutoryRate - rate) > 0.00001 && (
+              <span className="text-[10px] text-gray-400 mt-0.5 block">
+                Statutory: {formatRateShort(statutoryRate)} → Effective: {formatRateShort(rate)}
+              </span>
             )}
           </div>
         </div>
@@ -191,19 +196,24 @@ export function DutyStackBreakdown({ rate, countryName, label }: DutyStackBreakd
               <AlertTriangle className="h-3 w-3" />
               Active Additional Duties ({activeAuthorities.length})
             </div>
-            {activeAuthorities.map(a => (
-              <PunitiveCard
-                key={a.key}
-                authorityKey={a.key}
-                rate={rate[a.key]}
-                label={a.label}
-                ch99Prefix={a.ch99Prefix}
-                color={a.color}
-                bgClass={a.bgClass}
-                textClass={a.textClass}
-                borderClass={a.borderClass}
-              />
-            ))}
+            {activeAuthorities.map(a => {
+              const statutoryKey = STATUTORY_KEY_MAP[a.key];
+              const statutoryVal = rate[statutoryKey] ?? 0;
+              return (
+                <PunitiveCard
+                  key={a.key}
+                  authorityKey={a.key}
+                  rate={rate[a.key]}
+                  statutoryRate={Math.abs(statutoryVal - rate[a.key]) > 0.00001 ? statutoryVal : undefined}
+                  label={a.label}
+                  ch99Prefix={a.ch99Prefix}
+                  color={a.color}
+                  bgClass={a.bgClass}
+                  textClass={a.textClass}
+                  borderClass={a.borderClass}
+                />
+              );
+            })}
           </div>
         )}
 

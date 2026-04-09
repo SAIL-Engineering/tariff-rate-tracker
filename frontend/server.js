@@ -19,10 +19,12 @@
 import express from 'express';
 import { DuckDBInstance } from '@duckdb/node-api';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PARQUET_PATH = path.resolve(__dirname, '..', 'data', 'timeseries', 'rate_timeseries_parquet');
+const HTS_ARCHIVES_PATH = path.resolve(__dirname, '..', 'data', 'hts_archives');
 const PORT = process.env.API_PORT || 3001;
 
 let connection;
@@ -277,6 +279,107 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+// --- HTS product description index ---
+// Loaded once at startup from the latest HTS JSON archive.
+// Maps each 10-digit htsno (digits only) to its hierarchical description chain.
+let htsDescriptionIndex = new Map(); // hts10 → { hts10, descriptions: [{level, htsno, description}], fullDescription }
+
+function buildHtsDescriptionIndex() {
+  // Find the latest HTS archive file
+  const files = fs.readdirSync(HTS_ARCHIVES_PATH)
+    .filter(f => f.startsWith('hts_') && f.endsWith('.json'))
+    .sort()
+    .reverse();
+
+  if (files.length === 0) {
+    console.warn('No HTS archive files found — product descriptions unavailable');
+    return;
+  }
+
+  const latestFile = files[0];
+  console.log(`Loading HTS descriptions from ${latestFile}...`);
+  const data = JSON.parse(fs.readFileSync(path.join(HTS_ARCHIVES_PATH, latestFile), 'utf-8'));
+
+  // Build index: for each item with a non-empty htsno, walk backwards to collect
+  // ancestor descriptions at each indent level (chapter → heading → subheading → suffix)
+  const LEVEL_NAMES = ['Chapter', 'Heading', 'Subheading', 'Stat. Suffix', 'Stat. Suffix', 'Stat. Suffix'];
+
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    const rawCode = (item.htsno || '').replace(/\./g, '');
+    if (!rawCode || rawCode.length < 4) continue;
+
+    // Collect this item's description
+    const descriptions = [];
+    const thisIndent = Number(item.indent) || 0;
+
+    // Walk backwards to find ancestor at each indent level
+    const seenIndents = new Set();
+    for (let j = i; j >= 0; j--) {
+      const ancestor = data[j];
+      const aIndent = Number(ancestor.indent) || 0;
+
+      // Only collect each indent level once (the nearest ancestor)
+      if (aIndent <= thisIndent && !seenIndents.has(aIndent)) {
+        seenIndents.add(aIndent);
+        if (ancestor.description) {
+          descriptions.unshift({
+            level: LEVEL_NAMES[aIndent] || `Level ${aIndent}`,
+            htsno: ancestor.htsno || '',
+            description: ancestor.description.replace(/:$/, '').trim(),
+          });
+        }
+      }
+
+      // Stop once we've found indent 0 (chapter level)
+      if (aIndent === 0) break;
+    }
+
+    // Build the full concatenated description
+    const fullDescription = descriptions.map(d => d.description).join(' > ');
+
+    htsDescriptionIndex.set(rawCode, {
+      hts10: rawCode,
+      descriptions,
+      fullDescription,
+    });
+  }
+
+  console.log(`  Indexed ${htsDescriptionIndex.size} HTS descriptions`);
+}
+
+// --- Product info endpoint ---
+// Returns hierarchical description for an HTS code.
+app.get('/api/product-info', (req, res) => {
+  const { hts10 } = req.query;
+  if (!hts10) {
+    return res.status(400).json({ error: 'hts10 parameter required' });
+  }
+
+  const cleanCode = String(hts10).replace(/\./g, '');
+  if (!/^\d{4,10}$/.test(cleanCode)) {
+    return res.status(400).json({ error: 'hts10 must contain only digits (4-10)' });
+  }
+
+  // Exact match
+  let info = htsDescriptionIndex.get(cleanCode);
+
+  // Prefix fallback — try progressively shorter codes
+  if (!info) {
+    for (let len = cleanCode.length - 1; len >= 4; len--) {
+      const prefix = cleanCode.substring(0, len);
+      info = htsDescriptionIndex.get(prefix);
+      if (info) break;
+    }
+  }
+
+  if (info) {
+    res.json({ data: info, match: cleanCode.length === info.hts10.length ? 'exact' : 'prefix' });
+  } else {
+    res.json({ data: null, match: 'none' });
+  }
+});
+
 // --- Health check ---
 app.get('/api/health', async (_req, res) => {
   try {
@@ -293,6 +396,7 @@ async function start() {
   console.log('Initializing DuckDB with Parquet dataset...');
   console.log('Parquet path:', PARQUET_PATH);
   const stats = await initDatabase();
+  buildHtsDescriptionIndex();
   app.listen(PORT, () => {
     console.log(`API server listening on http://localhost:${PORT}`);
     console.log(`  ${stats.n_products} products, ${stats.n_countries} countries, ${stats.n_revisions} revisions`);

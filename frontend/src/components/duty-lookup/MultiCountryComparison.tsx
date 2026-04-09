@@ -141,14 +141,16 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
 
     const authorityKeys: AuthorityKey[] = AUTHORITIES.map(a => a.key);
     return comparisonData.filter(d => d.rate).map(d => {
+      const r = d.rate!;
       const row: Record<string, number | string> = {
         country: d.country.name.length > 15 ? d.country.name.slice(0, 15) + '...' : d.country.name,
         fullName: d.country.name,
-        base_rate: d.rate!.base_rate,
-        total_rate: d.rate!.total_rate,
+        base_rate: r.base_rate,
+        statutory_base_rate: r.statutory_base_rate,
+        total_rate: r.total_rate,
       };
       for (const key of authorityKeys) {
-        row[key] = d.rate![key];
+        row[key] = r[key];
       }
       return row;
     });
@@ -368,8 +370,17 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
                                 </div>
                                 {!d.available && <span className="text-[10px] text-amber-500 ml-5">No data</span>}
                               </td>
-                              <td className="px-3 py-2.5 text-right font-mono text-gray-700">
-                                {d.rate ? formatRateShort(d.rate.base_rate) : '—'}
+                              <td className="px-3 py-2.5 text-right">
+                                {d.rate ? (
+                                  <>
+                                    <span className="font-mono text-gray-700">{formatRateShort(d.rate.base_rate)}</span>
+                                    {d.rate.statutory_base_rate > 0 && Math.abs(d.rate.statutory_base_rate - d.rate.base_rate) > 0.00001 && (
+                                      <div className="text-[9px] text-gray-400 mt-0.5">
+                                        Stat: {formatRateShort(d.rate.statutory_base_rate)}
+                                      </div>
+                                    )}
+                                  </>
+                                ) : '—'}
                               </td>
                               {activeAuths.map(a => (
                                 <td key={a.key} className="px-3 py-2.5 text-right font-mono">

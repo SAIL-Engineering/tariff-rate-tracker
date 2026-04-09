@@ -7,7 +7,7 @@ import {
   ResponsiveContainer, ReferenceLine, Cell,
 } from 'recharts';
 import type { ProductRate } from '@/types/tariff';
-import { AUTHORITIES, MFN_COLOR, STACK_COLORS } from '@/types/tariff';
+import { AUTHORITIES, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP } from '@/types/tariff';
 import { formatRateShort, formatDate, formatHtsCode, formatRate } from '@/utils/formatters';
 import { computeRateVolatility } from '@/utils/tariffCalculator';
 import { TrendingUp, X, Calendar, Layers, Shield, FileText } from 'lucide-react';
@@ -244,26 +244,45 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
                 </div>
 
                 {/* MFN */}
-                {selectedEntry.base_rate > 0 && (
-                  <div className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: MFN_COLOR }} />
-                      <span className="text-gray-700">MFN Base</span>
+                {(selectedEntry.base_rate > 0 || selectedEntry.statutory_base_rate > 0) && (
+                  <div className="text-xs">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: MFN_COLOR }} />
+                        <span className="text-gray-700">MFN Base</span>
+                      </div>
+                      <span className="font-mono font-medium">{formatRate(selectedEntry.base_rate)}</span>
                     </div>
-                    <span className="font-mono font-medium">{formatRate(selectedEntry.base_rate)}</span>
+                    {selectedEntry.statutory_base_rate > 0 && Math.abs(selectedEntry.statutory_base_rate - selectedEntry.base_rate) > 0.00001 && (
+                      <div className="text-[10px] text-gray-400 ml-4 mt-0.5">
+                        Statutory {formatRateShort(selectedEntry.statutory_base_rate)} → Effective {formatRateShort(selectedEntry.base_rate)}
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {/* Authority rates */}
-                {AUTHORITIES.filter(a => selectedEntry[a.key] > 0).map(a => (
-                  <div key={a.key} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: a.color }} />
-                      <span className="text-gray-700">{a.label}</span>
+                {AUTHORITIES.filter(a => selectedEntry[a.key] > 0).map(a => {
+                  const statKey = STATUTORY_KEY_MAP[a.key];
+                  const statVal = selectedEntry[statKey] ?? 0;
+                  const hasDelta = statVal > 0 && Math.abs(statVal - selectedEntry[a.key]) > 0.00001;
+                  return (
+                    <div key={a.key} className="text-xs">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: a.color }} />
+                          <span className="text-gray-700">{a.label}</span>
+                        </div>
+                        <span className="font-mono font-medium">{formatRate(selectedEntry[a.key])}</span>
+                      </div>
+                      {hasDelta && (
+                        <div className="text-[10px] text-gray-400 ml-4 mt-0.5">
+                          Statutory {formatRateShort(statVal)} → Effective {formatRateShort(selectedEntry[a.key])}
+                        </div>
+                      )}
                     </div>
-                    <span className="font-mono font-medium">{formatRate(selectedEntry[a.key])}</span>
-                  </div>
-                ))}
+                  );
+                })}
 
                 {/* Ch.99 Trade Remedies table */}
                 {AUTHORITIES.filter(a => selectedEntry[a.key] > 0 && a.ch99Prefix).length > 0 && (

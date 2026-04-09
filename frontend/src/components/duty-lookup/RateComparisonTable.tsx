@@ -99,8 +99,13 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
                         </div>
                         <div className="text-[10px] text-gray-400 ml-5 mt-0.5">{entry.revision}</div>
                       </td>
-                      <td className="px-3 py-2 text-right font-mono text-gray-700">
-                        {formatRateShort(entry.base_rate)}
+                      <td className="px-3 py-2 text-right">
+                        <span className="font-mono text-gray-700">{formatRateShort(entry.base_rate)}</span>
+                        {entry.statutory_base_rate > 0 && Math.abs(entry.statutory_base_rate - entry.base_rate) > 0.00001 && (
+                          <div className="text-[9px] text-gray-400 mt-0.5">
+                            Stat: {formatRateShort(entry.statutory_base_rate)}
+                          </div>
+                        )}
                       </td>
                       <td className="px-3 py-2">
                         <div className="flex items-center gap-1">

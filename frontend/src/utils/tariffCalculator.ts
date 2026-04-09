@@ -1,11 +1,12 @@
 import type { ProductRate, DutyBreakdown, LandedCostResult, AuthorityKey } from '@/types/tariff';
-import { AUTHORITY_MAP } from '@/types/tariff';
+import { AUTHORITY_MAP, STATUTORY_KEY_MAP } from '@/types/tariff';
 import { formatDate } from '@/utils/formatters';
 
-export const MPF_RATE = 0.003464;
-export const MPF_MIN = 31.67;
-export const MPF_MAX = 614.35;
-export const HMF_RATE = 0.00125;
+// Fee Schedule (FY 2026)
+export const MPF_RATE = 0.003464;   // 0.3464%, all transport modes
+export const MPF_MIN = 33.58;       // minimum per entry
+export const MPF_MAX = 651.50;      // maximum per entry
+export const HMF_RATE = 0.00125;    // 0.125%, ocean freight only, no min/max
 
 export function calculateMPF(customsValue: number): number {
   const raw = customsValue * MPF_RATE;
@@ -31,10 +32,11 @@ export function calculateLandedCost(
 
   const breakdown: DutyBreakdown[] = [];
 
-  if (rate.base_rate > 0) {
+  if (rate.base_rate > 0 || rate.statutory_base_rate > 0) {
     breakdown.push({
       authority: 'MFN Base Rate',
       rate: rate.base_rate,
+      statutoryRate: rate.statutory_base_rate !== rate.base_rate ? rate.statutory_base_rate : undefined,
       dutyAmount: baseDuty,
       color: '#008dff',
     });
@@ -47,11 +49,14 @@ export function calculateLandedCost(
 
   for (const key of authorityKeys) {
     const value = rate[key];
-    if (value > 0) {
+    const statutoryKey = STATUTORY_KEY_MAP[key];
+    const statutoryValue = rate[statutoryKey] ?? 0;
+    if (value > 0 || statutoryValue > 0) {
       const info = AUTHORITY_MAP[key];
       breakdown.push({
         authority: info.label,
         rate: value,
+        statutoryRate: Math.abs(statutoryValue - value) > 0.00001 ? statutoryValue : undefined,
         dutyAmount: customsValue * value,
         color: info.color,
         ch99Code: info.ch99Prefix,

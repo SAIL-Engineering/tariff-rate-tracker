@@ -61,6 +61,14 @@ export interface ProductRate {
   rate_s122: number;
   rate_section_201: number;
   rate_other: number;
+  // Statutory rates — pre-scaling, pre-stacking baselines
+  statutory_rate_232: number;
+  statutory_rate_301: number;
+  statutory_rate_ieepa_recip: number;
+  statutory_rate_ieepa_fent: number;
+  statutory_rate_s122: number;
+  statutory_rate_section_201: number;
+  statutory_rate_other: number;
   metal_share: number;
   total_additional: number;
   total_rate: number;
@@ -69,6 +77,34 @@ export interface ProductRate {
   effective_date: string;
   valid_from: string;
   valid_until: string;
+}
+
+/** Map from effective rate key to its statutory counterpart */
+export type StatutoryKey =
+  | 'statutory_rate_232'
+  | 'statutory_rate_301'
+  | 'statutory_rate_ieepa_recip'
+  | 'statutory_rate_ieepa_fent'
+  | 'statutory_rate_s122'
+  | 'statutory_rate_section_201'
+  | 'statutory_rate_other';
+
+export const STATUTORY_KEY_MAP: Record<AuthorityKey, StatutoryKey> = {
+  rate_232: 'statutory_rate_232',
+  rate_301: 'statutory_rate_301',
+  rate_ieepa_recip: 'statutory_rate_ieepa_recip',
+  rate_ieepa_fent: 'statutory_rate_ieepa_fent',
+  rate_s122: 'statutory_rate_s122',
+  rate_section_201: 'statutory_rate_section_201',
+  rate_other: 'statutory_rate_other',
+};
+
+/** Returns true if the statutory rate differs from the effective rate for a given authority */
+export function hasStatutoryDelta(rate: ProductRate, key: AuthorityKey): boolean {
+  const statutoryKey = STATUTORY_KEY_MAP[key];
+  const statutory = rate[statutoryKey] ?? 0;
+  const effective = rate[key] ?? 0;
+  return statutory > 0 && Math.abs(statutory - effective) > 0.00001;
 }
 
 export type AuthorityKey =
@@ -141,6 +177,7 @@ export interface ShipmentRow {
 export interface DutyBreakdown {
   authority: string;
   rate: number;
+  statutoryRate?: number;
   dutyAmount: number;
   color: string;
   ch99Code?: string;
