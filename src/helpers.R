@@ -200,6 +200,298 @@ get_all_country_codes <- function() {
 
 
 # =============================================================================
+# ISO Country Metadata
+# =============================================================================
+
+#' Load ISO 3166-1 country metadata
+#'
+#' Reads the local JSON file with ISO alpha-2/alpha-3 codes for all countries.
+#'
+#' @param path Path to the ISO JSON file
+#' @return Tibble with columns: iso_name, alpha2, alpha3
+load_iso_countries <- function(path = here('data', 'countries-ISO-3166-1-alpha-2.json')) {
+  if (!file.exists(path)) {
+    stop('ISO country file not found: ', path,
+         '\nExpected at data/countries-ISO-3166-1-alpha-2.json')
+  }
+  raw <- jsonlite::fromJSON(path, simplifyDataFrame = TRUE)
+  tibble::as_tibble(raw) %>%
+    select(iso_name = country, alpha2, alpha3)
+}
+
+#' Normalize a country name for fuzzy matching
+#'
+#' Lowercases, trims whitespace, removes non-alphanumeric characters
+#' (except spaces), and collapses multiple spaces.
+#'
+#' @param x Character vector of country names
+#' @return Normalized character vector
+normalize_country_name <- function(x) {
+  x <- tolower(trimws(x))
+  x <- gsub('[^a-z0-9 ]', '', x)
+  x <- gsub('\\s+', ' ', x)
+  x
+}
+
+# Manual mapping for Census country names that don't match ISO names directly.
+# Keys are normalized Census names; values are ISO alpha-2 codes.
+MANUAL_ISO_MAP <- c(
+  'korea, south'                            = 'KR',
+  'korea, north'                            = 'KP',
+  'korea south'                             = 'KR',
+  'korea north'                             = 'KP',
+  'republic of korea'                       = 'KR',
+  'democratic peoples republic of korea'    = 'KP',
+  'taiwan'                                  = 'TW',
+  'russia'                                  = 'RU',
+  'russian federation'                      = 'RU',
+  'vietnam'                                 = 'VN',
+  'viet nam'                                = 'VN',
+  'iran'                                    = 'IR',
+  'iran islamic republic of'                = 'IR',
+  'syria'                                   = 'SY',
+  'syrian arab republic'                    = 'SY',
+  'venezuela'                               = 'VE',
+  'venezuela bolivarian republic of'        = 'VE',
+  'bolivia'                                 = 'BO',
+  'bolivia plurinational state of'          = 'BO',
+  'united kingdom'                          = 'GB',
+  'united states of america'                = 'US',
+  'czech republic'                          = 'CZ',
+  'czechia'                                 = 'CZ',
+  'ivory coast'                             = 'CI',
+  'cote divoire'                            = 'CI',
+  'congo democratic republic of the'        = 'CD',
+  'congo republic of the'                   = 'CG',
+  'congo kinshasa'                          = 'CD',
+  'congo brazzaville'                       = 'CG',
+  'tanzania'                                = 'TZ',
+  'tanzania united republic of'             = 'TZ',
+  'laos'                                    = 'LA',
+  'lao peoples democratic republic'         = 'LA',
+  'brunei'                                  = 'BN',
+  'brunei darussalam'                       = 'BN',
+  'macau'                                   = 'MO',
+  'macao'                                   = 'MO',
+  'hong kong'                               = 'HK',
+  'eswatini'                                = 'SZ',
+  'swaziland'                               = 'SZ',
+  'myanmar'                                 = 'MM',
+  'burma'                                   = 'MM',
+  'palestine'                               = 'PS',
+  'palestine state of'                      = 'PS',
+  'vatican city'                            = 'VA',
+  'holy see'                                = 'VA',
+  'micronesia'                              = 'FM',
+  'micronesia federated states of'          = 'FM',
+  'moldova'                                 = 'MD',
+  'moldova republic of'                     = 'MD',
+  'east timor'                              = 'TL',
+  'timorleste'                              = 'TL',
+  'cape verde'                              = 'CV',
+  'cabo verde'                              = 'CV',
+  'macedonia'                               = 'MK',
+  'north macedonia'                         = 'MK',
+  'dominican republic'                      = 'DO',
+  'british virgin islands'                  = 'VG',
+  'curacao'                                 = 'CW',
+  'denmark except greenland'                = 'DK',
+  'denmark'                                 = 'DK',
+  'moldova republic of moldova'             = 'MD',
+  'holy see vatican city'                   = 'VA',
+  'kosovo'                                  = 'XK',
+  'laos lao peoples democratic republic'    = 'LA',
+  'north korea democratic peoples republic of korea' = 'KP',
+  'south korea republic of korea'           = 'KR',
+  'christmas island in the indian ocean'    = 'CX',
+  'christmas island'                        = 'CX',
+  'sudan'                                   = 'SD',
+  'niger'                                   = 'NE',
+  'congo republic of the congo'             = 'CG',
+  'congo democratic republic of the congo formerly za' = 'CD',
+  'british indian ocean territory'          = 'IO',
+  'reunion'                                 = 'RE',
+  'french southern and antarctic lands'     = 'TF',
+  'virgin islands of the united states'     = 'VI'
+)
+
+#' Match Census country names to ISO alpha-2/alpha-3 codes
+#'
+#' Uses a three-pass strategy:
+#'   1. Direct match on normalized names
+#'   2. Manual mapping for known mismatches
+#'   3. Single-hit bidirectional substring match
+#'
+#' @param census_df Data frame with a 'name' column (Census country names)
+#' @param iso_df Tibble from load_iso_countries() (default: loads from disk)
+#' @param manual_map Named character vector (normalized name -> alpha2)
+#' @return The input data frame with alpha2 and alpha3 columns appended
+match_census_to_iso <- function(census_df,
+                                iso_df = load_iso_countries(),
+                                manual_map = MANUAL_ISO_MAP) {
+  iso_lookup <- iso_df %>%
+    mutate(norm_name = normalize_country_name(iso_name)) %>%
+    select(norm_name, alpha2, alpha3)
+
+  census_df$alpha2 <- NA_character_
+  census_df$alpha3 <- NA_character_
+
+  for (i in seq_len(nrow(census_df))) {
+    cname <- normalize_country_name(census_df$name[i])
+
+    # Pass 1: direct match
+    idx <- match(cname, iso_lookup$norm_name)
+    if (!is.na(idx)) {
+      census_df$alpha2[i] <- iso_lookup$alpha2[idx]
+      census_df$alpha3[i] <- iso_lookup$alpha3[idx]
+      next
+    }
+
+    # Pass 2: manual map
+    if (cname %in% names(manual_map)) {
+      a2 <- manual_map[[cname]]
+      idx2 <- match(a2, iso_df$alpha2)
+      if (!is.na(idx2)) {
+        census_df$alpha2[i] <- iso_df$alpha2[idx2]
+        census_df$alpha3[i] <- iso_df$alpha3[idx2]
+      } else {
+        # Code not in ISO file (e.g., XK for Kosovo) — assign alpha2 anyway
+        census_df$alpha2[i] <- a2
+      }
+      next
+    }
+
+    # Pass 3: single-hit substring match (bidirectional)
+    partial <- which(
+      grepl(cname, iso_lookup$norm_name, fixed = TRUE) |
+      sapply(iso_lookup$norm_name, function(n) grepl(n, cname, fixed = TRUE))
+    )
+    if (length(partial) == 1) {
+      census_df$alpha2[i] <- iso_lookup$alpha2[partial]
+      census_df$alpha3[i] <- iso_lookup$alpha3[partial]
+    }
+  }
+
+  census_df
+}
+
+#' Build comprehensive ISO alpha-2 to Census code mapping
+#'
+#' Produces a named character vector covering ALL countries with a match,
+#' not just the handful hardcoded in policy_params.yaml.
+#'
+#' @param census_path Path to census_codes.csv
+#' @param iso_path Path to ISO JSON file
+#' @return Named character vector: names = alpha2 codes, values = Census codes
+build_full_iso_census_map <- function(census_path = here('resources', 'census_codes.csv'),
+                                      iso_path = here('data', 'countries-ISO-3166-1-alpha-2.json')) {
+  census <- load_census_codes(census_path)
+  iso <- load_iso_countries(iso_path)
+  matched <- match_census_to_iso(
+    census %>% rename(name = Name, code = Code),
+    iso
+  )
+  matched <- matched %>% filter(!is.na(alpha2))
+  setNames(matched$code, matched$alpha2)
+}
+
+
+# =============================================================================
+# Parquet Dataset Helpers
+# =============================================================================
+
+#' Open the partitioned rate timeseries Parquet dataset
+#'
+#' Centralized loader that validates the path and returns an Arrow Dataset.
+#' Requires the arrow package to be installed.
+#'
+#' @param parquet_path Path to the partitioned Parquet directory
+#' @param partitioning Partitioning column name(s)
+#' @return Arrow Dataset object
+open_rate_timeseries <- function(parquet_path = here('data', 'timeseries', 'rate_timeseries_parquet'),
+                                 partitioning = 'revision') {
+  if (!requireNamespace('arrow', quietly = TRUE)) {
+    stop('Package "arrow" is required. Install with: install.packages("arrow")')
+  }
+  if (!dir.exists(parquet_path)) {
+    stop('Parquet dataset not found: ', parquet_path,
+         '\nRun: Rscript scripts/combine_snapshots.R')
+  }
+  ds <- arrow::open_dataset(parquet_path, partitioning = partitioning)
+  message('Opened Parquet dataset: ', parquet_path)
+  ds
+}
+
+#' Query the rate timeseries with optional filters
+#'
+#' Returns a lazy Arrow query (call collect() to materialize).
+#' All filter parameters are optional — NULL means no filter (full dataset).
+#'
+#' @param ds Arrow Dataset from open_rate_timeseries()
+#' @param countries Character vector of Census country codes (NULL = all)
+#' @param hts_codes Character vector of 10-digit HTS codes (NULL = all)
+#' @param revisions Character vector of revision names (NULL = all)
+#' @param date_range Length-2 Date vector for interval overlap (NULL = all)
+#' @return Lazy Arrow query (not yet collected)
+query_rates <- function(ds, countries = NULL, hts_codes = NULL,
+                        revisions = NULL, date_range = NULL) {
+  q <- ds
+  if (!is.null(revisions)) {
+    q <- q %>% filter(revision %in% revisions)
+  }
+  if (!is.null(countries)) {
+    q <- q %>% filter(country %in% countries)
+  }
+  if (!is.null(hts_codes)) {
+    q <- q %>% filter(hts10 %in% hts_codes)
+  }
+  if (!is.null(date_range)) {
+    q <- q %>% filter(valid_from <= date_range[2], valid_until >= date_range[1])
+  }
+  q
+}
+
+#' Get all distinct HTS codes in the dataset
+#'
+#' @param ds Arrow Dataset
+#' @return Character vector of all HTS10 codes
+get_all_hts_codes <- function(ds) {
+  ds %>%
+    distinct(hts10) %>%
+    collect() %>%
+    pull(hts10) %>%
+    sort()
+}
+
+#' Get all distinct country codes in the dataset
+#'
+#' @param ds Arrow Dataset
+#' @return Character vector of all Census country codes
+get_all_country_codes_from_ds <- function(ds) {
+  ds %>%
+    distinct(country) %>%
+    collect() %>%
+    pull(country) %>%
+    sort()
+}
+
+#' Validate that an HTS column contains properly formatted 10-digit codes
+#'
+#' @param df Data frame to validate
+#' @param col Name of the HTS column
+#' @return TRUE (invisibly) if all valid, FALSE with warning if not
+validate_hts_column <- function(df, col = 'hts10') {
+  vals <- df[[col]]
+  bad <- vals[!grepl('^[0-9]{10}$', vals) & !is.na(vals)]
+  if (length(bad) > 0) {
+    warning('Found ', length(bad), ' non-standard HTS codes: ',
+            paste(head(bad, 5), collapse = ', '))
+  }
+  invisible(length(bad) == 0)
+}
+
+
+# =============================================================================
 # File I/O Helpers
 # =============================================================================
 
@@ -434,11 +726,14 @@ get_country_constants <- function(pp = NULL) {
       '4710' = 'Portugal', '4850' = 'Romania', '4359' = 'Slovakia',
       '4792' = 'Slovenia', '4700' = 'Spain', '4010' = 'Sweden'
     ),
-    ISO_TO_CENSUS = if (!is.null(pp)) pp$ISO_TO_CENSUS else c(
-      'CN' = '5700', 'CA' = '1220', 'MX' = '2010',
-      'JP' = '5880', 'UK' = '4120', 'GB' = '4120',
-      'AU' = '6021', 'KR' = '5800', 'RU' = '4621',
-      'AR' = '3570', 'BR' = '3510', 'UA' = '4623'
+    ISO_TO_CENSUS = if (!is.null(pp)) pp$ISO_TO_CENSUS else tryCatch(
+      build_full_iso_census_map(),
+      error = function(e) c(
+        'CN' = '5700', 'CA' = '1220', 'MX' = '2010',
+        'JP' = '5880', 'UK' = '4120', 'GB' = '4120',
+        'AU' = '6021', 'KR' = '5800', 'RU' = '4621',
+        'AR' = '3570', 'BR' = '3510', 'UA' = '4623'
+      )
     ),
     STEEL_CHAPTERS = if (!is.null(pp)) pp$section_232_chapters$steel else c('72', '73'),
     ALUM_CHAPTERS  = if (!is.null(pp)) pp$section_232_chapters$aluminum else c('76')
@@ -652,7 +947,8 @@ get_available_revisions_all_years <- function(all_revisions, archive_dir = here(
   available <- character()
   for (yr in years_needed) {
     yr_revisions <- list_available_revisions(archive_dir, year = yr)
-    if (yr != 2025) yr_revisions <- paste0(yr, '_', yr_revisions)
+    # Always prefix with year for consistency (2025_basic, 2025_rev_1, etc.)
+    yr_revisions <- paste0(yr, '_', yr_revisions)
     available <- c(available, yr_revisions)
   }
   return(available)

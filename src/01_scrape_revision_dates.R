@@ -50,9 +50,7 @@ api_name_to_revision <- function(api_name) {
 
   rev_id <- if (is_basic) 'basic' else paste0('rev_', rev_num)
 
-  # 2025 is the default year — no prefix needed
-
-  if (year == 2025L) return(rev_id)
+  # All years get a year prefix for consistency (2025_basic, 2025_rev_1, 2026_basic, etc.)
   paste0(year, '_', rev_id)
 }
 
