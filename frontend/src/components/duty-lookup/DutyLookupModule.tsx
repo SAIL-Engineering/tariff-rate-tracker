@@ -11,11 +11,11 @@ import { ProductExplorer } from './ProductExplorer';
 import type { Country, ProductRate } from '@/types/tariff';
 import { useTariffData, useProductSearch, useCountryLookup, useRateLookup } from '@/hooks/useTariffData';
 import { findRateForDate } from '@/utils/tariffCalculator';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, Search } from 'lucide-react';
 
 type Tab = 'lookup' | 'dashboard' | 'countries' | 'compare';
 
-const neuInset = 'inset 2px 2px 5px rgba(0,0,0,0.07), inset -2px -2px 5px rgba(255,255,255,0.9)';
+const neuInset = 'inset 1px 1px 4px rgba(0,0,0,0.05), inset -1px -1px 4px rgba(255,255,255,0.85)';
 
 export function DutyLookupModule() {
   const data = useTariffData();
@@ -88,8 +88,8 @@ export function DutyLookupModule() {
 
   if (data.loading) {
     return (
-      <div className="flex items-center justify-center h-64 gap-3 text-gray-400">
-        <Loader2 className="h-5 w-5 animate-spin" />
+      <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-400 animate-fade-in">
+        <Loader2 className="h-5 w-5 animate-spin text-[#353CED]/40" />
         <span className="text-sm">Loading tariff data...</span>
       </div>
     );
@@ -107,7 +107,7 @@ export function DutyLookupModule() {
   return (
     <div className="space-y-5">
       {/* Tab navigation */}
-      <div className="flex items-center gap-1 rounded-lg p-1 w-fit"
+      <div className="flex items-center gap-1 rounded-xl p-1 w-fit"
         style={{ boxShadow: neuInset, background: '#FAFAF8' }}>
         {([
           ['dashboard', 'Dashboard'],
@@ -116,10 +116,10 @@ export function DutyLookupModule() {
           ['countries', 'Country Rankings'],
         ] as [Tab, string][]).map(([tab, label]) => (
           <button key={tab} type="button" onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ease-spring ${
               activeTab === tab
-                ? 'bg-white text-[#353CED] shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-white text-[#353CED] shadow-glass'
+                : 'text-gray-400 hover:text-gray-600'
             }`}>
             {label}
           </button>
@@ -141,8 +141,8 @@ export function DutyLookupModule() {
       />
 
       {lookupError && (
-        <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800">
-          <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2.5 px-4 py-3 rounded-xl bg-amber-50/80 border border-amber-200/60 text-xs text-amber-800 animate-fade-in-down">
+          <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5 text-amber-500" />
           <span>{lookupError}</span>
         </div>
       )}
@@ -215,7 +215,10 @@ export function DutyLookupModule() {
           )}
 
           {productHistory.length === 0 && !lookupError && (
-            <div className="text-center py-12 text-gray-400">
+            <div className="text-center py-16 text-gray-400 animate-fade-in">
+              <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center mx-auto mb-4">
+                <Search className="h-5 w-5 text-gray-300" />
+              </div>
               <p className="text-sm">Enter an HTS code, select a country, and click "Look Up Duty Rate" to see results.</p>
             </div>
           )}

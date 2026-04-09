@@ -24,13 +24,14 @@
 #     delta_rev_1.rds             # changes from basic -> rev_1
 #     ch99_rev_32.rds             # cached parse (for incremental start)
 #     products_rev_32.rds
-#     rate_timeseries.rds         # final combined long-format
+#     rate_timeseries_parquet/    # partitioned Parquet (batch-written, never monolithic)
 #     validation_rev_6.rds        # TPC comparison at rev_6
 #
 # =============================================================================
 
 library(tidyverse)
 library(jsonlite)
+library(arrow)
 library(here)
 
 # Source pipeline components
@@ -295,32 +296,41 @@ build_full_timeseries <- function(
             paste(failed_revisions, collapse = ', '))
   }
 
-  # ---- Bind all snapshots ----
+  # ---- Combine snapshots into Parquet (batch, one at a time) ----
+  # NEVER load all snapshots into memory at once — the monolithic approach
+  # exceeds available RAM (~150M+ rows). Instead, process each snapshot
+  # individually and write directly to partitioned Parquet.
   message('\n', strrep('=', 60))
-  message('Combining snapshots into time series...')
+  message('Combining snapshots into Parquet (batch mode)...')
 
-  # Load all snapshot files (including pre-existing from incremental)
   all_snapshot_files <- list.files(output_dir, pattern = '^snapshot_.*\\.rds$', full.names = TRUE)
 
-  timeseries <- map_dfr(all_snapshot_files, function(f) {
-    tryCatch(readRDS(f), error = function(e) {
-      warning('Failed to read snapshot: ', f, ' -- ', e$message)
-      NULL
-    })
-  })
+  # Filter out legacy short-format snapshots (e.g., snapshot_rev_2.rds) that
 
-  # Enforce schema consistency (old snapshots may lack newer columns)
-  timeseries <- enforce_rate_schema(timeseries)
+  # duplicate canonical year-prefixed snapshots (e.g., snapshot_2025_rev_2.rds).
+  # These are orphans from an older build that used short revision IDs.
+  legacy <- grepl('/snapshot_rev_', all_snapshot_files) |
+            grepl('/snapshot_basic\\.rds$', all_snapshot_files)
+  if (any(legacy)) {
+    message('  Skipping ', sum(legacy), ' legacy snapshot(s) without year prefix')
+    all_snapshot_files <- all_snapshot_files[!legacy]
+  }
 
-  # Sort by effective_date, then revision
-  timeseries <- timeseries %>%
-    arrange(effective_date, revision, country, hts10)
+  if (length(all_snapshot_files) == 0) {
+    stop('No snapshot files found in ', output_dir)
+  }
 
-  # Add temporal intervals (valid_from / valid_until) from revision ordering
-  # Final revision extends to configurable horizon (default: 2026-12-31), not Sys.Date()
+  # Collect revision names from snapshots without loading full data
+  all_revisions_seen <- character()
+  for (f in all_snapshot_files) {
+    snap <- readRDS(f)
+    all_revisions_seen <- c(all_revisions_seen, unique(snap$revision))
+    rm(snap); gc(verbose = FALSE)
+  }
+
+  # Build revision intervals
   horizon_end <- pp_build$SERIES_HORIZON_END %||% Sys.Date()
-  # Guard: horizon cannot be earlier than the final revision's effective_date
-  last_eff <- max(rev_dates$effective_date[rev_dates$revision %in% unique(timeseries$revision)])
+  last_eff <- max(rev_dates$effective_date[rev_dates$revision %in% unique(all_revisions_seen)])
   if (horizon_end < last_eff) {
     warning('series_horizon.end_date (', horizon_end,
             ') is earlier than last revision (', last_eff, '). Using last revision date.')
@@ -328,7 +338,7 @@ build_full_timeseries <- function(
   }
 
   rev_intervals <- rev_dates %>%
-    filter(revision %in% unique(timeseries$revision)) %>%
+    filter(revision %in% unique(all_revisions_seen)) %>%
     arrange(effective_date) %>%
     mutate(
       valid_from = effective_date,
@@ -337,31 +347,63 @@ build_full_timeseries <- function(
     mutate(valid_until = if_else(is.na(valid_until), horizon_end, valid_until)) %>%
     select(revision, valid_from, valid_until)
 
-  timeseries <- timeseries %>%
-    select(-any_of(c('valid_from', 'valid_until'))) %>%
-    left_join(rev_intervals, by = 'revision')
+  # Write each snapshot as a Parquet partition
+  parquet_dir <- file.path(output_dir, 'rate_timeseries_parquet')
+  unlink(parquet_dir, recursive = TRUE)
+  dir.create(parquet_dir, showWarnings = FALSE)
 
-  message('  Added interval columns: valid_from / valid_until')
+  total_rows <- 0
+  n_revisions_written <- 0
 
-  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
-  ts_path <- file.path(output_dir, 'rate_timeseries.rds')
-  saveRDS(timeseries, ts_path)
-  message('Saved time series: ', ts_path)
-  message('  Total rows: ', nrow(timeseries))
-  message('  Revisions: ', n_distinct(timeseries$revision))
-  if (nrow(timeseries) > 0) {
-    message('  Date range: ', min(timeseries$effective_date), ' to ', max(timeseries$effective_date))
-  } else {
+  for (i in seq_along(all_snapshot_files)) {
+    f <- all_snapshot_files[i]
+    rev_name <- gsub('^snapshot_|\\.rds$', '', basename(f))
+    message('[', i, '/', length(all_snapshot_files), '] ', rev_name)
+
+    snap <- tryCatch(readRDS(f), error = function(e) {
+      warning('Failed to read snapshot: ', f, ' -- ', e$message)
+      NULL
+    })
+    if (is.null(snap) || nrow(snap) == 0) next
+
+    snap <- enforce_rate_schema(snap)
+    snap <- snap %>%
+      select(-any_of(c('valid_from', 'valid_until'))) %>%
+      left_join(rev_intervals, by = 'revision') %>%
+      arrange(country, hts10)
+
+    total_rows <- total_rows + nrow(snap)
+    n_revisions_written <- n_revisions_written + 1
+
+    rev_part_dir <- file.path(parquet_dir, paste0('revision=', snap$revision[1]))
+    dir.create(rev_part_dir, showWarnings = FALSE)
+    arrow::write_parquet(snap %>% select(-revision),
+                          file.path(rev_part_dir, 'data.parquet'),
+                          compression = 'zstd',
+                          compression_level = 3L)
+
+    rm(snap); gc(verbose = FALSE)
+  }
+
+  message('Parquet dataset written: ', parquet_dir)
+  message('  Total rows: ', total_rows,
+          '  Revisions: ', n_revisions_written)
+
+  if (total_rows == 0) {
     warning('Timeseries is empty — all revisions may have failed')
   }
+
+  # ts_path points to the Parquet directory (not a monolithic RDS)
+  ts_path <- parquet_dir
 
   # ---- Save metadata ----
   metadata <- list(
     last_revision = last_successful_rev,
     last_build_time = Sys.time(),
-    n_revisions = n_distinct(timeseries$revision),
-    n_rows = nrow(timeseries),
-    scenario = scenario
+    n_revisions = n_revisions_written,
+    n_rows = total_rows,
+    scenario = scenario,
+    format = 'parquet_partitioned'
   )
   saveRDS(metadata, file.path(output_dir, 'metadata.rds'))
 
@@ -387,23 +429,20 @@ build_full_timeseries <- function(
 
 #' Print time series summary by revision
 #'
-#' @param timeseries_path Path to rate_timeseries.rds
-print_timeseries_summary <- function(timeseries_path = 'data/timeseries/rate_timeseries.rds') {
-  ts <- readRDS(timeseries_path)
+#' @param timeseries_path Path to Parquet dataset directory
+print_timeseries_summary <- function(timeseries_path = 'data/timeseries/rate_timeseries_parquet') {
+  ds <- arrow::open_dataset(timeseries_path, partitioning = 'revision')
 
-  summary <- ts %>%
+  summary <- ds %>%
     group_by(revision, effective_date) %>%
     summarise(
       n_products = n_distinct(hts10),
       n_countries = n_distinct(country),
       n_rows = n(),
-      mean_total_rate = round(mean(total_rate) * 100, 2),
-      n_with_ieepa = sum(rate_ieepa_recip > 0),
-      n_with_232 = sum(rate_232 > 0),
-      n_with_301 = sum(rate_301 > 0),
       .groups = 'drop'
     ) %>%
-    arrange(effective_date)
+    arrange(effective_date) %>%
+    collect()
 
   cat('\n=== Time Series Summary ===\n\n')
   print(summary, n = Inf)
@@ -551,61 +590,61 @@ if (sys.nframe() == 0) {
 
   # --- Step D: Summary ---
   if (!is.null(result)) {
-    print_timeseries_summary(result$timeseries_path)
+    # Summary from Parquet (no monolithic RDS load)
+    ds <- arrow::open_dataset(result$timeseries_path, partitioning = 'revision')
+    summary_tbl <- ds %>%
+      group_by(revision, effective_date) %>%
+      summarise(
+        n_products = n_distinct(hts10),
+        n_countries = n_distinct(country),
+        n_rows = n(),
+        .groups = 'drop'
+      ) %>%
+      arrange(effective_date) %>%
+      collect()
+    cat('\n=== Time Series Summary ===\n\n')
+    print(summary_tbl, n = Inf)
   }
 
   # --- Step E: Downstream (unless --build-only) ---
+  # Downstream scripts operate on Parquet via batch processing.
+  # NEVER load the full dataset into RAM — use the standalone scripts instead.
   if (!build_only && !is.null(result)) {
-    source(here('src', '09_daily_series.R'))
-    source(here('src', '08_weighted_etr.R'))
-    source(here('src', 'quality_report.R'))
+    message('\n', strrep('=', 70))
+    message('POST-BUILD: Running downstream scripts (batch mode)')
+    message(strrep('=', 70))
 
-    ts <- readRDS(result$timeseries_path)
-    pp <- load_policy_params(use_policy_dates = use_policy_dates)
+    # Daily series from Parquet (batch, one revision at a time)
+    tryCatch({
+      message('\n--- Daily series (from Parquet) ---')
+      rc <- system2('Rscript', c(here('scripts', 'run_daily_from_parquet.R')),
+                     stdout = '', stderr = '')
+      if (!is.null(attr(rc, 'status')) && attr(rc, 'status') != 0) {
+        message('Daily series script exited with status ', attr(rc, 'status'))
+      }
+    }, error = function(e) message('Daily series failed: ', conditionMessage(e)))
 
-    if (core_only) {
-      message('\n', strrep('=', 70))
-      message('POST-BUILD: Core only (--core-only) — unweighted daily series + quality report')
-      message(strrep('=', 70))
+    # Quality report — skipped in automated pipeline (still uses monolithic load).
+    # Run manually: Rscript scripts/combine_snapshots.R && then quality_report.R
+    message('\n--- Quality report: run separately via Rscript src/quality_report.R ---')
 
-      tryCatch(
-        run_daily_series(ts, imports = NULL, policy_params = pp),
-        error = function(e) message('Daily series failed: ', conditionMessage(e))
-      )
+    # Frontend data export
+    tryCatch({
+      message('\n--- Preparing frontend data ---')
+      rc <- system2('Rscript', c(here('scripts', 'prepare_frontend_data.R')),
+                     stdout = '', stderr = '')
+      if (!is.null(attr(rc, 'status')) && attr(rc, 'status') != 0) {
+        message('Frontend data script exited with status ', attr(rc, 'status'))
+      }
+    }, error = function(e) message('Frontend data failed: ', conditionMessage(e)))
 
-      tryCatch(
-        run_quality_report(result$timeseries_path),
-        error = function(e) message('Quality report failed: ', conditionMessage(e))
-      )
-    } else {
-      message('\n', strrep('=', 70))
-      message('POST-BUILD: Daily series, ETR, quality report')
-      message(strrep('=', 70))
-
-      imports <- load_import_weights()
-
-      tryCatch(
-        run_daily_series(ts, imports = imports, policy_params = pp),
-        error = function(e) message('Daily series failed: ', conditionMessage(e))
-      )
-
-      tryCatch(
-        run_weighted_etr(ts, policy_params = pp),
-        error = function(e) message('Weighted ETR failed: ', conditionMessage(e))
-      )
-
-      tryCatch(
-        run_quality_report(result$timeseries_path),
-        error = function(e) message('Quality report failed: ', conditionMessage(e))
-      )
-
-      # --- Step F: Alternative daily series ---
-      # Post-build alternatives always run; rebuild alternatives only with --with-alternatives
+    # Weighted ETR (uses its own data loading, not the timeseries)
+    if (!core_only) {
       tryCatch({
-        source(here('src', 'apply_scenarios.R'))
-        run_alternative_series(ts, imports = imports, policy_params = pp,
-                                rebuild = with_alternatives)
-      }, error = function(e) message('Alternative series failed: ', conditionMessage(e)))
+        source(here('src', '08_weighted_etr.R'))
+        pp <- load_policy_params(use_policy_dates = use_policy_dates)
+        run_weighted_etr(policy_params = pp)
+      }, error = function(e) message('Weighted ETR failed: ', conditionMessage(e)))
     }
   }
 }

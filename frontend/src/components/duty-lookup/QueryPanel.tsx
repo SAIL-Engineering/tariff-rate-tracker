@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -26,16 +25,18 @@ export function QueryPanel({
   queryDate, onDateChange, onLookup, isLoading, sampleProducts,
 }: QueryPanelProps) {
   return (
-    <Card className="relative z-10 hover:shadow-[3px_3px_6px_rgba(0,0,0,0.10),_-3px_-3px_6px_rgba(255,255,255,0.95)]">
+    <Card className="relative z-10">
       <CardContent className="p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <Search className="h-4 w-4 text-[#353CED]" />
-          <h3 className="font-semibold text-sm text-gray-900">Duty Rate Lookup</h3>
+        <div className="flex items-center gap-2 mb-5">
+          <div className="w-6 h-6 rounded-lg bg-[#353CED]/8 flex items-center justify-center">
+            <Search className="h-3.5 w-3.5 text-[#353CED]" />
+          </div>
+          <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Duty Rate Lookup</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+          <div className="space-y-2">
+            <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
               <Hash className="h-3 w-3" /> HTS-10 Code
             </label>
             <Input
@@ -45,10 +46,10 @@ export function QueryPanel({
               className="h-9 text-sm font-mono"
             />
             {sampleProducts.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className="flex flex-wrap gap-1.5 mt-1">
                 {sampleProducts.slice(0, 6).map(p => (
                   <button key={p} type="button" onClick={() => onHtsCodeChange(p)}
-                    className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-gray-50 text-gray-500 hover:bg-[#353CED]/5 hover:text-[#353CED] transition-colors">
+                    className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-gray-50 text-gray-500 hover:bg-[#353CED]/5 hover:text-[#353CED] transition-all duration-200 ease-spring border border-transparent hover:border-[#353CED]/10">
                     {formatHtsCode(p)}
                   </button>
                 ))}
@@ -56,8 +57,8 @@ export function QueryPanel({
             )}
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+          <div className="space-y-2">
+            <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
               <Globe className="h-3 w-3" /> Country of Origin
             </label>
             <CountryAutocomplete
@@ -68,8 +69,8 @@ export function QueryPanel({
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+          <div className="space-y-2">
+            <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
               <CalendarDays className="h-3 w-3" /> Effective Date
             </label>
             <DatePickerNeu

@@ -441,13 +441,31 @@ avPart       = roundValuePer19CFR159_3(customsValue) × effectiveBaseRate
 duty         = specificPart + avPart
 ```
 
-### 4.4 Additional Duties (Chapter 99)
+### 4.4 Additional Duties (Chapter 99) — Mutual Exclusion Stacking
 
-Each Chapter 99 authority is computed **independently** on customs value. Chapter 99 duties do NOT inherit the base-line quantity logic — each additional duty carries its own rate basis. Currently all modeled Ch99 duties in this system are ad valorem:
+Chapter 99 duties are computed with **mutual-exclusion stacking**, ported from the R backend (`apply_stacking_rules()` in `src/helpers.R`). Section 232 takes precedence on the metal portion of a product; IEEPA reciprocal, fentanyl (non-China), and Section 122 apply only to the non-metal portion.
 
-```
-additionalDuty = customsValue × rate.total_additional
-```
+**`computeNonmetalShare(rate)`** determines the non-metal fraction based on HTS chapter and per-type metal shares (`steel_share`, `aluminum_share`, `copper_share`, `deriv_type`). Returns 0 when 232 is inactive or the product is pure metal.
+
+**`computeNetAuthorityAmounts(rate, countryCode)`** applies the four-branch stacking formula:
+
+| Scenario | Formula |
+|----------|---------|
+| China + 232 active | `232 + recip × nonmetal + fent + 301 + s122 × nonmetal + s201 + other` |
+| China, no 232 | `recip + fent + 301 + s122 + s201 + other` |
+| Others + 232 active | `232 + recip × nonmetal + fent × nonmetal + s122 × nonmetal + s201 + other` |
+| Others, no 232 | `recip + fent + s122 + s201 + other` |
+
+**US Content Carveout (EO 14257):** When the user enters >= 20% US content, the IEEPA reciprocal dutiable base is reduced to `customsValue × (1 - usContentPercent)`.
+
+**Authority trigger detection** (`detectAuthorityTriggers()`) determines what extra data each active authority requires:
+
+| Condition | Mode | Fields |
+|-----------|------|--------|
+| 232 steel derivative (9903.81.91) | `METAL_CONTENT_VALUE_AND_KG` | Steel content value ($), weight (kg) |
+| 232 aluminum derivative (9903.85.08) | `METAL_CONTENT_VALUE_AND_KG` | Aluminum content value ($), weight (kg), smelt/cast countries |
+| 232 copper heading | `VALUE_ONLY` | Copper content value ($) |
+| IEEPA reciprocal active | `US_CONTENT_VALUE` (optional) | US content % or $ value |
 
 ### 4.5 Customs Fees
 
@@ -480,52 +498,38 @@ totalDuty = baseDuty + additionalDuty
 
 ## 5. Building and Updating
 
-### 5.1 Full Build (After Schema or Logic Changes)
+For detailed step-by-step instructions, command reference, and troubleshooting, see **[pipeline-operations.md](pipeline-operations.md)**.
 
-After any change to the R pipeline code, rate schema, or resource files, regenerate the data:
+### 5.1 Full Build
 
 ```bash
-# Step 1: Rebuild the rate timeseries (RDS snapshots)
 Rscript src/00_build_timeseries.R --full
-
-# Step 2: Regenerate Parquet files for the frontend
-Rscript scripts/combine_snapshots.R
 ```
 
-Step 1 re-runs all pipeline stages for every HTS revision and writes per-revision snapshot RDS files under `data/timeseries/`. Step 2 reads those snapshots, applies `enforce_rate_schema()` (which backfills any new columns with defaults for old snapshots), and writes the partitioned Parquet dataset that the frontend DuckDB server reads.
-
-**Memory note:** The full build expands ~19,000 products × ~240 countries. 32 GB RAM is recommended. See [build.md](build.md) for details.
+This re-runs all pipeline stages for every HTS revision. Each revision is processed independently, then all snapshots are batch-written to partitioned Parquet (one at a time, never all in RAM). Downstream scripts (daily aggregation, frontend data export) run automatically unless `--build-only` is passed.
 
 ### 5.2 Updating for a New HTS Revision
-
-When USITC publishes a new HTS revision:
 
 ```bash
 # 1. Discover new revisions via the USITC API
 Rscript src/01_scrape_revision_dates.R
 
-# 2. Download the new JSON archive
-Rscript src/02_download_hts.R
+# 2. Manually review config/revision_dates.csv — set correct effective_date,
+#    policy_event, and clear the needs_review flag
 
-# 3. If the Chapter 99 PDF changed, regenerate affected resource files
-#    (check build output for warnings about stale resource files)
+# 3. Download the new JSON archive
+Rscript src/02_download_hts.R --year 2026
 
-# 4. Rebuild (incremental — processes only new/changed revisions)
+# 4. Rebuild (incremental + Parquet + frontend data)
 Rscript src/00_build_timeseries.R
 
-# 5. Regenerate Parquet for the frontend
-Rscript scripts/combine_snapshots.R
+# 5. Restart the frontend API server to pick up new Parquet
+cd frontend && node server.js
 ```
 
-**Important:** The USITC API returns *publication dates*, not policy effective dates. New revisions are marked `[REVIEW]` in `config/revision_dates.csv`. Set the correct policy effective date before running a production build. See [build.md](build.md) and [policy_timing.md](policy_timing.md).
+The build produces partitioned Parquet directly — `scripts/combine_snapshots.R` is no longer a separate required step (it is embedded in the build). It remains available as a standalone script for manual re-generation.
 
-### 5.3 Refreshing USMCA Shares
-
-```bash
-Rscript src/00_build_timeseries.R --full --refresh-usmca
-```
-
-This re-downloads USMCA utilization shares from the USITC DataWeb API before building.
+**Important:** The USITC API returns *publication dates*, not policy effective dates. New revisions are marked `[REVIEW]` in `config/revision_dates.csv` with `needs_review = TRUE`. The build refuses to run until this is resolved. See [pipeline-operations.md](pipeline-operations.md) and [policy_timing.md](policy_timing.md).
 
 ---
 
@@ -548,7 +552,10 @@ This re-downloads USMCA utilization shares from the USITC DataWeb API before bui
 | `determine_rounding_rule()` | `src/helpers.R` | 19 CFR 159.3 rule assignment |
 | `classify_authority()` | `src/helpers.R` | Ch99 subheading → authority mapping |
 | `parse_ch99_rate()` | `src/helpers.R` | Ch99 rate text parser |
-| `build_timeseries()` | `src/00_build_timeseries.R` | Orchestrate pipeline, combine into interval panel |
+| `build_full_timeseries()` | `src/00_build_timeseries.R` | Orchestrate pipeline, batch-write to Parquet |
+| `computeNonmetalShare()` | `frontend/src/utils/tariffCalculator.ts` | Per-type metal share for stacking |
+| `computeNetAuthorityAmounts()` | `frontend/src/utils/tariffCalculator.ts` | Four-branch mutual-exclusion stacking |
+| `detectAuthorityTriggers()` | `frontend/src/utils/tariffCalculator.ts` | Authority-specific data field detection |
 
 ### Frontend
 

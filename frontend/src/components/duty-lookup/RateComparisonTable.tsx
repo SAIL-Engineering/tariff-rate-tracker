@@ -13,7 +13,7 @@ interface RateComparisonTableProps {
   selectedIndex?: number | null;
 }
 
-type SortKey = 'date' | 'mfn' | 'total';
+type SortKey = 'date' | 'mfn' | 'special' | 'col2' | 'total';
 
 export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: RateComparisonTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>('date');
@@ -33,6 +33,8 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
       switch (sortKey) {
         case 'date': cmp = a.entry.effective_date.localeCompare(b.entry.effective_date); break;
         case 'mfn': cmp = a.entry.base_rate - b.entry.base_rate; break;
+        case 'special': cmp = (a.entry.rate_special ?? -1) - (b.entry.rate_special ?? -1); break;
+        case 'col2': cmp = (a.entry.rate_column2 ?? -1) - (b.entry.rate_column2 ?? -1); break;
         case 'total': cmp = a.entry.total_rate - b.entry.total_rate; break;
       }
       return sortDir === 'asc' ? cmp : -cmp;
@@ -53,23 +55,27 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
     <Card>
       <CardContent className="p-5">
         <div className="flex items-center gap-2 mb-4">
-          <Table2 className="h-4 w-4 text-[#353CED]" />
-          <h3 className="font-semibold text-sm text-gray-900">Rate Periods</h3>
-          <span className="text-xs text-gray-400 ml-auto">{entries.length} periods</span>
+          <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+            <Table2 className="h-3.5 w-3.5 text-[#353CED]" />
+          </div>
+          <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Rate Periods</h3>
+          <span className="text-[10px] text-gray-400 ml-auto tabular-nums">{entries.length} periods</span>
         </div>
 
-        <div className="rounded-lg border border-gray-200 overflow-hidden">
+        <div className="rounded-xl border border-gray-200/80 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
+                <tr className="bg-gray-50/80 border-b border-gray-200/80">
                   <th className="px-3 py-2 text-left"><SortHeader label="Effective Date" field="date" /></th>
                   <th className="px-3 py-2 text-right"><SortHeader label="MFN Rate" field="mfn" /></th>
-                  <th className="px-3 py-2 text-left">
+                  <th className="px-3 py-2 text-right"><SortHeader label="Special" field="special" /></th>
+                  <th className="px-3 py-2 text-right"><SortHeader label="Col. 2" field="col2" /></th>
+                  <th className="px-3 py-2 text-left" aria-label="Additional tariffs">
                     <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Additional</span>
                   </th>
                   <th className="px-3 py-2 text-right"><SortHeader label="Total Rate" field="total" /></th>
-                  <th className="px-3 py-2 text-left">
+                  <th className="px-3 py-2 text-left" aria-label="Active programs">
                     <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Programs</span>
                   </th>
                 </tr>
@@ -94,17 +100,35 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
                           <Calendar className="h-3 w-3 text-gray-400" />
                           <span className="font-mono text-gray-700">{formatDate(entry.effective_date)}</span>
                           {isCurrent && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 font-medium">Current</span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#353CED]/8 text-[#353CED] font-medium">Current</span>
                           )}
                         </div>
                         <div className="text-[10px] text-gray-400 ml-5 mt-0.5">{entry.revision}</div>
                       </td>
                       <td className="px-3 py-2 text-right">
-                        <span className="font-mono text-gray-700">{formatRateShort(entry.base_rate)}</span>
+                        <span className="font-mono text-gray-700">{formatRate(entry.base_rate)}</span>
                         {entry.statutory_base_rate > 0 && Math.abs(entry.statutory_base_rate - entry.base_rate) > 0.00001 && (
                           <div className="text-[9px] text-gray-400 mt-0.5">
-                            Stat: {formatRateShort(entry.statutory_base_rate)}
+                            Stat: {formatRate(entry.statutory_base_rate)}
                           </div>
+                        )}
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {entry.rate_special != null ? (
+                          <span className="font-mono text-green-700">{formatRateShort(entry.rate_special)}</span>
+                        ) : entry.rate_special_raw ? (
+                          <span className="text-[10px] text-gray-500 italic truncate max-w-[80px] block">{entry.rate_special_raw.slice(0, 20)}</span>
+                        ) : (
+                          <span className="text-gray-300">—</span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {entry.rate_column2 != null ? (
+                          <span className="font-mono text-amber-700">{formatRateShort(entry.rate_column2)}</span>
+                        ) : entry.rate_column2_raw ? (
+                          <span className="text-[10px] text-gray-500 italic truncate max-w-[80px] block">{entry.rate_column2_raw.slice(0, 20)}</span>
+                        ) : (
+                          <span className="text-gray-300">—</span>
                         )}
                       </td>
                       <td className="px-3 py-2">
@@ -144,11 +168,11 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
         </div>
 
         <div className="flex items-center gap-4 mt-3 text-[10px] text-gray-400">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 tabular-nums">
             <Calendar className="h-3 w-3" />
-            {entries.length} rate periods tracked
+            {entries.length} rate periods
           </div>
-          <span>Click a row to view details</span>
+          <span className="text-gray-300">Click a row to view details</span>
         </div>
       </CardContent>
     </Card>

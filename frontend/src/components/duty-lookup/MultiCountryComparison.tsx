@@ -199,7 +199,7 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
     });
   }, [comparisonData, sortKey, sortDir]);
 
-  const neuInset = 'inset 2px 2px 5px rgba(0,0,0,0.07), inset -2px -2px 5px rgba(255,255,255,0.9)';
+  const neuInset = 'inset 1px 1px 4px rgba(0,0,0,0.05), inset -1px -1px 4px rgba(255,255,255,0.85)';
 
   return (
     <div className="space-y-5">
@@ -207,13 +207,15 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
       <Card>
         <CardContent className="p-5 space-y-4">
           <div className="flex items-center gap-2">
-            <Globe className="h-4 w-4 text-[#353CED]" />
-            <h3 className="font-semibold text-sm text-gray-900">Multi-Country Rate Comparison</h3>
+            <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+              <Globe className="h-3.5 w-3.5 text-[#353CED]" />
+            </div>
+            <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Multi-Country Rate Comparison</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="space-y-2">
+              <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
                 <Hash className="h-3 w-3" /> HTS-10 Code
               </label>
               <Input value={htsCode} onChange={(e) => setHtsCode(e.target.value.replace(/[^0-9.]/g, ''))}
@@ -230,16 +232,16 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
               )}
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+            <div className="space-y-2">
+              <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
                 <CalendarDays className="h-3 w-3" /> Effective Date
               </label>
               <DatePickerNeu date={queryDate} onSelect={setQueryDate}
                 minDate={new Date(2025, 0, 1)} maxDate={new Date(2026, 11, 31)} />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-700">Customs Value (USD)</label>
+            <div className="space-y-2">
+              <label className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">Customs Value (USD)</label>
               <Input type="number" value={customsValue} min={0}
                 onChange={(e) => setCustomsValue(Number(e.target.value))}
                 className="h-9 text-sm font-mono" />
@@ -309,12 +311,12 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
             <h3 className="text-sm font-semibold text-gray-900">
               Comparison: {formatHtsCode(cleanCode)} — {formatDate(dateStr)}
             </h3>
-            <div className="inline-flex items-center h-8 rounded-lg p-0.5"
+            <div className="inline-flex items-center h-8 rounded-xl p-0.5"
               style={{ boxShadow: neuInset, background: '#FAFAF8' }}>
               {([['table', Table2, 'Table'], ['chart', BarChart3, 'Chart']] as [ViewMode, typeof Table2, string][]).map(([mode, Icon, label]) => (
                 <button key={mode} type="button" onClick={() => setViewMode(mode)}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                    viewMode === mode ? 'bg-white text-[#353CED] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200 ease-spring ${
+                    viewMode === mode ? 'bg-white text-[#353CED] shadow-glass' : 'text-gray-400 hover:text-gray-600'
                   }`}>
                   <Icon className="h-3 w-3" />{label}
                 </button>
@@ -326,11 +328,11 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
           {viewMode === 'table' && (
             <Card>
               <CardContent className="p-5">
-                <div className="rounded-lg border border-gray-200 overflow-hidden">
+                <div className="rounded-xl border border-gray-200/80 overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs">
                       <thead>
-                        <tr className="bg-gray-50 border-b border-gray-200">
+                        <tr className="bg-gray-50/80 border-b border-gray-200/80">
                           <th className="px-3 py-2 text-left">
                             <button onClick={() => toggleSort('name')}
                               className="flex items-center gap-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700">
@@ -373,10 +375,10 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
                               <td className="px-3 py-2.5 text-right">
                                 {d.rate ? (
                                   <>
-                                    <span className="font-mono text-gray-700">{formatRateShort(d.rate.base_rate)}</span>
+                                    <span className="font-mono text-gray-700">{formatRate(d.rate.base_rate)}</span>
                                     {d.rate.statutory_base_rate > 0 && Math.abs(d.rate.statutory_base_rate - d.rate.base_rate) > 0.00001 && (
                                       <div className="text-[9px] text-gray-400 mt-0.5">
-                                        Stat: {formatRateShort(d.rate.statutory_base_rate)}
+                                        Stat: {formatRate(d.rate.statutory_base_rate)}
                                       </div>
                                     )}
                                   </>
@@ -438,12 +440,12 @@ export function MultiCountryComparison({ countries, sampleProducts }: MultiCount
                             if (!active || !payload?.length) return null;
                             const d = payload[0].payload;
                             return (
-                              <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs min-w-[220px]">
+                              <div className="bg-white border border-gray-100/80 rounded-xl shadow-elevated p-3.5 text-xs min-w-[220px]">
                                 <div className="font-semibold text-gray-900 mb-2">{d.fullName}</div>
                                 <div className="space-y-1">
                                   <div className="flex justify-between">
                                     <span className="text-gray-500">MFN Base</span>
-                                    <span className="font-mono">{formatRateShort(d.base_rate)}</span>
+                                    <span className="font-mono">{formatRate(d.base_rate)}</span>
                                   </div>
                                   {AUTHORITIES.filter(a => d[a.key] > 0).map(a => (
                                     <div key={a.key} className="flex justify-between">

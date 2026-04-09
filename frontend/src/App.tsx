@@ -4,7 +4,6 @@ import { useDataStats } from '@/hooks/useDataStats';
 import { Shield, Database, Layers, Package, Globe } from 'lucide-react';
 
 function formatRevisionLabel(rev: string): string {
-  // "2025_rev_3" → "Rev 3 (2025)", "2025_basic" → "Baseline (2025)"
   const parts = rev.split('_');
   const year = parts[0];
   if (parts[1] === 'basic') return `Baseline (${year})`;
@@ -30,17 +29,17 @@ function App() {
     : `${formatDateShort(stats.earliestDate)} – ${formatDateShort(stats.latestDate)}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-[#FAFAF8] to-gray-50/80">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-white via-[#FAFAF8] to-gray-50/60">
       {/* Header */}
-      <header className="border-b border-gray-100 bg-white/80 backdrop-blur-sm sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <header className="border-b border-gray-100/80 glass-surface sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#353CED] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-[10px] bg-[#353CED] flex items-center justify-center shadow-pop">
               <Shield className="h-4 w-4 text-white" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold text-gray-900 tracking-tight">SAIL Duty Rate Calculator</h1>
-              <p className="text-[10px] text-gray-400">SAIL GTX &middot; Tariff Rate Tracker</p>
+              <h1 className="text-sm font-semibold text-gray-900 tracking-[-0.01em]">SAIL Duty Rate Calculator</h1>
+              <p className="text-[10px] text-gray-400 tracking-wide">SAIL GTX &middot; Tariff Rate Tracker</p>
             </div>
           </div>
 
@@ -51,7 +50,7 @@ function App() {
                 <Database className="h-3 w-3" />
                 <span>{coverageDates}</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/60 shadow-neu-sm">
                 <Layers className="h-3 w-3 text-emerald-600" />
                 <span className="text-[10px] font-medium text-emerald-700">{coverageLabel}</span>
               </div>
@@ -61,38 +60,37 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-6 py-6">
+      <main className="max-w-7xl mx-auto px-6 py-8">
         <DutyLookupModule />
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 mt-12">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <footer className="border-t border-gray-100/60 mt-16">
+        <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            {/* Data stats — driven by live data */}
-            <div className="flex items-center gap-4 text-[10px] text-gray-400">
-              <span className="flex items-center gap-1">
+            <div className="flex items-center gap-5 text-[10px] text-gray-400">
+              <span className="flex items-center gap-1.5">
                 <Database className="h-3 w-3" />
                 USITC HTS Archives
               </span>
               {!stats.loading && (
                 <>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1.5">
                     <Layers className="h-3 w-3" />
                     {stats.nRevisions} revisions
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1.5">
                     <Package className="h-3 w-3" />
                     {stats.nProducts.toLocaleString()} products
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1.5">
                     <Globe className="h-3 w-3" />
                     {stats.nCountries.toLocaleString()} countries
                   </span>
                 </>
               )}
             </div>
-            <span className="text-[10px] text-gray-400">SAIL GTX &middot; Tariff Rate Tracker</span>
+            <span className="text-[10px] text-gray-300">SAIL GTX &middot; Tariff Rate Tracker</span>
           </div>
         </div>
       </footer>

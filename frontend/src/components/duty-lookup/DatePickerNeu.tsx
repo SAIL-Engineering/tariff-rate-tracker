@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Button } from '@/components/ui/button';
 import { CalendarDays } from 'lucide-react';
 
 const NEU_BG = '#FAFAF8';
-const neuInset = `inset 2px 2px 5px rgba(0,0,0,0.08), inset -2px -2px 5px rgba(255,255,255,0.9)`;
-const neuRaisedSm = `2px 2px 4px rgba(0,0,0,0.08), -2px -2px 4px rgba(255,255,255,0.9)`;
+const neuInset = `inset 1px 1px 4px rgba(0,0,0,0.05), inset -1px -1px 4px rgba(255,255,255,0.85)`;
+const neuRaisedSm = `1px 1px 3px rgba(0,0,0,0.06), -1px -1px 3px rgba(255,255,255,0.85)`;
 
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -35,9 +35,9 @@ export function DatePickerNeu({ date, onSelect, minDate, maxDate }: DatePickerNe
       </PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
-          className="z-[100] rounded-xl border border-gray-100 shadow-lg outline-none animate-fade-in"
+          className="z-[100] rounded-xl border border-gray-100/80 shadow-elevated outline-none animate-scale-in"
           align="start"
-          sideOffset={4}
+          sideOffset={6}
         >
           <NeuCalendar
             selected={date}
@@ -86,7 +86,7 @@ function NeuCalendar({
     <div className="p-4 rounded-xl select-none" style={{ background: NEU_BG }}>
       <div className="flex items-center justify-between mb-3">
         <button type="button" onClick={() => onMonthChange(new Date(year, monthIdx - 1, 1))}
-          className="h-8 w-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-900 transition-all cursor-pointer"
+          className="h-8 w-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-900 transition-all duration-200 ease-spring cursor-pointer active:scale-90"
           style={{ boxShadow: neuRaisedSm, background: NEU_BG }}>
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><path d="M15 18l-6-6 6-6" /></svg>
         </button>
@@ -103,7 +103,7 @@ function NeuCalendar({
           </select>
         </div>
         <button type="button" onClick={() => onMonthChange(new Date(year, monthIdx + 1, 1))}
-          className="h-8 w-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-900 transition-all cursor-pointer"
+          className="h-8 w-8 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-900 transition-all duration-200 ease-spring cursor-pointer active:scale-90"
           style={{ boxShadow: neuRaisedSm, background: NEU_BG }}>
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
         </button>
@@ -113,7 +113,7 @@ function NeuCalendar({
           <div key={d} className="text-center text-[10px] font-medium text-gray-400 py-1">{d}</div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-0.5">
         {cells.map((cell, i) => {
           const isSelected = isSameDay(cell.date, selected);
           const isToday = isSameDay(cell.date, today) && !isSelected;
@@ -123,15 +123,15 @@ function NeuCalendar({
           return (
             <button key={i} type="button" disabled={!!isDisabled}
               onClick={() => !isDisabled && onDayClick(cell.date)}
-              className={`h-8 w-8 flex items-center justify-center rounded-full text-xs transition-all
-                ${isDisabled ? 'text-gray-200 cursor-not-allowed' : 'cursor-pointer'}
+              className={`h-8 w-8 flex items-center justify-center rounded-full text-xs transition-all duration-200 ease-spring
+                ${isDisabled ? 'text-gray-200 cursor-not-allowed' : 'cursor-pointer active:scale-90'}
                 ${cell.outside && !isDisabled ? 'text-gray-300' : !isDisabled ? 'text-gray-700' : ''}
                 ${isSelected ? 'text-white font-semibold' : ''}
-                ${isToday && !isDisabled ? 'font-semibold' : ''}
-                ${!isSelected && !cell.outside && !isDisabled ? 'hover:text-gray-900' : ''}`}
+                ${isToday && !isDisabled ? 'font-semibold ring-1 ring-[#353CED]/20' : ''}
+                ${!isSelected && !cell.outside && !isDisabled ? 'hover:bg-gray-100/60 hover:text-gray-900' : ''}`}
               style={{
-                background: isSelected ? '#353CED' : isToday ? 'linear-gradient(145deg, #e8e8e6, #ffffff)' : 'transparent',
-                boxShadow: isSelected ? 'inset 2px 2px 4px rgba(0,0,0,0.2), inset -1px -1px 3px rgba(255,255,255,0.1)' : isToday ? neuRaisedSm : 'none',
+                background: isSelected ? '#353CED' : 'transparent',
+                boxShadow: isSelected ? 'inset 2px 2px 4px rgba(0,0,0,0.2), inset -1px -1px 3px rgba(255,255,255,0.1)' : 'none',
               }}>
               {cell.day}
             </button>

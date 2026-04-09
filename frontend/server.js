@@ -62,9 +62,12 @@ async function initDatabase() {
 
   // Create a view over the partitioned Parquet dataset.
   // DuckDB scans metadata once and builds an internal catalog in memory.
+  // Filter out legacy short-format revisions (e.g. 'rev_2') that duplicate
+  // the canonical year-prefixed revisions (e.g. '2025_rev_2').
   await connection.run(`
     CREATE VIEW rates AS
     SELECT * FROM read_parquet('${PARQUET_PATH}/*/*.parquet', hive_partitioning = true)
+    WHERE revision LIKE '20%'
   `);
 
   // Warm the catalog — forces DuckDB to read Parquet metadata (row group stats)

@@ -49,6 +49,45 @@ export interface DailyByCountrySummary {
   n_products_present: number;
 }
 
+/**
+ * Rate basis classification per CBP methodology.
+ * Determines how duty is calculated:
+ *   ad_valorem: percent of customs value (quantity not duty-relevant)
+ *   specific: fixed amount per legally specified unit of quantity
+ *   compound: ad valorem + specific components
+ *   free: no duty
+ *   unknown: unparseable rate expression (needs manual review)
+ */
+export type RateBasis = 'ad_valorem' | 'specific' | 'compound' | 'free' | 'unknown';
+
+/**
+ * 19 CFR 159.3 rounding rule codes.
+ * ad valorem: value rounded to even dollars
+ * specific ≤$1/unit: qty fractions <0.5 disregarded, ≥0.5 = whole unit
+ * specific >$1/unit: exact qty, fraction to 2 decimal places
+ */
+export type RoundingRule =
+  | '19cfr159.3_value'
+  | '19cfr159.3_specific_lte1'
+  | '19cfr159.3_specific_gt1'
+  | '19cfr159.3_compound_lte1'
+  | '19cfr159.3_compound_gt1'
+  | 'unknown';
+
+export type CalcStatus = 'ok' | 'needs_manual_review' | 'missing_duty_basis_unit';
+
+export interface SpecialProgramEntry {
+  rate: number | null;
+  rate_raw: string;
+  programs: string[];
+  entry_type: 'rate' | 'reference';
+}
+
+export function parseSpecialPrograms(json: string | null | undefined): SpecialProgramEntry[] {
+  if (!json) return [];
+  try { return JSON.parse(json); } catch { return []; }
+}
+
 export interface ProductRate {
   hts10: string;
   country: string;
@@ -70,9 +109,48 @@ export interface ProductRate {
   statutory_rate_section_201: number;
   statutory_rate_other: number;
   metal_share: number;
+  // Per-type metal shares (from BEA metal content analysis)
+  steel_share: number;
+  aluminum_share: number;
+  copper_share: number;
+  other_metal_share: number;
+  // Section 232 classification
+  is_copper_heading: boolean;
+  /** Derivative type for 232: 'steel' | 'aluminum' | null */
+  deriv_type: string | null;
+  /** Section 232 annex classification */
+  s232_annex: string | null;
   total_additional: number;
   total_rate: number;
   usmca_eligible: boolean;
+  // Rate tiers (Column 1 General / Column 1 Special / Column 2)
+  rate_special: number | null;
+  rate_special_raw: string | null;
+  special_programs_json: string | null;
+  rate_column2: number | null;
+  rate_column2_raw: string | null;
+  // Rate basis and duty math fields.
+  // In U.S. HTSUS, quantity affects duty only when the legal rate is specific
+  // or compound. The "Unit of Quantity" on a 10-digit statistical reporting
+  // number is often required for reporting but is NOT the legal basis of duty.
+  rate_basis: RateBasis;
+  specific_amount: number | null;
+  /** Unit from the legal rate expression (e.g., "kg" from "30.5¢/kg + 8.5%") */
+  specific_rate_unit: string | null;
+  /** Statistical reporting units (nonlegal — for entry documents, not duty math) */
+  reported_unit_1: string | null;
+  reported_unit_2: string | null;
+  /** Unit that drives duty calculation (= specific_rate_unit when specific/compound; null for ad valorem) */
+  duty_basis_unit: string | null;
+  /** TRUE only when rate_basis is 'specific' or 'compound' */
+  is_qty_duty_relevant: boolean;
+  /** Where duty_basis_unit was derived from: 'rate_text', 'chapter_note', or null */
+  quantity_source: string | null;
+  /** 19 CFR 159.3 rounding rule code */
+  rounding_rule: RoundingRule;
+  /** Calculation readiness: 'ok', 'needs_manual_review', 'missing_duty_basis_unit' */
+  calc_status: CalcStatus;
+  // Metadata
   revision: string;
   effective_date: string;
   valid_from: string;
@@ -173,6 +251,7 @@ export interface ShipmentRow {
   quantity?: number;
   freight?: number;
   insurance?: number;
+  composition?: CompositionOverrides;
 }
 
 export interface DutyBreakdown {
@@ -182,6 +261,17 @@ export interface DutyBreakdown {
   dutyAmount: number;
   color: string;
   ch99Code?: string;
+  rateBasis?: RateBasis;
+  specificAmount?: number;
+  /** The legally specified unit from the rate expression */
+  dutyBasisUnit?: string;
+  quantityUsed?: number;
+  /** The raw rate before nonmetal_share scaling (undefined if no scaling) */
+  grossRate?: number;
+  /** nonmetal_share applied (1.0 if no scaling) */
+  nonmetalShare?: number;
+  /** Whether this authority's rate was scaled by nonmetal_share */
+  isMetalScaled?: boolean;
 }
 
 export interface LandedCostResult {
@@ -198,6 +288,10 @@ export interface LandedCostResult {
   totalFees: number;
   landedCost: number;
   ratePeriod: string;
+  rateBasis: RateBasis;
+  quantityUsed?: number;
+  /** The legally specified unit that drove duty calculation (from rate text) */
+  dutyBasisUnit?: string;
 }
 
 export type PartnerGroup = 'china' | 'canada' | 'mexico' | 'eu' | 'uk' | 'japan' | 'ftrow';
@@ -211,6 +305,64 @@ export const PARTNER_COLORS: Record<string, string> = {
   japan: '#EC4899',
   ftrow: '#06B6D4',
 };
+
+/** Census codes for Column 2 countries (Cuba, North Korea, Belarus, Russia) */
+export const COLUMN2_COUNTRY_CODES = new Set(['2390', '5790', '4622', '4621']);
+
+/** Census code for China — used in stacking rules */
+export const CTY_CHINA = '5700';
+
+// =============================================================================
+// Authority Data Modes & Composition Overrides
+// =============================================================================
+
+/**
+ * What extra data each authority requires from the importer.
+ * Determined by the authority trigger, NOT by classification.
+ */
+export type AuthorityDataMode =
+  | 'NONE'
+  | 'VALUE_ONLY'
+  | 'US_CONTENT_VALUE'
+  | 'METAL_CONTENT_VALUE_AND_KG'
+  | 'SCOPE_REVIEW';
+
+/**
+ * User-entered composition/content overrides for duty calculation.
+ * These supplement the pre-computed rates from the backend.
+ */
+export interface CompositionOverrides {
+  /** US content percent (0-1) for IEEPA reciprocal carveout (EO 14257 threshold: >=0.20) */
+  usContentPercent?: number;
+  /** US content dollar value — alternative to percent */
+  usContentValue?: number;
+  /** Metal content value ($) for 232 derivatives (9903.81.91, 9903.85.08) */
+  metalContentValue?: number;
+  /** Metal content weight in kg for 232 derivative reporting */
+  metalContentKg?: number;
+  /** Primary country of aluminum smelting (Census code) — 232 aluminum reporting */
+  primarySmeltCountry?: string;
+  /** Secondary country of aluminum smelting (Census code) — 232 aluminum reporting */
+  secondarySmeltCountry?: string;
+  /** Country of aluminum casting (Census code) — 232 aluminum reporting */
+  castCountry?: string;
+}
+
+/**
+ * Describes what an active authority needs from the importer.
+ */
+export interface AuthorityTrigger {
+  authority: AuthorityKey;
+  mode: AuthorityDataMode;
+  label: string;
+  fields: Array<{
+    key: keyof CompositionOverrides;
+    label: string;
+    type: 'number' | 'percent' | 'country';
+    required: boolean;
+    hint: string;
+  }>;
+}
 
 export function formatCh99Code(code: string): string {
   const digits = code.replace(/\D/g, '');

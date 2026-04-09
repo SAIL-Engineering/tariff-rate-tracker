@@ -1925,7 +1925,35 @@ calculate_rates_for_revision <- function(
       effective_date = as.Date(effective_date)
     )
 
-  # 9b. Enforce canonical schema
+  # 9b. Join rate tier columns from products (special, column 2, duty basis, etc.)
+  #
+  # Note: reported_unit_1/2 are statistical reporting fields (nonlegal).
+  # duty_basis_unit is the legally relevant unit from the rate text.
+  # These are kept separate per U.S. HTSUS methodology — the statistical
+  # reporting unit is NOT by itself the legal basis of duty.
+  product_tier_cols <- products %>%
+    select(hts10, rate_special, rate_special_raw, special_programs,
+           rate_column2, rate_column2_raw,
+           rate_basis, specific_amount, specific_rate_unit,
+           reported_unit_1, reported_unit_2,
+           duty_basis_unit, is_qty_duty_relevant, quantity_source,
+           rounding_rule, calc_status)
+  rates <- rates %>%
+    left_join(product_tier_cols, by = 'hts10')
+
+  # Serialize special_programs list-column to JSON string for Parquet compatibility
+  rates$special_programs_json <- sapply(rates$special_programs, function(sp) {
+    if (is.null(sp) || length(sp) == 0) return(NA_character_)
+    # Strip the 'parsed' sub-element to keep JSON compact
+    sp_clean <- lapply(sp, function(entry) {
+      list(rate = entry$rate, rate_raw = entry$rate_raw,
+           programs = entry$programs, entry_type = entry$entry_type)
+    })
+    jsonlite::toJSON(sp_clean, auto_unbox = TRUE)
+  })
+  rates$special_programs <- NULL  # Drop list-column before schema enforcement
+
+  # 9c. Enforce canonical schema
   rates <- enforce_rate_schema(rates)
 
   # Summary

@@ -24,8 +24,8 @@ function StepIndicator({ step, total }: { step: number; total: number }) {
     <div className="flex items-center gap-2 mb-4">
       {Array.from({ length: total }).map((_, i) => (
         <React.Fragment key={i}>
-          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-            i < step ? 'bg-[#353CED] text-white' : i === step ? 'bg-[#353CED] text-white ring-4 ring-[#353CED]/20' : 'bg-gray-200 text-gray-500'
+          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300 ease-spring ${
+            i < step ? 'bg-[#353CED] text-white' : i === step ? 'bg-[#353CED] text-white ring-4 ring-[#353CED]/15' : 'bg-gray-100 text-gray-400'
           }`}>
             {i < step ? <Check className="h-3.5 w-3.5" /> : i + 1}
           </div>
@@ -111,10 +111,10 @@ export function ShipmentImportDialog({ open, onClose, onImport, minDate, maxDate
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/50" onClick={() => { reset(); onClose(); }} />
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[680px] max-h-[90vh] overflow-hidden flex flex-col z-[61]">
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => { reset(); onClose(); }} />
+      <div className="relative bg-white rounded-2xl shadow-glass-lg w-full max-w-[680px] max-h-[90vh] overflow-hidden flex flex-col z-[61] animate-scale-in">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-gray-100/80 flex items-center justify-between">
           <div>
             <h2 className="text-sm font-semibold text-gray-900">Import Shipments</h2>
             <p className="text-xs text-gray-400 mt-0.5">Upload a CSV file with date and value columns</p>
@@ -136,7 +136,7 @@ export function ShipmentImportDialog({ open, onClose, onImport, minDate, maxDate
           {/* Step 0: Upload */}
           {step === 0 && (
             <div className="space-y-4">
-              <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-[#353CED]/30 transition-colors cursor-pointer"
+              <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-[#353CED]/30 hover:bg-[#353CED]/[0.02] transition-all duration-200 ease-spring cursor-pointer"
                 onClick={() => fileRef.current?.click()}
                 onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
                 onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>

@@ -130,23 +130,25 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
         {/* Header */}
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-[#353CED]" />
-            <h3 className="font-semibold text-sm text-gray-900">Rate History</h3>
+            <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+              <TrendingUp className="h-3.5 w-3.5 text-[#353CED]" />
+            </div>
+            <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Rate History</h3>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <span className="text-gray-400">
-              Range: {formatRateShort(minRate)} → {formatRateShort(maxRate)}
+            <span className="text-gray-400 tabular-nums">
+              {formatRateShort(minRate)} → {formatRateShort(maxRate)}
             </span>
             <span className={cn(
-              'font-medium',
-              volatility === 'HIGH' ? 'text-red-600' : volatility === 'MODERATE' ? 'text-amber-600' : 'text-emerald-600'
+              'font-medium px-2 py-0.5 rounded-full text-[10px]',
+              volatility === 'HIGH' ? 'text-red-700 bg-red-50' : volatility === 'MODERATE' ? 'text-amber-700 bg-amber-50' : 'text-emerald-700 bg-emerald-50'
             )}>
-              {volatility === 'HIGH' ? 'High volatility' : volatility === 'MODERATE' ? 'Moderate volatility' : 'Stable'}
+              {volatility === 'HIGH' ? 'High volatility' : volatility === 'MODERATE' ? 'Moderate' : 'Stable'}
             </span>
           </div>
         </div>
         {countryName && (
-          <div className="text-xs text-gray-400 mb-4">{countryName} &middot; {rates.length} revisions</div>
+          <div className="text-[11px] text-gray-400 mb-4">{countryName} &middot; {rates.length} revisions</div>
         )}
 
         {/* Chart + Detail panel flex layout */}
@@ -170,10 +172,10 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
                         if (!active || !payload?.length) return null;
                         const d = payload[0].payload;
                         return (
-                          <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs">
-                            <div className="font-semibold text-gray-900 mb-1">{d.revision}</div>
-                            <div className="text-gray-500 mb-2">{d.label}</div>
-                            <div className="font-bold text-[#353CED]">Total: {formatRateShort(d.total_rate)}</div>
+                          <div className="bg-white border border-gray-100/80 rounded-xl shadow-elevated p-3.5 text-xs">
+                            <div className="font-semibold text-gray-900 mb-0.5">{d.revision}</div>
+                            <div className="text-gray-400 mb-2 text-[10px]">{d.label}</div>
+                            <div className="font-bold text-[#353CED] tabular-nums">Total: {formatRateShort(d.total_rate)}</div>
                           </div>
                         );
                       }}
@@ -223,15 +225,15 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
 
           {/* Detail panel (slides in on selection) */}
           {selectedEntry && (
-            <div className="w-[320px] xl:w-[380px] flex-shrink-0 rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden animate-fade-in">
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+            <div className="w-[320px] xl:w-[380px] flex-shrink-0 rounded-xl border border-gray-100/80 bg-white shadow-glass-lg overflow-hidden animate-fade-in">
+              <div className="px-4 py-3 bg-gray-50/60 border-b border-gray-100 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-semibold text-gray-900">{formatDate(selectedEntry.effective_date)}</div>
                   <div className="text-[10px] text-gray-400">{selectedEntry.revision}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-bold text-[#353CED]">{formatRateShort(selectedEntry.total_rate)}</span>
-                  <button onClick={closeDetail} className="text-gray-400 hover:text-gray-600 transition-colors">
+                  <button type="button" title="Close detail panel" onClick={closeDetail} className="text-gray-400 hover:text-gray-600 transition-colors duration-150">
                     <X className="h-4 w-4" />
                   </button>
                 </div>
@@ -255,7 +257,7 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
                     </div>
                     {selectedEntry.statutory_base_rate > 0 && Math.abs(selectedEntry.statutory_base_rate - selectedEntry.base_rate) > 0.00001 && (
                       <div className="text-[10px] text-gray-400 ml-4 mt-0.5">
-                        Statutory {formatRateShort(selectedEntry.statutory_base_rate)} → Effective {formatRateShort(selectedEntry.base_rate)}
+                        Statutory {formatRate(selectedEntry.statutory_base_rate)} → Effective {formatRate(selectedEntry.base_rate)}
                       </div>
                     )}
                   </div>

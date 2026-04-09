@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, useId } from 'react';
+import { useState, useRef, useEffect, useMemo, useId } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import type { Country } from '@/types/tariff';
@@ -10,7 +10,6 @@ interface CountryAutocompleteProps {
   onChange: (country: Country | null) => void;
   placeholder?: string;
   className?: string;
-  /** Auto-add the selected country (skip the separate Add button) */
   onAutoAdd?: (country: Country) => void;
 }
 
@@ -35,7 +34,6 @@ export function CountryAutocomplete({
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  // Pre-sort countries alphabetically by name (stable across renders)
   const sorted = useMemo(
     () => [...countries].sort((a, b) => a.name.localeCompare(b.name)),
     [countries]
@@ -137,10 +135,10 @@ export function CountryAutocomplete({
         <div
           id={listboxId}
           role="listbox"
-          className="absolute top-full left-0 right-0 mt-1 z-[200] bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-auto min-w-[280px]"
+          className="absolute top-full left-0 right-0 mt-1.5 z-[200] bg-white border border-gray-200/80 rounded-xl shadow-elevated max-h-64 overflow-auto min-w-[280px] animate-fade-in-down"
         >
           {filtered.length === 0 ? (
-            <div className="px-3 py-2 text-sm text-gray-400">No countries found</div>
+            <div className="px-3 py-3 text-sm text-gray-400">No countries found</div>
           ) : (
             filtered.map((c, index) => (
               <button
@@ -149,18 +147,20 @@ export function CountryAutocomplete({
                 ref={(node) => { optionRefs.current[index] = node; }}
                 type="button"
                 role="option"
-                aria-selected={highlightedIndex === index}
+                aria-selected={highlightedIndex === index ? true : false}
                 className={cn(
-                  'w-full text-left px-3 py-2 text-sm transition-colors flex items-center justify-between gap-3',
+                  'w-full text-left px-3 py-2 text-sm transition-colors duration-150 flex items-center justify-between gap-3',
+                  index === 0 && 'rounded-t-xl',
+                  index === filtered.length - 1 && 'rounded-b-xl',
                   highlightedIndex === index
-                    ? 'bg-[#353CED]/10 text-gray-900'
-                    : 'hover:bg-[#353CED]/10 hover:text-gray-900',
+                    ? 'bg-[#353CED]/6 text-gray-900'
+                    : 'hover:bg-gray-50 text-gray-600',
                   value?.code === c.code && 'font-medium text-[#353CED]'
                 )}
                 onMouseEnter={() => setHighlightedIndex(index)}
                 onClick={() => handleSelect(c)}>
                 <span className="truncate">{c.name}</span>
-                <span className="text-xs text-gray-400 font-mono flex-shrink-0 whitespace-nowrap">
+                <span className="text-[10px] text-gray-400 font-mono flex-shrink-0 whitespace-nowrap tabular-nums">
                   {c.alpha2 || '—'} · {c.code}
                 </span>
               </button>

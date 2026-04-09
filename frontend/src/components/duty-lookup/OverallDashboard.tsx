@@ -159,7 +159,7 @@ export function OverallDashboard({
 
   if (dailyOverall.length === 0) return null;
 
-  const neuInset = 'inset 2px 2px 5px rgba(0,0,0,0.07), inset -2px -2px 5px rgba(255,255,255,0.9)';
+  const neuInset = 'inset 1px 1px 4px rgba(0,0,0,0.05), inset -1px -1px 4px rgba(255,255,255,0.85)';
 
   // Build legend items — stacked layers + country overlays
   const legendItems: Array<{ key: string; label: string; color: string; description?: string }> = [
@@ -180,15 +180,17 @@ export function OverallDashboard({
           { label: 'Avg Additional', value: formatRateShort(latestData?.mean_additional_all_pairs ?? 0), icon: BarChart3, sublabel: 'Above MFN base' },
           { label: 'Products Tracked', value: latestData?.n_products?.toLocaleString() ?? '—', icon: BarChart3, sublabel: 'HTS-10 codes' },
           { label: 'Countries', value: latestData?.n_countries?.toString() ?? '—', icon: Globe, sublabel: 'Trading partners' },
-        ].map(({ label, value, icon: Icon, sublabel }) => (
-          <Card key={label} className="hover:-translate-y-0">
+        ].map(({ label, value, icon: Icon, sublabel }, idx) => (
+          <Card key={label} className="hover:-translate-y-0" style={{ animationDelay: `${idx * 50}ms` }}>
             <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <Icon className="h-3.5 w-3.5 text-[#353CED]" />
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+                  <Icon className="h-3.5 w-3.5 text-[#353CED]" />
+                </div>
                 <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">{label}</span>
               </div>
-              <div className="text-xl font-bold text-gray-900">{value}</div>
-              <div className="text-[10px] text-gray-400 mt-0.5">{sublabel}</div>
+              <div className="text-2xl font-bold text-gray-900 tracking-tight tabular-nums">{value}</div>
+              <div className="text-[10px] text-gray-400 mt-1">{sublabel}</div>
             </CardContent>
           </Card>
         ))}
@@ -199,24 +201,24 @@ export function OverallDashboard({
       {/* Main chart */}
       <Card>
         <CardContent className="p-5">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="font-semibold text-sm text-gray-900">U.S. Mean Tariff Rate (2025–2026)</h3>
+              <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">U.S. Mean Tariff Rate (2025–2026)</h3>
               <p className="text-[10px] text-gray-400 mt-0.5">Authority decomposition with optional per-country overlays</p>
             </div>
             <div className="text-right">
-              <div className="inline-flex items-center h-8 rounded-lg p-0.5"
+              <div className="inline-flex items-center h-8 rounded-xl p-0.5"
                 style={{ boxShadow: neuInset, background: '#FAFAF8' }}>
                 {(['all_pairs', 'exposed'] as const).map(m => (
                   <button key={m} type="button" onClick={() => setMetric(m)}
-                    className={`px-3 py-1 rounded-md text-[10px] font-medium transition-all ${
-                      metric === m ? 'bg-white text-[#353CED] shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    className={`px-3 py-1 rounded-lg text-[10px] font-medium transition-all duration-200 ease-spring ${
+                      metric === m ? 'bg-white text-[#353CED] shadow-glass' : 'text-gray-400 hover:text-gray-600'
                     }`}>
                     {m === 'all_pairs' ? 'All Products' : 'Tariffed Only'}
                   </button>
                 ))}
               </div>
-              <p className="text-[10px] text-gray-400 mt-1 max-w-xs ml-auto">
+              <p className="text-[10px] text-gray-400 mt-1.5 max-w-xs ml-auto leading-relaxed">
                 {metric === 'all_pairs'
                   ? 'Averages across all ~18K HTS-country pairs, including zero-tariff products.'
                   : 'Averages only HTS-country pairs with at least one additional tariff applied.'}
@@ -231,8 +233,8 @@ export function OverallDashboard({
               <Badge key={c.code} variant="outline" className="text-[10px] pl-1.5 pr-1 py-0.5 gap-1 border-gray-200">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COUNTRY_COLORS[i % COUNTRY_COLORS.length] }} />
                 {c.name}
-                <button onClick={() => setOverlayCountries(prev => prev.filter(cc => cc.code !== c.code))}
-                  className="text-gray-400 hover:text-red-500">
+                <button type="button" title={`Remove ${c.name}`} onClick={() => setOverlayCountries(prev => prev.filter(cc => cc.code !== c.code))}
+                  className="text-gray-400 hover:text-red-500 transition-colors duration-150">
                   <X className="h-2.5 w-2.5" />
                 </button>
               </Badge>
@@ -271,12 +273,14 @@ export function OverallDashboard({
                     const d = payload[0]?.payload;
                     if (!d) return null;
                     return (
-                      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs min-w-[260px]">
-                        <div className="font-semibold text-gray-900 mb-0.5">{d.labelShort}</div>
-                        <div className="text-[10px] text-gray-400 mb-2">{d.revision}</div>
-
+                      <div className="bg-white border border-gray-100/80 rounded-xl shadow-elevated p-0 text-xs min-w-[260px] overflow-hidden">
+                        <div className="px-3.5 py-2.5 bg-gray-50/80 border-b border-gray-100">
+                          <div className="font-semibold text-gray-900">{d.labelShort}</div>
+                          <div className="text-[10px] text-gray-400 mt-0.5">{d.revision}</div>
+                        </div>
+                        <div className="p-3.5">
                         {/* Total */}
-                        <div className="flex justify-between mb-1.5 pb-1 border-b border-gray-100">
+                        <div className="flex justify-between mb-2 pb-1.5 border-b border-gray-100">
                           <span className="font-semibold text-gray-900">Total Mean Rate</span>
                           <span className="font-mono font-bold text-gray-900">{formatRateShort(d.us_mean)}</span>
                         </div>
@@ -311,6 +315,7 @@ export function OverallDashboard({
                             })}
                           </div>
                         )}
+                        </div>
                       </div>
                     );
                   }}
@@ -343,17 +348,17 @@ export function OverallDashboard({
           </div>
 
           {/* Interactive legend */}
-          <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-3 pt-3 border-t border-gray-100">
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-3 border-t border-gray-100">
             {legendItems.map(item => {
               const isDisabled = disabledSeries.has(item.key);
               return (
                 <button key={item.key} type="button" onClick={() => toggleSeries(item.key)}
                   title={item.description}
                   className={cn(
-                    'flex items-center gap-1.5 text-[10px] transition-all rounded px-1 py-0.5 -mx-1',
-                    isDisabled ? 'opacity-30 line-through' : 'hover:bg-gray-50'
+                    'flex items-center gap-1.5 text-[10px] transition-all duration-200 ease-spring rounded-md px-1.5 py-1 -mx-1',
+                    isDisabled ? 'opacity-25 line-through' : 'hover:bg-gray-50'
                   )}>
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: item.color }} />
+                  <div className="w-2.5 h-2.5 rounded-[3px] transition-opacity duration-200" style={{ backgroundColor: item.color }} />
                   <span className="text-gray-600">{item.label}</span>
                 </button>
               );
@@ -366,23 +371,25 @@ export function OverallDashboard({
       <Card>
         <CardContent className="p-5">
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className="h-4 w-4 text-[#353CED]" />
-            <h3 className="font-semibold text-sm text-gray-900">Policy Timeline</h3>
-            <span className="text-xs text-gray-400 ml-auto">{keyRevisions.length} events</span>
+            <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+              <Calendar className="h-3.5 w-3.5 text-[#353CED]" />
+            </div>
+            <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Policy Timeline</h3>
+            <span className="text-[10px] text-gray-400 ml-auto tabular-nums">{keyRevisions.length} events</span>
           </div>
-          <div className="space-y-2 max-h-[300px] overflow-y-auto scrollbar-hide">
-            {keyRevisions.map(r => (
+          <div className="space-y-0 max-h-[300px] overflow-y-auto scrollbar-hide">
+            {keyRevisions.map((r, idx) => (
               <div key={r.revision} className="flex items-start gap-3 group">
-                <div className="flex flex-col items-center mt-1">
-                  <div className="w-2 h-2 rounded-full bg-[#353CED] group-hover:scale-125 transition-transform" />
-                  <div className="w-px h-full bg-gray-200 mt-1" />
+                <div className="flex flex-col items-center mt-1.5">
+                  <div className="w-2 h-2 rounded-full bg-[#353CED] group-hover:scale-150 transition-transform duration-200 ease-spring" />
+                  {idx < keyRevisions.length - 1 && <div className="w-px flex-1 bg-gray-200/80 mt-1" />}
                 </div>
-                <div className="pb-3">
-                  <div className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
+                <div className="pb-4">
+                  <div className="text-[10px] font-medium text-gray-400 uppercase tracking-wider tabular-nums">
                     {formatDate(r.policyEffectiveDate ?? r.effectiveDate)}
                   </div>
-                  <div className="text-xs text-gray-700 mt-0.5">{r.policyEvent}</div>
-                  <div className="text-[10px] text-gray-400 mt-0.5 font-mono">{r.revision}</div>
+                  <div className="text-xs text-gray-700 mt-0.5 leading-relaxed">{r.policyEvent}</div>
+                  <div className="text-[10px] text-gray-300 mt-0.5 font-mono">{r.revision}</div>
                 </div>
               </div>
             ))}

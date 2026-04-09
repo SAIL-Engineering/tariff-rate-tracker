@@ -28,8 +28,15 @@ pp <- load_policy_params()
 rev_dates <- load_revision_dates(here('config', 'revision_dates.csv'),
                                   use_policy_dates = TRUE)
 
-# List snapshot files
+# List snapshot files — exclude legacy short-format (snapshot_rev_*.rds)
+# that duplicate canonical year-prefixed snapshots (snapshot_2025_rev_*.rds)
 snapshot_files <- list.files(output_dir, pattern = '^snapshot_.*\\.rds$', full.names = TRUE)
+legacy <- grepl('/snapshot_rev_', snapshot_files) |
+          grepl('/snapshot_basic\\.rds$', snapshot_files)
+if (any(legacy)) {
+  message('Skipping ', sum(legacy), ' legacy snapshot(s) without year prefix')
+  snapshot_files <- snapshot_files[!legacy]
+}
 message('Found ', length(snapshot_files), ' snapshot files')
 
 # Build revision intervals

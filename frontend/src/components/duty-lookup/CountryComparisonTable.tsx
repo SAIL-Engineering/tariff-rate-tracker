@@ -61,18 +61,20 @@ export function CountryComparisonTable({ data, countries, selectedDate }: Countr
       <CardContent className="p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Globe className="h-4 w-4 text-[#353CED]" />
-            <h3 className="font-semibold text-sm text-gray-900">Country Comparison</h3>
-            <span className="text-xs text-gray-400">{sorted.length} countries</span>
+            <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+              <Globe className="h-3.5 w-3.5 text-[#353CED]" />
+            </div>
+            <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Country Comparison</h3>
+            <span className="text-[10px] text-gray-400 tabular-nums">{sorted.length} countries</span>
           </div>
         </div>
 
-        <div className="rounded-lg border border-gray-200 overflow-hidden">
+        <div className="rounded-xl border border-gray-200/80 overflow-hidden">
           <table className="w-full text-xs">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
+              <tr className="bg-gray-50/80 border-b border-gray-200/80">
                 <th className="px-3 py-2 text-left">
-                  <button onClick={() => toggleSort('name')} className="flex items-center gap-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                  <button type="button" onClick={() => toggleSort('name')} className="flex items-center gap-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700 transition-colors duration-150">
                     Country <ArrowUpDown className="h-3 w-3" />
                   </button>
                 </th>
@@ -80,7 +82,7 @@ export function CountryComparisonTable({ data, countries, selectedDate }: Countr
                   <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Rate Distribution</span>
                 </th>
                 <th className="px-3 py-2 text-right">
-                  <button onClick={() => toggleSort('rate')} className="flex items-center gap-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700 ml-auto">
+                  <button type="button" onClick={() => toggleSort('rate')} className="flex items-center gap-1 text-[10px] font-medium text-gray-500 uppercase tracking-wider hover:text-gray-700 ml-auto transition-colors duration-150">
                     Mean Rate <ArrowUpDown className="h-3 w-3" />
                   </button>
                 </th>
@@ -118,8 +120,8 @@ export function CountryComparisonTable({ data, countries, selectedDate }: Countr
         </div>
 
         {sorted.length > 25 && (
-          <button onClick={() => setShowAll(!showAll)}
-            className="flex items-center gap-1 mt-3 text-xs text-[#353CED] hover:text-[#353CED]/80 transition-colors mx-auto">
+          <button type="button" onClick={() => setShowAll(!showAll)}
+            className="flex items-center gap-1 mt-3 text-xs text-[#353CED] hover:text-[#353CED]/80 transition-colors duration-150 mx-auto">
             {showAll ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             {showAll ? 'Show fewer' : `Show all ${sorted.length} countries`}
           </button>

@@ -33,7 +33,7 @@ export const TariffProgramBadge: React.FC<TariffProgramBadgeProps> = ({ label, r
   return (
     <Badge
       variant="outline"
-      className={cn('text-xs font-medium border whitespace-nowrap', getColorForProgram(label), className)}
+      className={cn('text-[11px] font-medium border whitespace-nowrap tracking-wide', getColorForProgram(label), className)}
     >
       {label}
       {rate != null && ` (${(rate * 100).toFixed(1)}%)`}

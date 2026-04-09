@@ -262,16 +262,18 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
       <CardContent className="p-5 space-y-5">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <Package className="h-4 w-4 text-[#353CED]" />
-          <h3 className="font-semibold text-sm text-gray-900">Product Explorer</h3>
-          <span className="text-[10px] text-gray-400">Compare duty stacks for a specific product across countries</span>
+          <div className="w-6 h-6 rounded-lg bg-[#353CED]/6 flex items-center justify-center">
+            <Package className="h-3.5 w-3.5 text-[#353CED]" />
+          </div>
+          <h3 className="font-semibold text-sm text-gray-900 tracking-[-0.01em]">Product Explorer</h3>
+          <span className="text-[10px] text-gray-400">Compare duty stacks across countries</span>
         </div>
 
         {/* Controls */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-5">
           {/* HTS code search */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+          <div className="space-y-2">
+            <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
               <Hash className="h-3 w-3" /> HTS Code
             </label>
             <div ref={htsDropdownRef} className="relative">
@@ -316,7 +318,7 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
               </div>
               {showHtsDropdown && !selectedHts && (
                 <div id={htsListboxId} role="listbox"
-                  className="absolute top-full left-0 right-0 mt-1 z-[200] max-h-56 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+                  className="absolute top-full left-0 right-0 mt-1.5 z-[200] max-h-56 overflow-auto rounded-xl border border-gray-200/80 bg-white shadow-elevated animate-fade-in-down">
                   {htsResults.length > 0 ? htsResults.map((code, index) => (
                     <button key={code} id={`${htsListboxId}-${code}`}
                       ref={(node) => { htsOptionRefs.current[index] = node; }}
@@ -351,8 +353,8 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
           </div>
 
           {/* Country picker */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+          <div className="space-y-2">
+            <label className="text-[11px] font-medium text-gray-500 flex items-center gap-1.5 uppercase tracking-wider">
               <Globe className="h-3 w-3" /> Countries
             </label>
             <CountryAutocomplete countries={countries} value={addingCountry} onChange={setAddingCountry}
@@ -454,12 +456,12 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                                               <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: MFN_COLOR }} />
                                               <span className="text-gray-600">MFN Base</span>
                                             </div>
-                                            <span className="font-mono text-gray-700">{formatRateShort(baseRate)}</span>
+                                            <span className="font-mono text-gray-700">{formatRate(baseRate)}</span>
                                           </div>
                                           {statutoryBase != null && statutoryBase !== baseRate && (
                                             <div className="flex justify-between ml-[22px]">
                                               <span className="text-gray-400 italic">Statutory base</span>
-                                              <span className="font-mono text-gray-400">{formatRateShort(statutoryBase)}</span>
+                                              <span className="font-mono text-gray-400">{formatRate(statutoryBase)}</span>
                                             </div>
                                           )}
                                           {/* Authority breakdown */}
@@ -581,6 +583,10 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                           title="Most-Favored-Nation base duty rate from the Harmonized Tariff Schedule.">MFN Base</th>
                         <th className="px-3 py-2 text-right text-[10px] font-medium text-gray-500 uppercase tracking-wider cursor-help"
                           title="The statutory column-1 general rate before FTA/GSP preference adjustments.">Statutory</th>
+                        <th className="px-3 py-2 text-right text-[10px] font-medium text-gray-500 uppercase tracking-wider cursor-help"
+                          title="Column 1 Special preferential rate (FTA/GSP programs).">Special</th>
+                        <th className="px-3 py-2 text-right text-[10px] font-medium text-gray-500 uppercase tracking-wider cursor-help"
+                          title="Column 2 rate (Cuba, DPRK, Belarus, Russia).">Col. 2</th>
                         {AUTHORITIES.map(a => (
                           <th key={a.key} className="px-3 py-2.5 text-right text-[10px] font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap cursor-help"
                             title={a.description}>
@@ -618,6 +624,28 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                             <td className="px-3 py-2.5 text-right font-mono text-gray-400">
                               {r ? (r.statutory_base_rate !== r.base_rate
                                 ? formatRate(r.statutory_base_rate) : <span className="text-gray-300">same</span>
+                              ) : '—'}
+                            </td>
+                            <td className="px-3 py-2.5 text-right font-mono">
+                              {r ? (
+                                r.rate_special != null ? (
+                                  <span className="text-green-700">{formatRateShort(r.rate_special)}</span>
+                                ) : r.rate_special_raw ? (
+                                  <span className="text-[10px] text-gray-500 italic truncate max-w-[80px] block">{r.rate_special_raw.slice(0, 20)}</span>
+                                ) : (
+                                  <span className="text-gray-200">—</span>
+                                )
+                              ) : '—'}
+                            </td>
+                            <td className="px-3 py-2.5 text-right font-mono">
+                              {r ? (
+                                r.rate_column2 != null ? (
+                                  <span className="text-amber-700">{formatRateShort(r.rate_column2)}</span>
+                                ) : r.rate_column2_raw ? (
+                                  <span className="text-[10px] text-gray-500 italic truncate max-w-[80px] block">{r.rate_column2_raw.slice(0, 20)}</span>
+                                ) : (
+                                  <span className="text-gray-200">—</span>
+                                )
                               ) : '—'}
                             </td>
                             {AUTHORITIES.map(a => (

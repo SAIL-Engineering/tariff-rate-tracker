@@ -166,6 +166,224 @@ parse_special_programs <- function(special_string) {
 }
 
 
+#' Parse a rate string into a structured representation
+#'
+#' Unlike parse_rate() which returns a single numeric (or NA for complex rates),
+#' this function returns a structured list describing the full rate, including
+#' specific and compound duties.
+#'
+#' Supported formats:
+#'   "Free"                    -> type = "free"
+#'   "6.8%"                    -> type = "ad_valorem"
+#'   "1\u00a2/kg"              -> type = "specific"
+#'   "$1.104/kg"               -> type = "specific"
+#'   "$1.104/kg + 14.9%"       -> type = "compound"
+#'   "46.3\u00a2/kg + 14.9%"   -> type = "compound"
+#'   "68\u00a2/head"           -> type = "specific"
+#'
+#' @param rate_string Character string containing rate
+#' @return List with: type, ad_valorem_pct, specific_amount, specific_rate_unit, raw
+parse_rate_extended <- function(rate_string) {
+  empty_result <- list(
+    type = 'unknown', ad_valorem_pct = NA_real_,
+    specific_amount = NA_real_, specific_rate_unit = NA_character_, raw = ''
+  )
+
+  if (is.null(rate_string) || is.na(rate_string) || trimws(rate_string) == '') {
+    return(empty_result)
+  }
+
+  raw <- trimws(rate_string)
+  # Normalize whitespace (HTS data sometimes has extra spaces)
+  clean <- gsub('\\s+', ' ', raw)
+
+  # Free
+  if (tolower(clean) == 'free') {
+    return(list(
+      type = 'free', ad_valorem_pct = 0.0,
+      specific_amount = NA_real_, specific_rate_unit = NA_character_, raw = raw
+    ))
+  }
+
+  # Simple ad valorem: "6.8%" or "25%"
+  if (grepl('^[0-9.]+%$', clean)) {
+    pct <- as.numeric(gsub('%', '', clean)) / 100
+    return(list(
+      type = 'ad_valorem', ad_valorem_pct = pct,
+      specific_amount = NA_real_, specific_rate_unit = NA_character_, raw = raw
+    ))
+  }
+
+  # Compound: specific + ad valorem
+  # Patterns: "$1.104/kg + 14.9%", "46.3¢/kg + 14.9%", "1¢/kg + 5%"
+  compound_match <- regmatches(clean, regexec(
+    '^\\$?([0-9.]+)(\u00a2)?/([A-Za-z0-9.]+)\\s*\\+\\s*([0-9.]+)%$', clean
+  ))[[1]]
+  if (length(compound_match) == 5) {
+    amount <- as.numeric(compound_match[2])
+    is_cents <- compound_match[3] == '\u00a2'
+    unit <- compound_match[4]
+    av_pct <- as.numeric(compound_match[5]) / 100
+    # If ¢ sign present, convert cents to dollars; if $ prefix, already dollars
+    if (is_cents) amount <- amount / 100
+    return(list(
+      type = 'compound', ad_valorem_pct = av_pct,
+      specific_amount = amount, specific_rate_unit = unit, raw = raw
+    ))
+  }
+
+  # Specific only: "1¢/kg", "$3/head", "4.4¢/kg", "$1.50/doz"
+  specific_match <- regmatches(clean, regexec(
+    '^\\$?([0-9.]+)(\u00a2)?/([A-Za-z0-9.]+)$', clean
+  ))[[1]]
+  if (length(specific_match) == 4) {
+    amount <- as.numeric(specific_match[2])
+    is_cents <- specific_match[3] == '\u00a2'
+    unit <- specific_match[4]
+    if (is_cents) amount <- amount / 100
+    return(list(
+      type = 'specific', ad_valorem_pct = NA_real_,
+      specific_amount = amount, specific_rate_unit = unit, raw = raw
+    ))
+  }
+
+  # Unrecognized format
+  empty_result$raw <- raw
+  return(empty_result)
+}
+
+
+#' Parse the special column into multiple sub-rate groups
+#'
+#' The special column can contain multiple rate groups, e.g.:
+#'   "Free (BH,CL,JO,...) 1.7% (KR) See 9822.04.01 (AU)"
+#'
+#' Each group has a rate (or "See" reference) followed by country/program codes
+#' in parentheses.
+#'
+#' @param special_string Character string from the special column
+#' @return List of lists, each with: rate (numeric|NA), rate_raw (char),
+#'         programs (char vector), entry_type ("rate"|"reference")
+parse_special_programs_multi <- function(special_string) {
+  if (is.null(special_string) || is.na(special_string) || trimws(special_string) == '') {
+    return(list())
+  }
+
+  s <- trimws(special_string)
+  # Normalize whitespace
+  s <- gsub('\\s+', ' ', s)
+
+  # Strategy: find all parenthesized groups and the text preceding each one.
+  # Pattern: capture everything up to and including each (...) group.
+  # Use gregexpr to find all "(<codes>)" positions, then split around them.
+  paren_locs <- gregexpr('\\([^)]+\\)', s)[[1]]
+  if (paren_locs[1] == -1) {
+    # No parentheses — treat entire string as a single rate with no programs
+    parsed <- parse_rate_extended(s)
+    return(list(list(
+      rate = parsed$ad_valorem_pct %||% parsed$specific_amount,
+      rate_raw = s,
+      programs = character(0),
+      entry_type = 'rate',
+      parsed = parsed
+    )))
+  }
+
+  paren_lengths <- attr(paren_locs, 'match.length')
+  results <- list()
+  prev_end <- 1
+
+  for (i in seq_along(paren_locs)) {
+    paren_start <- paren_locs[i]
+    paren_end <- paren_start + paren_lengths[i] - 1
+
+    # Text before this parenthesized group (the rate part)
+    rate_text <- trimws(substr(s, prev_end, paren_start - 1))
+
+    # Codes inside parentheses
+    codes_text <- substr(s, paren_start + 1, paren_end - 1)
+    programs <- trimws(unlist(strsplit(codes_text, ',')))
+
+    # Determine entry type
+    is_reference <- grepl('^See\\b', rate_text, ignore.case = TRUE)
+
+    if (is_reference) {
+      results[[length(results) + 1]] <- list(
+        rate = NA_real_,
+        rate_raw = rate_text,
+        programs = programs,
+        entry_type = 'reference',
+        parsed = list(type = 'reference', ad_valorem_pct = NA_real_,
+                      specific_amount = NA_real_, specific_rate_unit = NA_character_,
+                      raw = rate_text)
+      )
+    } else {
+      parsed <- parse_rate_extended(rate_text)
+      rate_val <- if (parsed$type == 'free') 0.0
+                  else if (!is.na(parsed$ad_valorem_pct)) parsed$ad_valorem_pct
+                  else parsed$specific_amount
+      results[[length(results) + 1]] <- list(
+        rate = rate_val,
+        rate_raw = rate_text,
+        programs = programs,
+        entry_type = 'rate',
+        parsed = parsed
+      )
+    }
+
+    prev_end <- paren_end + 1
+  }
+
+  return(results)
+}
+
+
+#' Classify a rate string's basis
+#'
+#' @param rate_string Character string
+#' @return One of "ad_valorem", "specific", "compound", "free", "unknown"
+rate_type_label <- function(rate_string) {
+  if (is.null(rate_string) || is.na(rate_string) || trimws(rate_string) == '') {
+    return('unknown')
+  }
+  parsed <- parse_rate_extended(rate_string)
+  return(parsed$type)
+}
+
+
+#' Determine 19 CFR 159.3 rounding rule for a parsed rate
+#'
+#' Per 19 CFR 159.3:
+#'   - Ad valorem: value rounded to even dollars (fractions <$0.50
+#'     disregarded, >=$0.50 treated as $1).
+#'   - Specific rate <= $1/unit: fractional qty <0.5 disregarded,
+#'     >=0.5 treated as whole unit.
+#'   - Specific rate > $1/unit: duty on exact qty, fraction to 2 decimals.
+#'   - Compound: both rules apply to their respective components.
+#'
+#' @param parsed Result from parse_rate_extended()
+#' @return Character: rounding rule code
+determine_rounding_rule <- function(parsed) {
+  if (parsed$type %in% c('free', 'ad_valorem')) {
+    return('19cfr159.3_value')
+  }
+  if (parsed$type == 'specific') {
+    if (!is.na(parsed$specific_amount) && parsed$specific_amount > 1.0) {
+      return('19cfr159.3_specific_gt1')
+    }
+    return('19cfr159.3_specific_lte1')
+  }
+  if (parsed$type == 'compound') {
+    # Compound has both: the specific component's rule depends on amount
+    if (!is.na(parsed$specific_amount) && parsed$specific_amount > 1.0) {
+      return('19cfr159.3_compound_gt1')
+    }
+    return('19cfr159.3_compound_lte1')
+  }
+  return('unknown')
+}
+
+
 # =============================================================================
 # Country Code Functions
 # =============================================================================
@@ -1060,13 +1278,36 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 # =============================================================================
 
 #' Canonical column vector for rate output
+#'
+#' Design notes on quantity/unit fields (per U.S. HTSUS methodology):
+#'   - reported_unit_1/2: Statistical reporting units from the HTS 10-digit line.
+#'     These are nonlegal statistical elements required on customs entry documents.
+#'     They do NOT by themselves drive duty calculation.
+#'   - duty_basis_unit: The unit extracted from the legal rate expression (e.g., "kg"
+#'     from "30.5¢/kg + 8.5%", "pf.liter" from "2.1¢/pf.liter"). This is the unit
+#'     that enters the duty math for specific/compound rates.
+#'   - is_qty_duty_relevant: TRUE only when rate_basis is 'specific' or 'compound'.
+#'     For ad valorem rates, duty is on customs value, not quantity.
+#'   - quantity_source: Where the duty_basis_unit was derived from (rate_text,
+#'     chapter_note, override, or NA if not quantity-relevant).
+#'   - rounding_rule: Which 19 CFR 159.3 rounding applies:
+#'     "19cfr159.3_value" for ad valorem (value in even dollars),
+#'     "19cfr159.3_specific_lte1" for specific rates <= $1/unit,
+#'     "19cfr159.3_specific_gt1" for specific rates > $1/unit.
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_other',
   'metal_share',
   'total_additional', 'total_rate',
-  'usmca_eligible', 'revision', 'effective_date',
+  'usmca_eligible',
+  'rate_special', 'rate_special_raw', 'special_programs_json',
+  'rate_column2', 'rate_column2_raw',
+  'rate_basis', 'specific_amount', 'specific_rate_unit',
+  'reported_unit_1', 'reported_unit_2',
+  'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
+  'rounding_rule', 'calc_status',
+  'revision', 'effective_date',
   'valid_from', 'valid_until'
 )
 
@@ -1085,7 +1326,17 @@ enforce_rate_schema <- function(df) {
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
     metal_share = 1.0,
     total_additional = 0, total_rate = 0,
-    usmca_eligible = FALSE, revision = NA_character_,
+    usmca_eligible = FALSE,
+    rate_special = NA_real_, rate_special_raw = NA_character_,
+    special_programs_json = NA_character_,
+    rate_column2 = NA_real_, rate_column2_raw = NA_character_,
+    rate_basis = 'ad_valorem',
+    specific_amount = NA_real_, specific_rate_unit = NA_character_,
+    reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,
+    duty_basis_unit = NA_character_,
+    is_qty_duty_relevant = FALSE, quantity_source = NA_character_,
+    rounding_rule = '19cfr159.3_value', calc_status = 'ok',
+    revision = NA_character_,
     effective_date = as.Date(NA),
     valid_from = as.Date(NA), valid_until = as.Date(NA)
   )

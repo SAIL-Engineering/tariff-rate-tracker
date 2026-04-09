@@ -4,13 +4,41 @@
 #
 # Extracts HTS10 product data:
 #   - Base MFN rate (from 'general' field)
+#   - Special preferential rates and country eligibility codes (from 'special')
+#   - Column 2 statutory rates (from 'other')
+#   - Statistical reporting units (from 'units' — nonlegal per USITC preface)
+#   - Rate basis classification (ad valorem, specific, compound)
+#   - Duty basis unit (from the legal rate expression, NOT from reporting units)
 #   - Chapter 99 footnote references
 #
+# Design note: In the U.S. HTSUS, the "Unit of Quantity" shown with a 10-digit
+# statistical reporting number is required for customs entry documents but is NOT
+# by itself the legal basis of duty. For ad valorem duties the calculation base
+# is customs value; for specific duties it is the quantity in the legally
+# specified unit (extracted from the rate text); for compound duties both are
+# used. See 19 CFR 159.3 for rounding rules.
+#
 # Output: products_{revision}.rds with columns:
-#   - hts10: 10-digit HTS code
+#   - hts10: 10-digit statistical reporting number
 #   - description: Product description
-#   - base_rate: MFN rate (numeric)
-#   - base_rate_raw: Original rate text
+#   - base_rate: MFN rate (numeric, ad valorem component)
+#   - base_rate_raw: Original 'general' rate text
+#   - rate_special: Primary special rate (numeric)
+#   - rate_special_raw: Original special column text
+#   - special_programs: List of parsed special sub-rate groups
+#   - rate_column2: Column 2 rate (numeric, ad valorem component)
+#   - rate_column2_raw: Original 'other' column text
+#   - rate_basis: ad_valorem|specific|compound|free|unknown
+#   - specific_amount: Dollar amount per unit (for specific/compound)
+#   - specific_rate_unit: Unit from legal rate text (e.g., "kg", "pf.liter")
+#   - reported_unit_1: First statistical reporting unit (nonlegal)
+#   - reported_unit_2: Second statistical reporting unit (nonlegal)
+#   - duty_basis_unit: Unit that drives duty math (= specific_rate_unit if
+#       rate is specific/compound; NA otherwise)
+#   - is_qty_duty_relevant: TRUE only for specific/compound rates
+#   - quantity_source: Where duty_basis_unit came from (rate_text or NA)
+#   - rounding_rule: 19 CFR 159.3 rule code
+#   - calc_status: "ok" or "needs_manual_review" etc.
 #   - ch99_refs: List of Chapter 99 references from footnotes
 #   - has_complex_rate: Flag for non-ad-valorem rates
 #
@@ -19,9 +47,10 @@
 library(tidyverse)
 library(jsonlite)
 
-# NOTE: parse_rate(), is_simple_rate(), normalize_hts(), is_valid_hts10(),
-# and extract_chapter99_refs() are all defined in helpers.R.
-# This file uses those shared versions.
+# NOTE: parse_rate(), is_simple_rate(), parse_rate_extended(),
+# parse_special_programs_multi(), rate_type_label(), determine_rounding_rule(),
+# normalize_hts(), is_valid_hts10(), and extract_chapter99_refs() are all
+# defined in helpers.R. This file uses those shared versions.
 
 
 # =============================================================================
@@ -39,8 +68,8 @@ parse_products <- function(json_path) {
   hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
   message('  Total items: ', length(hts_raw))
 
-  # Build a rate inheritance stack: for statistical suffixes (empty general field),
-  # inherit the MFN rate from the nearest parent in the indent hierarchy.
+  # Build inheritance stacks: for statistical suffixes (empty fields),
+  # inherit rates from the nearest parent in the indent hierarchy.
   # ~59% of HTS10 products are statistical suffixes with empty general fields.
   #
   # Known edge case (rare): this assumes the JSON preserves parent-before-child
@@ -48,22 +77,66 @@ parse_products <- function(json_path) {
   # USITC changes the JSON structure (e.g., reorders items or introduces
   # non-standard indent jumps), inherited rates could be wrong. No validation
   # pass currently checks for these anomalies.
-  rate_stack <- list()  # indent level -> parsed rate (numeric or NA)
+  rate_stack <- list()       # indent level -> parsed base_rate (numeric or NA)
+  general_raw_stack <- list() # indent level -> general raw text (for rate_type inheritance)
+  special_stack <- list()    # indent level -> special raw text
+  other_stack <- list()      # indent level -> other (Column 2) raw text
+  unit1_stack <- list()      # indent level -> reported_unit_1 string
+  unit2_stack <- list()      # indent level -> reported_unit_2 string
   n_inherited <- 0L
+
+  # Helper to update an inheritance stack for a given indent level
+  update_stack <- function(stack, indent, value) {
+    stack[[as.character(indent)]] <- value
+    deeper <- names(stack)[as.integer(names(stack)) > indent]
+    for (d in deeper) stack[[d]] <- NULL
+    stack
+  }
+
+  # Helper to inherit from nearest parent in a stack
+  inherit_from_stack <- function(stack, indent) {
+    for (i in seq(indent - 1, 0, by = -1)) {
+      val <- stack[[as.character(i)]]
+      if (!is.null(val)) return(val)
+    }
+    return(NULL)
+  }
 
   # Process each item
   products <- map_dfr(hts_raw, function(item) {
     htsno <- item$htsno %||% ''
     general <- item$general %||% ''
+    special_raw <- item$special %||% ''
+    other_raw <- item$other %||% ''
     indent <- as.integer(item$indent %||% 0)
+    # Statistical reporting units (nonlegal per USITC preface).
+    # The HTS JSON 'units' array contains reporting units required on entry
+    # documents. These do NOT by themselves drive duty calculation.
+    units_arr <- item$units %||% character(0)
+    reported_unit_1 <- if (length(units_arr) >= 1) units_arr[1] else ''
+    reported_unit_2 <- if (length(units_arr) >= 2) units_arr[2] else ''
 
-    # Update rate stack for any item with a rate (parents and products alike)
+    # Update rate stacks for any item with content (parents and products alike)
     parsed <- parse_rate(general)
     if (!is.na(parsed) || (is_simple_rate(general) || tolower(trimws(general)) == 'free')) {
       rate_stack[[as.character(indent)]] <<- parsed
-      # Clear deeper indent levels (new parent resets children)
       deeper <- names(rate_stack)[as.integer(names(rate_stack)) > indent]
       for (d in deeper) rate_stack[[d]] <<- NULL
+    }
+    if (trimws(general) != '') {
+      general_raw_stack <<- update_stack(general_raw_stack, indent, general)
+    }
+    if (trimws(special_raw) != '') {
+      special_stack <<- update_stack(special_stack, indent, special_raw)
+    }
+    if (trimws(other_raw) != '') {
+      other_stack <<- update_stack(other_stack, indent, other_raw)
+    }
+    if (reported_unit_1 != '') {
+      unit1_stack <<- update_stack(unit1_stack, indent, reported_unit_1)
+    }
+    if (reported_unit_2 != '') {
+      unit2_stack <<- update_stack(unit2_stack, indent, reported_unit_2)
     }
 
     # Skip if not a valid 10-digit HTS code
@@ -79,12 +152,11 @@ parse_products <- function(json_path) {
     hts10 <- normalize_hts(htsno)
     description <- item$description %||% ''
 
-    # Parse rate — inherit from parent if empty
+    # Parse general (MFN) rate — inherit from parent if empty
     base_rate <- parse_rate(general)
     has_complex <- !is_simple_rate(general) && general != ''
 
     if (is.na(base_rate) && trimws(general) == '' && indent > 0) {
-      # Statistical suffix: inherit from nearest parent
       for (i in seq(indent - 1, 0, by = -1)) {
         parent_rate <- rate_stack[[as.character(i)]]
         if (!is.null(parent_rate)) {
@@ -95,6 +167,84 @@ parse_products <- function(json_path) {
       }
     }
 
+    # Inherit special/other/units from parent if empty (statistical suffix)
+    if (trimws(special_raw) == '' && indent > 0) {
+      inherited <- inherit_from_stack(special_stack, indent)
+      if (!is.null(inherited)) special_raw <- inherited
+    }
+    if (trimws(other_raw) == '' && indent > 0) {
+      inherited <- inherit_from_stack(other_stack, indent)
+      if (!is.null(inherited)) other_raw <- inherited
+    }
+    if (reported_unit_1 == '' && indent > 0) {
+      inherited <- inherit_from_stack(unit1_stack, indent)
+      if (!is.null(inherited)) reported_unit_1 <- inherited
+    }
+    if (reported_unit_2 == '' && indent > 0) {
+      inherited <- inherit_from_stack(unit2_stack, indent)
+      if (!is.null(inherited)) reported_unit_2 <- inherited
+    }
+
+    # Parse special column (all sub-rate groups)
+    special_parsed <- parse_special_programs_multi(special_raw)
+    # Primary special rate: first rate-type entry
+    rate_special <- NA_real_
+    if (length(special_parsed) > 0 && special_parsed[[1]]$entry_type == 'rate') {
+      rate_special <- special_parsed[[1]]$rate
+    }
+
+    # Parse Column 2 (other) rate
+    other_parsed <- parse_rate_extended(other_raw)
+    rate_column2 <- if (!is.na(other_parsed$ad_valorem_pct)) other_parsed$ad_valorem_pct
+                    else NA_real_
+
+    # Parse general rate expression to determine rate basis and specific components.
+    # The duty basis unit comes from the legal rate text (e.g., "kg" from
+    # "30.5¢/kg + 8.5%"), NOT from the statistical reporting units.
+    # For statistical suffixes with empty general, inherit from parent.
+    general_for_type <- general
+    if (trimws(general) == '' && indent > 0) {
+      inherited_general <- inherit_from_stack(general_raw_stack, indent)
+      if (!is.null(inherited_general)) general_for_type <- inherited_general
+    }
+    general_parsed <- parse_rate_extended(general_for_type)
+    rate_basis <- general_parsed$type
+    specific_amount <- general_parsed$specific_amount
+    # specific_rate_unit: the unit from the legal rate expression
+    specific_rate_unit <- general_parsed$specific_rate_unit
+
+    # Determine whether quantity is legally relevant for duty calculation.
+    # Per 19 CFR 159.3 and CBP methodology: quantity enters the duty math
+    # only when the applicable duty component is specific or compound.
+    is_qty_duty_relevant <- rate_basis %in% c('specific', 'compound')
+
+    # duty_basis_unit: the unit that drives duty calculation.
+    # This comes from the rate text, NOT from the statistical reporting unit.
+    duty_basis_unit <- if (is_qty_duty_relevant && !is.na(specific_rate_unit)) {
+      specific_rate_unit
+    } else {
+      NA_character_
+    }
+
+    # Track where the duty basis unit was derived from
+    quantity_source <- if (is_qty_duty_relevant && !is.na(specific_rate_unit)) {
+      'rate_text'
+    } else {
+      NA_character_
+    }
+
+    # Determine 19 CFR 159.3 rounding rule
+    rounding_rule <- determine_rounding_rule(general_parsed)
+
+    # Calc status: flag items that need manual review
+    calc_status <- if (rate_basis == 'unknown') {
+      'needs_manual_review'
+    } else if (is_qty_duty_relevant && is.na(specific_rate_unit)) {
+      'missing_duty_basis_unit'
+    } else {
+      'ok'
+    }
+
     # Extract Chapter 99 references
     ch99_refs <- extract_chapter99_refs(item$footnotes)
 
@@ -103,6 +253,21 @@ parse_products <- function(json_path) {
       description = description,
       base_rate = base_rate,
       base_rate_raw = general,
+      rate_special = rate_special,
+      rate_special_raw = special_raw,
+      special_programs = list(special_parsed),
+      rate_column2 = rate_column2,
+      rate_column2_raw = other_raw,
+      rate_basis = rate_basis,
+      specific_amount = specific_amount,
+      specific_rate_unit = specific_rate_unit %||% NA_character_,
+      reported_unit_1 = reported_unit_1,
+      reported_unit_2 = reported_unit_2,
+      duty_basis_unit = duty_basis_unit,
+      is_qty_duty_relevant = is_qty_duty_relevant,
+      quantity_source = quantity_source,
+      rounding_rule = rounding_rule,
+      calc_status = calc_status,
       ch99_refs = list(ch99_refs),
       has_complex_rate = has_complex,
       n_ch99_refs = length(ch99_refs)
@@ -115,6 +280,13 @@ parse_products <- function(json_path) {
   message('  Inherited parent rate: ', n_inherited, ' (',
           round(n_inherited / nrow(products) * 100, 1), '%)')
   message('  With NA base_rate: ', sum(is.na(products$base_rate)))
+  message('  Rate basis: ', paste(names(table(products$rate_basis)), '=',
+          table(products$rate_basis), collapse = ', '))
+  message('  Qty duty-relevant: ', sum(products$is_qty_duty_relevant))
+  message('  With special rates: ', sum(!is.na(products$rate_special)))
+  message('  With Column 2 rates: ', sum(!is.na(products$rate_column2)))
+  message('  Calc status: ', paste(names(table(products$calc_status)), '=',
+          table(products$calc_status), collapse = ', '))
 
   return(products)
 }

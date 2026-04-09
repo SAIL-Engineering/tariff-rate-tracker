@@ -7,8 +7,8 @@
 # revision_dates.csv and downloads any missing files.
 #
 # Usage:
-#   Rscript src/02_download_hts.R                # Download missing for 2025
-#   Rscript src/02_download_hts.R --year 2026    # Download missing for 2026
+#   Rscript src/02_download_hts.R                # Download missing (all years)
+#   Rscript src/02_download_hts.R --year 2026    # Download missing for 2026 only
 #   Rscript src/02_download_hts.R --dry-run      # Report only, no downloads
 #
 # =============================================================================
@@ -108,13 +108,13 @@ download_hts_json <- function(url, dest_path, min_size_mb = 1) {
 #' any revisions that are in the CSV but not on disk.
 #'
 #' @param archive_dir Path to HTS archive directory
-#' @param year HTS year (default: 2025)
+#' @param year If specified, only process revisions for this year. NULL = all years.
 #' @param dry_run If TRUE, report missing files without downloading
 #' @param revision_dates_path Path to revision_dates.csv
 #' @return Tibble with revision, status columns
 download_missing_revisions <- function(
   archive_dir = 'data/hts_archives',
-  year = 2025,
+  year = NULL,
   dry_run = FALSE,
   revision_dates_path = 'config/revision_dates.csv'
 ) {
@@ -122,15 +122,22 @@ download_missing_revisions <- function(
   rev_dates <- load_revision_dates(revision_dates_path, use_policy_dates = FALSE)
   expected <- rev_dates$revision
 
-  # Check local inventory across all years present in expected revisions
+  # Filter to requested year if specified
+  if (!is.null(year)) {
+    expected <- expected[map_int(expected, ~ parse_revision_id(.)$year) == year]
+    if (length(expected) == 0) {
+      message('No revisions for year ', year, ' in revision_dates.csv.')
+      return(tibble(revision = character(), status = character()))
+    }
+  }
+
+  # Check local inventory — always use year-prefixed IDs for comparison
   years_needed <- unique(map_int(expected, ~ parse_revision_id(.)$year))
 
   available <- character()
   for (yr in years_needed) {
     yr_revisions <- list_available_revisions(archive_dir, year = yr)
-    if (yr != 2025) {
-      yr_revisions <- paste0(yr, '_', yr_revisions)
-    }
+    yr_revisions <- paste0(yr, '_', yr_revisions)
     available <- c(available, yr_revisions)
   }
 
@@ -193,7 +200,7 @@ if (sys.nframe() == 0) {
   # Parse command line arguments
   args <- commandArgs(trailingOnly = TRUE)
 
-  year <- 2025
+  year <- NULL
   dry_run <- FALSE
 
   for (i in seq_along(args)) {

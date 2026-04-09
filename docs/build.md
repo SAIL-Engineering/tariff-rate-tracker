@@ -145,7 +145,7 @@ By default, the pipeline uses **legal policy effective dates** where they differ
 
 | Path | Description |
 |---|---|
-| `data/timeseries/rate_timeseries.rds` | interval-encoded product-country tariff panel |
+| `data/timeseries/rate_timeseries_parquet/` | partitioned Parquet dataset (primary queryable format) |
 | `data/timeseries/snapshot_*.rds` | per-revision rate snapshots |
 | `data/timeseries/delta_*.rds` | revision-to-revision diffs |
 | `output/daily/daily_overall.csv` | daily aggregate mean and weighted ETR series |
@@ -188,10 +188,15 @@ To generate configs for all revision dates at once, use `generate_etrs_configs_a
 
 ## Updating when a new HTS revision is published
 
-1. Run `Rscript src/01_scrape_revision_dates.R` or update `config/revision_dates.csv`.
-2. Download the new JSON with `src/02_download_hts.R`.
-3. If the Chapter 99 PDF changed, regenerate affected resource files.
-4. Re-run the build, usually without `--full`.
+See [pipeline-operations.md](pipeline-operations.md) for detailed step-by-step instructions.
+
+Quick summary:
+
+1. `Rscript src/01_scrape_revision_dates.R` — discover the new revision
+2. Edit `config/revision_dates.csv` — set correct `effective_date`, `policy_event`, clear `needs_review`
+3. `Rscript src/02_download_hts.R --year 2026` — download the JSON archive
+4. `Rscript src/00_build_timeseries.R` — incremental build (snapshots + Parquet + frontend data)
+5. Restart `cd frontend && node server.js` — pick up new Parquet partition
 
 ## Troubleshooting
 
@@ -202,27 +207,23 @@ To generate configs for all revision dates at once, use `generate_etrs_configs_a
 
 ## Querying built data
 
-Point-in-time queries:
+The authoritative dataset is the partitioned Parquet at `data/timeseries/rate_timeseries_parquet/`. Use `arrow::open_dataset()` for memory-efficient queries:
 
 ```r
-source('src/helpers.R')
-ts <- readRDS('data/timeseries/rate_timeseries.rds')
-snapshot <- get_rates_at_date(ts, as.Date('2026-06-15'))
+library(arrow)
+library(dplyr)
+
+ds <- open_dataset('data/timeseries/rate_timeseries_parquet', partitioning = 'revision')
+
+# Point-in-time query (lazy, only scans relevant partitions)
+snapshot <- ds %>%
+  filter(valid_from <= '2026-06-15', valid_until >= '2026-06-15') %>%
+  collect()
+
+# Single product-country history
+history <- ds %>%
+  filter(hts10 == '7208510030', country == '5700') %>%
+  collect()
 ```
 
-Filtered daily extracts:
-
-```r
-source('src/helpers.R')
-source('src/09_daily_series.R')
-ts <- readRDS('data/timeseries/rate_timeseries.rds')
-pp <- load_policy_params()
-
-result <- export_daily_slice(
-  ts,
-  date_range = c('2026-06-01', '2026-06-30'),
-  countries = c('5700'),
-  products = c('8471'),
-  policy_params = pp
-)
-```
+The frontend DuckDB server (`frontend/server.js`) also queries this Parquet dataset. See [pipeline-operations.md](pipeline-operations.md) for full details.
