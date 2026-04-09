@@ -169,6 +169,7 @@ export interface ShipmentRow {
   id: string;
   customsValue: number;
   date: Date;
+  countryCode?: string;
   quantity?: number;
   freight?: number;
   insurance?: number;

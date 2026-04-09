@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerNeu } from './DatePickerNeu';
+import { CountryAutocomplete } from './CountryAutocomplete';
 import { ShipmentImportDialog } from './ShipmentImportDialog';
-import type { ProductRate, ShipmentRow } from '@/types/tariff';
+import type { Country, ProductRate, ShipmentRow } from '@/types/tariff';
 import {
   calculateLandedCost, findRateForDate, MPF_RATE, MPF_MIN, MPF_MAX, HMF_RATE,
   exportShipmentsCSV,
@@ -12,7 +13,7 @@ import {
 import { formatCurrency, formatRateShort, formatDate } from '@/utils/formatters';
 import {
   Calculator, Plus, Trash2, Ship, Plane, Truck, ChevronDown, ChevronRight,
-  Download, Upload, Info, ArrowDownUp, DollarSign, CalendarDays,
+  Download, Upload, Info, ArrowDownUp, DollarSign, CalendarDays, Globe,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -21,6 +22,8 @@ interface DutyCalculatorPanelProps {
   currentRate: ProductRate | null;
   countryName: string;
   htsCode: string;
+  countries: Country[];
+  selectedCountry: Country | null;
 }
 
 type TransportMode = 'ocean' | 'air' | 'land';
@@ -31,16 +34,74 @@ const TRANSPORT_LABELS: Record<TransportMode, { label: string; icon: React.Eleme
   land:  { label: 'Land',  icon: Truck },
 };
 
-export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }: DutyCalculatorPanelProps) {
+export function DutyCalculatorPanel({
+  rates, currentRate, countryName, htsCode, countries, selectedCountry,
+}: DutyCalculatorPanelProps) {
+  const defaultCountryCode = selectedCountry?.code ?? '';
+
   const [rows, setRows] = useState<ShipmentRow[]>([
-    { id: '1', customsValue: 50000, date: new Date() },
+    { id: '1', customsValue: 50000, date: new Date(), countryCode: defaultCountryCode },
   ]);
   const [transportMode, setTransportMode] = useState<TransportMode>('ocean');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [importOpen, setImportOpen] = useState(false);
 
+  // Per-country rate cache: countryCode → ProductRate[]
+  const [rateCache, setRateCache] = useState<Map<string, ProductRate[]>>(new Map());
+  const fetchingRef = useRef(new Set<string>());
+
+  // Seed the cache with the initial lookup's rates
+  useEffect(() => {
+    if (defaultCountryCode && rates.length > 0) {
+      setRateCache(prev => {
+        const next = new Map(prev);
+        next.set(defaultCountryCode, rates);
+        return next;
+      });
+    }
+  }, [defaultCountryCode, rates]);
+
+  // When selectedCountry changes, update new rows' default
+  const latestDefaultRef = useRef(defaultCountryCode);
+  latestDefaultRef.current = defaultCountryCode;
+
+  // Build a country lookup map
+  const countryMap = useMemo(() => new Map(countries.map(c => [c.code, c])), [countries]);
+
+  // Fetch rates for a country if not in cache
+  const ensureCountryRates = useCallback(async (countryCode: string) => {
+    if (!countryCode || !htsCode) return;
+    if (rateCache.has(countryCode)) return;
+    if (fetchingRef.current.has(countryCode)) return;
+
+    fetchingRef.current.add(countryCode);
+    const cleanCode = htsCode.replace(/\./g, '');
+    try {
+      const res = await fetch(`/api/rates?hts10=${encodeURIComponent(cleanCode)}&country=${encodeURIComponent(countryCode)}`);
+      if (!res.ok) return;
+      const json = await res.json();
+      const data = (json.data as ProductRate[]).sort(
+        (a: ProductRate, b: ProductRate) => a.effective_date.localeCompare(b.effective_date)
+      );
+      setRateCache(prev => {
+        const next = new Map(prev);
+        next.set(countryCode, data);
+        return next;
+      });
+    } catch {
+      // silently fail — rate will show as unavailable
+    } finally {
+      fetchingRef.current.delete(countryCode);
+    }
+  }, [htsCode, rateCache]);
+
   const addRow = useCallback(() => {
-    setRows(prev => [...prev, { id: String(Date.now()), customsValue: 0, date: new Date() }]);
+    setRows(prev => [...prev, {
+      id: String(Date.now()),
+      customsValue: 0,
+      date: new Date(),
+      countryCode: latestDefaultRef.current,
+    }]);
   }, []);
 
   const removeRow = useCallback((id: string) => {
@@ -50,6 +111,11 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
   const updateRow = useCallback((id: string, updates: Partial<ShipmentRow>) => {
     setRows(prev => prev.map(r => r.id === id ? { ...r, ...updates } : r));
   }, []);
+
+  const updateRowCountry = useCallback((id: string, countryCode: string) => {
+    setRows(prev => prev.map(r => r.id === id ? { ...r, countryCode } : r));
+    ensureCountryRates(countryCode);
+  }, [ensureCountryRates]);
 
   const toggleExpand = useCallback((id: string) => {
     setExpandedRows(prev => {
@@ -64,17 +130,26 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
   }, []);
 
   const handleImport = useCallback((imported: ShipmentRow[]) => {
-    setRows(prev => [...prev, ...imported]);
+    // Set default country on imported rows
+    const withCountry = imported.map(r => ({
+      ...r,
+      countryCode: r.countryCode || latestDefaultRef.current,
+    }));
+    setRows(prev => [...prev, ...withCountry]);
   }, []);
 
+  // Compute results using per-shipment country rates
   const results = useMemo(() => {
     return rows.map(row => {
+      const cc = row.countryCode || defaultCountryCode;
+      const countryRates = rateCache.get(cc) ?? (cc === defaultCountryCode ? rates : []);
       const dateStr = row.date.toISOString().slice(0, 10);
-      const applicableRate = findRateForDate(rates, dateStr) ?? currentRate;
-      if (!applicableRate) return { row, result: null, rate: null };
+      const applicableRate = findRateForDate(countryRates, dateStr) ?? (cc === defaultCountryCode ? currentRate : null);
+      if (!applicableRate) return { row, result: null, rate: null, countryCode: cc };
       return {
         row,
         rate: applicableRate,
+        countryCode: cc,
         result: calculateLandedCost(applicableRate, row.customsValue, {
           includeHMF: transportMode === 'ocean',
           freight: row.freight ?? 0,
@@ -82,13 +157,10 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
         }),
       };
     });
-  }, [rows, rates, currentRate, transportMode]);
+  }, [rows, rateCache, rates, currentRate, transportMode, defaultCountryCode]);
 
-  // Sorted indices — descending by date (newest first)
   const sortedIndices = useMemo(() => {
-    return rows
-      .map((_, i) => i)
-      .sort((a, b) => rows[b].date.getTime() - rows[a].date.getTime());
+    return rows.map((_, i) => i).sort((a, b) => rows[b].date.getTime() - rows[a].date.getTime());
   }, [rows]);
 
   const totals = useMemo(() => {
@@ -177,11 +249,14 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
             </div>
           </div>
 
-          {/* Shipment rows */}
+          {/* Shipment rows — column headers */}
           <div className="space-y-2.5 mb-4">
-            <div className="grid grid-cols-[1fr_1fr_32px] gap-3 mb-1">
+            <div className="grid grid-cols-[minmax(0,1fr)_180px_minmax(0,1fr)_32px] gap-3 mb-1">
               <span className="text-xs font-medium text-gray-500 flex items-center gap-1">
                 <DollarSign className="h-3 w-3" /> Shipment Value (USD)
+              </span>
+              <span className="text-xs font-medium text-gray-500 flex items-center gap-1">
+                <Globe className="h-3 w-3" /> Country of Origin
               </span>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-gray-500 flex items-center gap-1">
@@ -197,29 +272,41 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
               <span />
             </div>
 
-            {rows.map(row => (
-              <div key={row.id} className="grid grid-cols-[1fr_1fr_32px] gap-3 items-center">
-                <Input type="number" value={row.customsValue || ''} min={0}
-                  onChange={(e) => updateRow(row.id, { customsValue: Number(e.target.value) })}
-                  className="h-9 text-sm font-mono" placeholder="50,000" />
-                <DatePickerNeu
-                  date={row.date}
-                  onSelect={(d) => updateRow(row.id, { date: d })}
-                  minDate={new Date(2025, 0, 1)}
-                  maxDate={new Date(2026, 11, 31)}
-                />
-                <button type="button" onClick={() => removeRow(row.id)} disabled={rows.length <= 1}
-                  title="Remove shipment"
-                  className={cn(
-                    'h-8 w-8 flex items-center justify-center rounded-lg transition-all duration-300',
-                    rows.length <= 1
-                      ? 'text-gray-300 cursor-not-allowed opacity-50'
-                      : 'text-gray-400 hover:text-red-500 shadow-[2px_2px_4px_rgba(0,0,0,0.08),_-2px_-2px_4px_rgba(255,255,255,0.9)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.07),_inset_-2px_-2px_5px_rgba(255,255,255,0.9)] bg-white'
-                  )}>
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ))}
+            {rows.map(row => {
+              const rowCountry = row.countryCode ? countryMap.get(row.countryCode) ?? null : selectedCountry;
+              return (
+                <div key={row.id} className="grid grid-cols-[minmax(0,1fr)_180px_minmax(0,1fr)_32px] gap-3 items-center">
+                  <Input type="number" value={row.customsValue || ''} min={0}
+                    onChange={(e) => updateRow(row.id, { customsValue: Number(e.target.value) })}
+                    className="h-9 text-sm font-mono" placeholder="50,000" />
+                  <CountryAutocomplete
+                    countries={countries}
+                    value={rowCountry}
+                    onChange={(c) => {
+                      if (c) updateRowCountry(row.id, c.code);
+                    }}
+                    placeholder="Country..."
+                    className="[&_input]:h-9 [&_input]:text-[11px]"
+                  />
+                  <DatePickerNeu
+                    date={row.date}
+                    onSelect={(d) => updateRow(row.id, { date: d })}
+                    minDate={new Date(2025, 0, 1)}
+                    maxDate={new Date(2026, 11, 31)}
+                  />
+                  <button type="button" onClick={() => removeRow(row.id)} disabled={rows.length <= 1}
+                    title="Remove shipment"
+                    className={cn(
+                      'h-8 w-8 flex items-center justify-center rounded-lg transition-all duration-300',
+                      rows.length <= 1
+                        ? 'text-gray-300 cursor-not-allowed opacity-50'
+                        : 'text-gray-400 hover:text-red-500 shadow-[2px_2px_4px_rgba(0,0,0,0.08),_-2px_-2px_4px_rgba(255,255,255,0.9)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.07),_inset_-2px_-2px_5px_rgba(255,255,255,0.9)] bg-white'
+                    )}>
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              );
+            })}
 
             <Button variant="outline" size="sm" onClick={addRow} className="text-xs gap-1.5 w-full border-dashed h-8">
               <Plus className="h-3 w-3" /> Add Shipment
@@ -234,6 +321,7 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
                   <tr className="bg-gray-50 text-xs text-gray-500 font-medium">
                     <th className="text-left px-3 py-2 w-7"><span className="sr-only">Expand</span></th>
                     <th className="text-left px-3 py-2">Shipment Value</th>
+                    <th className="text-left px-3 py-2">Country</th>
                     <th className="text-left px-3 py-2">Date</th>
                     <th className="text-right px-3 py-2">Duty</th>
                     <th className="text-right px-3 py-2">Fees</th>
@@ -242,42 +330,54 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
                 </thead>
                 <tbody>
                   {sortedIndices.map(i => {
-                    const { row, result: r, rate } = results[i];
-                    if (!r || !rate) return null;
+                    const { row, result: r, rate, countryCode: cc } = results[i];
+                    const rowCountryObj = cc ? countryMap.get(cc) : null;
+                    if (!r || !rate) {
+                      // Show row even when rate is unavailable
+                      return (
+                        <tr key={row.id} className="border-t border-gray-100">
+                          <td className="px-2 py-2 text-gray-300"><ChevronRight className="h-3.5 w-3.5" /></td>
+                          <td className="px-3 py-2 font-mono text-gray-700">{formatCurrency(row.customsValue)}</td>
+                          <td className="px-3 py-2 text-gray-500 text-xs">{rowCountryObj?.name ?? cc ?? '—'}</td>
+                          <td className="px-3 py-2 text-gray-600">{formatDate(row.date.toISOString().slice(0, 10))}</td>
+                          <td colSpan={3} className="px-3 py-2 text-right text-xs text-amber-500 italic">
+                            {rateCache.has(cc ?? '') || cc === defaultCountryCode
+                              ? 'No rate for this date'
+                              : 'Loading rate...'}
+                          </td>
+                        </tr>
+                      );
+                    }
                     const isExpanded = expandedRows.has(row.id);
                     return (
                       <React.Fragment key={row.id}>
-                        {/* Summary row — click to expand */}
                         <tr className="border-t border-gray-100 cursor-pointer hover:bg-gray-50/50 transition-colors"
                           onClick={() => toggleExpand(row.id)}>
                           <td className="px-2 py-2 text-gray-400">
-                            {isExpanded
-                              ? <ChevronDown className="h-3.5 w-3.5" />
-                              : <ChevronRight className="h-3.5 w-3.5" />}
+                            {isExpanded ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
                           </td>
                           <td className="px-3 py-2 font-mono text-gray-700">{formatCurrency(r.customsValue)}</td>
+                          <td className="px-3 py-2 text-xs text-gray-500">{rowCountryObj?.name ?? cc}</td>
                           <td className="px-3 py-2 text-gray-600">{formatDate(row.date.toISOString().slice(0, 10))}</td>
                           <td className="px-3 py-2 text-right font-mono text-red-600">{formatCurrency(r.totalDuty)}</td>
                           <td className="px-3 py-2 text-right font-mono text-amber-600">{formatCurrency(r.totalFees)}</td>
                           <td className="px-3 py-2 text-right font-mono font-medium text-gray-900">{formatCurrency(r.landedCost)}</td>
                         </tr>
 
-                        {/* Expanded breakdown */}
                         {isExpanded && (
                           <>
-                            {/* Rate period metadata */}
                             <tr className="bg-slate-50/50">
                               <td />
-                              <td colSpan={5} className="px-3 py-1 text-[10px] text-gray-400">
+                              <td colSpan={6} className="px-3 py-1 text-[10px] text-gray-400">
                                 Rate period: {r.ratePeriod} &middot; Basis: Ad Valorem &middot; Rev: {rate.revision}
+                                {rowCountryObj && <> &middot; Origin: {rowCountryObj.name}</>}
                               </td>
                             </tr>
 
-                            {/* Duty component breakdown */}
                             {r.breakdown.map((b, bi) => (
                               <tr key={bi} className="bg-slate-50/50">
                                 <td />
-                                <td colSpan={2} className="px-3 py-1 text-xs text-gray-500 pl-6">
+                                <td colSpan={3} className="px-3 py-1 text-xs text-gray-500 pl-6">
                                   <div className="flex items-center gap-1.5">
                                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: b.color }} />
                                     <span>{b.authority}</span>
@@ -298,35 +398,27 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
                               </tr>
                             ))}
 
-                            {/* Duty subtotal */}
                             <tr className="bg-slate-50/50 border-t border-gray-100/60">
                               <td />
-                              <td colSpan={2} className="px-3 py-1 text-xs font-medium text-gray-600 pl-6">
-                                Total Duty
-                              </td>
+                              <td colSpan={3} className="px-3 py-1 text-xs font-medium text-gray-600 pl-6">Total Duty</td>
                               <td className="px-3 py-1 text-right font-mono text-xs font-medium text-red-600">{formatCurrency(r.totalDuty)}</td>
-                              <td />
-                              <td />
+                              <td /><td />
                             </tr>
 
-                            {/* MPF */}
                             <tr className="bg-slate-50/50">
                               <td />
-                              <td colSpan={2} className="px-3 py-1 text-xs text-gray-500 pl-6">
+                              <td colSpan={3} className="px-3 py-1 text-xs text-gray-500 pl-6">
                                 <span>MPF</span>
-                                <span className="text-gray-400 ml-1.5">
-                                  (0.3464% &middot; min {formatCurrency(MPF_MIN)} / max {formatCurrency(MPF_MAX)})
-                                </span>
+                                <span className="text-gray-400 ml-1.5">(0.3464% &middot; min {formatCurrency(MPF_MIN)} / max {formatCurrency(MPF_MAX)})</span>
                               </td>
                               <td />
                               <td className="px-3 py-1 text-right font-mono text-xs text-amber-600">{formatCurrency(r.mpf)}</td>
                               <td />
                             </tr>
 
-                            {/* HMF */}
                             <tr className="bg-slate-50/50">
                               <td />
-                              <td colSpan={2} className="px-3 py-1 text-xs text-gray-500 pl-6">
+                              <td colSpan={3} className="px-3 py-1 text-xs text-gray-500 pl-6">
                                 <span>HMF</span>
                                 {transportMode === 'ocean' ? (
                                   <span className="text-gray-400 ml-1.5">(0.125%)</span>
@@ -341,25 +433,18 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
                               <td />
                             </tr>
 
-                            {/* Total Fees subtotal */}
                             <tr className="bg-slate-50/50 border-t border-gray-100/60">
                               <td />
-                              <td colSpan={2} className="px-3 py-1 text-xs font-medium text-gray-600 pl-6">
-                                Total Fees
-                              </td>
+                              <td colSpan={3} className="px-3 py-1 text-xs font-medium text-gray-600 pl-6">Total Fees</td>
                               <td />
                               <td className="px-3 py-1 text-right font-mono text-xs font-medium text-amber-600">{formatCurrency(r.totalFees)}</td>
                               <td />
                             </tr>
 
-                            {/* Landed cost */}
                             <tr className="bg-blue-50/30 border-t border-gray-100">
                               <td />
-                              <td colSpan={2} className="px-3 py-1.5 text-xs font-semibold text-gray-700 pl-6">
-                                Landed Cost
-                              </td>
-                              <td />
-                              <td />
+                              <td colSpan={3} className="px-3 py-1.5 text-xs font-semibold text-gray-700 pl-6">Landed Cost</td>
+                              <td /><td />
                               <td className="px-3 py-1.5 text-right font-mono text-xs font-bold text-gray-900">{formatCurrency(r.landedCost)}</td>
                             </tr>
                           </>
@@ -371,7 +456,7 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
                 <tfoot>
                   <tr className="border-t-2 border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50/30">
                     <td />
-                    <td className="px-3 py-2.5 font-medium text-gray-700">
+                    <td className="px-3 py-2.5 font-medium text-gray-700" colSpan={2}>
                       Total ({totals.count} shipment{totals.count !== 1 ? 's' : ''})
                     </td>
                     <td className="px-3 py-2.5 font-mono text-xs text-gray-400">{formatCurrency(totals.customsValue)}</td>
@@ -384,7 +469,7 @@ export function DutyCalculatorPanel({ rates, currentRate, countryName, htsCode }
             </div>
           )}
 
-          {/* Fee reference note */}
+          {/* Fee reference */}
           {hasResults && (
             <div className="mt-3 rounded-lg bg-gray-50 px-3.5 py-2.5 text-[10px] text-gray-400 leading-relaxed space-y-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0.5">

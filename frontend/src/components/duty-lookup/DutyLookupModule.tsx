@@ -208,6 +208,8 @@ export function DutyLookupModule() {
                 currentRate={lookupResult}
                 countryName={countryName}
                 htsCode={htsCode}
+                countries={data.countries}
+                selectedCountry={selectedCountry}
               />
             </>
           )}
