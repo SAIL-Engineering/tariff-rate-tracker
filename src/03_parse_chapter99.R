@@ -14,6 +14,8 @@
 #   - country_type: Scope type ("specific", "all", "all_except", "unknown")
 #   - countries: List of country codes (if country_type = "specific")
 #   - exempt_countries: List of exempt countries (if country_type = "all_except")
+#   - references: List of cross-referenced ch99 codes (e.g., c("9903.01.02", "9903.01.03"))
+#   - resolution_status: Triage of country scope resolution (see classify_resolution_status())
 #   - description: Original description text
 #   - general_raw: Original general rate text
 #
@@ -147,6 +149,80 @@ extract_country_names <- function(text) {
 }
 
 
+#' Extract cross-references to other Chapter 99 codes from description text
+#'
+#' Many ch99 entries reference other 9903.xx.xx codes (e.g., "Except for products
+#' described in headings 9903.01.02, 9903.01.03..."). This function extracts those
+#' references to make the dependency graph visible.
+#'
+#' @param description Description text
+#' @return Character vector of referenced ch99 codes (unique, sorted)
+extract_ch99_references <- function(description) {
+  if (is.null(description) || is.na(description) || description == '') {
+    return(character(0))
+  }
+  refs <- str_extract_all(description, '9903\\.[0-9]{2}\\.[0-9]{2}')[[1]]
+  sort(unique(refs))
+}
+
+
+#' Classify the resolution status of a ch99 entry's country scope
+#'
+#' Entries with country_type = 'unknown' from parse_countries() may still be
+#' handled correctly by authority-specific extractors downstream. This function
+#' classifies each entry so warnings distinguish genuinely unresolved entries
+#' from those handled by other code paths.
+#'
+#' @param ch99_code Character vector of ch99 codes
+#' @param country_type Character vector of country types from parse_countries()
+#' @return Character vector of resolution statuses
+classify_resolution_status <- function(ch99_code, country_type) {
+  case_when(
+    country_type != 'unknown' ~ 'resolved_by_parser',
+    # Section 122 (post-IEEPA blanket authority): 9903.03.xx
+    # — handled by extract_section122_rate() + s122 logic in calculate_rates_for_revision()
+    grepl('^9903\\.03\\.', ch99_code) ~ 'handled_by_s122_config',
+    # IEEPA fentanyl/initial: 9903.01.01-24 — handled by extract_ieepa_fentanyl_rates()
+    grepl('^9903\\.01\\.(0[1-9]|1[0-9]|2[0-4])$', ch99_code) ~ 'handled_by_fentanyl_extractor',
+    # IEEPA exclusions/exemptions: 9903.01.25-42 — donations, informational materials,
+    # USMCA, general note 11, etc. These define what's EXCLUDED from IEEPA.
+    # Extractors handle surcharge entries; exclusions are implicit (no rate to apply).
+    grepl('^9903\\.01\\.(2[5-9]|3[0-9]|4[0-2])$', ch99_code) ~ 'ieepa_exclusion_no_rate',
+    grepl('^9903\\.01\\.9[0-9]$', ch99_code) ~ 'ieepa_exclusion_no_rate',
+    grepl('^9903\\.02\\.01$', ch99_code) ~ 'ieepa_exclusion_no_rate',
+    # IEEPA reciprocal Phase 1: 9903.01.43-89 — handled by extract_ieepa_rates()
+    grepl('^9903\\.01\\.(4[3-9]|[5-8][0-9])$', ch99_code) ~ 'handled_by_ieepa_extractor',
+    # IEEPA reciprocal Phase 2 + Swiss framework: 9903.02.02-91
+    grepl('^9903\\.02\\.(0[2-9]|[1-8][0-9]|9[01])$', ch99_code) ~ 'handled_by_ieepa_extractor',
+    # Section 232 MHD vehicles: 9903.74.xx — handled by extract_section232_rates()
+    # (auto_deal_rates logic)
+    grepl('^9903\\.74', ch99_code) ~ 'handled_by_s232_extractor',
+    # Section 232 wood products: 9903.76.xx — handled by extract_section232_rates()
+    # (wood deals logic)
+    grepl('^9903\\.76', ch99_code) ~ 'handled_by_s232_extractor',
+    # Section 232 copper: 9903.78.xx — handled by extract_section232_rates()
+    # (copper heading logic + product list from scrape_us_notes.R)
+    grepl('^9903\\.78', ch99_code) ~ 'handled_by_s232_extractor',
+    # Section 232 steel/aluminum: 9903.80-85, 9903.94
+    grepl('^9903\\.8[0-5]', ch99_code) ~ 'handled_by_s232_extractor',
+    grepl('^9903\\.94', ch99_code) ~ 'handled_by_s232_extractor',
+    # Section 232 semiconductors: 9903.79.xx — NOT YET IMPLEMENTED.
+    # Entries exist from 2026_rev_1 onward with parsed rates, but no extractor
+    # applies them to products. A semiconductor product list + extractor are
+    # needed to wire these through.
+    grepl('^9903\\.79', ch99_code) ~ 'unresolved_s232_semiconductor',
+    # Section 301 China-specific: 9903.88-93 — handled via policy_params.yaml
+    grepl('^9903\\.(88|89|9[0-3])', ch99_code) ~ 'handled_by_s301_config',
+    # WTO tariff-rate quotas (TRQs): not duty-relevant surcharges
+    grepl('^9903\\.(04|08|17|18|19|27|52|53|54|55)', ch99_code) ~ 'not_duty_relevant_trq',
+    # Section 201 safeguard duties: legacy, not currently modeled
+    grepl('^9903\\.(40|41|45)', ch99_code) ~ 'unresolved_s201',
+    # Truly unresolved — needs investigation
+    TRUE ~ 'unresolved'
+  )
+}
+
+
 # =============================================================================
 # Main Parsing Function
 # =============================================================================
@@ -154,8 +230,9 @@ extract_country_names <- function(text) {
 #' Parse all Chapter 99 entries from HTS JSON
 #'
 #' @param json_path Path to HTS JSON file
-#' @return Tibble with parsed Chapter 99 data
-parse_chapter99 <- function(json_path) {
+#' @param revision_id Optional revision ID for log messages (e.g., "2025_rev_7")
+#' @return Tibble with parsed Chapter 99 data including resolution_status and references columns
+parse_chapter99 <- function(json_path, revision_id = NULL) {
   message('Reading HTS JSON from: ', json_path)
 
   # Read JSON
@@ -189,6 +266,9 @@ parse_chapter99 <- function(json_path) {
     # Parse countries
     country_info <- parse_countries(description)
 
+    # Extract cross-references to other ch99 codes
+    refs <- extract_ch99_references(description)
+
     tibble(
       ch99_code = ch99_code,
       rate = rate,
@@ -196,14 +276,22 @@ parse_chapter99 <- function(json_path) {
       country_type = country_info$type,
       countries = list(country_info$countries),
       exempt_countries = list(country_info$exempt),
+      references = list(refs),
       general_raw = general,
       other_raw = other,
       description = description
     )
   })
 
+  # Add resolution_status: classifies whether 'unknown' entries are actually
+  # handled by downstream authority-specific extractors, are not duty-relevant,
+  # or are genuinely unresolved.
+  parsed <- parsed %>%
+    mutate(resolution_status = classify_resolution_status(ch99_code, country_type))
+
   # Summary
-  message('\n=== Chapter 99 Summary ===')
+  rev_label <- if (!is.null(revision_id)) paste0(' [', revision_id, ']') else ''
+  message('\n=== Chapter 99 Summary', rev_label, ' ===')
   message('  Total entries: ', nrow(parsed))
   message('  With parsed rates: ', sum(!is.na(parsed$rate)))
   message('  By authority:')
@@ -217,19 +305,42 @@ parse_chapter99 <- function(json_path) {
     count(country_type, sort = TRUE)
   print(cty_summary)
 
-  # Flag unknown country types so parser misses are visible in build logs
+  # Triage unknown country types: distinguish entries handled downstream from
+  # genuinely unresolved ones. Log to both console and build log file.
   unknown_entries <- parsed %>% filter(country_type == 'unknown')
   if (nrow(unknown_entries) > 0) {
-    message('\n  WARNING: ', nrow(unknown_entries),
-            ' entries with unknown country scope (description not matched by parse_countries):')
-    for (i in seq_len(min(nrow(unknown_entries), 10))) {
-      message('    ', unknown_entries$ch99_code[i], ' [', unknown_entries$authority[i],
-              ']: "', substr(unknown_entries$description[i], 1, 80), '..."')
+    # Triage breakdown
+    triage <- unknown_entries %>% count(resolution_status, sort = TRUE)
+    triage_str <- paste(triage$n, triage$resolution_status, sep = ' ', collapse = ', ')
+    truly_unresolved <- unknown_entries %>%
+      filter(resolution_status %in% c('unresolved', 'unresolved_s201'))
+
+    log_warn('Ch99 country scope', rev_label, ': ', nrow(unknown_entries),
+             ' entries with unknown country_type (',  triage_str, ')')
+
+    if (nrow(truly_unresolved) > 0) {
+      log_warn('Truly unresolved entries (', nrow(truly_unresolved), '):')
+      for (i in seq_len(min(nrow(truly_unresolved), 15))) {
+        log_warn('  ', truly_unresolved$ch99_code[i], ' [', truly_unresolved$authority[i],
+                 ']: "', substr(truly_unresolved$description[i], 1, 80), '..."')
+      }
+      if (nrow(truly_unresolved) > 15) {
+        log_warn('  ... and ', nrow(truly_unresolved) - 15, ' more')
+      }
+    } else {
+      log_info('All unknown-country entries are handled by downstream extractors or are not duty-relevant.')
     }
-    if (nrow(unknown_entries) > 10) {
-      message('    ... and ', nrow(unknown_entries) - 10, ' more')
+
+    # Log entries with cross-references for visibility
+    has_refs <- unknown_entries %>% filter(lengths(references) > 0)
+    if (nrow(has_refs) > 0) {
+      log_info('Ch99 cross-references detected in ', nrow(has_refs), ' unknown entries')
     }
   }
+
+  message('\n  By resolution status:')
+  res_summary <- parsed %>% count(resolution_status, sort = TRUE)
+  print(res_summary)
 
   return(parsed)
 }

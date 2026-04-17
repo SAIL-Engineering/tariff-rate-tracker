@@ -10,6 +10,7 @@ import type { ProductRate } from '@/types/tariff';
 import { AUTHORITIES, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP } from '@/types/tariff';
 import { formatRateShort, formatDate, formatHtsCode, formatRate } from '@/utils/formatters';
 import { computeRateVolatility } from '@/utils/tariffCalculator';
+import { resolveCh99Code } from '@/utils/chapter99';
 import { TrendingUp, X, Calendar, Layers, Shield, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -307,7 +308,7 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
                               <td className="px-2 py-1.5">
                                 <TariffProgramBadge label={a.shortLabel} className="text-[9px] px-1.5 py-0" />
                               </td>
-                              <td className="px-2 py-1.5 font-mono text-[#353CED]">{a.ch99Prefix}</td>
+                              <td className="px-2 py-1.5 font-mono text-[#353CED]">{resolveCh99Code(selectedEntry, a) ?? a.ch99Prefix}</td>
                               <td className="px-2 py-1.5 text-right font-mono font-medium">{formatRateShort(selectedEntry[a.key])}</td>
                             </tr>
                           ))}

@@ -1,6 +1,7 @@
 import type { ProductRate, DutyBreakdown, LandedCostResult, AuthorityKey, RateBasis, RoundingRule, CompositionOverrides, AuthorityDataMode, AuthorityTrigger } from '@/types/tariff';
 import { AUTHORITY_MAP, STATUTORY_KEY_MAP, COLUMN2_COUNTRY_CODES, CTY_CHINA, parseSpecialPrograms } from '@/types/tariff';
 import { formatDate } from '@/utils/formatters';
+import { resolveCh99Code } from '@/utils/chapter99';
 
 // =============================================================================
 // Fee Schedule (FY 2026) — CBP Customs Fees
@@ -368,7 +369,7 @@ export function calculateLandedCost(
         statutoryRate: Math.abs(statutoryValue - grossRate) > 0.00001 ? statutoryValue : undefined,
         dutyAmount: dutiableValue * netRate,
         color: info.color,
-        ch99Code: info.ch99Prefix,
+        ch99Code: resolveCh99Code(rate, info),
         rateBasis: 'ad_valorem',  // Ch99 rates in this system are ad valorem
         grossRate: isScaled ? grossRate : undefined,
         nonmetalShare: isScaled ? nonmetalShare : undefined,

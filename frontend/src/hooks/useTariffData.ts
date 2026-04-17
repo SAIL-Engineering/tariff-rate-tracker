@@ -108,9 +108,11 @@ export function useProductSearch(sampleRates: ProductRate[]) {
 
 // --- DuckDB-backed API lookup ---
 
+export type RateMatchKind = 'exact' | 'prefix' | 'base_mfn_synthesized';
+
 interface RateLookupResult {
   data: ProductRate[];
-  match: 'exact' | 'prefix';
+  match: RateMatchKind;
   loading: boolean;
   error: string | null;
 }

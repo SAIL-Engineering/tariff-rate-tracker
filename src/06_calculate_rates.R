@@ -39,6 +39,25 @@ library(tidyverse)
 # NOTE: classify_authority(), apply_stacking_rules(), enforce_rate_schema(),
 # and RATE_SCHEMA are defined in helpers.R.
 
+# Phase 2 dual-write emitter (normalized layers 1-5). Sourced lazily so
+# existing pipelines that pre-date Phase 2 still run if the file is missing.
+.emit_normalized_sourced <- FALSE
+.source_emit_normalized <- function() {
+  if (.emit_normalized_sourced) return(invisible(TRUE))
+  candidate <- tryCatch(
+    if (requireNamespace('here', quietly = TRUE))
+      here::here('src', '07_emit_normalized.R')
+    else
+      file.path('src', '07_emit_normalized.R'),
+    error = function(e) file.path('src', '07_emit_normalized.R')
+  )
+  if (file.exists(candidate)) {
+    source(candidate, local = FALSE)
+    .emit_normalized_sourced <<- TRUE
+  }
+  invisible(.emit_normalized_sourced)
+}
+
 # Policy params — needed throughout for IEEPA, 232, floor, MFN, etc.
 .pp <- tryCatch(
   load_policy_params(),
@@ -367,7 +386,12 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
     # Skip scaling for derivatives that also have a heading rate (e.g., auto parts
     # that are also aluminum derivatives). The heading rate dominates and shouldn't
     # be metal-scaled — ETRs handles this via per-program pmax.
-    has_per_type <- all(c('steel_share', 'aluminum_share') %in% names(rates))
+    # Gate per-type scaling on method=='bea': flat/CBO now zero-fill the per-type
+    # columns for schema stability, but scaling by zero shares would null out
+    # rate_232 on every derivative. Only BEA produces meaningful per-type values.
+    metal_method <- if (!is.null(metal_cfg)) metal_cfg$method %||% 'flat' else 'flat'
+    has_per_type <- identical(metal_method, 'bea') &&
+      all(c('steel_share', 'aluminum_share') %in% names(rates))
 
     # Exclude primary chapter products (72/73/76) and heading products from
     # derivative metal scaling. Primary chapters get blanket 232 rates (full product);
@@ -430,7 +454,58 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
             ' product-country pairs')
   }
 
-  return(list(rates = rates, deriv_matched = deriv_matched))
+  # ---- Phase 2 normalized emit: capture ALL non-scaled derivative products ----
+  #
+  # The denorm logic at lines 395-450 above computes:
+  #   deriv_only = setdiff(deriv_matched, c(heading_products, primary_hts10))
+  # Only `deriv_only` gets metal-scaled. Products in heading_products OR
+  # primary_hts10 that also match derivative prefixes get:
+  #   rate_232 = pmax(blanket/heading rate, derivative full rate)
+  # with NO scaling and metal_share reset to 1.0.
+  #
+  # The normalized emitter needs one override row per such product so the
+  # resolver never applies metal scaling to them. The full non-scaled set
+  # is `setdiff(deriv_matched, deriv_only)` = the complement of
+  # deriv_only within deriv_matched. We capture the already-computed
+  # per-hts10 rate_232 directly from the post-step-5 rates tibble (the
+  # pmax value) rather than re-deriving it, so any future change to the
+  # denorm formula propagates automatically.
+  #
+  # This covers TWO populations that the first version missed:
+  #   (a) heading_derivs = intersect(deriv_matched, heading_products)
+  #       — auto parts, copper, wood, MHD products that also match derivatives
+  #   (b) primary_derivs = intersect(deriv_matched, primary_hts10)
+  #       — ch72/73 steel and ch76 aluminum products that also match derivatives
+  # Both get the same treatment: precedence-7 override, scaling=none.
+  non_scaled_derivs <- character(0)
+  if (exists('deriv_only', inherits = FALSE) && length(deriv_matched) > 0) {
+    non_scaled_derivs <- setdiff(deriv_matched, deriv_only)
+  } else if (exists('heading_derivs', inherits = FALSE)) {
+    non_scaled_derivs <- heading_derivs  # fallback if deriv_only doesn't exist
+  }
+  heading_overlap <- tibble(hts10 = character(0),
+                             rate_232 = numeric(0),
+                             deriv_type = character(0))
+  if (length(non_scaled_derivs) > 0) {
+    # Use MEDIAN(rate_232) instead of max. The pmax(blanket, deriv)
+    # value is the same for the vast majority of countries, but outlier
+    # countries (Belarus/Russia with sanctions-elevated 200% 232) skew
+    # max() far above the typical blanket. Median is robust to these
+    # outliers and correctly returns the blanket-pmax value (e.g. 0.5
+    # for aluminum, 0.25 for auto heading) that the override row
+    # should carry.
+    heading_overlap <- rates %>%
+      filter(hts10 %in% non_scaled_derivs, rate_232 > 0) %>%
+      group_by(hts10) %>%
+      summarise(
+        rate_232   = median(rate_232, na.rm = TRUE),
+        deriv_type = first(na.omit(deriv_type)),
+        .groups    = 'drop'
+      )
+  }
+
+  return(list(rates = rates, deriv_matched = deriv_matched,
+              heading_overlap = heading_overlap))
 }
 
 
@@ -676,6 +751,14 @@ calculate_rates_for_revision <- function(
                   '%) to ', length(unlisted_countries), ' unlisted countries')
         }
       }
+
+      # ---- Capture for Phase 2 normalized emit ----
+      # The post-baseline country_ieepa tibble is the SINGLE source of truth
+      # for IEEPA reciprocal at the (country) level. The emitter consumes
+      # this directly so its output matches denorm exactly — no parallel
+      # re-implementation of the aggregation, floor override, or baseline
+      # logic. See src/07_emit_normalized.R::emit_authority_country_rates.
+      denorm_state_country_ieepa <- country_ieepa
 
       # Apply IEEPA reciprocal to ALL products for applicable countries
       # EXCEPT products on the exemption list (Annex A / US Note 2)
@@ -1287,6 +1370,13 @@ calculate_rates_for_revision <- function(
     as.character(census)
   }
 
+  # Captured for Phase 2 normalized emit. Each entry is a (program,
+  # census_codes, deal_products, rate, rate_type) tuple — the same shape
+  # the inline deal-application loop consumes. The emitter walks this
+  # same list so layer-3 deal rows match denorm's coverage exactly with
+  # no risk of drift in the product/country expansion logic.
+  denorm_state_s232_deals <- list()
+
   # Apply auto deal rates
   if (nrow(s232_rates$auto_deal_rates) > 0 && length(auto_products) > 0) {
     for (i in seq_len(nrow(s232_rates$auto_deal_rates))) {
@@ -1314,6 +1404,16 @@ calculate_rates_for_revision <- function(
         } else {
           auto_products
         }
+      }
+
+      if (length(deal_products) > 0) {
+        denorm_state_s232_deals[[length(denorm_state_s232_deals) + 1L]] <- list(
+          program       = deal$program,
+          census_codes  = census_codes,
+          deal_products = deal_products,
+          rate          = deal$rate,
+          rate_type     = deal$rate_type
+        )
       }
 
       if (deal$rate_type == 'floor') {
@@ -1366,6 +1466,15 @@ calculate_rates_for_revision <- function(
       deal <- s232_rates$wood_deal_rates[i, ]
       census_codes <- iso_to_census_vec(deal$country)
       if (length(census_codes) == 0) next
+
+      # Capture for emit (same shape as auto deals).
+      denorm_state_s232_deals[[length(denorm_state_s232_deals) + 1L]] <- list(
+        program       = deal$program %||% 'wood_deal',
+        census_codes  = census_codes,
+        deal_products = all_wood_products,
+        rate          = deal$rate,
+        rate_type     = deal$rate_type
+      )
 
       # Wood deals apply to all wood products (softwood + furniture/cabinets)
       if (deal$rate_type == 'floor') {
@@ -1457,6 +1566,14 @@ calculate_rates_for_revision <- function(
                                    effective_date = effective_date)
   rates <- result$rates
   deriv_matched <- result$deriv_matched
+  # Captured for Phase 2 normalized emit. See apply_232_derivatives() for
+  # the semantics: one row per hts10 in the heading/derivative overlap,
+  # carrying the post-pmax rate and the assigned deriv_type. The emitter
+  # writes these as per-hts10 layer-3 override rows so the resolver
+  # stops applying metal scaling to heading-overlap products.
+  denorm_state_heading_overlap <- result$heading_overlap %||% tibble(
+    hts10 = character(0), rate_232 = numeric(0), deriv_type = character(0)
+  )
 
   # 5b. Scale copper heading products by copper content share.
   #     The copper proclamation applies the tariff "upon the value of the copper
@@ -1488,29 +1605,76 @@ calculate_rates_for_revision <- function(
   #     Date-gated: only applies to revisions on/after the annex effective date.
   #     Overrides single-rate 232 with per-annex rates after the old pipeline has
   #     finished assigning rates. Annex classification comes from the static
-  #     resource file (resources/s232_annex_products.csv); when that file is empty
-  #     (pending HTS JSON), this step is a no-op.
+  #     resource file (resources/s232_annex_products.csv). Annex-era revisions
+  #     fail closed if the mapping is missing or empty — silently running past
+  #     an empty annex map would silently zero out post-annex 232 coverage.
   annex_cfg <- if (!is.null(pp)) pp$S232_ANNEXES else NULL
   if (!is.null(annex_cfg) && as.Date(effective_date) >= annex_cfg$effective_date) {
-    annex_map <- load_annex_products(effective_date,
-                   here('resources', annex_cfg$resource_file %||% 's232_annex_products.csv'))
+    # Resolve annex resource path. policy_params.yaml stores resource_file with
+    # a 'resources/' prefix already, so do NOT wrap it in here('resources', ...)
+    # again — that produces a double path (resources/resources/...). Accept both
+    # absolute paths and repo-relative paths.
+    annex_resource_file <- annex_cfg$resource_file %||% file.path('resources', 's232_annex_products.csv')
+    annex_resource_path <- if (grepl('^([A-Za-z]:|/|\\\\\\\\)', annex_resource_file)) {
+      annex_resource_file
+    } else {
+      here::here(annex_resource_file)
+    }
+    annex_map <- load_annex_products(effective_date, annex_resource_path)
+
+    if (nrow(annex_map) == 0) {
+      stop(
+        'Section 232 annex mapping is empty for annex-era revision ', revision_id,
+        ' (effective ', effective_date, '). Expected non-empty mapping at ',
+        annex_resource_path
+      )
+    }
+
+    message('  Annex products loaded: ', nrow(annex_map), ' from ', annex_resource_path)
 
     if (nrow(annex_map) > 0) {
-      # Prefix-match annex classification to HTS10 codes
+      # Prefix-match annex classification to HTS10 codes.
+      # Sort longest-first so specific prefixes (e.g., 85030045 → annex_2) take
+      # priority over shorter catchalls (e.g., 850300 → annex_1b). Without this,
+      # the resource file's row order silently determines which annex wins, and
+      # exempt products can end up misclassified with the higher floor rate.
       annex_pattern_map <- annex_map %>%
-        mutate(pattern = paste0('^', hts_prefix))
+        mutate(pattern = paste0('^', hts_prefix)) %>%
+        arrange(desc(nchar(hts_prefix)))
       rates$s232_annex <- NA_character_
       for (i in seq_len(nrow(annex_pattern_map))) {
         mask <- grepl(annex_pattern_map$pattern[i], rates$hts10)
         rates$s232_annex[mask & is.na(rates$s232_annex)] <- annex_pattern_map$s232_annex[i]
       }
 
-      # Infer annex for primary chapter products not in resource file
+      # Infer annex for products not matched by the prefix CSV.
+      #
+      # Primary chapters (72/73/76/74) → annex_1a UNCONDITIONALLY: the
+      # proclamation covers all base metal products regardless of whether the
+      # old Ch99 entries (9903.80/81) still assign rate_232. Many of those
+      # entries were removed in the annex HTS revision, so gating on rate_232>0
+      # would silently drop primary-chapter 232 coverage post-annex.
+      #
+      # Unmatched derivatives → annex_1b: if a product is in
+      # s232_derivative_products but not in the annex CSV prefix list, it
+      # belongs in the downstream-derivative tier (annex_1b) rather than
+      # receiving no annex classification at all.
+      annex_1a_chapters <- annex_cfg$annexes$annex_1a$chapters %||% c('72', '73', '76', '74')
+      deriv_prefixes <- tryCatch(
+        load_232_derivative_products(effective_date = effective_date)$hts_prefix,
+        error = function(e) character(0)
+      )
+      # '^$' is an inert fallback — matches nothing — so the case_when branch
+      # is a no-op when the derivative products list is unavailable.
+      deriv_pattern <- if (length(deriv_prefixes) > 0) {
+        paste0('^(', paste(deriv_prefixes, collapse = '|'), ')')
+      } else '^$'
+
       rates <- rates %>%
         mutate(s232_annex = case_when(
           !is.na(s232_annex) ~ s232_annex,
-          rate_232 > 0 & substr(hts10, 1, 2) %in%
-            (annex_cfg$annexes$annex_1a$chapters %||% c('72', '73', '76', '74')) ~ 'annex_1a',
+          substr(hts10, 1, 2) %in% annex_1a_chapters ~ 'annex_1a',
+          grepl(deriv_pattern, hts10) ~ 'annex_1b',
           TRUE ~ s232_annex
         ))
 
@@ -1564,6 +1728,36 @@ calculate_rates_for_revision <- function(
   } else {
     rates$s232_annex <- NA_character_
   }
+
+  # Captured for Phase 2 normalized emit. Annex classification is
+  # per-hts10 (country-invariant — classification comes from hts8
+  # prefix + downstream deriv-list fallback). Expose a distinct
+  # (hts10, s232_annex) tibble so the emitter can attach the column
+  # to products_base and the resolver sees the same value in its
+  # wide tibble, letting apply_stacking_rules honor the post-annex
+  # nonmetal_share=0 override uniformly across both code paths.
+  # Capture BOTH the annex classification AND the post-annex rate_232.
+  # Products with a non-NA s232_annex had their rate_232 overridden by
+  # the annex block above (e.g., annex_1a → 0.25, annex_1b → 0.25,
+  # annex_2 → 0, annex_3 → floor). The emitter needs the overridden
+  # rate to emit layer-3 override rows — without this, the layer-3
+  # derivative or blanket statutory_rate (set before the annex step)
+  # would be used, giving the wrong rate for annex-era revisions.
+  # We take max(rate_232) across countries so the non-exempt pmax value
+  # wins (same approach as heading_overlap).
+  # Use median(rate_232) for the same reason as heading_overlap — outlier
+  # countries (Belarus/Russia sanctions) skew max() far above the typical
+  # annex-overridden rate. Median returns the rate that >90% of countries
+  # receive, which is the correct value for the layer-3 override row.
+  denorm_state_product_annex <- rates %>%
+    filter(rate_232 > 0 | !is.na(s232_annex)) %>%
+    group_by(hts10) %>%
+    summarise(
+      s232_annex      = first(na.omit(s232_annex)),
+      annex_rate_232  = median(rate_232, na.rm = TRUE),
+      .groups = 'drop'
+    ) %>%
+    mutate(annex_rate_232 = if_else(is.na(s232_annex), NA_real_, annex_rate_232))
 
   # 6. Apply Section 301 as blanket tariff for China
   #     301 products are defined by US Note 20/21/31 product lists (Federal Register).
@@ -1706,6 +1900,19 @@ calculate_rates_for_revision <- function(
     message('  Section 122 expired (', pp$SECTION_122$expiry_date, ') — not applied')
   }
 
+  # Captured for Phase 2 normalized emit. The s122 in_force flag, the
+  # rate, and the exempt HTS8 list are the only inputs the emitter needs
+  # to reconstruct layer 2 (per-country rate) + layer 3 (blanket) +
+  # layer 4 (HTS8 exemptions) for section_122. Sourced from the same
+  # extracted s122_rates and resources/s122_exempt_products.csv that
+  # this block consumes — guaranteeing parity with the denorm rate path
+  # without re-implementing the in_force gate or the exemption load.
+  denorm_state_s122 <- list(
+    in_force    = s122_rates$has_s122 && s122_in_force,
+    rate        = if (s122_rates$has_s122) s122_rates$s122_rate else 0,
+    exempt_hts8 = character(0)
+  )
+
   if (s122_rates$has_s122 && s122_in_force) {
     s122_rate <- s122_rates$s122_rate
 
@@ -1717,6 +1924,7 @@ calculate_rates_for_revision <- function(
       message('  WARNING: s122_exempt_products.csv not found — no exemptions applied')
       character(0)
     }
+    denorm_state_s122$exempt_hts8 <- s122_exempt_hts8
     if (length(s122_exempt_hts8) > 0) {
       message('  Section 122 exempt products: ', length(s122_exempt_hts8), ' HTS8 codes')
     }
@@ -1918,6 +2126,13 @@ calculate_rates_for_revision <- function(
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)
 
+  # 8b. Resolve specific 8-digit Chapter 99 codes per authority per row.
+  #     This replaces the static per-authority range labels ("9903.80-85, 9903.94")
+  #     previously hardcoded in the frontend with actual codes driving each rate.
+  rates <- resolve_ch99_codes(rates, ch99_data,
+                              ieepa_rates = ieepa_rates,
+                              fentanyl_rates = fentanyl_rates)
+
   # 9a. Add revision metadata
   rates <- rates %>%
     mutate(
@@ -1953,8 +2168,166 @@ calculate_rates_for_revision <- function(
   })
   rates$special_programs <- NULL  # Drop list-column before schema enforcement
 
+  # 9c. Fill the full (product × country) grid.
+  #
+  # The pipeline only materializes (hts10, country) pairs where at least
+  # one authority produces a nonzero duty. Countries that attract no
+  # additional duty for a given product are absent — the data model
+  # conflates "no information" with "no duty." This step fills every
+  # missing pair with a base-MFN-only row: all rate_* = 0, base_rate
+  # from the product, total_rate = base_rate. The result is a complete
+  # grid where every (product, country) has a row and any query against
+  # the denormalized parquet returns data — no server-side synthesis
+  # heuristics required.
+  #
+  # Approximately 16% of the grid (~776k pairs per revision) is typically
+  # missing. The added rows are overwhelmingly zeros, which parquet's
+  # dictionary + RLE encoding compresses to near-zero on-disk cost.
+  existing_pairs <- rates %>%
+    distinct(hts10, country)
+
+  all_pairs <- tidyr::expand_grid(
+    hts10   = unique(products$hts10),
+    country = countries
+  )
+
+  missing_pairs <- anti_join(all_pairs, existing_pairs, by = c('hts10', 'country'))
+
+  if (nrow(missing_pairs) > 0) {
+    # Build base-MFN-only rows. Product metadata (base_rate, rate_special,
+    # rate_column2, rate_basis, etc.) comes from the products tibble via
+    # the same product_tier_cols join used in step 9b. All authority rates
+    # are zero. total_rate = base_rate after stacking (trivial: no
+    # authorities to stack).
+    # Look up product base rates once (products doesn't have statutory_base_rate,
+    # so we create it as a copy of base_rate).
+    product_base <- products %>%
+      transmute(hts10, product_base_rate = base_rate)
+
+    fill_rows <- missing_pairs %>%
+      left_join(product_base, by = 'hts10') %>%
+      mutate(
+        base_rate = coalesce(product_base_rate, 0),
+        statutory_base_rate = base_rate,
+        rate_232 = 0, rate_301 = 0, rate_ieepa_recip = 0,
+        rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
+        metal_share = 1.0, total_additional = 0,
+        total_rate = base_rate,
+        usmca_eligible = FALSE,
+        revision = revision_id, effective_date = as.Date(effective_date)
+      ) %>%
+      select(-product_base_rate) %>%
+      # Join product tier columns (rate_special, rate_column2, etc.)
+      left_join(product_tier_cols, by = 'hts10')
+
+    # Serialize special_programs for the fill rows (same as step 9b)
+    if ('special_programs' %in% names(fill_rows)) {
+      fill_rows$special_programs_json <- vapply(fill_rows$special_programs, function(sp) {
+        if (is.null(sp) || length(sp) == 0) return(NA_character_)
+        sp_clean <- lapply(sp, function(entry) {
+          list(rate = entry$rate, rate_raw = entry$rate_raw,
+               programs = entry$programs, entry_type = entry$entry_type)
+        })
+        jsonlite::toJSON(sp_clean, auto_unbox = TRUE)
+      }, character(1))
+      fill_rows$special_programs <- NULL
+    } else {
+      fill_rows$special_programs_json <- NA_character_
+    }
+
+    rates <- bind_rows(rates, fill_rows)
+    message('  Full grid: added ', nrow(fill_rows), ' base-MFN-only rows (',
+            nrow(rates), ' total)')
+  }
+
   # 9c. Enforce canonical schema
   rates <- enforce_rate_schema(rates)
+
+  # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside
+  #     the denormalized rates tibble. Additive only; nothing reads these
+  #     yet. Controlled by env var SAIL_EMIT_NORMALIZED (default: on) so
+  #     CI/one-off regens can opt out via SAIL_EMIT_NORMALIZED=0.
+  if (!identical(Sys.getenv('SAIL_EMIT_NORMALIZED', '1'), '0')) {
+    tryCatch({
+      .source_emit_normalized()
+      # Source the denorm_state contract validator (lazy, idempotent).
+      # See docs/adrs/001-denorm-state-pattern.md for why this is a
+      # postcondition: missing slots silently drop a normalized layer,
+      # so we fail loudly right before emit.
+      contract_src <- here('src', 'denorm_state_contract.R')
+      if (!exists('validate_denorm_state', mode = 'function') &&
+          file.exists(contract_src)) {
+        source(contract_src, local = FALSE)
+      }
+      if (exists('emit_normalized_revision', mode = 'function')) {
+        # Bundle every intermediate the denorm pipeline already computed
+        # so the emitter can serialize the answer instead of re-deriving
+        # it. This is the load-bearing interface that prevents drift —
+        # any future change to the rate-construction logic flows through
+        # the variables captured here without touching the emitter.
+        denorm_state <- list(
+          country_ieepa = if (exists('denorm_state_country_ieepa', inherits = FALSE))
+                            denorm_state_country_ieepa else NULL,
+          s232_deals    = if (exists('denorm_state_s232_deals', inherits = FALSE))
+                            denorm_state_s232_deals else list(),
+          auto_products = if (exists('auto_products', inherits = FALSE))
+                            auto_products else character(0),
+          mhd_products  = if (exists('mhd_products', inherits = FALSE))
+                            mhd_products else character(0),
+          wood_softwood_products = if (exists('wood_softwood_products', inherits = FALSE))
+                                     wood_softwood_products else character(0),
+          wood_furn_products     = if (exists('wood_furn_products', inherits = FALSE))
+                                     wood_furn_products else character(0),
+          s122          = if (exists('denorm_state_s122', inherits = FALSE))
+                            denorm_state_s122 else NULL,
+          heading_overlap = if (exists('denorm_state_heading_overlap', inherits = FALSE))
+                              denorm_state_heading_overlap else NULL,
+          product_annex   = if (exists('denorm_state_product_annex', inherits = FALSE))
+                              denorm_state_product_annex else NULL
+        )
+
+        # Postcondition — runs inside the tryCatch so validator errors
+        # surface as "[phase2 emit_normalized_revision skipped: ...]"
+        # rather than killing the main pipeline. `strict = FALSE` during
+        # Phase 2 bring-up so the emitter still writes layers for
+        # partially-populated states; Phase 4a flips this to TRUE once
+        # the contract is fully specified and the pipeline guarantees
+        # every slot.
+        if (exists('validate_denorm_state', mode = 'function')) {
+          validate_denorm_state(denorm_state,
+                                 revision_id = revision_id,
+                                 strict = FALSE)
+        }
+
+        emit_normalized_revision(
+          products              = products,
+          ch99_data             = ch99_data,
+          ieepa_rates           = ieepa_rates,
+          fentanyl_rates        = fentanyl_rates,
+          s232_rates            = s232_rates,
+          heading_product_lists = if (exists('heading_product_lists', inherits = FALSE))
+                                    heading_product_lists else list(),
+          deriv_matched         = if (exists('deriv_matched', inherits = FALSE))
+                                    deriv_matched else character(0),
+          ieepa_exempt_products = if (exists('ieepa_exempt_products', inherits = FALSE))
+                                    ieepa_exempt_products else character(0),
+          floor_exempt_products = if (exists('floor_exempt_products', inherits = FALSE))
+                                    floor_exempt_products else NULL,
+          usmca_product_shares  = if (exists('usmca_product_shares', inherits = FALSE))
+                                    usmca_product_shares else NULL,
+          countries             = countries,
+          pp                    = pp,
+          revision_id           = revision_id,
+          effective_date        = effective_date,
+          denorm_state          = denorm_state
+        )
+      }
+    }, error = function(e) {
+      # Dual-write is best-effort during Phase 2 bring-up. Log and continue —
+      # do not let an emitter bug kill the main pipeline.
+      message('  [phase2 emit_normalized_revision skipped: ', conditionMessage(e), ']')
+    })
+  }
 
   # Summary
   n_with_ieepa <- sum(rates$rate_ieepa_recip > 0)

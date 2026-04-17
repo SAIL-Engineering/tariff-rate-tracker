@@ -6,6 +6,7 @@ import type { ProductRate, AuthorityKey, SpecialProgramEntry } from '@/types/tar
 import { AUTHORITIES, AUTHORITY_MAP, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP, hasStatutoryDelta, parseSpecialPrograms } from '@/types/tariff';
 import { formatRate, formatRateShort, formatHtsCode, formatDate } from '@/utils/formatters';
 import { computeNonmetalShare, computeNetAuthorityAmounts, CLASSIFICATION_COMPOSITION_CHAPTERS } from '@/utils/tariffCalculator';
+import { resolveCh99Code } from '@/utils/chapter99';
 import {
   Layers, Shield, Info, ChevronDown, ChevronUp, ShieldCheck,
   AlertTriangle, Scale, FileText, Beaker,
@@ -256,6 +257,9 @@ export function DutyStackBreakdown({ rate, countryName, label }: DutyStackBreakd
         {/* Total Effective Bar */}
         <TotalEffectiveBar rate={rate} />
 
+        {/* HTS Rate Tiers: Column 1 General / Column 1 Special / Column 2 */}
+        <RateTiersCard rate={rate} />
+
         {/* MFN Base Rate */}
         <div className="rounded-xl border border-blue-200/60 p-3 bg-blue-50/20">
           <div className="flex items-center justify-between">
@@ -277,9 +281,6 @@ export function DutyStackBreakdown({ rate, countryName, label }: DutyStackBreakd
           </div>
         </div>
 
-        {/* Rate Tiers: Column 1 General / Column 1 Special / Column 2 */}
-        <RateTiersCard rate={rate} />
-
         {/* Active punitive rates */}
         {activeAuthorities.length > 0 && (
           <div className="space-y-2">
@@ -299,7 +300,7 @@ export function DutyStackBreakdown({ rate, countryName, label }: DutyStackBreakd
                   rate={rate[a.key]}
                   statutoryRate={Math.abs(statutoryVal - rate[a.key]) > 0.00001 ? statutoryVal : undefined}
                   label={a.label}
-                  ch99Prefix={a.ch99Prefix}
+                  ch99Prefix={resolveCh99Code(rate, a)}
                   color={a.color}
                   bgClass={a.bgClass}
                   textClass={a.textClass}

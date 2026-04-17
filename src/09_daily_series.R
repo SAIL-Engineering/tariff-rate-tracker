@@ -796,7 +796,7 @@ build_alternative_timeseries <- function(pp_override, variant_name, imports = NU
     tryCatch({
       json_path <- resolve_json_path(rev_id, archive_dir)
       hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
-      ch99_data <- parse_chapter99(json_path)
+      ch99_data <- parse_chapter99(json_path, revision_id = rev_id)
       products <- parse_products(json_path)
       ieepa_rates <- extract_ieepa_rates(hts_raw, country_lookup)
       fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup)

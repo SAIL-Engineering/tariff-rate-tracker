@@ -8,12 +8,13 @@ import { OverallDashboard } from './OverallDashboard';
 import { CountryComparisonTable } from './CountryComparisonTable';
 import { MultiCountryComparison } from './MultiCountryComparison';
 import { ProductExplorer } from './ProductExplorer';
+import { BulkDutyWorkflow } from './bulk/BulkDutyWorkflow';
 import type { Country, ProductRate } from '@/types/tariff';
 import { useTariffData, useProductSearch, useCountryLookup, useRateLookup } from '@/hooks/useTariffData';
 import { findRateForDate } from '@/utils/tariffCalculator';
 import { Loader2, AlertCircle, Search } from 'lucide-react';
 
-type Tab = 'lookup' | 'dashboard' | 'countries' | 'compare';
+type Tab = 'lookup' | 'dashboard' | 'countries' | 'compare' | 'bulk';
 
 const neuInset = 'inset 1px 1px 4px rgba(0,0,0,0.05), inset -1px -1px 4px rgba(255,255,255,0.85)';
 
@@ -114,6 +115,7 @@ export function DutyLookupModule() {
           ['lookup', 'Rate Lookup'],
           ['compare', 'Multi-Country Compare'],
           ['countries', 'Country Rankings'],
+          ['bulk', 'Bulk Duty Analysis'],
         ] as [Tab, string][]).map(([tab, label]) => (
           <button key={tab} type="button" onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ease-spring ${
@@ -126,7 +128,8 @@ export function DutyLookupModule() {
         ))}
       </div>
 
-      {/* Query panel */}
+      {/* Query panel — hidden on the bulk analysis tab (which has its own inputs) */}
+      {activeTab !== 'bulk' && (
       <QueryPanel
         countries={data.countries}
         htsCode={htsCode}
@@ -139,6 +142,7 @@ export function DutyLookupModule() {
         isLoading={rateLookup.loading}
         sampleProducts={sampleProducts}
       />
+      )}
 
       {lookupError && (
         <div className="flex items-start gap-2.5 px-4 py-3 rounded-xl bg-amber-50/80 border border-amber-200/60 text-xs text-amber-800 animate-fade-in-down">
@@ -210,6 +214,7 @@ export function DutyLookupModule() {
                 htsCode={htsCode}
                 countries={data.countries}
                 selectedCountry={selectedCountry}
+                initialMatch={rateLookup.match}
               />
             </>
           )}
@@ -223,6 +228,11 @@ export function DutyLookupModule() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Bulk Duty Analysis tab */}
+      {activeTab === 'bulk' && (
+        <BulkDutyWorkflow countries={data.countries} />
       )}
 
       {/* Countries tab */}

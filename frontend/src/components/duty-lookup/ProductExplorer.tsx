@@ -11,6 +11,7 @@ import type { Country, ProductRate } from '@/types/tariff';
 import { AUTHORITIES, MFN_COLOR, STATUTORY_KEY_MAP, hasStatutoryDelta } from '@/types/tariff';
 import { formatRate, formatRateShort, formatDate, formatHtsCode } from '@/utils/formatters';
 import { fetchRatesArrow } from '@/hooks/useTariffData';
+import { resolveCh99Code } from '@/utils/chapter99';
 import {
   Search, Hash, X, Loader2, Package, Globe, ShieldCheck, ChevronRight, History,
 } from 'lucide-react';
@@ -233,7 +234,7 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
     const allDates = new Set<string>();
     for (const d of countryData) for (const r of d.rates) allDates.add(r.effective_date);
     return Array.from(allDates).sort().map(date => {
-      const row: Record<string, number | string> = { date, label: formatDate(date) };
+      const row: Record<string, number | string | null | undefined> = { date, label: formatDate(date) };
       for (const d of countryData) {
         const rate = d.rates.find(r => r.valid_from <= date && r.valid_until >= date);
         if (rate) {
@@ -242,6 +243,7 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
             row[`${d.country.code}_${a.key}`] = rate[a.key];
             const sk = STATUTORY_KEY_MAP[a.key];
             row[`${d.country.code}_${sk}`] = rate[sk] ?? 0;
+            row[`${d.country.code}_${a.key}_ch99`] = resolveCh99Code(rate, a) ?? null;
           }
           row[`${d.country.code}_base`] = rate.base_rate;
           row[`${d.country.code}_statutory_base`] = rate.statutory_base_rate;
@@ -478,9 +480,12 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                                                   <div className="flex items-center gap-1.5">
                                                     <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: a.color }} />
                                                     <span className="text-gray-600">{a.shortLabel}</span>
-                                                    {a.ch99Prefix && (
-                                                      <span className="font-mono text-[9px] text-[#353CED]/60 bg-[#353CED]/5 rounded px-1 py-px">{a.ch99Prefix}</span>
-                                                    )}
+                                                    {(() => {
+                                                      const code = (d[`${cc}_${a.key}_ch99`] as string | null | undefined) ?? a.ch99Prefix;
+                                                      return code ? (
+                                                        <span className="font-mono text-[9px] text-[#353CED]/60 bg-[#353CED]/5 rounded px-1 py-px">{code}</span>
+                                                      ) : null;
+                                                    })()}
                                                   </div>
                                                   <span className="font-mono text-gray-700">{formatRateShort(effectiveVal)}</span>
                                                 </div>

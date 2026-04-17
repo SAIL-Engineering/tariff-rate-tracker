@@ -6,6 +6,7 @@ import { DatePickerNeu } from './DatePickerNeu';
 import { CountryAutocomplete } from './CountryAutocomplete';
 import { ShipmentImportDialog } from './ShipmentImportDialog';
 import type { Country, ProductRate, ShipmentRow, RateBasis, CompositionOverrides, AuthorityTrigger } from '@/types/tariff';
+import type { RateMatchKind } from '@/hooks/useTariffData';
 import {
   calculateLandedCost, findRateForDate, MPF_RATE, MPF_MIN, MPF_MAX, HMF_RATE,
   exportShipmentsCSV, detectAuthorityTriggers,
@@ -25,6 +26,8 @@ interface DutyCalculatorPanelProps {
   htsCode: string;
   countries: Country[];
   selectedCountry: Country | null;
+  /** Match kind for the initial (default-country) lookup, from useRateLookup. */
+  initialMatch?: RateMatchKind;
 }
 
 type TransportMode = 'ocean' | 'air' | 'land';
@@ -36,7 +39,7 @@ const TRANSPORT_LABELS: Record<TransportMode, { label: string; icon: React.Eleme
 };
 
 export function DutyCalculatorPanel({
-  rates, currentRate, countryName, htsCode, countries, selectedCountry,
+  rates, currentRate, countryName, htsCode, countries, selectedCountry, initialMatch,
 }: DutyCalculatorPanelProps) {
   const defaultCountryCode = selectedCountry?.code ?? '';
 
@@ -49,6 +52,9 @@ export function DutyCalculatorPanel({
 
   // Per-country rate cache: countryCode → ProductRate[]
   const [rateCache, setRateCache] = useState<Map<string, ProductRate[]>>(new Map());
+  // Per-country match kind from the API. Mirrors the /api/rates `match` field
+  // so the UI can label base-MFN-synthesized rows as such.
+  const [matchCache, setMatchCache] = useState<Map<string, RateMatchKind>>(new Map());
   const fetchingRef = useRef(new Set<string>());
 
   // Seed the cache with the initial lookup's rates
@@ -59,8 +65,13 @@ export function DutyCalculatorPanel({
         next.set(defaultCountryCode, rates);
         return next;
       });
+      setMatchCache(prev => {
+        const next = new Map(prev);
+        next.set(defaultCountryCode, initialMatch ?? 'exact');
+        return next;
+      });
     }
-  }, [defaultCountryCode, rates]);
+  }, [defaultCountryCode, rates, initialMatch]);
 
   // When selectedCountry changes, update new rows' default
   const latestDefaultRef = useRef(defaultCountryCode);
@@ -84,9 +95,15 @@ export function DutyCalculatorPanel({
       const data = (json.data as ProductRate[]).sort(
         (a: ProductRate, b: ProductRate) => a.effective_date.localeCompare(b.effective_date)
       );
+      const matchKind: RateMatchKind = (json.match as RateMatchKind | undefined) ?? 'exact';
       setRateCache(prev => {
         const next = new Map(prev);
         next.set(countryCode, data);
+        return next;
+      });
+      setMatchCache(prev => {
+        const next = new Map(prev);
+        next.set(countryCode, matchKind);
         return next;
       });
     } catch {
@@ -154,11 +171,19 @@ export function DutyCalculatorPanel({
       const countryRates = rateCache.get(cc) ?? (cc === defaultCountryCode ? rates : []);
       const dateStr = row.date.toISOString().slice(0, 10);
       const applicableRate = findRateForDate(countryRates, dateStr) ?? (cc === defaultCountryCode ? currentRate : null);
-      if (!applicableRate) return { row, result: null, rate: null, countryCode: cc };
+      // The per-row __synthesized flag is authoritative. The country-level
+      // match kind from matchCache can say 'base_mfn_synthesized' when the
+      // response was augmented with fillers for OTHER revisions, so relying
+      // on it would mislabel real rows. Honor per-row only.
+      const matchKind: RateMatchKind = applicableRate?.__synthesized === true
+        ? 'base_mfn_synthesized'
+        : 'exact';
+      if (!applicableRate) return { row, result: null, rate: null, countryCode: cc, matchKind };
       return {
         row,
         rate: applicableRate,
         countryCode: cc,
+        matchKind,
         result: calculateLandedCost(applicableRate, row.customsValue, {
           includeHMF: transportMode === 'ocean',
           freight: row.freight ?? 0,
@@ -169,7 +194,7 @@ export function DutyCalculatorPanel({
         }),
       };
     });
-  }, [rows, rateCache, rates, currentRate, transportMode, defaultCountryCode]);
+  }, [rows, rateCache, rates, currentRate, transportMode, defaultCountryCode, matchCache]);
 
   const sortedIndices = useMemo(() => {
     return rows.map((_, i) => i).sort((a, b) => rows[b].date.getTime() - rows[a].date.getTime());
@@ -435,8 +460,9 @@ export function DutyCalculatorPanel({
                 </thead>
                 <tbody>
                   {sortedIndices.map(i => {
-                    const { row, result: r, rate, countryCode: cc } = results[i];
+                    const { row, result: r, rate, countryCode: cc, matchKind } = results[i];
                     const rowCountryObj = cc ? countryMap.get(cc) : null;
+                    const isSynth = matchKind === 'base_mfn_synthesized';
                     if (!r || !rate) {
                       // Show row even when rate is unavailable
                       return (
@@ -464,7 +490,14 @@ export function DutyCalculatorPanel({
                           <td className="px-3 py-2 font-mono text-gray-700">{formatCurrency(r.customsValue)}</td>
                           <td className="px-3 py-2 text-xs text-gray-500">{rowCountryObj?.name ?? cc}</td>
                           <td className="px-3 py-2 text-gray-600">{formatDate(row.date.toISOString().slice(0, 10))}</td>
-                          <td className="px-3 py-2 text-right font-mono text-red-600">{formatCurrency(r.totalDuty)}</td>
+                          <td className="px-3 py-2 text-right font-mono text-red-600">
+                            {formatCurrency(r.totalDuty)}
+                            {isSynth && (
+                              <div className="text-[9px] text-sky-600 italic font-sans font-normal mt-0.5 whitespace-nowrap">
+                                MFN only — no Ch. 99 duties
+                              </div>
+                            )}
+                          </td>
                           <td className="px-3 py-2 text-right font-mono text-amber-600">{formatCurrency(r.totalFees)}</td>
                           <td className="px-3 py-2 text-right font-mono font-medium text-gray-900">{formatCurrency(r.landedCost)}</td>
                         </tr>

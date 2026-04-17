@@ -1298,6 +1298,8 @@ RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_other',
+  'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
+  'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
   'metal_share',
   'total_additional', 'total_rate',
   'usmca_eligible',
@@ -1324,6 +1326,9 @@ enforce_rate_schema <- function(df) {
     hts10 = NA_character_, country = NA_character_,
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
+    ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
+    ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
+    ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
     metal_share = 1.0,
     total_additional = 0, total_rate = 0,
     usmca_eligible = FALSE,
@@ -1380,15 +1385,19 @@ enforce_rate_schema <- function(df) {
 #'
 #' Key rules:
 #'   - 232 and IEEPA reciprocal are mutually exclusive (232 takes precedence)
-#'   - For derivative 232 products (metal_share < 1.0), IEEPA reciprocal applies
-#'     to the non-metal portion of customs value
+#'   - Pre-annex: for derivative 232 products (metal_share < 1.0), IEEPA reciprocal
+#'     applies to the non-metal portion of customs value
+#'   - Post-annex (>= S232_ANNEXES$effective_date, 2026-04-06): the April 2026
+#'     proclamation applies 232 to the full customs value. nonmetal_share is
+#'     forced to 0 for annex-classified products (s232_annex != NA & rate_232 > 0),
+#'     so IEEPA/S122/fentanyl contribute zero on post-annex 232 products.
 #'   - Fentanyl stacks on 232 for all countries (separate IEEPA authority)
 #'   - Section 301 only applies to China
 #'   - Section 122 is scaled by nonmetal_share on 232 products (same treatment as
-#'     IEEPA reciprocal). For pure-metal products (metal_share = 1.0), nonmetal_share = 0,
-#'     so s122 contributes zero — Section 232 already covers these at higher rates.
-#'     For derivative 232 products (metal_share < 1.0), s122 applies to the non-metal
-#'     portion. For non-232 products, s122 stacks at full value.
+#'     IEEPA reciprocal). Pre-annex: pure-metal products (metal_share = 1.0) have
+#'     nonmetal_share = 0; derivatives apply s122 to the non-metal portion.
+#'     Post-annex: nonmetal_share = 0 for all annex-classified 232 products.
+#'     For non-232 products, s122 stacks at full value.
 #'
 #' @param df Data frame with rate_232, rate_301, rate_ieepa_recip,
 #'   rate_ieepa_fent, rate_s122, rate_other, metal_share, country columns
@@ -1396,6 +1405,18 @@ enforce_rate_schema <- function(df) {
 #' @param stacking_method 'mutual_exclusion' (default, 232/IEEPA mutual exclusion)
 #'   or 'tpc_additive' (all authorities stack additively, matching TPC methodology)
 #' @return df with total_additional and total_rate recomputed
+has_informative_per_type_shares <- function(df) {
+  required <- c('steel_share', 'aluminum_share', 'copper_share')
+  if (!all(required %in% names(df))) {
+    return(FALSE)
+  }
+  any(
+    coalesce(df$steel_share, 0) > 0 |
+      coalesce(df$aluminum_share, 0) > 0 |
+      coalesce(df$copper_share, 0) > 0
+  )
+}
+
 apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutual_exclusion') {
   # Ensure optional columns exist and have no NAs
   if (!'rate_s122' %in% names(df)) {
@@ -1437,7 +1458,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
   # (outside ch76) use aluminum_share. The deriv_type column (set by
   # apply_232_derivatives) determines which type applies.
   # IEEPA fills everything not claimed by the active 232 program's metal type.
-  has_per_type <- all(c('steel_share', 'aluminum_share', 'copper_share') %in% names(df))
+  # Gate on informative shares (not just column presence): flat/CBO metal methods
+  # zero-fill the per-type columns so bind_rows() stays stable across revisions,
+  # but those zero-filled rows must not enter per-type stacking logic — doing so
+  # would drive nonmetal_share to 1.0 on every 232 product under the flat method.
+  has_per_type <- has_informative_per_type_shares(df)
 
   if (has_per_type) {
     # Determine which metal type is active per product based on chapter/product type.
@@ -1465,6 +1490,19 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
     # Fallback: aggregate metal_share (backward compat for flat/cbo methods)
     df <- df %>%
       mutate(nonmetal_share = if_else(rate_232 > 0 & metal_share < 1.0, 1 - metal_share, 0))
+  }
+
+  # Post-annex override: the April 2026 proclamation applies Section 232 to the
+  # full customs value, eliminating metal-content-based mutual exclusion. Products
+  # with an annex classification (s232_annex != NA) get nonmetal_share = 0 so that
+  # IEEPA/S122/fentanyl do not leak through on a phantom non-metal fraction.
+  # Annex II products (rate_232 = 0, removed from scope) are excluded by the
+  # rate_232 > 0 guard — they receive full IEEPA/S122 as non-232 products.
+  if ('s232_annex' %in% names(df)) {
+    df <- df %>%
+      mutate(nonmetal_share = if_else(
+        !is.na(s232_annex) & rate_232 > 0, 0, nonmetal_share
+      ))
   }
 
   df <- df %>%
@@ -1535,7 +1573,7 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
     )
   }
 
-  has_per_type <- all(c('steel_share', 'aluminum_share', 'copper_share') %in% names(df))
+  has_per_type <- has_informative_per_type_shares(df)
 
   if (has_per_type) {
     has_copper_flag <- 'is_copper_heading' %in% names(df)
@@ -1559,6 +1597,14 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
   } else {
     df <- df %>%
       mutate(nonmetal_share = if_else(rate_232 > 0 & metal_share < 1.0, 1 - metal_share, 0))
+  }
+
+  # Post-annex full-value override (mirrors apply_stacking_rules — see docstring there).
+  if ('s232_annex' %in% names(df)) {
+    df <- df %>%
+      mutate(nonmetal_share = if_else(
+        !is.na(s232_annex) & rate_232 > 0, 0, nonmetal_share
+      ))
   }
 
   df %>%
@@ -1664,6 +1710,181 @@ classify_authority <- function(ch99_code) {
   }
 
   return('other')
+}
+
+
+#' Resolve the specific Chapter 99 code driving each authority rate
+#'
+#' For each row in `rates`, selects the best-fit 8-digit ch99_code per active
+#' authority (232, 301, IEEPA reciprocal, IEEPA fentanyl, s122, s201) using the
+#' revision's ch99_data plus extracted ieepa_rates and fentanyl_rates. Writes
+#' results to columns: ch99_code_232, ch99_code_301, ch99_code_ieepa_recip,
+#' ch99_code_ieepa_fent, ch99_code_s122, ch99_code_s201.
+#'
+#' Selection strategy per authority:
+#'   - 232: partitions by hts10 chapter/heading + deriv_type (steel chapters
+#'     72/73 → base steel code, 76 → aluminum, 74 → copper, 8703/8704/8708 → auto,
+#'     deriv_type='steel'|'aluminum' → matching derivative code).
+#'   - 301: first active 9903.88.xx code (China surcharges are monolithic per
+#'     revision within a rate bucket; first active code is representative).
+#'   - IEEPA reciprocal: country-specific via ieepa_rates census_code → ch99_code,
+#'     falls back to 9903.01.25 (universal baseline) when country not listed.
+#'   - IEEPA fentanyl: country-specific via fentanyl_rates (general entries only).
+#'   - s122: first active 9903.03.xx code.
+#'   - s201: first active 9903.40-45 code.
+#'
+#' @param rates Rates tibble with hts10, country, rate_*, deriv_type columns
+#' @param ch99_data Parsed Chapter 99 data with ch99_code column
+#' @param ieepa_rates IEEPA reciprocal rates tibble (or NULL)
+#' @param fentanyl_rates IEEPA fentanyl rates tibble (or NULL)
+#' @return rates with ch99_code_* columns added
+resolve_ch99_codes <- function(rates, ch99_data,
+                                ieepa_rates = NULL,
+                                fentanyl_rates = NULL) {
+  # Initialize all ch99_code_* columns to NA
+  rates <- rates %>%
+    mutate(
+      ch99_code_232 = NA_character_,
+      ch99_code_301 = NA_character_,
+      ch99_code_ieepa_recip = NA_character_,
+      ch99_code_ieepa_fent = NA_character_,
+      ch99_code_s122 = NA_character_,
+      ch99_code_s201 = NA_character_
+    )
+
+  if (is.null(ch99_data) || nrow(ch99_data) == 0 || !'ch99_code' %in% names(ch99_data)) {
+    return(rates)
+  }
+
+  # Classify active ch99 codes by authority (unique set only)
+  active_codes <- unique(ch99_data$ch99_code)
+  active_codes <- active_codes[!is.na(active_codes)]
+  if (length(active_codes) == 0) return(rates)
+  code_authority <- vapply(active_codes, classify_authority, character(1))
+
+  codes_232  <- active_codes[code_authority == 'section_232']
+  codes_301  <- active_codes[code_authority == 'section_301']
+  codes_s122 <- active_codes[code_authority == 'section_122']
+  codes_s201 <- active_codes[code_authority == 'section_201']
+
+  # ---- Section 232 ----
+  if ('rate_232' %in% names(rates) && length(codes_232) > 0) {
+    alum_deriv  <- intersect(c('9903.85.04', '9903.85.07', '9903.85.08'), codes_232)
+    steel_deriv <- intersect(c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93'), codes_232)
+    steel_base  <- codes_232[grepl('^9903\\.(80|81|82|83|84)\\.', codes_232) & !codes_232 %in% steel_deriv]
+    alum_base   <- codes_232[grepl('^9903\\.85\\.', codes_232) & !codes_232 %in% alum_deriv]
+    copper_base <- codes_232[grepl('^9903\\.78\\.', codes_232)]
+    auto_base   <- codes_232[grepl('^9903\\.94\\.', codes_232)]
+    wood_base   <- codes_232[grepl('^9903\\.76\\.', codes_232)]
+    mhd_base    <- codes_232[grepl('^9903\\.74\\.', codes_232)]
+
+    pick_first <- function(x, fallback) {
+      if (length(x) > 0) sort(x)[1] else fallback
+    }
+    default_232 <- sort(codes_232)[1]
+
+    deriv_col <- if ('deriv_type' %in% names(rates)) {
+      rates$deriv_type
+    } else {
+      rep(NA_character_, nrow(rates))
+    }
+
+    chapter <- substr(rates$hts10, 1, 2)
+    heading <- substr(rates$hts10, 1, 4)
+
+    pick <- rep(NA_character_, nrow(rates))
+    # Derivatives take precedence
+    mask_alum_deriv  <- !is.na(deriv_col) & deriv_col == 'aluminum'
+    mask_steel_deriv <- !is.na(deriv_col) & deriv_col == 'steel'
+    pick[mask_alum_deriv]  <- pick_first(alum_deriv,  default_232)
+    pick[mask_steel_deriv] <- pick_first(steel_deriv, default_232)
+    # Chapter/heading-based base 232
+    mask_steel  <- is.na(pick) & chapter %in% c('72', '73')
+    mask_alum   <- is.na(pick) & chapter == '76'
+    mask_copper <- is.na(pick) & chapter == '74'
+    mask_auto   <- is.na(pick) & heading %in% c('8703', '8704', '8708')
+    mask_wood   <- is.na(pick) & chapter %in% c('44', '94')
+    mask_mhd    <- is.na(pick) & heading %in% c('8701', '8702', '8704', '8706')
+    pick[mask_steel]  <- pick_first(steel_base,  default_232)
+    pick[mask_alum]   <- pick_first(alum_base,   default_232)
+    pick[mask_copper] <- pick_first(copper_base, default_232)
+    pick[mask_auto]   <- pick_first(auto_base,   default_232)
+    pick[mask_wood]   <- pick_first(wood_base,   default_232)
+    pick[mask_mhd]    <- pick_first(mhd_base,    default_232)
+    # Fallback: any active 232 code
+    pick[is.na(pick)] <- default_232
+
+    rates$ch99_code_232 <- if_else(rates$rate_232 > 0, pick, NA_character_)
+  }
+
+  # ---- Section 301 ----
+  if ('rate_301' %in% names(rates) && length(codes_301) > 0) {
+    rates$ch99_code_301 <- if_else(rates$rate_301 > 0, sort(codes_301)[1], NA_character_)
+  }
+
+  # ---- IEEPA reciprocal (country-specific) ----
+  if ('rate_ieepa_recip' %in% names(rates)) {
+    recip_map <- NULL
+    if (!is.null(ieepa_rates) && nrow(ieepa_rates) > 0 &&
+        all(c('ch99_code', 'census_code') %in% names(ieepa_rates))) {
+      recip_map <- ieepa_rates %>%
+        filter(!is.na(census_code), !is.na(ch99_code), !is.na(rate)) %>%
+        arrange(desc(rate)) %>%
+        group_by(census_code) %>%
+        summarise(.recip_code = first(ch99_code), .groups = 'drop') %>%
+        rename(country = census_code)
+    }
+    if (!is.null(recip_map) && nrow(recip_map) > 0) {
+      rates <- rates %>% left_join(recip_map, by = 'country')
+    } else {
+      rates$.recip_code <- NA_character_
+    }
+    rates <- rates %>%
+      mutate(
+        ch99_code_ieepa_recip = if_else(
+          rate_ieepa_recip > 0,
+          coalesce(.recip_code, '9903.01.25'),
+          NA_character_
+        )
+      ) %>%
+      select(-.recip_code)
+  }
+
+  # ---- IEEPA fentanyl (country-specific) ----
+  if ('rate_ieepa_fent' %in% names(rates)) {
+    fent_map <- NULL
+    if (!is.null(fentanyl_rates) && nrow(fentanyl_rates) > 0 &&
+        all(c('ch99_code', 'census_code') %in% names(fentanyl_rates))) {
+      has_entry_type <- 'entry_type' %in% names(fentanyl_rates)
+      fent_map <- fentanyl_rates %>%
+        { if (has_entry_type) filter(., entry_type == 'general') else . } %>%
+        filter(!is.na(census_code), !is.na(ch99_code), !is.na(rate)) %>%
+        arrange(desc(rate)) %>%
+        group_by(census_code) %>%
+        summarise(.fent_code = first(ch99_code), .groups = 'drop') %>%
+        rename(country = census_code)
+    }
+    if (!is.null(fent_map) && nrow(fent_map) > 0) {
+      rates <- rates %>%
+        left_join(fent_map, by = 'country') %>%
+        mutate(
+          ch99_code_ieepa_fent = if_else(rate_ieepa_fent > 0, .fent_code, NA_character_)
+        ) %>%
+        select(-.fent_code)
+    }
+  }
+
+  # ---- Section 122 ----
+  if ('rate_s122' %in% names(rates) && length(codes_s122) > 0) {
+    rates$ch99_code_s122 <- if_else(rates$rate_s122 > 0, sort(codes_s122)[1], NA_character_)
+  }
+
+  # ---- Section 201 ----
+  if ('rate_section_201' %in% names(rates) && length(codes_s201) > 0) {
+    rates$ch99_code_s201 <- if_else(rates$rate_section_201 > 0, sort(codes_s201)[1], NA_character_)
+  }
+
+  rates
 }
 
 
@@ -2136,17 +2357,24 @@ load_metal_content <- function(metal_cfg = NULL, hts10_codes = character(0),
   primary_chapters <- if (!is.null(metal_cfg)) unlist(metal_cfg$primary_chapters) else c('72', '73', '76')
 
   # Start with all products at metal_share = 1.0 (full metal / no adjustment)
-  result <- tibble(hts10 = hts10_codes, metal_share = 1.0)
+  # and zero-filled per-type columns. The zero-filled schema keeps bind_rows()
+  # stable across revisions and prevents NA propagation when flat/CBO methods
+  # merge with BEA-era snapshots; downstream stacking decides whether these
+  # per-type shares are informative enough to use via has_informative_per_type_shares().
+  result <- tibble(
+    hts10 = hts10_codes,
+    metal_share = 1.0,
+    steel_share = 0,
+    aluminum_share = 0,
+    copper_share = 0,
+    other_metal_share = 0
+  )
 
   # Flag derivative products — only these get metal_share < 1.0
   is_derivative <- result$hts10 %in% derivative_hts10
 
   if (sum(is_derivative) == 0) {
     message('  Metal content: no derivative products to adjust')
-    result$steel_share <- 0
-    result$aluminum_share <- 0
-    result$copper_share <- 0
-    result$other_metal_share <- 0
     return(result)
   }
 

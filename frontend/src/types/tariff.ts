@@ -108,6 +108,25 @@ export interface ProductRate {
   statutory_rate_s122: number;
   statutory_rate_section_201: number;
   statutory_rate_other: number;
+  // Specific 8-digit Chapter 99 code driving each authority for this row.
+  // Null when the authority is not active for this (product, country).
+  // Backfilled by src/helpers.R::resolve_ch99_codes() during rate calculation.
+  ch99_code_232?: string | null;
+  ch99_code_301?: string | null;
+  ch99_code_ieepa_recip?: string | null;
+  ch99_code_ieepa_fent?: string | null;
+  ch99_code_s122?: string | null;
+  ch99_code_s201?: string | null;
+  /**
+   * Phase 1 stopgap — true when this row was synthesized server-side from
+   * product_base_rates rather than pulled from the rates parquet.
+   *
+   * @deprecated Phase 3d removes this field once the normalized-layer
+   *   gapfill path handles missing pairs natively. Do not add new call
+   *   sites. The validator in `rate-response.ts` tolerates it during
+   *   Phase 2.5–3 and errors on it in Phase 3d.
+   */
+  __synthesized?: boolean;
   metal_share: number;
   // Per-type metal shares (from BEA metal content analysis)
   steel_share: number;
