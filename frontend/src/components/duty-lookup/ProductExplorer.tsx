@@ -11,6 +11,7 @@ import type { Country, ProductRate } from '@/types/tariff';
 import { AUTHORITIES, MFN_COLOR, STATUTORY_KEY_MAP, hasStatutoryDelta } from '@/types/tariff';
 import { formatRate, formatRateShort, formatDate, formatHtsCode } from '@/utils/formatters';
 import { fetchRatesArrow } from '@/hooks/useTariffData';
+import { apiUrl } from '@/lib/apiBase';
 import { resolveCh99Code } from '@/utils/chapter99';
 import {
   Search, Hash, X, Loader2, Package, Globe, ShieldCheck, ChevronRight, History,
@@ -100,7 +101,7 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
     setHtsSearchLoading(true);
     searchTimerRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/products?q=${encodeURIComponent(query)}`);
+        const res = await fetch(apiUrl(`/api/products?q=${encodeURIComponent(query)}`));
         if (res.ok) {
           const json = await res.json();
           setHtsResults(json.data as string[]);
@@ -117,7 +118,7 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
     const cleanCode = selectedHts.replace(/\./g, '');
     if (cleanCode.length < 4) return;
     let cancelled = false;
-    fetch(`/api/product-info?hts10=${encodeURIComponent(cleanCode)}`)
+    fetch(apiUrl(`/api/product-info?hts10=${encodeURIComponent(cleanCode)}`))
       .then(r => r.ok ? r.json() : null)
       .then(json => { if (!cancelled && json?.data) setProductInfo(json.data); })
       .catch(() => {});

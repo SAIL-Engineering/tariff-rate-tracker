@@ -17,16 +17,23 @@
 //   node server.js
 // =============================================================================
 
-import express from 'express';
-import { DuckDBInstance } from '@duckdb/node-api';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import { initDatabase, PARQUET_PATH } from './server/db.js';
+import { getConfig } from './server/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PARQUET_PATH = path.resolve(__dirname, '..', 'data', 'timeseries', 'rate_timeseries_parquet');
+// Load .env from repo root (one level up from frontend/). No-op in Railway
+// where env vars are injected directly.
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+
 const HTS_ARCHIVES_PATH = path.resolve(__dirname, '..', 'data', 'hts_archives');
-const PORT = process.env.API_PORT || 3001;
+// Railway injects PORT; fall back to API_PORT for local dev.
+const PORT = process.env.PORT || process.env.API_PORT || 3001;
 
 let connection;
 
@@ -301,72 +308,37 @@ async function fillHistoryGapsMulti(existingRows, country) {
   return out;
 }
 
-async function initDatabase() {
-  const instance = await DuckDBInstance.create();
-  connection = await instance.connect();
+const app = express();
 
-  // Create a view over the partitioned Parquet dataset.
-  // DuckDB scans metadata once and builds an internal catalog in memory.
-  // Filter out legacy short-format revisions (e.g. 'rev_2') that duplicate
-  // the canonical year-prefixed revisions (e.g. '2025_rev_2').
-  await connection.run(`
-    CREATE VIEW rates AS
-    SELECT * FROM read_parquet('${PARQUET_PATH}/*/*.parquet', hive_partitioning = true)
-    WHERE revision LIKE '20%'
-  `);
-
-  // Phase 1 stopgap view — one row per (hts10, revision) carrying the
-  // per-product rate-tier fields (base MFN, Column 2, special, rate_basis,
-  // specific-rate metadata). Used by synthesizeBaseMfnRow() to answer
-  // "no row in rates" queries with a legally-correct base-MFN-only row.
-  // ANY_VALUE is safe because these fields are per-product, not per-country.
-  await connection.run(`
-    CREATE VIEW product_base_rates AS
-    SELECT
-      hts10, revision,
-      ANY_VALUE(base_rate)             AS base_rate,
-      ANY_VALUE(statutory_base_rate)   AS statutory_base_rate,
-      ANY_VALUE(rate_column2)          AS rate_column2,
-      ANY_VALUE(rate_column2_raw)      AS rate_column2_raw,
-      ANY_VALUE(rate_special)          AS rate_special,
-      ANY_VALUE(rate_special_raw)      AS rate_special_raw,
-      ANY_VALUE(special_programs_json) AS special_programs_json,
-      ANY_VALUE(rate_basis)            AS rate_basis,
-      ANY_VALUE(specific_amount)       AS specific_amount,
-      ANY_VALUE(specific_rate_unit)    AS specific_rate_unit,
-      ANY_VALUE(reported_unit_1)       AS reported_unit_1,
-      ANY_VALUE(reported_unit_2)       AS reported_unit_2,
-      ANY_VALUE(duty_basis_unit)       AS duty_basis_unit,
-      ANY_VALUE(is_qty_duty_relevant)  AS is_qty_duty_relevant,
-      ANY_VALUE(quantity_source)       AS quantity_source,
-      ANY_VALUE(rounding_rule)         AS rounding_rule,
-      ANY_VALUE(calc_status)           AS calc_status,
-      ANY_VALUE(effective_date)        AS effective_date,
-      MIN(valid_from)                  AS valid_from,
-      MAX(valid_until)                 AS valid_until
-    FROM rates
-    GROUP BY hts10, revision
-  `);
-
-  // Warm the catalog — forces DuckDB to read Parquet metadata (row group stats)
-  const reader = await connection.runAndReadAll(`
-    SELECT
-      count(DISTINCT hts10) AS n_products,
-      count(DISTINCT country) AS n_countries,
-      count(DISTINCT revision) AS n_revisions,
-      count(*) AS n_rows
-    FROM rates
-  `);
-  const stats = reader.getRowObjects()[0];
-
-  // Warm the base-rate view so its GROUP BY is compiled once at startup.
-  await connection.runAndReadAll('SELECT count(*) FROM product_base_rates');
-
-  console.log('DuckDB catalog ready:', stats);
-  return stats;
+// CORS — env-driven allowlist. In local dev with no CORS_ALLOWED_ORIGINS set
+// the middleware reflects any origin back (permissive); in deploy envs only
+// the listed origins (e.g. sail-gtx-prerelease Vercel URLs) are allowed.
+{
+  const { corsAllowedOrigins } = getConfig();
+  if (corsAllowedOrigins.length === 0) {
+    app.use(cors());
+  } else {
+    app.use(
+      cors({
+        origin: (origin, cb) => {
+          if (!origin) return cb(null, true); // curl, same-origin
+          for (const pattern of corsAllowedOrigins) {
+            if (pattern.includes('*')) {
+              const re = new RegExp(
+                '^' + pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$',
+              );
+              if (re.test(origin)) return cb(null, true);
+            } else if (pattern === origin) {
+              return cb(null, true);
+            }
+          }
+          return cb(new Error(`CORS: origin ${origin} not in allowlist`));
+        },
+      }),
+    );
+  }
 }
 
-const app = express();
 app.use(express.json({ limit: '8mb' }));
 
 // --- Rate lookup endpoint ---
@@ -931,9 +903,11 @@ app.get('/api/health', async (_req, res) => {
 
 // --- Start ---
 async function start() {
-  console.log('Initializing DuckDB with Parquet dataset...');
-  console.log('Parquet path:', PARQUET_PATH);
-  const stats = await initDatabase();
+  const { target } = getConfig();
+  console.log(`Initializing database (DATABASE_TARGET=${target})...`);
+  if (target === 'local') console.log('Parquet path:', PARQUET_PATH);
+  const { connection: conn, stats } = await initDatabase();
+  connection = conn;
   buildHtsDescriptionIndex();
   app.listen(PORT, () => {
     console.log(`API server listening on http://localhost:${PORT}`);

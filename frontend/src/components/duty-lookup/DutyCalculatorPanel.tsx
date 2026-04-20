@@ -12,6 +12,7 @@ import {
   exportShipmentsCSV, detectAuthorityTriggers,
 } from '@/utils/tariffCalculator';
 import { formatCurrency, formatRate, formatRateShort, formatDate } from '@/utils/formatters';
+import { apiUrl } from '@/lib/apiBase';
 import {
   Calculator, Plus, Trash2, Ship, Plane, Truck, ChevronDown, ChevronRight,
   Download, Upload, Info, ArrowDownUp, DollarSign, CalendarDays, Globe, Package,
@@ -89,7 +90,7 @@ export function DutyCalculatorPanel({
     fetchingRef.current.add(countryCode);
     const cleanCode = htsCode.replace(/\./g, '');
     try {
-      const res = await fetch(`/api/rates?hts10=${encodeURIComponent(cleanCode)}&country=${encodeURIComponent(countryCode)}`);
+      const res = await fetch(apiUrl(`/api/rates?hts10=${encodeURIComponent(cleanCode)}&country=${encodeURIComponent(countryCode)}`));
       if (!res.ok) return;
       const json = await res.json();
       const data = (json.data as ProductRate[]).sort(

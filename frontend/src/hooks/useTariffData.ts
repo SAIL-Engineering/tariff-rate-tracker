@@ -7,6 +7,7 @@ import type {
   DailyByCountrySummary,
   ProductRate,
 } from '@/types/tariff';
+import { apiUrl } from '@/lib/apiBase';
 
 interface TariffData {
   countries: Country[];
@@ -144,7 +145,7 @@ export function useRateLookup() {
       if (date) params.set('date', date);
 
       try {
-        const res = await fetch(`/api/rates?${params}`, { signal: controller.signal });
+        const res = await fetch(apiUrl(`/api/rates?${params}`), { signal: controller.signal });
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
           throw new Error(body.error || `API error: ${res.status}`);
@@ -172,7 +173,7 @@ export function useRateLookup() {
   const searchProducts = useCallback(async (query: string): Promise<string[]> => {
     if (query.length < 2) return [];
     try {
-      const res = await fetch(`/api/products?q=${encodeURIComponent(query)}`);
+      const res = await fetch(apiUrl(`/api/products?q=${encodeURIComponent(query)}`));
       if (!res.ok) return [];
       const json = await res.json();
       return json.data as string[];
@@ -207,7 +208,7 @@ export async function fetchRatesArrow(
     params.set('country', countryCodes.join(','));
   }
 
-  const res = await fetch(`/api/rates/arrow?${params}`, { signal });
+  const res = await fetch(apiUrl(`/api/rates/arrow?${params}`), { signal });
   if (!res.ok) {
     throw new Error(`Arrow fetch failed: ${res.status}`);
   }

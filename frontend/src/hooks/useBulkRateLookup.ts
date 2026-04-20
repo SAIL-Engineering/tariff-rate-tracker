@@ -12,6 +12,7 @@
 import { useCallback, useRef, useState } from 'react';
 import type { ProductRate } from '@/types/tariff';
 import { buildRateKey } from '@/types/bulk';
+import { apiUrl } from '@/lib/apiBase';
 
 const BATCH_SIZE = 1500; // stay under the 2000 server cap with margin
 const CACHE_MAX = 20_000;
@@ -153,7 +154,7 @@ export function useBulkRateLookup() {
         if (controller.signal.aborted) break;
         const chunk = toFetch.slice(i, i + BATCH_SIZE);
         try {
-          const res = await fetch('/api/rates/batch', {
+          const res = await fetch(apiUrl('/api/rates/batch'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal,

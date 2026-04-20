@@ -3,12 +3,18 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.6.0"
+  },
   "scripts": {
     "dev": "vite",
     "dev:api": "node server.js",
     "dev:all": "node server.js & vite",
+    "start": "node server.js",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:push-to-cloud": "node scripts/push-to-motherduck.mjs",
+    "db:push-to-cloud:dry": "node scripts/push-to-motherduck.mjs --dry-run"
   },
   "dependencies": {
     "@duckdb/node-api": "^1.5.1-r.1",
@@ -26,7 +32,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^0.2.1",
+    "cors": "^2.8.6",
     "date-fns": "^2.30.0",
+    "dotenv": "^17.4.2",
     "express": "^4.21.2",
     "lucide-react": "^1.7.0",
     "react": "^18.3.1",
