@@ -795,7 +795,14 @@ app.get('/api/products', async (req, res) => {
 let htsDescriptionIndex = new Map(); // hts10 → { hts10, descriptions: [{level, htsno, description}], fullDescription }
 
 function buildHtsDescriptionIndex() {
-  // Find the latest HTS archive file
+  // The HTS archive directory is dev-only (data/hts_archives/ is gitignored).
+  // On Railway the directory won't be present — degrade gracefully so the
+  // API still serves rate queries; /api/product-info just returns null matches.
+  if (!fs.existsSync(HTS_ARCHIVES_PATH)) {
+    console.warn(`HTS archive dir not found at ${HTS_ARCHIVES_PATH} — product descriptions unavailable`);
+    return;
+  }
+
   const files = fs.readdirSync(HTS_ARCHIVES_PATH)
     .filter(f => f.startsWith('hts_') && f.endsWith('.json'))
     .sort()

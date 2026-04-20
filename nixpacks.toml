@@ -1,0 +1,13 @@
+# Nixpacks build for Railway.
+#
+# The repo root has no package.json (the Node/Express API lives in frontend/),
+# so Nixpacks doesn't auto-detect Node. Declare it explicitly.
+
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["cd frontend && npm ci --omit=dev"]
+
+[start]
+cmd = "cd frontend && npm start"
