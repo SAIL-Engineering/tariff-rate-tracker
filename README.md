@@ -1,10 +1,8 @@
 # Tariff Rate Tracker
 
-A project of The Budget Lab at Yale.
-
 Statutory U.S. tariff rates at the `HTS-10 x country` level, built from USITC Harmonized Tariff Schedule archives and related policy resources.
 
-The repository's core product is an interval-encoded tariff panel for the 2025-2026 tariff regime. Daily series and weighted effective tariff rates are derived from that panel. As part of building the tracker, results were compared against prior daily tariff-rate estimates from The Budget Lab's [Tariff-ETRs repository](https://github.com/Budget-Lab-Yale/Tariff-ETRs) and the Tax Policy Center's [Tracking Trump Tariffs](https://taxpolicycenter.org/features/tracking-trump-tariffs). We are grateful to the Tax Policy Center for sharing several snapshots of their model output. These comparisons were used solely for validation and benchmarking, not to construct the production series.
+The repository's core product is an interval-encoded tariff panel for the U.S. tariff regime. Daily series and weighted effective tariff rates are derived from that panel. As part of building the tracker, results were compared against prior daily tariff-rate estimates from The Budget Lab's [Tariff-ETRs repository](https://github.com/Budget-Lab-Yale/Tariff-ETRs) and the Tax Policy Center's [Tracking Trump Tariffs](https://taxpolicycenter.org/features/tracking-trump-tariffs). We are grateful to the Tax Policy Center for sharing several snapshots of their model output. These comparisons were used solely for validation and benchmarking, not to construct the production series.
 
 ## What this repo produces
 
@@ -21,6 +19,7 @@ The repository's core product is an interval-encoded tariff panel for the 2025-2
 - Non-official assumptions: [docs/assumptions.md](docs/assumptions.md)
 - HTS revision chronology: [docs/revision_changelog.md](docs/revision_changelog.md)
 - Policy timing vs. HTS dates: [docs/policy_timing.md](docs/policy_timing.md)
+- **MotherDuck + Express API + frontend deploy**: [docs/MOTHERDUCK.md](docs/MOTHERDUCK.md)
 
 ## System requirements
 
