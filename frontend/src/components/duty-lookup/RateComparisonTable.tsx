@@ -4,6 +4,7 @@ import { TariffProgramBadge } from './TariffProgramBadge';
 import type { ProductRate } from '@/types/tariff';
 import { AUTHORITIES, MFN_COLOR } from '@/types/tariff';
 import { formatRate, formatRateShort, formatDate } from '@/utils/formatters';
+import { getAgreementStatus } from '@/utils/tradeAgreements';
 import { ArrowUpDown, Table2, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -121,6 +122,36 @@ export function RateComparisonTable({ entries, onSelectEntry, selectedIndex }: R
                         ) : (
                           <span className="text-gray-300">—</span>
                         )}
+                        {/* Label the Special rate with the agreement(s) the row's
+                            country is party to, flagged active when the HTS
+                            actually lists this country's program code. Rows for
+                            non-FTA countries render nothing here. */}
+                        {(() => {
+                          const agreements = getAgreementStatus(entry.country, entry);
+                          if (agreements.length === 0) return null;
+                          return (
+                            <div className="flex flex-wrap justify-end gap-0.5 mt-0.5">
+                              {agreements.map(ag => {
+                                const active = ag.status === 'active';
+                                const cls = active
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                  : 'bg-gray-50 text-gray-400 border-gray-200';
+                                const title = active
+                                  ? `${ag.label} preference available${ag.rate != null ? ` (${(ag.rate * 100).toFixed(1)}%)` : ''} for this product-country.`
+                                  : `Country is a party to ${ag.label}, but the HTS does not list a preferential rate for this product.`;
+                                return (
+                                  <span
+                                    key={ag.key}
+                                    className={cn('text-[9px] border rounded px-1 py-0 leading-tight whitespace-nowrap', cls)}
+                                    title={title}
+                                  >
+                                    {ag.label}{!active && <span className="ml-0.5 opacity-60">(n/a)</span>}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="px-3 py-2 text-right">
                         {entry.rate_column2 != null ? (
