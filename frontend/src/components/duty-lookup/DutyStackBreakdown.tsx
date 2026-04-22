@@ -7,6 +7,7 @@ import { AUTHORITIES, AUTHORITY_MAP, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP,
 import { formatRate, formatRateShort, formatHtsCode, formatDate } from '@/utils/formatters';
 import { computeNonmetalShare, computeNetAuthorityAmounts, CLASSIFICATION_COMPOSITION_CHAPTERS } from '@/utils/tariffCalculator';
 import { resolveCh99Code } from '@/utils/chapter99';
+import { getAgreementStatus, programCodesForCountry } from '@/utils/tradeAgreements';
 import {
   Layers, Shield, Info, ChevronDown, ChevronUp, ShieldCheck,
   AlertTriangle, Scale, FileText, Beaker,
@@ -148,6 +149,9 @@ function RateTiersCard({ rate }: { rate: ProductRate }) {
   const specialEntries = parseSpecialPrograms(rate.special_programs_json);
   const hasSpecial = specialEntries.length > 0;
   const hasColumn2 = rate.rate_column2 != null || (rate.rate_column2_raw && rate.rate_column2_raw !== '');
+  // HTSUS codes that apply to THIS country — used to highlight which codes
+  // in the Special column the importer can actually claim.
+  const countryCodes = programCodesForCountry(rate.country);
 
   if (!hasSpecial && !hasColumn2) return null;
 
@@ -174,28 +178,47 @@ function RateTiersCard({ rate }: { rate: ProductRate }) {
       {/* Column 1 Special */}
       {hasSpecial && (
         <div className="space-y-1">
-          {specialEntries.map((entry, idx) => (
-            <div key={idx} className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2 min-w-0 flex-1">
-                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#16a34a' }} />
-                <span className="text-gray-700 flex-shrink-0">
-                  {idx === 0 ? 'Column 1 (Special)' : ''}
-                </span>
-                <div className="flex flex-wrap gap-0.5">
-                  {entry.programs.map(p => (
-                    <Badge key={p} variant="outline" className="text-[9px] px-1 py-0 bg-green-50 text-green-700 border-green-200">
-                      {p}
-                    </Badge>
-                  ))}
+          {specialEntries.map((entry, idx) => {
+            const entryApplies = entry.programs.some(p => countryCodes.has(p));
+            return (
+              <div key={idx} className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="w-2 h-2 rounded-full flex-shrink-0 bg-green-600" />
+                  <span className="text-gray-700 flex-shrink-0">
+                    {idx === 0 ? 'Column 1 (Special)' : ''}
+                  </span>
+                  <div className="flex flex-wrap gap-0.5">
+                    {entry.programs.map(p => {
+                      const applies = countryCodes.has(p);
+                      return (
+                        <Badge
+                          key={p}
+                          variant="outline"
+                          className={cn(
+                            'text-[9px] px-1 py-0',
+                            applies
+                              ? 'bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold'
+                              : 'bg-green-50 text-green-700 border-green-200',
+                          )}
+                          title={applies ? 'Applies to this country' : 'Listed on HTS; not applicable to this country'}
+                        >
+                          {p}
+                        </Badge>
+                      );
+                    })}
+                  </div>
                 </div>
+                <span className={cn(
+                  'font-mono font-medium flex-shrink-0 ml-2',
+                  entryApplies ? 'text-emerald-800' : 'text-gray-500',
+                )}>
+                  {entry.entry_type === 'reference'
+                    ? <span className="text-[10px] italic">{entry.rate_raw}</span>
+                    : entry.rate_raw || (entry.rate != null ? formatRateShort(entry.rate) : '—')}
+                </span>
               </div>
-              <span className="font-mono font-medium text-gray-900 flex-shrink-0 ml-2">
-                {entry.entry_type === 'reference'
-                  ? <span className="text-[10px] text-gray-500 italic">{entry.rate_raw}</span>
-                  : entry.rate_raw || (entry.rate != null ? formatRateShort(entry.rate) : '—')}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -340,9 +363,26 @@ export function DutyStackBreakdown({ rate, countryName, label }: DutyStackBreakd
 
         {/* Metadata badges */}
         <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
-          {rate.usmca_eligible && (
-            <TariffProgramBadge label="USMCA Eligible" className="bg-emerald-50 text-emerald-700 border-emerald-200" />
-          )}
+          {/* Trade-agreement badges — every agreement this country is party to,
+              marked active (HTS lists the program for this product) or n/a
+              (country qualifies but product isn't covered). Countries with no
+              mapped agreement render nothing here (MFN only). */}
+          {getAgreementStatus(rate.country, rate).map(ag => {
+            const isActive = ag.status === 'active';
+            const title = isActive
+              ? `${ag.label} preference available${ag.rate != null ? ` (${(ag.rate * 100).toFixed(1)}%)` : ''}.`
+              : `Country is a party to ${ag.label}, but the HTS does not list a preferential rate for this product.`;
+            const cls = isActive
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+              : 'bg-gray-50 text-gray-500 border-gray-200';
+            return (
+              <Badge key={ag.key} variant="outline" className={cn('text-[10px]', cls)} title={title}>
+                {isActive && <ShieldCheck className="h-3 w-3 mr-1" />}
+                {ag.label}
+                {!isActive && <span className="ml-1 opacity-60">(n/a)</span>}
+              </Badge>
+            );
+          })}
           {rate.metal_share < 1 && rate.metal_share > 0 && (
             <Badge variant="outline" className="text-[10px] bg-gray-50 text-gray-600 border-gray-200">
               Metal content: {(rate.metal_share * 100).toFixed(0)}%

@@ -11,6 +11,7 @@ import { AUTHORITIES, MFN_COLOR, STACK_COLORS, STATUTORY_KEY_MAP } from '@/types
 import { formatRateShort, formatDate, formatHtsCode, formatRate } from '@/utils/formatters';
 import { computeRateVolatility } from '@/utils/tariffCalculator';
 import { resolveCh99Code } from '@/utils/chapter99';
+import { getAgreementStatus } from '@/utils/tradeAgreements';
 import { TrendingUp, X, Calendar, Layers, Shield, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -323,9 +324,24 @@ export function DutyTimeline({ rates, onSelectEntry, selectedIndex, countryName 
                   {AUTHORITIES.filter(a => selectedEntry[a.key] > 0).map(a => (
                     <TariffProgramBadge key={a.key} label={a.label} rate={selectedEntry[a.key]} />
                   ))}
-                  {selectedEntry.usmca_eligible && (
-                    <Badge variant="outline" className="text-[10px] bg-emerald-50 text-emerald-700 border-emerald-200">USMCA</Badge>
-                  )}
+                  {/* Trade-agreement chips for the selected country. Active when
+                      the HTS lists a program this country is party to for this
+                      product; n/a when the country qualifies but the product
+                      isn't covered. No chips for countries without any FTA. */}
+                  {getAgreementStatus(selectedEntry.country, selectedEntry).map(ag => {
+                    const isActive = ag.status === 'active';
+                    const title = isActive
+                      ? `${ag.label} preference available${ag.rate != null ? ` (${(ag.rate * 100).toFixed(1)}%)` : ''}.`
+                      : `Country is a party to ${ag.label}, but the HTS does not list a preferential rate for this product.`;
+                    const cls = isActive
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      : 'bg-gray-50 text-gray-500 border-gray-200';
+                    return (
+                      <Badge key={ag.key} variant="outline" className={cn('text-[10px]', cls)} title={title}>
+                        {ag.label}{!isActive && <span className="ml-1 opacity-60">(n/a)</span>}
+                      </Badge>
+                    );
+                  })}
                 </div>
 
                 {/* Metadata */}
