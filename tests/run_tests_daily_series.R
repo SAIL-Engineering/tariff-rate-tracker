@@ -939,7 +939,7 @@ make_mode_test_ieepa <- function() {
   ieepa
 }
 
-run_test('calculator honors policy-date mode on 2026-02-20', {
+run_test('calculator zeroes IEEPA on 2026-02-20 while Section 122 remains HTS-dated', {
   products <- make_mode_test_products()
   ch99_data <- make_mode_test_ch99()
   ieepa_rates <- make_mode_test_ieepa()
@@ -974,20 +974,26 @@ run_test('calculator honors policy-date mode on 2026-02-20', {
     policy_params = pp_hts
   )
 
+  # Split timing: on 2026-02-20, IEEPA is already invalidated in policy-date mode
+  # (SCOTUS ruling shifted to 2026-02-20), but Section 122 stays on the HTS/CBP
+  # implementation date (2026-02-24) in both modes — so rate_s122 is still 0
+  # for a 2026-02-20 effective date under either mode.
   stopifnot(all(rates_policy$rate_ieepa_recip == 0))
-  stopifnot(all(rates_policy$rate_s122 > 0))
+  stopifnot(all(rates_policy$rate_s122 == 0))
 
   stopifnot(any(rates_hts$rate_ieepa_recip > 0))
   stopifnot(all(rates_hts$rate_s122 == 0))
 })
 
-run_test('policy params differ for HTS-late 2026_rev_4 timing', {
+run_test('policy-date mode only shifts IEEPA invalidation for 2026_rev_4', {
   pp_policy <- load_policy_params(use_policy_dates = TRUE)
   pp_hts <- load_policy_params(use_policy_dates = FALSE)
 
   stopifnot(pp_policy$IEEPA_INVALIDATION_DATE == as.Date('2026-02-20'))
   stopifnot(pp_hts$IEEPA_INVALIDATION_DATE == as.Date('2026-02-24'))
-  stopifnot(pp_policy$SECTION_122$effective_date == as.Date('2026-02-20'))
+  # Section 122 stays on the HTS/CBP implementation date under both modes —
+  # there is no policy-date override for §122.
+  stopifnot(pp_policy$SECTION_122$effective_date == as.Date('2026-02-24'))
   stopifnot(pp_hts$SECTION_122$effective_date == as.Date('2026-02-24'))
 })
 

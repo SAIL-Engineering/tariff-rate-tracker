@@ -2,6 +2,7 @@ import type { ProductRate, DutyBreakdown, LandedCostResult, AuthorityKey, RateBa
 import { AUTHORITY_MAP, STATUTORY_KEY_MAP, COLUMN2_COUNTRY_CODES, CTY_CHINA, parseSpecialPrograms } from '@/types/tariff';
 import { formatDate } from '@/utils/formatters';
 import { resolveCh99Code } from '@/utils/chapter99';
+import { programCodesForCountry } from '@/utils/tradeAgreements';
 
 // =============================================================================
 // Fee Schedule (FY 2026) — CBP Customs Fees
@@ -69,6 +70,11 @@ export function roundQuantityPer19CFR159_3(
  * - Column 2 countries (Cuba, DPRK, Belarus, Russia) use rate_column2
  * - Countries matching special program codes use rate_special
  * - All other countries use base_rate (Column 1 General / MFN)
+ *
+ * `special_programs_json` lists HTSUS special-program indicators (e.g. "KR",
+ * "IL", "S"), not Census country codes. `programCodesForCountry` maps a Census
+ * code to the set of HTSUS indicators the country is a party to; we match
+ * the product's listed programs against that set.
  */
 export function selectApplicableBaseRate(
   rate: ProductRate,
@@ -84,11 +90,14 @@ export function selectApplicableBaseRate(
 
   // Check if country qualifies for a special rate
   if (countryCode && rate.special_programs_json) {
-    const programs = parseSpecialPrograms(rate.special_programs_json);
-    for (const entry of programs) {
-      if (entry.entry_type === 'rate' && entry.rate != null) {
-        if (entry.programs.some(p => p === countryCode)) {
-          return { effectiveBaseRate: entry.rate, tier: 'special' };
+    const memberCodes = programCodesForCountry(countryCode);
+    if (memberCodes.size > 0) {
+      const programs = parseSpecialPrograms(rate.special_programs_json);
+      for (const entry of programs) {
+        if (entry.entry_type === 'rate' && entry.rate != null) {
+          if (entry.programs.some(p => memberCodes.has(p))) {
+            return { effectiveBaseRate: entry.rate, tier: 'special' };
+          }
         }
       }
     }

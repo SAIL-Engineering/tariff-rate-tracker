@@ -13,6 +13,7 @@ import { formatRate, formatRateShort, formatDate, formatHtsCode } from '@/utils/
 import { fetchRatesArrow } from '@/hooks/useTariffData';
 import { apiUrl } from '@/lib/apiBase';
 import { resolveCh99Code } from '@/utils/chapter99';
+import { getAgreementStatus, isUSMCACountry, type AppliedAgreement } from '@/utils/tradeAgreements';
 import {
   Search, Hash, X, Loader2, Package, Globe, ShieldCheck, ChevronRight, History,
 } from 'lucide-react';
@@ -509,9 +510,12 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                                               </div>
                                             ) : null;
                                           })()}
-                                          {/* USMCA / metal */}
+                                          {/* USMCA / metal — double-gate the USMCA chip on country
+                                              being CA/MX in case we're displaying older built data
+                                              that predates the per-row usmca_eligible fix. */}
                                           {(() => {
-                                            const usmca = d[`${cc}_usmca`];
+                                            const usmcaFlag = d[`${cc}_usmca`];
+                                            const usmca = usmcaFlag && isUSMCACountry(cc);
                                             const ms = d[`${cc}_metal_share`] as number | undefined;
                                             return (usmca || (ms != null && ms > 0 && ms < 1)) ? (
                                               <div className="flex gap-1.5 mt-1">
@@ -681,12 +685,33 @@ export function ProductExplorer({ countries }: ProductExplorerProps) {
                             </td>
                             <td className="px-3 py-2.5">
                               <div className="flex flex-wrap gap-1 justify-center">
-                                {r?.usmca_eligible && (
-                                  <span className="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-1.5 py-0.5 whitespace-nowrap"
-                                    title="USMCA preferential treatment eligible.">
-                                    <ShieldCheck className="h-2.5 w-2.5 inline mr-0.5" />USMCA
-                                  </span>
-                                )}
+                                {r && (() => {
+                                  // Show every trade agreement relevant to this country,
+                                  // marked active (HTS lists the program) or inactive
+                                  // (country qualifies but this product isn't covered).
+                                  // Countries with no mapped FTA render nothing — MFN only.
+                                  const agreements: AppliedAgreement[] = getAgreementStatus(d.country.code, r);
+                                  return agreements.map(ag => {
+                                    const isActive = ag.status === 'active';
+                                    const cls = isActive
+                                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                      : 'bg-gray-50 text-gray-500 border-gray-200';
+                                    const title = isActive
+                                      ? `${ag.label} preference available for ${d.country.name}${ag.rate != null ? ` (${(ag.rate * 100).toFixed(1)}%)` : ''}.`
+                                      : `${d.country.name} is a party to ${ag.label}, but the HTS does not list a preferential rate for this product.`;
+                                    return (
+                                      <span
+                                        key={ag.key}
+                                        className={cn('text-[9px] border rounded px-1.5 py-0.5 whitespace-nowrap', cls)}
+                                        title={title}
+                                      >
+                                        {isActive && ag.key === 'USMCA' && <ShieldCheck className="h-2.5 w-2.5 inline mr-0.5" />}
+                                        {ag.label}
+                                        {!isActive && <span className="ml-0.5 opacity-60">(n/a)</span>}
+                                      </span>
+                                    );
+                                  });
+                                })()}
                                 {r && r.metal_share > 0 && r.metal_share < 1 && (
                                   <span className="text-[9px] bg-gray-100 text-gray-600 border border-gray-200 rounded px-1.5 py-0.5 whitespace-nowrap"
                                     title={`${(r.metal_share * 100).toFixed(0)}% metal — 232 on metal portion, IEEPA/S122 on remainder.`}>

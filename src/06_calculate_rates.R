@@ -177,7 +177,8 @@ calculate_rates_fast <- function(products, ch99_data, countries, stacking_method
   rates_wide <- rates_wide %>%
     left_join(
       products %>% select(hts10, base_rate),
-      by = 'hts10'
+      by = 'hts10',
+      relationship = 'many-to-one'
     ) %>%
     mutate(base_rate = coalesce(base_rate, 0))
 
@@ -287,7 +288,7 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
               deriv_rate = if_else(deriv_exempt, 0, s232_rates$derivative_rate)
             )
           rates <- rates %>%
-            left_join(country_alum %>% select(country, .alum_deriv_rate = deriv_rate), by = 'country') %>%
+            left_join(country_alum %>% select(country, .alum_deriv_rate = deriv_rate), by = 'country', relationship = 'many-to-one') %>%
             mutate(
               .alum_deriv_rate = coalesce(.alum_deriv_rate, 0),
               rate_232 = if_else(hts10 %in% alum_matched & .alum_deriv_rate > 0,
@@ -321,7 +322,7 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
               deriv_rate = if_else(deriv_exempt, 0, s232_rates$steel_derivative_rate)
             )
           rates <- rates %>%
-            left_join(country_steel %>% select(country, .steel_deriv_rate = deriv_rate), by = 'country') %>%
+            left_join(country_steel %>% select(country, .steel_deriv_rate = deriv_rate), by = 'country', relationship = 'many-to-one') %>%
             mutate(
               .steel_deriv_rate = coalesce(.steel_deriv_rate, 0),
               rate_232 = if_else(hts10 %in% steel_matched & .steel_deriv_rate > 0,
@@ -370,7 +371,7 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
     rates <- rates %>% select(-metal_share)
   }
   rates <- rates %>%
-    left_join(metal_shares, by = 'hts10') %>%
+    left_join(metal_shares, by = 'hts10', relationship = 'many-to-one') %>%
     mutate(metal_share = coalesce(metal_share, 1.0))
   n_missing_share <- sum(is.na(metal_shares$metal_share[metal_shares$hts10 %in% deriv_matched]))
   if (n_missing_share > 0) {
@@ -778,13 +779,14 @@ calculate_rates_for_revision <- function(
       rates <- rates %>%
         left_join(
           country_ieepa %>% rename(country = census_code),
-          by = 'country'
+          by = 'country',
+          relationship = 'many-to-one'
         )
 
       # Compute floor exemption flag via vectorized lookup
       if (has_floor_exempts) {
         rates <- rates %>%
-          left_join(floor_country_group_map, by = 'country') %>%
+          left_join(floor_country_group_map, by = 'country', relationship = 'many-to-one') %>%
           mutate(
             floor_exempt = !is.na(country_group) &
               paste0(substr(hts10, 1, 8), '|', country_group) %in% floor_exempt_keys
@@ -829,13 +831,14 @@ calculate_rates_for_revision <- function(
         anti_join(existing_pairs, by = c('hts10', 'country')) %>%
         left_join(
           country_ieepa %>% rename(country = census_code),
-          by = 'country'
+          by = 'country',
+          relationship = 'many-to-one'
         )
 
       # Apply floor exemption flag to new_pairs
       if (has_floor_exempts) {
         new_pairs <- new_pairs %>%
-          left_join(floor_country_group_map, by = 'country') %>%
+          left_join(floor_country_group_map, by = 'country', relationship = 'many-to-one') %>%
           mutate(
             floor_exempt = !is.na(country_group) &
               paste0(substr(hts10, 1, 8), '|', country_group) %in% floor_exempt_keys
@@ -916,9 +919,9 @@ calculate_rates_for_revision <- function(
     if (has_carveouts) {
       rates <- rates %>%
         mutate(.hts8 = substr(hts10, 1, 8)) %>%
-        left_join(general_fent, by = c('country' = 'census_code')) %>%
+        left_join(general_fent, by = c('country' = 'census_code'), relationship = 'many-to-one') %>%
         left_join(carveout_lookup,
-                  by = c('.hts8' = 'hts8', 'country' = 'census_code')) %>%
+                  by = c('.hts8' = 'hts8', 'country' = 'census_code'), relationship = 'many-to-one') %>%
         mutate(
           rate_ieepa_fent = coalesce(carveout_rate, fent_rate, 0)
         ) %>%
@@ -929,7 +932,7 @@ calculate_rates_for_revision <- function(
       message('  Fentanyl carve-outs applied: ', n_carveout, ' product-country pairs')
     } else {
       rates <- rates %>%
-        left_join(general_fent, by = c('country' = 'census_code')) %>%
+        left_join(general_fent, by = c('country' = 'census_code'), relationship = 'many-to-one') %>%
         mutate(rate_ieepa_fent = coalesce(fent_rate, 0)) %>%
         select(-fent_rate)
     }
@@ -948,7 +951,7 @@ calculate_rates_for_revision <- function(
       rates <- rates %>%
         mutate(.hts8 = substr(hts10, 1, 8)) %>%
         left_join(carveout_lookup,
-                  by = c('.hts8' = 'hts8', 'country' = 'census_code')) %>%
+                  by = c('.hts8' = 'hts8', 'country' = 'census_code'), relationship = 'many-to-one') %>%
         mutate(
           rate_ieepa_fent = if_else(!is.na(carveout_rate), carveout_rate, rate_ieepa_fent)
         ) %>%
@@ -1223,7 +1226,7 @@ calculate_rates_for_revision <- function(
     # Join heading-level rates for auto/copper/etc products
     if (nrow(heading_product_rate) > 0) {
       rates <- rates %>%
-        left_join(heading_product_rate, by = 'hts10')
+        left_join(heading_product_rate, by = 'hts10', relationship = 'many-to-one')
     } else {
       rates$heading_232_rate <- 0
       rates$heading_usmca_exempt <- FALSE
@@ -1233,7 +1236,8 @@ calculate_rates_for_revision <- function(
       left_join(
         country_232 %>% select(country, steel_rate_232 = steel_rate,
                                alum_rate_232 = aluminum_rate),
-        by = 'country'
+        by = 'country',
+        relationship = 'many-to-one'
       ) %>%
       mutate(
         chapter = substr(hts10, 1, 2),
@@ -1283,7 +1287,7 @@ calculate_rates_for_revision <- function(
 
     if (nrow(heading_product_rate) > 0) {
       new_232_base <- new_232_base %>%
-        left_join(heading_product_rate, by = 'hts10')
+        left_join(heading_product_rate, by = 'hts10', relationship = 'many-to-one')
     } else {
       new_232_base$heading_232_rate <- 0
       new_232_base$heading_usmca_exempt <- FALSE
@@ -1295,7 +1299,8 @@ calculate_rates_for_revision <- function(
       left_join(
         country_232 %>% select(country, steel_rate_232 = steel_rate,
                                alum_rate_232 = aluminum_rate),
-        by = 'country'
+        by = 'country',
+        relationship = 'many-to-one'
       ) %>%
       mutate(
         chapter = substr(hts10, 1, 2),
@@ -1826,7 +1831,7 @@ calculate_rates_for_revision <- function(
         # Update rate_301 for existing China product-country pairs
         rates <- rates %>%
           mutate(hts8 = substr(hts10, 1, 8)) %>%
-          left_join(s301_lookup, by = 'hts8') %>%
+          left_join(s301_lookup, by = 'hts8', relationship = 'many-to-one') %>%
           mutate(
             blanket_301 = coalesce(blanket_301, 0),
             rate_301 = if_else(
@@ -1860,7 +1865,7 @@ calculate_rates_for_revision <- function(
               hts8 = substr(hts10, 1, 8),
               country = CTY_CHINA
             ) %>%
-            left_join(s301_lookup, by = 'hts8') %>%
+            left_join(s301_lookup, by = 'hts8', relationship = 'many-to-one') %>%
             mutate(
               rate_232 = 0, rate_ieepa_recip = 0,
               rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
@@ -1956,6 +1961,33 @@ calculate_rates_for_revision <- function(
             length(s122_exempt_hts8), ' HTS8 exempt)')
   }
 
+  # 6b2. Dense grid expansion for MFN-only pairs.
+  #      After 232/301/s122/fent/IEEPA-recip passes, any (hts10, country) pair
+  #      still missing is MFN-only. Surface them now so they receive the FTA/GSP
+  #      utilization adjustment in step 6c and USMCA treatment in step 7,
+  #      instead of being back-filled at step 9c with an unadjusted base_rate.
+  #      Step 9c becomes a no-op in the common case; kept as defense-in-depth.
+  local({
+    existing_pairs <- rates %>% distinct(hts10, country)
+    all_products_base <- products %>%
+      select(hts10, base_rate) %>%
+      mutate(base_rate = coalesce(base_rate, 0))
+    new_pairs <- all_products_base %>%
+      tidyr::expand_grid(country = countries) %>%
+      anti_join(existing_pairs, by = c('hts10', 'country')) %>%
+      mutate(
+        rate_232 = 0, rate_301 = 0, rate_ieepa_recip = 0,
+        rate_ieepa_fent = 0, rate_s122 = 0,
+        rate_section_201 = 0, rate_other = 0,
+        statutory_rate_232 = 0
+      )
+    if (nrow(new_pairs) > 0) {
+      message('  Grid expansion (MFN-only): adding ', nrow(new_pairs),
+              ' product-country pairs (base rate only)')
+      rates <<- bind_rows(rates, new_pairs)
+    }
+  })
+
   # Save statutory rates for all non-232 authorities (pre-USMCA, pre-stacking).
   # 232 statutory rates are already saved as statutory_rate_232 in apply_232_derivatives().
   rates <- rates %>%
@@ -1983,7 +2015,8 @@ calculate_rates_for_revision <- function(
       mutate(hs2 = substr(hts10, 1, 2)) %>%
       left_join(
         mfn_exemption_shares %>% select(hs2, cty_code, exemption_share),
-        by = c('hs2', 'country' = 'cty_code')
+        by = c('hs2', 'country' = 'cty_code'),
+        relationship = 'many-to-one'
       ) %>%
       mutate(
         exemption_share = coalesce(exemption_share, 0),
@@ -2051,7 +2084,8 @@ calculate_rates_for_revision <- function(
     rates <- rates %>%
       left_join(
         usmca %>% select(hts10, usmca_eligible),
-        by = 'hts10'
+        by = 'hts10',
+        relationship = 'many-to-one'
       ) %>%
       mutate(usmca_eligible = coalesce(usmca_eligible, FALSE))
 
@@ -2060,7 +2094,8 @@ calculate_rates_for_revision <- function(
       rates <- rates %>%
         left_join(
           usmca_product_shares,
-          by = c('hts10', 'country' = 'cty_code')
+          by = c('hts10', 'country' = 'cty_code'),
+          relationship = 'many-to-one'
         ) %>%
         mutate(
           usmca_share = if_else(
@@ -2120,6 +2155,17 @@ calculate_rates_for_revision <- function(
     rates <- rates %>% mutate(usmca_eligible = FALSE)
   }
 
+  # Redefine usmca_eligible at the (product, country) grain. It lands at this
+  # step as a product-level flag (HTS special field has S / S+) broadcast across
+  # every country by the hts10-only join. The rate math above gates 0-rate
+  # application on country %in% c(CA, MX), so duties were correct — but the
+  # emitted column is read by the frontend as a per-row "USMCA applies here"
+  # signal, and without this narrowing it shows USMCA as active for Japan,
+  # Korea, UK, etc. USMCA by statute only covers imports from CA or MX, so
+  # any non-CA/MX row must be FALSE regardless of the HTS special field.
+  rates <- rates %>%
+    mutate(usmca_eligible = usmca_eligible & country %in% c(CTY_CANADA, CTY_MEXICO))
+
   # Clean up intermediate flag
   rates$s232_usmca_eligible <- NULL
 
@@ -2146,27 +2192,34 @@ calculate_rates_for_revision <- function(
   # duty_basis_unit is the legally relevant unit from the rate text.
   # These are kept separate per U.S. HTSUS methodology — the statistical
   # reporting unit is NOT by itself the legal basis of duty.
+  #
+  # any_of() tolerates fixture/test inputs that only carry the minimum product
+  # schema (hts10 + base_rate). Production parse_products() populates every
+  # column listed below; when a column is absent it is simply not joined.
+  tier_col_names <- c('rate_special', 'rate_special_raw', 'special_programs',
+                      'rate_column2', 'rate_column2_raw',
+                      'rate_basis', 'specific_amount', 'specific_rate_unit',
+                      'reported_unit_1', 'reported_unit_2',
+                      'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
+                      'rounding_rule', 'calc_status')
   product_tier_cols <- products %>%
-    select(hts10, rate_special, rate_special_raw, special_programs,
-           rate_column2, rate_column2_raw,
-           rate_basis, specific_amount, specific_rate_unit,
-           reported_unit_1, reported_unit_2,
-           duty_basis_unit, is_qty_duty_relevant, quantity_source,
-           rounding_rule, calc_status)
+    select(hts10, any_of(tier_col_names))
   rates <- rates %>%
-    left_join(product_tier_cols, by = 'hts10')
+    left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
 
   # Serialize special_programs list-column to JSON string for Parquet compatibility
-  rates$special_programs_json <- sapply(rates$special_programs, function(sp) {
-    if (is.null(sp) || length(sp) == 0) return(NA_character_)
-    # Strip the 'parsed' sub-element to keep JSON compact
-    sp_clean <- lapply(sp, function(entry) {
-      list(rate = entry$rate, rate_raw = entry$rate_raw,
-           programs = entry$programs, entry_type = entry$entry_type)
+  if ('special_programs' %in% names(rates)) {
+    rates$special_programs_json <- sapply(rates$special_programs, function(sp) {
+      if (is.null(sp) || length(sp) == 0) return(NA_character_)
+      # Strip the 'parsed' sub-element to keep JSON compact
+      sp_clean <- lapply(sp, function(entry) {
+        list(rate = entry$rate, rate_raw = entry$rate_raw,
+             programs = entry$programs, entry_type = entry$entry_type)
+      })
+      jsonlite::toJSON(sp_clean, auto_unbox = TRUE)
     })
-    jsonlite::toJSON(sp_clean, auto_unbox = TRUE)
-  })
-  rates$special_programs <- NULL  # Drop list-column before schema enforcement
+    rates$special_programs <- NULL  # Drop list-column before schema enforcement
+  }
 
   # 9c. Fill the full (product × country) grid.
   #
@@ -2218,7 +2271,7 @@ calculate_rates_for_revision <- function(
       ) %>%
       select(-product_base_rate) %>%
       # Join product tier columns (rate_special, rate_column2, etc.)
-      left_join(product_tier_cols, by = 'hts10')
+      left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
 
     # Serialize special_programs for the fill rows (same as step 9b)
     if ('special_programs' %in% names(fill_rows)) {
