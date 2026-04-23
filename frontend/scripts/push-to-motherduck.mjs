@@ -7,6 +7,7 @@
 // Usage:
 //   node scripts/push-to-motherduck.mjs                      # full rebuild (all revisions)
 //   node scripts/push-to-motherduck.mjs --revision 2025_rev_25
+//   node scripts/push-to-motherduck.mjs --post-only          # recluster + rebuild product_base_rates on the existing rates table
 //   node scripts/push-to-motherduck.mjs --dry-run
 //   node scripts/push-to-motherduck.mjs --limit 3            # first 3 partitions only (testing)
 //   node scripts/push-to-motherduck.mjs --confirm-drop       # required when `rates` already has data
@@ -25,7 +26,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
-import { PARQUET_PATH, PRODUCT_BASE_RATES_VIEW_SQL } from '../server/db.js';
+import { PARQUET_PATH, PRODUCT_BASE_RATES_TABLE_SQL } from '../server/db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -156,11 +157,80 @@ async function fullRebuildBatched(conn, opts) {
     });
   }
 
-  log('exec.product_base_rates.start');
-  await conn.run(PRODUCT_BASE_RATES_VIEW_SQL);
-  log('exec.product_base_rates.done');
+  await postProcess(conn);
 
   log('exec.total_rows', { rows: cumulative });
+}
+
+// Post-processing: recluster `rates` by (country, hts10) and (re)build the
+// materialized `product_base_rates` table. Runs after a full rebuild, and
+// can also be invoked standalone via --post-only to recover from a partial
+// run (e.g. when the load phase finished but the recluster step died).
+//
+// Why per-partition, not a single global sort: an earlier version ran
+// `CREATE OR REPLACE TABLE rates AS SELECT * FROM rates ORDER BY ...` as
+// one statement. MotherDuck returned an internal error (~35 min in)
+// trying to sort 185M rows × 50+ columns in a single shot. Sorting one
+// revision at a time bounds the sort state to ~4.7M rows, which MD
+// handles fine and still gives good zonemap pruning on the final table
+// because row groups within each partition are contiguous and sorted.
+async function postProcess(conn) {
+  await reclusterRatesByPartition(conn);
+  log('exec.product_base_rates.start');
+  // Upgrade path: earlier deploys created product_base_rates as a VIEW.
+  // CREATE OR REPLACE TABLE cannot clobber a VIEW of the same name, so
+  // drop any existing view first. Idempotent when none exists.
+  await conn.run('DROP VIEW IF EXISTS product_base_rates');
+  await conn.run(PRODUCT_BASE_RATES_TABLE_SQL);
+  log('exec.product_base_rates.done');
+}
+
+async function reclusterRatesByPartition(conn) {
+  log('exec.rates.cluster.start');
+
+  // Enumerate revisions from the current rates table (avoids re-reading the
+  // parquet directory, so --post-only works even if the R pipeline has
+  // regenerated local files since the upload).
+  const revReader = await conn.runAndReadAll(
+    'SELECT DISTINCT revision FROM rates ORDER BY revision',
+  );
+  const revisions = revReader.getRowObjects().map((r) => String(r.revision));
+  log('exec.rates.cluster.partitions', { count: revisions.length });
+
+  // Build a new, sorted table revision-by-revision. CREATE TABLE AS with
+  // LIMIT 0 produces an empty table with the same schema. We then append
+  // one revision at a time with ORDER BY country, hts10 — each pass sorts
+  // ~4.7M rows on the MotherDuck side, well within its compute budget.
+  await conn.run('DROP TABLE IF EXISTS rates_new');
+  await conn.run(`
+    CREATE TABLE rates_new AS
+    SELECT * FROM rates LIMIT 0
+  `);
+
+  for (let i = 0; i < revisions.length; i++) {
+    const rev = revisions[i];
+    const t0 = Date.now();
+    await conn.run(`
+      INSERT INTO rates_new
+      SELECT * FROM rates
+      WHERE revision = '${rev}'
+      ORDER BY country, hts10
+    `);
+    log('exec.rates.cluster.partition.done', {
+      revision: rev,
+      index: i + 1,
+      of: revisions.length,
+      elapsed_ms: Date.now() - t0,
+    });
+  }
+
+  // Swap: drop the unsorted table and rename the sorted one in its place.
+  // MotherDuck does not wrap DDL in a single transaction, but the window
+  // between DROP and RENAME is short and only affects live /api/rates
+  // queries during that sub-second gap.
+  await conn.run('DROP TABLE rates');
+  await conn.run('ALTER TABLE rates_new RENAME TO rates');
+  log('exec.rates.cluster.done');
 }
 
 async function incrementalReplace(conn, revision, { dryRun }) {
@@ -204,8 +274,13 @@ async function incrementalReplace(conn, revision, { dryRun }) {
   const after = await count(conn, `WHERE revision = '${revision}'`);
   log('exec.incremental.done', { revision, rows_after: after, delta: after - before });
 
-  // product_base_rates is a view — recreate to heal any schema drift.
-  await conn.run(PRODUCT_BASE_RATES_VIEW_SQL);
+  // product_base_rates is a materialized TABLE — rebuild it so the
+  // replaced revision's rows reflect in the next synthesis query. A full
+  // rebuild is cheaper than a surgical DELETE+INSERT on a GROUP BY because
+  // MotherDuck can parallelize the aggregate across all revisions.
+  // Drop any legacy VIEW of the same name first (see postProcess notes).
+  await conn.run('DROP VIEW IF EXISTS product_base_rates');
+  await conn.run(PRODUCT_BASE_RATES_TABLE_SQL);
   log('exec.product_base_rates.refreshed');
 }
 
@@ -215,6 +290,7 @@ async function main() {
       revision: { type: 'string' },
       'dry-run': { type: 'boolean' },
       'confirm-drop': { type: 'boolean' },
+      'post-only': { type: 'boolean' },
       database: { type: 'string' },
       limit: { type: 'string' },
       'memory-limit': { type: 'string' },
@@ -229,16 +305,26 @@ async function main() {
   const database = values.database || process.env.MOTHERDUCK_DATABASE || 'duty_calculator';
   const dryRun = !!values['dry-run'];
   const confirmDrop = !!values['confirm-drop'];
+  const postOnly = !!values['post-only'];
   const limit = values.limit ? parseInt(values.limit, 10) : null;
   const memoryLimit = values['memory-limit'] || '4GB';
   const threads = values.threads ? parseInt(values.threads, 10) : 2;
 
+  if (postOnly && values.revision) {
+    fail('--post-only cannot be combined with --revision');
+  }
+
   log('start', {
     database,
-    mode: values.revision ? 'incremental' : 'full_rebuild',
+    mode: postOnly
+      ? 'post_only'
+      : values.revision
+        ? 'incremental'
+        : 'full_rebuild',
     revision: values.revision ?? null,
     dry_run: dryRun,
     confirm_drop: confirmDrop,
+    post_only: postOnly,
     limit,
     memory_limit: memoryLimit,
     threads,
@@ -264,7 +350,17 @@ async function main() {
   await conn.run(`SET threads = ${threads}`);
   await conn.run(`SET preserve_insertion_order = false`);
 
-  if (values.revision) {
+  if (postOnly) {
+    const exists = await tableExists(conn, 'rates');
+    if (!exists) {
+      fail('--post-only requires an existing rates table; none found.');
+    }
+    if (dryRun) {
+      log('dry_run.skip', { op: 'post_only' });
+    } else {
+      await postProcess(conn);
+    }
+  } else if (values.revision) {
     await incrementalReplace(conn, values.revision, { dryRun });
   } else {
     await fullRebuildBatched(conn, { dryRun, confirmDrop, limit });

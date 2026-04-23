@@ -23,7 +23,12 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import { initDatabase, PARQUET_PATH } from './server/db.js';
+import {
+  initDatabase,
+  PARQUET_PATH,
+  RATES_PROJECTION,
+  loadKnownRatesCountries,
+} from './server/db.js';
 import { getConfig } from './server/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -36,6 +41,46 @@ const HTS_ARCHIVES_PATH = path.resolve(__dirname, '..', 'data', 'hts_archives');
 const PORT = process.env.PORT || process.env.API_PORT || 3001;
 
 let connection;
+// Census codes of countries that have at least one row in the `rates` table.
+// Populated once at startup from `SELECT DISTINCT country FROM rates`. Used
+// to short-circuit the two rates queries for countries (e.g. CZ, most of the
+// world in early-2025 revisions) whose duty lookup always lands in the
+// product_base_rates synthesis path anyway. Null until init completes.
+let knownRatesCountries = null;
+
+// Tiny in-memory LRU cache for /api/rates responses. Rate data changes only
+// when the MotherDuck push script runs (daily/weekly), so a 10-minute TTL
+// gives us cache-warm performance with bounded staleness.
+const RATES_CACHE_MAX_ENTRIES = 500;
+const RATES_CACHE_TTL_MS = 10 * 60 * 1000;
+const ratesCache = new Map(); // key → { value, expiresAt }
+
+function ratesCacheKey(parts) {
+  return JSON.stringify(parts);
+}
+
+function ratesCacheGet(key) {
+  const entry = ratesCache.get(key);
+  if (!entry) return null;
+  if (entry.expiresAt <= Date.now()) {
+    ratesCache.delete(key);
+    return null;
+  }
+  // LRU touch: reinsert so Map iteration order marks this as most-recent.
+  ratesCache.delete(key);
+  ratesCache.set(key, entry);
+  return entry.value;
+}
+
+function ratesCacheSet(key, value) {
+  if (ratesCache.size >= RATES_CACHE_MAX_ENTRIES) {
+    // Evict oldest. Map iteration is insertion order, so the first key is
+    // the least-recently-used.
+    const oldest = ratesCache.keys().next().value;
+    if (oldest !== undefined) ratesCache.delete(oldest);
+  }
+  ratesCache.set(key, { value, expiresAt: Date.now() + RATES_CACHE_TTL_MS });
+}
 
 // DuckDB DATE type comes back as { days: N } (epoch days since 1970-01-01).
 // Convert to ISO date strings for JSON serialization.
@@ -363,6 +408,38 @@ app.get('/api/rates', async (req, res) => {
       return res.status(400).json({ error: 'country must be a Census code (digits only)' });
     }
 
+    const cacheKey = ratesCacheKey({
+      h: cleanCode,
+      c: country ? String(country) : '',
+      r: revision ? String(revision) : '',
+      d: date ? String(date) : '',
+    });
+    const cached = ratesCacheGet(cacheKey);
+    if (cached) {
+      res.setHeader('X-SAIL-Cache', 'hit');
+      return res.json(cached);
+    }
+
+    // Short-circuit: when the caller supplies a country that has zero rows
+    // in the rates table (most non-IEEPA-listed countries in early-2025),
+    // skip the two rates scans entirely and go straight to the
+    // product_base_rates synthesis path. The DISTINCT-country set is
+    // loaded at startup so this check is O(1).
+    if (
+      country &&
+      cleanCode.length === 10 &&
+      knownRatesCountries != null &&
+      !knownRatesCountries.has(String(country))
+    ) {
+      const synthesized = await fillHistoryGaps([], cleanCode, String(country));
+      const payload = synthesized.length > 0
+        ? { data: synthesized, match: 'base_mfn_synthesized', query: { hts10: cleanCode, country } }
+        : { data: [], match: 'exact', query: { hts10: cleanCode, country } };
+      ratesCacheSet(cacheKey, payload);
+      res.setHeader('X-SAIL-Cache', 'miss-shortcircuit');
+      return res.json(payload);
+    }
+
     let whereParts = [];
 
     // HTS code: exact match for 10-digit, prefix for shorter
@@ -383,7 +460,7 @@ app.get('/api/rates', async (req, res) => {
     }
 
     const sql = `
-      SELECT *
+      SELECT ${RATES_PROJECTION}
       FROM rates
       WHERE ${whereParts.join(' AND ')}
       ORDER BY effective_date ASC
@@ -400,7 +477,7 @@ app.get('/api/rates', async (req, res) => {
     if (rows.length === 0 && cleanCode.length === 10) {
       const prefix8 = cleanCode.substring(0, 8);
       const fallbackSql = `
-        SELECT *
+        SELECT ${RATES_PROJECTION}
         FROM rates
         WHERE hts10 LIKE '${prefix8}%'
           ${country ? `AND country = '${String(country)}'` : ''}
@@ -414,11 +491,13 @@ app.get('/api/rates', async (req, res) => {
         if (country) {
           fbRows = await fillHistoryGapsMulti(fbRows, String(country));
         }
-        return res.json({
+        const payload = {
           data: fbRows,
           match: 'prefix',
           query: { hts10: cleanCode, country },
-        });
+        };
+        ratesCacheSet(cacheKey, payload);
+        return res.json(payload);
       }
       // Phase 1 stopgap — fall through to base-MFN synthesis below
     }
@@ -469,31 +548,37 @@ app.get('/api/rates', async (req, res) => {
         rows = collected;
       }
       if (rows.length > 0) {
-        return res.json({
+        const payload = {
           data: rows,
           match: 'base_mfn_synthesized',
           query: { hts10: cleanCode, country },
-        });
+        };
+        ratesCacheSet(cacheKey, payload);
+        return res.json(payload);
       }
       // Last resort: single-date synthesis when product_base_rates itself
       // has no revision covering the requested date (very rare).
       if (date && cleanCode.length === 10) {
         const row = await synthesizeBaseMfnRow(cleanCode, String(country), String(date));
         if (row) {
-          return res.json({
+          const payload = {
             data: [row],
             match: 'base_mfn_synthesized',
             query: { hts10: cleanCode, country },
-          });
+          };
+          ratesCacheSet(cacheKey, payload);
+          return res.json(payload);
         }
       }
     }
 
-    res.json({
+    const payload = {
       data: rows,
       match: synthesized > 0 ? 'base_mfn_synthesized' : 'exact',
       query: { hts10: cleanCode, country },
-    });
+    };
+    ratesCacheSet(cacheKey, payload);
+    res.json(payload);
   } catch (err) {
     console.error('Rate lookup error:', err);
     res.status(500).json({ error: 'Internal server error', detail: err.message });
@@ -541,7 +626,7 @@ app.get('/api/rates/arrow', async (req, res) => {
     }
 
     const sql = `
-      SELECT *
+      SELECT ${RATES_PROJECTION}
       FROM rates
       WHERE ${whereParts.join(' AND ')}
       ORDER BY country, effective_date ASC
@@ -673,6 +758,11 @@ app.post('/api/rates/batch', async (req, res) => {
       )
       .join(',');
 
+    const qualifiedRatesProjection = RATES_PROJECTION
+      .split(', ')
+      .map((c) => `r.${c}`)
+      .join(', ');
+
     const sql = `
       WITH req(req_hts10, req_country, req_date) AS (
         VALUES ${valuesClause}
@@ -680,7 +770,7 @@ app.post('/api/rates/batch', async (req, res) => {
       SELECT req.req_hts10 AS request_hts10,
              req.req_country AS request_country,
              CAST(req.req_date AS VARCHAR) AS request_date,
-             r.*
+             ${qualifiedRatesProjection}
       FROM req
       JOIN rates r
         ON r.hts10 = req.req_hts10
@@ -915,6 +1005,14 @@ async function start() {
   if (target === 'local') console.log('Parquet path:', PARQUET_PATH);
   const { connection: conn, stats } = await initDatabase();
   connection = conn;
+  try {
+    knownRatesCountries = await loadKnownRatesCountries(connection);
+    console.log(`  Loaded ${knownRatesCountries.size} countries with rates rows`);
+  } catch (err) {
+    // Non-fatal — if the startup probe fails, we just don't short-circuit.
+    console.warn('Could not load known-rates countries set:', err.message);
+    knownRatesCountries = null;
+  }
   buildHtsDescriptionIndex();
   app.listen(PORT, () => {
     console.log(`API server listening on http://localhost:${PORT}`);
