@@ -66,5 +66,8 @@ docs/analysis/*.pdf
 data/federal_register/
 data/us_notes/*.csv
 
+# Dependencies
+node_modules/
+
 # Claude
 .claude/
