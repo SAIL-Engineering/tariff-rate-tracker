@@ -26,7 +26,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
-import { PARQUET_PATH, PRODUCT_BASE_RATES_TABLE_SQL } from '../server/db.js';
+import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -54,6 +54,79 @@ async function tableExists(conn, tableName) {
     `SELECT table_name FROM information_schema.tables WHERE table_name = '${tableName}'`,
   );
   return reader.getRowObjects().length > 0;
+}
+
+// Drop whichever object type currently holds the `product_base_rates`
+// name. DuckDB's DROP VIEW IF EXISTS / DROP TABLE IF EXISTS error when the
+// existing object is the *other* type (e.g. "Existing object ... is of
+// type Table, trying to drop type View"), so we have to introspect first.
+// Steady-state in MotherDuck is a TABLE, but legacy deploys created it as
+// a VIEW, and the rename-swap pattern below also needs to clear whatever
+// is there.
+async function dropProductBaseRatesIfPresent(conn) {
+  const reader = await conn.runAndReadAll(
+    `SELECT table_type FROM information_schema.tables
+     WHERE table_name = 'product_base_rates'`,
+  );
+  const row = reader.getRowObjects()[0];
+  if (!row) return;
+  const kind = String(row.table_type).toUpperCase().includes('VIEW')
+    ? 'VIEW'
+    : 'TABLE';
+  await conn.run(`DROP ${kind} product_base_rates`);
+}
+
+// Rebuild product_base_rates revision-by-revision, then atomic-swap into
+// place. Bounds peak MotherDuck duckling memory to one partition's groups
+// (~19K HTS rows out, ~4.8M rate rows in) instead of aggregating all
+// ~190M rows in a single shot, which OOMs the Pulse tier (~1 GB heap).
+//
+// Correctness: the GROUP BY key is (hts10, revision), so a per-revision
+// aggregate with WHERE revision = '<rev>' is identical to the slice of
+// the global aggregate for that revision. No cross-revision groups exist
+// to be broken by batching.
+//
+// Atomicity: build into product_base_rates_new, then DROP+RENAME. Live
+// API queries see the old table for the entire build, with a brief
+// sub-second swap window at the end (same pattern as
+// reclusterRatesByPartition).
+async function rebuildProductBaseRatesBatched(conn) {
+  log('exec.product_base_rates.start');
+
+  const revReader = await conn.runAndReadAll(
+    'SELECT DISTINCT revision FROM rates ORDER BY revision',
+  );
+  const revisions = revReader.getRowObjects().map((r) => String(r.revision));
+  if (revisions.length === 0) {
+    fail('cannot rebuild product_base_rates: rates table is empty');
+  }
+  log('exec.product_base_rates.partitions', { count: revisions.length });
+
+  await conn.run('DROP TABLE IF EXISTS product_base_rates_new');
+
+  for (let i = 0; i < revisions.length; i++) {
+    const rev = revisions[i];
+    if (!/^[a-zA-Z0-9_]+$/.test(rev)) {
+      fail(`unexpected revision name from catalog: ${JSON.stringify(rev)}`);
+    }
+    const t0 = Date.now();
+    const body = productBaseRatesBody(`WHERE revision = '${rev}'`);
+    if (i === 0) {
+      await conn.run(`CREATE TABLE product_base_rates_new AS ${body}`);
+    } else {
+      await conn.run(`INSERT INTO product_base_rates_new ${body}`);
+    }
+    log('exec.product_base_rates.partition.done', {
+      revision: rev,
+      index: i + 1,
+      of: revisions.length,
+      elapsed_ms: Date.now() - t0,
+    });
+  }
+
+  await dropProductBaseRatesIfPresent(conn);
+  await conn.run('ALTER TABLE product_base_rates_new RENAME TO product_base_rates');
+  log('exec.product_base_rates.done');
 }
 
 // Scan the local parquet directory and return the list of canonical
@@ -176,13 +249,7 @@ async function fullRebuildBatched(conn, opts) {
 // because row groups within each partition are contiguous and sorted.
 async function postProcess(conn) {
   await reclusterRatesByPartition(conn);
-  log('exec.product_base_rates.start');
-  // Upgrade path: earlier deploys created product_base_rates as a VIEW.
-  // CREATE OR REPLACE TABLE cannot clobber a VIEW of the same name, so
-  // drop any existing view first. Idempotent when none exists.
-  await conn.run('DROP VIEW IF EXISTS product_base_rates');
-  await conn.run(PRODUCT_BASE_RATES_TABLE_SQL);
-  log('exec.product_base_rates.done');
+  await rebuildProductBaseRatesBatched(conn);
 }
 
 async function reclusterRatesByPartition(conn) {
@@ -275,13 +342,10 @@ async function incrementalReplace(conn, revision, { dryRun }) {
   log('exec.incremental.done', { revision, rows_after: after, delta: after - before });
 
   // product_base_rates is a materialized TABLE — rebuild it so the
-  // replaced revision's rows reflect in the next synthesis query. A full
-  // rebuild is cheaper than a surgical DELETE+INSERT on a GROUP BY because
-  // MotherDuck can parallelize the aggregate across all revisions.
-  // Drop any legacy VIEW of the same name first (see postProcess notes).
-  await conn.run('DROP VIEW IF EXISTS product_base_rates');
-  await conn.run(PRODUCT_BASE_RATES_TABLE_SQL);
-  log('exec.product_base_rates.refreshed');
+  // replaced revision's rows reflect in the next synthesis query. The
+  // batched rebuild aggregates one revision at a time to keep peak
+  // duckling memory bounded; a single global GROUP BY OOMs Pulse tier.
+  await rebuildProductBaseRatesBatched(conn);
 }
 
 async function main() {

@@ -90,54 +90,47 @@ export const RATES_COLUMNS = [
 
 export const RATES_PROJECTION = RATES_COLUMNS.join(', ');
 
-// Shared GROUP BY body for product_base_rates. Wrapped in either a VIEW
-// (local parquet mode) or a materialized TABLE (MotherDuck mode).
-const PRODUCT_BASE_RATES_BODY = `
-  SELECT
-    hts10, revision,
-    ANY_VALUE(base_rate)             AS base_rate,
-    ANY_VALUE(statutory_base_rate)   AS statutory_base_rate,
-    ANY_VALUE(rate_column2)          AS rate_column2,
-    ANY_VALUE(rate_column2_raw)      AS rate_column2_raw,
-    ANY_VALUE(rate_special)          AS rate_special,
-    ANY_VALUE(rate_special_raw)      AS rate_special_raw,
-    ANY_VALUE(special_programs_json) AS special_programs_json,
-    ANY_VALUE(rate_basis)            AS rate_basis,
-    ANY_VALUE(specific_amount)       AS specific_amount,
-    ANY_VALUE(specific_rate_unit)    AS specific_rate_unit,
-    ANY_VALUE(reported_unit_1)       AS reported_unit_1,
-    ANY_VALUE(reported_unit_2)       AS reported_unit_2,
-    ANY_VALUE(duty_basis_unit)       AS duty_basis_unit,
-    ANY_VALUE(is_qty_duty_relevant)  AS is_qty_duty_relevant,
-    ANY_VALUE(quantity_source)       AS quantity_source,
-    ANY_VALUE(rounding_rule)         AS rounding_rule,
-    ANY_VALUE(calc_status)           AS calc_status,
-    ANY_VALUE(effective_date)        AS effective_date,
-    MIN(valid_from)                  AS valid_from,
-    MAX(valid_until)                 AS valid_until
-  FROM rates
-  GROUP BY hts10, revision
-`;
+// Shared GROUP BY body for product_base_rates. The grouping key includes
+// `revision`, which means a per-revision aggregate (with WHERE revision =
+// '...') is mathematically identical to the global aggregate restricted to
+// that revision's groups. The push script exploits that to rebuild the
+// materialized cloud table revision-by-revision, bounding peak duckling
+// memory to one partition.
+export function productBaseRatesBody(whereClause = '') {
+  return `
+    SELECT
+      hts10, revision,
+      ANY_VALUE(base_rate)             AS base_rate,
+      ANY_VALUE(statutory_base_rate)   AS statutory_base_rate,
+      ANY_VALUE(rate_column2)          AS rate_column2,
+      ANY_VALUE(rate_column2_raw)      AS rate_column2_raw,
+      ANY_VALUE(rate_special)          AS rate_special,
+      ANY_VALUE(rate_special_raw)      AS rate_special_raw,
+      ANY_VALUE(special_programs_json) AS special_programs_json,
+      ANY_VALUE(rate_basis)            AS rate_basis,
+      ANY_VALUE(specific_amount)       AS specific_amount,
+      ANY_VALUE(specific_rate_unit)    AS specific_rate_unit,
+      ANY_VALUE(reported_unit_1)       AS reported_unit_1,
+      ANY_VALUE(reported_unit_2)       AS reported_unit_2,
+      ANY_VALUE(duty_basis_unit)       AS duty_basis_unit,
+      ANY_VALUE(is_qty_duty_relevant)  AS is_qty_duty_relevant,
+      ANY_VALUE(quantity_source)       AS quantity_source,
+      ANY_VALUE(rounding_rule)         AS rounding_rule,
+      ANY_VALUE(calc_status)           AS calc_status,
+      ANY_VALUE(effective_date)        AS effective_date,
+      MIN(valid_from)                  AS valid_from,
+      MAX(valid_until)                 AS valid_until
+    FROM rates
+    ${whereClause}
+    GROUP BY hts10, revision
+  `;
+}
 
 // Local DuckDB: a VIEW is cheap because parquet reads are columnar and the
 // local query planner prunes files aggressively. The GROUP BY compiles once.
 export const PRODUCT_BASE_RATES_VIEW_SQL = `
   CREATE OR REPLACE VIEW product_base_rates AS
-  ${PRODUCT_BASE_RATES_BODY}
-`;
-
-// MotherDuck: a materialized TABLE avoids re-running the GROUP BY over the
-// entire rates table on every synthesis query. The push script creates it
-// once after a full rebuild / incremental replace so the server can treat
-// it as a normal table.
-//
-// Callers must run `DROP VIEW IF EXISTS product_base_rates` first to handle
-// upgrade from older deploys where this object was created as a VIEW —
-// CREATE OR REPLACE TABLE cannot replace a VIEW (MotherDuck returns
-// "Existing object ... is of type View, trying to replace with type Table").
-export const PRODUCT_BASE_RATES_TABLE_SQL = `
-  CREATE OR REPLACE TABLE product_base_rates AS
-  ${PRODUCT_BASE_RATES_BODY}
+  ${productBaseRatesBody()}
 `;
 
 const STATS_SQL = `

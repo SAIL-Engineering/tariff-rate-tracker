@@ -2178,13 +2178,6 @@ hts8,category,country_group,ch99_code
 72042100,ptaap,swiss,9903.02.84
 72051000,ptaap,eu,9903.02.74
 72051000,ptaap,swiss,9903.02.84
-72166100,civil_aircraft,japan,9903.96.02
-72166900,civil_aircraft,japan,9903.96.02
-72169100,civil_aircraft,japan,9903.96.02
-73011000,civil_aircraft,japan,9903.96.02
-73021000,civil_aircraft,japan,9903.96.02
-73024000,civil_aircraft,japan,9903.96.02
-73029000,civil_aircraft,japan,9903.96.02
 73043130,civil_aircraft,eu,9903.02.76
 73043130,civil_aircraft,korea,9903.02.81
 73043130,civil_aircraft,swiss,9903.02.85
@@ -2344,6 +2337,7 @@ hts8,category,country_group,ch99_code
 76082000,civil_aircraft,eu,9903.02.76
 76082000,civil_aircraft,korea,9903.02.81
 76082000,civil_aircraft,swiss,9903.02.85
+76169951,civil_aircraft,japan,9903.96.02
 79011100,ptaap,eu,9903.02.74
 79011100,ptaap,swiss,9903.02.84
 79011210,ptaap,eu,9903.02.74
