@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-08
 **Author:** Nishanth Palaniswami
-**Status:** Triage complete; root cause not yet isolated. Documented as **validation seed #1** for the 22 flagged rate-accuracy discrepancies.
+**Status:** **Root cause confirmed (H1 + H3).** Recommends a `resources/s232_annex_products.csv` audit before any code change. Also surfaces a secondary parsing anomaly in the same file (Ch76 entries mislabeled as `steel`).
 **Branch:** `nx_dev`
 
 ## Summary
@@ -91,6 +91,64 @@ The script:
 4. Confirms the BEA row for `8471500150` (sanity check that the source data hasn't drifted).
 
 After the row is inspected, the next step is either (a) add a regression test in `tests/test_rate_calculation.R` asserting the correct `metal_share` and `rate_232` for this HTS+country+date triple, or (b) document `8471500150` as known-correct under the annex scope and adjust the badge condition.
+
+## Verification result (2026-05-08)
+
+`Rscript scripts/verify_8471_metal_share.R` against the local parquet (`2026_rev_7`):
+
+```
+hts10       country revision   rate_232 rate_301 metal_share steel_share aluminum_share copper_share
+8471500150  5700    2026_rev_7 0.25     0.25     1           0           0              0
+ch99_code_232 = 9903.74.01    s232_annex = annex_1b    deriv_type = NA
+```
+
+**Both H1 and H3 confirmed:**
+- **H3 (annex scope):** `s232_annex_products.csv` contains a chapter-level entry `8471,1b,aluminum,proclamation,2026-04-06`. The pipeline matches `8471500150` against this 4-digit prefix.
+- **H1 (heading/derivative-overlap reset):** the annex match flags it as a heading-derivative, which triggers the `metal_share = 1.0` reset at `06_calculate_rates.R:432-446`. Per-type shares (steel/aluminum/copper) are zeroed in the same block.
+
+**Verdict:** the 25% rate is internally consistent with the current data + code. The bug is upstream in **the annex CSV**, not the rate-calc engine.
+
+### The 22 chapter-prefix entries — three smell tests
+
+`s232_annex_products.csv` length distribution (799 rows):
+
+| Prefix length | Count | Granularity |
+|---|---|---|
+| 4 (chapter) | **22** | suspect — chapter-wide is a strong claim |
+| 6 (HS6 heading) | 57 | reasonable |
+| 8 (HS8 subheading) | 631 | normal |
+| 10 (HTS10 statistical) | 89 | normal |
+
+The 22 chapter-level entries:
+
+```
+7601 7604 7605 7606 7607 7608 7609   — Ch76 aluminum, labeled "1a steel"      ⚠ mislabeled
+8407                                   — engines, "2 steel"                     plausible
+8427 8429 8430                         — fork-lifts, bulldozers, graders, "1b steel"   plausible
+8501 8502                              — electric motors, generators, "1b steel"       plausible
+8601 8605                              — rail locomotives, coaches, "1b steel"         plausible
+8701 8702 8703 8704 8705 8709          — vehicles + works trucks, "1b/2 steel"        plausible
+8471                                   — CPUs/laptops/keyboards/storage, "1b aluminum" ⚠ scope creep
+```
+
+**Two concerns:**
+
+1. **`8471,1b,aluminum`** is scope creep. Heading 8471 covers entire computers (CPUs, laptops, peripherals, storage). The proclamation almost certainly referenced a specific subheading or HTS10 code (e.g., aluminum housings or chassis classified as "parts"), but the parser captured the chapter prefix.
+
+2. **`7601-7609` are mislabeled `steel`** when chapter 76 is aluminum. Either the parser swapped types, or the proclamation has unusual treatment of these as "steel" (very unlikely). This doesn't affect calculation magnitude (annex 1a is still the higher-rate annex), but it produces wrong `metal_type` metadata downstream.
+
+## Recommendation
+
+**Do not unilaterally edit `s232_annex_products.csv`** — annex scope is a policy question, not a code question. Proposed sequence:
+
+1. **Audit the source proclamation PDF** (April 2, 2026 Section 232 annex). Confirm whether the proclamation actually lists chapter 8471 wholesale, or only specific subheadings.
+2. If chapter-wide is wrong: replace the `8471` row with the specific HTS10/HS8 codes the proclamation references.
+3. Separately, fix the `7601-7609` `metal_type` from `steel` → `aluminum` (this is unambiguous).
+4. Re-run a focused subset of the build (just rev_7) to confirm `8471500150` now drops out of S232 (or gets the correct narrower scope).
+5. Add a data-hygiene check to `src/preflight.R` (or a new test) asserting `s232_annex_products.csv` rows of length 4 are restricted to primary metal chapters (72, 73, 76).
+6. Add the verified row to a regression set for huddle item 3.
+
+The verification harness `scripts/verify_8471_metal_share.R` can re-run after any CSV change to confirm the row resolves.
 
 ## Why this is validation seed #1
 
