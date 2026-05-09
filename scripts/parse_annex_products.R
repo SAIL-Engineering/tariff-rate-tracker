@@ -57,8 +57,18 @@ extract_hts_codes <- function(text_lines) {
     # Plain 4-digit headings that appear alone (e.g., "7206 7207 7208")
     # Only match if they look like HTS headings (start of a heading, 4 digits, space-separated)
     plain4 <- str_extract_all(line, '(?<=^|\\s)\\d{4}(?=\\s|$)')[[1]]
-    # Filter plain4 to plausible HTS chapters (70-99 or 01-49 for Annex II)
-    plain4 <- plain4[as.numeric(substr(plain4, 1, 2)) %in% c(0:49, 70:99)]
+    # Tightened (2026-05-08): restrict to primary metal chapters only.
+    # See docs/analysis/s232_annex_provenance_audit_2026-05-08.md.
+    # The previous filter `c(0:49, 70:99)` accepted bare 4-digit captures
+    # from any HTS chapter, which let stray numbers from PDF table cell
+    # breaks land in the CSV as fake chapter-level prefixes (e.g., 8471
+    # showed up as a chapter-wide aluminum-derivative entry, causing
+    # full 25% S232 to apply to all CPUs/laptops). Proclamation 11021
+    # lists primary metals at chapter granularity only for chapters
+    # 72/73 (steel), 74 (copper), 76 (aluminum). Anything else with a
+    # bare 4-digit code is almost certainly a parsing artifact —
+    # narrower codes still come through the dotted/longer regex paths.
+    plain4 <- plain4[as.numeric(substr(plain4, 1, 2)) %in% c(72, 73, 74, 76)]
     # Plain 8/10 digit codes without dots (Annex II format): 04029968
     plain8 <- str_extract_all(line, '(?<=^|\\s)\\d{8,10}(?=\\s|$)')[[1]]
     all_codes <- c(all_codes, dotted, plain4, plain8)
