@@ -347,6 +347,22 @@ export type AuthorityDataMode =
   | 'SCOPE_REVIEW';
 
 /**
+ * Declared metal content of a product, supplied by the importer to override the
+ * BEA-derived per-type metal shares baked into a ProductRate. Each metal can be
+ * declared as a percent (0-1) or as grams; if grams are used, totalWeightGrams
+ * is required to convert. When a metal is undefined here, the BEA-derived share
+ * on the rate row is used as the fallback for that metal.
+ */
+export interface DeclaredMetalContent {
+  aluminum?: { percent?: number; grams?: number };
+  steel?:    { percent?: number; grams?: number };
+  copper?:   { percent?: number; grams?: number };
+  other?:    { percent?: number; grams?: number };
+  /** Required when any metal is declared in grams; ignored when all are declared as percent. */
+  totalWeightGrams?: number;
+}
+
+/**
  * User-entered composition/content overrides for duty calculation.
  * These supplement the pre-computed rates from the backend.
  */
@@ -365,6 +381,8 @@ export interface CompositionOverrides {
   secondarySmeltCountry?: string;
   /** Country of aluminum casting (Census code) — 232 aluminum reporting */
   castCountry?: string;
+  /** Declared per-type metal composition; overrides BEA-derived shares for stacking math. */
+  declaredMetalContent?: DeclaredMetalContent;
 }
 
 /**

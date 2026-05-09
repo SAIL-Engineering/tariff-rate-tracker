@@ -1,4 +1,4 @@
-import type { ProductRate, DutyBreakdown, LandedCostResult, AuthorityKey, RateBasis, RoundingRule, CompositionOverrides, AuthorityDataMode, AuthorityTrigger } from '@/types/tariff';
+import type { ProductRate, DutyBreakdown, LandedCostResult, AuthorityKey, RateBasis, RoundingRule, CompositionOverrides, DeclaredMetalContent, AuthorityDataMode, AuthorityTrigger } from '@/types/tariff';
 import { AUTHORITY_MAP, STATUTORY_KEY_MAP, COLUMN2_COUNTRY_CODES, CTY_CHINA, parseSpecialPrograms } from '@/types/tariff';
 import { formatDate } from '@/utils/formatters';
 import { resolveCh99Code } from '@/utils/chapter99';
@@ -169,6 +169,59 @@ function calculateBaseDutyAmount(
  *
  * Returns (1 - activeTypeShare) when 232 is active and product has partial metal content.
  */
+// =============================================================================
+// Declared Metal Content Override
+// =============================================================================
+// Importers can declare actual per-type metal content via CompositionOverrides
+// (declaredMetalContent). When present, the declared values replace the
+// BEA-derived per-type shares on the rate row before the stacking math runs.
+// This lets a CPU with 0.13% aluminum content get charged S232 on 0.13% of its
+// value rather than 100%.
+
+const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
+
+function resolveMetalShare(
+  decl: { percent?: number; grams?: number } | undefined,
+  totalWeightGrams: number | undefined,
+  fallback: number,
+): number {
+  if (decl?.percent != null) return clamp01(decl.percent);
+  if (decl?.grams != null && totalWeightGrams != null && totalWeightGrams > 0) {
+    return clamp01(decl.grams / totalWeightGrams);
+  }
+  return fallback;
+}
+
+/**
+ * Apply a DeclaredMetalContent override to a ProductRate, returning a NEW rate
+ * with the per-type shares (and aggregate metal_share) replaced. Returns the
+ * original rate unchanged when no override is supplied.
+ *
+ * The downstream stacking math (computeNonmetalShare, computeNetAuthorityAmounts)
+ * reads the share fields off the rate object, so applying the override at the
+ * top of calculateLandedCost is sufficient — no further changes downstream.
+ */
+export function applyMetalContentOverride(
+  rate: ProductRate,
+  override: DeclaredMetalContent | undefined,
+): ProductRate {
+  if (!override) return rate;
+  const { totalWeightGrams } = override;
+  const aluminum = resolveMetalShare(override.aluminum, totalWeightGrams, rate.aluminum_share);
+  const steel    = resolveMetalShare(override.steel,    totalWeightGrams, rate.steel_share);
+  const copper   = resolveMetalShare(override.copper,   totalWeightGrams, rate.copper_share);
+  const other    = resolveMetalShare(override.other,    totalWeightGrams, rate.other_metal_share);
+  const totalMetal = clamp01(aluminum + steel + copper + other);
+  return {
+    ...rate,
+    aluminum_share: aluminum,
+    steel_share: steel,
+    copper_share: copper,
+    other_metal_share: other,
+    metal_share: totalMetal,
+  };
+}
+
 export function computeNonmetalShare(rate: ProductRate): number {
   if (rate.rate_232 <= 0) return 0;
 
@@ -295,19 +348,25 @@ export function calculateLandedCost(
   const countryCode = options?.countryCode;
   const composition = options?.composition;
 
-  const { effectiveBaseRate, tier } = selectApplicableBaseRate(rate, countryCode);
-  const rateBasis: RateBasis = rate.rate_basis ?? 'ad_valorem';
+  // Apply declared metal content override (if any) BEFORE share-driven stacking.
+  // The override replaces the BEA-derived per-type shares on the rate row;
+  // downstream stacking math reads from the effective rate. usContentPercent /
+  // usContentValue are independent of metal content and apply below unchanged.
+  const effectiveRate = applyMetalContentOverride(rate, composition?.declaredMetalContent);
+
+  const { effectiveBaseRate, tier } = selectApplicableBaseRate(effectiveRate, countryCode);
+  const rateBasis: RateBasis = effectiveRate.rate_basis ?? 'ad_valorem';
 
   // Calculate base duty (Chapters 1-97 rate)
-  const baseDuty = calculateBaseDutyAmount(rate, customsValue, effectiveBaseRate, quantity);
+  const baseDuty = calculateBaseDutyAmount(effectiveRate, customsValue, effectiveBaseRate, quantity);
 
   // ---------------------------------------------------------------------------
   // Additional duties (Chapter 99) with mutual-exclusion stacking.
   // Port of apply_stacking_rules() from helpers.R:1470-1496.
   // ---------------------------------------------------------------------------
-  const cc = countryCode ?? rate.country;
-  const netAmounts = computeNetAuthorityAmounts(rate, cc);
-  const nonmetalShare = computeNonmetalShare(rate);
+  const cc = countryCode ?? effectiveRate.country;
+  const netAmounts = computeNetAuthorityAmounts(effectiveRate, cc);
+  const nonmetalShare = computeNonmetalShare(effectiveRate);
 
   // US content carveout for IEEPA reciprocal (EO 14257):
   // Duty applies only to non-U.S. content when >= 20% is U.S. originating.

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { DatePickerNeu } from './DatePickerNeu';
 import { CountryAutocomplete } from './CountryAutocomplete';
 import { ShipmentImportDialog } from './ShipmentImportDialog';
+import { RowCompositionPanel } from './RowCompositionPanel';
 import type { Country, ProductRate, ShipmentRow, RateBasis, CompositionOverrides, AuthorityTrigger } from '@/types/tariff';
 import type { RateMatchKind } from '@/hooks/useTariffData';
 import {
@@ -215,6 +216,27 @@ export function DutyCalculatorPanel({
     }), { customsValue: 0, totalDuty: 0, mpf: 0, hmf: 0, totalFees: 0, freight: 0, insurance: 0, landedCost: 0, count: 0 });
   }, [results]);
 
+  // Authority-keyed total duty across all rows. Each row's calculated breakdown
+  // is summed by authority label; the result is rendered as a roll-up strip
+  // below the totals row when multiple shipments are present.
+  const authorityTotals = useMemo(() => {
+    const sums = new Map<string, { duty: number; color: string }>();
+    for (const { result } of results) {
+      if (!result?.breakdown) continue;
+      for (const item of result.breakdown) {
+        const cur = sums.get(item.authority);
+        sums.set(item.authority, {
+          duty: (cur?.duty ?? 0) + item.dutyAmount,
+          color: cur?.color ?? item.color,
+        });
+      }
+    }
+    // Emit only authorities with non-zero duty for a tidy strip
+    return Array.from(sums.entries())
+      .filter(([, v]) => Math.abs(v.duty) > 0.005)
+      .map(([authority, v]) => ({ authority, ...v }));
+  }, [results]);
+
   const hasResults = totals.count > 0;
 
   const handleExportCSV = useCallback(() => {
@@ -380,6 +402,19 @@ export function DutyCalculatorPanel({
                       className="h-7 text-xs font-mono w-28" placeholder="0.00" />
                   </div>
                 </div>
+                {/* Declared metal content panel — always available when S232 is active for this row */}
+                {rowRate && rowRate.rate_232 > 0 && (
+                  <div className="ml-4 mt-1">
+                    <RowCompositionPanel
+                      rate={rowRate}
+                      countryCode={cc}
+                      composition={row.composition}
+                      onChange={(next) => {
+                        setRows(prev => prev.map(r => r.id === row.id ? { ...r, composition: next } : r));
+                      }}
+                    />
+                  </div>
+                )}
                 {/* Authority-specific composition fields */}
                 {rowRate && (() => {
                   const triggers = detectAuthorityTriggers(rowRate, cc);
@@ -408,7 +443,7 @@ export function DutyCalculatorPanel({
                                   ) : (
                                     <Input
                                       type="number"
-                                      value={row.composition?.[field.key] ?? ''}
+                                      value={(row.composition?.[field.key] as number | string | undefined) ?? ''}
                                       min={0}
                                       max={field.type === 'percent' ? 1 : undefined}
                                       step={field.type === 'percent' ? 0.01 : undefined}
@@ -636,6 +671,26 @@ export function DutyCalculatorPanel({
                   </tr>
                 </tfoot>
               </table>
+            </div>
+          )}
+
+          {/* Authority-breakdown roll-up — sums each duty authority across all rows */}
+          {hasResults && totals.count >= 2 && authorityTotals.length > 0 && (
+            <div className="mt-3 rounded-xl border border-gray-200/80 bg-white px-3.5 py-2.5">
+              <div className="text-[11px] font-medium text-gray-500 uppercase tracking-wider mb-1.5">
+                Total duty by authority
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                {authorityTotals.map(({ authority, duty, color }) => (
+                  <div key={authority} className="flex items-center gap-1.5 text-xs">
+                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+                    <span className="text-gray-600">{authority}</span>
+                    <span className="font-mono font-medium text-gray-900 tabular-nums">
+                      {formatCurrency(duty)}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
