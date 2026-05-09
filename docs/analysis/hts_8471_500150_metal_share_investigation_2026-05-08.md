@@ -3,7 +3,7 @@
 **Date:** 2026-05-08
 **Author:** Nishanth Palaniswami
 **Status:** Triage complete; root cause not yet isolated. Documented as **validation seed #1** for the 22 flagged rate-accuracy discrepancies.
-**Branch:** `nishanth/2026-05-08-windows-ch99-fixes`
+**Branch:** `nx_dev`
 
 ## Summary
 
