@@ -40,8 +40,13 @@ export function RowCompositionPanel({
 }: RowCompositionPanelProps) {
   const [mode, setMode] = useState<InputMode>('percent');
 
-  // No point if S232 isn't active for this row
-  if (rate.rate_232 <= 0) return null;
+  // Render whenever Section 232 is on the books for this product
+  // (statutory_rate_232 > 0). When the current country zeros rate_232 (e.g.,
+  // USMCA-eligible Canada origin), the panel still appears so the user can
+  // declare composition for hypothetical or future scenarios; the override
+  // engine preserves country-level exemptions so declaring won't bypass them.
+  if (rate.statutory_rate_232 <= 0) return null;
+  const exemptForThisCountry = rate.rate_232 <= 0;
 
   const declared = composition?.declaredMetalContent;
 
@@ -103,6 +108,12 @@ export function RowCompositionPanel({
             Default scales by BEA-derived per-type shares. Declare actual content to override —
             the displayed Section 232 rate recomputes live.
           </div>
+          {exemptForThisCountry && (
+            <div className="mt-1 inline-flex items-center gap-1 rounded bg-blue-50 border border-blue-200 px-2 py-0.5 text-[10px] text-blue-700">
+              <AlertTriangle className="h-3 w-3" />
+              S232 currently zero for this origin (e.g. USMCA / exemption). Declaration is recorded but won&apos;t change duty for this row.
+            </div>
+          )}
         </div>
         {hasAnyDeclared && (
           <Button variant="outline" size="sm" onClick={reset} className="h-7 text-[10.5px] px-2">

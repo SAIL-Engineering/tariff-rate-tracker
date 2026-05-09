@@ -402,8 +402,13 @@ export function DutyCalculatorPanel({
                       className="h-7 text-xs font-mono w-28" placeholder="0.00" />
                   </div>
                 </div>
-                {/* Declared metal content panel — always available when S232 is active for this row */}
-                {rowRate && rowRate.rate_232 > 0 && (
+                {/* Declared metal content panel — visible whenever Section 232 is on
+                    the books for this product (statutory_rate_232 > 0). Stays visible
+                    even when the current country zeros rate_232 (e.g., USMCA), so
+                    users can declare regardless and see the effect when they switch
+                    country. The override engine preserves country-level exemptions
+                    (declaring won't resurrect a USMCA-zeroed rate_232). */}
+                {rowRate && rowRate.statutory_rate_232 > 0 && (
                   <div className="ml-4 mt-1">
                     <RowCompositionPanel
                       rate={rowRate}

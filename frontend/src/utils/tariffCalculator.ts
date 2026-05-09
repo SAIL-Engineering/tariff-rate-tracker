@@ -238,7 +238,13 @@ export function applyMetalContentOverride(
     // can still see the effective rate live; if it looks wrong, they iterate.
     activeTypeShare = aluminum;
   }
-  const newRate232 = Math.max(0, rate.statutory_rate_232 * activeTypeShare);
+  // Preserve country-level exemption: if the post-stacking rate_232 was already
+  // zero (e.g., USMCA-eligible Canada origin), the user's metal declaration is
+  // about *physical* composition and should not bypass the exemption. Only
+  // rescale when the rate is actively applied for this (country, date) triple.
+  const newRate232 = rate.rate_232 > 0
+    ? Math.max(0, rate.statutory_rate_232 * activeTypeShare)
+    : 0;
 
   return {
     ...rate,
