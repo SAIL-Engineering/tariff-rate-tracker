@@ -149,10 +149,20 @@ export function RowCompositionPanel({
             type="number"
             min={0}
             step={0.01}
-            value={declared?.totalWeightGrams ?? ''}
+            value={
+              declared?.totalWeightGrams != null
+                ? Math.round(declared.totalWeightGrams * 100) / 100
+                : ''
+            }
             onChange={(e) => {
-              const v = e.target.value === '' ? undefined : Number(e.target.value);
-              updateTotalWeight(Number.isFinite(v as number) ? v : undefined);
+              const raw = e.target.value;
+              if (raw === '') {
+                updateTotalWeight(undefined);
+                return;
+              }
+              const n = Number(raw);
+              if (!Number.isFinite(n)) return;
+              updateTotalWeight(Math.round(Math.max(0, n) * 100) / 100);
             }}
             className="h-8 text-[11px] max-w-[140px]"
           />
@@ -162,10 +172,12 @@ export function RowCompositionPanel({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {METALS.map(({ key, label }) => {
           const decl = declared?.[key];
+          // Round to 2 decimals to avoid float-precision artifacts in display
+          // (e.g., 7 / 100 = 0.07000000000000001 → was rendering as 7.000000000000001).
           const fieldValue =
             mode === 'percent'
-              ? decl?.percent != null ? decl.percent * 100 : ''
-              : decl?.grams ?? '';
+              ? decl?.percent != null ? Math.round(decl.percent * 10000) / 100 : ''
+              : decl?.grams != null ? Math.round(decl.grams * 100) / 100 : '';
           const effPct = effectivePcts[key] * 100;
           const isOverridden = decl?.[mode === 'percent' ? 'percent' : 'grams'] != null;
           return (
@@ -174,7 +186,7 @@ export function RowCompositionPanel({
               <Input
                 type="number"
                 min={0}
-                step={mode === 'percent' ? 0.01 : 0.001}
+                step={0.01}
                 placeholder={`BEA: ${effPct.toFixed(3)}%`}
                 value={fieldValue}
                 onChange={(e) => {
@@ -185,7 +197,10 @@ export function RowCompositionPanel({
                   }
                   const n = Number(raw);
                   if (!Number.isFinite(n)) return;
-                  const v = mode === 'percent' ? Math.max(0, n) / 100 : Math.max(0, n);
+                  // Snap to 2 decimal places before storing so percent×100 and
+                  // grams arithmetic don't introduce trailing-9 garbage later.
+                  const rounded = Math.round(Math.max(0, n) * 100) / 100;
+                  const v = mode === 'percent' ? rounded / 100 : rounded;
                   updateMetal(key, mode === 'percent' ? 'percent' : 'grams', v);
                 }}
                 className="h-8 text-[11px]"
