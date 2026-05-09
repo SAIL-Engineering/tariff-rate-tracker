@@ -194,12 +194,17 @@ function resolveMetalShare(
 
 /**
  * Apply a DeclaredMetalContent override to a ProductRate, returning a NEW rate
- * with the per-type shares (and aggregate metal_share) replaced. Returns the
+ * with the per-type shares replaced AND the post-stacking rate_232 recomputed
+ * from the statutory rate × the user's declared active-type share. Returns the
  * original rate unchanged when no override is supplied.
  *
- * The downstream stacking math (computeNonmetalShare, computeNetAuthorityAmounts)
- * reads the share fields off the rate object, so applying the override at the
- * top of calculateLandedCost is sufficient — no further changes downstream.
+ * Why we override rate_232 explicitly: the rate_232 returned by the API is
+ * already metal-scaled by the R backend (rate_232 = statutory × bea_share for
+ * derivatives, statutory × 1.0 for primary metals). Overriding only the share
+ * fields would update the IEEPA/S122 nonmetal-portion math but leave rate_232
+ * frozen at the API value — so the displayed Section 232 wouldn't reflect the
+ * declared content. We recompute it here from statutory_rate_232 × the active-
+ * type declared share, mirroring the active-type selection in computeNonmetalShare.
  */
 export function applyMetalContentOverride(
   rate: ProductRate,
@@ -212,6 +217,29 @@ export function applyMetalContentOverride(
   const copper   = resolveMetalShare(override.copper,   totalWeightGrams, rate.copper_share);
   const other    = resolveMetalShare(override.other,    totalWeightGrams, rate.other_metal_share);
   const totalMetal = clamp01(aluminum + steel + copper + other);
+
+  // Pick the active metal type the same way computeNonmetalShare does, then
+  // scale the underlying statutory rate by the declared share for that type.
+  const ch2 = rate.hts10.substring(0, 2);
+  let activeTypeShare: number;
+  if (ch2 === '72' || ch2 === '73') {
+    activeTypeShare = steel;
+  } else if (ch2 === '76') {
+    activeTypeShare = aluminum;
+  } else if (rate.is_copper_heading) {
+    activeTypeShare = copper;
+  } else if (rate.deriv_type === 'steel') {
+    activeTypeShare = steel;
+  } else if (rate.deriv_type === 'aluminum') {
+    activeTypeShare = aluminum;
+  } else {
+    // Ambiguous derivative classification — fall back to aluminum to mirror the
+    // R pipeline's behavior (helpers.R fallback at the same branch). The user
+    // can still see the effective rate live; if it looks wrong, they iterate.
+    activeTypeShare = aluminum;
+  }
+  const newRate232 = Math.max(0, rate.statutory_rate_232 * activeTypeShare);
+
   return {
     ...rate,
     aluminum_share: aluminum,
@@ -219,6 +247,7 @@ export function applyMetalContentOverride(
     copper_share: copper,
     other_metal_share: other,
     metal_share: totalMetal,
+    rate_232: newRate232,
   };
 }
 
