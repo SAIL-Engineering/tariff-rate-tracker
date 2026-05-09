@@ -74,21 +74,21 @@ Pipeline produces correct partial `metal_share` and reduced `rate_232`, but the 
 
 ## Recommended verification path (next session)
 
-A single DuckDB query against the local parquet ends the speculation:
+A single DuckDB query against the local parquet ends the speculation. Packaged as `scripts/verify_8471_metal_share.R` (commit `b8521f56`):
 
-```r
-library(arrow); library(dplyr)
-ds <- open_dataset('data/timeseries/rate_timeseries_parquet', partitioning = 'revision')
-ds %>%
-  filter(revision == '2026_rev_7',
-         hts10 == '8471500150',
-         country == '5700') %>%
-  collect() %>%
-  glimpse()
+```bash
+Rscript scripts/verify_8471_metal_share.R
 ```
 
-If `metal_share == 1.0` in that row → H1 or H2 confirmed (pipeline-side bug).
-If `metal_share == 0.0084` in that row → H4 confirmed (frontend-only bug).
+The script:
+1. Opens the parquet at `data/timeseries/rate_timeseries_parquet/`, filters to the target row, `glimpse()`s every column.
+2. Reads `metal_share` from the captured row and prints a verdict mapping it to H1–H4:
+   - `metal_share == 1.0` → H1 (heading/derivative reset) or H2 (BEA join miss).
+   - `metal_share ≈ 0.0084` → H4 (frontend-only — pipeline is correct, badge condition is wrong).
+   - `metal_share ≈ 0.5` → BEA fallback fired (8471500150 missing from BEA join).
+   - anything else → unexpected, capture and re-triage.
+3. Greps `resources/s232_annex_products.csv` for `8471` prefixes (H3 check).
+4. Confirms the BEA row for `8471500150` (sanity check that the source data hasn't drifted).
 
 After the row is inspected, the next step is either (a) add a regression test in `tests/test_rate_calculation.R` asserting the correct `metal_share` and `rate_232` for this HTS+country+date triple, or (b) document `8471500150` as known-correct under the annex scope and adjust the badge condition.
 
