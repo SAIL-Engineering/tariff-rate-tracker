@@ -168,3 +168,63 @@ Whatever the resolution, the row should land in the regression set and any polic
 - `resources/s232_derivative_products.csv` — derivative HTS list (does not contain 8471)
 - `resources/metal_content_shares_bea_hs10.csv:17032` — BEA share for 8471500150
 - `docs/analysis/section_232_review_memo_2026-04-06.md` — prior annex review
+
+---
+
+## Resolution (2026-05-08)
+
+### What we tried to do
+Read the April 2, 2026 Section 232 annex proclamation directly and identify the actual scope of HTS heading 8471. The Federal Register entry is **Proclamation 11021** (publication 91 FR 18201, document 2026-06960), titled *"Strengthening Actions Taken To Adjust Imports of Aluminum, Steel, and Copper Into the United States."*
+
+### What blocked us
+The proclamation's annex tables are embedded as **TIFF images** in the official Federal Register publication ("[GRAPHIC] [TIFF OMITTED]" markers span pages 18209–18266) and as compressed binary streams in the WhiteHouse PDF. Neither source's annex tables are extractable by the WebFetch text path. The proclamation's body text, which IS searchable, mentions only chapters **72, 73, 74, 76** (steel, aluminum, copper) — **chapter 84 is not referenced anywhere in the body text.**
+
+### The systemic parser bug
+`scripts/parse_annex_products.R:59` extracts standalone 4-digit numbers from each line of the pdftotext output:
+
+```r
+plain4 <- str_extract_all(line, '(?<=^|\\s)\\d{4}(?=\\s|$)')[[1]]
+plain4 <- plain4[as.numeric(substr(plain4, 1, 2)) %in% c(0:49, 70:99)]
+```
+
+This regex captures any 4-digit number isolated by whitespace from chapters 0–49 or 70–99. PDF tables routinely render with broken cell boundaries — a line like `8471.30.0100  Aluminum housing` can output as just `8471` on its own line when the table column wraps, which the regex captures as a chapter prefix.
+
+The CSV had **22 chapter-level (4-digit) entries**. Most are plausible (heavy machinery, locomotives, vehicles), but the `8471` row is a clear outlier:
+- Heading 8471 = automatic data processing machines (CPUs, laptops, peripherals, storage). Treating the entire chapter as an aluminum derivative makes no policy sense.
+- Chapter 84 isn't mentioned in the proclamation's body text.
+- No narrower 8471 sub-entries (8-digit or 10-digit) exist in the CSV — so the parser captured the chapter prefix and nothing else for this heading. There's no specific 8471 sub-code that would rescue this entry.
+
+### Fix applied
+Removed the line `8471,1b,aluminum,proclamation,2026-04-06` from `resources/s232_annex_products.csv` (was line 269). One-row delete; no replacement rows since no specific 8471 sub-codes exist in the source data.
+
+After this change, the pipeline matching at `src/06_calculate_rates.R:1646-1648` no longer matches 8471500150 against any annex prefix, so it should fall out of the heading-derivative path. The expected post-fix state is `rate_232 = 0` for this HTS+country+date triple (since it's also not in `s232_derivative_products.csv` and chapter 84 is not a primary metal chapter).
+
+### How to verify
+```powershell
+Set-Location "D:\Projects\sail\tarrif-rate\tariff-rate-tracker"
+Rscript scripts/verify_8471_metal_share.R
+```
+
+Expected output sections:
+- `Diagnostic fields` block: `rate_232 = 0`, `s232_annex = NA` (or empty)
+- `metal_share verdict` block: should NOT print "Pipeline-side override fired"
+- `s232_annex_products.csv check` block: "Rows matching prefix 8471: 0"
+
+### Important caveat
+The current parquet at `data/timeseries/rate_timeseries_parquet/` was built BEFORE this CSV edit and still contains the over-collected row. The verify script reads from the parquet, so until a re-build happens, it will still report the old `metal_share = 1.0` for this row. The CSV check block (which reads the CSV directly) WILL show the change.
+
+To see the fix reflected in actual rate output, re-run the pipeline at minimum for `2026_rev_7`:
+
+```powershell
+Rscript src/00_build_timeseries.R --start-from 2026_rev_7 --core-only
+# Then re-run the verify script
+Rscript scripts/verify_8471_metal_share.R
+```
+
+### Follow-ups (not in this fix)
+
+1. **Audit the other 21 chapter-level prefixes** in `s232_annex_products.csv`. Most look plausible but each should be verified — especially `8501`/`8502` (electric motors/generators, broad coverage) and the `8701-8705` vehicle headings.
+2. **Tighten `scripts/parse_annex_products.R:59`** to reject standalone 4-digit captures except when the surrounding context confirms a heading-list (e.g., a known sub-section header that legitimately enumerates chapters wholesale, like the steel/aluminum primary chapters 72, 73, 76). Until the parser is fixed, any future re-parse of the proclamation will reintroduce this class of artifact.
+3. **Ship the secondary fix** for the `7601-7609 metal_type=steel` mislabel as a separate one-row-per-line commit. Chapter 76 is aluminum, the mislabel is unambiguous.
+4. **Add a regression test** asserting that `8471500150 / China / 2026_rev_7` resolves with `rate_232 = 0` (or whatever the post-rebuild value is). Defer until after the local rebuild confirms the new value.
+5. **Re-run `scripts/verify_8471_metal_share.R` post-rebuild** and capture the output as a comment in this memo.
