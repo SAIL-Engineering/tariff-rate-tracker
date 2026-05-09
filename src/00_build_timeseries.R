@@ -1213,6 +1213,10 @@ if (sys.nframe() == 0) {
       # over legacy short-format ones (ch99_rev_5.rds). The legacy files sort
       # lexicographically HIGHER than year-prefixed ("r" > "2"), so an unfiltered
       # sort picks the wrong one.
+      # `output_dir` is function-scoped inside build_full_timeseries(); pull it
+      # off `result` (returned at line 615-619) so this top-level block can find
+      # the cache directory after the function returns.
+      output_dir <- result$output_dir
       ch99_all <- list.files(output_dir, pattern = '^ch99_.*\\.rds$',
                               full.names = TRUE)
       ch99_canonical <- ch99_all[grepl('^ch99_(20[0-9]{2})_', basename(ch99_all))]
