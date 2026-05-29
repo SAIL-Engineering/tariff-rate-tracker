@@ -1120,8 +1120,13 @@ if (sys.nframe() == 0) {
   }
 
   # --- Step B: Download missing JSON ---
+  # The rate pipeline reads JSON only (parse_chapter99/parse_products use
+  # fromJSON); the CSV format is an auxiliary RAG/automation side-channel and
+  # is fetched/managed separately. Restrict the build's download to JSON so it
+  # doesn't pull (and structurally-validate) pre-2025 CSV editions, whose older
+  # USITC export layout trips the CSV validator and is irrelevant here.
   tryCatch(
-    download_missing_revisions(),
+    download_missing_revisions(formats = 'json'),
     error = function(e) message('Download check failed: ', conditionMessage(e))
   )
 

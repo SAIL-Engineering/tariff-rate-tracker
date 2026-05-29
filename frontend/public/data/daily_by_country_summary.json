@@ -420,6 +420,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 1000,
+    "country_name": "United States of America",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 1010,
     "country_name": "Greenland",
     "country_abbr": null,
@@ -835,6 +845,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431790312946,
+    "n_products_present": 19856
+  },
+  {
+    "country": 1010,
+    "country_name": "Greenland",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180431790312946,
     "n_products_present": 19856
@@ -1260,6 +1280,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 1220,
+    "country_name": "Canada",
+    "country_abbr": "canada",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.0930635379619091,
+    "mean_total_all_pairs": 0.132619524090457,
+    "n_products_present": 19856
+  },
+  {
     "country": 1610,
     "country_name": "Saint Pierre and Miquelon",
     "country_abbr": null,
@@ -1675,6 +1705,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 1610,
+    "country_name": "Saint Pierre and Miquelon",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -2100,6 +2140,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2010,
+    "country_name": "Mexico",
+    "country_abbr": "mexico",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.0988948714986472,
+    "mean_total_all_pairs": 0.138185406793135,
+    "n_products_present": 19856
+  },
+  {
     "country": 2050,
     "country_name": "Guatemala",
     "country_abbr": "ftrow",
@@ -2515,6 +2565,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124763752953245,
+    "mean_total_all_pairs": 0.135030249586726,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2050,
+    "country_name": "Guatemala",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124763752953245,
     "mean_total_all_pairs": 0.135030249586726,
     "n_products_present": 19856
@@ -2940,6 +3000,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2080,
+    "country_name": "Belize",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691404569874,
+    "mean_total_all_pairs": 0.177254693682766,
+    "n_products_present": 19856
+  },
+  {
     "country": 2110,
     "country_name": "El Salvador",
     "country_abbr": "ftrow",
@@ -3355,6 +3425,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124764633624149,
+    "mean_total_all_pairs": 0.134352640297762,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2110,
+    "country_name": "El Salvador",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124764633624149,
     "mean_total_all_pairs": 0.134352640297762,
     "n_products_present": 19856
@@ -3780,6 +3860,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2150,
+    "country_name": "Honduras",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124763699176475,
+    "mean_total_all_pairs": 0.143826039005872,
+    "n_products_present": 19856
+  },
+  {
     "country": 2190,
     "country_name": "Nicaragua",
     "country_abbr": "ftrow",
@@ -4195,6 +4285,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124698300406095,
+    "mean_total_all_pairs": 0.139971710461186,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2190,
+    "country_name": "Nicaragua",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124698300406095,
     "mean_total_all_pairs": 0.139971710461186,
     "n_products_present": 19856
@@ -4620,6 +4720,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2230,
+    "country_name": "Costa Rica",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124715333048064,
+    "mean_total_all_pairs": 0.1510726849177,
+    "n_products_present": 19856
+  },
+  {
     "country": 2250,
     "country_name": "Panama",
     "country_abbr": "ftrow",
@@ -5035,6 +5145,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124722311289189,
+    "mean_total_all_pairs": 0.149672965668058,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2250,
+    "country_name": "Panama",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124722311289189,
     "mean_total_all_pairs": 0.149672965668058,
     "n_products_present": 19856
@@ -5460,6 +5580,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2320,
+    "country_name": "Bermuda",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124763191219935,
+    "mean_total_all_pairs": 0.17784663225769,
+    "n_products_present": 19856
+  },
+  {
     "country": 2360,
     "country_name": "Bahamas",
     "country_abbr": null,
@@ -5875,6 +6005,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124716936003226,
+    "mean_total_all_pairs": 0.166296304673354,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2360,
+    "country_name": "Bahamas",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124716936003226,
     "mean_total_all_pairs": 0.166296304673354,
     "n_products_present": 19856
@@ -6300,6 +6440,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2390,
+    "country_name": "Cuba",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.179464192183723,
+    "n_products_present": 19856
+  },
+  {
     "country": 2410,
     "country_name": "Jamaica",
     "country_abbr": null,
@@ -6715,6 +6865,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124694906256932,
+    "mean_total_all_pairs": 0.170639853888266,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2410,
+    "country_name": "Jamaica",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124694906256932,
     "mean_total_all_pairs": 0.170639853888266,
     "n_products_present": 19856
@@ -7140,6 +7300,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2430,
+    "country_name": "Turks and Caicos Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124699801991568,
+    "mean_total_all_pairs": 0.179342975161315,
+    "n_products_present": 19856
+  },
+  {
     "country": 2440,
     "country_name": "Cayman Islands",
     "country_abbr": null,
@@ -7555,6 +7725,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124733092573346,
+    "mean_total_all_pairs": 0.179446468230675,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2440,
+    "country_name": "Cayman Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124733092573346,
     "mean_total_all_pairs": 0.179446468230675,
     "n_products_present": 19856
@@ -7980,6 +8160,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2450,
+    "country_name": "Haiti",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124693665411826,
+    "mean_total_all_pairs": 0.160845630053525,
+    "n_products_present": 19856
+  },
+  {
     "country": 2470,
     "country_name": "Dominican Republic",
     "country_abbr": "ftrow",
@@ -8395,6 +8585,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124751867445584,
+    "mean_total_all_pairs": 0.131834034705787,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2470,
+    "country_name": "Dominican Republic",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124751867445584,
     "mean_total_all_pairs": 0.131834034705787,
     "n_products_present": 19856
@@ -8820,6 +9020,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2481,
+    "country_name": "Anguilla",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469348097,
+    "mean_total_all_pairs": 0.179092570500209,
+    "n_products_present": 19856
+  },
+  {
     "country": 2482,
     "country_name": "British Virgin Islands",
     "country_abbr": null,
@@ -9235,6 +9445,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124692585612817,
+    "mean_total_all_pairs": 0.179098666814165,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2482,
+    "country_name": "British Virgin Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124692585612817,
     "mean_total_all_pairs": 0.179098666814165,
     "n_products_present": 19856
@@ -9660,6 +9880,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2483,
+    "country_name": "Saint Kitts and Nevis",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469335580397,
+    "mean_total_all_pairs": 0.179550809216568,
+    "n_products_present": 19856
+  },
+  {
     "country": 2484,
     "country_name": "Antigua and Barbuda",
     "country_abbr": null,
@@ -10075,6 +10305,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690801398416,
+    "mean_total_all_pairs": 0.179698664519083,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2484,
+    "country_name": "Antigua and Barbuda",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690801398416,
     "mean_total_all_pairs": 0.179698664519083,
     "n_products_present": 19856
@@ -10500,6 +10740,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2485,
+    "country_name": "Montserrat",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691498244433,
+    "mean_total_all_pairs": 0.18027230955235,
+    "n_products_present": 19856
+  },
+  {
     "country": 2486,
     "country_name": "Dominica",
     "country_abbr": null,
@@ -10915,6 +11165,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690866563406,
+    "mean_total_all_pairs": 0.178905534434252,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2486,
+    "country_name": "Dominica",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690866563406,
     "mean_total_all_pairs": 0.178905534434252,
     "n_products_present": 19856
@@ -11340,6 +11600,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2487,
+    "country_name": "Saint Lucia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124696288275584,
+    "mean_total_all_pairs": 0.176014004184382,
+    "n_products_present": 19856
+  },
+  {
     "country": 2488,
     "country_name": "Saint Vincent and the Grenadines",
     "country_abbr": null,
@@ -11755,6 +12025,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.1247496792005,
+    "mean_total_all_pairs": 0.179111039517882,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2488,
+    "country_name": "Saint Vincent and the Grenadines",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.1247496792005,
     "mean_total_all_pairs": 0.179111039517882,
     "n_products_present": 19856
@@ -12180,6 +12460,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2489,
+    "country_name": "Grenada",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690848312337,
+    "mean_total_all_pairs": 0.178605463755752,
+    "n_products_present": 19856
+  },
+  {
     "country": 2720,
     "country_name": "Barbados",
     "country_abbr": null,
@@ -12595,6 +12885,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124692291730162,
+    "mean_total_all_pairs": 0.168274017754549,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2720,
+    "country_name": "Barbados",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124692291730162,
     "mean_total_all_pairs": 0.168274017754549,
     "n_products_present": 19856
@@ -13020,6 +13320,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2740,
+    "country_name": "Trinidad and Tobago",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124745658514591,
+    "mean_total_all_pairs": 0.169517985508221,
+    "n_products_present": 19856
+  },
+  {
     "country": 2774,
     "country_name": "Sint Maarten",
     "country_abbr": null,
@@ -13435,6 +13745,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124693945193893,
+    "mean_total_all_pairs": 0.179631321898492,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2774,
+    "country_name": "Sint Maarten",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124693945193893,
     "mean_total_all_pairs": 0.179631321898492,
     "n_products_present": 19856
@@ -13860,6 +14180,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2777,
+    "country_name": "Curacao",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124751052384025,
+    "mean_total_all_pairs": 0.179173452254586,
+    "n_products_present": 19856
+  },
+  {
     "country": 2779,
     "country_name": "Aruba",
     "country_abbr": null,
@@ -14275,6 +14605,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124758667238519,
+    "mean_total_all_pairs": 0.177858956480565,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2779,
+    "country_name": "Aruba",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124758667238519,
     "mean_total_all_pairs": 0.177858956480565,
     "n_products_present": 19856
@@ -14700,6 +15040,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 2831,
+    "country_name": "Guadeloupe",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690800806016,
+    "mean_total_all_pairs": 0.180428891366116,
+    "n_products_present": 19856
+  },
+  {
     "country": 2839,
     "country_name": "Martinique",
     "country_abbr": null,
@@ -15115,6 +15465,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180377033580536,
+    "n_products_present": 19856
+  },
+  {
+    "country": 2839,
+    "country_name": "Martinique",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180377033580536,
     "n_products_present": 19856
@@ -15540,6 +15900,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3010,
+    "country_name": "Colombia",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124762671317021,
+    "mean_total_all_pairs": 0.143803942549398,
+    "n_products_present": 19856
+  },
+  {
     "country": 3070,
     "country_name": "Venezuela",
     "country_abbr": null,
@@ -15955,6 +16325,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180427163852748,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3070,
+    "country_name": "Venezuela",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180427163852748,
     "n_products_present": 19856
@@ -16380,6 +16760,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3120,
+    "country_name": "Guyana",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.1246961041945,
+    "mean_total_all_pairs": 0.176225346479209,
+    "n_products_present": 19856
+  },
+  {
     "country": 3150,
     "country_name": "Suriname",
     "country_abbr": null,
@@ -16795,6 +17185,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12470879972679,
+    "mean_total_all_pairs": 0.179935062962678,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3150,
+    "country_name": "Suriname",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12470879972679,
     "mean_total_all_pairs": 0.179935062962678,
     "n_products_present": 19856
@@ -17220,6 +17620,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3170,
+    "country_name": "French Guiana",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180426213393858,
+    "n_products_present": 19856
+  },
+  {
     "country": 3310,
     "country_name": "Ecuador",
     "country_abbr": null,
@@ -17635,6 +18045,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12470412098609,
+    "mean_total_all_pairs": 0.172607426707837,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3310,
+    "country_name": "Ecuador",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12470412098609,
     "mean_total_all_pairs": 0.172607426707837,
     "n_products_present": 19856
@@ -18060,6 +18480,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3330,
+    "country_name": "Peru",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124722285507412,
+    "mean_total_all_pairs": 0.132521029027764,
+    "n_products_present": 19856
+  },
+  {
     "country": 3350,
     "country_name": "Bolivia",
     "country_abbr": null,
@@ -18475,6 +18905,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124692373833538,
+    "mean_total_all_pairs": 0.175783664640468,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3350,
+    "country_name": "Bolivia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124692373833538,
     "mean_total_all_pairs": 0.175783664640468,
     "n_products_present": 19856
@@ -18900,6 +19340,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3370,
+    "country_name": "Chile",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124730057115411,
+    "mean_total_all_pairs": 0.15313112759149,
+    "n_products_present": 19856
+  },
+  {
     "country": 3510,
     "country_name": "Brazil",
     "country_abbr": null,
@@ -19320,6 +19770,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3510,
+    "country_name": "Brazil",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124718037850508,
+    "mean_total_all_pairs": 0.17320946692958,
+    "n_products_present": 19856
+  },
+  {
     "country": 3530,
     "country_name": "Paraguay",
     "country_abbr": null,
@@ -19676,7 +20136,7 @@
     "revision": "2026_rev_2",
     "date": "2026-01-30",
     "mean_additional_all_pairs": 0.115146773679507,
-    "mean_total_all_pairs": 0.165801401472015,
+    "mean_total_all_pairs": 0.165801401472014,
     "n_products_present": 19855
   },
   {
@@ -19735,6 +20195,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124699122339224,
+    "mean_total_all_pairs": 0.175351199032427,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3530,
+    "country_name": "Paraguay",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124699122339224,
     "mean_total_all_pairs": 0.175351199032427,
     "n_products_present": 19856
@@ -20160,6 +20630,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3550,
+    "country_name": "Uruguay",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690942159471,
+    "mean_total_all_pairs": 0.180310457719631,
+    "n_products_present": 19856
+  },
+  {
     "country": 3570,
     "country_name": "Argentina",
     "country_abbr": null,
@@ -20575,6 +21055,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12470201246271,
+    "mean_total_all_pairs": 0.174700171943113,
+    "n_products_present": 19856
+  },
+  {
+    "country": 3570,
+    "country_name": "Argentina",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12470201246271,
     "mean_total_all_pairs": 0.174700171943113,
     "n_products_present": 19856
@@ -21000,6 +21490,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 3720,
+    "country_name": "Falkland Islands (Islas Malvinas)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431452996648,
+    "n_products_present": 19856
+  },
+  {
     "country": 4000,
     "country_name": "Iceland",
     "country_abbr": null,
@@ -21415,6 +21915,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691653811402,
+    "mean_total_all_pairs": 0.180357313064779,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4000,
+    "country_name": "Iceland",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691653811402,
     "mean_total_all_pairs": 0.180357313064779,
     "n_products_present": 19856
@@ -21840,6 +22350,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4010,
+    "country_name": "Sweden",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123935006327786,
+    "mean_total_all_pairs": 0.178816411271366,
+    "n_products_present": 19856
+  },
+  {
     "country": 4031,
     "country_name": "Svalbard and Jan Mayen",
     "country_abbr": null,
@@ -22255,6 +22775,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4031,
+    "country_name": "Svalbard and Jan Mayen",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -22680,6 +23210,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4039,
+    "country_name": "Norway",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124695024798146,
+    "mean_total_all_pairs": 0.179943843672917,
+    "n_products_present": 19856
+  },
+  {
     "country": 4050,
     "country_name": "Finland",
     "country_abbr": "eu",
@@ -23095,6 +23635,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123936080762824,
+    "mean_total_all_pairs": 0.178980878818625,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4050,
+    "country_name": "Finland",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123936080762824,
     "mean_total_all_pairs": 0.178980878818625,
     "n_products_present": 19856
@@ -23520,6 +24070,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4091,
+    "country_name": "Faroe Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690799158957,
+    "mean_total_all_pairs": 0.18043015925147,
+    "n_products_present": 19856
+  },
+  {
     "country": 4099,
     "country_name": "Denmark, except Greenland",
     "country_abbr": "eu",
@@ -23935,6 +24495,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123934254675205,
+    "mean_total_all_pairs": 0.178979225624379,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4099,
+    "country_name": "Denmark, except Greenland",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123934254675205,
     "mean_total_all_pairs": 0.178979225624379,
     "n_products_present": 19856
@@ -24360,6 +24930,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4120,
+    "country_name": "United Kingdom",
+    "country_abbr": "uk",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.108063545307762,
+    "mean_total_all_pairs": 0.16234622504979,
+    "n_products_present": 19856
+  },
+  {
     "country": 4190,
     "country_name": "Ireland",
     "country_abbr": "eu",
@@ -24775,6 +25355,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123944420003942,
+    "mean_total_all_pairs": 0.176942645067783,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4190,
+    "country_name": "Ireland",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123944420003942,
     "mean_total_all_pairs": 0.176942645067783,
     "n_products_present": 19856
@@ -25200,6 +25790,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4210,
+    "country_name": "Netherlands",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123937379054986,
+    "mean_total_all_pairs": 0.177215170885181,
+    "n_products_present": 19856
+  },
+  {
     "country": 4231,
     "country_name": "Belgium",
     "country_abbr": "eu",
@@ -25615,6 +26215,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12393677976461,
+    "mean_total_all_pairs": 0.178099993394479,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4231,
+    "country_name": "Belgium",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12393677976461,
     "mean_total_all_pairs": 0.178099993394479,
     "n_products_present": 19856
@@ -26040,6 +26650,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4239,
+    "country_name": "Luxembourg",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12393393995893,
+    "mean_total_all_pairs": 0.179630917767116,
+    "n_products_present": 19856
+  },
+  {
     "country": 4271,
     "country_name": "Andorra",
     "country_abbr": null,
@@ -26455,6 +27075,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691635335167,
+    "mean_total_all_pairs": 0.1803026725196,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4271,
+    "country_name": "Andorra",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691635335167,
     "mean_total_all_pairs": 0.1803026725196,
     "n_products_present": 19856
@@ -26880,6 +27510,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4272,
+    "country_name": "Monaco",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124699386357827,
+    "mean_total_all_pairs": 0.18015870397107,
+    "n_products_present": 19856
+  },
+  {
     "country": 4279,
     "country_name": "France",
     "country_abbr": "eu",
@@ -27295,6 +27935,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123952300087816,
+    "mean_total_all_pairs": 0.178352095866887,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4279,
+    "country_name": "France",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123952300087816,
     "mean_total_all_pairs": 0.178352095866887,
     "n_products_present": 19856
@@ -27720,6 +28370,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4280,
+    "country_name": "Germany (Federal Republic of Germany)",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123935530565887,
+    "mean_total_all_pairs": 0.17916087856975,
+    "n_products_present": 19856
+  },
+  {
     "country": 4330,
     "country_name": "Austria",
     "country_abbr": "eu",
@@ -28135,6 +28795,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123933975444306,
+    "mean_total_all_pairs": 0.17916141764351,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4330,
+    "country_name": "Austria",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123933975444306,
     "mean_total_all_pairs": 0.17916141764351,
     "n_products_present": 19856
@@ -28560,6 +29230,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4351,
+    "country_name": "Czech Republic",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123938016207016,
+    "mean_total_all_pairs": 0.17916942824513,
+    "n_products_present": 19856
+  },
+  {
     "country": 4359,
     "country_name": "Slovakia",
     "country_abbr": "eu",
@@ -28975,6 +29655,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123933830912504,
+    "mean_total_all_pairs": 0.179538857160587,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4359,
+    "country_name": "Slovakia",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123933830912504,
     "mean_total_all_pairs": 0.179538857160587,
     "n_products_present": 19856
@@ -29400,6 +30090,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4370,
+    "country_name": "Hungary",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123933813428503,
+    "mean_total_all_pairs": 0.179354382609806,
+    "n_products_present": 19856
+  },
+  {
     "country": 4411,
     "country_name": "Liechtenstein",
     "country_abbr": null,
@@ -29815,6 +30515,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691152488466,
+    "mean_total_all_pairs": 0.180419450672002,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4411,
+    "country_name": "Liechtenstein",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691152488466,
     "mean_total_all_pairs": 0.180419450672002,
     "n_products_present": 19856
@@ -30240,6 +30950,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4419,
+    "country_name": "Switzerland",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124692413855709,
+    "mean_total_all_pairs": 0.179149620167845,
+    "n_products_present": 19856
+  },
+  {
     "country": 4470,
     "country_name": "Estonia",
     "country_abbr": "eu",
@@ -30655,6 +31375,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123934021127521,
+    "mean_total_all_pairs": 0.17952840996649,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4470,
+    "country_name": "Estonia",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123934021127521,
     "mean_total_all_pairs": 0.17952840996649,
     "n_products_present": 19856
@@ -31080,6 +31810,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4490,
+    "country_name": "Latvia",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123933807431751,
+    "mean_total_all_pairs": 0.179342455298832,
+    "n_products_present": 19856
+  },
+  {
     "country": 4510,
     "country_name": "Lithuania",
     "country_abbr": "eu",
@@ -31495,6 +32235,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12393381862572,
+    "mean_total_all_pairs": 0.179526352999771,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4510,
+    "country_name": "Lithuania",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12393381862572,
     "mean_total_all_pairs": 0.179526352999771,
     "n_products_present": 19856
@@ -31920,6 +32670,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4550,
+    "country_name": "Poland",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123948733738033,
+    "mean_total_all_pairs": 0.178763915329472,
+    "n_products_present": 19856
+  },
+  {
     "country": 4621,
     "country_name": "Russia",
     "country_abbr": null,
@@ -32335,6 +33095,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18013292838524,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4621,
+    "country_name": "Russia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18013292838524,
     "n_products_present": 19856
@@ -32760,6 +33530,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4622,
+    "country_name": "Belarus",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043067218885,
+    "n_products_present": 19856
+  },
+  {
     "country": 4623,
     "country_name": "Ukraine",
     "country_abbr": null,
@@ -33175,6 +33955,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124721895021587,
+    "mean_total_all_pairs": 0.175467908717219,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4623,
+    "country_name": "Ukraine",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124721895021587,
     "mean_total_all_pairs": 0.175467908717219,
     "n_products_present": 19856
@@ -33600,6 +34390,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4631,
+    "country_name": "Armenia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124697115226468,
+    "mean_total_all_pairs": 0.174580210992049,
+    "n_products_present": 19856
+  },
+  {
     "country": 4632,
     "country_name": "Azerbaijan",
     "country_abbr": null,
@@ -34015,6 +34815,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124713409411692,
+    "mean_total_all_pairs": 0.17623798929522,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4632,
+    "country_name": "Azerbaijan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124713409411692,
     "mean_total_all_pairs": 0.17623798929522,
     "n_products_present": 19856
@@ -34440,6 +35250,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4633,
+    "country_name": "Georgia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124706724244202,
+    "mean_total_all_pairs": 0.174489503461136,
+    "n_products_present": 19856
+  },
+  {
     "country": 4634,
     "country_name": "Kazakhstan",
     "country_abbr": null,
@@ -34855,6 +35675,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124697720219317,
+    "mean_total_all_pairs": 0.177256779216368,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4634,
+    "country_name": "Kazakhstan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124697720219317,
     "mean_total_all_pairs": 0.177256779216368,
     "n_products_present": 19856
@@ -35280,6 +36110,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4635,
+    "country_name": "Kyrgyzstan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690800054948,
+    "mean_total_all_pairs": 0.179201419925228,
+    "n_products_present": 19856
+  },
+  {
     "country": 4641,
     "country_name": "Moldova (Republic of Moldova)",
     "country_abbr": null,
@@ -35695,6 +36535,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124720063910917,
+    "mean_total_all_pairs": 0.17466819529272,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4641,
+    "country_name": "Moldova (Republic of Moldova)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124720063910917,
     "mean_total_all_pairs": 0.17466819529272,
     "n_products_present": 19856
@@ -36120,6 +36970,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4642,
+    "country_name": "Tajikistan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798801257,
+    "mean_total_all_pairs": 0.180409644321043,
+    "n_products_present": 19856
+  },
+  {
     "country": 4643,
     "country_name": "Turkmenistan",
     "country_abbr": null,
@@ -36535,6 +37395,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690822583081,
+    "mean_total_all_pairs": 0.180404998633707,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4643,
+    "country_name": "Turkmenistan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690822583081,
     "mean_total_all_pairs": 0.180404998633707,
     "n_products_present": 19856
@@ -36960,6 +37830,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4644,
+    "country_name": "Uzbekistan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124703655528396,
+    "mean_total_all_pairs": 0.175630894459027,
+    "n_products_present": 19856
+  },
+  {
     "country": 4700,
     "country_name": "Spain",
     "country_abbr": "eu",
@@ -37375,6 +38255,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12393495021129,
+    "mean_total_all_pairs": 0.179054228369235,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4700,
+    "country_name": "Spain",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12393495021129,
     "mean_total_all_pairs": 0.179054228369235,
     "n_products_present": 19856
@@ -37800,6 +38690,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4710,
+    "country_name": "Portugal",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123933968608579,
+    "mean_total_all_pairs": 0.179239494670383,
+    "n_products_present": 19856
+  },
+  {
     "country": 4720,
     "country_name": "Gibraltar",
     "country_abbr": null,
@@ -38215,6 +39115,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18010124852682,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4720,
+    "country_name": "Gibraltar",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18010124852682,
     "n_products_present": 19856
@@ -38640,6 +39550,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4730,
+    "country_name": "Malta",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123934887438211,
+    "mean_total_all_pairs": 0.178282776884119,
+    "n_products_present": 19856
+  },
+  {
     "country": 4751,
     "country_name": "San Marino",
     "country_abbr": null,
@@ -39055,6 +39975,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12470056549983,
+    "mean_total_all_pairs": 0.179762932903664,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4751,
+    "country_name": "San Marino",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12470056549983,
     "mean_total_all_pairs": 0.179762932903664,
     "n_products_present": 19856
@@ -39480,6 +40410,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4752,
+    "country_name": "Holy See (Vatican City)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431806218078,
+    "n_products_present": 19856
+  },
+  {
     "country": 4759,
     "country_name": "Italy",
     "country_abbr": "eu",
@@ -39895,6 +40835,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12393715487648,
+    "mean_total_all_pairs": 0.169954982223099,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4759,
+    "country_name": "Italy",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12393715487648,
     "mean_total_all_pairs": 0.169954982223099,
     "n_products_present": 19856
@@ -40320,6 +41270,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4791,
+    "country_name": "Croatia",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123933801666141,
+    "mean_total_all_pairs": 0.176705191045413,
+    "n_products_present": 19856
+  },
+  {
     "country": 4792,
     "country_name": "Slovenia",
     "country_abbr": "eu",
@@ -40735,6 +41695,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123933900393885,
+    "mean_total_all_pairs": 0.179636839437657,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4792,
+    "country_name": "Slovenia",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123933900393885,
     "mean_total_all_pairs": 0.179636839437657,
     "n_products_present": 19856
@@ -41160,6 +42130,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4793,
+    "country_name": "Bosnia and Herzegovina",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124711819944025,
+    "mean_total_all_pairs": 0.178552777304785,
+    "n_products_present": 19856
+  },
+  {
     "country": 4794,
     "country_name": "North Macedonia",
     "country_abbr": null,
@@ -41575,6 +42555,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124693115496866,
+    "mean_total_all_pairs": 0.178148953106385,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4794,
+    "country_name": "North Macedonia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124693115496866,
     "mean_total_all_pairs": 0.178148953106385,
     "n_products_present": 19856
@@ -42000,6 +42990,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4801,
+    "country_name": "Serbia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124705020099051,
+    "mean_total_all_pairs": 0.175055882169634,
+    "n_products_present": 19856
+  },
+  {
     "country": 4803,
     "country_name": "Kosovo",
     "country_abbr": null,
@@ -42415,6 +43415,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690802710134,
+    "mean_total_all_pairs": 0.176325453256685,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4803,
+    "country_name": "Kosovo",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690802710134,
     "mean_total_all_pairs": 0.176325453256685,
     "n_products_present": 19856
@@ -42840,6 +43850,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4804,
+    "country_name": "Montenegro",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124693066582819,
+    "mean_total_all_pairs": 0.18018937672914,
+    "n_products_present": 19856
+  },
+  {
     "country": 4810,
     "country_name": "Albania",
     "country_abbr": null,
@@ -43255,6 +44275,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691923989598,
+    "mean_total_all_pairs": 0.17485829955725,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4810,
+    "country_name": "Albania",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691923989598,
     "mean_total_all_pairs": 0.17485829955725,
     "n_products_present": 19856
@@ -43680,6 +44710,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4840,
+    "country_name": "Greece",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123936815200381,
+    "mean_total_all_pairs": 0.179495613637604,
+    "n_products_present": 19856
+  },
+  {
     "country": 4850,
     "country_name": "Romania",
     "country_abbr": "eu",
@@ -44095,6 +45135,16 @@
     "country_abbr": "eu",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123933973060129,
+    "mean_total_all_pairs": 0.179617263256041,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4850,
+    "country_name": "Romania",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123933973060129,
     "mean_total_all_pairs": 0.179617263256041,
     "n_products_present": 19856
@@ -44520,6 +45570,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4870,
+    "country_name": "Bulgaria",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123933787028631,
+    "mean_total_all_pairs": 0.177223311559029,
+    "n_products_present": 19856
+  },
+  {
     "country": 4890,
     "country_name": "Turkey",
     "country_abbr": null,
@@ -44935,6 +45995,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124699982057221,
+    "mean_total_all_pairs": 0.179586605610126,
+    "n_products_present": 19856
+  },
+  {
+    "country": 4890,
+    "country_name": "Turkey",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124699982057221,
     "mean_total_all_pairs": 0.179586605610126,
     "n_products_present": 19856
@@ -45360,6 +46430,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 4910,
+    "country_name": "Cyprus",
+    "country_abbr": "eu",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.123935662198895,
+    "mean_total_all_pairs": 0.179418663302686,
+    "n_products_present": 19856
+  },
+  {
     "country": 5020,
     "country_name": "Syria (Syrian Arab Republic)",
     "country_abbr": null,
@@ -45775,6 +46855,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124759091209472,
+    "mean_total_all_pairs": 0.179028127532433,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5020,
+    "country_name": "Syria (Syrian Arab Republic)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124759091209472,
     "mean_total_all_pairs": 0.179028127532433,
     "n_products_present": 19856
@@ -46200,6 +47290,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5040,
+    "country_name": "Lebanon",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124728606854715,
+    "mean_total_all_pairs": 0.171397025418405,
+    "n_products_present": 19856
+  },
+  {
     "country": 5050,
     "country_name": "Iraq",
     "country_abbr": null,
@@ -46615,6 +47715,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124750909712241,
+    "mean_total_all_pairs": 0.176897156010074,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5050,
+    "country_name": "Iraq",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124750909712241,
     "mean_total_all_pairs": 0.176897156010074,
     "n_products_present": 19856
@@ -47040,6 +48150,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5070,
+    "country_name": "Iran",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431430575506,
+    "n_products_present": 19856
+  },
+  {
     "country": 5081,
     "country_name": "Israel",
     "country_abbr": "ftrow",
@@ -47460,6 +48580,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5081,
+    "country_name": "Israel",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124752729188361,
+    "mean_total_all_pairs": 0.144062309201084,
+    "n_products_present": 19856
+  },
+  {
     "country": 5082,
     "country_name": "Gaza Strip administered by Israel",
     "country_abbr": null,
@@ -47875,6 +49005,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5082,
+    "country_name": "Gaza Strip administered by Israel",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -48300,6 +49440,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5083,
+    "country_name": "West Bank administered by Israel",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.174150534921176,
+    "n_products_present": 19856
+  },
+  {
     "country": 5110,
     "country_name": "Jordan",
     "country_abbr": "ftrow",
@@ -48715,6 +49865,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124765231528254,
+    "mean_total_all_pairs": 0.150783281894377,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5110,
+    "country_name": "Jordan",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124765231528254,
     "mean_total_all_pairs": 0.150783281894377,
     "n_products_present": 19856
@@ -49140,6 +50300,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5130,
+    "country_name": "Kuwait",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691759873308,
+    "mean_total_all_pairs": 0.18018659276461,
+    "n_products_present": 19856
+  },
+  {
     "country": 5170,
     "country_name": "Saudi Arabia",
     "country_abbr": null,
@@ -49555,6 +50725,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124738439144513,
+    "mean_total_all_pairs": 0.178594577468352,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5170,
+    "country_name": "Saudi Arabia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124738439144513,
     "mean_total_all_pairs": 0.178594577468352,
     "n_products_present": 19856
@@ -49980,6 +51160,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5180,
+    "country_name": "Qatar",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124747436576239,
+    "mean_total_all_pairs": 0.178121784221762,
+    "n_products_present": 19856
+  },
+  {
     "country": 5200,
     "country_name": "United Arab Emirates",
     "country_abbr": null,
@@ -50395,6 +51585,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124730617002142,
+    "mean_total_all_pairs": 0.178368522632081,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5200,
+    "country_name": "United Arab Emirates",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124730617002142,
     "mean_total_all_pairs": 0.178368522632081,
     "n_products_present": 19856
@@ -50820,6 +52020,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5210,
+    "country_name": "Yemen (Republic of Yemen)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469082651854,
+    "mean_total_all_pairs": 0.176235018305621,
+    "n_products_present": 19856
+  },
+  {
     "country": 5230,
     "country_name": "Oman",
     "country_abbr": "ftrow",
@@ -51235,6 +52445,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124726104187746,
+    "mean_total_all_pairs": 0.16963632847741,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5230,
+    "country_name": "Oman",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124726104187746,
     "mean_total_all_pairs": 0.16963632847741,
     "n_products_present": 19856
@@ -51660,6 +52880,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5250,
+    "country_name": "Bahrain",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124752265841326,
+    "mean_total_all_pairs": 0.168827690926998,
+    "n_products_present": 19856
+  },
+  {
     "country": 5310,
     "country_name": "Afghanistan",
     "country_abbr": null,
@@ -52075,6 +53305,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690915010646,
+    "mean_total_all_pairs": 0.180018158456807,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5310,
+    "country_name": "Afghanistan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690915010646,
     "mean_total_all_pairs": 0.180018158456807,
     "n_products_present": 19856
@@ -52500,6 +53740,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5330,
+    "country_name": "India",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691171186809,
+    "mean_total_all_pairs": 0.179443027415912,
+    "n_products_present": 19856
+  },
+  {
     "country": 5350,
     "country_name": "Pakistan",
     "country_abbr": null,
@@ -52915,6 +54165,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124712228792517,
+    "mean_total_all_pairs": 0.171562911135735,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5350,
+    "country_name": "Pakistan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124712228792517,
     "mean_total_all_pairs": 0.171562911135735,
     "n_products_present": 19856
@@ -53340,6 +54600,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5360,
+    "country_name": "Nepal",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.1246907996731,
+    "mean_total_all_pairs": 0.173641199854373,
+    "n_products_present": 19856
+  },
+  {
     "country": 5380,
     "country_name": "Bangladesh",
     "country_abbr": null,
@@ -53755,6 +55025,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124740787876521,
+    "mean_total_all_pairs": 0.178929907025989,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5380,
+    "country_name": "Bangladesh",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124740787876521,
     "mean_total_all_pairs": 0.178929907025989,
     "n_products_present": 19856
@@ -54180,6 +55460,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5420,
+    "country_name": "Sri Lanka",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124742053449138,
+    "mean_total_all_pairs": 0.171443297454872,
+    "n_products_present": 19856
+  },
+  {
     "country": 5460,
     "country_name": "Burma (Myanmar)",
     "country_abbr": null,
@@ -54595,6 +55885,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124699697025928,
+    "mean_total_all_pairs": 0.175486561569262,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5460,
+    "country_name": "Burma (Myanmar)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124699697025928,
     "mean_total_all_pairs": 0.175486561569262,
     "n_products_present": 19856
@@ -55020,6 +56320,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5490,
+    "country_name": "Thailand",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124707576112596,
+    "mean_total_all_pairs": 0.173246743793697,
+    "n_products_present": 19856
+  },
+  {
     "country": 5520,
     "country_name": "Vietnam",
     "country_abbr": null,
@@ -55435,6 +56745,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798954641,
+    "mean_total_all_pairs": 0.179627805584621,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5520,
+    "country_name": "Vietnam",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798954641,
     "mean_total_all_pairs": 0.179627805584621,
     "n_products_present": 19856
@@ -55860,6 +57180,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5530,
+    "country_name": "Laos (Lao People's Democratic Republic)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798753597,
+    "mean_total_all_pairs": 0.18042918401586,
+    "n_products_present": 19856
+  },
+  {
     "country": 5550,
     "country_name": "Cambodia",
     "country_abbr": null,
@@ -56275,6 +57605,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12471754263428,
+    "mean_total_all_pairs": 0.171401473159402,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5550,
+    "country_name": "Cambodia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12471754263428,
     "mean_total_all_pairs": 0.171401473159402,
     "n_products_present": 19856
@@ -56700,6 +58040,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5570,
+    "country_name": "Malaysia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124692203064644,
+    "mean_total_all_pairs": 0.180263192502897,
+    "n_products_present": 19856
+  },
+  {
     "country": 5590,
     "country_name": "Singapore",
     "country_abbr": "ftrow",
@@ -57115,6 +58465,16 @@
     "country_abbr": "ftrow",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124732650182855,
+    "mean_total_all_pairs": 0.168096622389458,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5590,
+    "country_name": "Singapore",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124732650182855,
     "mean_total_all_pairs": 0.168096622389458,
     "n_products_present": 19856
@@ -57540,6 +58900,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5600,
+    "country_name": "Indonesia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124713693794269,
+    "mean_total_all_pairs": 0.166335862359821,
+    "n_products_present": 19856
+  },
+  {
     "country": 5601,
     "country_name": "Timor-Leste",
     "country_abbr": null,
@@ -57955,6 +59325,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180235193034689,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5601,
+    "country_name": "Timor-Leste",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180235193034689,
     "n_products_present": 19856
@@ -58380,6 +59760,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5610,
+    "country_name": "Brunei",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124764579975826,
+    "mean_total_all_pairs": 0.178115536808838,
+    "n_products_present": 19856
+  },
+  {
     "country": 5650,
     "country_name": "Philippines",
     "country_abbr": null,
@@ -58795,6 +60185,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124726244873707,
+    "mean_total_all_pairs": 0.168446396151167,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5650,
+    "country_name": "Philippines",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124726244873707,
     "mean_total_all_pairs": 0.168446396151167,
     "n_products_present": 19856
@@ -59220,6 +60620,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5660,
+    "country_name": "Macao",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180429862708119,
+    "n_products_present": 19856
+  },
+  {
     "country": 5682,
     "country_name": "Bhutan",
     "country_abbr": null,
@@ -59635,6 +61045,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180423742219736,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5682,
+    "country_name": "Bhutan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180423742219736,
     "n_products_present": 19856
@@ -60060,6 +61480,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5683,
+    "country_name": "Maldives",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124759090451249,
+    "mean_total_all_pairs": 0.178518922851488,
+    "n_products_present": 19856
+  },
+  {
     "country": 5700,
     "country_name": "China",
     "country_abbr": "china",
@@ -60475,6 +61905,16 @@
     "country_abbr": "china",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.30800080009006,
+    "mean_total_all_pairs": 0.352288756907688,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5700,
+    "country_name": "China",
+    "country_abbr": "china",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.30800080009006,
     "mean_total_all_pairs": 0.352288756907688,
     "n_products_present": 19856
@@ -60900,6 +62340,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5740,
+    "country_name": "Mongolia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691518923366,
+    "mean_total_all_pairs": 0.179416557298503,
+    "n_products_present": 19856
+  },
+  {
     "country": 5790,
     "country_name": "North Korea (Democratic People's Republic of Korea)",
     "country_abbr": null,
@@ -61315,6 +62765,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5790,
+    "country_name": "North Korea (Democratic People's Republic of Korea)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -61740,6 +63200,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5800,
+    "country_name": "South Korea (Republic of Korea)",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124007581183957,
+    "mean_total_all_pairs": 0.146202485264298,
+    "n_products_present": 19856
+  },
+  {
     "country": 5820,
     "country_name": "Hong Kong",
     "country_abbr": null,
@@ -62155,6 +63625,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124712216497942,
+    "mean_total_all_pairs": 0.179354453136301,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5820,
+    "country_name": "Hong Kong",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124712216497942,
     "mean_total_all_pairs": 0.179354453136301,
     "n_products_present": 19856
@@ -62580,6 +64060,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 5830,
+    "country_name": "Taiwan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691513924163,
+    "mean_total_all_pairs": 0.179075379919443,
+    "n_products_present": 19856
+  },
+  {
     "country": 5880,
     "country_name": "Japan",
     "country_abbr": "japan",
@@ -62995,6 +64485,16 @@
     "country_abbr": "japan",
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.123955569767384,
+    "mean_total_all_pairs": 0.177415770622588,
+    "n_products_present": 19856
+  },
+  {
+    "country": 5880,
+    "country_name": "Japan",
+    "country_abbr": "japan",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.123955569767384,
     "mean_total_all_pairs": 0.177415770622588,
     "n_products_present": 19856
@@ -63420,6 +64920,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6021,
+    "country_name": "Australia",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124745863853901,
+    "mean_total_all_pairs": 0.158585351521693,
+    "n_products_present": 19856
+  },
+  {
     "country": 6022,
     "country_name": "Norfolk Island",
     "country_abbr": null,
@@ -63835,6 +65345,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180425606938709,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6022,
+    "country_name": "Norfolk Island",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180425606938709,
     "n_products_present": 19856
@@ -64260,6 +65780,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6023,
+    "country_name": "Cocos (Keeling) Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180376040001135,
+    "n_products_present": 19856
+  },
+  {
     "country": 6024,
     "country_name": "Christmas Island (in the Indian Ocean)",
     "country_abbr": null,
@@ -64675,6 +66205,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690800531304,
+    "mean_total_all_pairs": 0.1804053391535,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6024,
+    "country_name": "Christmas Island (in the Indian Ocean)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690800531304,
     "mean_total_all_pairs": 0.1804053391535,
     "n_products_present": 19856
@@ -65100,6 +66640,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6029,
+    "country_name": "Heard Island and McDonald Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690804892678,
+    "mean_total_all_pairs": 0.180430416305265,
+    "n_products_present": 19856
+  },
+  {
     "country": 6040,
     "country_name": "Papua New Guinea",
     "country_abbr": null,
@@ -65515,6 +67065,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124695060641942,
+    "mean_total_all_pairs": 0.179159004140037,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6040,
+    "country_name": "Papua New Guinea",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124695060641942,
     "mean_total_all_pairs": 0.179159004140037,
     "n_products_present": 19856
@@ -65940,6 +67500,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6141,
+    "country_name": "New Zealand",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124692116345894,
+    "mean_total_all_pairs": 0.180064505100355,
+    "n_products_present": 19856
+  },
+  {
     "country": 6142,
     "country_name": "Cook Islands",
     "country_abbr": null,
@@ -66355,6 +67925,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180368927065411,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6142,
+    "country_name": "Cook Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180368927065411,
     "n_products_present": 19856
@@ -66780,6 +68360,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6143,
+    "country_name": "Tokelau",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180203414585012,
+    "n_products_present": 19856
+  },
+  {
     "country": 6144,
     "country_name": "Niue",
     "country_abbr": null,
@@ -67195,6 +68785,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180400860824196,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6144,
+    "country_name": "Niue",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180400860824196,
     "n_products_present": 19856
@@ -67620,6 +69220,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6150,
+    "country_name": "Samoa (Western Samoa)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.178329015472999,
+    "n_products_present": 19856
+  },
+  {
     "country": 6223,
     "country_name": "Solomon Islands",
     "country_abbr": null,
@@ -68035,6 +69645,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180430780057508,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6223,
+    "country_name": "Solomon Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180430780057508,
     "n_products_present": 19856
@@ -68460,6 +70080,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6224,
+    "country_name": "Vanuatu",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180428870180018,
+    "n_products_present": 19856
+  },
+  {
     "country": 6225,
     "country_name": "Pitcairn Islands",
     "country_abbr": null,
@@ -68875,6 +70505,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6225,
+    "country_name": "Pitcairn Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -69300,6 +70940,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6226,
+    "country_name": "Kiribati",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469424318713,
+    "mean_total_all_pairs": 0.179680657017177,
+    "n_products_present": 19856
+  },
+  {
     "country": 6227,
     "country_name": "Tuvalu",
     "country_abbr": null,
@@ -69715,6 +71365,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691295977523,
+    "mean_total_all_pairs": 0.180393158722366,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6227,
+    "country_name": "Tuvalu",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691295977523,
     "mean_total_all_pairs": 0.180393158722366,
     "n_products_present": 19856
@@ -70140,6 +71800,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6412,
+    "country_name": "New Caledonia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124696289859021,
+    "mean_total_all_pairs": 0.180144415636472,
+    "n_products_present": 19856
+  },
+  {
     "country": 6413,
     "country_name": "Wallis and Futuna",
     "country_abbr": null,
@@ -70555,6 +72225,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6413,
+    "country_name": "Wallis and Futuna",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -70980,6 +72660,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6414,
+    "country_name": "French Polynesia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124693688514138,
+    "mean_total_all_pairs": 0.179774627832039,
+    "n_products_present": 19856
+  },
+  {
     "country": 6810,
     "country_name": "Marshall Islands",
     "country_abbr": null,
@@ -71395,6 +73085,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690996980765,
+    "mean_total_all_pairs": 0.178802728198152,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6810,
+    "country_name": "Marshall Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690996980765,
     "mean_total_all_pairs": 0.178802728198152,
     "n_products_present": 19856
@@ -71820,6 +73520,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6820,
+    "country_name": "Micronesia, Federated States of",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690923320383,
+    "mean_total_all_pairs": 0.180309948420695,
+    "n_products_present": 19856
+  },
+  {
     "country": 6830,
     "country_name": "Palau",
     "country_abbr": null,
@@ -72240,6 +73950,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6830,
+    "country_name": "Palau",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 6862,
     "country_name": "Nauru",
     "country_abbr": null,
@@ -72296,7 +74016,7 @@
     "revision": "2025_rev_5",
     "date": "2025-03-05",
     "mean_additional_all_pairs": 0.0160868066259646,
-    "mean_total_all_pairs": 0.0719741305918117,
+    "mean_total_all_pairs": 0.0719741305918116,
     "n_products_present": 19733
   },
   {
@@ -72655,6 +74375,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690799316562,
+    "mean_total_all_pairs": 0.180424793649647,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6862,
+    "country_name": "Nauru",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690799316562,
     "mean_total_all_pairs": 0.180424793649647,
     "n_products_present": 19856
@@ -73080,6 +74810,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 6863,
+    "country_name": "Fiji",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124708423301702,
+    "mean_total_all_pairs": 0.176731929421028,
+    "n_products_present": 19856
+  },
+  {
     "country": 6864,
     "country_name": "Tonga",
     "country_abbr": null,
@@ -73495,6 +75235,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.177118436523497,
+    "n_products_present": 19856
+  },
+  {
+    "country": 6864,
+    "country_name": "Tonga",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.177118436523497,
     "n_products_present": 19856
@@ -73920,6 +75670,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7140,
+    "country_name": "Morocco",
+    "country_abbr": "ftrow",
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124696170301616,
+    "mean_total_all_pairs": 0.166360406843923,
+    "n_products_present": 19856
+  },
+  {
     "country": 7210,
     "country_name": "Algeria",
     "country_abbr": null,
@@ -74335,6 +76095,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124761744528575,
+    "mean_total_all_pairs": 0.177293878584472,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7210,
+    "country_name": "Algeria",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124761744528575,
     "mean_total_all_pairs": 0.177293878584472,
     "n_products_present": 19856
@@ -74760,6 +76530,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7230,
+    "country_name": "Tunisia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124705585563545,
+    "mean_total_all_pairs": 0.175851771637269,
+    "n_products_present": 19856
+  },
+  {
     "country": 7250,
     "country_name": "Libya",
     "country_abbr": null,
@@ -75175,6 +76955,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18039568156634,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7250,
+    "country_name": "Libya",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18039568156634,
     "n_products_present": 19856
@@ -75600,6 +77390,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7290,
+    "country_name": "Egypt",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12471097587801,
+    "mean_total_all_pairs": 0.153803362953554,
+    "n_products_present": 19856
+  },
+  {
     "country": 7321,
     "country_name": "Sudan",
     "country_abbr": null,
@@ -76015,6 +77815,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7321,
+    "country_name": "Sudan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -76440,6 +78250,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7323,
+    "country_name": "South Sudan",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180427510391895,
+    "n_products_present": 19856
+  },
+  {
     "country": 7380,
     "country_name": "Equatorial Guinea",
     "country_abbr": null,
@@ -76855,6 +78675,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7380,
+    "country_name": "Equatorial Guinea",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -77280,6 +79110,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7410,
+    "country_name": "Mauritania",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469079994878,
+    "mean_total_all_pairs": 0.180416814864937,
+    "n_products_present": 19856
+  },
+  {
     "country": 7420,
     "country_name": "Cameroon",
     "country_abbr": null,
@@ -77665,7 +79505,7 @@
     "country_abbr": null,
     "revision": "2026_rev_5",
     "date": "2026-04-06",
-    "mean_additional_all_pairs": 0.124742423998907,
+    "mean_additional_all_pairs": 0.124742423998908,
     "mean_total_all_pairs": 0.178015869613405,
     "n_products_present": 19856
   },
@@ -77695,6 +79535,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12469206138811,
+    "mean_total_all_pairs": 0.177965507002607,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7420,
+    "country_name": "Cameroon",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12469206138811,
     "mean_total_all_pairs": 0.177965507002607,
     "n_products_present": 19856
@@ -78120,6 +79970,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7440,
+    "country_name": "Senegal",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.170588586549874,
+    "n_products_present": 19856
+  },
+  {
     "country": 7450,
     "country_name": "Mali",
     "country_abbr": null,
@@ -78535,6 +80395,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690833294762,
+    "mean_total_all_pairs": 0.178454566581515,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7450,
+    "country_name": "Mali",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690833294762,
     "mean_total_all_pairs": 0.178454566581515,
     "n_products_present": 19856
@@ -78960,6 +80830,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7460,
+    "country_name": "Guinea",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124694048664177,
+    "mean_total_all_pairs": 0.177747772497589,
+    "n_products_present": 19856
+  },
+  {
     "country": 7470,
     "country_name": "Sierra Leone",
     "country_abbr": null,
@@ -79375,6 +81255,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124701431604594,
+    "mean_total_all_pairs": 0.179522911858282,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7470,
+    "country_name": "Sierra Leone",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124701431604594,
     "mean_total_all_pairs": 0.179522911858282,
     "n_products_present": 19856
@@ -79800,6 +81690,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7480,
+    "country_name": "Cote d'Ivoire",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690799226604,
+    "mean_total_all_pairs": 0.176993620469407,
+    "n_products_present": 19856
+  },
+  {
     "country": 7490,
     "country_name": "Ghana",
     "country_abbr": null,
@@ -80215,6 +82115,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124718597465149,
+    "mean_total_all_pairs": 0.157533672248186,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7490,
+    "country_name": "Ghana",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124718597465149,
     "mean_total_all_pairs": 0.157533672248186,
     "n_products_present": 19856
@@ -80640,6 +82550,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7500,
+    "country_name": "Gambia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.176172127805839,
+    "n_products_present": 19856
+  },
+  {
     "country": 7510,
     "country_name": "Niger",
     "country_abbr": null,
@@ -81055,6 +82975,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691871563298,
+    "mean_total_all_pairs": 0.179838167690421,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7510,
+    "country_name": "Niger",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691871563298,
     "mean_total_all_pairs": 0.179838167690421,
     "n_products_present": 19856
@@ -81480,6 +83410,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7520,
+    "country_name": "Togo",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124694021958098,
+    "mean_total_all_pairs": 0.171800880781098,
+    "n_products_present": 19856
+  },
+  {
     "country": 7530,
     "country_name": "Nigeria",
     "country_abbr": null,
@@ -81895,6 +83835,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124720570303941,
+    "mean_total_all_pairs": 0.171395953391954,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7530,
+    "country_name": "Nigeria",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124720570303941,
     "mean_total_all_pairs": 0.171395953391954,
     "n_products_present": 19856
@@ -82320,6 +84270,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7540,
+    "country_name": "Central African Republic",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431350238656,
+    "n_products_present": 19856
+  },
+  {
     "country": 7550,
     "country_name": "Gabon",
     "country_abbr": null,
@@ -82735,6 +84695,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124692800993934,
+    "mean_total_all_pairs": 0.179751771511185,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7550,
+    "country_name": "Gabon",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124692800993934,
     "mean_total_all_pairs": 0.179751771511185,
     "n_products_present": 19856
@@ -83160,6 +85130,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7560,
+    "country_name": "Chad",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 7580,
     "country_name": "Saint Helena",
     "country_abbr": null,
@@ -83575,6 +85555,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690803632171,
+    "mean_total_all_pairs": 0.180428399660573,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7580,
+    "country_name": "Saint Helena",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690803632171,
     "mean_total_all_pairs": 0.180428399660573,
     "n_products_present": 19856
@@ -84000,6 +85990,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7600,
+    "country_name": "Burkina Faso",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.179585961320028,
+    "n_products_present": 19856
+  },
+  {
     "country": 7610,
     "country_name": "Benin",
     "country_abbr": null,
@@ -84415,6 +86415,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.172770152028867,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7610,
+    "country_name": "Benin",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.172770152028867,
     "n_products_present": 19856
@@ -84840,6 +86850,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7620,
+    "country_name": "Angola",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.179661131054923,
+    "n_products_present": 19856
+  },
+  {
     "country": 7630,
     "country_name": "Congo, Republic of the Congo",
     "country_abbr": null,
@@ -85255,6 +87275,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690799746512,
+    "mean_total_all_pairs": 0.18019806789042,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7630,
+    "country_name": "Congo, Republic of the Congo",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690799746512,
     "mean_total_all_pairs": 0.18019806789042,
     "n_products_present": 19856
@@ -85680,6 +87710,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7642,
+    "country_name": "Guinea-Bissau",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180431380591082,
+    "n_products_present": 19856
+  },
+  {
     "country": 7643,
     "country_name": "Cabo Verde",
     "country_abbr": null,
@@ -86095,6 +88135,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180064980215433,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7643,
+    "country_name": "Cabo Verde",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180064980215433,
     "n_products_present": 19856
@@ -86520,6 +88570,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7644,
+    "country_name": "Sao Tome and Principe",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180200399305445,
+    "n_products_present": 19856
+  },
+  {
     "country": 7650,
     "country_name": "Liberia",
     "country_abbr": null,
@@ -86935,6 +88995,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180118452860596,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7650,
+    "country_name": "Liberia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180118452860596,
     "n_products_present": 19856
@@ -87360,6 +89430,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7660,
+    "country_name": "Congo, Democratic Republic of the Congo (formerly Za",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690804845034,
+    "mean_total_all_pairs": 0.178695104013789,
+    "n_products_present": 19856
+  },
+  {
     "country": 7670,
     "country_name": "Burundi",
     "country_abbr": null,
@@ -87775,6 +89855,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180429625185393,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7670,
+    "country_name": "Burundi",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.180429625185393,
     "n_products_present": 19856
@@ -88200,6 +90290,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7690,
+    "country_name": "Rwanda",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124691111537421,
+    "mean_total_all_pairs": 0.177759175487109,
+    "n_products_present": 19856
+  },
+  {
     "country": 7700,
     "country_name": "Somalia",
     "country_abbr": null,
@@ -88615,6 +90715,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.12469081377988,
+    "mean_total_all_pairs": 0.180360832353913,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7700,
+    "country_name": "Somalia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.12469081377988,
     "mean_total_all_pairs": 0.180360832353913,
     "n_products_present": 19856
@@ -89040,6 +91150,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7741,
+    "country_name": "Eritrea",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690957535345,
+    "mean_total_all_pairs": 0.180414638028552,
+    "n_products_present": 19856
+  },
+  {
     "country": 7749,
     "country_name": "Ethiopia",
     "country_abbr": null,
@@ -89455,6 +91575,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691971015802,
+    "mean_total_all_pairs": 0.178806770157908,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7749,
+    "country_name": "Ethiopia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691971015802,
     "mean_total_all_pairs": 0.178806770157908,
     "n_products_present": 19856
@@ -89880,6 +92010,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7770,
+    "country_name": "Djibouti",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690817429581,
+    "mean_total_all_pairs": 0.180351246926289,
+    "n_products_present": 19856
+  },
+  {
     "country": 7780,
     "country_name": "Uganda",
     "country_abbr": null,
@@ -90295,6 +92435,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.178219866269274,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7780,
+    "country_name": "Uganda",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.178219866269274,
     "n_products_present": 19856
@@ -90720,6 +92870,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7790,
+    "country_name": "Kenya",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124754625284477,
+    "mean_total_all_pairs": 0.161153071190868,
+    "n_products_present": 19856
+  },
+  {
     "country": 7800,
     "country_name": "Seychelles",
     "country_abbr": null,
@@ -91135,6 +93295,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690799637408,
+    "mean_total_all_pairs": 0.18043112850995,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7800,
+    "country_name": "Seychelles",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690799637408,
     "mean_total_all_pairs": 0.18043112850995,
     "n_products_present": 19856
@@ -91560,6 +93730,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7810,
+    "country_name": "British Indian Ocean Territory",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180430964058941,
+    "n_products_present": 19856
+  },
+  {
     "country": 7830,
     "country_name": "Tanzania (United Republic of Tanzania)",
     "country_abbr": null,
@@ -91975,6 +94155,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124755468921457,
+    "mean_total_all_pairs": 0.164128285721228,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7830,
+    "country_name": "Tanzania (United Republic of Tanzania)",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124755468921457,
     "mean_total_all_pairs": 0.164128285721228,
     "n_products_present": 19856
@@ -92400,6 +94590,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7850,
+    "country_name": "Mauritius",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124694732277814,
+    "mean_total_all_pairs": 0.168710352436688,
+    "n_products_present": 19856
+  },
+  {
     "country": 7870,
     "country_name": "Mozambique",
     "country_abbr": null,
@@ -92815,6 +95015,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124692741459088,
+    "mean_total_all_pairs": 0.177279476044298,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7870,
+    "country_name": "Mozambique",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124692741459088,
     "mean_total_all_pairs": 0.177279476044298,
     "n_products_present": 19856
@@ -93240,6 +95450,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7880,
+    "country_name": "Madagascar",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.167451515077262,
+    "n_products_present": 19856
+  },
+  {
     "country": 7881,
     "country_name": "Mayotte",
     "country_abbr": null,
@@ -93655,6 +95875,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124693897825235,
+    "mean_total_all_pairs": 0.179728576043421,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7881,
+    "country_name": "Mayotte",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124693897825235,
     "mean_total_all_pairs": 0.179728576043421,
     "n_products_present": 19856
@@ -94080,6 +96310,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7890,
+    "country_name": "Comoros",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.179532379506814,
+    "n_products_present": 19856
+  },
+  {
     "country": 7904,
     "country_name": "Reunion",
     "country_abbr": null,
@@ -94500,6 +96740,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7904,
+    "country_name": "Reunion",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124736116004047,
+    "mean_total_all_pairs": 0.179475377914974,
+    "n_products_present": 19856
+  },
+  {
     "country": 7905,
     "country_name": "French Southern and Antarctic Lands",
     "country_abbr": null,
@@ -94915,6 +97165,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7905,
+    "country_name": "French Southern and Antarctic Lands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -95340,6 +97600,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7910,
+    "country_name": "South Africa",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124760244976755,
+    "mean_total_all_pairs": 0.164192262190654,
+    "n_products_present": 19856
+  },
+  {
     "country": 7920,
     "country_name": "Namibia",
     "country_abbr": null,
@@ -95755,6 +98025,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124691593267732,
+    "mean_total_all_pairs": 0.180152580288707,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7920,
+    "country_name": "Namibia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124691593267732,
     "mean_total_all_pairs": 0.180152580288707,
     "n_products_present": 19856
@@ -96180,6 +98460,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7930,
+    "country_name": "Botswana",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469388827687,
+    "mean_total_all_pairs": 0.179182145737622,
+    "n_products_present": 19856
+  },
+  {
     "country": 7940,
     "country_name": "Zambia",
     "country_abbr": null,
@@ -96595,6 +98885,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.178985939473173,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7940,
+    "country_name": "Zambia",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.178985939473173,
     "n_products_present": 19856
@@ -97020,6 +99320,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7950,
+    "country_name": "Eswatini",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.12469080079729,
+    "mean_total_all_pairs": 0.174736128261166,
+    "n_products_present": 19856
+  },
+  {
     "country": 7960,
     "country_name": "Zimbabwe",
     "country_abbr": null,
@@ -97435,6 +99745,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690802057951,
+    "mean_total_all_pairs": 0.179337458160863,
+    "n_products_present": 19856
+  },
+  {
+    "country": 7960,
+    "country_name": "Zimbabwe",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690802057951,
     "mean_total_all_pairs": 0.179337458160863,
     "n_products_present": 19856
@@ -97860,6 +100180,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7970,
+    "country_name": "Malawi",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.180311848924727,
+    "n_products_present": 19856
+  },
+  {
     "country": 7990,
     "country_name": "Lesotho",
     "country_abbr": null,
@@ -98280,6 +100610,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 7990,
+    "country_name": "Lesotho",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.168703409200494,
+    "n_products_present": 19856
+  },
+  {
     "country": 9030,
     "country_name": "Puerto Rico",
     "country_abbr": null,
@@ -98700,6 +101040,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 9030,
+    "country_name": "Puerto Rico",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 9110,
     "country_name": "Virgin Islands of the United States",
     "country_abbr": null,
@@ -99120,6 +101470,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 9110,
+    "country_name": "Virgin Islands of the United States",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 9350,
     "country_name": "Guam",
     "country_abbr": null,
@@ -99540,6 +101900,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 9350,
+    "country_name": "Guam",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 9510,
     "country_name": "American Samoa",
     "country_abbr": null,
@@ -99960,6 +102330,16 @@
     "n_products_present": 19856
   },
   {
+    "country": 9510,
+    "country_name": "American Samoa",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
     "country": 9610,
     "country_name": "Northern Mariana Islands",
     "country_abbr": null,
@@ -100375,6 +102755,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 9610,
+    "country_name": "Northern Mariana Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
@@ -100795,6 +103185,16 @@
     "country_abbr": null,
     "revision": "2026_rev_8",
     "date": "2026-05-22",
+    "mean_additional_all_pairs": 0.124690798751007,
+    "mean_total_all_pairs": 0.18043180902498,
+    "n_products_present": 19856
+  },
+  {
+    "country": 9800,
+    "country_name": "United States Minor Outlying Islands",
+    "country_abbr": null,
+    "revision": "2026_rev_9",
+    "date": "2026-05-28",
     "mean_additional_all_pairs": 0.124690798751007,
     "mean_total_all_pairs": 0.18043180902498,
     "n_products_present": 19856
