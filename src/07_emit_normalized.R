@@ -647,9 +647,9 @@ emit_authority_product_applicability <- function(products, ch99_data,
           dp <- deriv_prods %>% filter(ch99_code %in% active_ch99)
           if (nrow(dp) > 0) {
             # Derivative rates come from s232_rates — aluminum derivatives at
-            # s232_rates$derivative_rate, steel derivatives at
+            # s232_rates$aluminum_derivative_rate, steel derivatives at
             # s232_rates$steel_derivative_rate. Fall back to 0 if missing.
-            alum_rate  <- as.numeric(s232_rates$derivative_rate %||% 0)
+            alum_rate  <- as.numeric(s232_rates$aluminum_derivative_rate %||% 0)
             steel_rate <- as.numeric(s232_rates$steel_derivative_rate %||% 0)
             rows[['s232_deriv']] <- dp %>%
               transmute(

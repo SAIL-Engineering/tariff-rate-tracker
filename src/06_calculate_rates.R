@@ -284,8 +284,8 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
         if (length(alum_matched) > 0) {
           country_alum <- tibble(country = countries) %>%
             mutate(
-              deriv_exempt = map_lgl(country, ~is_232_exempt(.x, s232_rates$derivative_exempt)),
-              deriv_rate = if_else(deriv_exempt, 0, s232_rates$derivative_rate)
+              deriv_exempt = map_lgl(country, ~is_232_exempt(.x, s232_rates$aluminum_derivative_exempt)),
+              deriv_rate = if_else(deriv_exempt, 0, s232_rates$aluminum_derivative_rate)
             )
           rates <- rates %>%
             left_join(country_alum %>% select(country, .alum_deriv_rate = deriv_rate), by = 'country', relationship = 'many-to-one') %>%
@@ -544,6 +544,20 @@ calculate_rates_for_revision <- function(
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
 
+  # Date-gate Ch99 entries: drop rows whose legal effective_date_offset is
+  # AFTER this revision's effective_date. The HTS publishes new authorities
+  # before they become legally collectible (e.g., 9903.94.01 added at rev_6,
+  # 2025-03-12, with description specifying entries on or after 2025-04-03).
+  # See upstream eval s232_auto_effective_date_2026-04-28.
+  ch99_data <- filter_active_ch99(ch99_data, as.Date(effective_date))
+
+  # If s232_rates was extracted upstream from unfiltered ch99_data
+  # (00_build_timeseries.R and 09_daily_series.R both pre-extract), re-extract
+  # so heading gates downstream see the gated state.
+  if (!is.null(s232_rates)) {
+    s232_rates <- extract_section232_rates(ch99_data)
+  }
+
   pp <- policy_params %||% load_policy_params()
   cc <- get_country_constants(pp)
   CTY_CHINA  <- cc$CTY_CHINA
@@ -591,6 +605,16 @@ calculate_rates_for_revision <- function(
     message('  IEEPA duty-free treatment: ', duty_free_treatment)
   }
 
+  # IEEPA Annex II exempt-list scope: 'all' (default, legally correct per
+  # EO 14326 §3 + CBP CSMS #65829726) zeros listed products across baseline
+  # + Phase 1/2 surcharges + floor; 'baseline_only' is a diagnostic that
+  # zeros only the universal 10% baseline. See policy_params.yaml warning.
+  ieepa_exempt_scope <- pp$ieepa_exempt_scope %||% 'all'
+  if (ieepa_exempt_scope != 'all') {
+    message('  IEEPA exempt scope: ', ieepa_exempt_scope,
+            ' (DIAGNOSTIC — produces legally-incorrect output)')
+  }
+
   # Load IEEPA product exemptions
   ieepa_exempt_path <- here('resources', 'ieepa_exempt_products.csv')
   ieepa_exempt_products <- if (file.exists(ieepa_exempt_path)) {
@@ -601,6 +625,34 @@ calculate_rates_for_revision <- function(
   }
   if (length(ieepa_exempt_products) > 0) {
     message('  IEEPA exempt products loaded: ', length(ieepa_exempt_products))
+  }
+
+  # Load country-specific EO product exemptions.
+  # Country EOs (Brazil 9903.01.77, India 9903.01.84, etc.) carry their own
+  # exempt lists separate from the universal EO 14257 Annex A above. Without
+  # this, the country-EO surcharge is wrongly suppressed by Annex A.
+  country_eo_exempt_path <- here('resources', 'country_eo_exempt_products.csv')
+  country_eo_exempt <- if (file.exists(country_eo_exempt_path)) {
+    raw <- read_csv(country_eo_exempt_path, comment = '#',
+                    col_types = cols(.default = col_character()))
+    rev_date_chr <- as.character(effective_date)
+    raw %>%
+      mutate(
+        effective_date_start = if_else(is.na(effective_date_start) | effective_date_start == '',
+                                        '1900-01-01', effective_date_start),
+        effective_date_end   = if_else(is.na(effective_date_end)   | effective_date_end == '',
+                                        '2099-12-31', effective_date_end)
+      ) %>%
+      filter(rev_date_chr >= effective_date_start, rev_date_chr <= effective_date_end) %>%
+      mutate(hts8_prefix = substr(gsub('\\.', '', hts10), 1, 8)) %>%
+      distinct(ch99_code, hts8_prefix)
+  } else {
+    tibble(ch99_code = character(), hts8_prefix = character())
+  }
+  if (nrow(country_eo_exempt) > 0) {
+    message('  Country-EO exempt products active at ', effective_date, ': ',
+            nrow(country_eo_exempt), ' (HS8, ch99) pairs across ',
+            n_distinct(country_eo_exempt$ch99_code), ' EOs')
   }
 
   # Load floor country product exemptions (EU/Japan/Korea/Swiss)
@@ -653,14 +705,24 @@ calculate_rates_for_revision <- function(
         arrange(type_priority, desc(rate)) %>%
         summarise(
           phase_rate = first(rate),
-          ieepa_type = first(rate_type),
+          phase_type = first(rate_type),
+          phase_ch99_code = first(ch99_code),
           .groups = 'drop'
         ) %>%
-        # Across phases: sum (Phase 2 + country_eo stack)
+        # Across phases: keep both the merged total AND the country-EO
+        # contribution separately. The latter lets us bypass the universal
+        # Annex A check for country-specific surcharges (Brazil 9903.01.77 etc.)
+        # while still applying their own per-EO exempt list.
         group_by(census_code) %>%
         summarise(
           ieepa_country_rate = sum(phase_rate),
-          ieepa_type = first(ieepa_type),
+          country_eo_rate = sum(phase_rate[phase == 'country_eo']),
+          country_eo_ch99 = {
+            ce <- phase_ch99_code[phase == 'country_eo']
+            if (length(ce) > 0) ce[1] else NA_character_
+          },
+          ieepa_type = first(phase_type),
+          is_universal_baseline_country = FALSE,
           .groups = 'drop'
         )
 
@@ -745,7 +807,10 @@ calculate_rates_for_revision <- function(
           baseline_entries <- tibble(
             census_code = unlisted_countries,
             ieepa_country_rate = universal_baseline,
-            ieepa_type = 'surcharge'
+            country_eo_rate = 0,
+            country_eo_ch99 = NA_character_,
+            ieepa_type = 'surcharge',
+            is_universal_baseline_country = TRUE
           )
           country_ieepa <- bind_rows(country_ieepa, baseline_entries)
           message('  Applied universal baseline (', round(universal_baseline * 100),
@@ -796,20 +861,46 @@ calculate_rates_for_revision <- function(
         rates <- rates %>% mutate(floor_exempt = FALSE)
       }
 
+      # Build a country-EO exempt key set for fast lookup. Each entry pairs
+      # (country EO ch99 code) with (HS8 prefix). A product is exempt from
+      # the country EO surcharge when both its 8-digit HS prefix and the
+      # active EO ch99 code for that country match an entry.
+      country_eo_exempt_keys <- if (nrow(country_eo_exempt) > 0) {
+        paste(country_eo_exempt$ch99_code, country_eo_exempt$hts8_prefix, sep = '|')
+      } else {
+        character(0)
+      }
+
       rates <- rates %>%
         mutate(
+          # Universal Annex II applies to baseline + phase1 + phase2 surcharges
+          # AND the floor structure; country_eo bypasses it but uses its own
+          # per-EO exempt list. ieepa_exempt_scope = 'baseline_only' (diagnostic)
+          # narrows the universal exempt list to baseline-only countries.
+          is_universally_exempt = hts10 %in% ieepa_exempt_products,
+          is_country_eo_exempt  = !is.na(country_eo_ch99) &
+            paste(country_eo_ch99, substr(hts10, 1, 8), sep = '|') %in% country_eo_exempt_keys,
+          exempt_active = is_universally_exempt & (
+            ieepa_exempt_scope == 'all' |
+            (ieepa_exempt_scope == 'baseline_only' &
+             coalesce(is_universal_baseline_country, FALSE))
+          ),
           rate_ieepa_recip = case_when(
             duty_free_treatment == 'nonzero_base_only' & base_rate < 0.001 ~ 0,  # duty-free exemption
-            hts10 %in% ieepa_exempt_products ~ 0,       # general IEEPA exemption (Annex A)
             floor_exempt ~ 0,                             # floor country product exemption
             is.na(ieepa_country_rate) ~ 0,               # country not in IEEPA list
-            ieepa_type == 'surcharge' ~ ieepa_country_rate,
+            ieepa_type == 'surcharge' ~
+              if_else(exempt_active, 0, ieepa_country_rate - country_eo_rate) +
+              if_else(is_country_eo_exempt, 0, country_eo_rate),
+            ieepa_type == 'floor' & exempt_active ~ 0,
             ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
             ieepa_type == 'passthrough' ~ 0,
             TRUE ~ 0
           )
         ) %>%
-        select(-ieepa_country_rate, -floor_exempt)
+        select(-ieepa_country_rate, -country_eo_rate, -country_eo_ch99,
+               -is_universally_exempt, -is_country_eo_exempt, -floor_exempt,
+               -is_universal_baseline_country, -exempt_active)
 
       # Also add IEEPA rows for products NOT currently in rates
       # (products with no other Ch99 duties but still subject to IEEPA)
@@ -852,15 +943,28 @@ calculate_rates_for_revision <- function(
         mutate(
           rate_232 = 0, rate_301 = 0, rate_ieepa_fent = 0, rate_s122 = 0,
           rate_section_201 = 0, rate_other = 0,
+          is_universally_exempt = hts10 %in% ieepa_exempt_products,
+          is_country_eo_exempt  = !is.na(country_eo_ch99) &
+            paste(country_eo_ch99, substr(hts10, 1, 8), sep = '|') %in% country_eo_exempt_keys,
+          exempt_active = is_universally_exempt & (
+            ieepa_exempt_scope == 'all' |
+            (ieepa_exempt_scope == 'baseline_only' &
+             coalesce(is_universal_baseline_country, FALSE))
+          ),
           rate_ieepa_recip = case_when(
             floor_exempt ~ 0,                             # floor country product exemption
-            ieepa_type == 'surcharge' ~ ieepa_country_rate,
+            ieepa_type == 'surcharge' ~
+              if_else(exempt_active, 0, ieepa_country_rate - country_eo_rate) +
+              if_else(is_country_eo_exempt, 0, country_eo_rate),
+            ieepa_type == 'floor' & exempt_active ~ 0,
             ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
             TRUE ~ 0
           )
         ) %>%
         filter(rate_ieepa_recip > 0) %>%
-        select(-ieepa_country_rate, -floor_exempt)
+        select(-ieepa_country_rate, -country_eo_rate, -country_eo_ch99,
+               -is_universally_exempt, -is_country_eo_exempt, -floor_exempt,
+               -is_universal_baseline_country, -exempt_active)
 
       if (nrow(new_pairs) > 0) {
         message('  Adding ', nrow(new_pairs), ' product-country pairs for IEEPA-only duties')
@@ -958,6 +1062,25 @@ calculate_rates_for_revision <- function(
         select(-carveout_rate, -.hts8)
     }
 
+    # Apply Ch98 exemption (US Note 2(v)(i)) to fentanyl rate.
+    # Annex II (Note 2(v)(iii)) lists only reciprocal-related ch99 codes
+    # and does NOT extend to fentanyl (9903.01.01-.24); the broader Annex II
+    # list must therefore not be applied to rate_ieepa_fent. But the Ch98
+    # carve-out under (v)(i) IS legally separate and does cover fentanyl.
+    # The 4 Ch98 exceptions (9802.00.40/50/60/80) are already excluded
+    # from ieepa_exempt_products.csv by expand_ieepa_exempt.R Fix 2.
+    ch98_exempt_products <- ieepa_exempt_products[
+      substr(ieepa_exempt_products, 1, 2) == '98']
+    if (length(ch98_exempt_products) > 0) {
+      ch98_mask <- rates$hts10 %in% ch98_exempt_products
+      n_zeroed <- sum(ch98_mask & rates$rate_ieepa_fent > 0)
+      if (n_zeroed > 0) {
+        rates$rate_ieepa_fent[ch98_mask] <- 0
+        message('  Ch98 fentanyl exemption: zeroed rate_ieepa_fent for ',
+                n_zeroed, ' product-country pairs')
+      }
+    }
+
     n_with_fent <- sum(rates$rate_ieepa_fent > 0)
     message('  With IEEPA fentanyl: ', n_with_fent)
   } else {
@@ -1028,6 +1151,7 @@ calculate_rates_for_revision <- function(
     copper_products <- character(0)
     wood_products <- character(0)
     mhd_products <- character(0)
+    semi_products <- character(0)
     heading_product_lists <- list()
 
     if (!is.null(s232_headings)) {
@@ -1045,7 +1169,8 @@ calculate_rates_for_revision <- function(
         kitchen_cabinets = s232_rates$wood_rate > 0 || s232_rates$wood_furniture_rate > 0,
         mhd_vehicles     = s232_rates$mhd_rate > 0,
         mhd_parts        = s232_rates$mhd_rate > 0,
-        buses            = s232_rates$mhd_rate > 0
+        buses            = s232_rates$mhd_rate > 0,
+        semiconductors   = s232_rates$semi_rate > 0
       )
 
       for (tariff_name in names(s232_headings)) {
@@ -1113,6 +1238,8 @@ calculate_rates_for_revision <- function(
           wood_products <- c(wood_products, matched)
         } else if (grepl('mhd|bus|mhd_parts', tariff_name, ignore.case = TRUE)) {
           mhd_products <- c(mhd_products, matched)
+        } else if (grepl('semi', tariff_name, ignore.case = TRUE)) {
+          semi_products <- c(semi_products, matched)
         }
       }
     }
@@ -1120,6 +1247,26 @@ calculate_rates_for_revision <- function(
     copper_products <- unique(copper_products)
     wood_products <- unique(wood_products)
     mhd_products <- unique(mhd_products)
+    semi_products <- unique(semi_products)
+
+    # Note 39(a)(1)-(9) excludes semi articles from stacking with 232 autos,
+    # auto parts, MHD, MHD parts, copper, aluminum, and steel. The auto_parts
+    # HTS list (per US Note 33(g)) includes heading 8471 at the 4-digit level,
+    # which overlaps with Note 39(b) scope (8471.50, 8471.80, 8473.30). Strip
+    # semi products from non-semi heading lists so only the 25% semi rate
+    # applies, and so auto_rebate doesn't inappropriately reduce semi rates.
+    if (length(semi_products) > 0) {
+      auto_products <- setdiff(auto_products, semi_products)
+      copper_products <- setdiff(copper_products, semi_products)
+      wood_products <- setdiff(wood_products, semi_products)
+      mhd_products <- setdiff(mhd_products, semi_products)
+      for (nm in setdiff(names(heading_product_lists), 'semiconductors')) {
+        heading_product_lists[[nm]]$products <- setdiff(
+          heading_product_lists[[nm]]$products,
+          semi_products
+        )
+      }
+    }
 
     # Exclude blanket chapter products from heading lists — a Ch73 steel spring
     # that matches auto_parts prefixes is still a steel product (gets blanket 232
@@ -1138,9 +1285,10 @@ calculate_rates_for_revision <- function(
     n_copper <- length(copper_products)
     n_wood <- length(wood_products)
     n_mhd <- length(mhd_products)
+    n_semi <- length(semi_products)
     message('  Section 232 coverage: ', n_steel, ' steel + ', n_alum,
             ' aluminum + ', n_auto, ' auto + ', n_copper, ' copper + ',
-            n_wood, ' wood + ', n_mhd, ' MHD products')
+            n_wood, ' wood + ', n_mhd, ' MHD + ', n_semi, ' semi products')
 
     # --- Build product-level 232 rate lookup from heading configs ---
     # Each heading config specifies its own rate. Build an hts10 -> rate mapping.
@@ -1162,6 +1310,50 @@ calculate_rates_for_revision <- function(
           heading_usmca_exempt = any(heading_usmca_exempt),
           .groups = 'drop'
         )
+    }
+
+    # --- Semi per-HTS10 qualifying_share and end-use blending (Note 39(b), (d)) ---
+    # Note 39(b) scopes semi articles via three HTS headings plus a per-article
+    # TPP/DRAM tech gate; qualifying_share approximates the fraction of each
+    # HTS10's imports meeting the gate. Note 39(d) enumerates end-use carve-outs
+    # (9903.79.03-.09) that can't be HTS-scoped; end_use_exemption_share
+    # approximates the dutied fraction. Both default to uncalibrated upper
+    # bounds (qualifying_share = 1.0, end_use_exemption_share = 0).
+    if (length(semi_products) > 0 && nrow(heading_product_rate) > 0 &&
+        !is.null(s232_headings) && !is.null(s232_headings$semiconductors)) {
+      semi_cfg <- s232_headings$semiconductors
+      end_use_share <- semi_cfg$end_use_exemption_share %||% 0
+
+      qs_data <- tibble(hts10 = character(), qualifying_share = numeric())
+      qs_path <- semi_cfg$qualifying_shares_file %||% ''
+      if (nchar(qs_path) > 0) {
+        qs_full <- here(qs_path)
+        if (file.exists(qs_full)) {
+          qs_data <- suppressMessages(
+            read_csv(qs_full, col_types = cols(
+              hts10 = col_character(),
+              qualifying_share = col_double()
+            ))
+          ) %>% select(hts10, qualifying_share)
+        } else {
+          message('  WARNING: semi qualifying_shares_file not found: ', qs_full,
+                  ' — defaulting all shares to 1.0')
+        }
+      }
+
+      heading_product_rate <- heading_product_rate %>%
+        left_join(qs_data, by = 'hts10', relationship = 'many-to-one') %>%
+        mutate(
+          heading_232_rate = if_else(
+            hts10 %in% semi_products,
+            heading_232_rate * coalesce(qualifying_share, 1.0) * (1 - end_use_share),
+            heading_232_rate
+          )
+        ) %>%
+        select(-qualifying_share)
+
+      message('  Semi scaling: ', nrow(qs_data), ' per-HTS10 shares loaded; ',
+              'end_use_exemption_share = ', end_use_share)
     }
 
     # --- Build per-country rate lookup ---
@@ -1683,15 +1875,55 @@ calculate_rates_for_revision <- function(
           TRUE ~ s232_annex
         ))
 
-      # Override rate_232 by annex
+      # Override rate_232 by annex.
+      #
+      # Important scoping: the April 2026 proclamation governs Section 232
+      # *steel / aluminum / copper* tariffs only — Annex II's "removed from
+      # scope" language means removed from the metal-derivative tariff, not
+      # from the auto (9903.94), MHD (9903.74), wood (9903.76), copper deal
+      # (9903.78), or semiconductor (9903.79) authorities, which are separate.
+      # The annex CSV lists 8703/8704/8708 (autos/parts), 74xx (copper), etc.
+      # in Annex I-B/II because the proclamation removes them from the
+      # *metal-derivative* tariff — but those products carry separate
+      # heading-program rates set in step 4/4c. Guard heading-program products
+      # so the annex override doesn't silently wipe their heading rate (e.g.
+      # an EU passenger car under 9903.94.51 should keep max(0.15 - base, 0),
+      # not be zeroed by the annex_2 catch-all).
+      heading_program_products <- unique(c(auto_products, mhd_products,
+                                           copper_products, wood_products,
+                                           semi_products))
       rates <- rates %>%
         mutate(rate_232 = case_when(
+          hts10 %in% heading_program_products ~ rate_232,
           s232_annex == 'annex_2' ~ 0,
           s232_annex == 'annex_1a' ~ annex_cfg$annexes$annex_1a$rate,
           s232_annex == 'annex_1b' ~ annex_cfg$annexes$annex_1b$rate,
           s232_annex == 'annex_3' ~ pmax(0, annex_cfg$annexes$annex_3$floor_rate - base_rate),
           TRUE ~ rate_232
         ))
+
+      # 9903.82.01 zero-metal-content carve-out (Note 16(a)):
+      # Articles classified in subdivision (c) lists that do not contain any
+      # aluminum, steel, or copper get "No change" — 0% additional 232 duty.
+      # Modeled as an aggregate fraction of imports under each annex product
+      # that contain zero metal. Dormant by default (aggregate_share = 0 in
+      # policy_params.yaml); a non-zero share scales rate_232 down by
+      # (1 - share). Calibration would require per-prefix metal-content
+      # trade data (CBP entry summaries, industry surveys); none today.
+      # heading_program_products are skipped (defined above for the override).
+      zmc_cfg <- annex_cfg$exemptions$zero_metal_content
+      zmc_share <- as.numeric(zmc_cfg$aggregate_share %||% 0)
+      if (!is.na(zmc_share) && zmc_share > 0) {
+        zmc_annexes <- paste0('annex_', unlist(zmc_cfg$applies_to %||% c('1a', '1b', '3')))
+        rates <- rates %>%
+          mutate(rate_232 = if_else(
+            !(hts10 %in% heading_program_products) & s232_annex %in% zmc_annexes,
+            rate_232 * (1 - zmc_share),
+            rate_232
+          ))
+        message('  zero_metal_content exemption applied: share=', zmc_share,
+                ', annexes=', paste(zmc_annexes, collapse = ','))
+      }
 
       # UK annex-aware deal (replaces old flat 25% override for post-annex revisions)
       uk_code <- get_country_constants()$CTY_UK %||% '4120'
@@ -1705,6 +1937,70 @@ calculate_rates_for_revision <- function(
             substr(hts10, 1, 2) %in% uk_steel_alum ~ annex_cfg$annexes$annex_1b$uk_rate,
           TRUE ~ rate_232
         ))
+
+      # Country-specific 232 surcharges preserved under the annex regime.
+      # Per the April 2026 proclamation, Russian aluminum remains subject to
+      # the 200% rate from Proc 10522 across Annex I-A, I-B, and III. Annex II
+      # is out of scope (products removed from S232 entirely).
+      # Applied as pmax() so the surcharge wins over the annex tier rate.
+      country_surcharges <- annex_cfg$country_surcharges %||% list()
+      if (length(country_surcharges) > 0) {
+        deriv_by_type <- if (!is.null(deriv_products) && nrow(deriv_products) > 0) {
+          split(deriv_products$hts_prefix, deriv_products$derivative_type)
+        } else list()
+
+        primary_chapters_by_type <- list(
+          steel    = c('72', '73'),
+          aluminum = '76',
+          copper   = '74'
+        )
+
+        for (surcharge in country_surcharges) {
+          countries_vec   <- as.character(surcharge$countries)
+          applies_annexes <- surcharge$applies_to %||% c('annex_1a', 'annex_1b', 'annex_3')
+          metal_types     <- surcharge$metal_types %||% c('steel', 'aluminum', 'copper')
+          rate_s          <- surcharge$rate
+          if (is.null(rate_s) || !is.finite(rate_s) || rate_s <= 0) next
+
+          # Build the set of HTS10s in scope for the requested metal types.
+          # Union of (primary chapters for that type) + (derivative prefixes
+          # tagged with that type in s232_derivative_products.csv).
+          type_hts10 <- character(0)
+          all_hts10 <- unique(rates$hts10)
+          for (mt in metal_types) {
+            prim <- primary_chapters_by_type[[mt]] %||% character(0)
+            if (length(prim) > 0) {
+              type_hts10 <- c(type_hts10, all_hts10[substr(all_hts10, 1, 2) %in% prim])
+            }
+            deriv_prefixes <- deriv_by_type[[mt]] %||% character(0)
+            if (length(deriv_prefixes) > 0) {
+              deriv_pattern <- paste0('^(', paste(deriv_prefixes, collapse = '|'), ')')
+              type_hts10 <- c(type_hts10, all_hts10[grepl(deriv_pattern, all_hts10)])
+            }
+          }
+          type_hts10 <- unique(type_hts10)
+          if (length(type_hts10) == 0) next
+
+          rates <- rates %>%
+            mutate(rate_232 = if_else(
+              country %in% countries_vec &
+                s232_annex %in% applies_annexes &
+                hts10 %in% type_hts10,
+              pmax(rate_232, rate_s),
+              rate_232
+            ))
+
+          n_applied <- sum(
+            rates$country %in% countries_vec &
+            rates$s232_annex %in% applies_annexes &
+            rates$hts10 %in% type_hts10
+          )
+          message('  Annex country surcharge: ', paste(countries_vec, collapse = ','),
+                  ' @ ', round(rate_s * 100, 0), '% on ', n_applied,
+                  ' product-country pairs (', paste(metal_types, collapse = '/'),
+                  ' × ', paste(applies_annexes, collapse = '/'), ')')
+        }
+      }
 
       # Annex III sunset: after sunset_date, products move to I-B rate
       sunset <- annex_cfg$annexes$annex_3$sunset_date
@@ -1726,6 +2022,90 @@ calculate_rates_for_revision <- function(
       if (nrow(n_by_annex) > 0) {
         message('  Annex rate override: ',
                 paste(n_by_annex$s232_annex, n_by_annex$n, sep = '=', collapse = ', '))
+      }
+
+      # 5d. Subdivision (r) blend for EU/JP/KR certified auto parts.
+      # Per US Note 33(r), EU/JP/KR auto parts not in subdivision (g) and not in
+      # Note 38(i) MHD parts get a 15% floor (9903.94.45/.55/.65) when the
+      # importer certifies them for US production/repair. Note 33(r)(1) carves
+      # them out from the metals annex (9903.82.02/.04-.19). Without this blend
+      # the post-annex tracker leaves the annex_1b 25% rate on these products
+      # for EU/JP/KR (~10pp over the legal cap on the certified share).
+      #
+      # Three-way mix per import:
+      #   1. fta_share  — qualifies under EO 14345 (Japan) or KORUS (Korea); per
+      #      Note 33(r) line 35836-37 these are EXEMPT from .44/.45/.54/.55/.64/.65
+      #      additional duty AND from the metals annex via the (r)(1) carve-out.
+      #      rate_232 = 0; only base_rate (FTA-special) applies.
+      #   2. certified_share × (1 - fta_share) — non-FTA but certified for US
+      #      production. rate_232 = pmax(floor - base, 0).
+      #   3. (1 - certified_share) × (1 - fta_share) — non-FTA, uncertified.
+      #      Falls under annex_1b (or whatever rate_232 was set to in step 5c).
+      #
+      # All shares default to 0 (dormant). IEEPA reciprocal is left at the
+      # existing annex-zeroed value, matching subdivision (g) treatment today.
+      subdiv_r_cfg <- pp$auto_parts_subdivision_r
+      certified_share <- subdiv_r_cfg$certified_share %||% 0
+      fta_shares_cfg <- subdiv_r_cfg$fta_exempt_shares %||% list()
+      any_fta_share <- any(unlist(fta_shares_cfg) > 0)
+
+      if (!is.null(subdiv_r_cfg) && (certified_share > 0 || any_fta_share)) {
+        subdiv_r_path <- here(subdiv_r_cfg$products_file)
+        if (!file.exists(subdiv_r_path)) {
+          stop('auto_parts_subdivision_r$products_file not found: ', subdiv_r_path)
+        }
+        subdiv_r <- read_csv(subdiv_r_path, col_types = cols(.default = col_character()))
+        prefixes <- unique(subdiv_r$hts_prefix)
+        if (length(prefixes) > 0) {
+          eligible_pattern <- paste0('^(', paste(prefixes, collapse = '|'), ')')
+          applies_iso <- subdiv_r_cfg$applies_to_iso %||% c('EU', 'JP', 'KR')
+          floor_rate_r <- subdiv_r_cfg$floor_rate %||% 0.15
+
+          # Build per-country fta_share lookup (census-coded)
+          iso_to_census_vec <- function(iso) {
+            if (iso == 'EU') {
+              if (!is.null(pp)) names(pp$eu27_codes) else EU27_CODES
+            } else {
+              as.character(pp$ISO_TO_CENSUS[iso])
+            }
+          }
+          fta_share_by_country <- map_dfr(applies_iso, function(iso) {
+            cs <- iso_to_census_vec(iso)
+            cs <- cs[!is.na(cs) & nchar(cs) > 0]
+            tibble(country = cs,
+                    fta_share = fta_shares_cfg[[iso]] %||% 0)
+          })
+          census_codes <- unique(fta_share_by_country$country)
+
+          rates <- rates %>%
+            left_join(fta_share_by_country, by = 'country',
+                      relationship = 'many-to-one') %>%
+            mutate(
+              fta_share = coalesce(fta_share, 0),
+              .subdiv_r = grepl(eligible_pattern, hts10) & country %in% census_codes,
+              .floor_232 = pmax(floor_rate_r - base_rate, 0),
+              .non_fta_blend = certified_share * .floor_232 +
+                                (1 - certified_share) * rate_232,
+              rate_232 = if_else(
+                .subdiv_r,
+                fta_share * 0 + (1 - fta_share) * .non_fta_blend,
+                rate_232
+              ),
+              statutory_rate_232 = if_else(.subdiv_r, rate_232, statutory_rate_232)
+            ) %>%
+            select(-.subdiv_r, -.floor_232, -.non_fta_blend, -fta_share)
+
+          n_blended <- sum(grepl(eligible_pattern, rates$hts10) & rates$country %in% census_codes)
+          fta_summary <- paste(
+            sprintf('%s=%.2f', names(fta_shares_cfg %||% list()),
+                    unlist(fta_shares_cfg %||% list())),
+            collapse = ', '
+          )
+          message('  Subdiv (r) blend: certified_share=', certified_share,
+                  '; fta_exempt_shares=[', fta_summary,
+                  '] applied to ', n_blended, ' product-country pairs (',
+                  length(prefixes), ' prefixes × ', length(census_codes), ' countries)')
+        }
       }
     } else {
       rates$s232_annex <- NA_character_
@@ -1961,6 +2341,46 @@ calculate_rates_for_revision <- function(
             length(s122_exempt_hts8), ' HTS8 exempt)')
   }
 
+  # 6b1. Apply Section 201 (Trade Act §201 safeguard) tariffs.
+  #      Currently models Solar 201 (Proc 9693 + Proc 10454, 9903.45.21–.25)
+  #      on CSPV cells/modules. The 201 rate stacks on top of MFN, separate
+  #      from 232/301/IEEPA. Canada is exempt under USMCA. Per-product
+  #      coverage is in resources/s201_solar_products.csv.
+  s201_results <- extract_section_201_rates(ch99_data, policy_params = pp)
+  if (s201_results$has_s201) {
+    s201_path <- here('resources', 's201_solar_products.csv')
+    if (!file.exists(s201_path)) {
+      message('  WARNING: s201_solar_products.csv not found — Section 201 rate not applied')
+    } else {
+      s201_products <- read_csv(s201_path,
+                                 col_types = cols(hts10 = col_character()))
+      solar_rate <- s201_results$solar_rate
+      s201_country_codes <- setdiff(countries, pp$country_codes$CTY_CANADA)
+
+      # Set rate_section_201 for existing rows
+      rates <- rates %>%
+        mutate(
+          rate_section_201 = if_else(
+            hts10 %in% s201_products$hts10 & country %in% s201_country_codes,
+            solar_rate, rate_section_201
+          )
+        )
+
+      # Add 201-only rows for products not yet in rates
+      s201_country_rates <- tibble(
+        country = s201_country_codes,
+        blanket_rate = solar_rate
+      )
+      rates <- add_blanket_pairs(rates, products, s201_products$hts10, s201_country_rates,
+                                  'rate_section_201', 'Section 201 (solar)')
+
+      n_with_s201 <- sum(rates$rate_section_201 > 0)
+      message('  Section 201 (solar): ', round(solar_rate * 100, 1), '% on ',
+              n_with_s201, ' product-country pairs (',
+              nrow(s201_products), ' HTS10 covered, Canada exempt)')
+    }
+  }
+
   # 6b2. Dense grid expansion for MFN-only pairs.
   #      After 232/301/s122/fent/IEEPA-recip passes, any (hts10, country) pair
   #      still missing is MFN-only. Surface them now so they receive the FTA/GSP
@@ -2089,6 +2509,27 @@ calculate_rates_for_revision <- function(
       ) %>%
       mutate(usmca_eligible = coalesce(usmca_eligible, FALSE))
 
+    # Refresh s232_usmca_eligible for annex-classified products (April 2026
+    # proclamation). Step 4 set this flag from the pre-annex heading configs
+    # (autos_passenger, autos_light_trucks, mhd_vehicles, auto_parts,
+    # mhd_parts). Step 5c's annex restructuring pulls in additional products
+    # outside those headings — without this refresh, an annex_1b product
+    # that's S/S+ in the HTS special field but absent from the pre-annex
+    # heading lists keeps s232_usmca_eligible = FALSE and gets the full
+    # annex rate from CA/MX. Steel/aluminum chapters (72/73/76) are excluded
+    # by design — they have no legal USMCA carve-out at any point. annex_2
+    # zeros rate_232 entirely so eligibility is moot there.
+    if ('s232_annex' %in% names(rates)) {
+      rates <- rates %>%
+        mutate(s232_usmca_eligible = if_else(
+          coalesce(s232_annex %in% c('annex_1a', 'annex_1b', 'annex_3'), FALSE) &
+            coalesce(usmca_eligible, FALSE) &
+            !(substr(hts10, 1, 2) %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)),
+          TRUE,
+          coalesce(s232_usmca_eligible, FALSE)
+        ))
+    }
+
     if (!is.null(usmca_product_shares) && nrow(usmca_product_shares) > 0) {
       # Census SPI shares: apply to all CA/MX products
       rates <- rates %>%
@@ -2168,6 +2609,32 @@ calculate_rates_for_revision <- function(
 
   # Clean up intermediate flag
   rates$s232_usmca_eligible <- NULL
+
+  # Note 39(a)(7)-(9): semi articles are not subject to 232 aluminum/steel
+  # derivative duties, and the April 2026 annex restructuring doesn't re-scope
+  # them. Several upstream steps (apply_232_derivatives, annex overrides,
+  # USMCA auto-content, etc.) can mutate rate_232 for semi HTS10s. Restore the
+  # semi heading rate as the final step before stacking so the 25% is what
+  # actually carries into the ETR. Setting deriv_type = NA keeps semi products
+  # off the derivative path so nonmetal_share = 0 (IEEPA zeroed, Note 2(v)(xvi)).
+  if (exists('semi_products') && length(semi_products) > 0 &&
+      exists('heading_product_rate') && nrow(heading_product_rate) > 0) {
+    semi_override <- heading_product_rate %>%
+      filter(hts10 %in% semi_products) %>%
+      select(hts10, .semi_heading_rate = heading_232_rate)
+    if (nrow(semi_override) > 0) {
+      rates <- rates %>%
+        left_join(semi_override, by = 'hts10', relationship = 'many-to-one') %>%
+        mutate(
+          rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate, rate_232),
+          deriv_type = if_else(!is.na(.semi_heading_rate), NA_character_, deriv_type),
+          statutory_rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate,
+                                       statutory_rate_232)
+        ) %>%
+        select(-.semi_heading_rate)
+      message('  Semi: restored heading rate on ', nrow(semi_override), ' HTS10s')
+    }
+  }
 
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)

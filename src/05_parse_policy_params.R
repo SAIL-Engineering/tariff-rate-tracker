@@ -211,7 +211,7 @@ match_countries <- function(country_names, lookup) {
 #' @param hts_raw Parsed HTS JSON (list)
 #' @param country_lookup Named vector from build_country_lookup()
 #' @return Tibble with ch99_code, rate, rate_type, phase, country_name, census_code
-extract_ieepa_rates <- function(hts_raw, country_lookup) {
+extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) {
   message('Extracting IEEPA country-specific rates...')
 
   # Filter to IEEPA entries
@@ -224,6 +224,26 @@ extract_ieepa_rates <- function(hts_raw, country_lookup) {
     grepl('^9903\\.01\\.(4[3-9]|[5-8][0-9])$', htsno) ||
       grepl('^9903\\.02\\.(0[2-9]|[1-8][0-9]|9[01])$', htsno)
   }, hts_raw)
+
+  # Date-gate entries whose description specifies a future legal activation
+  # ("...effective with respect to entries on or after [DATE]..."). Same
+  # pattern as filter_active_ch99 in helpers.R but applied to the raw JSON
+  # since IEEPA extraction predates the parsed ch99_data filter step.
+  if (!is.null(effective_date)) {
+    rev_date <- as.Date(effective_date)
+    n_before <- length(ieepa_items)
+    ieepa_items <- Filter(function(x) {
+      desc <- x$description %||% ''
+      offset <- extract_effective_date_offset(desc)
+      is.na(offset) || offset <= rev_date
+    }, ieepa_items)
+    n_dropped <- n_before - length(ieepa_items)
+    if (n_dropped > 0) {
+      message('  Dropping ', n_dropped, ' IEEPA entr',
+              if (n_dropped == 1) 'y' else 'ies',
+              ' not yet legally active at ', rev_date)
+    }
+  }
 
   message('  IEEPA tier entries found: ', length(ieepa_items))
 
@@ -449,7 +469,7 @@ extract_ieepa_rates <- function(hts_raw, country_lookup) {
 #'   products), or 'carveout' for product-specific lower/higher rates (e.g.,
 #'   energy/minerals, potash). The general entry is identified by "Except for
 #'   products described in" language in the description.
-extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup) {
+extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date = NULL) {
   message('Extracting IEEPA fentanyl/initial rates...')
 
   # Filter to 9903.01.01 through 9903.01.24
@@ -457,6 +477,23 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup) {
     htsno <- x$htsno %||% ''
     grepl('^9903\\.01\\.(0[1-9]|1[0-9]|2[0-4])$', htsno)
   }, hts_raw)
+
+  # Date-gate entries with future-dated activation in the description.
+  if (!is.null(effective_date)) {
+    rev_date <- as.Date(effective_date)
+    n_before <- length(fent_items)
+    fent_items <- Filter(function(x) {
+      desc <- x$description %||% ''
+      offset <- extract_effective_date_offset(desc)
+      is.na(offset) || offset <= rev_date
+    }, fent_items)
+    n_dropped <- n_before - length(fent_items)
+    if (n_dropped > 0) {
+      message('  Dropping ', n_dropped, ' fentanyl entr',
+              if (n_dropped == 1) 'y' else 'ies',
+              ' not yet legally active at ', rev_date)
+    }
+  }
 
   message('  Fentanyl/initial entries found: ', length(fent_items))
 
@@ -671,14 +708,14 @@ extract_section232_rates <- function(ch99_data) {
   # Extract derivative rate for use in 06_calculate_rates.R step 3a.
   alum_deriv <- aluminum_entries %>%
     filter(ch99_code %in% c('9903.85.04', '9903.85.07', '9903.85.08'))
-  derivative_rate <- if (nrow(alum_deriv) > 0) max(alum_deriv$rate) else aluminum_rate
-  derivative_exempt <- if (nrow(alum_deriv) > 0) {
+  aluminum_derivative_rate <- if (nrow(alum_deriv) > 0) max(alum_deriv$rate) else aluminum_rate
+  aluminum_derivative_exempt <- if (nrow(alum_deriv) > 0) {
     unique(unlist(alum_deriv$exempt_countries))
   } else {
     aluminum_exempt
   }
-  if (derivative_rate > 0) {
-    message('  Aluminum derivative 232: ', round(derivative_rate * 100),
+  if (aluminum_derivative_rate > 0) {
+    message('  Aluminum derivative 232: ', round(aluminum_derivative_rate * 100),
             '% (', nrow(alum_deriv), ' Ch99 entries)')
   }
 
@@ -851,9 +888,24 @@ extract_section232_rates <- function(ch99_data) {
     message('  Copper 232: ', round(copper_rate * 100), '%')
   }
 
+  # --- Semiconductors (9903.79, US Note 39) ---
+  # 9903.79.01 is the 25% rate on all-country qualifying semiconductor articles.
+  # 9903.79.02-.09 are NA-rate carve-outs (sub-b tech-gate miss, end-use
+  # exemptions); they're modeled elsewhere via qualifying_share and
+  # end_use_exemption_share, so we only extract the .01 rate here.
+  s232_semi <- ch99_data %>%
+    filter(ch99_code == '9903.79.01', !is.na(rate))
+
+  semi_rate <- 0
+  if (nrow(s232_semi) > 0) {
+    semi_rate <- max(s232_semi$rate)
+    message('  Semiconductor 232: ', round(semi_rate * 100), '%')
+  }
+
   has_232 <- (steel_rate > 0 || aluminum_rate > 0 || auto_rate > 0 || auto_has_deals ||
               wood_rate > 0 || wood_furniture_rate > 0 || mhd_rate > 0 || copper_rate > 0 ||
-              derivative_rate > 0 || steel_derivative_rate > 0)
+              semi_rate > 0 ||
+              aluminum_derivative_rate > 0 || steel_derivative_rate > 0)
 
   coverage_parts <- c()
   if (steel_rate > 0 || aluminum_rate > 0) coverage_parts <- c(coverage_parts, 'steel/aluminum')
@@ -861,22 +913,24 @@ extract_section232_rates <- function(ch99_data) {
   if (wood_rate > 0 || wood_furniture_rate > 0) coverage_parts <- c(coverage_parts, 'wood')
   if (mhd_rate > 0) coverage_parts <- c(coverage_parts, 'MHD')
   if (copper_rate > 0) coverage_parts <- c(coverage_parts, 'copper')
+  if (semi_rate > 0) coverage_parts <- c(coverage_parts, 'semi')
   if (has_232) message('  232 coverage: ', paste(coverage_parts, collapse = ' + '))
 
   return(list(
     steel_rate = steel_rate,
     aluminum_rate = aluminum_rate,
     auto_rate = auto_rate,
-    derivative_rate = derivative_rate,
+    aluminum_derivative_rate = aluminum_derivative_rate,
     steel_derivative_rate = steel_derivative_rate,
     wood_rate = wood_rate,
     wood_furniture_rate = wood_furniture_rate,
     mhd_rate = mhd_rate,
     copper_rate = copper_rate,
+    semi_rate = semi_rate,
     steel_exempt = steel_exempt,
     aluminum_exempt = aluminum_exempt,
     auto_exempt = auto_exempt,
-    derivative_exempt = derivative_exempt,
+    aluminum_derivative_exempt = aluminum_derivative_exempt,
     steel_derivative_exempt = steel_derivative_exempt,
     auto_has_deals = auto_has_deals,
     auto_deal_rates = auto_deal_rates,
@@ -918,6 +972,75 @@ extract_section122_rates <- function(ch99_data) {
   message('  Section 122 base rate (9903.03.01): ', round(s122_rate * 100), '%')
 
   return(list(s122_rate = s122_rate, has_s122 = TRUE))
+}
+
+
+#' Extract Section 201 (safeguard) rates from Chapter 99 data
+#'
+#' Section 201 is a safeguard tariff under Trade Act of 1974 Section 201.
+#' The active program is:
+#'   - Solar 201 (CSPV cells/modules): 9903.45.21–.29, originally Proc 9693
+#'     (2018), extended through Feb 6 2026 by Proc 10454 (Feb 2022). Solar 201
+#'     uses a TRQ structure: in-quota imports (under 12.5 GW for cells) pay no
+#'     additional duty; out-of-quota imports pay the safeguard rate (currently
+#'     ~14.5% in Year 8 of the extension).
+#'
+#' Why we don't read the rate directly from HTS: the HTS `general` field for
+#' 9903.45.22/.25 (out-of-quota) shows 30% — the original Year 1 (2018) rate
+#' that the proclamation steps down over time. The annual step-down is in US
+#' Note 18, not in the HTS rate field. We therefore prefer a config-supplied
+#' rate (`section_201.solar_rate` in policy_params.yaml) over the HTS value.
+#' Without the config, we fall back to the most-recent step-down published by
+#' USTR (~14.5% as of 2025-2026).
+#'
+#' We also blend this over the TRQ — the effective rate is roughly
+#' `out-of-quota_rate * out_of_quota_share`, but we currently apply the rate
+#' uniformly because we don't model TRQ utilization.
+#'
+#' Note: Washing-machine 201 (9903.45.01-.06) entries persist in HTS but
+#' expired Feb 2023 — we ignore them.
+#'
+#' Country exemptions (per Proc 10454):
+#'   - Canada (Census 1220) is exempt under USMCA. Applied in 06_calculate_rates.R.
+#'   - GSP developing-country exemption list is not currently modeled.
+#'
+#' Returns has_s201 = TRUE if any 9903.45.21-.29 entries are present in the
+#' revision (signals the program is active in this snapshot).
+#'
+#' @param ch99_data Tibble of parsed Chapter 99 entries
+#' @param policy_params Optional policy params; reads section_201.solar_rate if set
+extract_section_201_rates <- function(ch99_data, policy_params = NULL) {
+  message('Extracting Section 201 (safeguard) rates...')
+
+  # Restrict to Solar 201 (9903.45.21-.29). Washing-machine 201 (9903.45.01-.06)
+  # expired Feb 2023 — ignore those entries even if still in HTS.
+  s201_entries <- ch99_data %>%
+    filter(grepl('^9903\\.45\\.(2[1-9])$', ch99_code), !is.na(rate))
+
+  if (nrow(s201_entries) == 0) {
+    message('  No Solar 201 entries (9903.45.21-.29) found')
+    return(list(s201_rates = NULL, has_s201 = FALSE, solar_rate = 0))
+  }
+
+  # Pull the configured rate, falling back to the published Year 8 (2025-26)
+  # value if not set. The HTS field is misleading because it shows the original
+  # Year 1 rate, not the current step-down.
+  s201_cfg <- if (!is.null(policy_params)) policy_params$SECTION_201 else NULL
+  solar_rate <- s201_cfg$solar_rate %||% 0.145
+
+  hts_rates <- sort(unique(round(s201_entries$rate, 4)))
+  message('  Solar 201 active: ', nrow(s201_entries),
+          ' Ch99 entries (HTS rates: ',
+          paste(hts_rates * 100, '%', collapse = ', '), ')')
+  message('  Applying configured solar_rate: ', round(solar_rate * 100, 1),
+          '% (override via section_201.solar_rate in policy_params.yaml)')
+
+  return(list(
+    s201_rates = s201_entries %>%
+      transmute(ch99_code, rate, rate_type = 'surcharge'),
+    has_s201 = TRUE,
+    solar_rate = solar_rate
+  ))
 }
 
 

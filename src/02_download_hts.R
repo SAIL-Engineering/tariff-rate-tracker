@@ -65,7 +65,18 @@ build_download_url <- function(revision, year = 2025, format = 'json') {
   suffix <- hts_format_suffix(format)
 
   if (rev == 'basic') {
-    url <- paste0(base_url, '/hts_', yr, '_basic_edition', suffix)
+    # USITC's basic-edition filename convention changed over time (verified
+    # against the per-year data.gov resource listings,
+    # catalog.data.gov/dataset/harmonized-tariff-schedule-of-the-united-states-<yr>):
+    #   2023+ : hts_<yr>_basic_edition_<fmt>.<fmt>
+    #   <=2022: hts_<yr>_basic_<fmt>.<fmt>   (no "_edition")
+    # Revisions use hts_<yr>_revision_<n>_<fmt>.<fmt> across all years. The
+    # structured JSON/CSV files are hosted under /tata/hts/ for every edition
+    # back to ~2022 (the reststop API only serves the *current* edition, and
+    # the archive UI serves PDFs only — so these static files are the source
+    # for any pre-2025 backfill).
+    stem <- if (suppressWarnings(as.integer(yr)) >= 2023) '_basic_edition' else '_basic'
+    url <- paste0(base_url, '/hts_', yr, stem, suffix)
   } else if (grepl('^rev_', rev)) {
     rev_num <- gsub('rev_', '', rev)
     url <- paste0(base_url, '/hts_', yr, '_revision_', rev_num, suffix)

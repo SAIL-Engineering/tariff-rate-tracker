@@ -206,11 +206,10 @@ classify_resolution_status <- function(ch99_code, country_type) {
     # Section 232 steel/aluminum: 9903.80-85, 9903.94
     grepl('^9903\\.8[0-5]', ch99_code) ~ 'handled_by_s232_extractor',
     grepl('^9903\\.94', ch99_code) ~ 'handled_by_s232_extractor',
-    # Section 232 semiconductors: 9903.79.xx — NOT YET IMPLEMENTED.
-    # Entries exist from 2026_rev_1 onward with parsed rates, but no extractor
-    # applies them to products. A semiconductor product list + extractor are
-    # needed to wire these through.
-    grepl('^9903\\.79', ch99_code) ~ 'unresolved_s232_semiconductor',
+    # Section 232 semiconductors: 9903.79.xx — handled by extract_section232_rates()
+    # (semi_rate read from 9903.79.01; per-HTS10 qualifying_share + end-use
+    # blending applied in calculate_rates_for_revision; US Note 39, eff 2026-01-16).
+    grepl('^9903\\.79', ch99_code) ~ 'handled_by_s232_extractor',
     # Section 301 China-specific: 9903.88-93 — handled via policy_params.yaml
     grepl('^9903\\.(88|89|9[0-3])', ch99_code) ~ 'handled_by_s301_config',
     # WTO tariff-rate quotas (TRQs): not duty-relevant surcharges
@@ -269,6 +268,12 @@ parse_chapter99 <- function(json_path, revision_id = NULL) {
     # Extract cross-references to other ch99 codes
     refs <- extract_ch99_references(description)
 
+    # Extract a legal effective-date offset from the description, if any
+    # (e.g., "...effective with respect to entries on or after April 3, 2025...").
+    # Used by filter_active_ch99() to drop entries that exist in the HTS but
+    # aren't yet legally collectible at the revision's effective_date.
+    eff_offset <- extract_effective_date_offset(description)
+
     tibble(
       ch99_code = ch99_code,
       rate = rate,
@@ -279,7 +284,8 @@ parse_chapter99 <- function(json_path, revision_id = NULL) {
       references = list(refs),
       general_raw = general,
       other_raw = other,
-      description = description
+      description = description,
+      effective_date_offset = eff_offset
     )
   })
 

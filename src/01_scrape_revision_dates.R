@@ -73,8 +73,23 @@ api_name_to_revision <- function(api_name) {
 #' Filters to years >= min_year and returns a tibble with revision IDs
 #' and effective dates (releaseStartDate).
 #'
+#' PRE-2025 BACKFILL: the duty-stack engine already handles a pre-IEEPA
+#' baseline correctly — when a revision's HTS has no IEEPA reciprocal
+#' (9903.01.43+/9903.02.xx), fentanyl (9903.01.01-24), or Section 122
+#' (9903.03.xx) Chapter 99 entries, those rate columns default to 0 and the
+#' stack reduces to MFN + Section 232 + Section 301 + Section 201 (verified on
+#' the 2025_basic snapshot: §232 steel 25% / aluminum 10% legacy, 77 §301 China
+#' codes, zero IEEPA/s122/fentanyl). To MODEL discrete pre-2025 revisions, pass
+#' a lower min_year (e.g. 2024L) here AND supply the matching HTS archives:
+#' note that the standard download URL in 02_download_hts.R
+#' (.../tata/hts/hts_<year>_basic_edition.json) returns 404 for pre-2025
+#' editions, so historical archives must be sourced separately (USITC posts
+#' older editions under different paths/formats) and dropped into
+#' data/hts_archives/ before adding the revision row to config/revision_dates.csv.
+#'
 #' @param api_url USITC release list API endpoint
-#' @param min_year Minimum year to include (default: 2025)
+#' @param min_year Minimum year to include (default: 2025; lower to backfill
+#'   pre-2025 once historical HTS archives are available — see note above)
 #' @return Tibble with revision, effective_date; or NULL on failure
 fetch_usitc_releases <- function(
   api_url = 'https://hts.usitc.gov/reststop/releaseList',

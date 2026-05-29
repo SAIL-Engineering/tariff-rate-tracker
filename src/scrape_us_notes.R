@@ -24,7 +24,9 @@
 #   Rscript src/scrape_us_notes.R --floor-exemptions # Floor exemptions only
 #   Rscript src/scrape_us_notes.R --copper           # Note 36 copper products only
 #   Rscript src/scrape_us_notes.R --derivatives      # Notes 16/19 derivative products only
-#   Rscript src/scrape_us_notes.R --all              # 301 + floor + copper + derivatives
+#   Rscript src/scrape_us_notes.R --annex            # Note 16(c) post-April-2026 annex products
+#   Rscript src/scrape_us_notes.R --annex --annex-revision 2026_rev_6  # Pick a specific revision
+#   Rscript src/scrape_us_notes.R --all              # 301 + floor + copper + derivatives + annex
 #   Rscript src/scrape_us_notes.R --dry-run          # Report without writing
 #   Rscript src/scrape_us_notes.R --download-pdfs [--dry-run]  # Download all revision PDFs
 #   Rscript src/scrape_us_notes.R --revision rev_18            # Parse single revision
@@ -1228,6 +1230,338 @@ parse_derivative_products <- function(
 
 
 # =============================================================================
+# Notes 16(c): Section 232 Post-Restructure Annex Product Lists
+# =============================================================================
+#
+# The April 2026 proclamation (effective 2026-04-06) restructured Section 232
+# into four annexes:
+#   I-A  50%   primary metals (steel ch72-73, aluminum ch76, copper ch74)
+#   I-B  25%   derivative metals (cross-chapter HS8/HS10 products)
+#   II   0%    products REMOVED from §232 scope entirely
+#   III  15%   ad valorem floor on specific narrow derivative lists
+#
+# HTSUS U.S. Note 16(c) contains subdivisions (i)–(x) that enumerate the
+# products covered by 9903.82.02–9903.82.19. Mapping of subdivision to
+# (annex, metal_type), derived from the proclamation:
+#
+#   (c)(i)    primary aluminum    → annex_1a aluminum
+#   (c)(ii)   deriv aluminum      → annex_1b aluminum
+#   (c)(iii)  primary steel       → annex_1a steel
+#   (c)(iv)   deriv steel         → annex_1b steel
+#   (c)(v)    primary copper      → annex_1a copper
+#   (c)(vi)   deriv aluminum (broad) → annex_1b aluminum
+#   (c)(vii)  deriv steel (broad)    → annex_1b steel
+#   (c)(viii) deriv copper           → annex_1b copper
+#   (c)(ix)   deriv aluminum (floor) → annex_3 aluminum
+#   (c)(x)    deriv steel (floor)    → annex_3 steel
+#
+# Annex II (products removed) cannot be parsed from Note 16 — those products
+# no longer appear in §232 product lists at all. They're preserved from the
+# static CSV via merge in load_annex_products(); the parser only handles
+# 1a/1b/3.
+#
+# Output: same schema as resources/s232_annex_products.csv:
+#   hts_prefix, annex, metal_type, source, effective_date
+#
+
+# Subdivision to (annex, metal_type) mapping for post-restructure §232.
+# Derived empirically from the static CSV (which was hand-curated from the
+# Federal Register proclamation annex PDF):
+#   Annex I-A "Core metals + close derivatives" — (c)(i)–(c)(v)
+#   Annex I-B "Downstream manufactured articles" — (c)(vi)–(c)(viii)
+#   Annex III "15% floor on further-downstream"   — (c)(ix)–(c)(x)
+# This is NOT the simple "primary vs derivative" split implied by Note 16's
+# titling — the proclamation lumps primaries plus their immediate derivatives
+# into the 50% bucket and reserves 25% / 15% for broader downstream lists.
+ANNEX_SUBDIVISION_MAP <- tibble::tribble(
+  ~sub,    ~annex,  ~metal_type,
+  'i',     '1a',    'aluminum',
+  'ii',    '1a',    'aluminum',
+  'iii',   '1a',    'steel',
+  'iv',    '1a',    'steel',
+  'v',     '1a',    'copper',
+  'vi',    '1b',    'aluminum',
+  'vii',   '1b',    'steel',
+  'viii',  '1b',    'copper',
+  'ix',    '3',     'aluminum',
+  'x',     '3',     'steel'
+)
+
+
+#' Resolve the most recent revision for which we have a chapter99 PDF on disk.
+#'
+#' Globs data/us_notes/chapter99_*.pdf, parses the embedded revision tokens
+#' (e.g. "2026_rev_7" or "rev_18"), and orders them via load_revision_dates()
+#' so we pick the latest by effective_date rather than by lexical sort. Falls
+#' back to a string sort if revision_dates.csv is unavailable.
+#'
+#' @return Character revision ID (e.g. "2026_rev_7") or NULL if no PDFs found
+latest_local_chapter99_revision <- function(us_notes_dir = here::here('data', 'us_notes'),
+                                             revision_dates_csv = here::here('config', 'revision_dates.csv')) {
+  if (!dir.exists(us_notes_dir)) return(NULL)
+  pdfs <- list.files(us_notes_dir, pattern = '^chapter99_.*\\.pdf$')
+  if (length(pdfs) == 0) return(NULL)
+
+  revs <- sub('^chapter99_(.*)\\.pdf$', '\\1', pdfs)
+  # Drop the generic 'chapter99.pdf' if it slipped in.
+  revs <- revs[revs != 'chapter99']
+  if (length(revs) == 0) return(NULL)
+
+  rd <- tryCatch(
+    readr::read_csv(revision_dates_csv, show_col_types = FALSE,
+                    col_types = readr::cols(.default = readr::col_character())),
+    error = function(e) NULL
+  )
+  if (is.null(rd) || !'revision' %in% names(rd) || !'effective_date' %in% names(rd)) {
+    return(sort(revs, decreasing = TRUE)[1])
+  }
+  ordered <- rd |>
+    dplyr::filter(.data$revision %in% revs) |>
+    dplyr::arrange(dplyr::desc(as.Date(.data$effective_date)))
+  if (nrow(ordered) > 0) ordered$revision[1]
+  else sort(revs, decreasing = TRUE)[1]
+}
+
+
+#' Resolve the §232 annex regime effective date from policy_params.yaml.
+#'
+#' All products listed in Note 16(c) of any post-restructure revision became
+#' effective on the date the annex regime started (2026-04-06 per the April
+#' 2 2026 proclamation), regardless of which revision PDF we parse. Later
+#' revisions republish the same product lists (rev_5 ≡ rev_7) or refine the
+#' rate-overlay codes (rev_6) without changing the products themselves.
+#'
+#' If a future proclamation EXPANDS Note 16(c) with new products at a later
+#' date, those additions should be tagged with the expansion's effective
+#' date — but that requires per-prefix dating that the current parser does
+#' not produce. Until then, the annex regime start is the right stamp.
+#'
+#' @return Character date (YYYY-MM-DD)
+annex_regime_effective_date <- function(policy_params_yaml = here::here('config', 'policy_params.yaml')) {
+  pp <- yaml::read_yaml(policy_params_yaml)
+  d <- pp$section_232_annexes$effective_date
+  if (is.null(d) || !nzchar(as.character(d))) {
+    stop('section_232_annexes.effective_date missing from ', policy_params_yaml)
+  }
+  as.character(d)
+}
+
+
+#' Parse Note 16(c) annex product lists from a Chapter 99 PDF.
+#'
+#' Extracts HS prefixes from subdivisions (c)(i)–(c)(x) of U.S. Note 16 in the
+#' post-April-2026 HTSUS Chapter 99. Each subdivision is mapped to an
+#' (annex, metal_type) pair per ANNEX_SUBDIVISION_MAP.
+#'
+#' Prefixes are returned at the granularity the PDF uses — a mix of HS4
+#' (chapter headings like `7601`), HS6, HS8, and HS10. The rate engine in
+#' 06_calculate_rates.R prefix-matches these against HTS10 codes via `^prefix`,
+#' so varying granularity is fine.
+#'
+#' Output schema matches resources/s232_annex_products.csv.
+#'
+#' @param pdf_path Path to a chapter99_<revision>.pdf (or NULL — downloads
+#'   the generic Chapter 99 PDF, which corresponds to the current revision)
+#' @param effective_date Date to stamp on parsed rows. Required; callers
+#'   should derive this from revision_dates.csv via revision_effective_date().
+#' @return Tibble with columns: hts_prefix, annex, metal_type, source, effective_date
+parse_annex_products <- function(pdf_path = NULL,
+                                  effective_date = NULL) {
+  if (is.null(effective_date)) {
+    stop('parse_annex_products() requires effective_date. ',
+         'Use annex_regime_effective_date() to read it from policy_params.yaml, ',
+         'or call build_annex_products_for_revision() which does so automatically.')
+  }
+  if (is.null(pdf_path)) pdf_path <- download_chapter99_pdf()
+  stopifnot(file.exists(pdf_path))
+
+  pages <- extract_pdf_text(pdf_path)
+  raw <- unlist(strsplit(paste(pages, collapse = '\n'), '\n', fixed = TRUE))
+
+  # Locate Note 16 (a) and the start of (d) — the (c) block lives between.
+  note16_start <- grep('^16\\.\\s+\\(a\\)', raw)
+  if (length(note16_start) == 0) {
+    stop('U.S. Note 16 not found in ', pdf_path,
+         ' — annex parser requires post-restructure (rev_5+) PDF')
+  }
+  note16_start <- note16_start[1]
+
+  sub_d_idx <- grep('^\\s+\\(d\\)\\s+Headings 9903\\.82\\.04', raw)
+  sub_d_idx <- sub_d_idx[sub_d_idx > note16_start][1]
+  if (is.na(sub_d_idx)) {
+    stop('Note 16 subdivision (d) anchor not found — PDF structure changed?')
+  }
+
+  note16_block <- raw[note16_start:(sub_d_idx - 1)]
+  message('  Note 16(c) spans ', length(note16_block), ' lines')
+
+  # Find each (i)–(x) anchor line within the (c) block.
+  subs <- ANNEX_SUBDIVISION_MAP$sub
+  anchors <- vapply(subs, function(s) {
+    pat <- sprintf('^\\s+\\(%s\\)\\s+(Articles|Derivative)', s)
+    hits <- grep(pat, note16_block)
+    if (length(hits) == 0) NA_integer_ else hits[1]
+  }, integer(1))
+
+  if (any(is.na(anchors))) {
+    missing <- subs[is.na(anchors)]
+    warning('Missing subdivisions in Note 16(c): ',
+            paste(missing, collapse = ', '))
+  }
+
+  # Extract HS codes from each subdivision block.
+  # HS codes in the PDF look like: 7601, 7616.99.5160, 7308.20.0035.
+  # Strip dots after extraction; keep 4-10 digit normalized prefixes.
+  # Two-layer false-positive defense:
+  #   1) drop page-header lines (running titles, "Revision N (YEAR)" stamps)
+  #   2) chapter-range filter on numeric tokens (see below)
+  extract_codes <- function(lines) {
+    # Drop lines that are clearly page headers / running titles before we
+    # match numeric tokens. These contain words like "Harmonized" or
+    # "Revision (YEAR)" that are guaranteed to inject false positives.
+    lines <- lines[!grepl('Harmonized Tariff Schedule|Annotated for Statistical|Revision\\s+\\d+\\s+\\(\\d{4}\\)|^XXII\\b|^99\\s*-\\s*III',
+                          lines)]
+    text <- paste(lines, collapse = ' ')
+    matches <- stringr::str_extract_all(
+      text, '\\b\\d{4}(?:\\.\\d{2}(?:\\.\\d{2,4})?)?(?:\\d{2,6})?\\b')[[1]]
+    norm <- stringr::str_remove_all(matches, '\\.')
+    norm <- norm[nchar(norm) >= 4 & nchar(norm) <= 10]
+    # Chapter-range filter: §232 annex Note 16(c) only enumerates products in
+    # HS chapters 72-95 (steel/aluminum/copper primaries through manufactured
+    # derivatives in machinery, electricals, vehicles, parts, furniture, etc).
+    # Anything outside this range that slipped past the page-header filter is
+    # a stray number from the prose — calendar years (20xx), proclamation
+    # numbers, statistical-note references — not an HS code.
+    #
+    # If a future proclamation expands annex scope to a different chapter
+    # range, this needs to widen. Annex II "removed-from-scope" entries in
+    # chapters 04, 21, 22, 27-39, 66, 96 are NOT extracted here by design —
+    # those come from the curator path (source = 'proclamation' in the CSV)
+    # since Note 16(c) doesn't list removed products.
+    chapter <- as.integer(substr(norm, 1, 2))
+    keep <- !is.na(chapter) & chapter >= 72 & chapter <= 95
+    unique(norm[keep])
+  }
+
+  results <- list()
+  for (i in seq_along(subs)) {
+    if (is.na(anchors[i])) next
+    start <- anchors[i]
+    next_anchors <- anchors[seq_len(length(anchors)) > i & !is.na(anchors)]
+    end <- if (length(next_anchors) > 0) min(next_anchors) - 1L else length(note16_block)
+    codes <- extract_codes(note16_block[start:end])
+    if (length(codes) == 0) next
+
+    mapping_row <- ANNEX_SUBDIVISION_MAP[ANNEX_SUBDIVISION_MAP$sub == subs[i], ]
+    results[[subs[i]]] <- tibble::tibble(
+      hts_prefix = codes,
+      annex      = mapping_row$annex,
+      metal_type = mapping_row$metal_type,
+      sub        = subs[i]
+    )
+  }
+
+  if (length(results) == 0) {
+    stop('No codes extracted from Note 16(c) — parser failed silently')
+  }
+
+  parsed <- dplyr::bind_rows(results)
+  # A product may appear in multiple subdivisions (e.g., (c)(i) and (c)(vi) for
+  # different metal contexts). Keep all (annex, metal_type) variants per prefix.
+  parsed <- parsed |>
+    dplyr::mutate(source = 'us_note_16', effective_date = as.Date(effective_date)) |>
+    dplyr::select(hts_prefix, annex, metal_type, source, effective_date)
+
+  message('  Parsed Note 16(c): ', nrow(parsed), ' prefix rows across ',
+          length(unique(parsed$hts_prefix)), ' distinct prefixes')
+
+  parsed
+}
+
+
+#' Build the annex CSV for a specific revision by parsing its Chapter 99 PDF.
+#'
+#' Reads Note 16(c) subdivisions from the per-revision PDF, then optionally
+#' preserves annex_2 (removed-from-scope) rows from the existing static CSV
+#' since those products aren't parseable from the post-restructure Note 16.
+#'
+#' @param revision Revision ID (e.g., '2026_rev_5')
+#' @param pdf_path Optional override for the PDF path
+#' @param static_csv Existing CSV to preserve annex_2 rows from (default
+#'   resources/s232_annex_products.csv); pass NULL to skip the merge.
+#' @param effective_date Date stamp for parsed rows
+#' @return Tibble in the canonical annex CSV schema
+build_annex_products_for_revision <- function(revision = NULL,
+                                               pdf_path = NULL,
+                                               static_csv = here::here('resources',
+                                                                       's232_annex_products.csv'),
+                                               effective_date = NULL) {
+  if (is.null(revision)) {
+    revision <- latest_local_chapter99_revision()
+    if (is.null(revision)) {
+      stop('No chapter99 PDFs in data/us_notes/. ',
+           'Pass --annex-revision <id> or download PDFs first via ',
+           '`Rscript src/scrape_us_notes.R --download-pdfs`.')
+    }
+    message('  Auto-detected latest revision: ', revision)
+  }
+
+  if (is.null(pdf_path)) {
+    candidate <- here::here('data', 'us_notes', paste0('chapter99_', revision, '.pdf'))
+    if (!file.exists(candidate)) {
+      candidate <- download_revision_chapter99_pdf(revision)
+    }
+    if (is.null(candidate) || !file.exists(candidate)) {
+      stop('No PDF available for ', revision)
+    }
+    pdf_path <- candidate
+  }
+
+  if (is.null(effective_date)) {
+    # All products in Note 16(c) of any post-restructure revision share the
+    # annex regime start date (2026-04-06). See annex_regime_effective_date()
+    # for why parsing a later revision still tags 2026-04-06.
+    effective_date <- annex_regime_effective_date()
+    message('  Annex regime effective date: ', effective_date)
+  }
+
+  message('Building annex map from ', basename(pdf_path), '...')
+  parsed <- parse_annex_products(pdf_path, effective_date = effective_date)
+
+  # Merge curator overrides (source != 'us_note_16') from the static CSV with
+  # the freshly parsed entries. The merge is idempotent on parser-derived rows:
+  # previous parser entries are discarded and replaced wholesale by this run,
+  # so removals in future HTS revisions don't leave stale entries behind.
+  # Curator entries (source = 'proclamation', or any non-'us_note_16' value)
+  # are always preserved and win on prefix overlap.
+  if (!is.null(static_csv) && file.exists(static_csv)) {
+    static_df <- readr::read_csv(static_csv, show_col_types = FALSE,
+                                  col_types = readr::cols(hts_prefix = readr::col_character()))
+    curator <- static_df |> dplyr::filter(is.na(source) | source != 'us_note_16')
+    n_curator <- nrow(curator)
+
+    # Drop parsed rows whose prefix matches a curator prefix (curator wins).
+    curator_prefixes <- unique(curator$hts_prefix)
+    parsed_only <- parsed |>
+      dplyr::filter(!hts_prefix %in% curator_prefixes)
+
+    message('  Curator entries kept (source != us_note_16): ', n_curator)
+    message('  Parsed entries added (no curator overlap): ', nrow(parsed_only))
+    message('  Parsed entries suppressed by curator: ',
+            nrow(parsed) - nrow(parsed_only))
+
+    combined <- dplyr::bind_rows(curator, parsed_only)
+  } else {
+    combined <- parsed
+  }
+
+  combined |>
+    dplyr::distinct(hts_prefix, annex, metal_type, .keep_all = TRUE) |>
+    dplyr::arrange(annex, metal_type, hts_prefix)
+}
+
+
+# =============================================================================
 # Per-Revision PDF Download
 # =============================================================================
 
@@ -1460,10 +1794,18 @@ if (sys.nframe() == 0) {
   do_floor <- '--floor-exemptions' %in% args
   do_copper <- '--copper' %in% args
   do_derivatives <- '--derivatives' %in% args
+  do_annex <- '--annex' %in% args
   do_all_modes <- '--all' %in% args
   do_download_pdfs <- '--download-pdfs' %in% args
   do_revision <- '--revision' %in% args
   do_all_revisions <- '--all-revisions' %in% args
+
+  # Extract --annex-revision value (optional; defaults to 2026_rev_5)
+  annex_revision_value <- NULL
+  if ('--annex-revision' %in% args) {
+    ar_idx <- which(args == '--annex-revision')
+    if (ar_idx < length(args)) annex_revision_value <- args[ar_idx + 1]
+  }
 
   # Extract --revision value
   revision_value <- NULL
@@ -1504,7 +1846,21 @@ if (sys.nframe() == 0) {
       deriv_result <- parse_derivative_products(dry_run = dry_run)
     }
 
-    if (!do_floor && !do_copper && !do_derivatives || do_all_modes) {
+    if (do_annex || do_all_modes) {
+      annex_output <- here('resources', 's232_annex_products.csv')
+      annex_result <- build_annex_products_for_revision(
+        revision   = annex_revision_value,  # NULL → auto-detect latest
+        static_csv = annex_output
+      )
+      if (!dry_run) {
+        readr::write_csv(annex_result, annex_output)
+        message('Wrote ', nrow(annex_result), ' rows to ', annex_output)
+      } else {
+        message('[DRY RUN] would write ', nrow(annex_result), ' rows to ', annex_output)
+      }
+    }
+
+    if (!do_floor && !do_copper && !do_derivatives && !do_annex || do_all_modes) {
       result <- parse_us_note_products(dry_run = dry_run)
     }
   }

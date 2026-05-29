@@ -1,4 +1,38 @@
 revision,effective_date,policy_effective_date,tpc_date,policy_event,tpc_policy_revision,needs_review
+2022_basic,2022-01-26,NA,NA,2022 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201),NA,NA
+2022_rev_2,2022-02-23,NA,NA,NA,NA,NA
+2022_rev_3,2022-03-30,NA,NA,NA,NA,NA
+2022_rev_4,2022-04-07,NA,NA,NA,NA,NA
+2022_rev_5,2022-06-03,NA,NA,NA,NA,NA
+2022_rev_6,2022-06-30,NA,NA,NA,NA,NA
+2022_rev_7,2022-07-20,NA,NA,NA,NA,NA
+2022_rev_8,2022-07-26,NA,NA,NA,NA,NA
+2022_rev_9,2022-09-09,NA,NA,NA,NA,NA
+2022_rev_10,2022-09-23,NA,NA,NA,NA,NA
+2022_rev_11,2022-10-17,NA,NA,NA,NA,NA
+2022_rev_12,2022-11-30,NA,NA,NA,NA,NA
+2023_basic,2022-12-30,NA,NA,2023 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201),NA,NA
+2023_rev_1,2023-02-16,NA,NA,NA,NA,NA
+2023_rev_2,2023-03-09,NA,NA,NA,NA,NA
+2023_rev_3,2023-03-31,NA,NA,NA,NA,NA
+2023_rev_5,2023-05-17,NA,NA,NA,NA,NA
+2023_rev_6,2023-05-31,NA,NA,NA,NA,NA
+2023_rev_7,2023-06-06,NA,NA,NA,NA,NA
+2023_rev_8,2023-06-13,NA,NA,NA,NA,NA
+2023_rev_9,2023-06-30,NA,NA,NA,NA,NA
+2023_rev_10,2023-07-24,NA,NA,NA,NA,NA
+2023_rev_11,2023-09-21,NA,NA,NA,NA,NA
+2024_basic,2023-12-29,NA,NA,2024 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201),NA,NA
+2024_rev_1,2024-01-25,NA,NA,NA,NA,NA
+2024_rev_2,2024-05-31,NA,NA,NA,NA,NA
+2024_rev_3,2024-06-14,NA,NA,NA,NA,NA
+2024_rev_4,2024-06-28,NA,NA,NA,NA,NA
+2024_rev_5,2024-07-16,NA,NA,NA,NA,NA
+2024_rev_6,2024-07-31,NA,NA,NA,NA,NA
+2024_rev_7,2024-08-06,NA,NA,NA,NA,NA
+2024_rev_8,2024-08-15,NA,NA,NA,NA,NA
+2024_rev_9,2024-09-26,NA,NA,Sep 2024 §301 increases (EVs, solar, semiconductors, steel/alu, ship-to-shore cranes),NA,NA
+2024_rev_10,2024-11-22,NA,NA,NA,NA,NA
 2025_basic,2025-01-01,NA,NA,Baseline (pre-Trump 2.0),NA,NA
 2025_rev_1,2025-01-27,NA,NA,China IEEPA fentanyl (+10%),NA,NA
 2025_rev_2,2025-02-01,NA,NA,NA,NA,NA

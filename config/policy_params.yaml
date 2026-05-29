@@ -62,6 +62,16 @@ eu27_codes:
   '4700': Spain
   '4010': Sweden
 
+# --- Section 201 (Trade Act §201 safeguard) ---
+# Currently models the Solar 201 program (9903.45.21–.29). The HTS `general`
+# field shows the original Year-1 (2018) out-of-quota rate (30%) which doesn't
+# reflect the annual step-down published by USTR. Override here with the
+# current effective rate.
+#   - 2025-02-07 → 2026-02-07 (Year 8 of extension): 14.5% on out-of-quota
+#   - update annually based on USTR notice
+section_201:
+  solar_rate: 0.145
+
 # --- Authority classification ranges (9903.xx) ---
 authority_ranges:
   section_232:      [80, 81, 82, 83, 84, 85, 94, 74, 76, 78]
@@ -137,6 +147,22 @@ section_232_headings:
     prefixes: ['8702']
     default_rate: 0.10
     usmca_exempt: false
+  # 9903.79.01 (Note 39, effective 2026-01-16). Note 39 has no USMCA carve-out —
+  # all countries owe the 25% on qualifying articles. Subdivision (c) routes
+  # imports under the three HTS headings that fail the TPP/DRAM tech gate
+  # through 9903.79.02 (no additional duty); qualifying_shares_file models that
+  # blend at the HTS10 level. Subdivisions (d)(i)–(vii) are end-use exemptions
+  # (data centers, R&D, startups, etc.) modeled via end_use_exemption_share.
+  # Stacking exclusions per Note 39(a) + Note 2(v)(xvi) are applied in
+  # apply_stacking_rules() via the existing nonmetal_share = 0 mechanism for
+  # non-metal 232 products (semi HTS10s keep metal_share = 1.0).
+  semiconductors:
+    products_file: 'resources/s232_semi_products.csv'
+    qualifying_shares_file: 'resources/semi_qualifying_shares.csv'
+    prefixes: ['847150', '847180', '847330']  # fallback
+    default_rate: 0.25
+    usmca_exempt: false
+    end_use_exemption_share: 0.0   # uncalibrated, see todo.md Phase 5
 
 # --- Section 232 country exemptions (pre-March 2025) ---
 # TRQ/quota agreements and full exemptions from Proclamations 9705/9704.
@@ -241,6 +267,31 @@ section_232_annexes:
       applies_to: ['annex_1b']
       chapters: ['84', '85', '87']
       aggregate_share: 0.0
+    zero_metal_content:
+      # 9903.82.01 / Note 16(a): articles in subdivision (c) lists that
+      # contain no aluminum, steel, or copper get "No change" — i.e., 0%
+      # additional 232 duty. Models the fraction of imports under each
+      # annex product that contain zero metal of the applicable type.
+      # Calibration source: would need trade-flow data with metal-content
+      # breakdowns (CBP entry-summary detail, industry surveys). Dormant
+      # until calibrated; rate engine applies a no-op when share = 0.
+      applies_to: ['annex_1a', 'annex_1b', 'annex_3']
+      aggregate_share: 0.0
+  # Country-specific surcharges preserved under the annex regime.
+  # The April 2026 proclamation explicitly retains prior country-specific
+  # S232 surcharges for Russian aluminum across Annex I-A, I-B, and III.
+  # Annex II is out of scope (products removed from S232 entirely), so the
+  # surcharge does not apply there.
+  # Applied via pmax() so the surcharge wins over the annex tier rate.
+  # metal_types scope: 'steel' (ch 72/73), 'aluminum' (ch 76), 'copper' (ch 74),
+  # plus derivatives from resources/s232_derivative_products.csv filtered by
+  # derivative_type. Expand by adding entries here — no code changes needed.
+  country_surcharges:
+    - countries: ['4621']                        # Russia
+      rate: 2.0
+      applies_to: ['annex_1a', 'annex_1b', 'annex_3']
+      metal_types: ['aluminum']
+      source: 'Proclamation 10522 (2023-02-24), retained by April 2026 proclamation'
 
 # --- Floor rate structure (EU, Japan, S. Korea, Switzerland, Liechtenstein) ---
 floor_rates:
@@ -442,6 +493,51 @@ auto_rebate:
   us_assembly_share: 0.33      # fraction of vehicle assembled in US
   us_auto_content_share: 0.40  # fraction of auto value that is US/USMCA-origin
 
+# --- Section 232 auto-parts deal: subdivision (r) certification scope (EU/JP/KR) ---
+# US Note 33(r) covers EU/JP/KR auto parts NOT in subdivision (g), NOT in chapters
+# 72/73/76, NOT in Note 38(i) MHD parts, when the importer certifies the parts
+# will be used for US auto production or repair. Headings 9903.94.44, 9903.94.45,
+# 9903.94.54, 9903.94.55, 9903.94.64, 9903.94.65 cap such imports at a 15% floor
+# and explicitly EXEMPT them from the April 2026 metals annex (9903.82.02 and
+# 9903.82.04-9903.82.19).
+#
+# Without this block the post-annex tracker assigns annex_1b 25% to these parts
+# for EU/JP/KR — over-stating both the rate (should be 15% floor for the certified
+# share) and the metal-tariff stacking (should be excluded for the certified share).
+#
+# certified_share is the import-weighted fraction of EU/JP/KR imports of these
+# products that are entered with the importer certification under .44-.65. It is
+# uncalibrated; the 0.0 default leaves current behavior unchanged. Calibrate from
+# CBP entry-summary data (heading 9903.94.45/.55/.65 line counts vs 9903.82.x
+# line counts) or industry sources before turning on. See todo.md.
+auto_parts_subdivision_r:
+  products_file: 'resources/s232_subdivision_r_products.csv'
+  applies_to_iso: ['EU', 'JP', 'KR']
+  floor_rate: 0.15
+  certified_share: 0.0   # uncalibrated; 0 = current behavior, no fix applied
+  # FTA-exempt shares: fraction of EU/JP/KR subdivision (r) imports that qualify
+  # under their respective FTA / executive-order regime and are therefore EXEMPT
+  # from BOTH the 9903.94.44/.45/.54/.55/.64/.65 additional duty AND the metals
+  # annex 9903.82.02/.04-.19 (per Note 33(r)(1) carve-out). For these imports
+  # rate_232 = 0; only the underlying FTA-special tariff applies, captured via
+  # base_rate elsewhere in the pipeline.
+  #
+  # Per Note 33(r) (rev_6 ch99 text line 35836-35837), the FTA exemption covers:
+  #   - Goods qualifying under EO 14345 of September 4, 2025 (US-Japan Agreement)
+  #   - Goods qualifying under the United States-Korea FTA (KORUS)
+  # No equivalent FTA exists for EU goods in subdivision (r), so EU stays at 0.
+  #
+  # 2025 DataWeb signal (src/download_subdivision_r_share.R, ch87 imports):
+  #   - SPI=KR utilization on subdiv-r products: 85.9% ($577M of $672M)
+  #   - SPI=JP utilization on subdiv-r products: ~0% (US-Japan deal is not
+  #     auto-scoped; importers don't claim SPI=JP on these HTS10s)
+  # SPI utilization is an upper bound on fta_exempt_share since not all
+  # SPI-claimed imports may also claim under .45/.55/.65; calibration TBD.
+  fta_exempt_shares:
+    EU: 0.0   # always 0; no EU-specific FTA covers subdivision (r)
+    JP: 0.0   # uncalibrated; SPI=JP signal suggests near-zero in 2025
+    KR: 0.0   # uncalibrated; SPI=KR signal suggests up to ~0.86 in 2025
+
 # --- Fentanyl product carve-outs ---
 # Product-specific fentanyl rate carve-outs for CA/MX.
 # These entries in 9903.01.01-24 assign a lower rate to specific product
@@ -500,6 +596,42 @@ mfn_exemption:
 #   'all' = apply to all products (current default, legally strict)
 #   'nonzero_base_only' = skip duty-free products (sensitivity analysis)
 ieepa_duty_free_treatment: 'all'
+
+# --- IEEPA Annex II / Annex A exempt-list scope ---
+# Controls which IEEPA tariff layers the universal exempt list
+# (resources/ieepa_exempt_products.csv, ~4,298 HTS10s built from Annex II,
+# US Note 2(v)(iii), ITA prefixes, Berman ch49/ch97, Ch98) zeros out.
+#
+# Country-specific EO surcharges (Brazil 9903.01.77, India 9903.01.84, etc.)
+# always use the SEPARATE per-EO list (resources/country_eo_exempt_products.csv),
+# regardless of this setting.
+#
+#   'all' — applies to universal baseline (9903.01.25, +10%), Phase 1
+#           surcharges (9903.01.43-.75, when active), Phase 2 surcharges
+#           (9903.02.xx country-specific), AND the 15% floor structure for
+#           EU/JP/KR/CHE/LIE. Current default. Aligns with EO text and
+#           Tariff-ETRs methodology — see legal-scope analysis below.
+#
+#   'baseline_only' — applies ONLY to the universal IEEPA baseline (9903.01.25).
+#           Country-specific Phase 1, Phase 2, and floor structures are NOT
+#           subject to the universal exempt list. DIAGNOSTIC ONLY.
+#
+# WARNING: 'baseline_only' produces legally-incorrect output. Annex II of
+# EO 14257 (as amended by EO 14326 of Jul 31, 2025 and EO 14346 of Sep 5, 2025)
+# applies uniformly to all IEEPA reciprocal authorities — universal baseline,
+# Phase 1, Phase 2 country-specific, and the 15% floor for EU/JP/KR/CHE/LIE.
+# The exemption is claimed via HTSUS 9903.01.32 against any of these layers.
+# There is no separate Phase 2 exemption list; CBP CSMS #65829726 and
+# EO 14326 §3 preserve EO 14257 exceptions across the Phase 2 reinstatement.
+# Tariff-ETRs uses the same 'all'-equivalent scope.
+#
+# 'baseline_only' exists ONLY to bound the magnitude of importer 9903.01.32
+# non-claim behavior — i.e., legally-eligible imports that filed under a
+# Ch99 dutiable code and paid duty rather than claiming the exemption. The
+# delta between 'all' and 'baseline_only' rebuilds is an upper bound on the
+# tracker-attributable share of the trackermiss gap; the residual against
+# Census is the importer non-claim channel. Do NOT use in production.
+ieepa_exempt_scope: 'all'
 
 # --- IEEPA invalidation (SCOTUS ruling) ---
 # Date when IEEPA tariff authority was invalidated by the Supreme Court.

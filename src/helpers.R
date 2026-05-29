@@ -905,6 +905,13 @@ load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
     params$S232_ANNEXES$effective_date <- as.Date(params$section_232_annexes$effective_date)
   }
 
+  # Section 201 (Trade Act §201 safeguards). Currently models Solar 201:
+  # the HTS lists out-of-quota rates that don't reflect annual step-down,
+  # so we override with the published current rate.
+  if (!is.null(params$section_201)) {
+    params$SECTION_201 <- params$section_201
+  }
+
   # Local paths (optional user-specific file locations)
   params$LOCAL_PATHS <- load_local_paths()
 
@@ -1687,9 +1694,10 @@ classify_authority <- function(ch99_code) {
   #   9903.74.xx  — MHD vehicles (US Note 38)
   #   9903.76.xx  — Wood products / lumber / furniture (US Note 37)
   #   9903.78.xx  — Copper derivatives (US Note 19)
+  #   9903.79.xx  — Semiconductors (US Note 39, effective 2026-01-16)
   #   9903.80-85  — Steel, aluminum, derivatives
   #   9903.94.xx  — Auto tariffs (US Note 25/33)
-  if (middle == 74 || middle == 76 || middle == 78 ||
+  if (middle == 74 || middle == 76 || middle == 78 || middle == 79 ||
       (middle >= 80 && middle <= 85) || middle == 94) {
     return('section_232')
   }
@@ -1710,6 +1718,92 @@ classify_authority <- function(ch99_code) {
   }
 
   return('other')
+}
+
+
+#' Extract a legal effective-date offset from a Ch99 description
+#'
+#' HTS revisions sometimes publish new Ch99 entries with descriptions that
+#' specify a future legal effective date — e.g. 9903.94.01 was added at rev_6
+#' (HTS effective 2025-03-12) with description text "...effective with respect
+#' to entries on or after April 3, 2025...". The HTS metadata says rev_6 is
+#' active, but the rate is not legally collectible until 2025-04-03. Treating
+#' the rate as active on the HTS effective_date over-states ~$7B of chapter 87
+#' duty in March 2025 (see upstream eval s232_auto_effective_date_2026-04-28).
+#'
+#' Pattern is stable across revisions: "on or after [Month] [Day], [Year]" with
+#' full English month names. Returns the EARLIEST date across all matches (the
+#' conservative gate). Errors via stop() if a matched phrase fails to parse —
+#' a silent NA would re-introduce the pre-activation collection bug this gate
+#' is meant to prevent.
+#'
+#' Mirrors upstream src/rate_schema.R::extract_effective_date_offset().
+#'
+#' @param description Ch99 description text (scalar character)
+#' @return Date object, NA if no pattern matches or text is empty
+extract_effective_date_offset <- function(description) {
+  if (is.null(description) || length(description) == 0 ||
+      is.na(description) || description == '') {
+    return(as.Date(NA))
+  }
+  matches <- regmatches(
+    description,
+    gregexpr('on or after [A-Za-z]+ [0-9]{1,2}, [0-9]{4}',
+             description, ignore.case = TRUE)
+  )[[1]]
+  if (length(matches) == 0) return(as.Date(NA))
+  date_strs <- sub('^on or after ', '', matches, ignore.case = TRUE)
+  # %B in as.Date expects title-case month names ("April"); normalize.
+  date_strs <- vapply(date_strs, function(s) {
+    parts <- strsplit(s, ' ', fixed = TRUE)[[1]]
+    parts[1] <- paste0(toupper(substr(parts[1], 1, 1)),
+                       tolower(substring(parts[1], 2)))
+    paste(parts, collapse = ' ')
+  }, character(1), USE.NAMES = FALSE)
+  parsed <- as.Date(date_strs, format = '%B %d, %Y')
+  if (any(is.na(parsed))) {
+    bad <- date_strs[is.na(parsed)]
+    stop('extract_effective_date_offset: failed to parse ',
+         paste(shQuote(bad), collapse = ', '),
+         ' from description: ', shQuote(description))
+  }
+  min(parsed)
+}
+
+
+#' Drop Ch99 entries that are not yet legally active for a given revision
+#'
+#' Filters `ch99_data` to remove rows whose `effective_date_offset` (extracted
+#' by `extract_effective_date_offset()` during `parse_chapter99()`) is strictly
+#' AFTER the revision's `effective_date`. Rows with NA offset (no future-date
+#' phrase in the description) are always retained — those are active as of
+#' their HTS publication. Backwards-compatible: cached ch99_<revision>.rds files
+#' produced before this column existed flow through unchanged.
+#'
+#' Mirrors upstream src/rate_schema.R::filter_active_ch99().
+#'
+#' @param ch99_data Tibble from `parse_chapter99()` with `effective_date_offset`
+#' @param revision_effective_date Date (or coercible) of the revision's HTS effective date
+#' @return Filtered tibble; row count reported via message() when rows are dropped
+filter_active_ch99 <- function(ch99_data, revision_effective_date) {
+  if (is.null(ch99_data) || nrow(ch99_data) == 0) return(ch99_data)
+  if (!'effective_date_offset' %in% names(ch99_data)) {
+    # Backwards-compatible no-op for any cached ch99_<revision>.rds file
+    # produced before this column existed.
+    return(ch99_data)
+  }
+  rev_date <- as.Date(revision_effective_date)
+  not_yet_active <- !is.na(ch99_data$effective_date_offset) &
+                    ch99_data$effective_date_offset > rev_date
+  if (any(not_yet_active)) {
+    n_drop <- sum(not_yet_active)
+    earliest <- min(ch99_data$effective_date_offset[not_yet_active])
+    message('  Dropping ', n_drop, ' Ch99 entr', if (n_drop == 1) 'y' else 'ies',
+            ' not yet legally active at ', rev_date,
+            ' (earliest activation: ', earliest, ')')
+    ch99_data <- ch99_data[!not_yet_active, , drop = FALSE]
+  }
+  ch99_data
 }
 
 
