@@ -10,9 +10,11 @@ config/.chapter99_pending
 
 # API credentials (never commit tokens)
 .env
+scripts/hts_automation/.env.hts_automation
 
 # Data files (large)
 data/hts_archives/*.json
+data/hts_archives_csv/*.csv
 data/processed/
 data/timeseries/
 data/tpc/*.csv
@@ -44,6 +46,8 @@ analyze_*.R
 _*.R
 *.ps1
 *.sh
+# …but the HTS automation wrapper is a tracked, reviewed script:
+!scripts/hts_automation/run_locally.sh
 
 # OS files
 .DS_Store

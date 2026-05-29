@@ -244,5 +244,11 @@
     "effectiveDate": "2026-04-29",
     "policyEffectiveDate": "2026-04-29",
     "policyEvent": "U.S. note 16(e), subch III, ch 99 Modified, 9903.82.01 Added"
+  },
+  {
+    "revision": "2026_rev_8",
+    "effectiveDate": "2026-05-22",
+    "policyEffectiveDate": "2026-05-22",
+    "policyEvent": "General note 16 and chapters 98 and 99"
   }
 ]

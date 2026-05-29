@@ -16,8 +16,20 @@
 #   - tpc_policy_revision: TPC policy revision mapping (manually curated)
 #
 # Usage:
-#   Rscript src/01_scrape_revision_dates.R           # update CSV
-#   Rscript src/01_scrape_revision_dates.R --dry-run  # preview without writing
+#   Rscript src/01_scrape_revision_dates.R                      # update CSV
+#   Rscript src/01_scrape_revision_dates.R --dry-run            # preview without writing
+#   Rscript src/01_scrape_revision_dates.R --auto-clear-review  # auto-clear needs_review
+#                                                               # when the API-provided date passes
+#                                                               # sanity checks (see below).
+#
+# Sanity checks applied when --auto-clear-review is set:
+#   * effective_date parses as a Date
+#   * effective_date falls between 60 days ago and 365 days from today
+#   * revision_year (from the revision id) matches the year of effective_date
+#
+# Failing any check leaves needs_review = TRUE and prints a per-row reason
+# so the operator can fix the row by hand. The script exits 0 either way —
+# downstream automation should fail closed on `needs_review = TRUE` rows.
 #
 # =============================================================================
 
@@ -298,6 +310,84 @@ check_chapter99_pdf_changed <- function(
 }
 
 
+#' Auto-clear `needs_review` on safe-looking rows.
+#'
+#' Sanity-check criteria (must all pass):
+#'   * effective_date parses to a Date
+#'   * effective_date is within [today - 60 days, today + 365 days]
+#'   * The year prefix in the revision id matches year(effective_date)
+#'
+#' Rows that fail any check keep needs_review = TRUE; per-row reasons are
+#' logged so a human can fix them. Returns the number of rows cleared.
+auto_clear_needs_review <- function(csv_path, dry_run = FALSE) {
+  if (!file.exists(csv_path)) {
+    message('  CSV not found: ', csv_path)
+    return(invisible(0L))
+  }
+
+  existing <- suppressWarnings(
+    read_csv(csv_path, col_types = cols(.default = col_character()))
+  )
+
+  if (!'needs_review' %in% names(existing)) {
+    message('  No needs_review column — nothing to clear.')
+    return(invisible(0L))
+  }
+
+  to_review <- which(toupper(existing$needs_review) == 'TRUE')
+  if (length(to_review) == 0) {
+    message('  No rows currently flagged needs_review = TRUE.')
+    return(invisible(0L))
+  }
+
+  today <- Sys.Date()
+  cleared <- 0L
+
+  for (idx in to_review) {
+    rev_id <- existing$revision[idx]
+    raw_date <- existing$effective_date[idx]
+    parsed_date <- suppressWarnings(as.Date(raw_date))
+
+    reasons <- character()
+    if (is.na(parsed_date)) {
+      reasons <- c(reasons, paste0('effective_date does not parse: "', raw_date, '"'))
+    } else {
+      if (parsed_date < today - 60) {
+        reasons <- c(reasons, paste0('effective_date is more than 60 days in the past (', parsed_date, ')'))
+      }
+      if (parsed_date > today + 365) {
+        reasons <- c(reasons, paste0('effective_date is more than 365 days in the future (', parsed_date, ')'))
+      }
+      rev_year <- tryCatch(parse_revision_id(rev_id)$year, error = function(e) NA_integer_)
+      date_year <- as.integer(format(parsed_date, '%Y'))
+      if (!is.na(rev_year) && !is.na(date_year) && rev_year != date_year) {
+        reasons <- c(reasons, paste0('revision year (', rev_year, ') does not match effective_date year (', date_year, ')'))
+      }
+    }
+
+    if (length(reasons) == 0) {
+      existing$needs_review[idx] <- 'FALSE'
+      cleared <- cleared + 1L
+      message('  Cleared needs_review for ', rev_id, ' (', parsed_date, ')')
+    } else {
+      message('  Kept needs_review = TRUE for ', rev_id, ':')
+      for (r in reasons) message('    - ', r)
+    }
+  }
+
+  if (cleared > 0L) {
+    if (dry_run) {
+      message('\n  [DRY RUN] Would clear ', cleared, ' row(s); not writing.')
+    } else {
+      write_csv(existing, csv_path)
+      message('\n  Wrote ', cleared, ' row(s) with needs_review = FALSE to ', csv_path)
+    }
+  }
+
+  return(invisible(cleared))
+}
+
+
 #' Accept pending PDF hash (clear the alert)
 #'
 #' Advances the stored hash to the pending value and removes the marker.
@@ -331,6 +421,7 @@ if (sys.nframe() == 0) {
 
   args <- commandArgs(trailingOnly = TRUE)
   dry_run <- '--dry-run' %in% args
+  auto_clear <- '--auto-clear-review' %in% args
 
   csv_path <- here('config', 'revision_dates.csv')
 
@@ -341,6 +432,11 @@ if (sys.nframe() == 0) {
     update_revision_dates(csv_path, api_releases, dry_run = dry_run)
   } else {
     message('API unavailable — no changes made.')
+  }
+
+  if (auto_clear) {
+    message('\n--- Auto-clearing needs_review on safe rows ---')
+    auto_clear_needs_review(csv_path, dry_run = dry_run)
   }
 
   # Cross-reference with available JSON files

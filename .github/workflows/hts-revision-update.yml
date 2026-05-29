@@ -1,0 +1,315 @@
+name: HTS Revision Update
+
+# What this does:
+#   - Detect new US HTS revisions from USITC (01_scrape_revision_dates.R).
+#   - If a new row landed and passes sanity checks, download both formats
+#     (02_download_hts.R), build the Ragie CSV via build_hts_minimal.py,
+#     swap the Ragie partition, upsert the Supabase row, update Railway +
+#     Vercel env vars, commit the JSON to the production branch of
+#     sail-gtx-prerelease, and smoke-test the result. Rollback on failure.
+#
+# Triggers:
+#   - cron "0 7 * * 1-5"  → 2 AM EST / 3 AM EDT, weekdays
+#   - workflow_dispatch   → manual run, with optional revision_id override
+
+on:
+  schedule:
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      revision_id:
+        description: 'Optional revision ID override, e.g. 2026_rev_8'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Run in dry-run mode (no external writes)'
+        type: boolean
+        default: false
+      skip_smoke_classify:
+        description: 'Skip the canary POST /api/classify in smoke test'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write      # commit revision_dates.csv + archives back to this repo
+  issues: write        # open an issue on failure
+
+concurrency:
+  group: hts-revision-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    env:
+      RAGIE_API_KEY:           ${{ secrets.RAGIE_API_KEY }}
+      SUPABASE_URL:            ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      RAILWAY_TOKEN:           ${{ secrets.RAILWAY_TOKEN }}
+      RAILWAY_PROJECT_ID:      ${{ secrets.RAILWAY_PROJECT_ID }}
+      RAILWAY_SERVICE_ID:      ${{ secrets.RAILWAY_SERVICE_ID }}
+      RAILWAY_ENVIRONMENT_ID:  ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+      VERCEL_TOKEN:            ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_ID:       ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TEAM_ID:          ${{ secrets.VERCEL_TEAM_ID }}
+      SAIL_GTX_REPO_PAT:       ${{ secrets.SAIL_GTX_REPO_PAT }}
+      SAIL_GTX_HEALTHCHECK_URL: ${{ vars.SAIL_GTX_HEALTHCHECK_URL }}
+      SAIL_GTX_API_BASE:       ${{ vars.SAIL_GTX_API_BASE }}
+      SAIL_GTX_API_AUTH_TOKEN: ${{ secrets.SAIL_GTX_API_AUTH_TOKEN }}
+      PRODUCTION_BRANCH:       ${{ vars.SAIL_GTX_PRODUCTION_BRANCH }}
+
+    steps:
+      # ────────────────────────────────────────────────────────────────
+      # Setup
+      # ────────────────────────────────────────────────────────────────
+      - name: Checkout tariff-rate-tracker
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'
+          use-public-rspm: true
+
+      - name: Install R packages
+        # No DESCRIPTION/renv.lock in this repo today; install the small set
+        # of packages this workflow needs directly. Public RSPM (set above)
+        # serves pre-compiled binaries on Ubuntu so this takes ~30s, not
+        # the multi-minute source compile path.
+        run: |
+          Rscript -e 'install.packages(c("tidyverse", "jsonlite", "here", "digest"))'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: scripts/hts_automation/requirements.txt
+
+      - name: Install Python packages
+        run: pip install -r scripts/hts_automation/requirements.txt
+
+      # ────────────────────────────────────────────────────────────────
+      # Validate workflow configuration before doing anything destructive
+      # ────────────────────────────────────────────────────────────────
+      - name: Validate config
+        run: |
+          missing=()
+          [[ -z "${PRODUCTION_BRANCH}" ]] && missing+=("SAIL_GTX_PRODUCTION_BRANCH (vars)")
+          [[ -z "${SAIL_GTX_HEALTHCHECK_URL}" ]] && missing+=("SAIL_GTX_HEALTHCHECK_URL (vars)")
+          [[ -z "${RAGIE_API_KEY}" ]] && missing+=("RAGIE_API_KEY (secrets)")
+          [[ -z "${SUPABASE_URL}" ]] && missing+=("SUPABASE_URL (secrets)")
+          [[ -z "${SUPABASE_SERVICE_ROLE_KEY}" ]] && missing+=("SUPABASE_SERVICE_ROLE_KEY (secrets)")
+          [[ -z "${RAILWAY_TOKEN}" ]] && missing+=("RAILWAY_TOKEN (secrets)")
+          [[ -z "${VERCEL_TOKEN}" ]] && missing+=("VERCEL_TOKEN (secrets)")
+          [[ -z "${SAIL_GTX_REPO_PAT}" ]] && missing+=("SAIL_GTX_REPO_PAT (secrets)")
+          if (( ${#missing[@]} )); then
+            printf 'Missing required config: %s\n' "${missing[@]}"
+            exit 1
+          fi
+          echo "config ok; production branch = ${PRODUCTION_BRANCH}"
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 1: discover new revisions (or honor the workflow_dispatch input)
+      # ────────────────────────────────────────────────────────────────
+      - name: Scrape USITC for new revisions
+        id: scrape
+        run: |
+          set -euo pipefail
+          # Snapshot pre-scrape so we can detect a real diff afterwards.
+          cp config/revision_dates.csv /tmp/revision_dates.before.csv
+          Rscript src/01_scrape_revision_dates.R --auto-clear-review || true
+          if diff -q /tmp/revision_dates.before.csv config/revision_dates.csv >/dev/null; then
+            echo "revision_dates.csv unchanged"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "revision_dates.csv was updated:"
+            diff /tmp/revision_dates.before.csv config/revision_dates.csv || true
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Decide whether to continue
+        id: gate
+        run: |
+          set -euo pipefail
+          if [[ -n "${{ inputs.revision_id }}" ]]; then
+            echo "continue=true" >> "$GITHUB_OUTPUT"
+            echo "Manual revision_id override: ${{ inputs.revision_id }}"
+          elif [[ "${{ steps.scrape.outputs.changed }}" == "true" ]]; then
+            echo "continue=true" >> "$GITHUB_OUTPUT"
+            echo "Continuing — new revision detected"
+          else
+            echo "continue=false" >> "$GITHUB_OUTPUT"
+            echo "No changes detected — exiting clean"
+          fi
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 2: resolve the target revision into year/rev/effective_date/label
+      # ────────────────────────────────────────────────────────────────
+      - name: Resolve target revision
+        if: steps.gate.outputs.continue == 'true'
+        id: target
+        run: |
+          set -euo pipefail
+          if [[ -n "${{ inputs.revision_id }}" ]]; then
+            output=$(Rscript scripts/hts_automation/latest_revision.R --revision "${{ inputs.revision_id }}")
+          else
+            output=$(Rscript scripts/hts_automation/latest_revision.R)
+          fi
+          echo "$output"
+          # Splice every KEY=VALUE line into $GITHUB_OUTPUT
+          echo "$output" >> "$GITHUB_OUTPUT"
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 3: download JSON + CSV
+      # ────────────────────────────────────────────────────────────────
+      - name: Download HTS archives (JSON + CSV)
+        if: steps.gate.outputs.continue == 'true'
+        run: Rscript src/02_download_hts.R --year ${{ steps.target.outputs.YEAR }}
+
+      - name: Verify both archives now exist
+        if: steps.gate.outputs.continue == 'true'
+        run: |
+          set -euo pipefail
+          test -f "${{ steps.target.outputs.JSON_PATH }}" || { echo "missing JSON"; exit 1; }
+          test -f "${{ steps.target.outputs.CSV_PATH }}"  || { echo "missing CSV";  exit 1; }
+          ls -la "${{ steps.target.outputs.JSON_PATH }}" "${{ steps.target.outputs.CSV_PATH }}"
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 4: build the Ragie CSV via build_hts_minimal.py
+      # The script also writes a .jsonl alongside; we use only the .csv.
+      # ────────────────────────────────────────────────────────────────
+      - name: Build Ragie CSV
+        if: steps.gate.outputs.continue == 'true'
+        id: build
+        run: |
+          set -euo pipefail
+          stem="v5_minimal${{ steps.target.outputs.YEAR }}rev${{ steps.target.outputs.REV_NUM }}"
+          python3 scripts/hts_automation/build_hts_minimal.py \
+            "${{ steps.target.outputs.CSV_PATH }}" \
+            scripts/hts_automation/chapters.json \
+            "$stem"
+          test -f "${stem}.csv"
+          echo "RAGIE_CSV=${stem}.csv" >> "$GITHUB_OUTPUT"
+          ls -la "${stem}.csv"
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 5: Ragie partition swap (upload → poll-ready → delete-old)
+      # ────────────────────────────────────────────────────────────────
+      - name: Ragie partition swap
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        run: |
+          python3 scripts/hts_automation/ragie_sync.py swap \
+            --csv "${{ steps.build.outputs.RAGIE_CSV }}" \
+            --partition us_hts_2026_latest
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 6: Supabase upsert
+      # ────────────────────────────────────────────────────────────────
+      - name: Supabase upsert hts_revisions row
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        run: |
+          python3 scripts/hts_automation/supabase_insert_revision.py \
+            --country US \
+            --year "${{ steps.target.outputs.YEAR }}" \
+            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
+            --effective-date "${{ steps.target.outputs.EFFECTIVE_DATE }}" \
+            --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
+            --tariff-schedule-name HTSUS \
+            --ragie-partition-id us_hts_2026_latest
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 7: cross-repo commit (must precede env var update — when env
+      # var changes redeploy Railway, the JSON file must already be present
+      # or the boot-time assertion will fail and we'll trigger the rollback.)
+      # ────────────────────────────────────────────────────────────────
+      - name: Commit JSON to sail-gtx-prerelease production branch
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        run: |
+          python3 scripts/hts_automation/sail_gtx_commit.py \
+            --owner SAIL-Engineering \
+            --repo sail-gtx-prerelease \
+            --branch "${PRODUCTION_BRANCH}" \
+            --source "${{ steps.target.outputs.JSON_PATH }}" \
+            --dest-path "server/data/hts/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
+            --tag-name "hts-${{ steps.target.outputs.YEAR }}-rev${{ steps.target.outputs.REV_NUM }}" \
+            --commit-message "chore: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} dataset (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 8: update env vars on both platforms (captures prior values)
+      # ────────────────────────────────────────────────────────────────
+      - name: Update Railway + Vercel env vars
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        run: |
+          python3 scripts/hts_automation/update_env_vars.py set \
+            --year "${{ steps.target.outputs.YEAR }}" \
+            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
+            --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
+            --snapshot-out /tmp/env-snapshot.json
+
+      - name: Upload env snapshot (for rollback)
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        uses: actions/upload-artifact@v4
+        with:
+          name: env-snapshot-${{ github.run_id }}
+          path: /tmp/env-snapshot.json
+          retention-days: 7
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 9: smoke test (poll /health + canary classify + supabase row)
+      # ────────────────────────────────────────────────────────────────
+      - name: Smoke test deploy
+        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        id: smoke
+        run: |
+          python3 scripts/hts_automation/smoke_test.py \
+            --year "${{ steps.target.outputs.YEAR }}" \
+            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
+            $( [[ "${{ inputs.skip_smoke_classify }}" == "true" ]] && echo "--skip-classify" )
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 10: rollback path. Runs only if a previous step in this job failed.
+      # ────────────────────────────────────────────────────────────────
+      - name: Rollback env vars
+        if: failure() && steps.gate.outputs.continue == 'true' && hashFiles('/tmp/env-snapshot.json') != ''
+        run: |
+          python3 scripts/hts_automation/update_env_vars.py revert \
+            --snapshot /tmp/env-snapshot.json
+
+      - name: Open failure issue
+        if: failure() && steps.gate.outputs.continue == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `HTS Revision Update failed (${process.env.PRODUCTION_BRANCH})`,
+              body: `Run: ${runUrl}\n\nThe automated HTS revision rollout failed. Env vars were rolled back if a snapshot existed; the Ragie partition + Supabase row may need manual inspection.`,
+              labels: ['hts-automation', 'incident']
+            });
+
+      # ────────────────────────────────────────────────────────────────
+      # Step 11: commit revision_dates.csv + archives back to this repo (on success)
+      # ────────────────────────────────────────────────────────────────
+      - name: Commit revision_dates.csv on success
+        if: success() && steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        # Archive JSON/CSV files are intentionally gitignored in this repo
+        # (large, regeneratable). We only commit the curated revision_dates.csv
+        # so the next run knows what's been processed.
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add config/revision_dates.csv
+          if git diff --cached --quiet; then
+            echo "revision_dates.csv unchanged — nothing to commit"
+          else
+            git commit -m "data: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
+            git push
+          fi

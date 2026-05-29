@@ -1,0 +1,77 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- Binary / data artifacts (always exclude) ---
+*.rds
+*.parquet
+*.RData
+*.Rhistory
+.Rproj.user/
+
+# --- Frontend build / runtime artifacts ---
+frontend/public/data/
+frontend/dist/
+frontend/md:tariff_rates.tmp/
+frontend/server/*.duckdb
+frontend/test_query.mjs
+
+# --- Pipeline data (regenerated, large) ---
+data/hts_archives/
+data/processed/
+data/timeseries/
+data/tpc/
+data/us_notes/
+data/federal_register/
+data/cbp/
+data/dataweb/
+data/spim/
+data/census_imports_*.csv
+
+# --- Pipeline outputs (regenerated) ---
+output/
+snapshots/
+changes/
+exports/
+
+# --- Reference resource CSVs (data, not code) ---
+resources/*.csv
+resources/*.txt
+
+# --- Internal / archived working docs (not part of public surface) ---
+docs/analysis/
+docs/archive/
+docs/federal-register/
+docs/adrs/
+todo.md
+CHANGELOG.md
+
+# --- Editor/agent state ---
+.claude/
+.codex
+.agents/
+.understand-anything/
+.env
+.env.example
+skills-lock.json
+
+# --- Temp/diagnostic patterns ---
+tmpclaude-*
+*.tmp
+check_*.R
+/test_*.R
+/test_*.txt
+analyze_*.R
+_*.R
+*.ps1
+*.sh
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- Tariff Rate Tracker R Project file ---
+tariff-rate-tracker.Rproj
