@@ -1,5 +1,209 @@
 [
   {
+    "revision": "2022_basic",
+    "effectiveDate": "2022-01-26",
+    "policyEffectiveDate": null,
+    "policyEvent": "2022 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201)"
+  },
+  {
+    "revision": "2022_rev_2",
+    "effectiveDate": "2022-02-23",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_3",
+    "effectiveDate": "2022-03-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_4",
+    "effectiveDate": "2022-04-07",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_5",
+    "effectiveDate": "2022-06-03",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_6",
+    "effectiveDate": "2022-06-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_7",
+    "effectiveDate": "2022-07-20",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_8",
+    "effectiveDate": "2022-07-26",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_9",
+    "effectiveDate": "2022-09-09",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_10",
+    "effectiveDate": "2022-09-23",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_11",
+    "effectiveDate": "2022-10-17",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2022_rev_12",
+    "effectiveDate": "2022-11-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_basic",
+    "effectiveDate": "2022-12-30",
+    "policyEffectiveDate": null,
+    "policyEvent": "2023 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201)"
+  },
+  {
+    "revision": "2023_rev_1",
+    "effectiveDate": "2023-02-16",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_2",
+    "effectiveDate": "2023-03-09",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_3",
+    "effectiveDate": "2023-03-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_5",
+    "effectiveDate": "2023-05-17",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_6",
+    "effectiveDate": "2023-05-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_7",
+    "effectiveDate": "2023-06-06",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_8",
+    "effectiveDate": "2023-06-13",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_9",
+    "effectiveDate": "2023-06-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_10",
+    "effectiveDate": "2023-07-24",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_11",
+    "effectiveDate": "2023-09-21",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_basic",
+    "effectiveDate": "2023-12-29",
+    "policyEffectiveDate": null,
+    "policyEvent": "2024 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201)"
+  },
+  {
+    "revision": "2024_rev_1",
+    "effectiveDate": "2024-01-25",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_2",
+    "effectiveDate": "2024-05-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_3",
+    "effectiveDate": "2024-06-14",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_4",
+    "effectiveDate": "2024-06-28",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_5",
+    "effectiveDate": "2024-07-16",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_6",
+    "effectiveDate": "2024-07-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_7",
+    "effectiveDate": "2024-08-06",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_8",
+    "effectiveDate": "2024-08-15",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2024_rev_9",
+    "effectiveDate": "2024-09-26",
+    "policyEffectiveDate": null,
+    "policyEvent": "Sep 2024 §301 increases (EVs"
+  },
+  {
+    "revision": "2024_rev_10",
+    "effectiveDate": "2024-11-22",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
     "revision": "2025_basic",
     "effectiveDate": "2025-01-01",
     "policyEffectiveDate": null,
