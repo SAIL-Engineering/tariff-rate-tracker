@@ -1,0 +1,514 @@
+version: 2
+source: reference
+note: >
+  Curated legal-authority reference layer. verified=true means the authority
+  metadata, citation, Federal Register citation, document number, and source
+  pointer were verified against official U.S. government sources where available.
+  verified=true does not mean the duty is currently active. Current applicability,
+  effective dates, suspension, termination, exclusions, and litigation status must
+  be handled by a separate status/effective-date layer.
+
+authorities:
+
+  # ---------------------------------------------------------------------------
+  # Section 232 — 19 U.S.C. 1862
+  # ---------------------------------------------------------------------------
+
+  proc_9705_steel:
+    citation: "Proclamation 9705 of March 8, 2018 — Adjusting Imports of Steel Into the United States"
+    federal_register: "83 FR 11625"
+    fr_document_number: "2018-05478"
+    signed_date: "2018-03-08"
+    publication_date: "2018-03-15"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_steel, s232_steel_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-03-15/pdf/2018-05478.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_9704_aluminum:
+    citation: "Proclamation 9704 of March 8, 2018 — Adjusting Imports of Aluminum Into the United States"
+    federal_register: "83 FR 11619"
+    fr_document_number: "2018-05477"
+    signed_date: "2018-03-08"
+    publication_date: "2018-03-15"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_aluminum, s232_aluminum_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-03-15/pdf/2018-05477.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_9980_derivatives:
+    citation: "Proclamation 9980 of January 24, 2020 — Adjusting Imports of Derivative Aluminum Articles and Derivative Steel Articles Into the United States"
+    federal_register: "85 FR 5281"
+    fr_document_number: "2020-01806"
+    signed_date: "2020-01-24"
+    publication_date: "2020-01-29"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_steel_derivative, s232_aluminum_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2020-01-29/pdf/2020-01806.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_9772_turkey_steel:
+    citation: "Proclamation 9772 of August 10, 2018 — Adjusting Imports of Steel Into the United States (Turkey)"
+    federal_register: "83 FR 40429"
+    fr_document_number: "2018-17703"
+    signed_date: "2018-08-10"
+    publication_date: "2018-08-15"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_turkey_surtax]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-08-15/pdf/2018-17703.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    status_note: "Historical Turkey 50% steel adjustment; later modified. Do not treat as currently active without effective-date logic."
+
+  proc_10522_russia_aluminum:
+    citation: "Proclamation 10522 of February 24, 2023 — Adjusting Imports of Aluminum Into the United States (Russia)"
+    federal_register: "88 FR 13267"
+    fr_document_number: "2023-04470"
+    signed_date: "2023-02-24"
+    publication_date: "2023-03-02"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_russia_proc10522]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2023-03-02/pdf/2023-04470.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  # Recommended 2025/2026 Section 232 additions if your frontend/backend tracks
+  # current Section 232 metal regimes rather than only founding authorities.
+
+  proc_10895_aluminum_2025:
+    citation: "Proclamation 10895 of February 10, 2025 — Adjusting Imports of Aluminum Into the United States"
+    federal_register: "90 FR 9807"
+    fr_document_number: "2025-02832"
+    signed_date: "2025-02-10"
+    publication_date: "2025-02-18"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_aluminum, s232_aluminum_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-02-18/pdf/2025-02832.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_10896_steel_2025:
+    citation: "Proclamation 10896 of February 10, 2025 — Adjusting Imports of Steel Into the United States"
+    federal_register: "90 FR 9817"
+    fr_document_number: "2025-02833"
+    signed_date: "2025-02-10"
+    publication_date: "2025-02-18"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_steel, s232_steel_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-02-18/pdf/2025-02833.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_10947_steel_aluminum_2025:
+    citation: "Proclamation 10947 of June 3, 2025 — Adjusting Imports of Aluminum and Steel Into the United States"
+    federal_register: "90 FR 24199"
+    fr_document_number: "2025-10524"
+    signed_date: "2025-06-03"
+    publication_date: "2025-06-09"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    applies_to: [s232_steel, s232_steel_derivative, s232_aluminum, s232_aluminum_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-06-09/pdf/2025-10524.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+
+  proc_11021_steel_aluminum_copper_2026:
+    citation: "Proclamation 11021 of April 2, 2026 — Strengthening Actions Taken To Adjust Imports of Aluminum, Steel, and Copper Into the United States"
+    federal_register: "91 FR 18201"
+    fr_document_number: "2026-06960"
+    signed_date: "2026-04-02"
+    publication_date: "2026-04-09"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483"
+    applies_to: [s232_steel, s232_steel_derivative, s232_aluminum, s232_aluminum_derivative, s232_copper, s232_copper_derivative]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    status_note: "Important current-status modifier for full-customs-value treatment, derivative scope, and metal tariff stacking."
+
+  # --- Copper-specific Section 232 chain (founding -> annex -> derivative expansion) ---
+  proc_10962_copper_2025:
+    citation: "Proclamation 10962 of July 30, 2025 — Adjusting Imports of Copper Into the United States"
+    federal_register: null
+    fr_document_number: null
+    signed_date: "2025-07-30"
+    publication_date: "2025-08-05"
+    effective_date: "2025-08-01"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
+    hts_reference: "9903.78.01; HTSUS subchapter III U.S. Note 36"
+    applies_to: [s232_copper, s232_copper_derivative]
+    verified: false
+    verified_against: "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=proclamation+copper+section+232"
+    verification_scope: "Federal Register volume/page and document number pending confirmation"
+    status_note: "Founding Section 232 copper action (50% on semi-finished copper and copper-intensive derivatives, effective 2025-08-01 under 9903.78.01 / Note 36). Extended by the April 2026 annex (Proc 11021) and the June 2026 derivative expansion (Proc 11032)."
+
+  proc_11032_copper_derivatives_2026:
+    citation: "Proclamation 11032 of June 2026 — Expanding Section 232 Copper Derivative Coverage"
+    federal_register: null
+    fr_document_number: null
+    signed_date: null
+    publication_date: null
+    effective_date: "2026-06-08"
+    statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483"
+    hts_reference: "9903.82.20 through 9903.82.26 (new copper-derivative annex headings)"
+    applies_to: [s232_copper, s232_copper_derivative]
+    verified: false
+    source_status: federal_register_public_inspection_pending_publication
+    requires_post_publication_recheck: true
+    verification_scope: "On public inspection at the Federal Register; citation, document number, and signing date pending publication"
+    status_note: "PENDING Federal Register publication (public inspection). Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Metadata must be re-verified after publication."
+
+  # ---------------------------------------------------------------------------
+  # Section 301 — 19 U.S.C. 2411
+  # ---------------------------------------------------------------------------
+
+  s301_china_actions:
+    citation: "USTR Section 301 China Technology Transfer action, Lists 1-4A, exclusions, and modifications"
+    statute: "19 U.S.C. 2411 (Trade Act of 1974, Section 301); related modification authority under 19 U.S.C. 2417"
+    applies_to: [s301_active, s301_exempt]
+    verified_against: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions"
+    verified: true
+    verification_scope: "parent program/source-directory metadata only; not a complete list-level legal authority"
+    status_note: "Use list-specific Federal Register notices for production-grade audit trails."
+
+  s301_china_list_1:
+    citation: "Notice of Action and Request for Public Comment Concerning Proposed Determination of Action Pursuant to Section 301: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation"
+    federal_register: "83 FR 28710"
+    fr_document_number: "2018-13248"
+    publication_date: "2018-06-20"
+    statute: "19 U.S.C. 2411"
+    applies_to: [s301_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-06-20/pdf/2018-13248.pdf"
+    verified: true
+    verification_scope: "list-level authority metadata only"
+
+  s301_china_list_2:
+    citation: "Notice of Action Pursuant to Section 301: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation"
+    federal_register: "83 FR 40823"
+    fr_document_number: "2018-17709"
+    publication_date: "2018-08-16"
+    statute: "19 U.S.C. 2411"
+    applies_to: [s301_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-08-16/pdf/2018-17709.pdf"
+    verified: true
+    verification_scope: "list-level authority metadata only"
+
+  s301_china_list_3:
+    citation: "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation"
+    federal_register: "83 FR 47974"
+    fr_document_number: "2018-20610"
+    publication_date: "2018-09-21"
+    statute: "19 U.S.C. 2411; 19 U.S.C. 2417"
+    applies_to: [s301_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-09-21/pdf/2018-20610.pdf"
+    verified: true
+    verification_scope: "list-level authority metadata only"
+
+  s301_china_list_4:
+    citation: "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation"
+    federal_register: "84 FR 43304"
+    fr_document_number: "2019-17865"
+    publication_date: "2019-08-20"
+    statute: "19 U.S.C. 2411; 19 U.S.C. 2417"
+    applies_to: [s301_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2019-08-20/pdf/2019-17865.pdf"
+    verified: true
+    verification_scope: "list-level authority metadata only"
+    status_note: "List 4 was later split into List 4A and List 4B and modified by subsequent notices."
+
+  # ---------------------------------------------------------------------------
+  # Section 201 safeguards — 19 U.S.C. 2251-2254
+  # ---------------------------------------------------------------------------
+
+  proc_9693_solar:
+    citation: "Proclamation 9693 of January 23, 2018 — To Facilitate Positive Adjustment to Competition From Imports of Certain Crystalline Silicon Photovoltaic Cells"
+    federal_register: "83 FR 3541"
+    fr_document_number: "2018-01592"
+    signed_date: "2018-01-23"
+    publication_date: "2018-01-25"
+    statute: "19 U.S.C. 2251-2254 (Trade Act of 1974, Sections 201-204; presidential action principally under 19 U.S.C. 2253)"
+    applies_to: [s201_solar, s201_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2018-01-25/pdf/2018-01592.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    status_note: "Initial four-year CSPV safeguard beginning February 7, 2018; extended by Proclamation 10339."
+
+  proc_10339_solar_extension:
+    citation: "Proclamation 10339 of February 4, 2022 — To Continue Facilitating Positive Adjustment to Competition From Imports of Certain Crystalline Silicon Photovoltaic Cells"
+    federal_register: "87 FR 7357"
+    fr_document_number: "2022-02906"
+    signed_date: "2022-02-04"
+    publication_date: "2022-02-09"
+    statute: "19 U.S.C. 2253(e)(1)(B)"
+    applies_to: [s201_solar, s201_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2022-02-09/pdf/2022-02906.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    status_note: "Extended CSPV safeguard for four additional years, through February 6, 2026, unless otherwise modified."
+
+  # ---------------------------------------------------------------------------
+  # IEEPA — 50 U.S.C. 1701 et seq.
+  # ---------------------------------------------------------------------------
+
+  eo_14257_reciprocal:
+    citation: "Executive Order 14257 of April 2, 2025 — Regulating Imports With a Reciprocal Tariff To Rectify Trade Practices That Contribute to Large and Persistent Annual United States Goods Trade Deficits"
+    federal_register: "90 FR 15041"
+    fr_document_number: "2025-06063"
+    signed_date: "2025-04-02"
+    publication_date: "2025-04-07"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA); 19 U.S.C. 2483"
+    applies_to: [ieepa_recip_active, ieepa_recip_floor, ieepa_exempt_annex_ii, ieepa_exempt_ita, ieepa_exempt_ch98, ieepa_exempt_berman, ieepa_floor_exempt, ieepa_not_in_program]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-04-07/pdf/2025-06063.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    termination_authority: "eo_14389_ending_ieepa_tariffs"
+    status_note: "IEEPA additional ad valorem duties were ended / no longer collected for covered entries on or after 2026-02-24 per EO 14389 and CBP CSMS #67834313."
+
+  eo_14195_fentanyl_china:
+    citation: "Executive Order 14195 of February 1, 2025 — Imposing Duties To Address the Synthetic Opioid Supply Chain in the People's Republic of China"
+    federal_register: "90 FR 9121"
+    fr_document_number: "2025-02408"
+    signed_date: "2025-02-01"
+    publication_date: "2025-02-07"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA); 19 U.S.C. 2483"
+    applies_to: [ieepa_fent_china]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-02-07/pdf/2025-02408.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    termination_authority: "eo_14389_ending_ieepa_tariffs"
+    status_note: "Historical authority. Collection of IEEPA duties ended for covered entries on or after 2026-02-24 per EO 14389 and CBP CSMS #67834313."
+
+  eo_14193_fentanyl_canada:
+    citation: "Executive Order 14193 of February 1, 2025 — Imposing Duties To Address the Flow of Illicit Drugs Across Our Northern Border"
+    federal_register: "90 FR 9113"
+    fr_document_number: "2025-02406"
+    signed_date: "2025-02-01"
+    publication_date: "2025-02-07"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA); 19 U.S.C. 2483"
+    applies_to: [ieepa_fent_canada]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-02-07/pdf/2025-02406.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    termination_authority: "eo_14389_ending_ieepa_tariffs"
+    status_note: "Historical authority. Collection of IEEPA duties ended for covered entries on or after 2026-02-24 per EO 14389 and CBP CSMS #67834313."
+
+  eo_14194_fentanyl_mexico:
+    citation: "Executive Order 14194 of February 1, 2025 — Imposing Duties To Address the Situation at Our Southern Border"
+    federal_register: "90 FR 9117"
+    fr_document_number: "2025-02407"
+    signed_date: "2025-02-01"
+    publication_date: "2025-02-07"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA); 19 U.S.C. 2483"
+    applies_to: [ieepa_fent_mexico]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-02-07/pdf/2025-02407.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    termination_authority: "eo_14389_ending_ieepa_tariffs"
+    status_note: "Historical authority. Collection of IEEPA duties ended for covered entries on or after 2026-02-24 per EO 14389 and CBP CSMS #67834313."
+
+  eo_14389_ending_ieepa_tariffs:
+    citation: "Executive Order 14389 of February 20, 2026 — Ending Certain Tariff Actions"
+    federal_register: "91 FR 9437"
+    fr_document_number: "2026-03832"
+    signed_date: "2026-02-20"
+    publication_date: "2026-02-25"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA); 19 U.S.C. 2483"
+    applies_to: [ieepa_recip_active, ieepa_fent_china, ieepa_fent_canada, ieepa_fent_mexico]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf"
+    verified: true
+    verification_scope: "termination/status authority metadata"
+    status_note: "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
+
+  cbp_csms_67834313_ieepa_end_collection:
+    citation: "CBP CSMS #67834313 — Ending Collection of International Emergency Economic Powers Act Duties"
+    publication_date: "2026-02-22"
+    agency: "U.S. Customs and Border Protection"
+    applies_to: [ieepa_recip_active, ieepa_fent_china, ieepa_fent_canada, ieepa_fent_mexico]
+    verified_against: "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9"
+    verified: true
+    verification_scope: "CBP operational implementation/status message"
+    status_note: "IEEPA tariffs inactive in ACE as of 2026-02-24; does not affect Section 232 or Section 301 duties."
+
+  cbp_csms_68340863_cape_refund:
+    citation: "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)"
+    publication_date: null
+    agency: "U.S. Customs and Border Protection"
+    applies_to: [ieepa_recip_active, ieepa_fent_china, ieepa_fent_canada, ieepa_fent_mexico]
+    verified: false
+    verified_against: "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service"
+    verification_scope: "CSMS number and operational refund-process detail pending confirmation"
+    status_note: "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+
+  # --- Country-specific IEEPA tariff actions ---
+  # Distinct from the reciprocal/fentanyl actions above; included for authority
+  # completeness. The President's authority to impose tariffs under IEEPA is the
+  # subject of active litigation (see the ieepa_refund layer). Metadata is
+  # pending verification — do NOT present as settled.
+  eo_14245_venezuelan_oil:
+    citation: "Executive Order 14245 of March 24, 2025 — Imposing Tariffs on Countries Importing Venezuelan Oil"
+    federal_register: null
+    signed_date: "2025-03-24"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
+    verified: false
+    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
+    verification_scope: "Federal Register citation and current scope pending confirmation"
+    status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
+  eo_14323_brazil:
+    citation: "Executive Order 14323 of 2025 — IEEPA tariff action concerning Brazil"
+    federal_register: null
+    signed_date: null
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
+    verified: false
+    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
+    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
+  eo_14329_russia:
+    citation: "Executive Order 14329 of 2025 — IEEPA tariff action concerning Russia"
+    federal_register: null
+    signed_date: null
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
+    verified: false
+    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
+    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
+  eo_14380_cuba:
+    citation: "Executive Order 14380 of 2025 — IEEPA tariff action concerning Cuba"
+    federal_register: null
+    signed_date: null
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
+    verified: false
+    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
+    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
+  eo_14382_iran:
+    citation: "Executive Order 14382 of 2025 — IEEPA tariff action concerning Iran"
+    federal_register: null
+    signed_date: null
+    statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
+    verified: false
+    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
+    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
+
+  # ---------------------------------------------------------------------------
+  # Section 122 — 19 U.S.C. 2132
+  # ---------------------------------------------------------------------------
+
+  s122_balance_of_payments:
+    citation: "Trade Act of 1974, Section 122 — Balance-of-payments authority"
+    statute: "19 U.S.C. 2132"
+    applies_to: [s122_active]
+    verified_against: "https://uscode.house.gov/view.xhtml?req=(title:19%20section:2132%20edition:prelim)"
+    verified: true
+    verification_scope: "statutory authority metadata only"
+
+  proc_11012_s122_surcharge:
+    citation: "Proclamation 11012 of February 20, 2026 — Imposing a Temporary Import Surcharge To Address Fundamental International Payments Problems"
+    federal_register: "91 FR 9339"
+    fr_document_number: "2026-03824"
+    signed_date: "2026-02-20"
+    publication_date: "2026-02-25"
+    statute: "19 U.S.C. 2132 (Trade Act of 1974, Section 122); 19 U.S.C. 2483"
+    applies_to: [s122_active]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03824.pdf"
+    verified: true
+    verification_scope: "authority metadata only"
+    status_note: "Separate from ended IEEPA duties. Imposed temporary import surcharge effective 2026-02-24 through 2026-07-24 unless modified, suspended, terminated, or extended by Congress."
+
+  cbp_csms_67844987_s122_implementation:
+    citation: "CBP CSMS #67844987 — Imposing Temporary Section 122 Duties"
+    publication_date: "2026-02-23"
+    agency: "U.S. Customs and Border Protection"
+    applies_to: [s122_active]
+    verified_against: "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b"
+    verified: true
+    verification_scope: "CBP operational implementation/status message"
+
+  # ---------------------------------------------------------------------------
+  # Civil aircraft / WTO Agreement on Trade in Civil Aircraft
+  # ---------------------------------------------------------------------------
+
+  wto_civil_aircraft:
+    citation: "WTO Agreement on Trade in Civil Aircraft; HTSUS General Note 6 — Articles Eligible for Duty-Free Treatment Pursuant to the Agreement on Trade in Civil Aircraft"
+    hts_reference: "HTSUS General Note 6"
+    applies_to: []
+    verified_against: "https://hts.usitc.gov/reststop/file?filename=General+Note+6&release=currentRelease"
+    secondary_reference: "https://www.wto.org/english/tratop_e/civair_e/civair_e.htm"
+    verified: true
+    verification_scope: "HTSUS civil-aircraft note metadata"
+    status_note: "Do not cite HTSUS U.S. Note 35 as the primary civil-aircraft authority. General Note 6 is the correct HTSUS reference."
+
+# =============================================================================
+# IEEPA refund / recovery layer (4-layer status model)
+# =============================================================================
+# Rendered in the frontend Flags and the "why SAIL differs from broker" section.
+# PHRASING IS LOAD-BEARING — do not overstate:
+#   * The Supreme Court held that IEEPA does not authorize the President to
+#     impose tariffs. Do NOT state a dollar figure in the UI.
+#   * Refunds are NOT automatic and NOT guaranteed.
+# The four layers: (1) duty authority [the EOs above], (2) ended-collection
+# status, (3) refund process, (4) litigation risk.
+ieepa_refund:
+  ended_effective_date: "2026-02-24"
+  # Provenance reason codes whose paid duty is potentially refundable.
+  covered_reasons: [ieepa_recip_active, ieepa_recip_floor, ieepa_fent_china, ieepa_fent_canada, ieepa_fent_mexico]
+  # Supporting authorities to cite in the notice (resolve via authorities map).
+  authorities: [eo_14389_ending_ieepa_tariffs, cbp_csms_67834313_ieepa_end_collection, cbp_csms_68340863_cape_refund]
+
+  status:
+    verified: true
+    headline: "IEEPA additional duties have ended"
+    summary: >
+      IEEPA additional ad valorem duties (the reciprocal action and the
+      fentanyl/border actions) are no longer collected on covered entries on or
+      after 2026-02-24 (EO 14389; CBP CSMS #67834313). They still appear in
+      historical periods because they were lawfully in force and collected then.
+    source: "EO 14389; CBP CSMS #67834313"
+
+  refund_process:
+    verified: true
+    headline: "A refund may be available for paid entries"
+    summary: >
+      Where IEEPA additional duties were paid, a refund may be available — the
+      path depends on the entry's liquidation posture.
+    steps:
+      - "Entry still unliquidated: file a Post-Summary Correction (PSC) to remove the IEEPA duty."
+      - "Entry liquidated within the last 180 days: file a protest under 19 U.S.C. 1514."
+      - "Otherwise: relief generally requires a timely, separately filed action — consult a customs attorney or licensed broker."
+    caveat: >
+      Refunds are not automatic and are not guaranteed. Eligibility and amount
+      depend on liquidation status, timeliness, and documentation.
+    source: "CBP CSMS #68340863 (refund procedures)"
+
+  litigation_risk:
+    verified: false
+    headline: "Refund scope is subject to active litigation"
+    summary: >
+      The Supreme Court held that IEEPA does not authorize the President to
+      impose tariffs. The government is challenging the scope of universal refund
+      relief for certain finally liquidated entries, especially where the
+      importer did not file its own CIT action.
+    implication: >
+      Treat IEEPA refund recovery as probable-but-contingent for protected
+      entries (unliquidated, timely protested, or covered by an importer's own
+      CIT action), and as at-risk for finally liquidated entries with no
+      individual action.
+    source: "Supreme Court ruling on IEEPA tariff authority; ongoing CIT / appellate proceedings"
+
+  # Precise, render-ready copy for the two surfaces the user called out.
+  ui:
+    flag_label: "IEEPA duty ended — refund may apply"
+    flag_detail: >
+      SAIL applied the IEEPA additional duty for this period because it was in
+      force then. Collection has since ended (2026-02-24). For entries on which
+      IEEPA duty was paid, a refund may be available depending on liquidation
+      status — not automatic, not guaranteed, and the scope of refund relief is
+      being litigated.
+    broker_diff: >
+      SAIL shows the IEEPA line for the period it was legally in force, using the
+      statutory rate. If a broker did not bill IEEPA on a covered entry, that is
+      consistent with an exemption or the post-2026-02-24 wind-down; if the
+      broker did bill it, the duty may be recoverable via PSC or protest.
+    pill_active_period: "applied — in force this period"
+    pill_ended: "collection ended 2026-02-24"

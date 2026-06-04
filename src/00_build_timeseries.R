@@ -54,6 +54,8 @@ source(here('src', '04_parse_products.R'))
 source(here('src', '05_parse_policy_params.R'))
 source(here('src', '06_calculate_rates.R'))
 source(here('src', '07_validate_tpc.R'))
+source(here('src', 'emit_quality_metrics.R'))
+source(here('src', 'extract_legal_refs.R'))
 
 
 # =============================================================================
@@ -81,6 +83,7 @@ build_full_timeseries <- function(
   tpc_path = NULL,
   scenario = 'baseline',
   start_from = NULL,
+  only_revisions = NULL,
   stacking_method = 'mutual_exclusion',
   use_policy_dates = TRUE,
   parallel_workers = 1L
@@ -135,6 +138,25 @@ build_full_timeseries <- function(
   missing <- all_revisions[!all_revisions %in% available]
   if (length(missing) > 0) {
     message('Skipping revisions without JSON: ', paste(missing, collapse = ', '))
+  }
+
+  # Optional subset: build ONLY the specified revisions (e.g. an older-year
+  # backfill that must not recompute existing snapshots). Each token matches an
+  # exact rev_id (e.g. "2019_basic") OR a year prefix (e.g. "2019" = all
+  # 2019_* revisions). Snapshots for all OTHER revisions are left untouched on
+  # disk; because the downstream combine/daily/frontend steps read EVERY
+  # partition present, the assembled timeseries still spans the full set.
+  if (!is.null(only_revisions) && length(only_revisions) > 0) {
+    keep <- vapply(revisions_to_process, function(r) {
+      any(r == only_revisions | startsWith(r, paste0(only_revisions, '_')))
+    }, logical(1))
+    revisions_to_process <- revisions_to_process[keep]
+    if (length(revisions_to_process) == 0) {
+      stop('--only-revisions matched no available revisions: ',
+           paste(only_revisions, collapse = ', '))
+    }
+    message('Subset build (--only-revisions): ',
+            paste(revisions_to_process, collapse = ', '))
   }
 
   message('Revisions to process: ', length(revisions_to_process))
@@ -593,8 +615,21 @@ build_full_timeseries <- function(
   ts_path <- parquet_dir
 
   # ---- Save metadata ----
+  # For a subset build (--only-revisions), preserve the existing last_revision
+  # pointer so a subsequent default/forward-incremental build still anchors on
+  # the globally-latest revision rather than this subset's tail (otherwise
+  # backfilling old years would make the next incremental rebuild 2022-2026).
+  meta_last_rev <- last_successful_rev
+  if (!is.null(only_revisions)) {
+    existing_meta_path <- file.path(output_dir, 'metadata.rds')
+    if (file.exists(existing_meta_path)) {
+      meta_last_rev <- tryCatch(readRDS(existing_meta_path)$last_revision,
+                                error = function(e) last_successful_rev)
+      message('  Subset build: preserving metadata last_revision = ', meta_last_rev)
+    }
+  }
   metadata <- list(
-    last_revision = last_successful_rev,
+    last_revision = meta_last_rev,
     last_build_time = Sys.time(),
     n_revisions = n_revisions_written,
     n_rows = total_rows,
@@ -1075,8 +1110,13 @@ if (sys.nframe() == 0) {
   reemit_force <- '--force' %in% args
   reemit_only_stale <- '--only-stale' %in% args
   start_from <- NULL
+  only_revisions <- NULL
   for (i in seq_along(args)) {
     if (args[i] == '--start-from' && i < length(args)) start_from <- args[i + 1]
+    if (args[i] == '--only-revisions' && i < length(args)) {
+      only_revisions <- trimws(strsplit(args[i + 1], ',')[[1]])
+      only_revisions <- only_revisions[nzchar(only_revisions)]
+    }
     if (args[i] == '--parallel' && i < length(args)) {
       parallel_workers <- suppressWarnings(as.integer(args[i + 1]))
     }
@@ -1101,7 +1141,14 @@ if (sys.nframe() == 0) {
   }
 
   # --- Step A: Determine build mode ---
-  if (full_rebuild) {
+  if (!is.null(only_revisions)) {
+    # Subset backfill: process only the named revisions from the start of the
+    # sequence (prev-state = NULL for the first), leaving all other snapshots
+    # untouched. Do NOT run incremental start detection.
+    start_from <- NULL
+    message('Mode: Subset build (--only-revisions ',
+            paste(only_revisions, collapse = ','), ')')
+  } else if (full_rebuild) {
     start_from <- NULL
     message('Mode: Full rebuild (--full)')
   } else if (resume) {
@@ -1173,6 +1220,7 @@ if (sys.nframe() == 0) {
     message('Mode: Using raw HTS revision dates (--use-hts-dates)')
   }
   result <- build_full_timeseries(start_from = start_from,
+                                   only_revisions = only_revisions,
                                    use_policy_dates = use_policy_dates,
                                    parallel_workers = parallel_workers)
 
@@ -1247,16 +1295,19 @@ if (sys.nframe() == 0) {
           }
 
           latest_ch99 <- readRDS(sort(enriched_files, decreasing = TRUE)[1])
-          triage <- latest_ch99 %>% count(resolution_status, sort = TRUE)
-          n_unknown <- sum(latest_ch99$country_type == 'unknown')
-          n_truly_unresolved <- sum(latest_ch99$resolution_status %in%
-                                     c('unresolved', 'unresolved_s201'))
-          log_info('Ch99 triage (latest revision): ', n_unknown,
-                   ' unknown-country entries, ', n_truly_unresolved,
-                   ' truly unresolved')
-          for (r in seq_len(nrow(triage))) {
-            message('  ', triage$resolution_status[r], ': ', triage$n[r])
+          # Re-derive with the CURRENT classifier so the preview is never
+          # stale-labeled, and separate the two categories that actually matter
+          # from "unknown country scope" (which is mostly handled downstream).
+          if (exists('classify_resolution_status', mode = 'function')) {
+            latest_ch99$resolution_status <- classify_resolution_status(
+              latest_ch99$ch99_code, latest_ch99$country_type)
           }
+          n_truly_unresolved <- sum(latest_ch99$resolution_status == 'unresolved')
+          n_unmodeled <- sum(latest_ch99$resolution_status == 'unresolved_s201')
+          log_info('Ch99 (latest-revision preview): ', n_truly_unresolved,
+                   ' truly unresolved, ', n_unmodeled, ' rated-but-unmodeled. ',
+                   'Authoritative cross-revision resolution summary prints in ',
+                   'Quality metrics at the end of the build.')
 
           # Write aggregate triage CSV for all enriched revisions
           ensure_dir(here('output', 'quality'))
@@ -1307,5 +1358,21 @@ if (sys.nframe() == 0) {
         run_weighted_etr(policy_params = pp)
       }, error = function(e) message('Weighted ETR failed: ', conditionMessage(e)))
     }
+  }
+
+  # Quality metrics — regenerate on EVERY build mode (full, resume, scoped,
+  # build-only), unconditionally, so output/quality/ never goes stale. Pure
+  # read/derive from on-disk ch99 caches; wrapped so it can never abort a build.
+  tryCatch(emit_quality_metrics(),
+           error = function(e) message('Quality metrics emit failed: ', conditionMessage(e)))
+
+  # Legal-authority extraction — machine-source the proclamations/EOs each ch99
+  # authority cites, per revision, from that release's Chapter 99 PDF. INCREMENTAL:
+  # only revisions not already in resources/ch99_legal_refs.csv are fetched, so a
+  # new revision is covered automatically with no re-downloads. Network/PDF op —
+  # wrapped so it can never abort a build; opt out with SAIL_EMIT_LEGAL_REFS=0.
+  if (!identical(Sys.getenv('SAIL_EMIT_LEGAL_REFS', '1'), '0')) {
+    tryCatch(emit_legal_refs_incremental(),
+             error = function(e) message('Legal-refs emit failed: ', conditionMessage(e)))
   }
 }

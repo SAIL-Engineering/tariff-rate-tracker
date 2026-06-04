@@ -7,6 +7,7 @@
 // Usage:
 //   node scripts/push-to-motherduck.mjs                      # full rebuild (all revisions)
 //   node scripts/push-to-motherduck.mjs --revision 2025_rev_25
+//   node scripts/push-to-motherduck.mjs --only-revisions 2019,2020,2021   # push a set/range (year prefixes or exact rev_ids); one product_base_rates rebuild at the end
 //   node scripts/push-to-motherduck.mjs --post-only          # recluster + rebuild product_base_rates on the existing rates table
 //   node scripts/push-to-motherduck.mjs --dry-run
 //   node scripts/push-to-motherduck.mjs --limit 3            # first 3 partitions only (testing)
@@ -348,10 +349,97 @@ async function incrementalReplace(conn, revision, { dryRun }) {
   await rebuildProductBaseRatesBatched(conn);
 }
 
+// Expand comma-separated tokens to the matching local revision partitions.
+// Each token matches an exact rev_id ("2019_basic") OR a year prefix ("2019"
+// = all 2019_* partitions). Mirrors the build's --only-revisions semantics.
+function matchRevisions(allRevisions, tokens) {
+  return allRevisions.filter((name) =>
+    tokens.some((t) => name === t || name.startsWith(`${t}_`)),
+  );
+}
+
+// Replace a SET/range of revisions in one run (e.g. an older-year backfill),
+// then rebuild product_base_rates exactly ONCE at the end. Each revision's
+// rows are replaced transactionally (BEGIN/DELETE/INSERT/COMMIT) so a failure
+// on one revision rolls that revision back without touching the others. The
+// existing rows of every revision NOT in the set are left completely untouched.
+//
+// Why one rebuild at the end: rebuildProductBaseRatesBatched() rebuilds the
+// whole materialized table (batched per-revision for memory safety), so calling
+// it after every revision — as the single-revision path does — would repeat the
+// full rebuild N times. We load all partitions first, then rebuild once.
+async function incrementalReplaceMany(conn, revisions, { dryRun }) {
+  if (revisions.length === 0) {
+    fail('--only-revisions matched no local partitions under ' + PARQUET_PATH);
+  }
+  const exists = await tableExists(conn, 'rates');
+  if (!exists) {
+    fail('rates table does not exist yet. Run a full rebuild first (no --revision/--only-revisions).');
+  }
+  log('plan.incremental_many', {
+    count: revisions.length,
+    first: revisions[0],
+    last: revisions[revisions.length - 1],
+    revisions,
+  });
+
+  if (dryRun) {
+    log('dry_run.skip', { op: 'incremental_many', would_replace: revisions });
+    return;
+  }
+
+  let totalDelta = 0;
+  for (let i = 0; i < revisions.length; i++) {
+    const revision = revisions[i];
+    if (!/^[a-zA-Z0-9_]+$/.test(revision)) {
+      fail(`invalid revision value "${revision}" (must match [a-zA-Z0-9_]+)`);
+    }
+    const dir = path.join(PARQUET_PATH, `revision=${revision}`);
+    if (!fs.existsSync(dir)) {
+      fail(`revision partition directory not found: ${dir}`);
+    }
+    const before = await count(conn, `WHERE revision = '${revision}'`);
+    log('exec.incremental.start', { revision, index: i + 1, of: revisions.length });
+    try {
+      await conn.run('BEGIN');
+      await conn.run(`DELETE FROM rates WHERE revision = '${revision}'`);
+      await conn.run(`
+        INSERT INTO rates
+        SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true)
+      `);
+      await conn.run('COMMIT');
+    } catch (err) {
+      try {
+        await conn.run('ROLLBACK');
+      } catch {
+        // swallow rollback errors — the outer error is what matters
+      }
+      throw err;
+    }
+    const after = await count(conn, `WHERE revision = '${revision}'`);
+    totalDelta += after - before;
+    log('exec.incremental.done', {
+      revision,
+      index: i + 1,
+      of: revisions.length,
+      rows_after: after,
+      delta: after - before,
+    });
+  }
+  log('exec.incremental_many.loaded', {
+    revisions: revisions.length,
+    total_delta: totalDelta,
+  });
+
+  // Rebuild the materialized product_base_rates ONCE (covers all revisions).
+  await rebuildProductBaseRatesBatched(conn);
+}
+
 async function main() {
   const { values } = parseArgs({
     options: {
       revision: { type: 'string' },
+      'only-revisions': { type: 'string' },
       'dry-run': { type: 'boolean' },
       'confirm-drop': { type: 'boolean' },
       'post-only': { type: 'boolean' },
@@ -374,8 +462,11 @@ async function main() {
   const memoryLimit = values['memory-limit'] || '4GB';
   const threads = values.threads ? parseInt(values.threads, 10) : 2;
 
-  if (postOnly && values.revision) {
-    fail('--post-only cannot be combined with --revision');
+  if (postOnly && (values.revision || values['only-revisions'])) {
+    fail('--post-only cannot be combined with --revision / --only-revisions');
+  }
+  if (values.revision && values['only-revisions']) {
+    fail('use either --revision (one) or --only-revisions (a set), not both');
   }
 
   log('start', {
@@ -384,8 +475,11 @@ async function main() {
       ? 'post_only'
       : values.revision
         ? 'incremental'
-        : 'full_rebuild',
+        : values['only-revisions']
+          ? 'incremental_many'
+          : 'full_rebuild',
     revision: values.revision ?? null,
+    only_revisions: values['only-revisions'] ?? null,
     dry_run: dryRun,
     confirm_drop: confirmDrop,
     post_only: postOnly,
@@ -426,6 +520,13 @@ async function main() {
     }
   } else if (values.revision) {
     await incrementalReplace(conn, values.revision, { dryRun });
+  } else if (values['only-revisions']) {
+    const tokens = values['only-revisions']
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const matched = matchRevisions(listRevisions(), tokens);
+    await incrementalReplaceMany(conn, matched, { dryRun });
   } else {
     await fullRebuildBatched(conn, { dryRun, confirmDrop, limit });
   }

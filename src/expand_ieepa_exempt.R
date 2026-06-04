@@ -12,6 +12,7 @@
 
 library(tidyverse)
 library(here)
+source(here('src', 'helpers.R'))  # classify_exempt_source() — provenance per code
 
 cat("=== Expanding IEEPA Exempt Products ===\n\n")
 
@@ -126,8 +127,15 @@ all_exempt <- sort(unique(c(current$hts10, new_from_expansion, new_ch98, new_ita
 cat("\nTotal after all fixes:", length(all_exempt),
     "(was", nrow(current), ", +", length(all_exempt) - nrow(current), ")\n")
 
-# --- Write back ---
-write_csv(tibble(hts10 = all_exempt), exempt_file)
+# --- Write back (with legal-provenance source per code) ---
+# `source` ties each exempt HTS10 to the exemption LAYER that covers it
+# (annex_ii / ita / ch98 / berman), which maps 1:1 to a reason_code in
+# config/duty_citations.yaml so the frontend can cite the controlling note.
+exempt_df <- tibble(hts10 = all_exempt) %>%
+  mutate(source = classify_exempt_source(hts10))
+write_csv(exempt_df, exempt_file)
 cat("Written to:", exempt_file, "\n")
+cat("  Source distribution:\n")
+print(dplyr::count(exempt_df, source, sort = TRUE))
 
 cat("\n=== Done ===\n")

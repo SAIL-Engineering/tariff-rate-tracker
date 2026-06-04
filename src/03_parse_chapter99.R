@@ -190,6 +190,11 @@ classify_resolution_status <- function(ch99_code, country_type) {
     grepl('^9903\\.01\\.(2[5-9]|3[0-9]|4[0-2])$', ch99_code) ~ 'ieepa_exclusion_no_rate',
     grepl('^9903\\.01\\.9[0-9]$', ch99_code) ~ 'ieepa_exclusion_no_rate',
     grepl('^9903\\.02\\.01$', ch99_code) ~ 'ieepa_exclusion_no_rate',
+    # Civil-aircraft exclusions: 9903.96.xx carry "The duty provided in the
+    # applicable subheading" / "No change" (WTO Agreement on Trade in Civil
+    # Aircraft + 2025 aircraft deals). No additional duty — an exclusion, not a
+    # missing tariff. (e.g. 9903.96.03 = Taiwan civil-aircraft components.)
+    grepl('^9903\\.96', ch99_code) ~ 'ieepa_exclusion_no_rate',
     # IEEPA reciprocal Phase 1: 9903.01.43-89 — handled by extract_ieepa_rates()
     grepl('^9903\\.01\\.(4[3-9]|[5-8][0-9])$', ch99_code) ~ 'handled_by_ieepa_extractor',
     # IEEPA reciprocal Phase 2 + Swiss framework: 9903.02.02-91
@@ -214,7 +219,13 @@ classify_resolution_status <- function(ch99_code, country_type) {
     grepl('^9903\\.(88|89|9[0-3])', ch99_code) ~ 'handled_by_s301_config',
     # WTO tariff-rate quotas (TRQs): not duty-relevant surcharges
     grepl('^9903\\.(04|08|17|18|19|27|52|53|54|55)', ch99_code) ~ 'not_duty_relevant_trq',
-    # Section 201 safeguard duties: legacy, not currently modeled
+    # Section 201 SOLAR safeguard (CSPV cells/modules, 9903.45.21–.29) — MODELED
+    # by extract_section_201_rates(): applies the configured solar_rate over the
+    # HTS Year-1 rate (US Note; Proc 9693 as extended to 2026). G4 backport.
+    grepl('^9903\\.45\\.2[1-9]', ch99_code) ~ 'handled_by_s201_extractor',
+    # Other Section 201 ranges (tires 9903.40; CSPV-cell/washer tiers 9903.41;
+    # washing machines 9903.45.0x): legacy safeguards retained in the HTS but
+    # not modeled here — needs review (confirm expiry vs. model).
     grepl('^9903\\.(40|41|45)', ch99_code) ~ 'unresolved_s201',
     # Truly unresolved — needs investigation
     TRUE ~ 'unresolved'

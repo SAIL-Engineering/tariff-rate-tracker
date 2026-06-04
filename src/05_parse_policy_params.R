@@ -612,6 +612,36 @@ extract_section232_rates <- function(ch99_data) {
   steel_entries <- s232_sa %>% filter(s232_type == 'steel')
   aluminum_entries <- s232_sa %>% filter(s232_type == 'aluminum')
 
+  # --- Single-country STEEL surtaxes routed by Ch99 code ---
+  # A few 9903.80 entries target ONE country at a rate above the all-country
+  # blanket — notably Turkey 50% steel (9903.80.02, Proc 9772, in force Aug
+  # 2018-May 2019), described as "...that are the product of Turkey...".
+  # parse_countries does not recognise every country, so these get mis-tagged
+  # 'all_except' (empty exempt) and fall into the blanket pool, where max()
+  # would inflate the BLANKET steel rate for EVERY country. We detect the
+  # positive country target by description and route the rate to a per-country
+  # override (census-keyed), mirroring the UK steel-deal mechanism, and exclude
+  # the entry from the blanket so the all-country rate stays correct.
+  #
+  # NOTE: Russia 200% (steel + aluminum, Proc 10522) is intentionally NOT in
+  # this map. It is already applied across 2023-2026 by the COUNTRY-CODE config
+  # `section_232_country_exemptions` (Russia '4621', rate 2.0, expiry_date: null
+  # -> step-4 loop in 06_calculate_rates.R), and carried into the annex era by
+  # `section_232_annexes.country_surcharges`. Adding 'russia' here would
+  # double-apply. (The Russian-SMELT-content branch from non-Russia exporters,
+  # 9903.85.68/.69, is unmodeled in both this fork and upstream — needs
+  # shipment-level provenance data.)
+  s232_surtax_census <- c('turkey' = '4890')
+  detect_s232_surtax_country <- function(desc) {
+    dl <- tolower(desc %||% '')
+    for (.nm in names(s232_surtax_census)) {
+      if (grepl(paste0('that are the product of (the )?', .nm), dl)) {
+        return(s232_surtax_census[[.nm]])
+      }
+    }
+    NA_character_
+  }
+
   # Steel: check for June 2025 increase entries (9903.81.87+) first, then
   # fall back to original entries (9903.80.xx). The June 2025 proclamation
   # doubled steel from 25% to 50% via new 9903.81.87-93 entries.
@@ -621,9 +651,13 @@ extract_section232_rates <- function(ch99_data) {
   # parse_countries() may return country_type='unknown'. Don't filter by type.
   steel_increase <- steel_entries %>%
     filter(ch99_code == '9903.81.87', !is.na(rate))
-  steel_parent <- steel_entries %>% filter(grepl('^9903\\.80\\.', ch99_code))
-  steel_all <- steel_parent %>% filter(country_type == 'all')
-  steel_except <- steel_parent %>% filter(country_type == 'all_except')
+  steel_parent <- steel_entries %>%
+    filter(grepl('^9903\\.80\\.', ch99_code)) %>%
+    mutate(.surtax_cc = vapply(description, detect_s232_surtax_country, character(1)))
+  # Blanket pools EXCLUDE single-country surtax entries (e.g. Turkey 9903.80.02).
+  steel_all <- steel_parent %>% filter(country_type == 'all', is.na(.surtax_cc))
+  steel_except <- steel_parent %>% filter(country_type == 'all_except', is.na(.surtax_cc))
+  steel_surtax <- steel_parent %>% filter(!is.na(.surtax_cc), !is.na(rate))
 
   # UK-specific steel entries (9903.81.94-99)
   steel_uk <- steel_entries %>%
@@ -632,6 +666,13 @@ extract_section232_rates <- function(ch99_data) {
   if (nrow(steel_uk) > 0) {
     uk_rate <- max(steel_uk$rate)
     steel_country_overrides[['4120']] <- uk_rate
+  }
+  # Route single-country steel surtaxes (e.g. Turkey 50%) to per-country
+  # overrides so the all-country blanket above stays at the true rate.
+  for (.i in seq_len(nrow(steel_surtax))) {
+    .cc <- steel_surtax$.surtax_cc[.i]
+    steel_country_overrides[[.cc]] <- max(steel_country_overrides[[.cc]] %||% 0,
+                                          steel_surtax$rate[.i])
   }
 
   if (nrow(steel_increase) > 0) {

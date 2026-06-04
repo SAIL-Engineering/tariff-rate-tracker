@@ -1307,7 +1307,7 @@ RATE_SCHEMA <- c(
   'rate_s122', 'rate_section_201', 'rate_other',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
-  'metal_share',
+  'metal_share', 's232_annex', 's232_metal',
   'total_additional', 'total_rate',
   'usmca_eligible',
   'rate_special', 'rate_special_raw', 'special_programs_json',
@@ -1316,6 +1316,7 @@ RATE_SCHEMA <- c(
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
   'rounding_rule', 'calc_status',
+  'duty_provenance_json',
   'revision', 'effective_date',
   'valid_from', 'valid_until'
 )
@@ -1336,7 +1337,7 @@ enforce_rate_schema <- function(df) {
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
-    metal_share = 1.0,
+    metal_share = 1.0, s232_annex = NA_character_, s232_metal = NA_character_,
     total_additional = 0, total_rate = 0,
     usmca_eligible = FALSE,
     rate_special = NA_real_, rate_special_raw = NA_character_,
@@ -1348,6 +1349,7 @@ enforce_rate_schema <- function(df) {
     duty_basis_unit = NA_character_,
     is_qty_duty_relevant = FALSE, quantity_source = NA_character_,
     rounding_rule = '19cfr159.3_value', calc_status = 'ok',
+    duty_provenance_json = NA_character_,
     revision = NA_character_,
     effective_date = as.Date(NA),
     valid_from = as.Date(NA), valid_until = as.Date(NA)
@@ -1374,6 +1376,280 @@ enforce_rate_schema <- function(df) {
   df <- df[, c(RATE_SCHEMA, extra_cols)]
 
   return(df)
+}
+
+#' ITA-enumerated semiconductor/electronics prefixes on IEEPA Annex II.
+#'
+#' A named subset of Annex II (U.S. Note 2(v)(iii)). Kept in sync with the
+#' literal subheading enumeration in src/expand_ieepa_exempt.R Fix 3.
+IEEPA_EXEMPT_ITA_PREFIXES <- c(
+  '8471', '847330', '8486', '852351', '8524',
+  '85411000', '85412100', '85412900', '85413000', '85414100',
+  '85414910', '85414970', '85414980', '85414995', '85415100',
+  '85415900', '85419000', '8542'
+)
+
+#' Classify the legal provenance of an IEEPA-reciprocal-exempt HTS10
+#'
+#' Maps an exempt product to the exemption LAYER that covers it, so the
+#' frontend can cite the controlling legal authority rather than guess
+#' "coverage gap". Mirrors the layering built by src/expand_ieepa_exempt.R:
+#'   - 'ch98'     Chapter 98 statutory exemption (U.S. Note 2(v)(i))
+#'   - 'berman'   Ch.49 printed matter / Ch.97 art (Berman Amendment, 19 USC 2505)
+#'   - 'ita'      ITA-enumerated semiconductor/electronics subheadings (Annex II)
+#'   - 'annex_ii' the base Annex II enumeration (U.S. Note 2(v)(iii)) — default
+#'
+#' These map 1:1 to reason_codes in config/duty_citations.yaml
+#' (ieepa_exempt_ch98 / ieepa_exempt_berman / ieepa_exempt_ita / ieepa_exempt_annex_ii).
+#'
+#' @param hts10 Character vector of 10-digit HTS codes.
+#' @return Character vector of sources (same length as input).
+classify_exempt_source <- function(hts10) {
+  vapply(hts10, function(h) {
+    if (is.na(h)) return(NA_character_)
+    ch2  <- substr(h, 1, 2)
+    hts8 <- substr(h, 1, 8)
+    # Chapter 98 statutory exemption — except the 9802 re-import provisions
+    # that remain IEEPA-dutiable.
+    if (ch2 == '98' && !(hts8 %in% c('98020040', '98020050', '98020060', '98020080'))) {
+      return('ch98')
+    }
+    # Berman Amendment (19 U.S.C. 2505): informational materials.
+    if (ch2 %in% c('97', '49')) return('berman')
+    # ITA-enumerated semiconductor/electronics subheadings (subset of Annex II).
+    for (p in IEEPA_EXEMPT_ITA_PREFIXES) {
+      if (substr(h, 1, nchar(p)) == p) return('ita')
+    }
+    # Default: base Annex II enumeration (U.S. Note 2(v)(iii)).
+    'annex_ii'
+  }, character(1), USE.NAMES = FALSE)
+}
+
+#' Attach per-authority duty provenance as a compact JSON column
+#'
+#' Stamps each row with `duty_provenance_json` — a structured explanation of
+#' WHY each authority's rate is what it is, so the frontend can cite the legal
+#' basis and tell an INTENTIONAL EXEMPTION apart from a COVERAGE GAP instead of
+#' guessing from `rate == 0`.
+#'
+#' Per non-trivial authority slot the JSON carries:
+#'   status   active | exempt | not_applicable
+#'   reason   a code resolved against config/duty_citations.yaml (legal text)
+#'   applied  the rate SAIL applied (omitted when 0)
+#'   counterfactual  the rate a broker WOULD bill absent the exemption (exempt only)
+#'   program_ch99    the would-apply Chapter 99 heading (e.g. 9903.02.20)
+#' not_applicable slots are omitted; parquet dictionary-compresses the repeated
+#' base-only rows to near nothing.
+#'
+#' This is PURE post-processing of the final rate columns plus the IEEPA country
+#' frame — it never changes a computed rate, so it cannot perturb the duty math.
+#'
+#' @param rates Final rates tibble (post enforce_rate_schema).
+#' @param country_ieepa Per-census_code IEEPA frame (ieepa_country_rate, ieepa_type,
+#'   ieepa_recip_ch99, is_universal_baseline_country), or NULL when no IEEPA.
+#' @param ieepa_exempt_source_map Named vector hts10 -> source (annex_ii/ita/ch98/berman).
+#' @param ieepa_exempt_scope 'all' | 'baseline_only'.
+#' @param duty_free_treatment 'all_products' | 'nonzero_base_only'.
+#' @param cc Country-code list (CTY_CHINA / CTY_CANADA / CTY_MEXICO).
+#' @return rates with `duty_provenance_json` populated.
+attach_duty_provenance <- function(rates, country_ieepa = NULL,
+                                   ieepa_exempt_source_map = NULL,
+                                   ieepa_exempt_scope = 'all',
+                                   duty_free_treatment = 'all_products',
+                                   cc = NULL) {
+  n <- nrow(rates)
+  if (n == 0) { rates$duty_provenance_json <- character(0); return(rates) }
+  EPS <- 1e-9
+
+  gv  <- function(nm, default = NA) if (nm %in% names(rates)) rates[[nm]] else rep(default, n)
+  num <- function(nm) { v <- as.numeric(gv(nm, 0)); v[is.na(v)] <- 0; v }
+  chr <- function(nm) as.character(gv(nm, NA_character_))
+
+  hts10 <- chr('hts10'); country <- chr('country'); base_rate <- num('base_rate')
+  statutory_base <- num('statutory_base_rate')
+  r232 <- num('rate_232'); r301 <- num('rate_301'); rrec <- num('rate_ieepa_recip')
+  rfent <- num('rate_ieepa_fent'); rs122 <- num('rate_s122'); r201 <- num('rate_section_201')
+  c232 <- chr('ch99_code_232'); c301 <- chr('ch99_code_301'); crec <- chr('ch99_code_ieepa_recip')
+  cfent <- chr('ch99_code_ieepa_fent'); cs122 <- chr('ch99_code_s122'); cs201 <- chr('ch99_code_s201')
+  deriv <- chr('deriv_type'); usmca <- as.logical(gv('usmca_eligible', FALSE)); usmca[is.na(usmca)] <- FALSE
+  # §232 coverage source: the annex tier (bucket) + the covered metal, both set
+  # in 06 from the annex product list (NOT the 9903.82 reporting code, which is
+  # ambiguous in the annex era). NA for pre-annex rows → ch99-code fallback below.
+  s232_annex <- chr('s232_annex'); s232_metal <- chr('s232_metal')
+
+  CTY_CHINA  <- if (!is.null(cc) && !is.null(cc$CTY_CHINA))  cc$CTY_CHINA  else '5700'
+  CTY_CANADA <- if (!is.null(cc) && !is.null(cc$CTY_CANADA)) cc$CTY_CANADA else '1220'
+  CTY_MEXICO <- if (!is.null(cc) && !is.null(cc$CTY_MEXICO)) cc$CTY_MEXICO else '2010'
+
+  # ---- IEEPA reciprocal: re-join the per-country would-apply rate/type/code ----
+  ci_rate <- rep(NA_real_, n); ci_type <- rep(NA_character_, n)
+  ci_ch99 <- rep(NA_character_, n); ci_base <- rep(FALSE, n)
+  if (!is.null(country_ieepa) && nrow(country_ieepa) > 0) {
+    idx <- match(country, country_ieepa$census_code)
+    ci_rate <- country_ieepa$ieepa_country_rate[idx]
+    ci_type <- country_ieepa$ieepa_type[idx]
+    if ('ieepa_recip_ch99' %in% names(country_ieepa)) ci_ch99 <- country_ieepa$ieepa_recip_ch99[idx]
+    if ('is_universal_baseline_country' %in% names(country_ieepa)) {
+      ci_base <- dplyr::coalesce(country_ieepa$is_universal_baseline_country[idx], FALSE)
+    }
+  }
+  ie_src <- if (!is.null(ieepa_exempt_source_map)) unname(ieepa_exempt_source_map[hts10]) else rep(NA_character_, n)
+  is_exempt <- !is.na(ie_src)
+  exempt_active <- is_exempt & (ieepa_exempt_scope == 'all' |
+                                  (ieepa_exempt_scope == 'baseline_only' & ci_base))
+  # Counterfactual = reciprocal that WOULD apply absent the exemption (pre-stacking).
+  ie_cf <- dplyr::case_when(
+    is.na(ci_rate) ~ 0,
+    ci_type == 'surcharge' ~ ci_rate,
+    ci_type == 'floor' ~ pmax(0, ci_rate - base_rate),
+    TRUE ~ 0
+  )
+  ie_status <- dplyr::case_when(
+    rrec > EPS ~ 'active',
+    exempt_active ~ 'exempt',
+    !is.na(ci_rate) & ie_cf > EPS ~ 'exempt',   # program would bill but SAIL zeroed it
+    TRUE ~ 'not_applicable'
+  )
+  ie_reason <- dplyr::case_when(
+    rrec > EPS & ci_type == 'floor' ~ 'ieepa_recip_floor',
+    rrec > EPS ~ 'ieepa_recip_active',
+    exempt_active & ie_src == 'ita' ~ 'ieepa_exempt_ita',
+    exempt_active & ie_src == 'ch98' ~ 'ieepa_exempt_ch98',
+    exempt_active & ie_src == 'berman' ~ 'ieepa_exempt_berman',
+    exempt_active ~ 'ieepa_exempt_annex_ii',
+    duty_free_treatment == 'nonzero_base_only' & base_rate < 0.001 ~ 'ieepa_duty_free_exempt',
+    !is.na(ci_rate) & ie_cf > EPS ~ 'ieepa_floor_exempt',
+    TRUE ~ NA_character_
+  )
+  ie_prog <- dplyr::coalesce(crec, ci_ch99)
+
+  # ---- Section 232 ----
+  # COVERAGE SOURCE = the annex tier (s232_annex: 1a primary metal, 1b/3
+  # downstream derivative) + the covered metal (s232_metal), both derived in 06
+  # from the annex product list. This is authoritative in the annex era, where
+  # the 9903.82.xx reporting code does NOT distinguish metal or primary-vs-
+  # derivative. Pre-annex rows have NA annex/metal and fall through to the
+  # metal-specific ch99 headings (9903.80/81 steel, .85 aluminum, .78 copper).
+  # Country overrides (Russia 200%, Turkey surtax) are checked first.
+  s232_is_annex <- !is.na(s232_annex) & s232_annex %in% c('annex_1a', 'annex_1b', 'annex_3')
+  s232_is_deriv <- !is.na(s232_annex) & s232_annex %in% c('annex_1b', 'annex_3')
+  s232_status <- ifelse(r232 > EPS, 'active', 'not_applicable')
+  s232_reason <- dplyr::case_when(
+    r232 <= EPS ~ NA_character_,
+    r232 >= 1.99 ~ 's232_russia_proc10522',
+    !is.na(c232) & startsWith(c232, '9903.80.02') ~ 's232_turkey_surtax',
+    # --- Annex era: (tier + metal) is the coverage source ---
+    s232_is_annex & s232_metal == 'copper'   &  s232_is_deriv ~ 's232_copper_derivative',
+    s232_is_annex & s232_metal == 'copper'   & !s232_is_deriv ~ 's232_copper',
+    s232_is_annex & s232_metal == 'steel'    &  s232_is_deriv ~ 's232_steel_derivative',
+    s232_is_annex & s232_metal == 'steel'    & !s232_is_deriv ~ 's232_steel',
+    s232_is_annex & s232_metal == 'aluminum' &  s232_is_deriv ~ 's232_aluminum_derivative',
+    s232_is_annex & s232_metal == 'aluminum' & !s232_is_deriv ~ 's232_aluminum',
+    # annex-classified but metal not named (downstream derivative absent from the
+    # CSV metal_type): still a derivative — keep the generic derivative reason.
+    s232_is_annex & s232_is_deriv ~ 's232_steel_derivative',
+    # --- Pre-annex / non-metal sectors: the ch99 heading is the coverage source ---
+    !is.na(c232) & grepl('^9903\\.8[01]', c232) & deriv == 'steel' ~ 's232_steel_derivative',
+    !is.na(c232) & grepl('^9903\\.8[01]', c232) ~ 's232_steel',
+    !is.na(c232) & grepl('^9903\\.85', c232) & deriv == 'aluminum' ~ 's232_aluminum_derivative',
+    !is.na(c232) & grepl('^9903\\.85', c232) ~ 's232_aluminum',
+    !is.na(c232) & grepl('^9903\\.78', c232) ~ 's232_copper',
+    !is.na(c232) & grepl('^9903\\.94', c232) ~ 's232_auto',
+    !is.na(c232) & grepl('^9903\\.79', c232) ~ 's232_semiconductor',
+    !is.na(c232) & grepl('^9903\\.74', c232) ~ 's232_mhd',
+    !is.na(c232) & grepl('^9903\\.76', c232) ~ 's232_wood',
+    deriv == 'steel' ~ 's232_steel_derivative',
+    deriv == 'aluminum' ~ 's232_aluminum_derivative',
+    TRUE ~ 'other_ch99'
+  )
+
+  s301_status <- ifelse(r301 > EPS, 'active', 'not_applicable')
+  s301_reason <- ifelse(r301 > EPS, 's301_active', NA_character_)
+
+  fent_status <- ifelse(rfent > EPS, 'active', 'not_applicable')
+  fent_reason <- dplyr::case_when(
+    rfent <= EPS ~ NA_character_,
+    country == CTY_CANADA ~ 'ieepa_fent_canada',
+    country == CTY_MEXICO ~ 'ieepa_fent_mexico',
+    TRUE ~ 'ieepa_fent_china'
+  )
+
+  s122_status <- ifelse(rs122 > EPS, 'active', 'not_applicable')
+  s122_reason <- ifelse(rs122 > EPS, 's122_active', NA_character_)
+
+  s201_status <- ifelse(r201 > EPS, 'active', 'not_applicable')
+  s201_reason <- dplyr::case_when(
+    r201 <= EPS ~ NA_character_,
+    !is.na(cs201) & grepl('^9903\\.45', cs201) ~ 's201_solar',
+    TRUE ~ 's201_active'
+  )
+
+  # ---- Base / MFN tier reasoning ----
+  # statutory_base_rate = Column 1 General (MFN). base_rate = the EFFECTIVE base
+  # after the FTA/GSP preference-utilization blend (06 step 6c) or the USMCA
+  # HTS10 shares (step 7). base_pref_share = how far the effective rate sits
+  # below statutory MFN — i.e. the share of this origin's trade entering under a
+  # preference. This is why a specific country's effective base can be far below
+  # the headline MFN rate.
+  is_camx <- country %in% c(CTY_CANADA, CTY_MEXICO)
+  base_pref_share <- ifelse(statutory_base > EPS,
+                            pmax(0, pmin(1, 1 - base_rate / statutory_base)), 0)
+  base_reason <- dplyr::case_when(
+    statutory_base < EPS ~ 'base_free',                       # Column 1 General is Free
+    base_pref_share > 0.005 & is_camx ~ 'base_usmca_blended', # CA/MX, HTS10 USMCA shares
+    base_pref_share > 0.005 ~ 'base_mfn_blended',             # FTA/GSP HS2 utilization blend
+    TRUE ~ 'base_mfn_col1'                                    # full statutory MFN, no preference
+  )
+  base_source <- dplyr::case_when(
+    base_reason == 'base_usmca_blended' ~ 'usmca_hts10',
+    base_reason == 'base_mfn_blended' ~ 'census_mfn_hs2',
+    TRUE ~ NA_character_
+  )
+
+  # ---- Vectorized JSON assembly (no per-row toJSON; parquet-friendly) ----
+  fmt <- function(x) {
+    s <- sprintf('%.5f', round(as.numeric(x), 5))
+    s <- sub('0+$', '', s); sub('\\.$', '', s)
+  }
+  frag <- function(key, status, reason, applied = NULL, counterfactual = NULL,
+                   prog = NULL, first = FALSE) {
+    keep <- !is.na(status) & status %in% c('active', 'exempt') & !is.na(reason)
+    s <- paste0('"', key, '":{"status":"', status, '","reason":"', reason, '"')
+    if (!is.null(applied)) s <- ifelse(applied > EPS, paste0(s, ',"applied":', fmt(applied)), s)
+    if (!is.null(counterfactual)) {
+      s <- ifelse(status == 'exempt' & !is.na(counterfactual) & counterfactual > EPS,
+                  paste0(s, ',"counterfactual":', fmt(counterfactual)), s)
+    }
+    if (!is.null(prog)) s <- ifelse(!is.na(prog), paste0(s, ',"program_ch99":"', prog, '"'), s)
+    s <- paste0(s, '}')
+    out <- rep('', length(status))
+    out[keep] <- paste0(if (first) '' else ',', s[keep])
+    out
+  }
+
+  # base slot carries the full MFN-tier trace: the effective applied rate, the
+  # statutory MFN (Column 1 General), the preference share bridging them, and the
+  # data source — so the frontend can EXPLAIN why a country's base differs from
+  # the headline MFN. Always present, first in the object (no leading comma).
+  fb <- paste0(
+    '"base":{"status":"active","reason":"', base_reason, '"',
+    ifelse(base_rate > EPS, paste0(',"applied":', fmt(base_rate)), ''),
+    ifelse(statutory_base > EPS & abs(statutory_base - base_rate) > EPS,
+           paste0(',"statutory":', fmt(statutory_base)), ''),
+    ifelse(base_pref_share > 0.005, paste0(',"preference_share":', fmt(base_pref_share)), ''),
+    ifelse(!is.na(base_source), paste0(',"preference_source":"', base_source, '"'), ''),
+    '}'
+  )
+  f232  <- frag('232', s232_status, s232_reason, applied = r232, prog = c232)
+  f301  <- frag('301', s301_status, s301_reason, applied = r301, prog = c301)
+  frec  <- frag('ieepa_recip', ie_status, ie_reason, applied = rrec,
+                counterfactual = ie_cf, prog = ie_prog)
+  ffent <- frag('ieepa_fent', fent_status, fent_reason, applied = rfent, prog = cfent)
+  fs122 <- frag('s122', s122_status, s122_reason, applied = rs122, prog = cs122)
+  f201  <- frag('section_201', s201_status, s201_reason, applied = r201, prog = cs201)
+
+  rates$duty_provenance_json <- paste0('{', fb, f232, f301, frec, ffent, fs122, f201, '}')
+  rates
 }
 
 
@@ -1683,7 +1959,14 @@ classify_authority <- function(ch99_code) {
   parts <- str_split(ch99_code, '\\.')[[1]]
   if (length(parts) < 2) return('unknown')
 
-  middle <- as.integer(parts[2])
+  # Guard against malformed Ch99 codes in older USITC editions: e.g. the
+  # 2021 basic/rev_1-3 archives contain a data typo "9903.89,61" (comma
+  # instead of the 2nd period), so parts[2] = "89,61" and as.integer() -> NA.
+  # Without this guard the downstream `if (middle == 3)` hard-crashes
+  # parse_chapter99() ("missing value where TRUE/FALSE needed"). Treat any
+  # non-numeric middle segment as unknown authority.
+  middle <- suppressWarnings(as.integer(parts[2]))
+  if (is.na(middle)) return('unknown')
 
   # Section 122: 9903.03.xx (Phase 3, post-SCOTUS blanket)
   if (middle == 3) {
@@ -2398,18 +2681,22 @@ load_fentanyl_carveouts <- function(path = here('resources', 'fentanyl_carveout_
 #'
 #' @param effective_date Date to filter entries by effective_date column
 #' @param resource_path Path to s232_annex_products.csv
-#' @return Tibble with columns: hts_prefix, s232_annex
+#' @return Tibble with columns: hts_prefix, s232_annex, s232_metal
+#'   (s232_metal = the covered metal — steel/aluminum/copper — from the annex
+#'   list's metal_type; NA when the resource predates the metal_type column).
 load_annex_products <- function(effective_date = NULL,
                                 resource_path = here('resources', 's232_annex_products.csv')) {
+  empty <- tibble(hts_prefix = character(), s232_annex = character(),
+                  s232_metal = character())
   if (!file.exists(resource_path)) {
-    return(tibble(hts_prefix = character(), s232_annex = character()))
+    return(empty)
   }
 
   annex_map <- read_csv(resource_path, col_types = cols(.default = col_character()))
 
   if (nrow(annex_map) == 0) {
     message('  Annex products: resource file empty (pending HTS JSON)')
-    return(tibble(hts_prefix = character(), s232_annex = character()))
+    return(empty)
   }
 
   # Filter by effective_date if column is present
@@ -2418,8 +2705,13 @@ load_annex_products <- function(effective_date = NULL,
       filter(is.na(effective_date) | effective_date <= as.character(!!effective_date))
   }
 
+  # Carry metal_type through as s232_metal so the provenance layer can name the
+  # covered metal (the coverage SOURCE), independent of the 9903.82 reporting
+  # code, which is ambiguous in the annex era. Tolerate older resource files
+  # that predate the column.
+  if (!'metal_type' %in% names(annex_map)) annex_map$metal_type <- NA_character_
   annex_map %>%
-    select(hts_prefix, s232_annex = annex) %>%
+    select(hts_prefix, s232_annex = annex, s232_metal = metal_type) %>%
     mutate(s232_annex = paste0('annex_', s232_annex)) %>%
     distinct(hts_prefix, .keep_all = TRUE)
 }

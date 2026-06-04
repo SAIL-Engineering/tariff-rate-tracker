@@ -86,6 +86,7 @@ export const RATES_COLUMNS = [
   'quantity_source',
   'rounding_rule',
   'calc_status',
+  'duty_provenance_json',
 ];
 
 export const RATES_PROJECTION = RATES_COLUMNS.join(', ');

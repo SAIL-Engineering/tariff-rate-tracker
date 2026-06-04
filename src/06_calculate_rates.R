@@ -617,11 +617,22 @@ calculate_rates_for_revision <- function(
 
   # Load IEEPA product exemptions
   ieepa_exempt_path <- here('resources', 'ieepa_exempt_products.csv')
-  ieepa_exempt_products <- if (file.exists(ieepa_exempt_path)) {
-    read_csv(ieepa_exempt_path, col_types = cols(hts10 = col_character()))$hts10
+  ieepa_exempt_tbl <- if (file.exists(ieepa_exempt_path)) {
+    read_csv(ieepa_exempt_path, col_types = cols(.default = col_character()))
   } else {
     warning('ieepa_exempt_products.csv not found — all products subject to IEEPA')
-    character(0)
+    tibble(hts10 = character(0))
+  }
+  ieepa_exempt_products <- ieepa_exempt_tbl$hts10
+  # Provenance per code (annex_ii / ita / ch98 / berman) → drives the duty
+  # citation reason. Tolerate a pre-migration file lacking the column by
+  # deriving it from the same classifier the regen script uses.
+  ieepa_exempt_source_map <- if ('source' %in% names(ieepa_exempt_tbl)) {
+    setNames(ieepa_exempt_tbl$source, ieepa_exempt_tbl$hts10)
+  } else if (length(ieepa_exempt_products) > 0) {
+    setNames(classify_exempt_source(ieepa_exempt_products), ieepa_exempt_products)
+  } else {
+    setNames(character(0), character(0))
   }
   if (length(ieepa_exempt_products) > 0) {
     message('  IEEPA exempt products loaded: ', length(ieepa_exempt_products))
@@ -720,6 +731,14 @@ calculate_rates_for_revision <- function(
           country_eo_ch99 = {
             ce <- phase_ch99_code[phase == 'country_eo']
             if (length(ce) > 0) ce[1] else NA_character_
+          },
+          # The non-country-EO reciprocal heading (floor or surcharge) that
+          # WOULD apply to this origin. Retained so duty provenance can cite
+          # the would-apply program code (e.g. 9903.02.20) on rows that are
+          # exempted to 0 — where resolve_ch99_codes leaves the code unset.
+          ieepa_recip_ch99 = {
+            pc <- phase_ch99_code[phase != 'country_eo']
+            if (length(pc) > 0) pc[1] else NA_character_
           },
           ieepa_type = first(phase_type),
           is_universal_baseline_country = FALSE,
@@ -1839,9 +1858,11 @@ calculate_rates_for_revision <- function(
         mutate(pattern = paste0('^', hts_prefix)) %>%
         arrange(desc(nchar(hts_prefix)))
       rates$s232_annex <- NA_character_
+      rates$s232_metal <- NA_character_  # covered metal (coverage source), for provenance
       for (i in seq_len(nrow(annex_pattern_map))) {
-        mask <- grepl(annex_pattern_map$pattern[i], rates$hts10)
-        rates$s232_annex[mask & is.na(rates$s232_annex)] <- annex_pattern_map$s232_annex[i]
+        newly <- grepl(annex_pattern_map$pattern[i], rates$hts10) & is.na(rates$s232_annex)
+        rates$s232_annex[newly] <- annex_pattern_map$s232_annex[i]
+        rates$s232_metal[newly] <- annex_pattern_map$s232_metal[i]
       }
 
       # Infer annex for products not matched by the prefix CSV.
@@ -1868,12 +1889,25 @@ calculate_rates_for_revision <- function(
       } else '^$'
 
       rates <- rates %>%
-        mutate(s232_annex = case_when(
-          !is.na(s232_annex) ~ s232_annex,
-          substr(hts10, 1, 2) %in% annex_1a_chapters ~ 'annex_1a',
-          grepl(deriv_pattern, hts10) ~ 'annex_1b',
-          TRUE ~ s232_annex
-        ))
+        mutate(
+          # Name the covered metal for products not carried by the annex CSV.
+          # Primary metal chapters are unambiguous (72/73 steel, 76 aluminum,
+          # 74 copper); downstream derivatives keep whatever the CSV supplied
+          # (NA if absent) — their metal can't be inferred from the heading.
+          s232_metal = case_when(
+            !is.na(s232_metal) ~ s232_metal,
+            substr(hts10, 1, 2) %in% c('72', '73') ~ 'steel',
+            substr(hts10, 1, 2) == '76' ~ 'aluminum',
+            substr(hts10, 1, 2) == '74' ~ 'copper',
+            TRUE ~ NA_character_
+          ),
+          s232_annex = case_when(
+            !is.na(s232_annex) ~ s232_annex,
+            substr(hts10, 1, 2) %in% annex_1a_chapters ~ 'annex_1a',
+            grepl(deriv_pattern, hts10) ~ 'annex_1b',
+            TRUE ~ s232_annex
+          )
+        )
 
       # Override rate_232 by annex.
       #
@@ -1945,6 +1979,13 @@ calculate_rates_for_revision <- function(
       # Applied as pmax() so the surcharge wins over the annex tier rate.
       country_surcharges <- annex_cfg$country_surcharges %||% list()
       if (length(country_surcharges) > 0) {
+        # Derivative-product prefixes by metal type — needed to extend the
+        # country surcharge to derivative articles. Loaded here because the
+        # primary load lives in apply_232_derivatives() (a separate function
+        # scope), so `deriv_products` is not otherwise visible here. Fixes
+        # "object 'deriv_products' not found" on post-annex revisions
+        # (2026_rev_5+) that reach the country-surcharge block.
+        deriv_products <- load_232_derivative_products(effective_date = effective_date)
         deriv_by_type <- if (!is.null(deriv_products) && nrow(deriv_products) > 0) {
           split(deriv_products$hts_prefix, deriv_products$derivative_type)
         } else list()
@@ -2762,6 +2803,21 @@ calculate_rates_for_revision <- function(
 
   # 9c. Enforce canonical schema
   rates <- enforce_rate_schema(rates)
+
+  # 9c-bis. Attach per-authority duty provenance (status / reason / counterfactual
+  #   / would-apply Ch99 code) so the frontend can cite the legal basis and tell
+  #   an intentional exemption apart from a coverage gap. Pure post-processing of
+  #   the final columns — never alters a computed rate. Reason codes resolve
+  #   against config/duty_citations.yaml. country_ieepa may be absent for
+  #   pre-2025 revisions (no IEEPA), so guard it.
+  rates <- attach_duty_provenance(
+    rates,
+    country_ieepa = if (exists('country_ieepa', inherits = FALSE)) country_ieepa else NULL,
+    ieepa_exempt_source_map = if (exists('ieepa_exempt_source_map', inherits = FALSE)) ieepa_exempt_source_map else NULL,
+    ieepa_exempt_scope = if (exists('ieepa_exempt_scope', inherits = FALSE)) ieepa_exempt_scope else 'all',
+    duty_free_treatment = if (exists('duty_free_treatment', inherits = FALSE)) duty_free_treatment else 'all_products',
+    cc = if (exists('cc', inherits = FALSE)) cc else NULL
+  )
 
   # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside
   #     the denormalized rates tibble. Additive only; nothing reads these

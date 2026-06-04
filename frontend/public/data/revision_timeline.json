@@ -1,9 +1,333 @@
 [
   {
+    "revision": "2019_basic",
+    "effectiveDate": "2019-02-21",
+    "policyEffectiveDate": null,
+    "policyEvent": "2019 basic (mature 2018 tariffs baked in: §232 steel 25%/alu 10%; §301 China Lists 1-4; §201)"
+  },
+  {
+    "revision": "2019_rev_1",
+    "effectiveDate": "2019-03-25",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_2",
+    "effectiveDate": "2019-03-28",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_3",
+    "effectiveDate": "2019-04-18",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_4",
+    "effectiveDate": "2019-05-09",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_5",
+    "effectiveDate": "2019-05-15",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_6",
+    "effectiveDate": "2019-05-20",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_7",
+    "effectiveDate": "2019-06-13",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_8",
+    "effectiveDate": "2019-07-01",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_9",
+    "effectiveDate": "2019-07-09",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_10",
+    "effectiveDate": "2019-07-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_11",
+    "effectiveDate": "2019-08-07",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_12",
+    "effectiveDate": "2019-08-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_13",
+    "effectiveDate": "2019-10-07",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_14",
+    "effectiveDate": "2019-10-18",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_15",
+    "effectiveDate": "2019-10-24",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_16",
+    "effectiveDate": "2019-10-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_17",
+    "effectiveDate": "2019-11-20",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_18",
+    "effectiveDate": "2019-11-29",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_19",
+    "effectiveDate": "2019-12-05",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2019_rev_20",
+    "effectiveDate": "2019-12-16",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_basic",
+    "effectiveDate": "2020-01-16",
+    "policyEffectiveDate": null,
+    "policyEvent": "2020 basic edition"
+  },
+  {
+    "revision": "2020_rev_1",
+    "effectiveDate": "2020-01-21",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_2",
+    "effectiveDate": "2020-02-06",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_3",
+    "effectiveDate": "2020-02-13",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_4",
+    "effectiveDate": "2020-02-21",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_5",
+    "effectiveDate": "2020-03-04",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_6",
+    "effectiveDate": "2020-03-18",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_7",
+    "effectiveDate": "2020-03-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_8",
+    "effectiveDate": "2020-04-24",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_9",
+    "effectiveDate": "2020-04-29",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_10",
+    "effectiveDate": "2020-05-14",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_11",
+    "effectiveDate": "2020-05-29",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_12",
+    "effectiveDate": "2020-06-04",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_13",
+    "effectiveDate": "2020-06-12",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_14",
+    "effectiveDate": "2020-07-08",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_15",
+    "effectiveDate": "2020-07-13",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_16",
+    "effectiveDate": "2020-07-23",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_17",
+    "effectiveDate": "2020-07-28",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2020_rev_18",
+    "effectiveDate": "2020-07-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_basic",
+    "effectiveDate": "2021-03-15",
+    "policyEffectiveDate": null,
+    "policyEvent": "2021 basic edition"
+  },
+  {
+    "revision": "2021_rev_1",
+    "effectiveDate": "2021-03-17",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_2",
+    "effectiveDate": "2021-04-01",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_3",
+    "effectiveDate": "2021-04-26",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_4",
+    "effectiveDate": "2021-06-10",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_5",
+    "effectiveDate": "2021-07-02",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_6",
+    "effectiveDate": "2021-07-09",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_7",
+    "effectiveDate": "2021-08-02",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_8",
+    "effectiveDate": "2021-09-30",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_9",
+    "effectiveDate": "2021-11-18",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_10",
+    "effectiveDate": "2021-12-01",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_11",
+    "effectiveDate": "2021-12-02",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2021_rev_12",
+    "effectiveDate": "2021-12-07",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
     "revision": "2022_basic",
     "effectiveDate": "2022-01-26",
     "policyEffectiveDate": null,
     "policyEvent": "2022 basic edition (pre-2025 baseline: legacy §232 steel/alu + §301 China + §201)"
+  },
+  {
+    "revision": "2022_rev_1",
+    "effectiveDate": "2022-02-14",
+    "policyEffectiveDate": null,
+    "policyEvent": null
   },
   {
     "revision": "2022_rev_2",
@@ -92,6 +416,12 @@
   {
     "revision": "2023_rev_3",
     "effectiveDate": "2023-03-31",
+    "policyEffectiveDate": null,
+    "policyEvent": null
+  },
+  {
+    "revision": "2023_rev_4",
+    "effectiveDate": "2023-04-27",
     "policyEffectiveDate": null,
     "policyEvent": null
   },
