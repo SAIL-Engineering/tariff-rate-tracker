@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# =============================================================================
+# pre-commit: auto-regenerate the frontend bundles when a bundle SOURCE is
+# staged, so the committed JSON can never silently drift from the YAML.
+# =============================================================================
+# Install once (per clone):  git config core.hooksPath scripts/git-hooks
+# (or run scripts/install-hooks.sh). See docs/PROVENANCE_PIPELINE.md.
+#
+# When a source is staged, this regenerates and re-stages THIS repo's bundles.
+# The sail-gtx-prerelease bundles are written too but live in another repo, so
+# the hook can only remind you to commit them there.
+# =============================================================================
+set -euo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+SOURCES="config/duty_citations.yaml config/legal_reference.yaml resources/ch99_legal_refs.csv"
+staged="$(git diff --cached --name-only)"
+
+changed=0
+for f in $SOURCES; do
+  if printf '%s\n' "$staged" | grep -qx "$f"; then changed=1; fi
+done
+[ "$changed" -eq 0 ] && exit 0
+
+echo "[pre-commit] bundle source changed — regenerating frontend bundles..."
+if ! command -v Rscript >/dev/null 2>&1; then
+  echo "[pre-commit] WARNING: Rscript not found; skipping regen. Run scripts/emit_frontend_bundles.sh manually." >&2
+  exit 0
+fi
+Rscript scripts/emit_duty_citations.R  >/dev/null
+Rscript scripts/emit_legal_refs_json.R >/dev/null
+git add frontend/public/data/duty_citations.json frontend/public/data/legal_refs.json 2>/dev/null || true
+
+echo "[pre-commit] Regenerated + re-staged this repo's bundles."
+echo "[pre-commit] ACTION: also commit the regenerated constants/*.json in the"
+echo "[pre-commit]         sail-gtx-prerelease repo so the Vercel app updates."

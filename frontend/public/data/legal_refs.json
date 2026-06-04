@@ -2165,7 +2165,7 @@
         "fr_document_number": "2026-03832",
         "signed_date": "2026-02-20",
         "publication_date": "2026-02-25",
-        "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf",
+        "verified_against": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
         "verification_scope": "termination/status authority metadata",
         "status_note": "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
       },
@@ -2181,12 +2181,12 @@
       },
       {
         "id": "cbp_csms_68340863_cape_refund",
-        "verified": false,
-        "citation": "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)",
+        "verified": true,
+        "citation": "CBP: Consolidated Administration and Processing of Entries (CAPE) for IEEPA duty refunds",
         "agency": "U.S. Customs and Border Protection",
-        "verified_against": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
-        "verification_scope": "CSMS number and operational refund-process detail pending confirmation",
-        "status_note": "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
+        "verification_scope": "CBP CAPE refund-process guidance",
+        "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
       }
     ],
     "ieepa_recip_floor": [
@@ -2325,7 +2325,7 @@
         "fr_document_number": "2026-03832",
         "signed_date": "2026-02-20",
         "publication_date": "2026-02-25",
-        "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf",
+        "verified_against": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
         "verification_scope": "termination/status authority metadata",
         "status_note": "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
       },
@@ -2341,12 +2341,12 @@
       },
       {
         "id": "cbp_csms_68340863_cape_refund",
-        "verified": false,
-        "citation": "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)",
+        "verified": true,
+        "citation": "CBP: Consolidated Administration and Processing of Entries (CAPE) for IEEPA duty refunds",
         "agency": "U.S. Customs and Border Protection",
-        "verified_against": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
-        "verification_scope": "CSMS number and operational refund-process detail pending confirmation",
-        "status_note": "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
+        "verification_scope": "CBP CAPE refund-process guidance",
+        "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
       }
     ],
     "ieepa_fent_canada": [
@@ -2373,7 +2373,7 @@
         "fr_document_number": "2026-03832",
         "signed_date": "2026-02-20",
         "publication_date": "2026-02-25",
-        "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf",
+        "verified_against": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
         "verification_scope": "termination/status authority metadata",
         "status_note": "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
       },
@@ -2389,12 +2389,12 @@
       },
       {
         "id": "cbp_csms_68340863_cape_refund",
-        "verified": false,
-        "citation": "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)",
+        "verified": true,
+        "citation": "CBP: Consolidated Administration and Processing of Entries (CAPE) for IEEPA duty refunds",
         "agency": "U.S. Customs and Border Protection",
-        "verified_against": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
-        "verification_scope": "CSMS number and operational refund-process detail pending confirmation",
-        "status_note": "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
+        "verification_scope": "CBP CAPE refund-process guidance",
+        "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
       }
     ],
     "ieepa_fent_mexico": [
@@ -2421,7 +2421,7 @@
         "fr_document_number": "2026-03832",
         "signed_date": "2026-02-20",
         "publication_date": "2026-02-25",
-        "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf",
+        "verified_against": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
         "verification_scope": "termination/status authority metadata",
         "status_note": "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
       },
@@ -2437,12 +2437,12 @@
       },
       {
         "id": "cbp_csms_68340863_cape_refund",
-        "verified": false,
-        "citation": "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)",
+        "verified": true,
+        "citation": "CBP: Consolidated Administration and Processing of Entries (CAPE) for IEEPA duty refunds",
         "agency": "U.S. Customs and Border Protection",
-        "verified_against": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
-        "verification_scope": "CSMS number and operational refund-process detail pending confirmation",
-        "status_note": "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
+        "verification_scope": "CBP CAPE refund-process guidance",
+        "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
       }
     ],
     "s122_active": [
@@ -2759,7 +2759,7 @@
       "fr_document_number": "2026-03832",
       "signed_date": "2026-02-20",
       "publication_date": "2026-02-25",
-      "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03832.pdf",
+      "verified_against": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
       "verification_scope": "termination/status authority metadata",
       "status_note": "Terminated specified IEEPA additional ad valorem duty actions; CBP CSMS #67834313 implemented non-collection/inactivation in ACE effective 2026-02-24."
     },
@@ -2775,12 +2775,12 @@
     },
     "cbp_csms_68340863_cape_refund": {
       "id": "cbp_csms_68340863_cape_refund",
-      "verified": false,
-      "citation": "CBP CSMS #68340863 — Refund Procedures for Ended IEEPA Duties (Post-Summary Correction / Protest)",
+      "verified": true,
+      "citation": "CBP: Consolidated Administration and Processing of Entries (CAPE) for IEEPA duty refunds",
       "agency": "U.S. Customs and Border Protection",
-      "verified_against": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
-      "verification_scope": "CSMS number and operational refund-process detail pending confirmation",
-      "status_note": "Describes how filers recover ended IEEPA duties. Refund path depends on the entry's liquidation posture: Post-Summary Correction while the entry is unliquidated; protest within 180 days of liquidation. Refunds are not automatic and are not guaranteed."
+      "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
+      "verification_scope": "CBP CAPE refund-process guidance",
+      "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
     },
     "eo_14245_venezuelan_oil": {
       "id": "eo_14245_venezuelan_oil",
@@ -2876,30 +2876,30 @@
     "status": {
       "verified": true,
       "headline": "IEEPA additional duties have ended",
-      "summary": "IEEPA additional ad valorem duties (the reciprocal action and the fentanyl/border actions) are no longer collected on covered entries on or after 2026-02-24 (EO 14389; CBP CSMS #67834313). They still appear in historical periods because they were lawfully in force and collected then.\n",
-      "source": "EO 14389; CBP CSMS #67834313"
+      "summary": "IEEPA additional ad valorem duties (the reciprocal action and the fentanyl and border actions) are no longer collected on goods entered or withdrawn for consumption on or after February 24, 2026, under Executive Order 14389 and CBP CSMS #67834313. The IEEPA Chapter 99 numbers became inactive in ACE on that date. This does not affect Section 232 or Section 301 duties. SAIL still shows the IEEPA line for periods when it was lawfully in force and collected.\n",
+      "source": "EO 14389 (91 FR 9437); CBP CSMS #67834313"
     },
     "refund_process": {
       "verified": true,
-      "headline": "A refund may be available for paid entries",
-      "summary": "Where IEEPA additional duties were paid, a refund may be available — the path depends on the entry's liquidation posture.\n",
-      "steps": ["Entry still unliquidated: file a Post-Summary Correction (PSC) to remove the IEEPA duty.", "Entry liquidated within the last 180 days: file a protest under 19 U.S.C. 1514.", "Otherwise: relief generally requires a timely, separately filed action — consult a customs attorney or licensed broker."],
-      "caveat": "Refunds are not automatic and are not guaranteed. Eligibility and amount depend on liquidation status, timeliness, and documentation.\n",
-      "source": "CBP CSMS #68340863 (refund procedures)"
+      "headline": "CBP has a streamlined refund path (CAPE)",
+      "summary": "Where IEEPA duties were paid, CBP created Consolidated Administration and Processing of Entries (CAPE) in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them.\n",
+      "steps": ["File a CAPE declaration: the importer of record, or the broker that filed the entry summaries, submits a CSV of up to 9,999 entry numbers. CBP validates that each entry exists in ACE and carries at least one IEEPA Chapter 99 number.", "CBP removes the IEEPA Chapter 99 lines at the entry-summary-line level, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36.", "For eligible unliquidated entries, CBP expects to issue valid refunds within roughly 60 to 90 days of accepting the CAPE declaration, unless it needs further review.", "Outside CAPE, an unliquidated entry can be corrected by a Post-Summary Correction (PSC), and a liquidated entry can be protested within 180 days under 19 U.S.C. 1514."],
+      "caveat": "CAPE Phase 1 excludes some entries, including reconciliation entries, drawback-related entries, entries with open or suspended protests, certain AD/CVD entries pending liquidation, and entry summaries more than 80 days past liquidation. Refunds are not automatic and are not guaranteed; eligibility and amount depend on liquidation status, timeliness, and documentation.\n",
+      "source": "CBP CAPE refund guidance"
     },
     "litigation_risk": {
       "verified": false,
       "headline": "Refund scope is subject to active litigation",
-      "summary": "The Supreme Court held that IEEPA does not authorize the President to impose tariffs. The government is challenging the scope of universal refund relief for certain finally liquidated entries, especially where the importer did not file its own CIT action.\n",
-      "implication": "Treat IEEPA refund recovery as probable-but-contingent for protected entries (unliquidated, timely protested, or covered by an importer's own CIT action), and as at-risk for finally liquidated entries with no individual action.\n",
-      "source": "Supreme Court ruling on IEEPA tariff authority; ongoing CIT / appellate proceedings"
+      "summary": "The scope of refund relief for certain finally liquidated entries is being litigated, particularly where the importer did not file its own action at the Court of International Trade (CIT).\n",
+      "implication": "Treat refunds on protected entries (unliquidated, timely protested, or covered by the importer's own CIT action) as likely but contingent, and finally liquidated entries with no individual action as at risk.\n",
+      "source": "Ongoing CIT and appellate proceedings"
     },
     "ui": {
-      "flag_label": "IEEPA duty ended — refund may apply",
-      "flag_detail": "SAIL applied the IEEPA additional duty for this period because it was in force then. Collection has since ended (2026-02-24). For entries on which IEEPA duty was paid, a refund may be available depending on liquidation status — not automatic, not guaranteed, and the scope of refund relief is being litigated.\n",
-      "broker_diff": "SAIL shows the IEEPA line for the period it was legally in force, using the statutory rate. If a broker did not bill IEEPA on a covered entry, that is consistent with an exemption or the post-2026-02-24 wind-down; if the broker did bill it, the duty may be recoverable via PSC or protest.\n",
-      "pill_active_period": "applied — in force this period",
-      "pill_ended": "collection ended 2026-02-24"
+      "flag_label": "IEEPA duty has ended; a refund may apply",
+      "flag_detail": "SAIL applied the IEEPA additional duty for this period because it was in force then. Collection ended for entries on or after February 24, 2026 (EO 14389; CBP CSMS #67834313). Where IEEPA duty was paid, a refund may be available through CBP's CAPE process. Refunds are not automatic or guaranteed, and the scope of relief for finally liquidated entries is being litigated.\n",
+      "broker_diff": "SAIL shows the IEEPA line for the period it was in force, at the statutory rate. If the broker did not bill IEEPA on a covered entry, that is consistent with an exemption or the post February 24, 2026 wind-down. If the broker did bill it, the duty may be recoverable through CAPE, a PSC, or a protest.\n",
+      "pill_active_period": "applied; in force this period",
+      "pill_ended": "collection ended Feb 24, 2026"
     }
   }
 }

@@ -159,6 +159,16 @@ function revisionGlob(revision) {
   return `${PARQUET_PATH}/revision=${revision}/*.parquet`;
 }
 
+// Glob over EVERY revision. Used to derive the union-of-all-revisions schema so
+// the target table holds the SUPERSET of columns. Revisions are heterogeneous:
+// some columns (e.g. ieepa_recip_ch99, and newer provenance columns) exist only
+// in revisions rebuilt after the column was introduced. A positional
+// `SELECT *` insert fails with a column-count mismatch; the union schema + an
+// INSERT ... BY NAME aligns every revision by name (missing columns -> NULL).
+function allRevisionsGlob() {
+  return `${PARQUET_PATH}/revision=*/*.parquet`;
+}
+
 // Seed the target table from the first revision (CREATE OR REPLACE TABLE).
 // We rely on the parquet files' natural row order from the R pipeline — a
 // sort-on-insert would buffer the whole partition in local RAM and OOM the
@@ -166,23 +176,31 @@ function revisionGlob(revision) {
 // data arrives in, so pruning on (hts10, country, revision) still works.
 async function seedTable(conn, revision) {
   log('exec.seed.start', { revision });
+  // Create the table with the UNION schema across ALL revisions (LIMIT 0 reads
+  // parquet metadata only — no data scan), so heterogeneous revisions later
+  // insert cleanly BY NAME. Then load the first revision through the same
+  // BY-NAME path as every other partition.
   await conn.run(`
     CREATE OR REPLACE TABLE rates AS
-    SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true)
+    SELECT * FROM read_parquet('${allRevisionsGlob()}', hive_partitioning = true, union_by_name = true)
+    LIMIT 0
   `);
-  const n = await count(conn, `WHERE revision = '${revision}'`);
+  const n = await insertPartition(conn, revision, { seed: true });
   log('exec.seed.done', { revision, rows: n });
   return n;
 }
 
-async function insertPartition(conn, revision) {
-  log('exec.insert.start', { revision });
+async function insertPartition(conn, revision, { seed = false } = {}) {
+  if (!seed) log('exec.insert.start', { revision });
+  // INSERT ... BY NAME maps columns by name (missing target columns -> NULL), so
+  // revisions with fewer columns load into the union-schema table without a
+  // positional column-count mismatch.
   await conn.run(`
-    INSERT INTO rates
-    SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true)
+    INSERT INTO rates BY NAME
+    SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true, union_by_name = true)
   `);
   const n = await count(conn, `WHERE revision = '${revision}'`);
-  log('exec.insert.done', { revision, rows: n });
+  if (!seed) log('exec.insert.done', { revision, rows: n });
   return n;
 }
 
@@ -327,8 +345,8 @@ async function incrementalReplace(conn, revision, { dryRun }) {
     await conn.run('BEGIN');
     await conn.run(`DELETE FROM rates WHERE revision = '${revision}'`);
     await conn.run(`
-      INSERT INTO rates
-      SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true)
+      INSERT INTO rates BY NAME
+      SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true, union_by_name = true)
     `);
     await conn.run('COMMIT');
   } catch (err) {
@@ -404,8 +422,8 @@ async function incrementalReplaceMany(conn, revisions, { dryRun }) {
       await conn.run('BEGIN');
       await conn.run(`DELETE FROM rates WHERE revision = '${revision}'`);
       await conn.run(`
-        INSERT INTO rates
-        SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true)
+        INSERT INTO rates BY NAME
+        SELECT * FROM read_parquet('${revisionGlob(revision)}', hive_partitioning = true, union_by_name = true)
       `);
       await conn.run('COMMIT');
     } catch (err) {

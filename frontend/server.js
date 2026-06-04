@@ -814,10 +814,17 @@ app.post('/api/rates/batch', async (req, res) => {
     }
 
     const columnData = {};
-    const keysSet = Object.keys(rows[0]);
+    // Column set = the UNION of every row's keys, not just rows[0]'s. A
+    // synthesized fallback row (synthesizeBaseMfnRow) omits some columns —
+    // notably duty_provenance_json — so keying off rows[0] alone DROPS those
+    // columns for the ENTIRE batch whenever the first row is synthesized,
+    // which surfaces as "duty provenance is not available" even though the
+    // matched rows carry it. Infer each column's type from its first NON-NULL
+    // sample so an early null/'' doesn't misclassify it.
+    const keysSet = [...new Set(rows.flatMap((r) => Object.keys(r)))];
     for (const k of keysSet) {
       const vals = rows.map((r) => r[k]);
-      const sample = rows[0][k];
+      const sample = vals.find((v) => v != null);
       if (typeof sample === 'number') {
         columnData[k] = new Float64Array(
           vals.map((v) => (v == null ? 0 : Number(v))),
