@@ -173,10 +173,14 @@ calculate_rates_fast <- function(products, ch99_data, countries, stacking_method
     }
   }
 
-  # Join base rates
+  # Join base rates. Also carry base_rate_source (rate-line resolution provenance:
+  # own / inherited:<parent> / unresolved) from the product parse through to the
+  # per-country rate rows, so it lands in the parquet and emit_rate_validation's
+  # Q4 can audit it. Guarded for older product caches that predate the column.
+  prod_base_cols <- intersect(c('hts10', 'base_rate', 'base_rate_source'), names(products))
   rates_wide <- rates_wide %>%
     left_join(
-      products %>% select(hts10, base_rate),
+      products %>% select(dplyr::all_of(prod_base_cols)),
       by = 'hts10',
       relationship = 'many-to-one'
     ) %>%

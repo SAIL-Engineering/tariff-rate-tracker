@@ -20,6 +20,7 @@ data/timeseries/
 data/tpc/*.csv
 data/tpc/*.png
 data/us_notes/*.pdf
+data/cache/
 data/cbp/
 data/dataweb/
 data/spim/

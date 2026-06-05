@@ -1,0 +1,22 @@
+census_code,country_name,fta_label,general_note,codes
+1220,Canada,USMCA,11,S|S+|CA
+2010,Mexico,USMCA,11,S|S+|MX
+2050,Guatemala,CAFTA-DR,,P|P+
+2110,El Salvador,CAFTA-DR,,P|P+
+2150,Honduras,CAFTA-DR,,P|P+
+2190,Nicaragua,CAFTA-DR,,P|P+
+2230,Costa Rica,CAFTA-DR,,P|P+
+2470,Dominican Republic,CAFTA-DR,,P|P+
+2250,Panama,Panama FTA,,PA
+3010,Colombia,Colombia TPA,,CO
+3330,Peru,Peru TPA,,PE
+3370,Chile,Chile FTA,,CL
+5081,Israel,Israel FTA,8,IL
+5110,Jordan,Jordan FTA,,JO
+5230,Oman,Oman FTA,,OM
+5250,Bahrain,Bahrain FTA,,BH
+5590,Singapore,Singapore FTA,,SG
+5800,South Korea,KORUS,33,KR
+5880,Japan,US-Japan,,JP
+6021,Australia,Australia FTA,,AU
+7140,Morocco,Morocco FTA,,MA

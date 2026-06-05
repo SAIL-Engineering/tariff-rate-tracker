@@ -14,7 +14,7 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
-SOURCES="config/duty_citations.yaml config/legal_reference.yaml resources/ch99_legal_refs.csv"
+SOURCES="config/duty_citations.yaml config/legal_reference.yaml resources/ch99_legal_refs.csv resources/gn3_program_symbols.csv resources/gn3_column2_countries.csv resources/gn_program_countries.csv resources/country_name_aliases.csv resources/fta_partners.csv config/program_requirements.yaml"
 staged="$(git diff --cached --name-only)"
 
 changed=0
@@ -28,9 +28,12 @@ if ! command -v Rscript >/dev/null 2>&1; then
   echo "[pre-commit] WARNING: Rscript not found; skipping regen. Run scripts/emit_frontend_bundles.sh manually." >&2
   exit 0
 fi
-Rscript scripts/emit_duty_citations.R  >/dev/null
-Rscript scripts/emit_legal_refs_json.R >/dev/null
-git add frontend/public/data/duty_citations.json frontend/public/data/legal_refs.json 2>/dev/null || true
+Rscript scripts/emit_duty_citations.R      >/dev/null
+Rscript scripts/emit_legal_refs_json.R     >/dev/null
+Rscript scripts/emit_program_symbols.R     >/dev/null
+Rscript scripts/emit_program_countries.R   >/dev/null
+Rscript scripts/emit_program_requirements.R >/dev/null
+git add frontend/public/data/duty_citations.json frontend/public/data/legal_refs.json frontend/public/data/program_symbols.json frontend/public/data/program_countries.json frontend/public/data/program_requirements.json 2>/dev/null || true
 
 echo "[pre-commit] Regenerated + re-staged this repo's bundles."
 echo "[pre-commit] ACTION: also commit the regenerated constants/*.json in the"

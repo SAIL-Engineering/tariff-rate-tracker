@@ -1,6 +1,6 @@
 # Tariff Rate Tracker — Frontend
 
-Interactive duty rate calculator and tariff visualization tool. Queries the full HTS tariff dataset (19,956 products, 240 countries, 125M+ rows) via a DuckDB-backed API server that reads partitioned Parquet files.
+Interactive duty rate calculator and tariff visualization tool. Queries the full HTS tariff dataset (19,956 products, 240 countries, ~613M rows across 132 revisions) via a DuckDB-backed API server that reads partitioned Parquet files.
 
 ## Architecture
 
@@ -9,7 +9,7 @@ Browser (React + Vite)          API Server (Express + DuckDB)
   :5173                            :3001
   +-----------------------+        +---------------------------+
   | React SPA             |  /api  | DuckDB (in-memory catalog)|
-  | - Dashboard (JSON)    | -----> | - Parquet dataset (721 MB)|
+  | - Dashboard (JSON)    | -----> | - Parquet dataset (8.2 GB)|
   | - Rate Lookup (JSON)  |  proxy | - Arrow IPC streaming     |
   | - Multi-Country (IPC) |        | - JSON endpoints          |
   +-----------------------+        +---------------------------+
@@ -113,11 +113,18 @@ Pre-computed JSON files in `public/data/` (loaded at app startup for the dashboa
 | File | Size | Contents |
 |------|------|----------|
 | `countries.json` | 28 KB | Census codes + ISO alpha-2/3 + partner groups |
-| `revision_timeline.json` | 6 KB | 38 HTS revisions with policy events |
-| `daily_overall.json` | 263 KB | Daily aggregate tariff statistics |
-| `daily_by_authority.json` | 212 KB | Daily rates by tariff authority |
-| `daily_by_country_summary.json` | 2.5 MB | Per-country per-revision summaries |
-| `sample_rates.json` | ~64 MB | Sample product rates (used for quick-select buttons) |
+| `revision_timeline.json` | 19 KB | 132 HTS revisions with policy events |
+| `daily_overall.json` | ~1.0 MB | Daily aggregate tariff statistics |
+| `daily_by_authority.json` | 773 KB | Daily rates by tariff authority |
+| `daily_by_country_summary.json` | 8.5 MB | Per-country per-revision summaries |
+| `sample_rates.json` | ~505 MB | Sample product rates (used for quick-select buttons) |
+| `program_symbols.json` | 171 KB | Special-program symbol map + Column 2 list (de-hardcoded, per revision) |
+| `program_countries.json` | 162 KB | Country → preference-program membership (GSP/AGOA/CBERA + FTA) |
+| `program_requirements.json` | 8 KB | Per-program eligibility requirements ("missing facts") |
+| `legal_refs.json` | 108 KB | Audited proclamations / EOs / CBP messages per Ch99 authority |
+| `duty_citations.json` | 24 KB | `reason_code` → citation / narrative registry |
+
+The last five are the de-hardcoded program and legal-reference bundles, generated from the HTS General Notes and Chapter 99 PDFs during the R build (not by `prepare_frontend_data.R`). See [../docs/PROVENANCE_PIPELINE.md](../docs/PROVENANCE_PIPELINE.md).
 
 ## Build for Production
 

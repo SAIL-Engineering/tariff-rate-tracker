@@ -78,6 +78,7 @@ parse_products <- function(json_path) {
   # non-standard indent jumps), inherited rates could be wrong. No validation
   # pass currently checks for these anomalies.
   rate_stack <- list()       # indent level -> parsed base_rate (numeric or NA)
+  htsno_stack <- list()      # indent level -> htsno of the rate-bearing line (base_rate_source provenance)
   general_raw_stack <- list() # indent level -> general raw text (for rate_type inheritance)
   special_stack <- list()    # indent level -> special raw text
   other_stack <- list()      # indent level -> other (Column 2) raw text
@@ -120,8 +121,9 @@ parse_products <- function(json_path) {
     parsed <- parse_rate(general)
     if (!is.na(parsed) || (is_simple_rate(general) || tolower(trimws(general)) == 'free')) {
       rate_stack[[as.character(indent)]] <<- parsed
+      htsno_stack[[as.character(indent)]] <<- htsno
       deeper <- names(rate_stack)[as.integer(names(rate_stack)) > indent]
-      for (d in deeper) rate_stack[[d]] <<- NULL
+      for (d in deeper) { rate_stack[[d]] <<- NULL; htsno_stack[[d]] <<- NULL }
     }
     if (trimws(general) != '') {
       general_raw_stack <<- update_stack(general_raw_stack, indent, general)
@@ -152,20 +154,25 @@ parse_products <- function(json_path) {
     hts10 <- normalize_hts(htsno)
     description <- item$description %||% ''
 
-    # Parse general (MFN) rate — inherit from parent if empty
+    # Parse general (MFN) rate — inherit from parent if empty. Record WHERE the
+    # rate came from (own line / inherited:<parent_htsno> / unresolved) so the
+    # rate-validation harness can assert every active line resolves to a base rate.
     base_rate <- parse_rate(general)
     has_complex <- !is_simple_rate(general) && general != ''
+    base_rate_source <- if (trimws(general) != '') 'own' else NA_character_
 
     if (is.na(base_rate) && trimws(general) == '' && indent > 0) {
       for (i in seq(indent - 1, 0, by = -1)) {
         parent_rate <- rate_stack[[as.character(i)]]
         if (!is.null(parent_rate)) {
           base_rate <- parent_rate
+          base_rate_source <- paste0('inherited:', htsno_stack[[as.character(i)]] %||% as.character(i))
           n_inherited <<- n_inherited + 1L
           break
         }
       }
     }
+    if (is.na(base_rate_source)) base_rate_source <- 'unresolved'
 
     # Inherit special/other/units from parent if empty (statistical suffix)
     if (trimws(special_raw) == '' && indent > 0) {
@@ -253,6 +260,7 @@ parse_products <- function(json_path) {
       description = description,
       base_rate = base_rate,
       base_rate_raw = general,
+      base_rate_source = base_rate_source,
       rate_special = rate_special,
       rate_special_raw = special_raw,
       special_programs = list(special_parsed),

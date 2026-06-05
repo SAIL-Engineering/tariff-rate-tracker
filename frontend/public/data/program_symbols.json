@@ -1,0 +1,5671 @@
+{
+  "version": 2,
+  "source": "hts_general_note_3",
+  "generated_from": ["gn3_program_symbols.csv", "gn3_column2_countries.csv"],
+  "latest_revision": "2026_rev_9",
+  "program_symbols": {
+    "A": {
+      "program": "Generalized System of Preferences"
+    },
+    "A*": {
+      "program": "Generalized System of Preferences"
+    },
+    "A+": {
+      "program": "Generalized System of Preferences"
+    },
+    "AU": {
+      "program": "United States-Australia Free Trade Agreement"
+    },
+    "B": {
+      "program": "Automotive Products Trade Act"
+    },
+    "BH": {
+      "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+    },
+    "C": {
+      "program": "Agreement on Trade in Civil Aircraft"
+    },
+    "CL": {
+      "program": "United States-Chile Free Trade Agreement"
+    },
+    "D": {
+      "program": "African Growth and Opportunity Act"
+    },
+    "E": {
+      "program": "Caribbean Basin Economic Recovery Act"
+    },
+    "E*": {
+      "program": "Caribbean Basin Economic Recovery Act"
+    },
+    "IL": {
+      "program": "United States-Israel Free Trade Area"
+    },
+    "JO": {
+      "program": "United States-Jordan Free Trade Area Implementation Act"
+    },
+    "JP": {
+      "program": "Trade Agreement Between the United States and Japan"
+    },
+    "K": {
+      "program": "Agreement on Trade in Pharmaceutical Products"
+    },
+    "P": {
+      "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+    },
+    "P+": {
+      "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+    },
+    "L": {
+      "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+    },
+    "R": {
+      "program": "United States-Caribbean Basin Trade Partnership Act"
+    },
+    "MA": {
+      "program": "United States-Morocco Free Trade Agreement Implementation Act"
+    },
+    "SG": {
+      "program": "United States-Singapore Free Trade Agreement"
+    },
+    "OM": {
+      "program": "United States-Oman Free Trade Agreement Implementation Act"
+    },
+    "PE": {
+      "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+    },
+    "KR": {
+      "program": "United States-Korea Free Trade Agreement Implementation Act"
+    },
+    "CO": {
+      "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+    },
+    "PA": {
+      "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+    },
+    "NP": {
+      "program": "Nepal Preference Program"
+    },
+    "S": {
+      "program": "United States-Mexico-Canada Agreement"
+    },
+    "S+": {
+      "program": "United States-Mexico-Canada Agreement"
+    }
+  },
+  "column2_countries": [
+    "Republic of Belarus",
+    "North Korea",
+    "Cuba",
+    "Russian Federation"
+  ],
+  "column2_codes": [
+    "4622",
+    "5790",
+    "2390",
+    "4621"
+  ],
+  "by_revision": {
+    "2024_basic": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_1": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_2": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_3": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_4": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_5": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_6": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_7": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_8": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_9": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2024_rev_10": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_basic": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_1": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_2": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_3": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_4": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_5": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_6": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_7": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_8": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_9": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_10": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_11": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_12": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_13": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_14": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_15": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_16": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_17": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_18": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_19": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_20": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_21": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_22": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_23": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_24": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_25": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_26": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_27": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_28": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_29": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_30": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_31": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2025_rev_32": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_basic": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_1": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_2": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_3": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_4": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_5": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_6": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_7": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_8": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    },
+    "2026_rev_9": {
+      "program_symbols": {
+        "A": {
+          "program": "Generalized System of Preferences"
+        },
+        "A*": {
+          "program": "Generalized System of Preferences"
+        },
+        "A+": {
+          "program": "Generalized System of Preferences"
+        },
+        "AU": {
+          "program": "United States-Australia Free Trade Agreement"
+        },
+        "B": {
+          "program": "Automotive Products Trade Act"
+        },
+        "BH": {
+          "program": "United States-Bahrain Free Trade Agreement Implementation Act"
+        },
+        "C": {
+          "program": "Agreement on Trade in Civil Aircraft"
+        },
+        "CL": {
+          "program": "United States-Chile Free Trade Agreement"
+        },
+        "D": {
+          "program": "African Growth and Opportunity Act"
+        },
+        "E": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "E*": {
+          "program": "Caribbean Basin Economic Recovery Act"
+        },
+        "IL": {
+          "program": "United States-Israel Free Trade Area"
+        },
+        "JO": {
+          "program": "United States-Jordan Free Trade Area Implementation Act"
+        },
+        "JP": {
+          "program": "Trade Agreement Between the United States and Japan"
+        },
+        "K": {
+          "program": "Agreement on Trade in Pharmaceutical Products"
+        },
+        "P": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "P+": {
+          "program": "Dominican Republic-Central America-United States Free Trade Agreement Implementation Act"
+        },
+        "L": {
+          "program": "Uruguay Round Concessions on Intermediate Chemicals for Dyes"
+        },
+        "R": {
+          "program": "United States-Caribbean Basin Trade Partnership Act"
+        },
+        "MA": {
+          "program": "United States-Morocco Free Trade Agreement Implementation Act"
+        },
+        "SG": {
+          "program": "United States-Singapore Free Trade Agreement"
+        },
+        "OM": {
+          "program": "United States-Oman Free Trade Agreement Implementation Act"
+        },
+        "PE": {
+          "program": "United States-Peru Trade Promotion Agreement Implementation Act"
+        },
+        "KR": {
+          "program": "United States-Korea Free Trade Agreement Implementation Act"
+        },
+        "CO": {
+          "program": "United States-Colombia Trade Promotion Agreement Implementation Act"
+        },
+        "PA": {
+          "program": "United States-Panama Trade Promotion Agreement Implementation Act"
+        },
+        "NP": {
+          "program": "Nepal Preference Program"
+        },
+        "S": {
+          "program": "United States-Mexico-Canada Agreement"
+        },
+        "S+": {
+          "program": "United States-Mexico-Canada Agreement"
+        }
+      },
+      "column2_countries": [
+        "Republic of Belarus",
+        "North Korea",
+        "Cuba",
+        "Russian Federation"
+      ],
+      "column2_codes": [
+        "4622",
+        "5790",
+        "2390",
+        "4621"
+      ]
+    }
+  }
+}

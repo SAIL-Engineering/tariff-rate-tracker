@@ -115,17 +115,24 @@ message("\n--- 5. daily_by_country_summary.json ---")
 daily_country <- read_csv(here("output", "daily", "daily_by_country.csv"),
                           show_col_types = FALSE)
 
-# One row per country per revision: take the first date in each revision interval
+# One row per country per revision: take the first date in each revision interval.
+# mean_total_statutory_all_pairs (3F, the base-NTR/MFN basis) is carried through
+# when present, so the frontend CountryComparisonTable statutory toggle can use it;
+# guarded for daily CSVs produced before 09_daily_series added the column.
+has_stat <- "mean_total_statutory_all_pairs" %in% names(daily_country)
 country_summary <- daily_country %>%
   group_by(country, country_name, country_abbr, revision) %>%
   summarise(
     date = min(date),
     mean_additional_all_pairs = first(mean_additional_all_pairs[date == min(date)]),
     mean_total_all_pairs = first(mean_total_all_pairs[date == min(date)]),
+    mean_total_statutory_all_pairs = if (has_stat)
+      first(mean_total_statutory_all_pairs[date == min(date)]) else NA_real_,
     n_products_present = first(n_products_present[date == min(date)]),
     .groups = "drop"
   ) %>%
   arrange(country, date)
+if (!has_stat) country_summary$mean_total_statutory_all_pairs <- NULL
 
 write_json(country_summary, file.path(output_dir, "daily_by_country_summary.json"),
            pretty = TRUE, na = "null", auto_unbox = TRUE, digits = NA)
@@ -243,6 +250,36 @@ for (f in json_files) {
   sz <- file.size(f)
   unit <- if (sz > 1e6) paste0(round(sz / 1e6, 1), " MB") else paste0(round(sz / 1e3, 1), " KB")
   message("  ", basename(f), ": ", unit)
+}
+
+# =============================================================================
+# Mirror to the deployed frontend (sail-gtx-prerelease) public/data
+# =============================================================================
+# sail-gtx is the canonical frontend; it fetches these JSONs at runtime from
+# /data/ (useTariffData.ts). Copy the files THIS script owns into the sail-gtx
+# repo automatically so they never have to be hand-copied. Override the location
+# with SAIL_GTX_REPO=/path/to/sail-gtx-prerelease. (The bundle JSONs that also
+# live in frontend/public/data — program_symbols/countries/requirements.json,
+# duty_citations.json, legal_refs.json — are NOT mirrored here; those go to the
+# sail-gtx constants/ dir via the emit_* scripts.)
+owned <- c("countries.json", "revision_timeline.json", "daily_overall.json",
+           "daily_by_authority.json", "daily_by_country_summary.json",
+           "sample_rates.json")
+sail_gtx <- Sys.getenv(
+  "SAIL_GTX_REPO",
+  "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_sail-gtx-prerelease/sail-gtx-prerelease")
+sail_data <- file.path(sail_gtx, "public", "data")
+if (dir.exists(sail_data)) {
+  src <- file.path(output_dir, owned)
+  src <- src[file.exists(src)]
+  ok <- file.copy(src, sail_data, overwrite = TRUE)
+  message("\nMirrored ", sum(ok), "/", length(src),
+          " JSON(s) to sail-gtx public/data:")
+  message("  ", sail_data)
+  message("  -> commit these in the sail-gtx repo so Vercel serves them.")
+} else {
+  message("\nsail-gtx public/data not found (", sail_data, ") - mirror skipped.")
+  message("  Set SAIL_GTX_REPO=/path/to/sail-gtx-prerelease to enable.")
 }
 
 message("\nDone.")

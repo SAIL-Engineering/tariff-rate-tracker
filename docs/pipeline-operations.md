@@ -54,7 +54,7 @@ USITC REST API                     config/revision_dates.csv
 
 ### Key Principle: Batch Processing
 
-The full timeseries is ~155M rows across ~38 revisions. **The pipeline never loads all rows into memory at once.** Each revision (~4M rows) is processed independently:
+The full timeseries is hundreds of millions of rows across 132 revisions (`2019_basic` → `2026_rev_9`). **The pipeline never loads all rows into memory at once.** Each revision (~4M rows) is processed independently:
 
 - Build step: one snapshot at a time, written to Parquet immediately, then freed
 - Daily aggregation: `run_daily_from_parquet.R` reads one Parquet partition per revision
@@ -136,7 +136,12 @@ The default behavior calls `detect_incremental_start()`, which reads `data/times
 2. Save `snapshot_2026_rev_5.rds` (rate matrix for the new revision)
 3. Batch-write all snapshots to Parquet (one at a time, never all in RAM)
 4. Run downstream scripts (daily aggregation, frontend data export)
-5. Save `metadata.rds` with `last_revision = 2026_rev_5`
+5. Run the build-wired quality and provenance emitters (each wrapped so it can never abort the build):
+   - `emit_quality_metrics()` → `output/quality/*` (always)
+   - `emit_rate_validation()` → `output/quality/rate_reconciliation_base*.csv` (report-only; `SAIL_VALIDATE_RATES=strict` aborts on a correctness violation)
+   - `emit_legal_refs_incremental()` → `resources/ch99_legal_refs.csv` → `legal_refs.json` (gate `SAIL_EMIT_LEGAL_REFS`, default on)
+   - `emit_gn3()` + `emit_gn_program_countries()` → `resources/gn3_*.csv`, `gn_program_countries.csv` → `program_symbols.json` / `program_countries.json` (gate `SAIL_EMIT_GN3`, default on)
+6. Save `metadata.rds` with `last_revision = 2026_rev_5`
 
 **When to use `--start-from`:** If metadata is stale (interrupted build) or you want to recompute from a specific point:
 
@@ -358,5 +363,10 @@ cd frontend && node server.js
 | `frontend/public/data/daily_by_authority.json` | Daily rates by authority | `prepare_frontend_data.R` |
 | `frontend/public/data/daily_by_country_summary.json` | Per-country per-revision summary | `prepare_frontend_data.R` |
 | `frontend/public/data/sample_rates.json` | Sample product rates for dashboard display | `prepare_frontend_data.R` |
+| `frontend/public/data/program_symbols.json` | Special-program symbol map + Column 2 list, per revision | `scripts/emit_program_symbols.R` |
+| `frontend/public/data/program_countries.json` | Country → preference-program membership (GSP/AGOA/CBERA + FTA) | `scripts/emit_program_countries.R` |
+| `frontend/public/data/program_requirements.json` | Per-program eligibility requirements | `scripts/emit_program_requirements.R` |
+| `frontend/public/data/legal_refs.json` | Audited proclamations / EOs / CBP messages per Ch99 authority | `scripts/emit_legal_refs_json.R` |
+| `frontend/public/data/duty_citations.json` | `reason_code` → citation / narrative registry | `scripts/emit_duty_citations.R` |
 | `frontend/server.js` | Express + DuckDB API server (port 3001) | Manual |
 | `frontend/dist/` | Production build output | `npm run build` |

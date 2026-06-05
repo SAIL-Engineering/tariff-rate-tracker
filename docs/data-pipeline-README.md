@@ -76,7 +76,7 @@ The pipeline processes HTS revisions **one at a time** (never all in memory). Ea
 
 ### Key principle: batch processing
 
-The full timeseries is ~155M rows across ~39 revisions. The pipeline never loads all rows at once:
+The full timeseries is hundreds of millions of rows across 132 revisions (`2019_basic` → `2026_rev_9`), at ~4M rows per revision (19K products × 240 countries). The pipeline never loads all rows at once:
 
 - **Build step**: one snapshot at a time → RDS + Parquet
 - **Daily aggregation**: reads one Parquet partition per revision
@@ -134,6 +134,26 @@ USITC REST API                     config/revision_dates.csv
                                                      frontend (Vite, port 5173)
 ```
 
+**Also emitted during `00_build_timeseries.R`, after the per-revision loop** (each
+wrapped so it can never abort a build):
+
+```
+rate_timeseries_parquet/  +  ch99_*.rds caches
+      │
+      ├─ emit_quality_metrics()         → output/quality/*                     (always)
+      ├─ emit_rate_validation()         → output/quality/rate_reconciliation_base*.csv
+      │                                   (report-only; SAIL_VALIDATE_RATES=strict aborts)
+      ├─ emit_legal_refs_incremental()  → resources/ch99_legal_refs.csv → legal_refs.json
+      │                                   (incremental; SAIL_EMIT_LEGAL_REFS, default on)
+      └─ emit_gn3() + emit_gn_program_countries()
+                                        → resources/gn3_*.csv, gn_program_countries.csv
+                                        → program_symbols.json / program_countries.json
+                                          (incremental; SAIL_EMIT_GN3, default on)
+```
+
+The legal-reference and General-Note emitters de-hardcode the frontend's program
+and citation data; see [PROVENANCE_PIPELINE.md](PROVENANCE_PIPELINE.md).
+
 ---
 
 ## 4. Step-by-Step: What Each Script Does
@@ -172,7 +192,29 @@ For each revision in `config/revision_dates.csv`:
 | Script | Input | Output | Notes |
 |--------|-------|--------|-------|
 | Ch99 triage (embedded in build) | `ch99_*.rds` caches | `output/quality/ch99_country_scope_triage.csv` | Always runs; classifies unknown entries |
+| `src/emit_quality_metrics.R` → `emit_quality_metrics()` (embedded) | `ch99_*.rds` caches | `output/quality/*` | Always runs (every build mode); per-revision statistical audit |
+| `src/emit_rate_validation.R` → `emit_rate_validation()` (embedded) | Parquet + generated GN reference data | `output/quality/rate_reconciliation_base*.csv` | Report-only; `SAIL_VALIDATE_RATES=strict` aborts on a correctness violation. See [§8](#8-quality-report) |
 | `src/quality_report.R` (manual) | `rate_timeseries.rds` (monolithic) | `output/quality/*.csv` | Requires monolithic RDS; run separately |
+
+### Phase 5: Provenance and De-hardcoding (build-wired, incremental)
+
+These emitters generate the frontend's program and legal-reference data from the
+same HTS PDFs the pipeline already fetches, so a new revision updates the data with
+no code change. Each is incremental (only revisions not already extracted are
+fetched) and wrapped so a network/PDF error can never abort a build.
+
+| Script / Function | Input | Output | Gate |
+|--------|-------|--------|------|
+| `src/extract_legal_refs.R` → `emit_legal_refs_incremental()` | Chapter 99 PDF per revision | `resources/ch99_legal_refs.csv` → `legal_refs.json` | `SAIL_EMIT_LEGAL_REFS` (default on) |
+| `src/parse_general_note_3.R` → `emit_gn3()` | GN 3(b)/3(c) PDF per revision | `resources/gn3_program_symbols.csv`, `resources/gn3_column2_countries.csv` → `program_symbols.json` | `SAIL_EMIT_GN3` (default on) |
+| `src/parse_general_note_3.R` → `emit_gn_program_countries()` | GN 4/16/7 (GSP/AGOA/CBERA) PDFs | `resources/gn_program_countries.csv` → `program_countries.json` | `SAIL_EMIT_GN3` (default on) |
+
+The JSON bundles are produced by `scripts/emit_program_{symbols,countries,requirements}.R`
+and `scripts/emit_{legal_refs_json,duty_citations}.R`. Census mapping is
+precision-first: a General-Note name that doesn't match a census code exactly (or
+via `resources/country_name_aliases.csv`) is emitted name-only with no code, so a
+miss falls back to the safe MFN default rather than fabricating a preference. Full
+detail in [PROVENANCE_PIPELINE.md](PROVENANCE_PIPELINE.md).
 
 ---
 
@@ -278,9 +320,32 @@ After every build, `output/quality/ch99_country_scope_triage.csv` contains all u
 
 ### Automated (runs during build)
 
-The ch99 country scope triage runs automatically during every build and produces:
-- Build log entries with triage breakdown per revision
-- `output/quality/ch99_country_scope_triage.csv`
+Three harnesses run on **every** build mode (full, resume, scoped, build-only),
+each wrapped so it can never abort a build:
+
+- **Ch99 country-scope triage** → `output/quality/ch99_country_scope_triage.csv` plus
+  build-log triage breakdown per revision.
+- **Quality metrics** (`emit_quality_metrics()`) → per-revision statistical audit in
+  `output/quality/`, derived from the on-disk `ch99_*.rds` caches.
+- **Rate reconciliation** (`emit_rate_validation()`) → see below.
+
+### Rate reconciliation (`emit_rate_validation.R`)
+
+Per-revision invariants over the rate Parquet plus the generated General-Note
+reference data, so the data-driven rate universe can't silently drift. Report-only
+by default; `SAIL_VALIDATE_RATES=strict` aborts the build on a **correctness**
+violation (quality flags stay report-only either way). Results land in
+`output/quality/rate_reconciliation_base*.csv`, `rate_unknown_symbols.csv`, and
+`rate_lines_unresolved.csv`.
+
+| ID | Kind | Invariant |
+|----|------|-----------|
+| C1 | correctness | `base_rate ≤ statutory_base_rate` |
+| C2 | correctness | `base_rate`, `statutory_base_rate` finite and ≥ 0 |
+| Q3 | coverage | Special symbols on rate lines are covered by the program map (`gn3_program_symbols.csv` + `fta_partners.csv` + allowlist) |
+| Q4 | coverage | `base_rate_source` resolved (`own` / `inherited:…`) for active lines |
+| Q5 | coverage | Column 2 names all resolve to a census code; count within band |
+| Q6 | coverage | GSP / AGOA / CBERA beneficiary counts within expected band |
 
 ### Manual (separate script)
 
@@ -314,6 +379,16 @@ The frontend dashboard reads pre-computed JSON files from `frontend/public/data/
 | `sample_rates.json` | Sample product rates for display | `prepare_frontend_data.R` ← Parquet |
 | `revision_timeline.json` | Revision schedule for timeline UI | `prepare_frontend_data.R` ← `config/revision_dates.csv` |
 | `countries.json` | Country metadata | `prepare_frontend_data.R` ← `resources/census_codes.csv` |
+| `program_symbols.json` | Special-program symbol map + Column 2 country list, per revision | `scripts/emit_program_symbols.R` ← `gn3_program_symbols.csv`, `gn3_column2_countries.csv` |
+| `program_countries.json` | Country → preference-program membership (GSP/AGOA/CBERA + FTA) | `scripts/emit_program_countries.R` ← `gn_program_countries.csv`, `fta_partners.csv` |
+| `program_requirements.json` | Per-program eligibility requirements ("missing facts") | `scripts/emit_program_requirements.R` ← `config/program_requirements.yaml` |
+| `legal_refs.json` | Audited proclamations / EOs / CBP messages per Ch99 authority | `scripts/emit_legal_refs_json.R` ← `legal_reference.yaml`, `ch99_legal_refs.csv` |
+| `duty_citations.json` | `reason_code` → citation / narrative registry | `scripts/emit_duty_citations.R` ← `config/duty_citations.yaml` |
+
+The last five are the **de-hardcoded program and legal-reference bundles**. They are
+regenerated from their YAML/CSV sources (auto-staged by `scripts/git-hooks/pre-commit`,
+drift-checked in CI), and are written to **both** this repo and the sail-gtx frontend.
+See [PROVENANCE_PIPELINE.md](PROVENANCE_PIPELINE.md) for the full data paths.
 
 ### DuckDB API server
 

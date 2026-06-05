@@ -110,6 +110,8 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
     n_pairs <- nrow(rev_data)
     n_all_pairs <- n_products * n_countries
 
+    stat_total_overall <- if ('statutory_base_rate' %in% names(rev_data))
+      sum(rev_data$statutory_base_rate + rev_data$total_additional) / n_all_pairs else NA_real_
     row <- tibble(
       revision = revision,
       valid_from = valid_from,
@@ -118,6 +120,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       mean_total_exposed = mean(rev_data$total_rate),
       mean_additional_all_pairs = sum(rev_data$total_additional) / n_all_pairs,
       mean_total_all_pairs = sum(rev_data$total_rate) / n_all_pairs,
+      mean_total_statutory_all_pairs = stat_total_overall,
       n_products = n_products,
       n_countries = n_countries,
       n_pairs = n_pairs,
@@ -147,6 +150,11 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
     rev_data <- apply_expiry_zeroing(rev_data, sub_start, policy_params)
     rev_data <- apply_stacking_rules(rev_data, stacking_method = stacking_method)
     n_products_rev <- n_distinct(rev_data$hts10)
+    # Statutory total = STATUTORY base (Column 1-General, no preference weighting)
+    # + the same additionals. This is the conservative, per-shipment-defensible
+    # total; mean_total_all_pairs uses the effective (preference-weighted) base.
+    rev_data$.stat_total <- if ('statutory_base_rate' %in% names(rev_data))
+      rev_data$statutory_base_rate + rev_data$total_additional else NA_real_
     row <- rev_data %>%
       group_by(country) %>%
       summarise(
@@ -154,6 +162,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
         mean_total_exposed = mean(total_rate),
         mean_additional_all_pairs = sum(total_additional) / n_products_rev,
         mean_total_all_pairs = sum(total_rate) / n_products_rev,
+        mean_total_statutory_all_pairs = sum(.stat_total) / n_products_rev,
         n_products_present = n(),
         .groups = 'drop'
       ) %>%

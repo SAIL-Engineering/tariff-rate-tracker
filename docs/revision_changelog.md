@@ -1,6 +1,6 @@
 # HTS Revision Changelog
 
-Verified timeline of Chapter 99 policy changes across all 39 HTS revision points (2025 basic through 2026_rev_4). Generated from `src/revision_changelog.R`, which diffs Ch99 entries between consecutive revisions to identify additions, removals, rate changes, and suspensions. Full diff data in `output/changelog/revision_diffs.csv`.
+Verified timeline of Chapter 99 policy changes. The panel spans 132 HTS revision points (`2019_basic` through `2026_rev_9`); the mature pre-2025 baseline (2019–2024) carries comparatively few Chapter 99 changes, so the detailed chronology below tracks the active 2025–2026 policy sequence. Generated from `src/revision_changelog.R`, which diffs Ch99 entries between consecutive revisions to identify additions, removals, rate changes, and suspensions, and is regenerated on build. Full diff data in `output/changelog/revision_diffs.csv`.
 
 ---
 

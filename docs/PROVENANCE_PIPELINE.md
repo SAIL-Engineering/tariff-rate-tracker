@@ -35,6 +35,51 @@ the audited reference table (proclamations / EOs / CBP messages with FR cites an
 verification status), the machine-extracted HTS-Note authorities per revision, and
 the **IEEPA refund / recovery 4-layer block** (`ieepa_refund`).
 
+### Path C — General Note program data (the rate universe, de-hardcoded)
+
+```
+HTS General Note 3(b)/3(c) ─┐                          ┌► programSymbols.json
+  (per revision, reststop)  ├► src/parse_general_note_3.R   (symbol→program map,
+HTS General Notes 4/16/7 ───┘     │  emits resources/:        Column 2 names+codes)
+  (GSP/AGOA/CBERA lists)          │  • gn3_program_symbols.csv
+resources/fta_partners.csv ───────┤  • gn3_column2_countries.csv   ┌► programCountries.json
+  (reviewed FTA reference)        │  • gn_program_countries.csv    │   (census_code →
+resources/country_name_aliases ───┘  scripts/emit_program_symbols.R┤    FTA + GSP/AGOA/
+  (reviewed spelling variants)        scripts/emit_program_countries.R   CBERA memberships,
+                                                                         codes + GN + provenance)
+
+config/program_requirements.yaml ─► scripts/emit_program_requirements.R ─► programRequirements.json
+  (curated, GN-anchored eligibility;     (symbol keys validated against     (per-program "missing
+   symbols, value-content, certs)         the gn3 symbol map)                facts" behind a suggestion)
+```
+
+This **de-hardcodes the rate universe**: the frontend's program-symbol map, the
+Column 2 country list, and the country→preference-program membership table are no
+longer constants in app code — they are generated from the HTS General Notes we
+already fetch. `parse_general_note_3.R` is **incremental + build-wired** (runs in
+`00_build_timeseries.R` under `SAIL_EMIT_GN3`, only fetching revisions not already
+extracted, carrying forward over reststop gaps), so a **new HTS revision updates
+the data with no code change and no Claude in the loop**.
+
+- **Census mapping is precision-first**: a General-Note country name that doesn't
+  match a census code exactly (or via the reviewed `country_name_aliases.csv`) is
+  emitted name-only with **no** code — it asserts no eligibility, so a miss falls
+  back to the safe base-NTR/MFN default rather than fabricating a preference.
+- **`fta_partners.csv`** is reviewed reference data (FTA partner → census code +
+  HTS codes), the same category as `census_codes.csv`; FTA partners change only by
+  treaty, never per-revision.
+- Consumed by `utils/tradeAgreements.ts` (`COUNTRY_MEMBERSHIPS`,
+  `programCodesForCountry`, `getAgreementStatus`, `isUSMCACountry`) and
+  `types/tariff.ts` (`COLUMN2_COUNTRY_CODES`). Beneficiary memberships
+  (GSP/AGOA/CBERA) are **new** surfaceable info — previously only FTAs were mapped.
+- **`programRequirements.json`** is the third bundle: curated, General-Note-anchored
+  eligibility requirements per program (origin, value-content, certification,
+  shipment, eligibility) — the "missing facts" the opportunity model shows behind a
+  *suggested* preference. Its source is `config/program_requirements.yaml` (the only
+  hand-curated input on Path C); the emitter validates every declared symbol against
+  the parsed `gn3_program_symbols.csv`, so it can't invent a program the HTS doesn't
+  list.
+
 ### Path B — per-row provenance (live, from the API)
 
 ```
@@ -78,7 +123,9 @@ time anyone regenerates.
 scripts/emit_frontend_bundles.sh
 ```
 
-Runs both generators; writes to both repos. Override the sail-gtx location with
+Runs all five generators (`emit_duty_citations`, `emit_legal_refs_json`,
+`emit_program_symbols`, `emit_program_countries`, `emit_program_requirements`);
+writes to both repos. Override the sail-gtx location with
 `SAIL_GTX_REPO=/path/to/sail-gtx-prerelease`. **Then commit the regenerated
 `constants/*.json` in the sail-gtx repo** so Vercel picks them up.
 
@@ -88,10 +135,14 @@ Runs both generators; writes to both repos. Override the sail-gtx location with
 scripts/install-hooks.sh      # one-time: sets core.hooksPath = scripts/git-hooks
 ```
 
-After this, committing a change to `config/duty_citations.yaml`,
-`config/legal_reference.yaml`, or `resources/ch99_legal_refs.csv` runs the
-generators and re-stages this repo's bundles automatically. (It can't reach the
-sail-gtx repo's git, so it prints a reminder to commit those too.)
+After this, committing a change to any bundle source runs the generators and
+re-stages this repo's bundles automatically. The watched sources are
+`config/duty_citations.yaml`, `config/legal_reference.yaml`,
+`config/program_requirements.yaml`, `resources/ch99_legal_refs.csv`, the three
+`resources/gn*` CSVs (`gn3_program_symbols`, `gn3_column2_countries`,
+`gn_program_countries`), `resources/fta_partners.csv`, and
+`resources/country_name_aliases.csv`. (It can't reach the sail-gtx repo's git, so
+it prints a reminder to commit those too.)
 
 ### Drift check (CI + manual)
 
@@ -171,10 +222,19 @@ duty-stack behavior.
 |------|------|
 | `config/duty_citations.yaml` | reason_code → citation/narrative; sources; program indicators |
 | `config/legal_reference.yaml` | audited authorities (proclamations/EOs/CBP), `ieepa_refund` block |
+| `config/program_requirements.yaml` | curated, GN-anchored eligibility requirements per program (only hand-curated Path C input) |
 | `resources/ch99_legal_refs.csv` | machine-extracted HTS-Note authorities per revision |
+| `src/extract_legal_refs.R` | → `resources/ch99_legal_refs.csv` from each revision's Ch99 PDF (incremental, build-wired under `SAIL_EMIT_LEGAL_REFS`) |
 | `scripts/emit_duty_citations.R` | → `dutyCitations.json` (both repos) |
 | `scripts/emit_legal_refs_json.R` | → `legalRefs.json` (both repos) |
-| `scripts/emit_frontend_bundles.sh` | runs both generators |
+| `src/parse_general_note_3.R` | GN 3(b)/3(c) + GSP/AGOA/CBERA lists → `resources/gn3_*.csv`, `gn_program_countries.csv` (incremental, build-wired under `SAIL_EMIT_GN3`) |
+| `resources/fta_partners.csv` | reviewed FTA partner → census code + HTS codes |
+| `resources/country_name_aliases.csv` | reviewed GN-name → census-code spelling/long-form variants |
+| `scripts/emit_program_symbols.R` | → `programSymbols.json` (symbol map + Column 2 names/codes, both repos) |
+| `scripts/emit_program_countries.R` | → `programCountries.json` (census_code → FTA + GSP/AGOA/CBERA, both repos) |
+| `scripts/emit_program_requirements.R` | → `programRequirements.json` (per-program eligibility requirements; validates symbols against gn3 map) |
+| `src/emit_rate_validation.R` | per-row rate provenance / reference-data invariants (C1–Q6) → `output/quality/rate_reconciliation_base*.csv` |
+| `scripts/emit_frontend_bundles.sh` | runs all five generators |
 | `scripts/check_bundles_fresh.sh` | drift check (CI + manual) |
 | `scripts/git-hooks/pre-commit` | auto-regenerate on YAML change |
 | `scripts/install-hooks.sh` | install the hook (`core.hooksPath`) |

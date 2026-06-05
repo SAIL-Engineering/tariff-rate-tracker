@@ -1315,7 +1315,7 @@ RATE_SCHEMA <- c(
   'rate_basis', 'specific_amount', 'specific_rate_unit',
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
-  'rounding_rule', 'calc_status',
+  'rounding_rule', 'calc_status', 'base_rate_source',
   'duty_provenance_json',
   'revision', 'effective_date',
   'valid_from', 'valid_until'
@@ -1348,7 +1348,7 @@ enforce_rate_schema <- function(df) {
     reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,
     duty_basis_unit = NA_character_,
     is_qty_duty_relevant = FALSE, quantity_source = NA_character_,
-    rounding_rule = '19cfr159.3_value', calc_status = 'ok',
+    rounding_rule = '19cfr159.3_value', calc_status = 'ok', base_rate_source = NA_character_,
     duty_provenance_json = NA_character_,
     revision = NA_character_,
     effective_date = as.Date(NA),

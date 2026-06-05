@@ -37,14 +37,14 @@ This covers two repositories that sit on either side of a single MotherDuck data
 │       │  Rscript src/00_build_timeseries.R                                   │
 │       ▼                                                                      │
 │   Partitioned parquet at data/timeseries/rate_timeseries_parquet/            │
-│     └── revision=2025_basic/   (184M rows total, ~6.6 GB, 39 revisions)      │
-│     └── revision=2025_rev_1/                                                 │
+│     └── revision=2019_basic/   (~613M rows total, ~8.2 GB, 132 revisions)    │
+│     └── revision=2019_rev_1/                                                 │
 │     └── ...                                                                  │
 │       │                                                                      │
 │       │  npm --prefix frontend run db:push-to-cloud                          │
 │       ▼                                                                      │
 │   MotherDuck — database: duty_calculator                                     │
-│     ├── main.rates (BASE TABLE, 184,978,080 rows)                            │
+│     ├── main.rates (BASE TABLE, 612,989,760 rows)                            │
 │     └── main.product_base_rates (VIEW)                                       │
 └──────────────────────────────────────────────────────────────────────────────┘
          ▲                                          ▲
@@ -94,13 +94,13 @@ tariff-rate-tracker/
 │   ├── 06_calculate_rates.R
 │   └── ...
 ├── data/
-│   ├── hts_archives/                                # HTS JSON inputs (gitignored, ~200 MB)
+│   ├── hts_archives/                                # HTS JSON inputs (gitignored, ~1.4 GB)
 │   │   └── hts_2026_rev_5.json
 │   └── timeseries/
-│       └── rate_timeseries_parquet/                 # ← SOURCE OF TRUTH (gitignored, ~1.5 GB)
-│           ├── revision=2025_basic/*.parquet
-│           ├── revision=2025_rev_1/*.parquet
-│           └── ... (39 partitions)
+│       └── rate_timeseries_parquet/                 # ← SOURCE OF TRUTH (gitignored, ~8.2 GB)
+│           ├── revision=2019_basic/*.parquet
+│           ├── revision=2019_rev_1/*.parquet
+│           └── ... (132 partitions)
 └── frontend/
     ├── server.js                                     # Express API (both local + Railway)
     └── scripts/push-to-motherduck.mjs                # The sync CLI (the ONLY data pusher)
@@ -113,7 +113,7 @@ None of these big files are committed to git. They live only on the machine wher
 ```
 duty_calculator (database)
 └── main (schema)
-    ├── rates (BASE TABLE, 184,978,080 rows)   ← populated by the sync CLI
+    ├── rates (BASE TABLE, 612,989,760 rows)   ← populated by the sync CLI
     └── product_base_rates (VIEW)              ← defined by the sync CLI
 ```
 
@@ -287,7 +287,8 @@ cd tariff-rate-tracker/frontend
 npm run db:push-to-cloud:dry
 
 # Full rebuild — drops+rebuilds all revisions. Required on first setup and
-# any time the parquet schema changes. Takes ~10 minutes for 184M rows.
+# any time the parquet schema changes. Scales with dataset size — the full
+# ~613M-row panel takes a while (~10 minutes at the prior 184M-row size).
 # Guards against accidental drops of a populated table: pass --confirm-drop.
 npm run db:push-to-cloud -- --confirm-drop
 
@@ -304,7 +305,7 @@ npm run db:push-to-cloud -- --memory-limit 8GB --threads 4 --confirm-drop
 
 Key safety rails:
 
-- **Default memory_limit is 4 GB with 2 threads** — larger settings OOM'd a 16 GB laptop during initial testing with the full 184M-row CTAS.
+- **Default memory_limit is 4 GB with 2 threads** — larger settings OOM'd a 16 GB laptop during initial testing of the full-dataset CTAS.
 - **`ORDER BY` is deliberately not applied during inserts** — sorting a whole partition in-memory caused OOMs. MotherDuck's row-group min/max statistics still prune effectively on `(hts10, country, revision)` filters because the R pipeline writes parquet in a roughly hts-ordered layout.
 - **`--confirm-drop`** is required if the `rates` table already exists AND has rows. Prevents accidental wipes of deployed data.
 - **NDJSON logs on stdout** — every event is one JSON line: `{ts, event, ...}`. Parse from R with `jsonlite::stream_in(textConnection(result))`.
@@ -406,7 +407,7 @@ Configuration files at repo root:
    - `PORT` — Railway injects this automatically.
    - `API_PORT` — legacy fallback; Railway's `PORT` takes precedence.
 
-4. **Deploy.** Railway redeploys automatically after any variable change. The healthcheck `/api/health` polls until it returns `{"status":"ok","rows":184978080}`. First boot takes ~30s because DuckDB has to warm the MotherDuck catalog.
+4. **Deploy.** Railway redeploys automatically after any variable change. The healthcheck `/api/health` polls until it returns `{"status":"ok","rows":612989760}`. First boot takes ~30s because DuckDB has to warm the MotherDuck catalog.
 
 **Updating tokens / CORS later:**
 - Edit the variable → Railway queues a new deploy → old pod drains → new pod takes over. Zero downtime in practice.
@@ -524,7 +525,7 @@ import('@duckdb/node-api').then(async ({ DuckDBInstance }) => {
   console.log('rates rows:', Number(r.getRowObjects()[0].n).toLocaleString());
 })"
 ```
-Expected: `rates rows: 184,978,080` (or whatever your current dataset size is).
+Expected: `rates rows: 612,989,760` (or whatever your current dataset size is).
 
 ### 2. Local API parity
 
@@ -545,7 +546,7 @@ kill %1 %2
 ```bash
 curl -s https://tariff-rate-tracker-production.up.railway.app/api/health
 ```
-Expected: `{"status":"ok","rows":184978080}`.
+Expected: `{"status":"ok","rows":612989760}`.
 
 ### 4. CORS allows the browser origin
 

@@ -23,6 +23,20 @@ The repo is designed to run in progressively richer modes depending on what loca
 
 The core series is the production dataset. Comparison inputs are optional.
 
+## Environment variable gates
+
+Several build stages run by default but can be toggled with environment variables, all read in `src/00_build_timeseries.R`:
+
+| Variable | Default | Effect |
+|---|---|---|
+| `SAIL_VALIDATE_RATES` | report-only | `strict` aborts the build on a rate-validation **correctness** violation (C1 `base_rate ≤ statutory_base_rate`; C2 finite/≥0). Coverage flags (Q3–Q6) stay report-only either way. See [data-pipeline-README.md §8](data-pipeline-README.md#8-quality-report). |
+| `SAIL_EMIT_GN3` | `1` (on) | Set `0` to skip General Note 3 parsing (program symbols, Column 2 list, GSP/AGOA/CBERA beneficiaries). Incremental + carry-forward; network/PDF op. |
+| `SAIL_EMIT_LEGAL_REFS` | `1` (on) | Set `0` to skip legal-authority extraction (`resources/ch99_legal_refs.csv` from Chapter 99 PDFs). Incremental. |
+| `SAIL_EMIT_NORMALIZED` | `1` (on) | Set `0` to disable the Phase 2 normalized dual-write to `output/normalized/`. |
+| `SAIL_RESUME_WINDOW_HOURS` | `12` | mtime window for incremental "fresh run" detection / resume clustering. |
+
+The GN3 and legal-ref emitters are network/PDF operations wrapped so they can never abort a build. `SAIL_VALIDATE_RATES=strict` is the only gate that can stop a build, and only on a correctness violation.
+
 ## First-run checklist
 
 ### 1. Verify the environment
@@ -121,6 +135,22 @@ By default, the pipeline uses **legal policy effective dates** where they differ
 | Floor exemptions | `resources/floor_exempt_products.csv` plus revision-specific `data/us_notes/floor_exempt_{revision}.csv` | committed plus auto-scrape | floor-country exemptions | `src/scrape_us_notes.R --floor-exemptions` (validates anchor coverage; refuses partial overwrites) |
 | Section 122 exemptions | `resources/s122_exempt_products.csv` | committed | Annex II exemptions | manual refresh when authority changes |
 
+### Program and legal-reference data (de-hardcoded)
+
+These drive the frontend's program / Column 2 / preference and citation surfaces. The `generated` rows are extracted per revision during the build; the `committed` rows are reviewed reference data. See [PROVENANCE_PIPELINE.md](PROVENANCE_PIPELINE.md).
+
+| Input | Path | Status | Role | Regeneration |
+|---|---|---|---|---|
+| GN3 symbol map | `resources/gn3_program_symbols.csv` | generated | Special-program symbol → program name | `src/parse_general_note_3.R` (build, `SAIL_EMIT_GN3`) |
+| GN3 Column 2 list | `resources/gn3_column2_countries.csv` | generated | Column 2 (non-NTR) country list | `src/parse_general_note_3.R` |
+| GN beneficiary lists | `resources/gn_program_countries.csv` | generated | GSP/AGOA/CBERA → census code | `src/parse_general_note_3.R` |
+| Ch99 legal authorities | `resources/ch99_legal_refs.csv` | generated | proclamations/EOs per revision | `src/extract_legal_refs.R` (build, `SAIL_EMIT_LEGAL_REFS`) |
+| FTA partners | `resources/fta_partners.csv` | committed | FTA partner → census code + HTS symbols | reviewed; changes by treaty |
+| Country name aliases | `resources/country_name_aliases.csv` | committed | GN-name → census-code spelling variants | reviewed |
+| Program requirements | `config/program_requirements.yaml` | committed | per-program eligibility requirements | manual; symbols validated vs GN3 map |
+| Legal reference registry | `config/legal_reference.yaml` | committed | audited authorities + IEEPA refund block | manual |
+| Duty citation registry | `config/duty_citations.yaml` | committed | `reason_code` → citation / narrative | manual |
+
 ### Optional inputs
 
 | Input | Path | Status | Role |
@@ -151,7 +181,10 @@ By default, the pipeline uses **legal policy effective dates** where they differ
 | `output/daily/daily_overall.csv` | daily aggregate mean and weighted ETR series |
 | `output/daily/daily_by_country.csv` | daily country-level aggregate rates |
 | `output/daily/daily_by_authority.csv` | daily authority decomposition |
-| `output/quality/` | build diagnostics and quality checks |
+| `output/quality/` | build diagnostics and quality checks (Ch99 triage, quality metrics) |
+| `output/quality/rate_reconciliation_base*.csv` | rate-validation invariants C1–Q6 (`emit_rate_validation.R`) |
+| `resources/gn3_*.csv`, `resources/gn_program_countries.csv`, `resources/ch99_legal_refs.csv` | generated General-Note + legal-authority reference data (incremental) |
+| `frontend/public/data/*.json` | daily aggregates plus the de-hardcoded program / legal-reference bundles |
 
 ### Optional outputs
 

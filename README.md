@@ -10,13 +10,19 @@ The repository's core product is an interval-encoded tariff panel for the U.S. t
 - Daily aggregate series in `output/daily/`
 - Optional daily product-country extracts
 - Optional weighted ETR outputs in `output/etr/`
-- Validation and diagnostics outputs when benchmark data is available
+- Validation and diagnostics outputs in `output/quality/` (rate-reconciliation invariants and per-revision quality metrics)
+- De-hardcoded program and legal-reference bundles in `frontend/public/data/` — HTS General-Note program symbols, Column 2 and preference-program (GSP/AGOA/CBERA/FTA) country lists, program eligibility requirements, and the duty/legal-citation registry — regenerated from source on every build (see [docs/PROVENANCE_PIPELINE.md](docs/PROVENANCE_PIPELINE.md))
 
 ## Start here
 
 - Build and setup: [docs/build.md](docs/build.md)
+- Data pipeline, end to end: [docs/data-pipeline-README.md](docs/data-pipeline-README.md)
+- Pipeline operations (run, rebuild, integrate a revision): [docs/pipeline-operations.md](docs/pipeline-operations.md)
+- Duty calculation logic: [docs/CALCULATION_LOGIC.md](docs/CALCULATION_LOGIC.md)
+- Duty provenance and legal references: [docs/PROVENANCE_PIPELINE.md](docs/PROVENANCE_PIPELINE.md)
 - Methodology and tariff-regime history: [docs/methodology.md](docs/methodology.md)
 - Non-official assumptions: [docs/assumptions.md](docs/assumptions.md)
+- Known data, logic, and coverage gaps: [docs/GAPS.md](docs/GAPS.md)
 - HTS revision chronology: [docs/revision_changelog.md](docs/revision_changelog.md)
 - Policy timing vs. HTS dates: [docs/policy_timing.md](docs/policy_timing.md)
 - **MotherDuck + Express API + frontend deploy**: [docs/MOTHERDUCK.md](docs/MOTHERDUCK.md)
@@ -52,7 +58,7 @@ That sequence builds the core series without requiring private benchmark data or
 
 ## Current scope
 
-The repo currently models 38 HTS revisions from January 1, 2025 through February 24, 2026, and extends the final interval through December 31, 2026 via the configured series horizon.
+The repo models 132 HTS revisions from February 21, 2019 (`2019_basic`) through May 28, 2026 (`2026_rev_9`), with the final interval extended through December 31, 2026 via the configured `series_horizon`. The pre-2025 revisions (2019–2024) are backfilled so the panel is one continuous series: the mature pre-2025 baseline (Section 232 steel/aluminum, Section 301 China Lists 1–4, Section 201) flows into the 2025–2026 policy sequence without a discontinuity.
 
 ## Notes
 

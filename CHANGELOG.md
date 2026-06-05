@@ -5,6 +5,79 @@ Entries follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 track Phase 2 schema normalization sub-slices at sub-day granularity because
 each slice interacts with the parity harness.
 
+## [Unreleased] — Data-driven rate universe: de-hardcoding, 2019–2024 backfill, provenance & validation
+
+This tranche (referred to as **Phase 0** in the build code) makes the rate
+universe data-driven — generated from the HTS General Notes and Chapter 99 PDFs
+rather than hardcoded in app code — extends the panel back to 2019, and adds
+per-row plus reference-data provenance with a validation harness that keeps the
+generated data from silently drifting.
+
+### Added
+- **Historical backfill (2019–2024).** `config/revision_dates.csv` now spans 132
+  revisions, `2019_basic` (2019-02-21) → `2026_rev_9` (2026-05-28). The mature
+  pre-2025 baseline (§232 steel/aluminum, §301 China Lists 1–4, §201) is carried
+  in `2019_basic` and flows continuously into the 2025–2026 sequence. Daily
+  aggregates and frontend timelines regenerated across the full span.
+- **General Note 3 de-hardcoding** (`src/parse_general_note_3.R`, build-wired in
+  `00_build_timeseries.R` under `SAIL_EMIT_GN3`, default on). Extracts the
+  Special-program symbol map (GN 3(c)(i)), the Column 2 country list (GN 3(b)),
+  and the GSP/AGOA/CBERA beneficiary lists (GN 4/16/7) per revision into
+  `resources/gn3_program_symbols.csv`, `resources/gn3_column2_countries.csv`, and
+  `resources/gn_program_countries.csv`. Incremental + carry-forward (only new
+  revisions are fetched); precision-first census mapping (an unmatched name gets
+  no code, so a miss falls back to the safe MFN default rather than fabricating a
+  preference). Reviewed reference data: `resources/fta_partners.csv`,
+  `resources/country_name_aliases.csv`.
+- **Frontend program bundles** (`scripts/emit_program_{symbols,countries,requirements}.R`)
+  → `frontend/public/data/program_symbols.json`, `program_countries.json`,
+  `program_requirements.json`. The program-symbol map, Column 2 list,
+  country→program membership, and per-program eligibility requirements ("missing
+  facts" behind a suggested preference) are no longer constants in app code.
+  Requirements are curated in `config/program_requirements.yaml` and validated
+  against the parsed symbol map.
+- **Legal-reference reconciliation** (`src/extract_legal_refs.R`,
+  `config/legal_reference.yaml`, `config/duty_citations.yaml`,
+  `resources/ch99_legal_refs.csv`) → `legal_refs.json` / `duty_citations.json`.
+  Machine-extracts the proclamations/EOs/CBP messages each Chapter 99 authority
+  cites, per revision, with Federal Register cites and verification status.
+  Build-wired under `SAIL_EMIT_LEGAL_REFS` (default on, incremental).
+- **Per-row rate provenance** — `base_rate_source` column
+  (`'own'` / `'inherited:<parent_htsno>'` / `'unresolved'`) added in
+  `src/04_parse_products.R` (via the `htsno_stack`) and to `RATE_SCHEMA`
+  (`src/helpers.R`). Records which HTS line each base rate came from, so rate
+  inheritance is auditable.
+- **Rate-validation harness** (`src/emit_rate_validation.R`), build-wired,
+  report-only by default; `SAIL_VALIDATE_RATES=strict` aborts on a correctness
+  violation. Invariants: C1 `base_rate ≤ statutory_base_rate`, C2 finite/≥0, plus
+  coverage bands Q3 (symbol coverage), Q4 (`base_rate_source` resolved), Q5
+  (Column 2 resolves), Q6 (GSP/AGOA/CBERA beneficiary counts). Writes
+  `output/quality/rate_reconciliation_base*.csv`.
+- **Quality-metrics harness** (`src/emit_quality_metrics.R`) — per-revision
+  statistical audit from the on-disk ch99 caches, regenerated on every build mode
+  so `output/quality/` never goes stale.
+- **Statutory total** — `mean_total_statutory_all_pairs` in
+  `src/09_daily_series.R`, the conservative per-shipment total (statutory base +
+  additionals), reported alongside the effective (preference-weighted) mean.
+- **Bundle freshness automation** — `scripts/git-hooks/pre-commit` regenerates the
+  five JSON bundles when their YAML/CSV sources are staged;
+  `.github/workflows/bundles-fresh.yml` fails CI on drift.
+
+### Changed
+- **Duty-calc ingestion is JSON-only** — the timeseries build no longer ingests
+  the auxiliary HTS CSV for duty calculation, removing a data-contract violation.
+- **§232 provenance re-architected** — `s232_reason` now derives from the annex
+  tier (`s232_annex`: `annex_1a` primary metal, `annex_1b`/`annex_3` derivative)
+  plus the covered metal (`s232_metal`: steel/aluminum/copper), not the ambiguous
+  9903.82 reporting code. `s232_annex` / `s232_metal` added to `RATE_SCHEMA`.
+
+### Documentation
+- Swept `README.md`, `docs/build.md`, `docs/methodology.md`,
+  `docs/revision_changelog.md`, `docs/data-pipeline-README.md`,
+  `docs/CALCULATION_LOGIC.md`, `docs/pipeline-operations.md`, and
+  `docs/PROVENANCE_PIPELINE.md` to the 2019–2026 scope and the new
+  de-hardcoding / provenance / validation stages.
+
 ## [Unreleased] — Phase 2.5 scaffolding
 
 ### Added

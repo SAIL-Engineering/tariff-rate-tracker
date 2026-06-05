@@ -4,7 +4,7 @@ This document is the canonical description of the tariff regime, the repo's mode
 
 ## Scope
 
-The tracker constructs statutory U.S. tariff rates at the `HTS-10 x country` level by processing USITC HTS revisions. The current repo covers 39 revisions from January 1, 2025 through February 24, 2026, and extends the final interval through December 31, 2026 using the configured series horizon.
+The tracker constructs statutory U.S. tariff rates at the `HTS-10 x country` level by processing USITC HTS revisions. The repo covers 132 revisions from February 21, 2019 (`2019_basic`) through May 28, 2026 (`2026_rev_9`), and extends the final interval through December 31, 2026 using the configured `series_horizon`. The pre-2025 revisions (2019–2024) are backfilled so the panel is one continuous series; the 2025–2026 policy sequence described below is a continuation of the mature pre-2025 baseline, not the entire series.
 
 The production series is built from:
 
@@ -19,12 +19,14 @@ TPC and Tariff-ETRs are used for validation and comparison only.
 
 ### Pre-2025 baseline
 
-At the start of 2025, the modeled baseline already included:
+The baseline is no longer an assumed starting state — it is built from actual HTS revisions back to `2019_basic` (2019-02-21). By the start of 2025 the modeled baseline already included:
 
 - statutory MFN base rates
 - Section 232 tariffs on steel and aluminum
 - Section 301 tariffs on China, including pre-2025 Biden-era accelerations
 - Section 201 safeguard duties
+
+The 2019–2024 revisions carry these matured tariffs directly, so the 2025–2026 sequence stacks on a measured, not assumed, baseline.
 
 ### 2025-2026 sequence modeled by the repo
 

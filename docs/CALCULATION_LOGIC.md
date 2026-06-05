@@ -67,6 +67,18 @@ These are maintained in `resources/` and provide coverage lists that cannot be r
 | `mfn_exemption_shares.csv` | Effective MFN base-rate adjustment (FTA/GSP utilization) | Source trade data |
 | `metal_content_shares_bea_hs10.csv` | Per-type metal content (steel/aluminum/copper) for derivative 232 scaling | BEA I-O workflow |
 
+#### General-Note program / country reference data (de-hardcoded)
+
+These drive the frontend's rate-tier and preference-program logic (see [§4.1](#41-rate-tier-selection)). The `gn*` files are **generated and incremental** — extracted per revision from the HTS General Notes by `src/parse_general_note_3.R` (build-wired under `SAIL_EMIT_GN3`); `fta_partners.csv` and `country_name_aliases.csv` are reviewed reference data in the same category as `census_codes.csv`.
+
+| File | Content | Refresh Method |
+|---|---|---|
+| `gn3_program_symbols.csv` | Special-program symbol → program name (GN 3(c)(i)), per revision | `src/parse_general_note_3.R` (generated) |
+| `gn3_column2_countries.csv` | Column 2 (non-NTR) country list (GN 3(b)), per revision | `src/parse_general_note_3.R` (generated) |
+| `gn_program_countries.csv` | GSP/AGOA/CBERA beneficiary lists (GN 4/16/7) → census code | `src/parse_general_note_3.R` (generated) |
+| `fta_partners.csv` | FTA partner → census code + HTS Special symbols (USMCA, CPTPP, IL, CL, …) | Reviewed; changes by treaty |
+| `country_name_aliases.csv` | Reviewed GN-name → census-code spelling/long-form variants | Reviewed |
+
 ### 1.4 What Is NOT a Source
 
 - **TPC benchmarks** and **Tariff-ETRs** are comparison/validation tools, not production inputs.
@@ -142,7 +154,7 @@ Extracts per-product data for each valid 10-digit HTS code:
 
 6. **Duty basis unit** derived from the legal rate expression (e.g., `"kg"` from `"30.5¢/kg + 8.5%"`). This is the unit that enters the duty math for specific/compound rates. It is null for ad valorem rates because quantity does not drive duty.
 
-7. **Rate inheritance**: ~59% of HTS10 products are statistical suffixes with empty rate fields. These inherit from the nearest parent in the indent hierarchy.
+7. **Rate inheritance + provenance**: ~59% of HTS10 products are statistical suffixes with empty rate fields. These inherit from the nearest rate-bearing parent in the indent hierarchy (tracked via `htsno_stack`). The `base_rate_source` column records where each base rate came from — `'own'` (the line carries its own rate), `'inherited:<parent_htsno>'` (inherited from the named parent), or `'unresolved'` (neither) — so inheritance is auditable. It backs rate-validation invariant Q4 (see [data-pipeline-README.md §8](data-pipeline-README.md#8-quality-report)).
 
 8. **19 CFR 159.3 rounding rule** assigned via `determine_rounding_rule()`:
 
@@ -392,6 +404,12 @@ rate_232 = max(0, rate_232 − rebate_rate × us_assembly_share)
 
 The `duty_basis_unit` comes from the legal rate expression (e.g., `"kg"` from `"30.5¢/kg + 8.5%"`), NOT from the statistical reporting `reported_unit_1`/`reported_unit_2`.
 
+### 3.7 Statutory vs. Effective Base and Totals
+
+The panel carries two base columns: `statutory_base_rate` (Column 1-General MFN, before any preference utilization) and `base_rate` (effective, after the MFN/FTA/GSP exemption-share adjustment in [§2.4 sub-step 6c](#24-step-06-rate-calculation)). Additional duties stack on the **effective** base, but the IEEPA floor deduction is recomputed against it, so the choice of base propagates into the floor (see [§3.3](#33-ieepa-floor-deduction)).
+
+The daily aggregator (`src/09_daily_series.R`) reports both perspectives: the effective (preference-weighted) mean total, and `mean_total_statutory_all_pairs` — the conservative per-shipment total built on the statutory base plus additionals, defensible as the Column 1-General worst case when preference utilization is unknown.
+
 ---
 
 ## 4. Frontend Calculation Engine
@@ -402,9 +420,11 @@ The `duty_basis_unit` comes from the legal rate expression (e.g., `"kg"` from `"
 
 `selectApplicableBaseRate(rate, countryCode)` determines which Column 1/2 rate to use:
 
-1. **Column 2 countries** (Cuba `2390`, DPRK `5790`, Belarus `4622`, Russia `4621`): use `rate_column2`
+1. **Column 2 countries** (e.g. Cuba `2390`, DPRK `5790`, Belarus `4622`, Russia `4621`): use `rate_column2`
 2. **Special programs**: If country code matches a program code in `special_programs_json`, use the special rate
 3. **All others**: use `base_rate` (Column 1 General / MFN)
+
+The Column 2 country set and the program-symbol → program map are **no longer hardcoded constants** — they are generated per revision from the HTS General Notes into `program_symbols.json` / `program_countries.json` (the codes above are illustrative; the authoritative, revision-aware list is the bundle). See [PROVENANCE_PIPELINE.md](PROVENANCE_PIPELINE.md) Path C and [§1.3](#13-committed-resource-files).
 
 ### 4.2 19 CFR 159.3 Rounding Rules
 
@@ -587,6 +607,7 @@ The canonical rate output schema is defined in `RATE_SCHEMA` in [`src/helpers.R`
 | `country` | character | Census Bureau country code |
 | `base_rate` | numeric | Effective MFN rate (post-exemption) |
 | `statutory_base_rate` | numeric | Statutory MFN rate (pre-exemption) |
+| `base_rate_source` | character | Base-rate provenance: `own` / `inherited:<parent_htsno>` / `unresolved` |
 | `rate_232` | numeric | Section 232 effective rate |
 | `rate_301` | numeric | Section 301 effective rate |
 | `rate_ieepa_recip` | numeric | IEEPA reciprocal effective rate |
@@ -595,6 +616,8 @@ The canonical rate output schema is defined in `RATE_SCHEMA` in [`src/helpers.R`
 | `rate_section_201` | numeric | Section 201 effective rate |
 | `rate_other` | numeric | Other Ch99 provisions |
 | `metal_share` | numeric | Metal content fraction (for 232 scaling) |
+| `s232_annex` | character | 232 annex tier: `annex_1a` (primary metal) / `annex_1b` / `annex_3` (derivative); NA if not 232-covered |
+| `s232_metal` | character | Covered metal for the 232 annex: `steel` / `aluminum` / `copper` |
 | `total_additional` | numeric | Sum of additional duties (stacked) |
 | `total_rate` | numeric | `base_rate + total_additional` |
 | `usmca_eligible` | logical | USMCA exemption eligibility |
