@@ -48,11 +48,11 @@
   "sources": {
     "census_mfn_hs2": {
       "label": "FTA/GSP preference utilization (HS2 x country)",
-      "detail": "Share of this origin's HS2 imports that entered under a preferential program (FTA/GSP), from U.S. Census calculated-duty data. Blended into the effective base rate in pipeline step 6c (mfn_exemption_shares)."
+      "detail": "Share of this origin's HS2 imports that entered under a preferential program (FTA/GSP), from U.S. Census calculated-duty data. Weighted into the trade-weighted effective rate in pipeline step 6c (mfn_exemption_shares)."
     },
     "usmca_hts10": {
       "label": "USMCA utilization (HTS10)",
-      "detail": "Share entering under USMCA at the 10-digit level, from USITC DataWeb SPI ('S'/'S+') data. Applied to Canada/Mexico in pipeline step 7 (usmca_product_shares) — more precise than HS2 blending."
+      "detail": "Share entering under USMCA at the 10-digit level, from USITC DataWeb SPI ('S'/'S+') data. Applied to Canada/Mexico in pipeline step 7 (usmca_product_shares); more precise than the HS2-level preference weighting."
     }
   },
   "programs": {
@@ -152,7 +152,7 @@
       "short_label": "Free (Column 1-General)",
       "legal_authority": "HTSUS Column 1-General",
       "mechanism": "flat",
-      "narrative": "{hts10} is Free (0%) under HTSUS Column 1-General — no MFN duty before additional Ch.99 programs."
+      "narrative": "{hts10} is Free (0%) under HTSUS Column 1-General; no MFN duty before additional Ch.99 programs."
     },
     "base_col2": {
       "authority_key": "base",
@@ -173,18 +173,18 @@
     "base_mfn_blended": {
       "authority_key": "base",
       "status": "active",
-      "short_label": "MFN — FTA/GSP-blended effective rate",
+      "short_label": "Column 1-General (NTR/MFN)",
       "legal_authority": "HTSUS Column 1-General, net of FTA/GSP preference utilization",
       "mechanism": "blend",
-      "narrative": "Statutory MFN (Column 1-General) for {hts10} is {statutory_pct}, but about {preference_share_pct} of {country_name}'s trade in this category enters under an FTA/GSP preference ({preference_source}), so the EFFECTIVE base rate is {applied_pct}. A specific shipment pays the full {statutory_pct} unless it claims the applicable preference."
+      "narrative": "The base NTR/MFN (Column 1-General) rate for {hts10} is {statutory_pct}. About {preference_share_pct} of {country_name}'s trade in this category enters under an FTA/GSP preference program ({preference_source}), so the trade-weighted effective rate is {applied_pct}. A specific shipment owes the full base NTR/MFN rate unless it claims, and can substantiate, the applicable preference."
     },
     "base_usmca_blended": {
       "authority_key": "base",
       "status": "active",
-      "short_label": "MFN — USMCA-blended effective rate",
-      "legal_authority": "USMCA Implementation Act (19 U.S.C. 4501 et seq.); HTSUS General Note 11 — applied against the Column 1-General rate",
+      "short_label": "Column 1-General (NTR/MFN)",
+      "legal_authority": "USMCA Implementation Act (19 U.S.C. 4501 et seq.); HTSUS General Note 11, applied against the Column 1-General rate",
       "mechanism": "blend",
-      "narrative": "Statutory MFN for {hts10} is {statutory_pct}, but about {preference_share_pct} of {country_name}'s trade in this 10-digit line enters Free under USMCA ({preference_source}), so the EFFECTIVE base rate is {applied_pct}. A shipment that does not claim USMCA pays the full {statutory_pct}."
+      "narrative": "The base NTR/MFN (Column 1-General) rate for {hts10} is {statutory_pct}. About {preference_share_pct} of {country_name}'s trade in this 10-digit subheading enters duty-free under USMCA ({preference_source}), so the trade-weighted effective rate is {applied_pct}. A shipment that does not claim USMCA owes the full base NTR/MFN rate."
     },
     "s232_steel": {
       "authority_key": "232",
@@ -288,25 +288,25 @@
     "s232_russia_proc10522": {
       "authority_key": "232",
       "status": "active",
-      "short_label": "Section 232 — Russia 200%",
+      "short_label": "Section 232: Russia 200%",
       "legal_authority": "Proclamation 10522 (Feb 24, 2023), retained by the April 2026 proclamation",
       "statute": "19 U.S.C. 1862",
       "mechanism": "flat",
-      "narrative": "Russia-origin {hts10} carries the flat 200% Section 232 metals rate under Proclamation 10522 — this REPLACES the ordinary 232 base rate (it does not stack on it) and is continuous across 2023–2026."
+      "narrative": "Russia-origin {hts10} carries the flat 200% Section 232 metals rate under Proclamation 10522; this REPLACES the ordinary 232 base rate (it does not stack on it) and is continuous across 2023–2026."
     },
     "s232_turkey_surtax": {
       "authority_key": "232",
       "status": "active",
-      "short_label": "Section 232 — Turkey 50% steel",
+      "short_label": "Section 232: Turkey 50% steel",
       "legal_authority": "Proclamation 9772 (Aug 10, 2018); 9903.80.02",
       "statute": "19 U.S.C. 1862",
       "mechanism": "flat",
-      "narrative": "Turkey-origin steel {hts10} carried the elevated 50% Section 232 rate (Proclamation 9772, 2018–2019) — a single-country override of the 25% blanket."
+      "narrative": "Turkey-origin steel {hts10} carried the elevated 50% Section 232 rate (Proclamation 9772, 2018–2019); a single-country override of the 25% blanket."
     },
     "s232_usmca_exempt": {
       "authority_key": "232",
       "status": "exempt",
-      "short_label": "Exempt — USMCA (post-annex 232)",
+      "short_label": "Exempt: USMCA (post-annex 232)",
       "legal_authority": "April 2026 Section 232 annex, USMCA eligibility restoration",
       "statute": "19 U.S.C. 1862",
       "mechanism": "flat",
@@ -324,7 +324,7 @@
     "s301_exempt": {
       "authority_key": "301",
       "status": "exempt",
-      "short_label": "Exempt — Section 301 exclusion",
+      "short_label": "Exempt: Section 301 exclusion",
       "legal_authority": "USTR Section 301 exclusion/expired list",
       "statute": "19 U.S.C. 2411",
       "mechanism": "flat",
@@ -351,18 +351,18 @@
     "ieepa_exempt_annex_ii": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — Annex II (semiconductors/electronics, pharma, etc.)",
+      "short_label": "Exempt: Annex II (semiconductors/electronics, pharma, etc.)",
       "legal_authority": "U.S. Note 2(v)(iii) to subchapter III, ch. 99 (Annex II of EO 14257)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "claimed_via": "9903.01.32",
       "mechanism": "floor",
       "channel": "importer_non_claim",
-      "narrative": "{country_name}'s reciprocal program ({program_ch99}) would otherwise apply {counterfactual_pct} to {hts10} (its base rate {base_pct} is below the floor), but {hts10} is on the Annex II exemption ({authority}), which carves out of BOTH the baseline surcharge and the floor. SAIL applies the exempt rate ({applied_pct}); the exemption is claimed via {claimed_via}. If it is not claimed, the {counterfactual_pct} program rate applies instead (importer-non-claim exposure) — so a $0 here is an intentional exemption, not a coverage gap."
+      "narrative": "{country_name}'s reciprocal program ({program_ch99}) would otherwise apply {counterfactual_pct} to {hts10} (its base rate {base_pct} is below the floor), but {hts10} is on the Annex II exemption ({authority}), which carves out of BOTH the baseline surcharge and the floor. SAIL applies the exempt rate ({applied_pct}); the exemption is claimed via {claimed_via}. If it is not claimed, the {counterfactual_pct} program rate applies instead (importer-non-claim exposure); so a $0 here is an intentional exemption, not a coverage gap."
     },
     "ieepa_exempt_ita": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — Annex II (ITA semiconductor subset)",
+      "short_label": "Exempt: Annex II (ITA semiconductor subset)",
       "legal_authority": "U.S. Note 2(v)(iii) to subchapter III, ch. 99 (ITA-enumerated subheadings)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "claimed_via": "9903.01.32",
@@ -373,7 +373,7 @@
     "ieepa_exempt_ch98": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — Chapter 98 (statutory)",
+      "short_label": "Exempt: Chapter 98 (statutory)",
       "legal_authority": "U.S. Note 2(v)(i) (Ch. 98 except 9802.00.40/.50/.60/.80)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "claimed_via": "9903.01.32",
@@ -384,7 +384,7 @@
     "ieepa_exempt_berman": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — Berman Amendment (informational materials)",
+      "short_label": "Exempt: Berman Amendment (informational materials)",
       "legal_authority": "Berman Amendment, 19 U.S.C. 2505 (Ch. 49 printed matter, Ch. 97 art/antiques)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "claimed_via": "9903.01.32",
@@ -395,7 +395,7 @@
     "ieepa_floor_exempt": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — floor-country product carve-out",
+      "short_label": "Exempt: floor-country product carve-out",
       "legal_authority": "EO 14257 floor structure, product-level carve-out (FR 2025-23316)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "mechanism": "floor",
@@ -405,7 +405,7 @@
     "ieepa_country_eo_exempt": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — country-specific EO carve-out",
+      "short_label": "Exempt: country-specific EO carve-out",
       "legal_authority": "Country-specific executive order modifying EO 14257",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "mechanism": "surcharge",
@@ -415,7 +415,7 @@
     "ieepa_duty_free_exempt": {
       "authority_key": "ieepa_recip",
       "status": "exempt",
-      "short_label": "Exempt — duty-free base (diagnostic scope)",
+      "short_label": "Exempt: duty-free base (diagnostic scope)",
       "legal_authority": "ieepa_exempt_scope diagnostic (duty-free-base treatment)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "mechanism": "surcharge",
@@ -424,7 +424,7 @@
     "ieepa_not_in_program": {
       "authority_key": "ieepa_recip",
       "status": "not_applicable",
-      "short_label": "Not applicable — origin not in reciprocal program",
+      "short_label": "Not applicable: origin not in reciprocal program",
       "legal_authority": "EO 14257 (country scope)",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "mechanism": "surcharge",
@@ -494,10 +494,10 @@
     "gap_unresolved": {
       "authority_key": "other",
       "status": "gap",
-      "short_label": "Coverage gap — revision not loaded",
+      "short_label": "Coverage gap: revision not loaded",
       "legal_authority": "n/a",
       "mechanism": null,
-      "narrative": "No rate is joined to {hts10} for {country_name} in the loaded revision ({revision}). This is a genuine coverage gap — load the revision that covers this program before relying on this $0."
+      "narrative": "No rate is joined to {hts10} for {country_name} in the loaded revision ({revision}). This is a genuine coverage gap; load the revision that covers this program before relying on this $0."
     }
   }
 }
