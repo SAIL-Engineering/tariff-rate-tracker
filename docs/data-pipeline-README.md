@@ -58,6 +58,143 @@ Rscript src/00_build_timeseries.R
 cd frontend && node server.js
 ```
 
+### Publish a new revision to sail-gtx (deployed app)
+
+The steps above refresh data **locally**. To roll a new revision out to the
+deployed **sail-gtx-prerelease** app (Railway server + Vercel frontend), run the
+HTS automation `run_locally.sh`. It is a 9-step pipeline that discovers/builds the
+revision, refreshes the RAG index, records the revision in Supabase, commits the
+dataset JSON into sail-gtx, repoints both deployments at the new revision, and
+smoke-tests the result.
+
+#### One-time setup: credentials
+
+Every secret lives in **`scripts/hts_automation/.env.hts_automation`** (copied from
+`.env.hts_automation.example`, **gitignored — never commit it**). `run_locally.sh`
+sources it automatically, so this is the single place all credentials are written:
+
+```bash
+cp scripts/hts_automation/.env.hts_automation.example scripts/hts_automation/.env.hts_automation
+pip install -r scripts/hts_automation/requirements.txt
+# then edit scripts/hts_automation/.env.hts_automation and fill in every value
+```
+
+| Variable | Used by (step) | How to get it |
+|----------|----------------|---------------|
+| `RAGIE_API_KEY` (`tnt_…`) | 5 Ragie swap | Ragie dashboard → API Keys |
+| `SUPABASE_URL` | 6 Supabase upsert | Supabase project → Settings → API → Project URL (already set in the template) |
+| `SUPABASE_SERVICE_ROLE_KEY` (`eyJ…`) | 6 Supabase upsert | Supabase project → Settings → API → the **`service_role`** secret key |
+| `SAIL_GTX_REPO_PAT` (`github_pat_…`) | 7 cross-repo commit | GitHub fine-grained PAT — see below |
+| `SAIL_GTX_PRODUCTION_BRANCH` | 7, 8 | sail-gtx branch the deploys read from (e.g. `illegal-transshipment`). Config, not a secret. |
+| `RAILWAY_TOKEN` | 8 Railway env | Railway → Account Settings → Tokens (an account/team token, not a one-off project token) |
+| `RAILWAY_PROJECT_ID` / `_SERVICE_ID` / `_ENVIRONMENT_ID` | 8 Railway env | All three are in the dashboard URL — see note below |
+| `VERCEL_TOKEN` | 8 Vercel env | Vercel → Account Settings → Tokens → Create Token (scope it to the team that owns the project) |
+| `VERCEL_PROJECT_ID` (`prj_…`) | 8 Vercel env | Vercel project → Settings → General → Project ID (also set `VERCEL_TEAM_ID` if on a team) |
+| `SAIL_GTX_HEALTHCHECK_URL` / `SAIL_GTX_API_BASE` | 9 smoke test | Deployed Railway URLs (already set in the template) |
+| `GIT_USER_NAME` / `GIT_USER_EMAIL` | 7 commit author | Optional; defaults to `sail-gtx-bot` |
+
+> **Getting the three Railway IDs (and why `SERVICE_ID` matters):** the env-var
+> update is scoped by `(projectId, environmentId, serviceId)`, so **`RAILWAY_SERVICE_ID`
+> is what targets the `sail-gtx-prerelease` service specifically** rather than any
+> other service in the same project. Open that service in the **production**
+> environment in the Railway dashboard; the URL contains all three UUIDs:
+> `…/project/<RAILWAY_PROJECT_ID>/service/<RAILWAY_SERVICE_ID>?environmentId=<RAILWAY_ENVIRONMENT_ID>`.
+> Click the correct service (not the sibling repo) and confirm the environment
+> selector reads "production" before copying them.
+
+**Creating `SAIL_GTX_REPO_PAT`:** on GitHub go to **Settings → Developer settings →
+Fine-grained tokens → Generate new token**, then:
+- **Resource owner:** `SAIL-Engineering`
+- **Repository access:** Only select repositories → `sail-gtx-prerelease`
+- **Repository permissions → Contents: Read and write** (nothing else is needed)
+- Copy the `github_pat_…` value into `SAIL_GTX_REPO_PAT`. Tokens expire — regenerate
+  when they lapse. The branch in `SAIL_GTX_PRODUCTION_BRANCH` must not be protected
+  against the token's identity, or the *push* (not the clone) will 403.
+
+#### Run it
+
+```bash
+scripts/hts_automation/run_locally.sh                         # latest published revision
+scripts/hts_automation/run_locally.sh --revision 2026_rev_10  # a specific revision
+scripts/hts_automation/run_locally.sh --dry-run               # run every step, write nothing external
+```
+
+| Flag | Effect |
+|------|--------|
+| *(none)* | Roll out the latest published revision |
+| `--revision <id>` | Target a specific revision (e.g. `2026_rev_10`) |
+| `--dry-run` | Execute every step but make **no** external writes (clone + diff only; no push, upsert, or env change) |
+| `--skip-scrape` | Skip step 1; reuse the existing `config/revision_dates.csv` |
+| `--run-classify` / `--skip-classify` | Toggle the optional canary classify (default: skip) |
+
+#### What the 9 steps do
+
+| # | Step | What it does | Needs |
+|---|------|--------------|-------|
+| 1 | Scrape | `01_scrape_revision_dates.R` polls USITC, updates `config/revision_dates.csv`, clears `needs_review` | — |
+| 2 | Resolve target | Picks the target revision and resolves its year / number / effective date / JSON + CSV paths | — |
+| 3 | Download | `02_download_hts.R` fetches the HTS JSON + CSV for the year if missing | — |
+| 4 | Ragie minimal CSV | `build_hts_minimal.py` trims the CSV for the RAG partition | — |
+| 5 | Ragie partition swap | Uploads the new CSV to the `us_hts_<year>_latest` partition, waits for `ready`, deletes the old docs | `RAGIE_API_KEY` |
+| 6 | Supabase upsert | Upserts the revision row into `hts_revisions` (the canonical active-revision record) | `SUPABASE_*` |
+| 7 | Cross-repo commit | `sail_gtx_commit.py` commits the dataset JSON to sail-gtx (`server/data/hts/` **and** `public/data/hts-explorer/`) + a `hts-<year>-rev<n>` tag | `SAIL_GTX_REPO_PAT`, `SAIL_GTX_PRODUCTION_BRANCH` |
+| 8 | Env var update | `update_env_vars.py` sets `VITE_HTS_REVISION_*` on **Railway and Vercel** so both deployments redeploy pointing at the new revision; writes a rollback snapshot to `/tmp/hts-env-snapshot.json` | `RAILWAY_*`, `VERCEL_*` |
+| 9 | Smoke test | `smoke_test.py` hits the health + API endpoints to confirm the redeploy is serving the new revision | `SAIL_GTX_HEALTHCHECK_URL`, `SAIL_GTX_API_BASE` |
+
+> **Step ordering matters:** step 7 (commit the JSON) must run before step 8
+> (env-var change → redeploy). The server asserts the JSON file exists at boot, so
+> if the env var flips before the file is committed the redeploy fails its boot
+> check. That is why a step-7 failure stops the run before steps 8-9 ever execute.
+
+#### Where the dataset lands
+
+`hts_<YEAR>_revision_<N>.json` is written to the two locations the deployed app
+reads from — both must be updated or the frontend HTS Explorer lags the server:
+
+| sail-gtx destination | Consumer | When read |
+|----------------------|----------|-----------|
+| `server/data/hts/` | Railway API server (`HTS_DATA_DIR`) | at runtime |
+| `public/data/hts-explorer/` | Vercel static frontend (HTS Explorer) | fetched as a static asset |
+
+`public/data/hts-explorer/manifest.json` (which tells the frontend the latest
+revision to load) is **regenerated automatically** at sail-gtx build time by the
+Vite `htsManifestPlugin`, so it is never pushed.
+
+#### CI equivalent + JSON-only push
+
+In CI this same rollout runs as **`.github/workflows/hts-revision-update.yml`**
+(`run_locally.sh` is the manual/local equivalent; the GitHub Actions secrets mirror
+the `.env` keys above). To push only the JSON to both locations (no rebuild), call
+the committer directly with two `--dest-path` flags (repeatable — same source, one
+commit; idempotent: byte-identical files are skipped, and the PAT is redacted from
+all log output):
+
+```bash
+python3 scripts/hts_automation/sail_gtx_commit.py \
+  --owner SAIL-Engineering --repo sail-gtx-prerelease --branch <production-branch> \
+  --source <built hts_YEAR_revision_N.json> \
+  --dest-path "server/data/hts/hts_2026_revision_10.json" \
+  --dest-path "public/data/hts-explorer/hts_2026_revision_10.json" \
+  --commit-message "chore: HTS 2026 Rev 10 dataset"
+```
+
+#### Troubleshooting and recovery
+
+- **`Authentication failed` / `Invalid username or token` at step 7** — `SAIL_GTX_REPO_PAT`
+  is missing, still the `github_pat_REPLACE_ME` placeholder, expired, or lacks
+  **Contents: write** on `sail-gtx-prerelease`. Fix the token (above) and re-run.
+- **Exit code > 1 (a step failed)** — the steps are idempotent, so re-running from
+  the top is safe: Ragie ends with one ready doc, the Supabase upsert is keyed, and
+  the commit skips byte-identical files. If step 8 already changed some env vars,
+  replay the snapshot: `python3 scripts/hts_automation/update_env_vars.py revert --snapshot /tmp/hts-env-snapshot.json`.
+- **Resume from step 7 only** — when steps 1-6 already succeeded (as in a step-7
+  auth failure), avoid re-uploading to Ragie by running `sail_gtx_commit.py`
+  directly (the JSON-only push above), then run `update_env_vars.py` for steps 8-9.
+- **Verify success** — both `hts_<y>_revision_<n>.json` files are present in sail-gtx
+  on the production branch (+ the `hts-<y>-rev<n>` tag); after the Vercel build,
+  `public/data/hts-explorer/manifest.json` names the new revision; and the step-9
+  smoke test passes against the live URLs.
+
 ### Frontend-only refresh (data already built)
 
 ```bash
@@ -449,3 +586,12 @@ cd frontend && npm run dev:all  # Both servers together
 | `Rscript src/00_build_timeseries.R --use-hts-dates` | Use raw HTS dates instead of policy dates |
 | `Rscript src/00_build_timeseries.R --with-alternatives` | Build sensitivity variants |
 | `Rscript src/generate_etrs_config.R 2026-04-01 <output_dir>` | Export ETRs-compatible config |
+
+### sail-gtx Rollout (deployed app)
+
+| Command | Description |
+|---------|-------------|
+| `scripts/hts_automation/run_locally.sh` | End-to-end HTS revision rollout; commits the dataset JSON to **both** `server/data/hts/` and `public/data/hts-explorer/` in sail-gtx (see §1) |
+| `scripts/hts_automation/run_locally.sh --revision 2026_rev_10` | Roll out a specific revision |
+| `scripts/hts_automation/run_locally.sh --dry-run` | Run every step but write nothing external |
+| `python3 scripts/hts_automation/sail_gtx_commit.py --dest-path … --dest-path …` | Push an existing JSON to both sail-gtx locations only (no rebuild); `--dest-path` is repeatable |

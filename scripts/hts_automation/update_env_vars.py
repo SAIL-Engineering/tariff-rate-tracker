@@ -55,18 +55,37 @@ def _env(name: str, required: bool = True) -> str:
 
 def _railway_request(query: str, variables: dict[str, Any]) -> dict[str, Any]:
     token = _env("RAILWAY_TOKEN")
-    r = requests.post(
-        RAILWAY_API,
-        headers={"authorization": f"Bearer {token}",
-                 "content-type": "application/json"},
-        data=json.dumps({"query": query, "variables": variables}),
-        timeout=30,
+    payload = json.dumps({"query": query, "variables": variables})
+    # Railway authenticates account/workspace tokens via `Authorization: Bearer`
+    # but PROJECT tokens (Project Settings -> Tokens) via the `Project-Access-Token`
+    # header. RAILWAY_TOKEN may be either kind, so try Bearer first and fall back to
+    # the project-token header on an authorization failure. (The token is only ever
+    # placed in a header, never logged.)
+    header_styles = (
+        {"authorization": f"Bearer {token}", "content-type": "application/json"},
+        {"project-access-token": token, "content-type": "application/json"},
     )
-    r.raise_for_status()
-    body = r.json()
-    if body.get("errors"):
-        sys.exit(f"ERROR: Railway GraphQL: {json.dumps(body['errors'])}")
-    return body["data"]
+    last_err: str | None = None
+    for headers in header_styles:
+        r = requests.post(RAILWAY_API, headers=headers, data=payload, timeout=30)
+        if r.status_code in (401, 403):
+            last_err = f"HTTP {r.status_code}"
+            continue
+        r.raise_for_status()
+        body = r.json()
+        errs = body.get("errors")
+        if errs:
+            msgs = " ".join((e.get("message") or "") for e in errs)
+            if any(s in msgs for s in ("Not Authorized", "Unauthorized", "Not Authenticated")):
+                last_err = json.dumps(errs)
+                continue
+            sys.exit(f"ERROR: Railway GraphQL: {json.dumps(errs)}")
+        return body["data"]
+    sys.exit(
+        "ERROR: Railway authorization failed with both the Bearer and "
+        "Project-Access-Token header styles. Check that RAILWAY_TOKEN is valid and "
+        f"scoped to this project + environment. Last error: {last_err}"
+    )
 
 
 def railway_get_vars() -> dict[str, str]:
@@ -100,6 +119,35 @@ def railway_set_var(name: str, value: str) -> None:
             "value": value,
         }
     })
+
+
+# ────────────────────────────────────────────────────────────────────
+# Ragie (resolve the current document id in a partition)
+# ────────────────────────────────────────────────────────────────────
+
+RAGIE_DOCS_API = "https://api.ragie.ai/documents"
+
+
+def resolve_ragie_document_id(partition: str) -> str:
+    """Return the id of the current (ready) document in a Ragie partition.
+
+    After step 5's partition swap the partition holds a single ready document, and
+    the deployed server reads its id from RAGIE_DOCUMENT_ID. RAGIE_API_KEY is read
+    from the environment (never hardcoded)."""
+    api_key = _env("RAGIE_API_KEY")
+    r = requests.get(
+        RAGIE_DOCS_API,
+        headers={"partition": partition, "accept": "application/json",
+                 "authorization": f"Bearer {api_key}"},
+        timeout=30,
+    )
+    r.raise_for_status()
+    docs = r.json().get("documents") or []
+    if not docs:
+        sys.exit(f"ERROR: no documents found in Ragie partition '{partition}'")
+    # The API returns newest-first; prefer a 'ready' doc if a swap is mid-flight.
+    ready = [d for d in docs if d.get("status") == "ready"]
+    return (ready or docs)[0]["id"]
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -179,8 +227,20 @@ def cmd_set(args: argparse.Namespace) -> None:
         "VITE_HTS_REVISION_EFFECTIVE_DATE": args.effective_date_label,
     }
 
+    # The deployed server queries one Ragie document by RAGIE_DOCUMENT_ID, and step
+    # 5 creates a NEW document each revision, so repoint it here too. Use an explicit
+    # id if given, otherwise resolve the current document from the partition.
+    ragie_doc_id = args.ragie_document_id
+    if not ragie_doc_id and args.ragie_partition:
+        ragie_doc_id = resolve_ragie_document_id(args.ragie_partition)
+        print(f"[ragie]   resolved RAGIE_DOCUMENT_ID = {ragie_doc_id} "
+              f"(partition {args.ragie_partition})", flush=True)
+    if ragie_doc_id:
+        new_values["RAGIE_DOCUMENT_ID"] = ragie_doc_id
+
     prior_railway = railway_get_vars()
-    snapshot = {name: prior_railway.get(name) for name in HTS_VAR_NAMES}
+    # Snapshot every var we are about to change, so revert restores all of them.
+    snapshot = {name: prior_railway.get(name) for name in new_values}
 
     for name, value in new_values.items():
         print(f"[railway] {name} → {value}", flush=True)
@@ -200,8 +260,7 @@ def cmd_revert(args: argparse.Namespace) -> None:
     with open(args.snapshot, "r") as fh:
         snap = json.load(fh)
     prior = snap.get("railway_prior", {})
-    for name in HTS_VAR_NAMES:
-        value = prior.get(name)
+    for name, value in prior.items():
         if value is None:
             print(f"[skip] {name}: no prior value captured", flush=True)
             continue
@@ -222,6 +281,11 @@ def main() -> None:
                     help='Human-readable date, e.g. "May 22, 2026"')
     sp.add_argument("--snapshot-out",
                     help="Write prior values to this JSON path for rollback")
+    sp.add_argument("--ragie-partition",
+                    help="Resolve RAGIE_DOCUMENT_ID from the current document in this "
+                         "Ragie partition (e.g. us_hts_2026_latest) and set it too")
+    sp.add_argument("--ragie-document-id",
+                    help="Set RAGIE_DOCUMENT_ID explicitly (overrides --ragie-partition)")
     sp.set_defaults(func=cmd_set)
 
     sp = sub.add_parser("revert")

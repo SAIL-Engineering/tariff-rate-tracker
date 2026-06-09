@@ -747,25 +747,25 @@
     "revision": "2026_rev_2",
     "effectiveDate": "2026-01-30",
     "policyEffectiveDate": null,
-    "policyEvent": null
+    "policyEvent": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f), Tariff Act of 1930, as amended) (484(f))"
   },
   {
     "revision": "2026_rev_3",
     "effectiveDate": "2026-02-12",
     "policyEffectiveDate": null,
-    "policyEvent": "Argentina beef quota (9903.54)"
+    "policyEvent": "Ensuring Affordable Beef for the American Consumer (91 Fed. Reg. 7107). Modifying Duties To Address Threats to the United States by the Government of the Russian Federation (91 Fed. Reg. 6501)"
   },
   {
     "revision": "2026_rev_4",
     "effectiveDate": "2026-02-24",
     "policyEffectiveDate": null,
-    "policyEvent": "IEEPA invalidated (SCOTUS); Section 122 Phase 3 (10% blanket; 9903.03)"
+    "policyEvent": "Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems (91 Fed. Reg. 9339). Continuing the Suspension of Duty-Free De Minimis Treatment for all Countries (91 Fed. Reg. 17839)"
   },
   {
     "revision": "2026_rev_5",
     "effectiveDate": "2026-04-08",
     "policyEffectiveDate": "2026-04-06",
-    "policyEvent": "Section 232 metals overhaul: full customs value basis; revised aluminum/steel/copper and derivative tariffs"
+    "policyEvent": "Strengthening Actions Taken To Adjust Imports of Aluminum, Steel, and Copper Into the United States (91 Fed. Reg. 18201)"
   },
   {
     "revision": "2026_rev_6",
@@ -777,18 +777,24 @@
     "revision": "2026_rev_7",
     "effectiveDate": "2026-04-29",
     "policyEffectiveDate": "2026-04-29",
-    "policyEvent": "U.S. note 16(e), subch III, ch 99 Modified, 9903.82.01 Added"
+    "policyEvent": "Notice of Technical Corrections to the Harmonized Tariff Schedule of the United States for Duties Imposed by Presidential Proclamation 11021 (91 Fed. Reg. 23056)"
   },
   {
     "revision": "2026_rev_8",
     "effectiveDate": "2026-05-22",
     "policyEffectiveDate": "2026-05-22",
-    "policyEvent": "General note 16 and chapters 98 and 99"
+    "policyEvent": "To Implement Certain Provisions in the Consolidated Appropriations Act and for Other Purposes (91 Fed. Reg. 30469) Amending the Procedures to Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908. To Include Medium- and Heavy-Duty Vehicle Parts (91 Fed. Reg. 27914)"
   },
   {
     "revision": "2026_rev_9",
     "effectiveDate": "2026-05-28",
     "policyEffectiveDate": "2026-05-28",
-    "policyEvent": "Updated Ch. 99 codes"
+    "policyEvent": "Implementing Certain Tariff-Related Elements of a Trade and Security Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States (91 Fed. Reg. 31818)"
+  },
+  {
+    "revision": "2026_rev_10",
+    "effectiveDate": "2026-06-08",
+    "policyEffectiveDate": "2026-06-08",
+    "policyEvent": "[REVIEW] added 2026-06-08 — effective_date is publication date, not policy date"
   }
 ]

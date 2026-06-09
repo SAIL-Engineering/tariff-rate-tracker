@@ -205,7 +205,7 @@ jobs:
         run: |
           python3 scripts/hts_automation/ragie_sync.py swap \
             --csv "${{ steps.build.outputs.RAGIE_CSV }}" \
-            --partition us_hts_2026_latest
+            --partition us_hts_${{ steps.target.outputs.YEAR }}_latest
 
       # ────────────────────────────────────────────────────────────────
       # Step 6: Supabase upsert
@@ -220,7 +220,7 @@ jobs:
             --effective-date "${{ steps.target.outputs.EFFECTIVE_DATE }}" \
             --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
             --tariff-schedule-name HTSUS \
-            --ragie-partition-id us_hts_2026_latest
+            --ragie-partition-id us_hts_${{ steps.target.outputs.YEAR }}_latest
 
       # ────────────────────────────────────────────────────────────────
       # Step 7: cross-repo commit (must precede env var update — when env
@@ -236,6 +236,7 @@ jobs:
             --branch "${PRODUCTION_BRANCH}" \
             --source "${{ steps.target.outputs.JSON_PATH }}" \
             --dest-path "server/data/hts/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
+            --dest-path "public/data/hts-explorer/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
             --tag-name "hts-${{ steps.target.outputs.YEAR }}-rev${{ steps.target.outputs.REV_NUM }}" \
             --commit-message "chore: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} dataset (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
 
@@ -249,6 +250,7 @@ jobs:
             --year "${{ steps.target.outputs.YEAR }}" \
             --rev-num "${{ steps.target.outputs.REV_NUM }}" \
             --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
+            --ragie-partition us_hts_${{ steps.target.outputs.YEAR }}_latest \
             --snapshot-out /tmp/env-snapshot.json
 
       - name: Upload env snapshot (for rollback)

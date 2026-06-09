@@ -22,8 +22,14 @@ Usage:
       --branch illegal-transshipment \
       --source data/hts_archives/hts_2026_revision_8.json \
       --dest-path server/data/hts/hts_2026_revision_8.json \
+      --dest-path public/data/hts-explorer/hts_2026_revision_8.json \
       --tag-name hts-2026-rev8 \
       --commit-message "chore: HTS 2026 Rev 8 dataset (effective 2026-05-22)"
+
+Pass --dest-path more than once to write the same source to several locations in
+a single commit (the server reads server/data/hts/; the frontend HTS Explorer
+fetches public/data/hts-explorer/). The Vite htsManifestPlugin regenerates
+public/data/hts-explorer/manifest.json from these files at build time.
 """
 
 from __future__ import annotations
@@ -44,13 +50,25 @@ def _env(name: str, required: bool = True, default: str = "") -> str:
     return v
 
 
+# Secret strings (e.g. the PAT, which is embedded in the clone URL) to scrub from
+# anything we echo — otherwise a live token lands in terminal scrollback / CI logs.
+_SECRETS: list[str] = []
+
+
+def _redact(text: str) -> str:
+    for s in _SECRETS:
+        if s:
+            text = text.replace(s, "***")
+    return text
+
+
 def _run(cmd: list[str], cwd: str | None = None) -> str:
-    print(f"$ {' '.join(cmd)}", flush=True)
+    print(f"$ {_redact(' '.join(cmd))}", flush=True)
     r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
     if r.stdout:
-        print(r.stdout, end="", flush=True)
+        print(_redact(r.stdout), end="", flush=True)
     if r.returncode != 0:
-        sys.stderr.write(r.stderr)
+        sys.stderr.write(_redact(r.stderr))
         sys.exit(f"ERROR: command failed (rc={r.returncode})")
     return r.stdout
 
@@ -70,8 +88,11 @@ def main() -> None:
     p.add_argument("--branch", required=True,
                    help="Production branch to push to (e.g. illegal-transshipment)")
     p.add_argument("--source", required=True, help="Local path to the JSON file")
-    p.add_argument("--dest-path", required=True,
-                   help="Path inside the target repo (e.g. server/data/hts/hts_2026_revision_8.json)")
+    p.add_argument("--dest-path", required=True, action="append", dest="dest_paths",
+                   metavar="PATH",
+                   help="Path inside the target repo (repeatable to write the same "
+                        "source to several locations in ONE commit, e.g. "
+                        "server/data/hts/... AND public/data/hts-explorer/...).")
     p.add_argument("--commit-message", required=True)
     p.add_argument("--tag-name", default=None,
                    help="Optional lightweight tag, e.g. hts-2026-rev8")
@@ -83,6 +104,7 @@ def main() -> None:
         sys.exit(f"ERROR: source file not found: {args.source}")
 
     token = _env("SAIL_GTX_REPO_PAT")
+    _SECRETS.append(token)  # scrub the PAT from every echoed command / git output
     user_name = _env("GIT_USER_NAME", required=False, default="sail-gtx-bot") or "sail-gtx-bot"
     user_email = _env("GIT_USER_EMAIL", required=False,
                       default="sail-gtx-bot@users.noreply.github.com") \
@@ -97,16 +119,22 @@ def main() -> None:
         _run(["git", "config", "user.name", user_name], cwd=workdir)
         _run(["git", "config", "user.email", user_email], cwd=workdir)
 
-        dest_abs = os.path.join(workdir, args.dest_path)
-        os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
-
         src_sha = _sha256_of_file(args.source)
-        if os.path.isfile(dest_abs) and _sha256_of_file(dest_abs) == src_sha:
-            print(f"no-op: {args.dest_path} already matches source (sha256={src_sha})")
+        changed: list[str] = []
+        for dest_path in args.dest_paths:
+            dest_abs = os.path.join(workdir, dest_path)
+            os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
+            if os.path.isfile(dest_abs) and _sha256_of_file(dest_abs) == src_sha:
+                print(f"no-op: {dest_path} already matches source (sha256={src_sha})")
+                continue
+            shutil.copyfile(args.source, dest_abs)
+            _run(["git", "add", dest_path], cwd=workdir)
+            changed.append(dest_path)
+
+        if not changed:
+            print("no-op: all destinations already match source; nothing to commit")
             return
 
-        shutil.copyfile(args.source, dest_abs)
-        _run(["git", "add", args.dest_path], cwd=workdir)
         _run(["git", "commit", "-m", args.commit_message], cwd=workdir)
 
         if args.tag_name:

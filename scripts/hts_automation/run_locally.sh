@@ -159,7 +159,7 @@ else
   log "Step 5/9: Ragie partition swap"
   python3 "$HERE/ragie_sync.py" swap \
     --csv "$RAGIE_CSV" \
-    --partition us_hts_2026_latest
+    --partition us_hts_${YEAR}_latest
 fi
 
 # ─── Step 6: Supabase upsert ─────────────────────────────────────────
@@ -174,7 +174,7 @@ else
     --effective-date "$EFFECTIVE_DATE" \
     --effective-date-label "$EFFECTIVE_DATE_LABEL" \
     --tariff-schedule-name HTSUS \
-    --ragie-partition-id us_hts_2026_latest
+    --ragie-partition-id us_hts_${YEAR}_latest
 fi
 
 # ─── Step 7: cross-repo commit (must precede env var update) ─────────
@@ -191,6 +191,7 @@ python3 "$HERE/sail_gtx_commit.py" \
   --branch "$SAIL_GTX_PRODUCTION_BRANCH" \
   --source "$JSON_PATH" \
   --dest-path "server/data/hts/hts_${YEAR}_revision_${REV_NUM}.json" \
+  --dest-path "public/data/hts-explorer/hts_${YEAR}_revision_${REV_NUM}.json" \
   --tag-name "hts-${YEAR}-rev${REV_NUM}" \
   --commit-message "chore: HTS ${YEAR} Rev ${REV_NUM} dataset (effective ${EFFECTIVE_DATE})" \
   "${DRY_FLAG[@]}"
@@ -204,6 +205,7 @@ else
     --year "$YEAR" \
     --rev-num "$REV_NUM" \
     --effective-date-label "$EFFECTIVE_DATE_LABEL" \
+    --ragie-partition us_hts_${YEAR}_latest \
     --snapshot-out "$SNAPSHOT_FILE"
 fi
 

@@ -886,6 +886,66 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+// --- Country rankings by HTS prefix ---
+// Ranks every trading partner by mean total duty across all HTS-10 codes under
+// a chapter (2-digit) / heading (4) / subheading (6) / 8-digit prefix, at a
+// point-in-time (the revision in force on `date`, default today).
+//
+// Live GROUP BY over the `rates` table — no materialization. Bounded by the
+// prefix + single-date validity window, a chapter scan is ~tens of thousands of
+// rows; DuckDB's columnar/predicate-pushdown (and the (country, hts10) cluster
+// the push script applies in prod) keep this fast. Works identically in local
+// (parquet view) and MotherDuck (pushed table) modes — same SQL, same `rates`.
+//
+//   GET /api/rankings?level=chapter|heading|subheading|hts8|hts10&code=<digits>&date=<iso>
+app.get('/api/rankings', async (req, res) => {
+  try {
+    const { level, code, date } = req.query;
+    const LEVEL_LEN = { chapter: 2, heading: 4, subheading: 6, hts8: 8, hts10: 10 };
+    const lvl = String(level || '').toLowerCase();
+    if (!Object.prototype.hasOwnProperty.call(LEVEL_LEN, lvl)) {
+      return res.status(400).json({ error: 'level required: chapter|heading|subheading|hts8|hts10' });
+    }
+
+    const cleanCode = String(code || '').replace(/\./g, '');
+    const expectedLen = LEVEL_LEN[lvl];
+    // Same digits-only, fixed-length validation as /api/products + /api/rates,
+    // so the prefix is safe to interpolate (no injection surface).
+    if (!new RegExp(`^\\d{${expectedLen}}$`).test(cleanCode)) {
+      return res.status(400).json({ error: `code must be exactly ${expectedLen} digits for level=${lvl}` });
+    }
+
+    // As-of date — strict ISO; defaults to today when absent/invalid.
+    const asOf = (date && /^\d{4}-\d{2}-\d{2}$/.test(String(date)))
+      ? String(date)
+      : new Date().toISOString().slice(0, 10);
+
+    const sql = `
+      SELECT
+        country,
+        COUNT(DISTINCT hts10)  AS product_count,
+        AVG(total_rate)        AS mean_total_rate,
+        MEDIAN(total_rate)     AS median_total_rate,
+        MIN(total_rate)        AS min_total_rate,
+        MAX(total_rate)        AS max_total_rate,
+        AVG(base_rate)         AS mean_base_rate,
+        AVG(total_additional)  AS mean_additional
+      FROM rates
+      WHERE hts10 LIKE '${cleanCode}%'
+        AND valid_from <= '${asOf}' AND valid_until >= '${asOf}'
+      GROUP BY country
+      ORDER BY mean_total_rate ASC
+      LIMIT 500
+    `;
+    const reader = await connection.runAndReadAll(sql);
+    const rows = reader.getRowObjects().map(cleanRow);
+    res.json({ data: rows, query: { level: lvl, code: cleanCode, date: asOf } });
+  } catch (err) {
+    console.error('Rankings endpoint error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // --- HTS product description index ---
 // Loaded once at startup from the latest HTS JSON archive.
 // Maps each 10-digit htsno (digits only) to its hierarchical description chain.
@@ -900,10 +960,15 @@ function buildHtsDescriptionIndex() {
     return;
   }
 
+  // Pick the newest archive by (year, revision) NUMERICALLY. A lexical sort puts
+  // hts_2026_rev_9 *after* hts_2026_rev_10 ("9" > "1"), which loads the wrong file.
+  const revRank = (f) => {
+    const m = /^hts_(\d{4})_rev_(\d+)\.json$/.exec(f);
+    return m ? Number(m[1]) * 1000 + Number(m[2]) : -1;
+  };
   const files = fs.readdirSync(HTS_ARCHIVES_PATH)
-    .filter(f => f.startsWith('hts_') && f.endsWith('.json'))
-    .sort()
-    .reverse();
+    .filter(f => f.startsWith('hts_') && f.endsWith('.json') && revRank(f) >= 0)
+    .sort((a, b) => revRank(b) - revRank(a));
 
   if (files.length === 0) {
     console.warn('No HTS archive files found — product descriptions unavailable');
