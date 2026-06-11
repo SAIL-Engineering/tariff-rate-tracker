@@ -29,12 +29,23 @@ rev_dates <- read_csv(here('config', 'revision_dates.csv'),
                       col_types = cols(.default = col_character()))
 
 record_for <- function(rev) {
-  # revision id -> change record filename
-  if (grepl('^2026_', rev)) {
-    base <- sub('^2026_', '', rev)
-    name <- if (base == 'basic') '2026HTSBasic' else paste0('2026HTSRev', sub('rev_', '', base))
+  # revision id -> change record filename. This fork's revision ids carry a
+  # year prefix for every year (2019_basic .. 2026_rev_10); upstream's bare
+  # 'basic'/'rev_N' (2025) form is accepted too. Change records are only
+  # mirrored for 2025+ — earlier years return a non-existent path and are
+  # reported as 'no record / no items'.
+  m <- regmatches(rev, regexec('^(\\d{4})_(.+)$', rev))[[1]]
+  if (length(m) == 3) {
+    year <- m[2]
+    base <- m[3]
   } else {
-    name <- if (rev == 'basic') '2025HTSBasic' else paste0('2025HTSRev', sub('rev_', '', rev))
+    year <- '2025'
+    base <- rev
+  }
+  name <- if (base == 'basic') {
+    paste0(year, 'HTSBasic')
+  } else {
+    paste0(year, 'HTSRev', sub('^rev_', '', base))
   }
   here('data', 'hts_change_record', paste0(name, '_change_record.pdf'))
 }
@@ -93,6 +104,7 @@ audit <- audit %>%
 write_csv(audit, here('output', 'revision_date_audit.csv'))
 message('Wrote output/revision_date_audit.csv')
 print(audit %>%
-        select(revision, csv_effective_date, publication_date,
+        filter(!is.na(modal_item_date) | !is.na(publication_date)) %>%
+        select(revision, csv_effective_date, csv_policy_date, publication_date,
                modal_item_date, csv_vs_modal_days, flag),
-      n = 50)
+      n = Inf)

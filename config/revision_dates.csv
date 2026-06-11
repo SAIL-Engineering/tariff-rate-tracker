@@ -89,46 +89,45 @@ revision,effective_date,policy_effective_date,tpc_date,policy_event,tpc_policy_r
 2024_rev_9,2024-09-26,NA,NA,Sep 2024 §301 increases (EVs,solar,"semiconductors, steel/alu, ship-to-shore cranes),NA,NA"
 2024_rev_10,2024-11-22,NA,NA,NA,NA,NA
 2025_basic,2025-01-01,NA,NA,Baseline (pre-Trump 2.0),NA,NA
-2025_rev_1,2025-01-27,NA,NA,China IEEPA fentanyl (+10%),NA,NA
-2025_rev_2,2025-02-01,NA,NA,NA,NA,NA
-2025_rev_3,2025-02-04,NA,NA,CA/MX fentanyl (+25%); China fentanyl (+20%),NA,NA
-2025_rev_4,2025-03-04,NA,NA,USMCA carve-outs; 232 derivatives,NA,NA
-2025_rev_5,2025-03-05,NA,NA,NA,NA,NA
-2025_rev_6,2025-03-12,NA,2025-03-17,232 Autos (25%),NA,NA
-2025_rev_7,2025-04-02,NA,NA,IEEPA Phase 1 reciprocal (Liberation Day),NA,NA
-2025_rev_8,2025-04-03,NA,NA,China IEEPA: 34% -> 84%,NA,NA
-2025_rev_9,2025-04-05,NA,NA,China IEEPA: 84% -> 125%; Phase 1 suspended,NA,NA
-2025_rev_10,2025-04-09,NA,2025-04-17,Phase 1 suspension continues,2025_rev_7,NA
-2025_rev_11,2025-04-11,NA,NA,232 Auto parts,NA,NA
-2025_rev_12,2025-04-14,NA,NA,Geneva: China 125% -> 34% (suspended to 10%),NA,NA
-2025_rev_13,2025-04-22,NA,NA,NA,NA,NA
-2025_rev_14,2025-05-02,NA,NA,232 derivatives doubled (25% -> 50%),NA,NA
-2025_rev_15,2025-05-14,NA,NA,NA,NA,NA
-2025_rev_16,2025-06-06,2025-06-04,NA,232 steel/aluminum 50% (Proclamation 10947),NA,NA
-2025_rev_17,2025-07-01,NA,2025-07-17,CA fentanyl: 25% -> 35%; copper 232,NA,NA
+2025_rev_1,2025-01-27,2025-02-04,NA,China IEEPA fentanyl (+10%; EO 14195 eff. Feb 4),NA,NA
+2025_rev_2,2025-02-01,2025-02-05,NA,NA,NA,NA
+2025_rev_3,2025-02-04,2025-03-04,NA,CA/MX fentanyl (+25%) and China fentanyl (+20%) eff. Mar 4 after the February pause,NA,NA
+2025_rev_4,2025-03-04,2025-03-07,NA,USMCA carve-outs (Mar 7); 232 derivatives text (Mar 12 items held by stated-date gate until 2025_rev_5),NA,NA
+2025_rev_5,2025-03-05,2025-03-14,NA,NA,NA,NA
+2025_rev_6,2025-03-12,2025-04-03,2025-03-17,232 Autos (25%; Proclamation 10908 eff. Apr 3),NA,NA
+2025_rev_7,2025-04-02,2025-04-05,NA,IEEPA Phase 1 reciprocal (Liberation Day; 10% baseline eff. Apr 5; Apr-9 country rates held by stated-date gate until 2025_rev_8),NA,NA
+2025_rev_8,2025-04-03,2025-04-09,NA,China IEEPA: 34% -> 84%; country-specific Phase 1 rates begin,NA,NA
+2025_rev_9,2025-04-05,2025-04-10,NA,China IEEPA: 84% -> 125%; Phase 1 suspended (90-day pause),NA,NA
+2025_rev_10,2025-04-09,2025-04-15,2025-04-17,Phase 1 suspension continues; retroactive Apr-5 electronics memo (covered by Annex II exemption windows),NA,NA
+2025_rev_11,2025-04-11,2025-05-03,NA,232 Auto parts (eff. May 3),NA,NA
+2025_rev_12,2025-04-14,2025-05-14,NA,Geneva: China 125% -> 34% suspended to 10% (EO 14298 eff. May 14),NA,NA
+2025_rev_13,2025-04-22,2025-05-16,NA,NA,NA,NA
+2025_rev_14,2025-05-02,2025-06-04,NA,232 steel/aluminum + derivatives 50% (Proclamation 10947 eff. Jun 4),NA,NA
+2025_rev_15,2025-05-14,2025-06-23,NA,NA,NA,NA
+2025_rev_16,2025-06-06,2025-07-01,NA,Annual July 1 staged updates (the 232 50% increase entered at 2025_rev_14),NA,NA
+2025_rev_17,2025-07-01,2025-08-01,2025-07-17,CA fentanyl: 25% -> 35%; copper 232 (Proclamation 10962) both eff. Aug 1,NA,NA
 2025_rev_18,2025-08-07,NA,2025-10-17,IEEPA Phase 2 reciprocal; Brazil EO (+40%); Phase 1 unsuspended,NA,NA
-2025_rev_19,2025-08-12,NA,NA,NA,NA,NA
-2025_rev_20,2025-08-20,NA,NA,India EO (+25%),NA,NA
-2025_rev_21,2025-08-28,NA,NA,NA,NA,NA
-2025_rev_22,2025-09-03,NA,NA,NA,NA,NA
-2025_rev_23,2025-09-12,NA,NA,Japan floor (15%),NA,NA
-2025_rev_24,2025-09-19,NA,NA,EU exemption entries,NA,NA
-2025_rev_25,2025-09-26,NA,NA,Section 122 entries,NA,NA
-2025_rev_26,2025-10-06,NA,NA,MHD vehicles/buses 232; copper 232; 232 auto entries,NA,NA
-2025_rev_27,2025-10-15,NA,NA,301 cranes (100%); China fentanyl: 20% -> 10%,NA,NA
-2025_rev_28,2025-10-22,NA,NA,NA,NA,NA
-2025_rev_29,2025-10-31,NA,NA,NA,NA,NA
-2025_rev_30,2025-11-05,NA,NA,NA,NA,NA
-2025_rev_31,2025-11-12,NA,NA,NA,NA,NA
-2025_rev_32,2025-11-15,NA,2025-11-17,S. Korea floor (15%); 232 auto S. Korea,NA,NA
+2025_rev_19,2025-08-12,2025-08-18,NA,232 derivative inclusions (eff. Aug 18),NA,NA
+2025_rev_20,2025-08-20,2025-08-27,NA,India EO second +25% (eff. Aug 27),NA,NA
+2025_rev_21,2025-08-28,2025-09-02,NA,NA,NA,NA
+2025_rev_22,2025-09-03,2025-09-08,NA,EO 14346 Annex II metals/gold amendment (eff. Sep 8),NA,NA
+2025_rev_23,2025-09-12,2025-09-16,NA,Japan floor (15%; implementation eff. Sep 16),NA,NA
+2025_rev_24,2025-09-19,2025-09-25,NA,EU exemption entries (9903.02.74-77; legally retroactive to Sep 1; text published Sep 25 - retro window not modeled),NA,NA
+2025_rev_25,2025-09-26,2025-10-14,NA,232 wood/timber (PP 10976; 9903.76 eff. Oct 14),NA,NA
+2025_rev_26,2025-10-06,2025-11-01,NA,MHD vehicles/buses 232 (eff. Nov 1); copper 232; 232 auto entries,NA,NA
+2025_rev_27,2025-10-15,2025-11-09,NA,301 cranes (100%; eff. Nov 9); China fentanyl: 20% -> 10% (eff. Nov 10),NA,NA
+2025_rev_28,2025-10-22,2025-11-10,NA,China-deal follow-through (eff. Nov 10),NA,NA
+2025_rev_29,2025-10-31,2025-11-13,NA,Agricultural Annex II expansion (eff. Nov 13); note 2(v)(iii) restructured into (iii)(a)/(b),NA,NA
+2025_rev_30,2025-11-05,2025-11-21,NA,Nov-13 EO follow-through corrections (published Nov 21),NA,NA
+2025_rev_31,2025-11-12,2025-11-30,NA,NA,NA,NA
+2025_rev_32,2025-11-15,2025-12-05,2025-11-17,S. Korea floor (15%) and 232 auto S. Korea; legally retroactive to Nov 14; text published Dec 5 - retro window not modeled,NA,NA
 2026_basic,2026-01-01,NA,NA,Switzerland/Liechtenstein floor (15%),NA,NA
-2026_rev_1,2026-01-16,NA,NA,Semiconductor tariffs (25%; 9903.79),NA,NA
-2026_rev_2,2026-01-30,NA,NA,"Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f), Tariff Act of 1930, as amended) (484(f))",NA,NA
-2026_rev_3,2026-02-12,NA,NA,"Ensuring Affordable Beef for the American Consumer (91 Fed. Reg. 7107). Modifying Duties To Address Threats to the United States by the Government of the Russian Federation (91 Fed. Reg. 6501)",NA,NA
+2026_rev_1,2026-01-16,2026-01-15,NA,Semiconductor tariffs (25%; 9903.79; eff. Jan 15),NA,NA
+2026_rev_2,2026-01-30,2026-02-01,NA,"Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f), Tariff Act of 1930, as amended) (484(f)); statistical changes eff. Feb 1",NA,NA
+2026_rev_3,2026-02-12,2026-02-07,NA,"Ensuring Affordable Beef for the American Consumer (91 Fed. Reg. 7107; Argentina beef quota 9903.54 eff. Feb 7). Modifying Duties To Address Threats to the United States by the Government of the Russian Federation (91 Fed. Reg. 6501)",NA,NA
 2026_rev_4,2026-02-24,NA,NA," Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems (91 Fed. Reg. 9339). Continuing the Suspension of Duty-Free De Minimis Treatment for all Countries (91 Fed. Reg. 17839)",NA,NA
 2026_rev_5,2026-04-08,2026-04-06,NA,"Strengthening Actions Taken To Adjust Imports of Aluminum, Steel, and Copper Into the United States (91 Fed. Reg. 18201)",NA,NA
 2026_rev_6,2026-04-23,2026-04-23,NA,Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production to Obtain Tariff Adjustments Under Proclamation 10984 (91 Fed. Reg. 21790),NA,NA
 2026_rev_7,2026-04-29,2026-04-29,NA,"Notice of Technical Corrections to the Harmonized Tariff Schedule of the United States for Duties Imposed by Presidential Proclamation 11021 (91 Fed. Reg. 23056)",NA,NA
-2026_rev_8,2026-05-22,2026-05-22,NA,To Implement Certain Provisions in the Consolidated Appropriations Act and for Other Purposes (91 Fed. Reg. 30469) Amending the Procedures to Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908. To Include Medium- and Heavy-Duty Vehicle Parts (91 Fed. Reg. 27914),NA,NA
-2026_rev_9,2026-05-28,2026-05-28,NA,Implementing Certain Tariff-Related Elements of a Trade and Security Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States (91 Fed. Reg. 31818),NA,NA
-2026_rev_10,2026-06-08,2026-06-08,NA,"[REVIEW] added 2026-06-08 — effective_date is publication date, not policy date",NA,NA
+2026_rev_9,2026-05-28,2026-05-01,NA,"Implementing Certain Tariff-Related Elements of a Trade and Security Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States (91 Fed. Reg. 31818). Taiwan added to 15% floor structure; legally retroactive to May 1 per change record (dated May 1 here). 2026_rev_8 (published May 22) is EXCLUDED from the series - editorial-only vs rev_7 (description wording on 9819.11.12, AGOA apparel), zero rate impact; keeping it would invert interval ordering against the retro-dated rev_9.",NA,NA
+2026_rev_10,2026-06-08,2026-06-08,NA,"232 metals-annex expansion (PP 11032; eff. Jun 8): rate lines 9903.82.20-.26, new annex subdivisions 16(c)(xi)/16(j)/16(k), modified copper/alu exemption headings. PP 11032 effective on publication, no retro window — publication date = policy date, confirmed against the 2026HTSRev10 change record (scripts/audit_revision_dates.R).",NA,NA
