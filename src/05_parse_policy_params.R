@@ -1123,16 +1123,50 @@ is_232_exempt <- function(census_code, exempt_list) {
 extract_usmca_eligibility <- function(hts_raw) {
   message('Extracting USMCA eligibility from special field...')
 
+  # The `special` field lives on LEGAL rate lines (those with a non-empty
+  # `general` field). Statistical suffixes have empty special/general and by
+  # definition carry their parent legal line's duty treatment — including
+  # special-program eligibility. Without inheritance, statistical suffixes
+  # (~59% of HTS10s) were false-negative on S/S+ (upstream extreme-eta review
+  # item 6: 2709.00.20.10 crude FALSE while sibling 2709.00.10.00 TRUE).
+  # Mirrors the base-rate inheritance stack in parse_products().
+  special_stack <- list()  # indent level -> special text of nearest legal line
+
   products <- map_dfr(hts_raw, function(item) {
     htsno <- item$htsno %||% ''
+    special <- item$special %||% ''
+    general <- item$general %||% ''
+    indent <- as.integer(item$indent %||% 0)
 
-    # Only process 10-digit product codes, skip Chapter 99
-    clean <- gsub('\\.', '', htsno)
-    if (nchar(clean) != 10 || grepl('^99', htsno)) {
-      return(NULL)
+    # Legal-line boundary: any item with rate or special text resets this
+    # indent level (and deeper) so siblings' specials can't leak across
+    # branches.
+    if (trimws(general) != '' || trimws(special) != '') {
+      special_stack[[as.character(indent)]] <<- special
+      deeper <- names(special_stack)[as.integer(names(special_stack)) > indent]
+      for (d in deeper) special_stack[[d]] <<- NULL
     }
 
-    special <- item$special %||% ''
+    # Process 10-digit codes and 8-digit leaf candidates (the latter padded
+    # to 10 with "00", matching parse_products(); non-leaf 8-digit rows are
+    # dropped in the post-pass below). Skip Chapter 99.
+    clean <- gsub('\\.', '', htsno)
+    is_8digit_line <- nchar(clean) == 8 && grepl('^[0-9]+$', clean)
+    if ((nchar(clean) != 10 && !is_8digit_line) || grepl('^99', htsno)) {
+      return(NULL)
+    }
+    hts10 <- if (is_8digit_line) paste0(clean, '00') else clean
+
+    # Statistical suffix with empty special: inherit from nearest legal parent
+    if (trimws(special) == '' && trimws(general) == '' && indent > 0) {
+      for (i in seq(indent - 1, 0, by = -1)) {
+        parent_special <- special_stack[[as.character(i)]]
+        if (!is.null(parent_special)) {
+          special <- parent_special
+          break
+        }
+      }
+    }
 
     # Extract program codes from ALL parenthesized groups
     # Some products have S/S+ in secondary groups, e.g.:
@@ -1148,11 +1182,21 @@ extract_usmca_eligibility <- function(hts_raw) {
     usmca_eligible <- any(programs %in% c('S', 'S+'))
 
     tibble(
-      hts10 = clean,
+      hts10 = hts10,
       special_raw = special,
-      usmca_eligible = usmca_eligible
+      usmca_eligible = usmca_eligible,
+      is_8digit_line = is_8digit_line
     )
   })
+
+  # Post-pass: keep 8-digit rows only when they are leaves (no 10-digit
+  # statistical children) — same rule as parse_products().
+  if (nrow(products) > 0) {
+    ten_digit_prefixes <- unique(substr(products$hts10[!products$is_8digit_line], 1, 8))
+    products <- products %>%
+      filter(!(is_8digit_line & substr(hts10, 1, 8) %in% ten_digit_prefixes)) %>%
+      select(-is_8digit_line)
+  }
 
   n_eligible <- sum(products$usmca_eligible)
   message('  Products parsed: ', nrow(products))

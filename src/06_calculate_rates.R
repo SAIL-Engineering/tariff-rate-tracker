@@ -2625,13 +2625,37 @@ calculate_rates_for_revision <- function(
     }
 
     if (!is.null(usmca_product_shares) && nrow(usmca_product_shares) > 0) {
-      # Census SPI shares: apply to all CA/MX products
+      # Census SPI shares: apply to all CA/MX products.
+      # Missing or zero-trade HTS10 pairs fall back to the HS8-level
+      # value-weighted share (attr 'hs8_shares' from the value-weighted
+      # loader branches) before defaulting to 0 — handles statistical
+      # splits/concordance drift like 2709.00.20.10 (upstream extreme-eta
+      # review item 6).
+      hs8_shares <- attr(usmca_product_shares, 'hs8_shares')
       rates <- rates %>%
         left_join(
           usmca_product_shares,
           by = c('hts10', 'country' = 'cty_code'),
           relationship = 'many-to-one'
-        ) %>%
+        )
+      if (!is.null(hs8_shares) && nrow(hs8_shares) > 0) {
+        n_na <- sum(is.na(rates$usmca_share) &
+                      rates$country %in% c(CTY_CANADA, CTY_MEXICO))
+        rates <- rates %>%
+          mutate(.hs8 = substr(hts10, 1, 8)) %>%
+          left_join(hs8_shares,
+                    by = c('.hs8' = 'hts8', 'country' = 'cty_code'),
+                    relationship = 'many-to-one') %>%
+          mutate(usmca_share = coalesce(usmca_share, usmca_share_hs8)) %>%
+          select(-.hs8, -usmca_share_hs8)
+        n_filled <- n_na - sum(is.na(rates$usmca_share) &
+                                 rates$country %in% c(CTY_CANADA, CTY_MEXICO))
+        if (n_filled > 0) {
+          message('  USMCA shares: HS8 fallback filled ', n_filled,
+                  ' of ', n_na, ' missing CA/MX product shares')
+        }
+      }
+      rates <- rates %>%
         mutate(
           usmca_share = if_else(
             country %in% c(CTY_CANADA, CTY_MEXICO),

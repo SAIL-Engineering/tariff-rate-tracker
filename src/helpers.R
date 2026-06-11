@@ -2863,17 +2863,39 @@ load_usmca_product_shares <- function(policy_params = NULL, path = NULL, effecti
         combined <- bind_rows(monthly_shares)
         has_values <- all(c('total_value', 'usmca_value') %in% names(combined))
         if (has_values) {
-          # Value-weighted aggregation: sum(usmca_value) / sum(total_value)
+          # Value-weighted aggregation: sum(usmca_value) / sum(total_value).
+          # Zero-trade pairs get NA (not 0): a code with no H2 trade carries
+          # no claim signal — e.g. statistical splits introduced after 2025
+          # (2709.00.20.10) defaulted to share 0 -> full CA/MX rate (upstream
+          # extreme-eta review item 6). The application step in
+          # 06_calculate_rates.R falls back to the HS8-level share (attached
+          # below as attr 'hs8_shares') before defaulting to 0.
           combined <- combined %>%
             group_by(hts10, cty_code) %>%
             summarise(
-              usmca_share = if_else(sum(total_value, na.rm = TRUE) > 0,
-                                    sum(usmca_value, na.rm = TRUE) / sum(total_value, na.rm = TRUE),
-                                    0),
+              total_value = sum(total_value, na.rm = TRUE),
+              usmca_value = sum(usmca_value, na.rm = TRUE),
               .groups = 'drop'
+            ) %>%
+            mutate(
+              usmca_share = if_else(total_value > 0,
+                                    usmca_value / total_value,
+                                    NA_real_)
             )
+          hs8_shares <- combined %>%
+            group_by(hts8 = substr(hts10, 1, 8), cty_code) %>%
+            summarise(
+              usmca_share_hs8 = if_else(sum(total_value) > 0,
+                                        sum(usmca_value) / sum(total_value),
+                                        NA_real_),
+              .groups = 'drop'
+            ) %>%
+            filter(!is.na(usmca_share_hs8))
+          combined <- combined %>% select(hts10, cty_code, usmca_share)
+          attr(combined, 'hs8_shares') <- hs8_shares
           message('  Loaded USMCA H2 average (value-weighted): ', nrow(combined),
-                  ' product-country pairs (', length(monthly_shares), ' months, Jul-Dec ', year, ')')
+                  ' product-country pairs (', length(monthly_shares), ' months, Jul-Dec ', year,
+                  '); HS8 fallback table: ', nrow(hs8_shares), ' pairs')
         } else {
           # Fallback: simple average of ratios (legacy monthly CSVs without value columns)
           combined <- combined %>%
@@ -2932,17 +2954,34 @@ load_usmca_product_shares <- function(policy_params = NULL, path = NULL, effecti
         has_values <- all(c('total_value', 'usmca_value') %in% names(combined))
         window_label <- paste0(sprintf('%02d', window[1]), '-', sprintf('%02d', window[length(window)]))
         if (has_values) {
+          # Same zero-trade -> NA + HS8 fallback semantics as the h2_average
+          # branch above (see comment there).
           combined <- combined %>%
             group_by(hts10, cty_code) %>%
             summarise(
-              usmca_share = if_else(sum(total_value, na.rm = TRUE) > 0,
-                                    sum(usmca_value, na.rm = TRUE) / sum(total_value, na.rm = TRUE),
-                                    0),
+              total_value = sum(total_value, na.rm = TRUE),
+              usmca_value = sum(usmca_value, na.rm = TRUE),
               .groups = 'drop'
+            ) %>%
+            mutate(
+              usmca_share = if_else(total_value > 0,
+                                    usmca_value / total_value,
+                                    NA_real_)
             )
+          hs8_shares <- combined %>%
+            group_by(hts8 = substr(hts10, 1, 8), cty_code) %>%
+            summarise(
+              usmca_share_hs8 = if_else(sum(total_value) > 0,
+                                        sum(usmca_value) / sum(total_value),
+                                        NA_real_),
+              .groups = 'drop'
+            ) %>%
+            filter(!is.na(usmca_share_hs8))
+          combined <- combined %>% select(hts10, cty_code, usmca_share)
+          attr(combined, 'hs8_shares') <- hs8_shares
           message('  Loaded USMCA hybrid rolling (value-weighted): ', nrow(combined),
                   ' product-country pairs (', length(monthly_shares), ' months in window ',
-                  window_label, ')')
+                  window_label, '); HS8 fallback table: ', nrow(hs8_shares), ' pairs')
         } else {
           combined <- combined %>%
             group_by(hts10, cty_code) %>%

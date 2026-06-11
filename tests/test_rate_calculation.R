@@ -379,6 +379,50 @@ run_test('skips non-10-digit codes', {
   stopifnot(!any(result$hts10 == '020110'))
 })
 
+# Inheritance fixture (upstream b3dd1b5): `special` lives on the 8-digit
+# LEGAL line; 10-digit statistical suffixes have empty special/general and
+# inherit the parent legal line's program eligibility.
+make_usmca_inherit_fixture <- function() {
+  list(
+    make_hts_item('2709.00', description = 'Petroleum oils, crude', indent = 0),
+    # Legal line WITH S — statistical children must inherit TRUE
+    make_hts_item('2709.00.20', description = 'Testing 25 degrees A.P.I. or more',
+                  general = '10.5c/bbl', indent = 1,
+                  special = 'Free (A+,AU,BH,CA,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,S+,SG)'),
+    make_hts_item('2709.00.20.10', description = 'Condensate', indent = 2),
+    make_hts_item('2709.00.20.90', description = 'Other', indent = 2),
+    # Sibling legal line WITHOUT S — its child must NOT leak the earlier S
+    make_hts_item('2709.00.10', description = 'Testing under 25 degrees',
+                  general = '5.25c/bbl', indent = 1,
+                  special = 'Free (A+,AU,BH,CL)'),
+    make_hts_item('2709.00.10.00', description = 'Other', indent = 2),
+    # 8-digit LEAF line (no statistical children) — kept, padded with 00
+    make_hts_item('9802.00.40', description = 'Repairs or alterations',
+                  general = 'Free', indent = 1, special = 'Free (S+)')
+  )
+}
+
+run_test('statistical suffixes inherit S/S+ from the 8-digit legal line', {
+  result <- extract_usmca_eligibility(make_usmca_inherit_fixture())
+  kids <- result %>% filter(hts10 %in% c('2709002010', '2709002090'))
+  stopifnot(nrow(kids) == 2)
+  stopifnot(all(kids$usmca_eligible == TRUE))
+})
+
+run_test('sibling legal line specials do not leak across branches', {
+  result <- extract_usmca_eligibility(make_usmca_inherit_fixture())
+  other <- result %>% filter(hts10 == '2709001000')
+  stopifnot(nrow(other) == 1)
+  stopifnot(other$usmca_eligible == FALSE)
+})
+
+run_test('8-digit leaf kept (padded 00); 8-digit parent with children dropped', {
+  result <- extract_usmca_eligibility(make_usmca_inherit_fixture())
+  stopifnot('9802004000' %in% result$hts10)
+  stopifnot(result$usmca_eligible[result$hts10 == '9802004000'] == TRUE)
+  stopifnot(!'2709002000' %in% result$hts10)  # parent of .10/.90 suffixes
+})
+
 
 # =============================================================================
 # Test 6: Rate invariants
