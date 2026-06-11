@@ -479,6 +479,38 @@ run_test('resource CSV carries the stamped Annex II windows', {
 
 
 # =============================================================================
+# Test 5c: parse_products 8-digit leaf retention
+# =============================================================================
+
+message('\n--- Test 5c: parse_products 8-digit leaves ---')
+
+run_test('8-digit leaf kept padded to 10; 8-digit parent with children dropped', {
+  fixture <- list(
+    list(htsno = '9101.11', indent = 0, description = 'Wrist watches',
+         general = '', special = '', other = '', footnotes = list()),
+    # 8-digit LEAF (no statistical children) — Census reports as ...00
+    list(htsno = '9101.11.40', indent = 1, description = 'Gold/silver case',
+         general = '5.1%', special = 'Free (S)', other = '45%',
+         footnotes = list()),
+    # 8-digit line WITH a 10-digit child — grouping row, must be dropped
+    list(htsno = '0201.10.00', indent = 1, description = 'Carcasses',
+         general = '4.4%', special = 'Free (S+)', other = '20%',
+         footnotes = list()),
+    list(htsno = '0201.10.00.10', indent = 2, description = 'Veal',
+         general = '', special = '', other = '', footnotes = list())
+  )
+  tmp <- tempfile(fileext = '.json')
+  jsonlite::write_json(fixture, tmp, auto_unbox = TRUE)
+  out <- parse_products(tmp)
+  stopifnot('9101114000' %in% out$hts10)    # leaf retained, padded with 00
+  stopifnot(!'0201100000' %in% out$hts10)   # non-leaf 8-digit parent dropped
+  stopifnot('0201100010' %in% out$hts10)    # its 10-digit child retained
+  stopifnot(abs(out$base_rate[out$hts10 == '9101114000'] - 0.051) < 1e-9)
+  stopifnot(!'is_8digit_line' %in% names(out))
+})
+
+
+# =============================================================================
 # Test 6: Rate invariants
 # =============================================================================
 
