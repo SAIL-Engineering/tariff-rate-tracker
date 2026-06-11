@@ -220,10 +220,13 @@ section_232_country_exemptions:
     rate: 0
     applies_to: ['steel', 'aluminum']
     expiry_date: '2025-03-12'
-  # Russia: 200% per 2023 Proclamation 10522 (permanent override)
+  # Russia: 200% per 2023 Proclamation 10522 (permanent override).
+  # ALUMINUM ONLY — Proc 10522 is a 2023 aluminum action; listing steel here
+  # leaked the 200% onto Russian steel (upstream Budget-Lab-Yale fix 2724bb3,
+  # docs/bugfix_decisions_20260608.md). Annex-era twin already aluminum-only.
   - countries: ['4621']
     rate: 2.0
-    applies_to: ['steel', 'aluminum']
+    applies_to: ['aluminum']
     expiry_date: null
 
 # --- Section 232 annex restructuring (April 2026 proclamation) ---
@@ -456,8 +459,13 @@ section_301_products:
 section_232_derivatives:
   resource_file: 'resources/s232_derivative_products.csv'
   default_rate: 0.50    # fallback; actual rate extracted from ch99 entries
-  aluminum_ch99_codes: ['9903.85.04', '9903.85.07', '9903.85.08']
-  steel_ch99_codes: ['9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93']
+  # expected_*_ch99_codes are QC EXPECTED SETS only — runtime heading sets are
+  # derived from the resource CSV (per-product ch99_code parsed from US Notes
+  # 16/19 by scrape_us_notes.R). The quality report asserts the CSV's distinct
+  # codes are a superset of these; new members get reviewed and added here
+  # with a changelog entry.
+  expected_aluminum_ch99_codes: ['9903.85.04', '9903.85.07', '9903.85.08']
+  expected_steel_ch99_codes: ['9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93']
 
 # --- Metal content shares for 232 derivatives ---
 # The tariff on derivative products applies only to the metal content portion

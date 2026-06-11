@@ -1307,7 +1307,7 @@ RATE_SCHEMA <- c(
   'rate_s122', 'rate_section_201', 'rate_other',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
-  'metal_share', 's232_annex', 's232_metal',
+  'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
   'total_additional', 'total_rate',
   'usmca_eligible',
   'rate_special', 'rate_special_raw', 'special_programs_json',
@@ -1316,7 +1316,7 @@ RATE_SCHEMA <- c(
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
   'rounding_rule', 'calc_status', 'base_rate_source',
-  'duty_provenance_json',
+  'duty_provenance_json', 'ch99_rules_json',
   'revision', 'effective_date',
   'valid_from', 'valid_until'
 )
@@ -1338,6 +1338,7 @@ enforce_rate_schema <- function(df) {
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
     metal_share = 1.0, s232_annex = NA_character_, s232_metal = NA_character_,
+    duty_basis_232 = NA_character_,
     total_additional = 0, total_rate = 0,
     usmca_eligible = FALSE,
     rate_special = NA_real_, rate_special_raw = NA_character_,
@@ -1350,6 +1351,7 @@ enforce_rate_schema <- function(df) {
     is_qty_duty_relevant = FALSE, quantity_source = NA_character_,
     rounding_rule = '19cfr159.3_value', calc_status = 'ok', base_rate_source = NA_character_,
     duty_provenance_json = NA_character_,
+    ch99_rules_json = NA_character_,
     revision = NA_character_,
     effective_date = as.Date(NA),
     valid_from = as.Date(NA), valid_until = as.Date(NA)
@@ -1456,9 +1458,14 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
                                    ieepa_exempt_source_map = NULL,
                                    ieepa_exempt_scope = 'all',
                                    duty_free_treatment = 'all_products',
-                                   cc = NULL) {
+                                   cc = NULL,
+                                   ch99_other = NULL) {
   n <- nrow(rates)
-  if (n == 0) { rates$duty_provenance_json <- character(0); return(rates) }
+  if (n == 0) {
+    rates$duty_provenance_json <- character(0)
+    rates$ch99_rules_json <- character(0)
+    return(rates)
+  }
   EPS <- 1e-9
 
   gv  <- function(nm, default = NA) if (nm %in% names(rates)) rates[[nm]] else rep(default, n)
@@ -1612,7 +1619,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     s <- sub('0+$', '', s); sub('\\.$', '', s)
   }
   frag <- function(key, status, reason, applied = NULL, counterfactual = NULL,
-                   prog = NULL, first = FALSE) {
+                   prog = NULL, extra = NULL, first = FALSE) {
     keep <- !is.na(status) & status %in% c('active', 'exempt') & !is.na(reason)
     s <- paste0('"', key, '":{"status":"', status, '","reason":"', reason, '"')
     if (!is.null(applied)) s <- ifelse(applied > EPS, paste0(s, ',"applied":', fmt(applied)), s)
@@ -1621,6 +1628,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
                   paste0(s, ',"counterfactual":', fmt(counterfactual)), s)
     }
     if (!is.null(prog)) s <- ifelse(!is.na(prog), paste0(s, ',"program_ch99":"', prog, '"'), s)
+    if (!is.null(extra)) s <- paste0(s, extra)  # pre-rendered ',"k":v' fragments or ''
     s <- paste0(s, '}')
     out <- rep('', length(status))
     out[keep] <- paste0(if (first) '' else ',', s[keep])
@@ -1640,7 +1648,22 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     ifelse(!is.na(base_source), paste0(',"preference_source":"', base_source, '"'), ''),
     '}'
   )
-  f232  <- frag('232', s232_status, s232_reason, applied = r232, prog = c232)
+  # 232 extras: legal duty basis (declared metal-content value vs full entered
+  # value), the metal it attaches to, and the posted statutory rate when it
+  # differs from the applied AVE. The frontend determination layer reads these
+  # instead of inferring the basis from trigger heuristics.
+  basis232 <- chr('duty_basis_232')
+  stat232  <- num('statutory_rate_232')
+  basis_metal_232 <- dplyr::coalesce(s232_metal, deriv)
+  extra232 <- paste0(
+    ifelse(!is.na(basis232), paste0(',"basis":"', basis232, '"'), ''),
+    ifelse(!is.na(basis232) & basis232 == 'metal_content_value' & !is.na(basis_metal_232),
+           paste0(',"basis_metal":"', basis_metal_232, '"'), ''),
+    ifelse(stat232 > EPS & abs(stat232 - r232) > EPS,
+           paste0(',"statutory":', fmt(stat232)), '')
+  )
+  f232  <- frag('232', s232_status, s232_reason, applied = r232, prog = c232,
+                extra = extra232)
   f301  <- frag('301', s301_status, s301_reason, applied = r301, prog = c301)
   frec  <- frag('ieepa_recip', ie_status, ie_reason, applied = rrec,
                 counterfactual = ie_cf, prog = ie_prog)
@@ -1649,6 +1672,216 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
   f201  <- frag('section_201', s201_status, s201_reason, applied = r201, prog = cs201)
 
   rates$duty_provenance_json <- paste0('{', fb, f232, f301, frec, ffent, fs122, f201, '}')
+
+  # ===========================================================================
+  # ch99_rules_json — per-line Chapter 99 rule objects (additive column)
+  # ===========================================================================
+  # A JSON ARRAY of rule objects per line, the multi-code companion to the
+  # one-code-per-authority scalar columns. Vocabulary aligns with the upstream
+  # AuthoritySpec migration so the models stay convergeable:
+  #   status:         applied | exempt_or_replaced | not_applicable |
+  #                   potentially_applicable_requires_more_facts
+  #   rate_type:      surcharge | floor_static | floor_post_mfn | passthrough
+  #   stacking_class: primary_metal | primary_full | content_split | additive
+  # Citations are reason codes resolved against config/duty_citations.yaml.
+  # 9902/9904 candidates come from parse_chapter99_other() trigger matching.
+  jesc <- function(x) gsub('"', '\\\\"', x)
+  rule_frag <- function(code, authority, program, status, statutory = NULL,
+                        rate_type = NULL, stacking_class = NULL, basis = NULL,
+                        basis_metal = NULL, req_inputs = NULL,
+                        stack_cite = NULL, basis_cite = NULL, keep) {
+    # Recycle every arg to length n: ifelse() with a length-1 condition would
+    # otherwise collapse the fragment vector to one element.
+    code <- rep_len(code, n); authority <- rep_len(authority, n)
+    program <- rep_len(program, n); status <- rep_len(status, n)
+    if (!is.null(statutory)) statutory <- rep_len(statutory, n)
+    if (!is.null(rate_type)) rate_type <- rep_len(rate_type, n)
+    if (!is.null(stacking_class)) stacking_class <- rep_len(stacking_class, n)
+    if (!is.null(basis)) basis <- rep_len(basis, n)
+    if (!is.null(basis_metal)) basis_metal <- rep_len(basis_metal, n)
+    if (!is.null(req_inputs)) req_inputs <- rep_len(req_inputs, n)
+    if (!is.null(stack_cite)) stack_cite <- rep_len(stack_cite, n)
+    if (!is.null(basis_cite)) basis_cite <- rep_len(basis_cite, n)
+    s <- paste0(',{"ch99_code":',
+                ifelse(is.na(code), 'null', paste0('"', code, '"')),
+                ',"authority":"', authority, '"',
+                ',"program":"', program, '"',
+                ',"status":"', status, '"')
+    if (!is.null(statutory)) {
+      s <- ifelse(!is.na(statutory) & statutory > EPS,
+                  paste0(s, ',"statutory_rate":', fmt(statutory)), s)
+    }
+    if (!is.null(rate_type)) {
+      s <- ifelse(!is.na(rate_type), paste0(s, ',"rate_type":"', rate_type, '"'), s)
+    }
+    if (!is.null(stacking_class)) {
+      s <- ifelse(!is.na(stacking_class),
+                  paste0(s, ',"stacking_class":"', stacking_class, '"'), s)
+    }
+    if (!is.null(basis)) {
+      s <- ifelse(!is.na(basis), paste0(s, ',"duty_basis":"', basis, '"'), s)
+    }
+    if (!is.null(basis_metal)) {
+      s <- ifelse(!is.na(basis_metal),
+                  paste0(s, ',"basis_metal":"', basis_metal, '"'), s)
+    }
+    if (!is.null(req_inputs)) {
+      s <- ifelse(!is.na(req_inputs) & nzchar(req_inputs),
+                  paste0(s, ',"required_user_inputs":[', req_inputs, ']'), s)
+    }
+    if (!is.null(stack_cite)) {
+      s <- ifelse(!is.na(stack_cite),
+                  paste0(s, ',"stacking_citation":"', stack_cite, '"'), s)
+    }
+    if (!is.null(basis_cite)) {
+      s <- ifelse(!is.na(basis_cite),
+                  paste0(s, ',"basis_citation":"', basis_cite, '"'), s)
+    }
+    s <- paste0(s, '}')
+    keep[is.na(keep)] <- FALSE
+    out <- rep('', n)
+    out[keep] <- s[keep]
+    out
+  }
+
+  stat301  <- num('statutory_rate_301')
+  statrec  <- num('statutory_rate_ieepa_recip')
+  statfent <- num('statutory_rate_ieepa_fent')
+  stats122 <- num('statutory_rate_s122')
+  stat201  <- num('statutory_rate_section_201')
+
+  # Section 232: basis-aware. Metal-content-value rows carry the required
+  # entry facts (CBP two-line reporting needs declared content value + kg;
+  # aluminum also smelt/cast countries).
+  is_metal_basis <- !is.na(basis232) & basis232 == 'metal_content_value'
+  req232 <- ifelse(
+    is_metal_basis,
+    paste0('"metal_content_value","metal_content_kg"',
+           ifelse(!is.na(basis_metal_232) & basis_metal_232 == 'aluminum',
+                  ',"primary_smelt_country","secondary_smelt_country","cast_country"', '')),
+    ''
+  )
+  r232_rule <- rule_frag(
+    c232, 'section_232', s232_reason, 'applied',
+    statutory = pmax(stat232, r232),
+    rate_type = ifelse(!is.na(s232_annex) & s232_annex == 'annex_3',
+                       'floor_static', 'surcharge'),
+    stacking_class = ifelse(is_metal_basis, 'primary_metal', 'primary_full'),
+    basis = basis232,
+    basis_metal = ifelse(is_metal_basis, basis_metal_232, NA_character_),
+    req_inputs = req232,
+    basis_cite = ifelse(is_metal_basis, 's232_basis_metal_content',
+                        ifelse(!is.na(s232_annex), 's232_full_value_proc11021',
+                               NA_character_)),
+    keep = r232 > EPS & !is.na(s232_reason)
+  )
+
+  r301_rule <- rule_frag(
+    c301, 'section_301', dplyr::coalesce(s301_reason, 's301_active'), 'applied',
+    statutory = pmax(stat301, r301),
+    rate_type = 'surcharge', stacking_class = 'additive',
+    keep = r301 > EPS
+  )
+
+  rrec_rule <- rule_frag(
+    ie_prog, 'ieepa_reciprocal', ie_reason, 'applied',
+    statutory = pmax(statrec, rrec),
+    rate_type = ifelse(!is.na(ci_type) & ci_type == 'floor',
+                       'floor_post_mfn', 'surcharge'),
+    stacking_class = 'content_split',
+    keep = rrec > EPS & ie_status == 'active' & !is.na(ie_reason)
+  )
+
+  # Exempt IEEPA lines: the exemption becomes a citable rule of its own.
+  # Exemption heading codes are a curated map (pending-verification entries
+  # omitted rather than guessed): Annex II / ITA electronics claims report
+  # under 9903.01.32.
+  EXEMPT_HEADING <- c(annex_ii = '9903.01.32', ita = '9903.01.32')
+  ie_exempt_code <- unname(EXEMPT_HEADING[ie_src])
+  rrec_exempt_rule <- rule_frag(
+    ie_exempt_code, 'ieepa_reciprocal', ie_reason, 'exempt_or_replaced',
+    statutory = ie_cf,
+    keep = ie_status == 'exempt' & !is.na(ie_reason)
+  )
+
+  rfent_rule <- rule_frag(
+    cfent, 'ieepa_fentanyl', fent_reason, 'applied',
+    statutory = pmax(statfent, rfent),
+    rate_type = 'surcharge',
+    stacking_class = ifelse(country == CTY_CHINA, 'additive', 'content_split'),
+    keep = rfent > EPS & !is.na(fent_reason)
+  )
+
+  rs122_rule <- rule_frag(
+    cs122, 'section_122', dplyr::coalesce(s122_reason, 's122_active'), 'applied',
+    statutory = pmax(stats122, rs122),
+    rate_type = 'surcharge', stacking_class = 'content_split',
+    stack_cite = 's122_non232_portion_only',
+    keep = rs122 > EPS
+  )
+
+  r201_rule <- rule_frag(
+    cs201, 'section_201', dplyr::coalesce(s201_reason, 's201_active'), 'applied',
+    statutory = pmax(stat201, r201),
+    rate_type = 'surcharge', stacking_class = 'additive',
+    keep = r201 > EPS
+  )
+
+  # 9902 MTB / 9904 ag-safeguard candidates by inline-trigger prefix match.
+  other_frag <- rep('', n)
+  if (!is.null(ch99_other) && nrow(ch99_other) > 0 &&
+      'trigger_hts' %in% names(ch99_other)) {
+    cand <- ch99_other %>%
+      dplyr::mutate(rate_text = dplyr::coalesce(rate_text, '')) %>%
+      dplyr::select(ch99_code, subchapter, rate_text, trigger_hts) %>%
+      tidyr::unnest(trigger_hts) %>%
+      dplyr::filter(!is.na(trigger_hts), nchar(trigger_hts) >= 6) %>%
+      dplyr::distinct()
+    if (nrow(cand) > 0) {
+      uh <- unique(hts10)
+      hit_list <- vector('list', nrow(cand))
+      for (k in seq_len(nrow(cand))) {
+        m <- uh[startsWith(uh, cand$trigger_hts[k])]
+        if (length(m) > 0) {
+          hit_list[[k]] <- tibble(
+            hts10 = m,
+            ch99_code = cand$ch99_code[k],
+            subchapter = cand$subchapter[k],
+            rate_text = cand$rate_text[k]
+          )
+        }
+      }
+      hits <- dplyr::bind_rows(hit_list)
+      if (nrow(hits) > 0) {
+        hits <- hits %>%
+          dplyr::distinct() %>%
+          dplyr::mutate(frag = paste0(
+            ',{"ch99_code":"', ch99_code, '"',
+            ',"authority":"', subchapter, '"',
+            ',"program":"', subchapter, '"',
+            ',"status":"potentially_applicable_requires_more_facts"',
+            ifelse(nzchar(rate_text),
+                   paste0(',"rate_text":"', jesc(rate_text), '"'), ''),
+            ',"missing_facts":[',
+            ifelse(subchapter == 'mtb_9902',
+                   '"product_description_match","validity_window"',
+                   '"quota_category","quota_period","quota_fill_status"'),
+            ']}'
+          ))
+        agg <- hits %>%
+          dplyr::group_by(hts10) %>%
+          dplyr::summarise(frag = paste0(frag, collapse = ''), .groups = 'drop')
+        idx <- match(hts10, agg$hts10)
+        other_frag <- ifelse(is.na(idx), '', agg$frag[idx])
+      }
+    }
+  }
+
+  rules_all <- paste0(r232_rule, r301_rule, rrec_rule, rrec_exempt_rule,
+                      rfent_rule, rs122_rule, r201_rule, other_frag)
+  rules_all <- sub('^,', '', rules_all)
+  rates$ch99_rules_json <- paste0('[', rules_all, ']')
+
   rates
 }
 
@@ -2099,9 +2332,14 @@ filter_active_ch99 <- function(ch99_data, revision_effective_date) {
 #' ch99_code_ieepa_fent, ch99_code_s122, ch99_code_s201.
 #'
 #' Selection strategy per authority:
-#'   - 232: partitions by hts10 chapter/heading + deriv_type (steel chapters
-#'     72/73 → base steel code, 76 → aluminum, 74 → copper, 8703/8704/8708 → auto,
-#'     deriv_type='steel'|'aluminum' → matching derivative code).
+#'   - 232 derivatives: the product's own deriv_ch99_code (US Note 16/19
+#'     subdivision membership carried from s232_derivative_products.csv by
+#'     apply_232_derivatives) when active in this revision; otherwise the
+#'     broadest active heading for that metal (most CSV products), logged.
+#'   - 232 base: partitions by hts10 chapter/heading (72/73 steel, 76 aluminum,
+#'     74 copper, 8703/8704/8708 auto, 44/94 wood, 8701/02/04/06 MHD); within a
+#'     pool, the heading whose parsed rate uniquely matches the row's statutory
+#'     232 rate; deterministic fallback is logged.
 #'   - 301: first active 9903.88.xx code (China surcharges are monolithic per
 #'     revision within a rate bucket; first active code is representative).
 #'   - IEEPA reciprocal: country-specific via ieepa_rates census_code → ch99_code,
@@ -2110,14 +2348,18 @@ filter_active_ch99 <- function(ch99_data, revision_effective_date) {
 #'   - s122: first active 9903.03.xx code.
 #'   - s201: first active 9903.40-45 code.
 #'
-#' @param rates Rates tibble with hts10, country, rate_*, deriv_type columns
+#' @param rates Rates tibble with hts10, country, rate_*, deriv_type and
+#'   (optionally) deriv_ch99_code columns
 #' @param ch99_data Parsed Chapter 99 data with ch99_code column
 #' @param ieepa_rates IEEPA reciprocal rates tibble (or NULL)
 #' @param fentanyl_rates IEEPA fentanyl rates tibble (or NULL)
+#' @param deriv_products Derivative product CSV tibble (hts_prefix, ch99_code,
+#'   derivative_type) used to derive the active derivative heading sets
 #' @return rates with ch99_code_* columns added
 resolve_ch99_codes <- function(rates, ch99_data,
                                 ieepa_rates = NULL,
-                                fentanyl_rates = NULL) {
+                                fentanyl_rates = NULL,
+                                deriv_products = NULL) {
   # Initialize all ch99_code_* columns to NA
   rates <- rates %>%
     mutate(
@@ -2146,8 +2388,21 @@ resolve_ch99_codes <- function(rates, ch99_data,
 
   # ---- Section 232 ----
   if ('rate_232' %in% names(rates) && length(codes_232) > 0) {
-    alum_deriv  <- intersect(c('9903.85.04', '9903.85.07', '9903.85.08'), codes_232)
-    steel_deriv <- intersect(c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93'), codes_232)
+    # Derivative heading sets come from the reviewed product CSV (per-product
+    # ch99_code = US Note 16/19 subdivision membership), not hardcoded lists.
+    deriv_sets <- if (!is.null(deriv_products) && nrow(deriv_products) > 0 &&
+                      all(c('ch99_code', 'derivative_type') %in% names(deriv_products))) {
+      deriv_products %>%
+        filter(!is.na(ch99_code)) %>%
+        count(derivative_type, ch99_code, name = 'n_products')
+    } else {
+      tibble(derivative_type = character(0), ch99_code = character(0),
+             n_products = integer(0))
+    }
+    alum_deriv  <- intersect(
+      deriv_sets$ch99_code[deriv_sets$derivative_type == 'aluminum'], codes_232)
+    steel_deriv <- intersect(
+      deriv_sets$ch99_code[deriv_sets$derivative_type == 'steel'], codes_232)
     steel_base  <- codes_232[grepl('^9903\\.(80|81|82|83|84)\\.', codes_232) & !codes_232 %in% steel_deriv]
     alum_base   <- codes_232[grepl('^9903\\.85\\.', codes_232) & !codes_232 %in% alum_deriv]
     copper_base <- codes_232[grepl('^9903\\.78\\.', codes_232)]
@@ -2155,13 +2410,25 @@ resolve_ch99_codes <- function(rates, ch99_data,
     wood_base   <- codes_232[grepl('^9903\\.76\\.', codes_232)]
     mhd_base    <- codes_232[grepl('^9903\\.74\\.', codes_232)]
 
-    pick_first <- function(x, fallback) {
-      if (length(x) > 0) sort(x)[1] else fallback
-    }
     default_232 <- sort(codes_232)[1]
+
+    # Fallback for derivative rows with no usable product-level code: the
+    # broad catch-all heading of that metal = the active heading covering
+    # the most CSV products (e.g. Note 19(k) -> 9903.85.08), never sort()[1].
+    pick_broadest <- function(type) {
+      pool <- deriv_sets[deriv_sets$derivative_type == type &
+                           deriv_sets$ch99_code %in% codes_232, ]
+      if (nrow(pool) == 0) return(NA_character_)
+      pool$ch99_code[which.max(pool$n_products)]
+    }
 
     deriv_col <- if ('deriv_type' %in% names(rates)) {
       rates$deriv_type
+    } else {
+      rep(NA_character_, nrow(rates))
+    }
+    deriv_code_col <- if ('deriv_ch99_code' %in% names(rates)) {
+      rates$deriv_ch99_code
     } else {
       rep(NA_character_, nrow(rates))
     }
@@ -2170,25 +2437,77 @@ resolve_ch99_codes <- function(rates, ch99_data,
     heading <- substr(rates$hts10, 1, 4)
 
     pick <- rep(NA_character_, nrow(rates))
-    # Derivatives take precedence
+
+    # Derivatives take precedence. The product's own subdivision heading wins
+    # whenever it is active in this revision; otherwise fall back to the
+    # broadest active heading for that metal (pre-March-2025 revisions where
+    # e.g. 9903.85.08 did not exist yet) and count the fallbacks.
     mask_alum_deriv  <- !is.na(deriv_col) & deriv_col == 'aluminum'
     mask_steel_deriv <- !is.na(deriv_col) & deriv_col == 'steel'
-    pick[mask_alum_deriv]  <- pick_first(alum_deriv,  default_232)
-    pick[mask_steel_deriv] <- pick_first(steel_deriv, default_232)
-    # Chapter/heading-based base 232
-    mask_steel  <- is.na(pick) & chapter %in% c('72', '73')
-    mask_alum   <- is.na(pick) & chapter == '76'
-    mask_copper <- is.na(pick) & chapter == '74'
-    mask_auto   <- is.na(pick) & heading %in% c('8703', '8704', '8708')
-    mask_wood   <- is.na(pick) & chapter %in% c('44', '94')
-    mask_mhd    <- is.na(pick) & heading %in% c('8701', '8702', '8704', '8706')
-    pick[mask_steel]  <- pick_first(steel_base,  default_232)
-    pick[mask_alum]   <- pick_first(alum_base,   default_232)
-    pick[mask_copper] <- pick_first(copper_base, default_232)
-    pick[mask_auto]   <- pick_first(auto_base,   default_232)
-    pick[mask_wood]   <- pick_first(wood_base,   default_232)
-    pick[mask_mhd]    <- pick_first(mhd_base,    default_232)
-    # Fallback: any active 232 code
+    prod_code_ok <- !is.na(deriv_code_col) & deriv_code_col %in% codes_232
+    pick[mask_alum_deriv & prod_code_ok]  <- deriv_code_col[mask_alum_deriv & prod_code_ok]
+    pick[mask_steel_deriv & prod_code_ok] <- deriv_code_col[mask_steel_deriv & prod_code_ok]
+
+    fb_alum  <- coalesce(pick_broadest('aluminum'), default_232)
+    fb_steel <- coalesce(pick_broadest('steel'),    default_232)
+    n_fb_alum  <- sum(mask_alum_deriv & is.na(pick) & rates$rate_232 > 0)
+    n_fb_steel <- sum(mask_steel_deriv & is.na(pick) & rates$rate_232 > 0)
+    pick[mask_alum_deriv & is.na(pick)]  <- fb_alum
+    pick[mask_steel_deriv & is.na(pick)] <- fb_steel
+    if (n_fb_alum + n_fb_steel > 0) {
+      message('  ch99_code_232: ', n_fb_alum, ' aluminum + ', n_fb_steel,
+              ' steel derivative rows used the broad-heading fallback (',
+              fb_alum, ' / ', fb_steel, ') — product-level code absent or ',
+              'not active in this revision')
+    }
+
+    # Chapter/heading-based base 232. Within a pool, match the row's
+    # statutory rate to the heading whose parsed rate equals it (unique
+    # matches only); deterministic first-sorted fallback with a log line.
+    stat_232 <- if ('statutory_rate_232' %in% names(rates)) {
+      coalesce(rates$statutory_rate_232, rates$rate_232)
+    } else {
+      rates$rate_232
+    }
+    ch99_rate_lookup <- ch99_data %>%
+      filter(!is.na(ch99_code), !is.na(rate)) %>%
+      distinct(ch99_code, rate) %>%
+      mutate(rate = round(rate, 6))
+
+    pick_base <- function(mask, pool_codes, label) {
+      mask <- mask & is.na(pick)
+      if (!any(mask) || length(pool_codes) == 0) return(invisible(NULL))
+      if (length(pool_codes) == 1) {
+        pick[mask] <<- pool_codes
+        return(invisible(NULL))
+      }
+      rate_map <- ch99_rate_lookup %>%
+        filter(ch99_code %in% pool_codes) %>%
+        group_by(rate) %>% filter(n() == 1) %>% ungroup()
+      matched <- rate_map$ch99_code[match(round(stat_232[mask], 6), rate_map$rate)]
+      fallback <- sort(pool_codes)[1]
+      n_fb <- sum(is.na(matched) & rates$rate_232[mask] > 0)
+      if (n_fb > 0) {
+        message('  ch99_code_232 base (', label, '): ', n_fb,
+                ' rows had no unique rate match; using ', fallback)
+      }
+      pick[mask] <<- coalesce(matched, fallback)
+      invisible(NULL)
+    }
+
+    pick_base(chapter %in% c('72', '73'),               steel_base,  'steel')
+    pick_base(chapter == '76',                          alum_base,   'aluminum')
+    pick_base(chapter == '74',                          copper_base, 'copper')
+    pick_base(heading %in% c('8703', '8704', '8708'),   auto_base,   'auto')
+    pick_base(chapter %in% c('44', '94'),               wood_base,   'wood')
+    pick_base(heading %in% c('8701', '8702', '8704', '8706'), mhd_base, 'mhd')
+
+    # Fallback: any active 232 code (last resort, logged)
+    n_default <- sum(is.na(pick) & rates$rate_232 > 0)
+    if (n_default > 0) {
+      message('  ch99_code_232: ', n_default, ' rated rows fell through to ',
+              'default ', default_232)
+    }
     pick[is.na(pick)] <- default_232
 
     rates$ch99_code_232 <- if_else(rates$rate_232 > 0, pick, NA_character_)
@@ -2332,6 +2651,29 @@ add_blanket_pairs <- function(rates, products, covered_hts10, country_rates,
 
 
 # =============================================================================
+# Chapter 99 Source Registry
+# =============================================================================
+
+#' Load the Chapter 99 program/source registry
+#'
+#' Reviewed config mapping every program family to its legal sources (Federal
+#' Register, CBP CSMS, FAQs, quota bulletins) plus the rule-object field list
+#' and sweep algorithm. Drives: (i) QC expected program families per revision
+#' era, (ii) citation URLs in the rules emit, (iii) the coverage roadmap.
+#' See config/ch99_source_registry.yaml (source: SAIL legal review 2026-06-11).
+#'
+#' @param path Path to ch99_source_registry.yaml
+#' @return Parsed registry list, or NULL if missing
+load_ch99_source_registry <- function(path = here('config', 'ch99_source_registry.yaml')) {
+  if (!file.exists(path)) {
+    message('  Chapter 99 source registry not found: ', path)
+    return(NULL)
+  }
+  yaml::read_yaml(path)
+}
+
+
+# =============================================================================
 # Section 232 Derivative Products
 # =============================================================================
 
@@ -2374,6 +2716,60 @@ load_232_derivative_products <- function(path = here('resources', 's232_derivati
 
   message('  Loaded ', nrow(products), ' Section 232 derivative product prefixes')
   return(products)
+}
+
+
+#' Map matched HTS10 products to their per-product Ch. 99 derivative code
+#'
+#' The derivative CSV carries the legally correct heading per product
+#' (US Note 16/19 subdivision membership: e.g. 9903.85.04 = Note 19(i),
+#' 9903.85.07 = 19(j), 9903.85.08 = 19(k)). Longest prefix wins. If one
+#' HTS10 matches equal-length prefixes mapped to different same-metal
+#' headings, the more specific subdivision (the heading covering the
+#' fewest CSV products) wins and a warning is emitted — subdivision lists
+#' are meant to be disjoint, so a real conflict is a CSV defect.
+#'
+#' @param matched_hts10 Character vector of HTS10 codes matched to this type
+#' @param type_products Derivative CSV rows filtered to one derivative_type
+#' @param type_label 'aluminum' or 'steel' (becomes deriv_type join key)
+#' @return Tibble with hts10, deriv_type, deriv_ch99_code
+build_deriv_ch99_map <- function(matched_hts10, type_products, type_label) {
+  empty <- tibble(hts10 = character(0), deriv_type = character(0),
+                  deriv_ch99_code = character(0))
+  if (length(matched_hts10) == 0 || is.null(type_products) ||
+      nrow(type_products) == 0 || !'ch99_code' %in% names(type_products)) {
+    return(empty)
+  }
+
+  heading_sizes <- type_products %>%
+    filter(!is.na(ch99_code)) %>%
+    count(ch99_code, name = 'n_products')
+  prefixes <- type_products %>%
+    filter(!is.na(ch99_code)) %>%
+    distinct(hts_prefix, ch99_code) %>%
+    left_join(heading_sizes, by = 'ch99_code')
+  if (nrow(prefixes) == 0) return(empty)
+
+  hits <- tidyr::crossing(tibble(hts10 = unique(matched_hts10)), prefixes) %>%
+    filter(startsWith(hts10, hts_prefix))
+  if (nrow(hits) == 0) return(empty)
+
+  resolved <- hits %>%
+    group_by(hts10) %>%
+    filter(nchar(hts_prefix) == max(nchar(hts_prefix))) %>%
+    arrange(n_products, ch99_code, .by_group = TRUE) %>%
+    summarise(deriv_ch99_code = first(ch99_code),
+              n_codes = n_distinct(ch99_code), .groups = 'drop')
+
+  n_conflict <- sum(resolved$n_codes > 1)
+  if (n_conflict > 0) {
+    warning(n_conflict, ' ', type_label, ' derivative HTS10(s) match prefixes ',
+            'mapped to multiple ch99 headings; resolved to the most specific ',
+            'subdivision. Review s232_derivative_products.csv.')
+  }
+
+  resolved %>%
+    transmute(hts10, deriv_type = type_label, deriv_ch99_code)
 }
 
 

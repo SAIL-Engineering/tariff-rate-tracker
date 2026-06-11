@@ -1,0 +1,317 @@
+# SAIL GTX — U.S. Chapter 99 / Program Duty Source Registry
+# Created: 2026-06-11
+# Purpose: Legal/source map for an automated, revision-specific Chapter 99 sweep.
+# Principle: show published legal rates and duty bases in HTS determination; perform dollars/ad-valorem-equivalent only in landed-cost layer.
+
+metadata:
+  jurisdiction: US
+  area: HTSUS Chapter 99, trade remedies, temporary modifications, quotas, special program duties
+  generated_on: 2026-06-11
+  warning: >
+    Chapter 99 changes frequently. This is a source registry and determination checklist, not a static rate table.
+    The exhaustive implementation is to ingest the full current and historical HTS Chapter 99 text by revision and
+    reconcile it to Federal Register, CBP CSMS, CBP FAQs, CBP quota bulletins, USTR, and Commerce/AD-CVD sources.
+
+canonical_sources:
+  usitc_hts_downloads:
+    url: "https://hts.usitc.gov/download"
+    role: "Primary revision-specific HTS machine source, including Chapter 99 and notes."
+  usitc_current_hts:
+    url: "https://hts.usitc.gov/current"
+    role: "Current human-readable HTS view for verification."
+  federal_register_proclamations:
+    url: "https://www.federalregister.gov/presidential-documents/proclamations"
+    role: "Canonical proclamation publication source."
+  white_house_proclamations:
+    url: "https://www.whitehouse.gov/presidential-actions/proclamations/"
+    role: "Early proclamation monitoring source before FR publication."
+  cbp_trade_remedies:
+    url: "https://www.cbp.gov/trade/programs-administration/trade-remedies"
+    role: "CBP trade remedy landing page."
+  cbp_csms:
+    url: "https://content.govdelivery.com/accounts/USDHSCBP/bulletins"
+    role: "CBP operational entry/ACE guidance."
+  cbp_reporting_order_multiple_hts:
+    csms: "64018403"
+    url: "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d0d7e3"
+    role: "Required ACE reporting sequence for entries with Chapter 98/99 HTS numbers."
+  cbp_quota_bulletins:
+    url: "https://www.cbp.gov/trade/quota/bulletins"
+    role: "Quota/TRQ/agricultural safeguard bulletins."
+  ustr_section_301:
+    url: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions"
+    role: "Section 301 China action/exclusion source."
+  cbp_adcvd_data:
+    url: "https://www.cbp.gov/trade/priority-issues/adcvd/data"
+    role: "AD/CVD source pointer; not Chapter 99 but required for duty exposure."
+  cbp_adcvd_public_search:
+    url: "https://trade.cbp.dhs.gov/ace/adcvd/adcvd-public/"
+    role: "Public AD/CVD case/message search."
+  commerce_access_adcvd:
+    url: "https://access.trade.gov/adcvd"
+    role: "Commerce AD/CVD search by country, product, case, HTS, commodity."
+
+program_families:
+  full_chapter_99_sweep:
+    scope: "All products, all HTS sections, all origins, all entry dates."
+    required_logic:
+      - "Parse every Chapter 99 subchapter, U.S. note, heading, subheading, rate expression, condition, effective date, expiration date, and cross-reference."
+      - "Do not rely only on manual named-program lists."
+
+  mtb_9902_temporary_duty_suspensions:
+    typical_area: "9902"
+    triggers: ["product description", "HTS cross-reference", "temporary effective period", "quantity limits if stated"]
+    urls:
+      - "https://www.usitc.gov/american_manufacturing_competitiveness_act.htm"
+      - "https://www.trade.gov/feature-article/miscellaneous-tariff-bill"
+      - "https://hts.usitc.gov/download"
+
+  section_201_global_safeguards:
+    authority: "Trade Act of 1974 §§201/203; 19 U.S.C. 2251 et seq.; 19 U.S.C. 2253"
+    products: ["crystalline silicon photovoltaic cells/modules", "large residential washers and covered parts", "future safeguard actions"]
+    urls:
+      - "https://www.federalregister.gov/documents/2018/01/25/2018-01592/to-facilitate-positive-adjustment-to-competition-from-imports-of-certain-crystalline-silicon"
+      - "https://www.federalregister.gov/documents/2022/02/09/2022-02906/to-continue-facilitating-positive-adjustment-to-competition-from-imports-of-certain-crystalline"
+      - "https://www.federalregister.gov/documents/2024/06/26/2024-14143/to-further-facilitate-positive-adjustment-to-competition-from-imports-of-certain-crystalline-silicon"
+      - "https://www.federalregister.gov/documents/2026/03/17/2026-05170/crystalline-silicon-photovoltaic-cells-whether-or-not-partially-or-fully-assembled-into-other"
+      - "https://www.federalregister.gov/documents/2018/01/25/2018-01604/to-facilitate-positive-adjustment-to-competition-from-imports-of-large-residential-washers"
+      - "https://www.federalregister.gov/documents/2021/01/21/2021-01466/to-continue-facilitating-positive-adjustment-to-competition-from-imports-of-large-residential"
+      - "https://www.cbp.gov/trade/quota/bulletins"
+
+  section_232_steel_aluminum_copper_metals:
+    authority: "Section 232 of the Trade Expansion Act of 1962; 19 U.S.C. 1862"
+    products:
+      - "steel articles and derivatives"
+      - "aluminum articles and derivatives"
+      - "copper articles and derivatives"
+      - "post-April 6 2026 metals framework and added derivatives including industrial machinery/power equipment/agricultural equipment/HVAC/mobile industrial equipment where annex-listed"
+    urls:
+      - "https://www.federalregister.gov/documents/2018/03/15/2018-05478/adjusting-imports-of-steel-into-the-united-states"
+      - "https://www.federalregister.gov/documents/2018/03/15/2018-05477/adjusting-imports-of-aluminum-into-the-united-states"
+      - "https://www.federalregister.gov/documents/2020/01/29/2020-01806/adjusting-imports-of-derivative-aluminum-articles-and-derivative-steel-articles-into-the-united"
+      - "https://www.federalregister.gov/documents/2025/02/18/2025-02833/adjusting-imports-of-steel-into-the-united-states"
+      - "https://www.federalregister.gov/documents/2025/02/18/2025-02832/adjusting-imports-of-aluminum-into-the-united-states"
+      - "https://www.federalregister.gov/documents/2025/03/05/2025-03596/implementation-of-duties-on-aluminum-pursuant-to-proclamation-10895-adjusting-imports-of-aluminum"
+      - "https://www.federalregister.gov/documents/2025/06/09/2025-10524/adjusting-imports-of-aluminum-and-steel-into-the-united-states"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e43b34"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e36ea5"
+      - "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states"
+      - "https://www.whitehouse.gov/presidential-actions/2025/07/adjusting-imports-of-copper-into-the-united-states/"
+      - "https://www.federalregister.gov/documents/2026/04/09/2026-06960/strengthening-actions-taken-to-adjust-imports-of-aluminum-steel-and-copper-into-the-united-states"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593"
+      - "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4167add"
+
+  section_232_autos_light_vehicles_parts:
+    authority: "Section 232; 19 U.S.C. 1862"
+    products: ["passenger vehicles", "light trucks", "covered automobile parts", "country-deal modifications"]
+    urls:
+      - "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states"
+      - "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-autos"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3da18a1"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3de7ef9"
+      - "https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united"
+      - "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement"
+      - "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal"
+      - "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal"
+      - "https://www.federalregister.gov/documents/2026/05/28/2026-10571/implementing-certain-tariff-related-elements-of-the-united-states-taiwan-trade-and-security"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4152f6a"
+
+  section_232_mhdv_parts_buses:
+    authority: "Section 232; 19 U.S.C. 1862"
+    products: ["medium-duty vehicles", "heavy-duty vehicles", "MHDV parts", "buses"]
+    chapter_99_ranges: ["9903.74.01-9903.74.11", "9903.94.07", "9903.94.33-9903.94.55"]
+    required_logic: ["vehicle class", "parts/intended use", "USMCA non-U.S. content", "certified use", "25-year-old vehicle exclusions", "IEEPA/reciprocal exemption headings", "unstacking"]
+    urls:
+      - "https://www.whitehouse.gov/presidential-actions/2025/10/adjusting-imports-of-medium-and-heavy-duty-vehicles-medium-and-heavy-duty-vehicle-parts-and-buses-into-the-united-states/"
+      - "https://www.federalregister.gov/documents/2025/10/22/2025-19639/adjusting-imports-of-medium--and-heavy-duty-vehicles-medium--and-heavy-duty-vehicle-parts-and-buses"
+      - "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-mhdv"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f93b75"
+      - "https://www.federalregister.gov/documents/2026/02/02/2026-02133/procedures-for-importers-to-submit-documents-for-imports-of-medium--and-heavy-duty-vehicles-under"
+      - "https://www.federalregister.gov/documents/2026/05/15/2026-09780/procedures-for-eligible-manufacturers-to-apply-for-import-adjustment-offsets-for-certain-automobile"
+
+  section_232_timber_lumber_wood_derivatives:
+    authority: "Section 232; 19 U.S.C. 1862"
+    products: ["softwood timber/lumber", "upholstered wooden furniture", "kitchen cabinets/vanities and parts", "other annex-listed wood derivatives"]
+    urls:
+      - "https://www.federalregister.gov/documents/2025/10/06/2025-19482/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states"
+      - "https://www.whitehouse.gov/presidential-actions/2025/09/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states/"
+      - "https://www.federalregister.gov/documents/2026/01/09/2026-00327/amendments-to-adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f69699"
+
+  section_232_semiconductors:
+    authority: "Section 232; 19 U.S.C. 1862"
+    products: ["semiconductor articles", "semiconductor manufacturing equipment", "derivatives", "end-use/exclusion categories"]
+    chapter_99_range: "9903.79.01-9903.79.09"
+    urls:
+      - "https://www.federalregister.gov/documents/2026/01/20/2026-01052/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative"
+      - "https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative-products-into-the-united-states/"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318"
+
+  section_232_pharmaceuticals:
+    authority: "Section 232; 19 U.S.C. 1862"
+    products: ["patented pharmaceuticals", "associated pharmaceutical ingredients", "company/onshoring agreement treatment", "generics excluded unless modified"]
+    note: "Monitor for CBP CSMS implementation before relying operationally."
+    urls:
+      - "https://www.federalregister.gov/documents/2026/04/09/2026-06956/adjusting-imports-of-pharmaceuticals-and-pharmaceutical-ingredients-into-the-united-states"
+      - "https://www.whitehouse.gov/presidential-actions/2026/04/adjusting-imports-of-pharmaceuticals-and-pharmaceutical-ingredients-into-the-united-states/"
+      - "https://www.federalregister.gov/documents/2026/05/13/2026-09489/procedures-to-apply-for-company-specific-onshoring-agreements-to-obtain-tariff-adjustments-for"
+
+  section_301_china:
+    authority: "Trade Act of 1974 §301; 19 U.S.C. 2411"
+    products: ["China-origin goods on covered HTS lists", "product-specific exclusions"]
+    urls:
+      - "https://hts.usitc.gov/reststop/file?filename=China+Tariffs&release=currentRelease"
+      - "https://www.cbp.gov/trade/programs-administration/entry-summary/section-301-trade-remedies/faqs"
+      - "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions"
+      - "https://www.federalregister.gov/documents/2025/12/01/2025-21671/notice-of-product-exclusion-extensions-chinas-acts-policies-and-practices-related-to-technology"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f0452d"
+
+  ieepa_reciprocal:
+    authority: "IEEPA; 50 U.S.C. 1701 et seq.; 19 U.S.C. 2483"
+    status: "Highly date-sensitive; verify against EO 14389 and CSMS 67834313 for entries on/after 2026-02-24."
+    required_logic: ["country-specific rates", "Annex II exceptions", "U.S.-content split", "transshipment/evasion replacement duty", "exemption headings", "termination/status check"]
+    urls:
+      - "https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d9cbda"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3daf1b6"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3db42c8"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3db9e55"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ec7b5e"
+      - "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9"
+
+  ieepa_fentanyl_canada_mexico_china:
+    authority: "IEEPA synthetic-opioid supply chain actions"
+    status: "Highly date-sensitive; verify EO 14389/CSMS 67834313 for entries on/after 2026-02-24."
+    urls:
+      - "https://www.federalregister.gov/documents/2025/02/05/2025-02293/implementation-of-additional-duties-on-products-of-the-peoples-republic-of-china-pursuant-to-the"
+      - "https://www.federalregister.gov/documents/2025/03/06/2025-03677/further-amended-notice-of-implementation-of-additional-duties-on-products-of-the-peoples-republic-of"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d4274e"
+      - "https://www.federalregister.gov/documents/2025/03/06/2025-03665/notice-of-implementation-of-additional-duties-on-products-of-mexico-pursuant-to-the-presidents"
+      - "https://www.federalregister.gov/documents/2025/03/06/2025-03664/notice-of-implementation-of-additional-duties-on-products-of-canada-pursuant-to-the-presidents"
+      - "https://www.federalregister.gov/documents/2025/03/11/2025-03901/amendment-to-notice-of-implementation-of-additional-duties-on-products-of-canada-pursuant-to-the"
+      - "https://www.cbp.gov/trade/programs-administration/trade-remedies/IEEPA-FAQ"
+      - "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9"
+
+  ieepa_brazil:
+    authority: "IEEPA"
+    urls:
+      - "https://www.federalregister.gov/documents/2025/08/05/2025-14896/addressing-threats-to-the-united-states-by-the-government-of-brazil"
+      - "https://www.federalregister.gov/documents/2025/11/26/2025-21417/modifying-the-scope-of-tariffs-on-the-government-of-brazil"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ec2577"
+
+  ieepa_india_russian_oil:
+    authority: "IEEPA"
+    status: "CBP CSMS 67702087 states 9903.01.84-9903.01.89 no longer in use for products of India on/after 2026-02-07."
+    urls:
+      - "https://www.federalregister.gov/documents/2025/08/27/2025-16419/notice-of-implementation-of-additional-duties-on-products-of-india-pursuant-to-the-presidents"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ef7e13"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4090d47"
+
+  section_122_temporary_import_surcharge:
+    authority: "Trade Act of 1974 §122; 19 U.S.C. 2132"
+    status: "Effective 2026-02-24 through 2026-07-24 unless changed."
+    required_logic: ["10% default heading", "exemption headings", "no stacking with Section 232", "applies only to non-232 portion when 232 applies to part of import"]
+    urls:
+      - "https://www.federalregister.gov/documents/2026/02/25/2026-03824/imposing-a-temporary-import-surcharge-to-address-fundamental-international-payments-problems"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b"
+      - "https://www.whitehouse.gov/wp-content/uploads/2026/02/2026Section122.prc_.ANNEX1_.FINAL_.pdf"
+
+  russia_belarus_ntr_suspension:
+    authority: "Suspending Normal Trade Relations with Russia and Belarus Act; related proclamations"
+    urls:
+      - "https://www.federalregister.gov/documents/2022/06/30/2022-14145/increasing-duties-on-certain-articles-from-the-russian-federation"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/31f7db3"
+      - "https://www.federalregister.gov/documents/2023/03/02/2023-04449/increasing-duties-on-certain-articles-from-the-russian-federation"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/34fbd3c"
+      - "https://www.usitc.gov/tariff_affairs/documents/summary_of_tariff_treatment_of_imports_from_russia_and_belarus.pdf"
+
+  agriculture_safeguards_9904_trq:
+    products: ["dairy", "dried milk/cream/whey", "ice cream", "sugar-containing products", "cotton", "tobacco", "beef", "peanuts", "chocolate", "other quota/TRQ products"]
+    required_logic: ["Additional U.S. Notes", "Chapter 99 Subchapter IV", "country exemptions", "quota period", "quota fill", "license/certificate requirements"]
+    urls:
+      - "https://www.cbp.gov/trade/quota/bulletins"
+      - "https://www.cbp.gov/trade/quota/bulletins/qb-26-204-2026"
+      - "https://www.cbp.gov/trade/quota/bulletins/qb-26-207-2026"
+      - "https://www.cbp.gov/trade/quota/bulletins/qb-26-209-2026"
+      - "https://www.cbp.gov/trade/quota/bulletins/qb-25-401-2025"
+      - "https://www.cbp.gov/trade/quota/bulletins/qb-25-405-2025"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3fdc91f"
+      - "https://hts.usitc.gov/download"
+
+  fta_preference_trq_chapter_99_subchapters:
+    products: "Agreement-specific quotas/special rates across agriculture, textiles, tobacco, apparel, and other goods."
+    required_logic: ["General Note eligibility", "originating status", "country allocation", "quota period", "Chapter 99 subchapter/note"]
+    urls:
+      - "https://hts.usitc.gov/download"
+      - "https://www.cbp.gov/trade/quota/bulletins"
+      - "https://ustr.gov/trade-agreements/free-trade-agreements"
+
+  civil_aircraft_country_deal_modifiers:
+    products: ["civil aircraft", "aircraft engines", "parts/components", "simulators", "agreement-specific exemptions"]
+    required_logic: ["General Note 6", "country deal eligibility", "interaction with 232 metals/autos/timber/reciprocal tariffs"]
+    urls:
+      - "https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united"
+      - "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal"
+      - "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement"
+      - "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal"
+      - "https://www.federalregister.gov/documents/2026/05/28/2026-10571/implementing-certain-tariff-related-elements-of-the-united-states-taiwan-trade-and-security"
+      - "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4152f6a"
+
+non_chapter_99_but_required_for_total_duty_exposure:
+  adcvd:
+    reason: "Not generally Chapter 99, but essential for duty exposure; scope controls, not just HTS."
+    urls:
+      - "https://www.cbp.gov/trade/priority-issues/adcvd/data"
+      - "https://trade.cbp.dhs.gov/ace/adcvd/adcvd-public/"
+      - "https://access.trade.gov/adcvd"
+      - "https://www.trade.gov/data-visualization/adcvd-proceedings"
+  fees_excise_pga:
+    reason: "MPF/HMF, excise taxes, and PGA admissibility restrictions are separate from Chapter 99 but needed for landed cost/admissibility."
+
+data_model_requirements:
+  chapter_99_rule_fields:
+    - rule_id
+    - hts_revision
+    - chapter_99_heading
+    - subchapter
+    - us_note_reference
+    - legal_authority
+    - federal_register_url
+    - cbp_csms_url
+    - cbp_faq_url
+    - effective_start
+    - effective_end
+    - status
+    - trigger_hts_ranges
+    - origin_conditions
+    - product_description_conditions
+    - material_content_conditions
+    - end_use_conditions
+    - quota_conditions
+    - company_or_certification_conditions
+    - required_user_inputs
+    - published_legal_rate_expression
+    - duty_basis
+    - unit_basis
+    - stacking_rule
+    - exemption_heading
+    - replacement_heading
+    - reporting_sequence_position
+    - drawback_rule
+    - ftz_rule
+    - chapter_98_interaction
+    - calculation_allowed
+    - calculation_requires
+    - last_verified_at
+
+algorithm:
+  - "Resolve entry/withdrawal date; separately track shipment date only for in-transit exceptions."
+  - "Load the HTS revision active on that date, including Chapter 1-97, General Notes, Additional U.S. Notes, and Chapter 99."
+  - "Run a full Chapter 99 sweep across every active rule, not a named-program subset."
+  - "Match by HTS, origin, export country, material composition/value, end-use, component value, quota status, company/certification status, and effective date."
+  - "If a rule may apply but facts are missing, output 'potentially applicable / requires additional facts' rather than silently excluding it."
+  - "Apply stacking, non-stacking, replacement, exemption, Chapter 98, drawback, and FTZ rules."
+  - "In HTS determination, show published legal rate and duty basis; compute dollars only in landed-cost/scenario layer."

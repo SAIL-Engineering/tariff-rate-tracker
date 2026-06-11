@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "generated_from": ["config/duty_citations.yaml", "config/ch99_source_registry.yaml"],
+  "stack_order": [
+    "base",
+    232,
+    301,
+    "ieepa_recip",
+    "ieepa_fent",
+    "s122",
+    "section_201",
+    "other"
+  ],
+  "statuses": ["applied", "exempt_or_replaced", "not_applicable", "potentially_applicable_requires_more_facts"],
+  "programs": {
+    "section_232": {
+      "label": "Section 232",
+      "anchor": "19 U.S.C. 1862 (national security)",
+      "rate_column": "rate_232",
+      "ch99_prefixes": ["9903.74", "9903.76", "9903.78", "9903.79", "9903.80", "9903.81", "9903.82", "9903.83", "9903.84", "9903.85", "9903.94"],
+      "families": ["section_232_steel_aluminum_copper_metals", "section_232_autos_light_vehicles_parts", "section_232_mhdv_parts_buses", "section_232_timber_lumber_wood_derivatives", "section_232_semiconductors", "section_232_pharmaceuticals"],
+      "sources": ["https://www.federalregister.gov/documents/2018/03/15/2018-05478/adjusting-imports-of-steel-into-the-united-states", "https://www.federalregister.gov/documents/2018/03/15/2018-05477/adjusting-imports-of-aluminum-into-the-united-states", "https://www.federalregister.gov/documents/2020/01/29/2020-01806/adjusting-imports-of-derivative-aluminum-articles-and-derivative-steel-articles-into-the-united", "https://www.federalregister.gov/documents/2025/02/18/2025-02833/adjusting-imports-of-steel-into-the-united-states", "https://www.federalregister.gov/documents/2025/02/18/2025-02832/adjusting-imports-of-aluminum-into-the-united-states", "https://www.federalregister.gov/documents/2025/03/05/2025-03596/implementation-of-duties-on-aluminum-pursuant-to-proclamation-10895-adjusting-imports-of-aluminum", "https://www.federalregister.gov/documents/2025/06/09/2025-10524/adjusting-imports-of-aluminum-and-steel-into-the-united-states", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e43b34", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e36ea5", "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states", "https://www.whitehouse.gov/presidential-actions/2025/07/adjusting-imports-of-copper-into-the-united-states/", "https://www.federalregister.gov/documents/2026/04/09/2026-06960/strengthening-actions-taken-to-adjust-imports-of-aluminum-steel-and-copper-into-the-united-states", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593", "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4167add", "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states", "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-autos", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3da18a1", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3de7ef9", "https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united", "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement", "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal", "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal", "https://www.federalregister.gov/documents/2026/05/28/2026-10571/implementing-certain-tariff-related-elements-of-the-united-states-taiwan-trade-and-security", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4152f6a", "https://www.whitehouse.gov/presidential-actions/2025/10/adjusting-imports-of-medium-and-heavy-duty-vehicles-medium-and-heavy-duty-vehicle-parts-and-buses-into-the-united-states/", "https://www.federalregister.gov/documents/2025/10/22/2025-19639/adjusting-imports-of-medium--and-heavy-duty-vehicles-medium--and-heavy-duty-vehicle-parts-and-buses", "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-mhdv", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f93b75", "https://www.federalregister.gov/documents/2026/02/02/2026-02133/procedures-for-importers-to-submit-documents-for-imports-of-medium--and-heavy-duty-vehicles-under", "https://www.federalregister.gov/documents/2026/05/15/2026-09780/procedures-for-eligible-manufacturers-to-apply-for-import-adjustment-offsets-for-certain-automobile", "https://www.federalregister.gov/documents/2025/10/06/2025-19482/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states", "https://www.whitehouse.gov/presidential-actions/2025/09/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states/", "https://www.federalregister.gov/documents/2026/01/09/2026-00327/amendments-to-adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f69699", "https://www.federalregister.gov/documents/2026/01/20/2026-01052/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative", "https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative-products-into-the-united-states/", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318", "https://www.federalregister.gov/documents/2026/04/09/2026-06956/adjusting-imports-of-pharmaceuticals-and-pharmaceutical-ingredients-into-the-united-states", "https://www.whitehouse.gov/presidential-actions/2026/04/adjusting-imports-of-pharmaceuticals-and-pharmaceutical-ingredients-into-the-united-states/", "https://www.federalregister.gov/documents/2026/05/13/2026-09489/procedures-to-apply-for-company-specific-onshoring-agreements-to-obtain-tariff-adjustments-for"]
+    },
+    "section_301": {
+      "label": "Section 301",
+      "anchor": "19 U.S.C. 2411 (USTR China actions)",
+      "rate_column": "rate_301",
+      "ch99_prefixes": ["9903.88", "9903.91", "9903.92"],
+      "families": "section_301_china",
+      "sources": ["https://hts.usitc.gov/reststop/file?filename=China+Tariffs&release=currentRelease", "https://www.cbp.gov/trade/programs-administration/entry-summary/section-301-trade-remedies/faqs", "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions", "https://www.federalregister.gov/documents/2025/12/01/2025-21671/notice-of-product-exclusion-extensions-chinas-acts-policies-and-practices-related-to-technology", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3f0452d"]
+    },
+    "ieepa_reciprocal": {
+      "label": "IEEPA Reciprocal",
+      "anchor": "EO 14257 (Apr 2, 2025); 50 U.S.C. 1701 et seq.",
+      "rate_column": "rate_ieepa_recip",
+      "ch99_prefixes": ["9903.01.25-9903.01.99", "9903.02"],
+      "families": ["ieepa_reciprocal", "ieepa_brazil", "ieepa_india_russian_oil"],
+      "sources": ["https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d9cbda", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3daf1b6", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3db42c8", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3db9e55", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ec7b5e", "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9", "https://www.federalregister.gov/documents/2025/08/05/2025-14896/addressing-threats-to-the-united-states-by-the-government-of-brazil", "https://www.federalregister.gov/documents/2025/11/26/2025-21417/modifying-the-scope-of-tariffs-on-the-government-of-brazil", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ec2577", "https://www.federalregister.gov/documents/2025/08/27/2025-16419/notice-of-implementation-of-additional-duties-on-products-of-india-pursuant-to-the-presidents", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3ef7e13", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4090d47"]
+    },
+    "ieepa_fentanyl": {
+      "label": "Anti-Fentanyl (IEEPA)",
+      "anchor": "EO 14195/14193/14194; 50 U.S.C. 1701 et seq.",
+      "rate_column": "rate_ieepa_fent",
+      "ch99_prefixes": "9903.01.01-9903.01.24",
+      "families": "ieepa_fentanyl_canada_mexico_china",
+      "sources": ["https://www.federalregister.gov/documents/2025/02/05/2025-02293/implementation-of-additional-duties-on-products-of-the-peoples-republic-of-china-pursuant-to-the", "https://www.federalregister.gov/documents/2025/03/06/2025-03677/further-amended-notice-of-implementation-of-additional-duties-on-products-of-the-peoples-republic-of", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d4274e", "https://www.federalregister.gov/documents/2025/03/06/2025-03665/notice-of-implementation-of-additional-duties-on-products-of-mexico-pursuant-to-the-presidents", "https://www.federalregister.gov/documents/2025/03/06/2025-03664/notice-of-implementation-of-additional-duties-on-products-of-canada-pursuant-to-the-presidents", "https://www.federalregister.gov/documents/2025/03/11/2025-03901/amendment-to-notice-of-implementation-of-additional-duties-on-products-of-canada-pursuant-to-the", "https://www.cbp.gov/trade/programs-administration/trade-remedies/IEEPA-FAQ", "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9"]
+    },
+    "section_122": {
+      "label": "Section 122",
+      "anchor": "19 U.S.C. 2132 (balance-of-payments)",
+      "rate_column": "rate_s122",
+      "ch99_prefixes": "9903.03",
+      "families": "section_122_temporary_import_surcharge",
+      "sources": ["https://www.federalregister.gov/documents/2026/02/25/2026-03824/imposing-a-temporary-import-surcharge-to-address-fundamental-international-payments-problems", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b", "https://www.whitehouse.gov/wp-content/uploads/2026/02/2026Section122.prc_.ANNEX1_.FINAL_.pdf"]
+    },
+    "section_201": {
+      "label": "Section 201 Safeguard",
+      "anchor": "19 U.S.C. 2251 et seq.",
+      "rate_column": "rate_section_201",
+      "ch99_prefixes": "9903.40-9903.45",
+      "families": "section_201_global_safeguards",
+      "sources": ["https://www.federalregister.gov/documents/2018/01/25/2018-01592/to-facilitate-positive-adjustment-to-competition-from-imports-of-certain-crystalline-silicon", "https://www.federalregister.gov/documents/2022/02/09/2022-02906/to-continue-facilitating-positive-adjustment-to-competition-from-imports-of-certain-crystalline", "https://www.federalregister.gov/documents/2024/06/26/2024-14143/to-further-facilitate-positive-adjustment-to-competition-from-imports-of-certain-crystalline-silicon", "https://www.federalregister.gov/documents/2026/03/17/2026-05170/crystalline-silicon-photovoltaic-cells-whether-or-not-partially-or-fully-assembled-into-other", "https://www.federalregister.gov/documents/2018/01/25/2018-01604/to-facilitate-positive-adjustment-to-competition-from-imports-of-large-residential-washers", "https://www.federalregister.gov/documents/2021/01/21/2021-01466/to-continue-facilitating-positive-adjustment-to-competition-from-imports-of-large-residential", "https://www.cbp.gov/trade/quota/bulletins"]
+    },
+    "mtb_9902": {
+      "label": "MTB Temporary Suspension (9902)",
+      "anchor": "American Manufacturing Competitiveness Act; HTSUS ch. 99 subch. II",
+      "rate_column": null,
+      "ch99_prefixes": "9902",
+      "families": "mtb_9902_temporary_duty_suspensions",
+      "note": "Temporary duty REDUCTION/suspension; candidate status only — not yet integrated into rate math.",
+      "sources": ["https://www.usitc.gov/american_manufacturing_competitiveness_act.htm", "https://www.trade.gov/feature-article/miscellaneous-tariff-bill", "https://hts.usitc.gov/download"]
+    },
+    "ag_safeguard_9904": {
+      "label": "Agricultural Safeguard / TRQ (9904)",
+      "anchor": "HTSUS ch. 99 subch. IV; Additional U.S. Notes; CBP quota bulletins",
+      "rate_column": null,
+      "ch99_prefixes": "9904",
+      "families": ["agriculture_safeguards_9904_trq", "fta_preference_trq_chapter_99_subchapters"],
+      "note": "Quota-tier duty; requires quota period/fill facts — candidate status only.",
+      "sources": ["https://www.cbp.gov/trade/quota/bulletins", "https://www.cbp.gov/trade/quota/bulletins/qb-26-204-2026", "https://www.cbp.gov/trade/quota/bulletins/qb-26-207-2026", "https://www.cbp.gov/trade/quota/bulletins/qb-26-209-2026", "https://www.cbp.gov/trade/quota/bulletins/qb-25-401-2025", "https://www.cbp.gov/trade/quota/bulletins/qb-25-405-2025", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3fdc91f", "https://hts.usitc.gov/download", "https://ustr.gov/trade-agreements/free-trade-agreements"]
+    },
+    "trade_deal_modifier": {
+      "label": "Trade-Deal / Civil-Aircraft Modifier",
+      "anchor": "Country-deal implementing FR notices; General Note 6 (civil aircraft)",
+      "rate_column": null,
+      "ch99_prefixes": "9903.96",
+      "families": "civil_aircraft_country_deal_modifiers",
+      "sources": ["https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united", "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal", "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement", "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal", "https://www.federalregister.gov/documents/2026/05/28/2026-10571/implementing-certain-tariff-related-elements-of-the-united-states-taiwan-trade-and-security", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4152f6a"]
+    },
+    "russia_belarus_ntr": {
+      "label": "Russia/Belarus NTR Suspension (Column 2)",
+      "anchor": "Suspending Normal Trade Relations with Russia and Belarus Act",
+      "rate_column": "rate_column2",
+      "ch99_prefixes": [],
+      "families": "russia_belarus_ntr_suspension",
+      "sources": ["https://www.federalregister.gov/documents/2022/06/30/2022-14145/increasing-duties-on-certain-articles-from-the-russian-federation", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/31f7db3", "https://www.federalregister.gov/documents/2023/03/02/2023-04449/increasing-duties-on-certain-articles-from-the-russian-federation", "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/34fbd3c", "https://www.usitc.gov/tariff_affairs/documents/summary_of_tariff_treatment_of_imports_from_russia_and_belarus.pdf"]
+    }
+  }
+}

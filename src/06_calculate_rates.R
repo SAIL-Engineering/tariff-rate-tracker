@@ -264,11 +264,28 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
   if (!'deriv_type' %in% names(rates)) {
     rates <- rates %>% mutate(deriv_type = NA_character_)
   }
+  # Per-product Ch. 99 derivative code (US Note 16/19 subdivision membership,
+  # from the CSV). Consumed by resolve_ch99_codes() so each product carries
+  # its legally correct heading instead of a single pooled code.
+  if (!'deriv_ch99_code' %in% names(rates)) {
+    rates <- rates %>% mutate(deriv_ch99_code = NA_character_)
+  }
+  # Legal duty-basis marker: TRUE for true derivatives outside the primary
+  # metal chapters, which owe 232 duty on the declared value of the metal
+  # content (US Notes 16(a)/19(a)); primary-chapter and heading-program
+  # products owe on the full entered value. Consumed by the duty_basis_232
+  # computation after ch99 resolution.
+  if (!'deriv_content_scaled' %in% names(rates)) {
+    rates <- rates %>% mutate(deriv_content_scaled = FALSE)
+  }
 
   if (!is.null(deriv_products) && nrow(deriv_products) > 0 && s232_rates$has_232) {
-    # Check if derivative Ch99 entries exist in this revision (either type)
-    alum_deriv_ch99 <- c('9903.85.04', '9903.85.07', '9903.85.08')
-    steel_deriv_ch99 <- c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93')
+    # Check if derivative Ch99 entries exist in this revision (either type).
+    # Heading sets come from the reviewed CSV, not hardcoded lists.
+    alum_deriv_ch99 <- unique(na.omit(
+      deriv_products$ch99_code[deriv_products$derivative_type == 'aluminum']))
+    steel_deriv_ch99 <- unique(na.omit(
+      deriv_products$ch99_code[deriv_products$derivative_type == 'steel']))
     has_alum_deriv <- any(ch99_data$ch99_code %in% alum_deriv_ch99)
     has_steel_deriv <- any(ch99_data$ch99_code %in% steel_deriv_ch99)
 
@@ -349,6 +366,21 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
 
       deriv_matched <- union(alum_matched, steel_matched)
       message('  Section 232 derivative coverage (total): ', length(deriv_matched), ' products')
+
+      # Record each matched product's own Ch. 99 heading from the CSV,
+      # keyed on (hts10, deriv_type) so a product in both lists gets the
+      # code for the type that won deriv_type (steel takes precedence above).
+      deriv_code_map <- bind_rows(
+        build_deriv_ch99_map(alum_matched, alum_products, 'aluminum'),
+        build_deriv_ch99_map(steel_matched, steel_products, 'steel')
+      )
+      if (nrow(deriv_code_map) > 0) {
+        rates <- rates %>%
+          left_join(deriv_code_map %>% rename(.deriv_code = deriv_ch99_code),
+                    by = c('hts10', 'deriv_type'), relationship = 'many-to-one') %>%
+          mutate(deriv_ch99_code = coalesce(.deriv_code, deriv_ch99_code)) %>%
+          select(-.deriv_code)
+      }
     }
   }
 
@@ -454,6 +486,11 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
               ' heading/derivative overlap products')
     }
 
+    # Mark the metal-content-value population (= the metal-scaled set).
+    rates <- rates %>%
+      mutate(deriv_content_scaled = coalesce(deriv_content_scaled, FALSE) |
+               hts10 %in% deriv_only)
+
     n_deriv_with_232 <- sum(rates$hts10 %in% deriv_matched & rates$rate_232 > 0)
     message('  Derivative 232 after metal scaling: ', n_deriv_with_232,
             ' product-country pairs')
@@ -544,7 +581,8 @@ calculate_rates_for_revision <- function(
   s232_rates = NULL,
   fentanyl_rates = NULL,
   stacking_method = 'mutual_exclusion',
-  policy_params = NULL
+  policy_params = NULL,
+  ch99_other = NULL
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
 
@@ -1300,6 +1338,17 @@ calculate_rates_for_revision <- function(
     if (length(auto_products) < n_auto_pre) {
       message('  Excluded ', n_auto_pre - length(auto_products),
               ' blanket chapter products from auto_products')
+    }
+    # Same strip for MHD parts (upstream fix, Budget-Lab-Yale: Russia steel-
+    # surcharge leak): ch73 steel springs listed in mhd_parts otherwise
+    # survive into heading_program_products and the annex override's
+    # "keep prior rate for heading-program products" arm preserves a stale
+    # blanket rate (e.g. Russia 200%) instead of annex treatment.
+    n_mhd_pre <- length(mhd_products)
+    mhd_products <- mhd_products[!substr(mhd_products, 1, 2) %in% blanket_chapters]
+    if (length(mhd_products) < n_mhd_pre) {
+      message('  Excluded ', n_mhd_pre - length(mhd_products),
+              ' blanket chapter products from mhd_products')
     }
 
     n_steel <- length(steel_products)
@@ -2673,6 +2722,10 @@ calculate_rates_for_revision <- function(
         mutate(
           rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate, rate_232),
           deriv_type = if_else(!is.na(.semi_heading_rate), NA_character_, deriv_type),
+          deriv_ch99_code = if_else(!is.na(.semi_heading_rate), NA_character_,
+                                    deriv_ch99_code),
+          deriv_content_scaled = if_else(!is.na(.semi_heading_rate), FALSE,
+                                         coalesce(deriv_content_scaled, FALSE)),
           statutory_rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate,
                                        statutory_rate_232)
         ) %>%
@@ -2687,9 +2740,30 @@ calculate_rates_for_revision <- function(
   # 8b. Resolve specific 8-digit Chapter 99 codes per authority per row.
   #     This replaces the static per-authority range labels ("9903.80-85, 9903.94")
   #     previously hardcoded in the frontend with actual codes driving each rate.
+  #     deriv_products supplies the per-product subdivision headings so each
+  #     derivative carries its legally correct code (US Note 16/19).
   rates <- resolve_ch99_codes(rates, ch99_data,
                               ieepa_rates = ieepa_rates,
-                              fentanyl_rates = fentanyl_rates)
+                              fentanyl_rates = fentanyl_rates,
+                              deriv_products = load_232_derivative_products(
+                                effective_date = effective_date))
+
+  # 8c. Legal duty basis for the Section 232 amount (determination layer).
+  #     Pre-annex true derivatives outside the primary metal chapters owe 232
+  #     duty on the declared value of the metal content (US Notes 16(a)/19(a),
+  #     Proclamation 10895 implementation, 90 FR 9807); the April 2026 annex
+  #     restructure (Proclamation 11021, 91 FR 18201) collects on the full
+  #     entered value, flagged by s232_annex. No dates are hardcoded — both
+  #     signals derive from parsed data (derivative CSV + annex CSV).
+  if (!'s232_annex' %in% names(rates)) rates$s232_annex <- NA_character_
+  if (!'deriv_content_scaled' %in% names(rates)) rates$deriv_content_scaled <- FALSE
+  rates <- rates %>%
+    mutate(duty_basis_232 = case_when(
+      rate_232 <= 0 ~ NA_character_,
+      !is.na(s232_annex) ~ 'full_value',
+      coalesce(deriv_content_scaled, FALSE) ~ 'metal_content_value',
+      TRUE ~ 'full_value'
+    ))
 
   # 9a. Add revision metadata
   rates <- rates %>%
@@ -2820,7 +2894,8 @@ calculate_rates_for_revision <- function(
     ieepa_exempt_source_map = if (exists('ieepa_exempt_source_map', inherits = FALSE)) ieepa_exempt_source_map else NULL,
     ieepa_exempt_scope = if (exists('ieepa_exempt_scope', inherits = FALSE)) ieepa_exempt_scope else 'all',
     duty_free_treatment = if (exists('duty_free_treatment', inherits = FALSE)) duty_free_treatment else 'all_products',
-    cc = if (exists('cc', inherits = FALSE)) cc else NULL
+    cc = if (exists('cc', inherits = FALSE)) cc else NULL,
+    ch99_other = ch99_other
   )
 
   # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside

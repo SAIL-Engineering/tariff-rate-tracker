@@ -230,6 +230,18 @@ build_full_timeseries <- function(
       # c. Parse Chapter 99 entries
       ch99_data <- parse_chapter99(json_path, revision_id = rev_id)
 
+      # c2. Parse non-9903 Chapter 99 provisions (9902 MTB suspensions, 9904
+      #     agricultural safeguards). Surfaced as candidate rules in
+      #     ch99_rules_json with status requires_more_facts; not yet rate-math.
+      ch99_other <- parse_chapter99_other(hts_raw = hts_raw, revision_id = rev_id)
+
+      # c3. Completeness QC: every active 9903 heading with a parsed rate must
+      #     be resolved, not-duty-relevant, or allowlisted — build failure for
+      #     2025+ revisions otherwise (no silent rate_other drops). Writes
+      #     ch99_coverage_<rev>.csv alongside the parse caches.
+      check_ch99_completeness(ch99_data, ch99_other = ch99_other,
+                              revision_id = rev_id, output_dir = output_dir)
+
       # d. Parse products
       products <- parse_products(json_path)
 
@@ -249,12 +261,14 @@ build_full_timeseries <- function(
         s232_rates = s232_rates,
         fentanyl_rates = fentanyl_rates,
         stacking_method = stacking_method,
-        policy_params = pp_build
+        policy_params = pp_build,
+        ch99_other = ch99_other
       )
 
       # g. Save snapshot + parse caches
       saveRDS(rates, file.path(output_dir, paste0('snapshot_', rev_id, '.rds')))
       saveRDS(ch99_data, file.path(output_dir, paste0('ch99_', rev_id, '.rds')))
+      saveRDS(ch99_other, file.path(output_dir, paste0('ch99_other_', rev_id, '.rds')))
       saveRDS(products, file.path(output_dir, paste0('products_', rev_id, '.rds')))
 
       # h. TPC validation if this revision has a tpc_date

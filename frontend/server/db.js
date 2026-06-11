@@ -68,6 +68,7 @@ export const RATES_COLUMNS = [
   'is_copper_heading',
   'deriv_type',
   's232_annex',
+  'duty_basis_232',
   'total_additional',
   'total_rate',
   'usmca_eligible',
@@ -87,9 +88,29 @@ export const RATES_COLUMNS = [
   'rounding_rule',
   'calc_status',
   'duty_provenance_json',
+  'ch99_rules_json',
 ];
 
-export const RATES_PROJECTION = RATES_COLUMNS.join(', ');
+// Live binding: re-resolved at startup against the actual rates schema so
+// columns added by newer pipeline builds (duty_basis_232, ch99_rules_json)
+// don't break queries against pre-rebuild parquet/MotherDuck data. Until
+// initDatabase() runs this is the optimistic full list.
+export let RATES_PROJECTION = RATES_COLUMNS.join(', ');
+
+async function resolveRatesProjection(connection) {
+  const reader = await connection.runAndReadAll('DESCRIBE rates');
+  const available = new Set(
+    reader.getRowObjects().map((r) => String(r.column_name)),
+  );
+  const present = RATES_COLUMNS.filter((c) => available.has(c));
+  const missing = RATES_COLUMNS.filter((c) => !available.has(c));
+  if (missing.length > 0) {
+    console.log(
+      `[db] rates data predates optional columns (omitted): ${missing.join(', ')}`,
+    );
+  }
+  RATES_PROJECTION = present.join(', ');
+}
 
 // Shared GROUP BY body for product_base_rates. The grouping key includes
 // `revision`, which means a per-revision aggregate (with WHERE revision =
@@ -197,8 +218,10 @@ export async function loadKnownRatesCountries(connection) {
 
 export async function initDatabase() {
   const config = getConfig();
-  if (config.target === 'motherduck') {
-    return initMotherDuck(config);
-  }
-  return initLocal();
+  const db =
+    config.target === 'motherduck'
+      ? await initMotherDuck(config)
+      : await initLocal();
+  await resolveRatesProjection(db.connection);
+  return db;
 }

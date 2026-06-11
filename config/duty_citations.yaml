@@ -478,3 +478,55 @@ reasons:
     legal_authority: "n/a"
     mechanism: null
     narrative: "No rate is joined to {hts10} for {country_name} in the loaded revision ({revision}). This is a genuine coverage gap; load the revision that covers this program before relying on this $0."
+
+  # ---------------------------------------------------------------------------
+  # DUTY-BASIS & STACKING-INTERACTION NOTES
+  # ---------------------------------------------------------------------------
+  # Note-style entries (status: note) referenced by the frontend determination
+  # layer to explain a duty's legal BASIS or an interaction between programs.
+  # They never set a rate themselves; the per-row provenance carries the facts
+  # (basis, basis_metal, statutory) and these entries carry the prose + source.
+  s232_basis_metal_content:
+    authority_key: "232"
+    status: note
+    short_label: "Duty basis: declared metal-content value"
+    legal_authority: "Implementation of Duties on Aluminum (90 FR 11251, Mar 5, 2025) implementing Proclamation 10895; CSMS #65236645 (and successors)"
+    statute: "19 U.S.C. 1862"
+    mechanism: basis
+    narrative: "The Section 232 duty for {program_ch99} applies to the declared value of the {basis_metal} content, not the full entered value. CBP requires reporting the {basis_metal} content as a separate entry line (with content weight in kg) when its value is less than the total entered value; duties for required HTS reporting lines must not be combined onto one line. Computing duty owed requires the declared {basis_metal}-content value."
+
+  s232_full_value_proc11021:
+    authority_key: "232"
+    status: note
+    short_label: "Duty basis: full entered value (Apr 6, 2026 framework)"
+    legal_authority: "Proclamation 11021 (91 FR 18201, Apr 9, 2026); Proclamation 11032 (Jun 2026 metals adjustment)"
+    statute: "19 U.S.C. 1862"
+    mechanism: basis
+    narrative: "Under the April 6, 2026 metals framework, the Section 232 duty for {program_ch99} applies to the full customs value of the article (annex-tier treatment), superseding the earlier metal-content-value basis for derivative articles."
+
+  s122_non232_portion_only:
+    authority_key: s122
+    status: note
+    short_label: "Section 122 does not stack on the Section 232 portion"
+    legal_authority: "Proclamation 11012 (91 FR 9339, Feb 25, 2026), Imposing a Temporary Import Surcharge; CBP CSMS guidance on Section 122 reporting"
+    statute: "19 U.S.C. 2132"
+    mechanism: stacking
+    narrative: "The Section 122 surcharge does not apply in addition to Section 232 on the same value portion: where Section 232 applies to part of an import, Section 122 applies only to the part not subject to Section 232. It is not a blended or discounted rate — each portion carries its own published rate."
+
+  ieepa_terminated_eo14389:
+    authority_key: ieepa_recip
+    status: note
+    short_label: "IEEPA tariffs ended for entries on/after Feb 24, 2026"
+    legal_authority: "EO 14389, Ending Certain Tariff Actions (91 FR 9347, Feb 25, 2026); CBP CSMS #67834313"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA)"
+    mechanism: termination
+    narrative: "IEEPA reciprocal and fentanyl/border tariffs are not collected for goods entered for consumption, or withdrawn from warehouse for consumption, on or after February 24, 2026 (EO 14389; CBP CSMS #67834313). Entries before that date remain subject to the rates in effect at time of entry."
+
+  ieepa_india_headings_retired:
+    authority_key: ieepa_recip
+    status: note
+    short_label: "India 9903.01.84–.89 retired Feb 7, 2026"
+    legal_authority: "CBP CSMS #67702087"
+    statute: "50 U.S.C. 1701 et seq. (IEEPA)"
+    mechanism: termination
+    narrative: "Headings 9903.01.84–9903.01.89 are no longer in use for products of India entered on or after February 7, 2026 (CBP CSMS #67702087)."

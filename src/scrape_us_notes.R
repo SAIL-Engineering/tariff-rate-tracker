@@ -1026,46 +1026,91 @@ parse_derivative_products <- function(
   # ---- Extract text ----
   pages <- extract_pdf_text(pdf_path)
 
-  # ---- Configuration: ch99 codes and their derivative types ----
-  # Each entry maps a ch99 heading to the derivative type and the Note
-  # subdivision pattern that introduces its product list.
+  # ---- Discover derivative headings from the note text itself ----
+  # The notes introduce each product list with language like "the rates of
+  # duty in heading 9903.85.08 apply to derivative aluminum products ...".
+  # Discovering headings from that language (instead of a hardcoded list)
+  # lets new subdivisions added by the Section 232 Inclusions Process
+  # self-register; the CSV diff below remains the human review gate.
   #
-  # Steel derivative headings (Note 16):
-  #   9903.81.89: subdivisions (s) — nails/staples/wire products
-  #   9903.81.90: subdivision  (s) continued — structural/misc products
-  #   9903.81.91: subdivision  (t) — broad derivative list (3 batches by date)
-  #
-  # Aluminum derivative headings (Note 19):
-  #   9903.85.04: subdivision  (i) — stranded wire, cables
-  #   9903.85.07: subdivision  (j) — containers, foil, structures
-  #   9903.85.08: subdivision  (k) — broad derivative list
-  #
-  # Multiple headings may share a page, so we extract the full US Notes text,
-  # split by heading anchors, and extract codes from each section.
+  # For reference, the subdivision structure as of 2026:
+  #   Note 16 (steel):    9903.81.89/.90 (s), 9903.81.91 (t)
+  #   Note 19 (aluminum): 9903.85.04 (i), 9903.85.07 (j), 9903.85.08 (k)
+  max_notes_page <- min(length(pages), 500)
 
-  # Ordered list of derivative headings to extract
-  deriv_headings <- list(
-    list(ch99 = '9903.81.89', type = 'steel'),
-    list(ch99 = '9903.81.90', type = 'steel'),
-    list(ch99 = '9903.81.91', type = 'steel'),
-    list(ch99 = '9903.85.04', type = 'aluminum'),
-    list(ch99 = '9903.85.07', type = 'aluminum'),
-    list(ch99 = '9903.85.08', type = 'aluminum')
-  )
+  discover_deriv_headings <- function(pages, max_notes_page) {
+    hits <- list()
+    for (i in seq_len(max_notes_page)) {
+      txt <- pages[i]
+      m <- gregexpr(
+        'rates of duty[\\s\\S]{0,200}?heading\\s+(9903\\.[0-9]{2}\\.[0-9]{2})[\\s\\S]{0,500}?apply',
+        txt, ignore.case = TRUE, perl = TRUE
+      )
+      starts <- m[[1]]
+      if (starts[1] < 0) next
+      lens <- attr(m[[1]], 'match.length')
+      for (k in seq_along(starts)) {
+        frag <- substr(txt, starts[k],
+                       min(nchar(txt), starts[k] + lens[k] + 400))
+        head_code <- str_extract(frag, '9903\\.[0-9]{2}\\.[0-9]{2}')
+        metal <- str_match(tolower(frag),
+                           'derivative\\s+(aluminum|iron or steel|steel|copper)')[, 2]
+        if (!is.na(head_code) && !is.na(metal)) {
+          type <- switch(metal,
+                         'aluminum' = 'aluminum',
+                         'copper'   = 'copper',
+                         'steel')
+          hits[[length(hits) + 1]] <- tibble(ch99 = head_code, type = type)
+        }
+      }
+    }
+    if (length(hits) == 0) return(NULL)
+    bind_rows(hits) %>% distinct(ch99, type) %>% arrange(ch99)
+  }
+
+  discovered <- discover_deriv_headings(pages, max_notes_page)
+  if (!is.null(discovered) && nrow(discovered) > 0) {
+    skipped <- discovered %>% filter(!type %in% c('aluminum', 'steel'))
+    if (nrow(skipped) > 0) {
+      message('  Discovered non-steel/aluminum derivative headings (skipped, ',
+              'covered by annex machinery): ',
+              paste(skipped$ch99, collapse = ', '))
+    }
+    discovered <- discovered %>% filter(type %in% c('aluminum', 'steel'))
+    message('  Discovered derivative headings from note text: ',
+            paste(paste0(discovered$ch99, ' (', discovered$type, ')'),
+                  collapse = ', '))
+  }
+  if (is.null(discovered) || nrow(discovered) == 0) {
+    warning('No derivative heading anchors discovered in the note text; ',
+            'falling back to the known 2025-era heading set. Inspect the PDF ',
+            'layout — discovery regex may need updating.')
+    discovered <- tibble(
+      ch99 = c('9903.81.89', '9903.81.90', '9903.81.91',
+               '9903.85.04', '9903.85.07', '9903.85.08'),
+      type = c('steel', 'steel', 'steel',
+               'aluminum', 'aluminum', 'aluminum')
+    )
+  }
+  deriv_headings <- purrr::pmap(discovered,
+                                function(ch99, type) list(ch99 = ch99, type = type))
 
   # ---- Find US Notes pages with derivative product lists ----
   # Concatenate all US Notes pages (before the rate schedule ~page 500) that
   # mention derivative headings into one text block, then split by heading.
-  max_notes_page <- min(length(pages), 500)
+
+  # Anchor pattern built from the discovered headings
+  deriv_anchor_pattern <- paste0(
+    'rates of duty.*heading (',
+    paste(gsub('\\.', '\\\\.', discovered$ch99), collapse = '|'),
+    ').*apply.*derivative'
+  )
 
   # Find pages with derivative product lists (dense HTS codes + derivative anchors)
   deriv_page_indices <- integer()
   for (i in seq_len(max_notes_page)) {
     page_text <- pages[i]
-    has_deriv_anchor <- grepl(
-      'rates of duty.*heading 9903\\.(81\\.8[9]|81\\.9[013]|85\\.0[478]).*apply.*derivative',
-      page_text, ignore.case = TRUE
-    )
+    has_deriv_anchor <- grepl(deriv_anchor_pattern, page_text, ignore.case = TRUE)
     if (has_deriv_anchor) {
       # Check for product codes on this or next page
       codes <- str_extract_all(page_text, '[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}')[[1]]
@@ -1126,7 +1171,7 @@ parse_derivative_products <- function(
     # Find the next heading anchor after this one
     remaining <- substring(full_text, start_pos + attr(anchor_match, 'match.length'))
     next_heading <- regexpr(
-      'rates of duty.*?heading 9903\\.(81\\.[89][0-9]|85\\.0[2-9]|85\\.1[0-9]).*?apply',
+      'rates of duty.*?heading 9903\\.[0-9]{2}\\.[0-9]{2}.*?apply',
       remaining, ignore.case = TRUE
     )
     if (next_heading > 0) {

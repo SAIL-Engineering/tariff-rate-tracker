@@ -1,0 +1,26 @@
+# =============================================================================
+# Section 232 auto parts — per-prefix applicability shares
+# =============================================================================
+#
+# Note 33(g) enumerates the HTSUS provisions in which "parts of passenger
+# vehicles ... and light trucks" may be classified, but the OPERATIVE scope of
+# headings 9903.94.05/.06 is being such a part — not mere classifiability.
+# Most enumerated provisions are vehicle-specific (e.g. 4009.12.0020 hoses "of
+# a kind used in motor vehicles"), so binary inclusion is fine. A few broad
+# prefixes sweep in large dual-use trade that is not vehicle parts.
+#
+# applicability_share = fraction of the prefix's imports that are in-scope
+# vehicle parts. share = 0 excludes the prefix from the heading's EFFECTIVE
+# rates (rate_232 = 0, normal non-232 stacking) while statutory_rate_232
+# keeps the literal-enumeration rate (heading rate minus auto rebate) via
+# step 7d of 06_calculate_rates.R - so the statutory-vs-collected wedge on
+# these lines stays measurable in tariff-etr-eval rather than baked into the
+# model. 0 < share < 1 scales the heading rate (blending, like semi
+# qualifying_share; note fractional scaling currently feeds statutory too).
+# Prefixes not listed default to 1.0. Longest prefix wins.
+#
+# Loaded via section_232_headings.auto_parts.applicability_shares_file in
+# config/policy_params.yaml; applied in 06_calculate_rates.R heading loop.
+# =============================================================================
+hts_prefix,applicability_share,source_note
+8471,0,"Bare heading 8471 is on the Note 33(g) list, but general-purpose ADP machines (laptops, servers, storage units) are complete machines, not parts of passenger vehicles; vehicle ECUs classify under 8537/9032/8708. Census IMDB collections on Taiwan 8471 ($139B trade, ~0.8% collected vs 23.8% tracked) imply ~zero de facto auto-parts application. Interim binary calibration 2026-06-04 (extreme-eta review item 1); refine if CBP entry data shows vehicle-use 8471 trade. Note 39 semi lines (8471.50/.80 on s232_semi_products.csv) are unaffected - they are stripped from auto lists before this filter and keep their semi rate."

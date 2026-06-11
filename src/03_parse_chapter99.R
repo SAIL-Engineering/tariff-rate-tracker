@@ -363,6 +363,137 @@ parse_chapter99 <- function(json_path, revision_id = NULL) {
 }
 
 
+#' Chapter 99 completeness check — no active heading may be silently dropped
+#'
+#' Every active 9903 heading with a parsed positive rate must terminate in one
+#' of: handled by an authority extractor/parser, classified not-duty-relevant,
+#' or explicitly allowlisted (config/ch99_unresolved_allowlist.csv, reviewed).
+#' Unresolved-WITH-RATE headings previously melted silently into rate_other —
+#' that is now a build failure for trade-war-era revisions (2025+) unless
+#' SAIL_CH99_STRICT=0. A per-revision coverage report CSV is always written.
+#'
+#' @param ch99_data Parsed 9903 data (with rate, resolution_status)
+#' @param ch99_other Parsed 9902/9904 data (counts reported)
+#' @param revision_id Revision ID (strictness gates on year >= 2025)
+#' @param output_dir Where to write ch99_coverage_<rev>.csv (NULL = skip)
+#' @return Invisibly, the coverage tibble
+check_ch99_completeness <- function(ch99_data, ch99_other = NULL,
+                                    revision_id = NULL, output_dir = NULL) {
+  coverage <- ch99_data %>%
+    count(authority, resolution_status, name = 'n_headings') %>%
+    arrange(authority, resolution_status)
+
+  if (!is.null(ch99_other) && nrow(ch99_other) > 0) {
+    coverage <- bind_rows(
+      coverage,
+      ch99_other %>%
+        count(subchapter, name = 'n_headings') %>%
+        transmute(authority = subchapter,
+                  resolution_status = 'candidate_requires_more_facts',
+                  n_headings)
+    )
+  }
+
+  if (!is.null(output_dir) && !is.null(revision_id)) {
+    out_path <- file.path(output_dir, paste0('ch99_coverage_', revision_id, '.csv'))
+    tryCatch(readr::write_csv(coverage, out_path), error = function(e) NULL)
+  }
+
+  # Unresolved WITH a positive parsed rate = a duty we could be silently
+  # dropping. Allowlist is the reviewed escape hatch.
+  unresolved_rated <- ch99_data %>%
+    filter(resolution_status %in% c('unresolved', 'unresolved_s201'),
+           !is.na(rate), rate > 0)
+
+  allow_path <- here('config', 'ch99_unresolved_allowlist.csv')
+  allowed <- if (file.exists(allow_path)) {
+    readr::read_csv(allow_path, col_types = readr::cols(.default = readr::col_character()))$ch99_code
+  } else character(0)
+  offenders <- unresolved_rated %>% filter(!ch99_code %in% allowed)
+
+  if (nrow(offenders) > 0) {
+    rev_year <- suppressWarnings(as.integer(substr(revision_id %||% '', 1, 4)))
+    strict <- !identical(Sys.getenv('SAIL_CH99_STRICT', '1'), '0') &&
+      !is.na(rev_year) && rev_year >= 2025
+    msg <- paste0(
+      'Chapter 99 completeness: ', nrow(offenders), ' active heading(s) with a ',
+      'parsed rate are unresolved and not allowlisted: ',
+      paste(utils::head(offenders$ch99_code, 10), collapse = ', '),
+      if (nrow(offenders) > 10) ' ...' else '',
+      '. Resolve via an authority extractor or add to ',
+      'config/ch99_unresolved_allowlist.csv with a review note.'
+    )
+    if (strict) stop(msg) else warning(msg)
+  }
+
+  invisible(coverage)
+}
+
+
+#' Parse non-9903 Chapter 99 provisions (9902 MTB suspensions, 9904 safeguards)
+#'
+#' 9902 entries are Miscellaneous Tariff Bill temporary duty suspensions or
+#' reductions (they REDUCE duty); 9904 entries are agricultural safeguards /
+#' TRQ tiers (Chapter 99 Subchapter IV). Neither is integrated into the rate
+#' math yet — this pass surfaces them as candidate rules with status
+#' `potentially_applicable_requires_more_facts` in ch99_rules_json so the
+#' determination layer can disclose them instead of silently omitting them.
+#'
+#' Trigger extraction: 9902 descriptions cite the covered subheading inline
+#' ("provided for in subheading 0710.80.70") — extracted as HTS8 prefixes.
+#' 9904 value-tier lines usually carry their product scope on parent headings
+#' / Additional U.S. Notes, not inline; entries without an inline reference
+#' get an empty trigger set and are reported at chapter level by the coverage
+#' QC rather than attached per line.
+#'
+#' @param json_path Path to HTS JSON (used if hts_raw not supplied)
+#' @param hts_raw Pre-read HTS JSON list (avoids a second file read)
+#' @param revision_id Optional revision ID for log messages
+#' @return Tibble: ch99_code, subchapter, rate_text, description, trigger_hts (list-col)
+parse_chapter99_other <- function(json_path = NULL, hts_raw = NULL, revision_id = NULL) {
+  if (is.null(hts_raw)) {
+    stopifnot(!is.null(json_path))
+    hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
+  }
+
+  other_items <- Filter(function(x) {
+    grepl('^990[24]\\.[0-9]{2}\\.[0-9]{2}', x$htsno %||% '')
+  }, hts_raw)
+
+  empty <- tibble(
+    ch99_code = character(0), subchapter = character(0),
+    rate_text = character(0), description = character(0),
+    trigger_hts = list()
+  )
+  if (length(other_items) == 0) return(empty)
+
+  parsed <- map_dfr(other_items, function(item) {
+    code <- item$htsno %||% NA_character_
+    desc <- item$description %||% ''
+    general <- item$general %||% ''
+    trigs <- str_extract_all(desc, '[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}')[[1]]
+    trigs <- trigs[!grepl('^99', trigs)]
+    tibble(
+      ch99_code = code,
+      subchapter = if_else(startsWith(code, '9902'), 'mtb_9902', 'ag_safeguard_9904'),
+      rate_text = general,
+      description = desc,
+      trigger_hts = list(unique(gsub('\\.', '', trigs)))
+    )
+  })
+
+  rev_label <- if (!is.null(revision_id)) paste0(' [', revision_id, ']') else ''
+  n_9902 <- sum(parsed$subchapter == 'mtb_9902')
+  n_9904 <- sum(parsed$subchapter == 'ag_safeguard_9904')
+  n_trig <- sum(lengths(parsed$trigger_hts) > 0)
+  message('  Chapter 99 other provisions', rev_label, ': ', n_9902,
+          ' x 9902 (MTB), ', n_9904, ' x 9904 (ag safeguard); ',
+          n_trig, ' with inline HTS triggers')
+
+  parsed
+}
+
+
 #' Compare Chapter 99 entries between two HTS versions
 #'
 #' @param old_ch99 Parsed Chapter 99 from older version
