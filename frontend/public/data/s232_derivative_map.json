@@ -1,0 +1,2764 @@
+{
+  "version": 1,
+  "generated_from": "resources/s232_derivative_products.csv",
+  "note": "Per-product US Note 16/19 subdivision heading map. Used by the frontend to resolve the legally correct derivative Ch99 code when row data predates the per-product resolution (pre-rebuild).",
+  "prefixes": {
+    "04029968": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "04029968.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "04029970": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "04029970.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "04029990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "04029990.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "21069099": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "21069099.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "22030000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "27101930": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "27101930.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "27111200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "28042900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "28044000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29012200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29034210": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29034310": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "29034310.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29034410": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29034510": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "29034510.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29034900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "29034900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29035110": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "29035110.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29035990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "29035990.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "29037101": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "30049092": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "30049092.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32081000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32081000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32082000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32082000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32089000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32089000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32091000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32091000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32099000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32099000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32139000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32139000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "32141000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "32141000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33030010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33030010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33030020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33030020.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33030030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33030030.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33043000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33043000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33049950": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33049950.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33051000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33051000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33053000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33053000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33059000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33059000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33069000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33069000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33071010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33071010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33071020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33071020.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33072000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33072000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33074900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33074900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "33079000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "33079000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34013010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34013010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34013050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34013050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34023190": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34023190.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34024990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34024990.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34025011": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34025011.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34025051": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34025051.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34029010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34029010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34029030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34029030.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34029050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34029050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34031910": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34031910.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34031950": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34031950.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34039900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34039900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34051000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34051000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34052000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34052000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34054000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34054000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "34059000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "34059000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "35061050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "35061050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "35069110": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "35069110.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "35069150": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "35069150.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "35069900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "35069900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "37013000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38085910": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38085910.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38085940": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38085940.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086110": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086110.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086150": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086150.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086210": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086210.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086250": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086250.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086910": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086910.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38086950": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38086950.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089115": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089115.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089125": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089125.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089130": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089130.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089150": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089150.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089410": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089410.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38089450": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38089450.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38099100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38099100.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38101000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38101000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38111900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38111900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38112100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38112100.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38140010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38140010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38140020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38140020.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38140050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38140050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38200000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38200000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38249993": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "38249993.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38276100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38276200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38276300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38276400": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "38276500": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "39252000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "39269010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "66039081": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "73082000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "76101000": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76109000": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76121000": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76129010": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76129050": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76130000": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76141010": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76141010.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "76141050": {
+      "ch99_code": "9903.85.04",
+      "type": "aluminum"
+    },
+    "76149020": {
+      "ch99_code": "9903.85.04",
+      "type": "aluminum"
+    },
+    "76149040": {
+      "ch99_code": "9903.85.04",
+      "type": "aluminum"
+    },
+    "76149050": {
+      "ch99_code": "9903.85.04",
+      "type": "aluminum"
+    },
+    "76151020": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76151030": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76151050": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76151071": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76151091": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76152000": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76161090": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76169910": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "76169951": {
+      "ch99_code": "9903.85.07",
+      "type": "aluminum"
+    },
+    "82023900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82034060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82055955": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82057000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82072000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82073060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82111000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119110": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119120": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119125": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119130": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119140": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119180": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119220": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119240": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119260": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119290": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119410": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119450": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119510": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119550": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82119590": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82151000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82152000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159130": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159160": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159190": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159901": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159905": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159910": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159915": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159920": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159922": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159924": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159926": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159930": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159935": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159940": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159945": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "82159950": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83021030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83021060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83021060.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83022000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83023030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83024130": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83024130.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83024160": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83024160.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83024230": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83024230.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83024960": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83024960.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83025000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83026030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83026090": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83051000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83052000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83063000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "83071060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "83079060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "83099000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84014000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84031000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84069040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84072100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84079010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84079090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84082010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84082090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099192": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099199": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099991": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099992": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84099999": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84109000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84118180": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84122100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84122980": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84129090": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84129090.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84138100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84139190": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84143040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84145965": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84148016": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84148016.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84149030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84149041": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84151030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84151060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84151090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84158101": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84158201": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84158300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84159040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84159080": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84159080.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84179000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84181000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84182100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84182920": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84189940": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84189980": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84195010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84195050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84198150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84199010": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84212900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84229006": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84241000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84248990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84248990.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84249090": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84254200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84262000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84269900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84271040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84271080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84272040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84272080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84279000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84283200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84283300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84283900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84286000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84287000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84289003": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84291100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84291900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84292000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84293000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84294000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295110": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295210": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295250": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295910": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84295950": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84312000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84313900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84314100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84314340": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84314380": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84331100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84332000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84335100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84335900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84339010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84339050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84431600": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84431600.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84501100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84512100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84542000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84553000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84559040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84559080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84571000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84672200": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84672900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84678100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84678950": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84733020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84733051": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84749000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84771030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84771040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84771090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84779025": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84779086": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84798955": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84798965": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84798995": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84799045": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84799055": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84799065": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84799075": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84799085": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84799085.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84799095": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84799095.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84804900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84807180": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84807990": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84819090": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84821050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84822000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829905": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829915": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829925": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829935": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829945": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84829965": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84831010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84831050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84832040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84832080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84833040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84833080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84834010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84834050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84834050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84834090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84835060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84835090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84836040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84836080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84839020": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84839030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84839050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "84839050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84839070": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84839080": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "84869000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "84879000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85015340": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85015360": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85015380": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85016401": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85016401.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85022000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85023100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85023100.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030035": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030045": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030065": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030075": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030090": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85030095": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85030095.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85042300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85043120": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85043140": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85043160": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85043300": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85043300.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85043400": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049041": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049065": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049075": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049096": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85049096.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85087000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85139020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85142040": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85142060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85159020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85162900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85166060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "85169050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85169080": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85177100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85177900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85299073": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85299097": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85369085": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85381000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85419000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85439088": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "85441900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85444290": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85444920": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85444990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85446020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85446060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "85479000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "86011000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86012000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86021000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86029000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86031000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86039000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86040000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86050000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071903": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071906": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071912": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071915": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86071990": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86072150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86073010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86073050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86079100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86079950": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "86090000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87011001": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87012100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87012200": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87012300": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87012400": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87012900": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87013010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87013050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019110": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019150": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019210": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019250": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019310": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019350": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019410": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019450": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019510": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87019550": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87021031": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87021061": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87031010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87031050": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87032101": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87051000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87052000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87059000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87060030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87081030": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87081060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87082921": {
+      "ch99_code": "9903.85.04",
+      "type": "aluminum"
+    },
+    "87082951": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87084030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87084060": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87088065": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87089210": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089250": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089260": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089275": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089315": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089330": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089923": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87089968": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87089981": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87100000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87113000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87115000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87116000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87141000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87161000": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87163900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "87163900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87168010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87168050": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "87168050.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87169010": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "87169030": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "88073000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "90139080": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "90319091": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "94017100": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "94017900": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "94017900.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "94019990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum",
+      "effective_date": "2025-08-18"
+    },
+    "94031000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "94031000.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "94032000": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "94039910": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "94039910.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "94039990": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "94039990.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "94059940": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95061140": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95065140": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95065160": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95065940": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95067020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069100": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069100.1": {
+      "ch99_code": "9903.81.91",
+      "type": "steel",
+      "effective_date": "2025-08-18"
+    },
+    "95069905": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069915": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069920": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069925": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069928": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069955": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95069960": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95073020": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95073040": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95073060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95073080": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "95079060": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    },
+    "96039080": {
+      "ch99_code": "9903.85.08",
+      "type": "aluminum"
+    }
+  }
+}

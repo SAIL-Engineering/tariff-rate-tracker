@@ -202,7 +202,7 @@
       "legal_authority": "Proclamation 9980 (Jan 24, 2020) / 2025 derivative expansions",
       "statute": "19 U.S.C. 1862",
       "mechanism": "derivative",
-      "narrative": "Section 232 steel-derivative duty {applied_pct} on {hts10} ({program_ch99}); applies to the steel content share."
+      "narrative": "Section 232 steel-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the steel content, not the full entered value. Computing duty owed requires the declared steel-content value."
     },
     "s232_aluminum": {
       "authority_key": "232",
@@ -220,7 +220,7 @@
       "legal_authority": "Proclamation 9980 (Jan 24, 2020) / 2025 derivative expansions",
       "statute": "19 U.S.C. 1862",
       "mechanism": "derivative",
-      "narrative": "Section 232 aluminum-derivative duty {applied_pct} on {hts10} ({program_ch99}); applies to the aluminum content share."
+      "narrative": "Section 232 aluminum-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the aluminum content, not the full entered value. Computing duty owed requires the declared aluminum-content value."
     },
     "s232_copper": {
       "authority_key": "232",
@@ -238,7 +238,7 @@
       "legal_authority": "Proclamation 10962 (copper) / annex derivative tier (Proc 11021, 11032); 9903.82",
       "statute": "19 U.S.C. 1862",
       "mechanism": "derivative",
-      "narrative": "Section 232 copper-derivative duty {applied_pct} on {hts10} ({program_ch99}); applies to the copper content share of a downstream product."
+      "narrative": "Section 232 copper-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the copper content, not the full entered value. Computing duty owed requires the declared copper-content value."
     },
     "s232_auto": {
       "authority_key": "232",
@@ -543,6 +543,15 @@
       "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
       "mechanism": "termination",
       "narrative": "Headings 9903.01.84–9903.01.89 are no longer in use for products of India entered on or after February 7, 2026 (CBP CSMS #67702087)."
+    },
+    "s232_basis_value_unknown_mode": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Content value unknown: CBP may require full entered value",
+      "legal_authority": "CBP CSMS #65236645 (and successors) — UPDATED GUIDANCE: Import Duties on Imports of Aluminum and Aluminum Derivative Products",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "basis",
+      "narrative": "If the metal-content value equals the entered value OR IS UNKNOWN, CBP requires reporting the Section 232 duty on the ENTIRE entered value on one entry summary line. If the content value is less than the entered value, the entry must be split into two lines (non-content portion and content portion, with content weight in kg). Do not compute a split-value duty stack until the importer provides a declared content value — confirm treatment with the broker/importer."
     }
   }
 }
