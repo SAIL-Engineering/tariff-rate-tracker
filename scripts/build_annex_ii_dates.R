@@ -292,8 +292,11 @@ exempt$effective_date_end <- as.Date(map_dbl(stamped, ~as.numeric(.x$end)))
 removed <- first_appearance %>% filter(!is.na(end_effective_date))
 if (nrow(removed) > 0) {
   universe <- character(0)
-  for (f in c(here('data', 'timeseries', 'products_2025_rev_32.rds'),
-              here('data', 'timeseries', 'products_2026_rev_10.rds'))) {
+  # Prefer data/processed caches (regenerated with the current parser, incl.
+  # 8-digit leaf lines); fall back to the build's data/timeseries caches.
+  for (rev in c('products_2025_rev_32.rds', 'products_2026_rev_10.rds')) {
+    f <- here('data', 'processed', rev)
+    if (!file.exists(f)) f <- here('data', 'timeseries', rev)
     if (file.exists(f)) universe <- c(universe, readRDS(f)$hts10)
   }
   universe <- unique(universe)

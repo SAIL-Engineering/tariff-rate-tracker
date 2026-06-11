@@ -26,14 +26,28 @@ cat("Current exempt products:", nrow(current), "\n")
 
 # --- Load all HTS10 codes from parsed products RDS (memory-efficient) ---
 # Load one at a time, extract hts10, then discard.
-# NOTE: regenerate the product caches with the CURRENT parser before running
-# — the 8-digit-leaf parser change (port of upstream cbe646d) added lines
-# (378 ch98 + 95 ch91) that older caches lack.
-rds_files <- c(
+# NOTE: regenerate the data/processed caches with the CURRENT parser before
+# running — the 8-digit-leaf parser change (port of upstream cbe646d) added
+# lines (378 ch98 + 95 ch91) that the older data/timeseries caches lack:
+#   Rscript -e 'source(here::here("src","helpers.R"));
+#               source(here::here("src","04_parse_products.R"));
+#               saveRDS(parse_products(here::here("data","hts_archives",
+#                 "hts_2025_rev_32.json")),
+#                 here::here("data","processed","products_2025_rev_32.rds"))'
+# (repeat per revision below). data/processed takes priority; falls back to
+# the build's data/timeseries caches.
+rds_files_processed <- c(
+  here('data', 'processed', 'products_2025_rev_32.rds'),
+  here('data', 'processed', 'products_2026_rev_4.rds'),
+  here('data', 'processed', 'products_2026_rev_10.rds')
+)
+rds_files_fallback <- c(
   here('data', 'timeseries', 'products_2025_rev_32.rds'),
   here('data', 'timeseries', 'products_2026_rev_4.rds'),
   here('data', 'timeseries', 'products_2026_rev_10.rds')
 )
+rds_files <- ifelse(file.exists(rds_files_processed),
+                    rds_files_processed, rds_files_fallback)
 
 all_hts10 <- character()
 for (f in rds_files) {
