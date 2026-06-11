@@ -582,7 +582,8 @@ calculate_rates_for_revision <- function(
   fentanyl_rates = NULL,
   stacking_method = 'mutual_exclusion',
   policy_params = NULL,
-  ch99_other = NULL
+  ch99_other = NULL,
+  s301_exclusions = NULL
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
 
@@ -598,6 +599,14 @@ calculate_rates_for_revision <- function(
   # so heading gates downstream see the gated state.
   if (!is.null(s232_rates)) {
     s232_rates <- extract_section232_rates(ch99_data)
+  }
+
+  # §301 exclusion-heading candidates (date-windowed per revision). Callers
+  # may pass them pre-built (00_build_timeseries does, mirroring ch99_other);
+  # default-build here so every entry point emits the candidate rules. These
+  # feed ch99_rules_json ONLY — rate_301 is never modified.
+  if (is.null(s301_exclusions)) {
+    s301_exclusions <- build_s301_exclusion_candidates(ch99_data, effective_date)
   }
 
   pp <- policy_params %||% load_policy_params()
@@ -2932,7 +2941,8 @@ calculate_rates_for_revision <- function(
     ieepa_exempt_scope = if (exists('ieepa_exempt_scope', inherits = FALSE)) ieepa_exempt_scope else 'all',
     duty_free_treatment = if (exists('duty_free_treatment', inherits = FALSE)) duty_free_treatment else 'all_products',
     cc = if (exists('cc', inherits = FALSE)) cc else NULL,
-    ch99_other = ch99_other
+    ch99_other = ch99_other,
+    s301_exclusions = s301_exclusions
   )
 
   # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside

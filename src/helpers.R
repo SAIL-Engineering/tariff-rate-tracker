@@ -1482,13 +1482,21 @@ filter_ieepa_exempt_window <- function(exempt_tbl, effective_date) {
 #' @param ieepa_exempt_scope 'all' | 'baseline_only'.
 #' @param duty_free_treatment 'all_products' | 'nonzero_base_only'.
 #' @param cc Country-code list (CTY_CHINA / CTY_CANADA / CTY_MEXICO).
+#' @param ch99_other 9902 MTB / 9904 ag-safeguard candidates from
+#'   parse_chapter99_other() (trigger-matched requires-more-facts rules).
+#' @param s301_exclusions Tibble (hts10, ch99_code) of in-window §301
+#'   exclusion-heading candidates from build_s301_exclusion_candidates().
+#'   Exclusions are description-scoped slices of a line, so they emit as
+#'   'potentially_applicable_requires_more_facts' rules on rows where §301
+#'   is applied — never as rate changes.
 #' @return rates with `duty_provenance_json` populated.
 attach_duty_provenance <- function(rates, country_ieepa = NULL,
                                    ieepa_exempt_source_map = NULL,
                                    ieepa_exempt_scope = 'all',
                                    duty_free_treatment = 'all_products',
                                    cc = NULL,
-                                   ch99_other = NULL) {
+                                   ch99_other = NULL,
+                                   s301_exclusions = NULL) {
   n <- nrow(rates)
   if (n == 0) {
     rates$duty_provenance_json <- character(0)
@@ -1856,6 +1864,34 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     keep = r201 > EPS
   )
 
+  # §301 USTR exclusion-heading candidates (e.g. 9903.88.69). The heading
+  # carries no rate; whether a specific product falls inside the exclusion's
+  # product description — and whether the importer can claim it — are fact
+  # questions, so the rule is emitted as requires-more-facts on rows where
+  # §301 is actually applied. rate_301 is never modified (determination-first
+  # divergence from upstream d839e402's coverage-share zeroing).
+  excl_frag <- rep('', n)
+  if (!is.null(s301_exclusions) && nrow(s301_exclusions) > 0 &&
+      all(c('hts10', 'ch99_code') %in% names(s301_exclusions))) {
+    agg_excl <- s301_exclusions %>%
+      dplyr::distinct(hts10, ch99_code) %>%
+      dplyr::arrange(hts10, ch99_code) %>%
+      dplyr::mutate(frag = paste0(
+        ',{"ch99_code":"', ch99_code, '"',
+        ',"authority":"section_301"',
+        ',"program":"s301_exclusion"',
+        ',"status":"potentially_applicable_requires_more_facts"',
+        ',"missing_facts":["product_description_match",',
+        '"exclusion_claim_eligibility"]}'
+      )) %>%
+      dplyr::group_by(hts10) %>%
+      dplyr::summarise(frag = paste0(frag, collapse = ''), .groups = 'drop')
+    idx_excl <- match(hts10, agg_excl$hts10)
+    excl_frag <- ifelse(is.na(idx_excl) | r301 <= EPS,
+                        '', agg_excl$frag[idx_excl])
+    excl_frag[is.na(excl_frag)] <- ''
+  }
+
   # 9902 MTB / 9904 ag-safeguard candidates by inline-trigger prefix match.
   other_frag <- rep('', n)
   if (!is.null(ch99_other) && nrow(ch99_other) > 0 &&
@@ -1906,8 +1942,9 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     }
   }
 
-  rules_all <- paste0(r232_rule, r301_rule, rrec_rule, rrec_exempt_rule,
-                      rfent_rule, rs122_rule, r201_rule, other_frag)
+  rules_all <- paste0(r232_rule, r301_rule, excl_frag, rrec_rule,
+                      rrec_exempt_rule, rfent_rule, rs122_rule, r201_rule,
+                      other_frag)
   rules_all <- sub('^,', '', rules_all)
   rates$ch99_rules_json <- paste0('[', rules_all, ']')
 
@@ -2349,6 +2386,154 @@ filter_active_ch99 <- function(ch99_data, revision_effective_date) {
     ch99_data <- ch99_data[!not_yet_active, , drop = FALSE]
   }
   ch99_data
+}
+
+
+#' Extract a Ch99 window END date from a heading description
+#'
+#' Counterpart to extract_effective_date_offset() for window END dates. Time-
+#' bounded Ch99 headings state their window in the description — e.g. the §301
+#' exclusion heading 9903.88.69: "Effective with respect to entries on or after
+#' June 15, 2024 and through November 9, 2026, articles the product of
+#' China...". Two phrasings occur, with different inclusivity:
+#'   "through [Month D, YYYY]"      -> that date IS the last active day
+#'   "on or before [Month D, YYYY]" -> that date IS the last active day
+#'   "before [Month D, YYYY]"       -> last active day is the PRIOR day
+#'     (e.g. 9903.88.68: "on or after June 1, 2023, and before June 15, 2024")
+#'
+#' Returns the LAST ACTIVE DAY, normalized across phrasings. Multiple matches
+#' return the LATEST date (conservative: keeps the entry active through the
+#' longest stated window; the mirror of the start extractor's min()). Errors
+#' via stop() if a matched phrase fails to parse — silent NA would let an
+#' expired heading appear perpetually active.
+#'
+#' Mirrors upstream src/rate_schema.R::extract_expiry_date_offset() (d839e402).
+#'
+#' @param description Ch99 description text (scalar character)
+#' @return Date (last active day), NA if no expiry phrase or text is empty
+extract_expiry_date_offset <- function(description) {
+  if (is.null(description) || length(description) == 0 ||
+      is.na(description) || description == '') {
+    return(as.Date(NA))
+  }
+  matches <- regmatches(
+    description,
+    gregexpr('(through|on or before|before) [A-Za-z]+ [0-9]{1,2}, [0-9]{4}',
+             description, ignore.case = TRUE)
+  )[[1]]
+  # "on or after" contains no expiry keyword so it never matches; "on or
+  # before" is matched in full (the alternation is ordered longest-first so
+  # the bare-"before" branch cannot shave it down to exclusive semantics).
+  if (length(matches) == 0) return(as.Date(NA))
+  exclusive <- grepl('^before ', matches, ignore.case = TRUE)
+  date_strs <- sub('^(through|on or before|before) ', '', matches,
+                   ignore.case = TRUE)
+  # %B in as.Date expects title-case month names ("April"); normalize.
+  date_strs <- vapply(date_strs, function(s) {
+    parts <- strsplit(s, ' ', fixed = TRUE)[[1]]
+    parts[1] <- paste0(toupper(substr(parts[1], 1, 1)),
+                       tolower(substring(parts[1], 2)))
+    paste(parts, collapse = ' ')
+  }, character(1), USE.NAMES = FALSE)
+  parsed <- as.Date(date_strs, format = '%B %d, %Y')
+  if (any(is.na(parsed))) {
+    bad <- date_strs[is.na(parsed)]
+    stop('extract_expiry_date_offset: failed to parse ',
+         paste(shQuote(bad), collapse = ', '),
+         ' from description: ', shQuote(description))
+  }
+  last_active <- parsed - ifelse(exclusive, 1L, 0L)
+  max(last_active)
+}
+
+
+#' Build §301 exclusion-heading candidates for one revision
+#'
+#' Joins the curated exclusion-heading registry
+#' (resources/s301_exclusion_headings.csv) against the heading->HTS10 map
+#' (resources/s301_exclusion_lines.csv), date-filtered to the revision. USTR
+#' exclusion headings (e.g. 9903.88.69) carry NO rate — they are
+#' description-scoped carve-outs from §301 duties while their window is in
+#' force, and whether a product claims one is a FACT question. This fork
+#' therefore emits them as 'potentially_applicable_requires_more_facts' rule
+#' objects in ch99_rules_json (see attach_duty_provenance()) instead of
+#' upstream d839e402's full-line zeroing; rate_301 is never modified.
+#'
+#' Window per heading = CSV validity_start/validity_end (curator overrides)
+#' coalesced with the window stated in THIS revision's own heading text
+#' (extract_effective_date_offset / extract_expiry_date_offset on ch99_data
+#' descriptions — USTR extends windows over time, so the text is re-read per
+#' revision). Gates:
+#'   * 9903.88.21-.28 'PERMANENT CONDITIONAL' derived-rate carve-outs
+#'     (US note 20(z)-(gg)) are NOT claimable product exclusions — skipped.
+#'   * Headings with no verifiable window anywhere (registry NEEDS_REVIEW
+#'     rows, all-NA) are skipped until a curator supplies the window.
+#'   * The window must contain the revision's effective_date.
+#'
+#' @param ch99_data Tibble from parse_chapter99() (ch99_code, description).
+#' @param effective_date The revision's effective date (Date or string).
+#' @param headings_path Registry CSV path (default resources/).
+#' @param lines_path Heading->HTS10 map CSV path (default resources/).
+#' @return Tibble (hts10, ch99_code) of in-window exclusion candidates;
+#'   zero-row tibble when none.
+build_s301_exclusion_candidates <- function(ch99_data, effective_date,
+                                            headings_path = here('resources', 's301_exclusion_headings.csv'),
+                                            lines_path = here('resources', 's301_exclusion_lines.csv')) {
+  empty <- tibble(hts10 = character(0), ch99_code = character(0))
+  if (!file.exists(headings_path) || !file.exists(lines_path)) return(empty)
+  if (is.null(ch99_data) || nrow(ch99_data) == 0) return(empty)
+
+  registry <- suppressMessages(read_csv(headings_path, col_types = cols(
+    ch99_code = col_character(), validity_start = col_date(),
+    validity_end = col_date(), coverage_share = col_double(),
+    .default = col_character()
+  )))
+  # Permanent conditional derived-rate carve-outs are not USTR product
+  # exclusions — never emit them as claimable candidates.
+  if ('source_note' %in% names(registry)) {
+    registry <- registry %>%
+      filter(is.na(source_note) |
+               !grepl('PERMANENT CONDITIONAL', source_note, fixed = TRUE))
+  }
+  if (nrow(registry) == 0) return(empty)
+
+  eff_d <- as.Date(effective_date)
+  active <- ch99_data %>%
+    filter(ch99_code %in% registry$ch99_code) %>%
+    mutate(
+      win_start = as.Date(vapply(description, function(d)
+        as.character(extract_effective_date_offset(d)), character(1),
+        USE.NAMES = FALSE)),
+      win_end = as.Date(vapply(description, function(d)
+        as.character(extract_expiry_date_offset(d)), character(1),
+        USE.NAMES = FALSE))
+    ) %>%
+    distinct(ch99_code, win_start, win_end) %>%
+    inner_join(registry %>% select(ch99_code, validity_start, validity_end),
+               by = 'ch99_code') %>%
+    mutate(
+      win_start = coalesce(validity_start, win_start),
+      win_end   = coalesce(validity_end,   win_end)
+    ) %>%
+    filter(!(is.na(win_start) & is.na(win_end)),   # unverifiable: skip
+           is.na(win_start) | win_start <= eff_d,
+           is.na(win_end)   | eff_d <= win_end)
+  if (nrow(active) == 0) return(empty)
+
+  lines <- suppressMessages(read_csv(lines_path, col_types = cols(
+    ch99_code = col_character(), hts10 = col_character(),
+    .default = col_character()
+  )))
+  out <- lines %>%
+    filter(ch99_code %in% active$ch99_code) %>%
+    distinct(hts10, ch99_code)
+  if (nrow(out) > 0) {
+    message('  Section 301 exclusion candidates: ', n_distinct(out$hts10),
+            ' hts10 across ', n_distinct(out$ch99_code),
+            ' in-window heading(s) at ', eff_d, ' (',
+            paste(sort(unique(out$ch99_code)), collapse = ', '), ')')
+  }
+  out
 }
 
 

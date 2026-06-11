@@ -239,6 +239,67 @@ run_test('provenance 232 slot carries basis/basis_metal/statutory', {
             abs(p[['232']]$statutory - 0.5) < 1e-9)
 })
 
+message('\n=== Section 301 exclusion candidates ===')
+
+s301_excl_fixture <- tibble(
+  hts10 = '8536908585',
+  ch99_code = '9903.88.69'
+)
+
+run_test('s301 exclusion emits requires-more-facts rule where rate_301 > 0', {
+  out <- attach_duty_provenance(prov_fixture, ch99_other = other_fixture,
+                                s301_exclusions = s301_excl_fixture)
+  # Row 2: 8536908585 x China, rate_301 = 0.25 -> candidate rule emitted
+  j <- fromJSON(out$ch99_rules_json[2], simplifyDataFrame = FALSE)
+  progs <- vapply(j, function(x) x$program %||% '', character(1))
+  stopifnot('s301_exclusion' %in% progs)
+  excl <- j[[which(progs == 's301_exclusion')]]
+  stopifnot(excl$ch99_code == '9903.88.69',
+            excl$authority == 'section_301',
+            excl$status == 'potentially_applicable_requires_more_facts',
+            all(c('product_description_match', 'exclusion_claim_eligibility')
+                %in% unlist(excl$missing_facts)))
+  # The applied §301 rule object is still present alongside the candidate
+  auths <- vapply(j, function(x) x$authority, character(1))
+  stats <- vapply(j, function(x) x$status, character(1))
+  stopifnot(any(auths == 'section_301' & stats == 'applied'))
+})
+
+run_test('s301 exclusion NOT emitted where rate_301 = 0; rates unchanged', {
+  out <- attach_duty_provenance(prov_fixture, ch99_other = other_fixture,
+                                s301_exclusions = s301_excl_fixture)
+  # Row 1: same hts10 but rate_301 = 0 (non-China) -> no candidate rule
+  j <- fromJSON(out$ch99_rules_json[1], simplifyDataFrame = FALSE)
+  progs <- vapply(j, function(x) x$program %||% '', character(1))
+  stopifnot(!'s301_exclusion' %in% progs)
+  # Emission never touches the rate columns
+  stopifnot(identical(out$rate_301, prov_fixture$rate_301))
+})
+
+run_test('builder date-windows headings from this revision\'s text', {
+  excl_ch99 <- tibble(
+    ch99_code = c('9903.88.69', '9903.88.21', '9903.88.51'),
+    description = c(
+      paste('Effective with respect to entries on or after June 15, 2024',
+            'and through November 9, 2026, articles the product of China...'),
+      paste('Effective with respect to entries on or after June 15, 2024',
+            'and through November 9, 2026, derived-rate provision text'),
+      'Articles the product of China, as provided for in U.S. note 20'
+    )
+  )
+  # In-window: .69 candidates from the real lines CSV; .21 (PERMANENT
+  # CONDITIONAL carve-out) and .51 (no verifiable window) never emit.
+  cand <- build_s301_exclusion_candidates(excl_ch99, as.Date('2025-06-01'))
+  stopifnot(nrow(cand) > 0)
+  stopifnot(all(cand$ch99_code == '9903.88.69'))
+  stopifnot('0304725000' %in% cand$hts10)
+  # Pre-window and post-expiry dates emit nothing
+  pre <- build_s301_exclusion_candidates(excl_ch99, as.Date('2024-06-01'))
+  stopifnot(nrow(pre) == 0)
+  post <- build_s301_exclusion_candidates(excl_ch99, as.Date('2026-11-10'))
+  stopifnot(nrow(post) == 0)
+})
+
 message('\n=== parse_chapter99_other ===')
 
 run_test('9902/9904 parsed with inline triggers', {

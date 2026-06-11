@@ -235,6 +235,12 @@ build_full_timeseries <- function(
       #     ch99_rules_json with status requires_more_facts; not yet rate-math.
       ch99_other <- parse_chapter99_other(hts_raw = hts_raw, revision_id = rev_id)
 
+      # c2b. §301 exclusion-heading candidates, date-windowed to this
+      #      revision (windows re-read from this archive's own heading text;
+      #      registry CSV validity columns as curator overrides). Emitted as
+      #      requires-more-facts rules in ch99_rules_json; never rate-math.
+      s301_exclusions <- build_s301_exclusion_candidates(ch99_data, eff_date)
+
       # c3. Completeness QC: every active 9903 heading with a parsed rate must
       #     be resolved, not-duty-relevant, or allowlisted — build failure for
       #     2025+ revisions otherwise (no silent rate_other drops). Writes
@@ -262,7 +268,8 @@ build_full_timeseries <- function(
         fentanyl_rates = fentanyl_rates,
         stacking_method = stacking_method,
         policy_params = pp_build,
-        ch99_other = ch99_other
+        ch99_other = ch99_other,
+        s301_exclusions = s301_exclusions
       )
 
       # g. Save snapshot + parse caches
