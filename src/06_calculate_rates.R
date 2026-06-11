@@ -657,13 +657,26 @@ calculate_rates_for_revision <- function(
             ' (DIAGNOSTIC — produces legally-incorrect output)')
   }
 
-  # Load IEEPA product exemptions
+  # Load IEEPA product exemptions. The list is date-windowed: Annex II has
+  # been amended repeatedly (electronics Apr 5 2025, EO 14346 metals Sept 8,
+  # agricultural expansion Nov 13; copper/wood REMOVED when their 232
+  # programs began Aug 1 / Oct 14). effective_date_start/_end columns are
+  # stamped by scripts/build_annex_ii_dates.R from the chapter-99 US-notes
+  # text per revision; blank = always active. Without the filter the static
+  # list applied amendments retroactively (upstream extreme-eta review item
+  # 3: pre-Apr-5-2025 revisions exempted electronics).
   ieepa_exempt_path <- here('resources', 'ieepa_exempt_products.csv')
   ieepa_exempt_tbl <- if (file.exists(ieepa_exempt_path)) {
     read_csv(ieepa_exempt_path, col_types = cols(.default = col_character()))
   } else {
     warning('ieepa_exempt_products.csv not found — all products subject to IEEPA')
     tibble(hts10 = character(0))
+  }
+  n_exempt_before <- nrow(ieepa_exempt_tbl)
+  ieepa_exempt_tbl <- filter_ieepa_exempt_window(ieepa_exempt_tbl, effective_date)
+  if (nrow(ieepa_exempt_tbl) < n_exempt_before) {
+    message('  IEEPA exempt list: ', n_exempt_before - nrow(ieepa_exempt_tbl),
+            ' entries outside their effective window at ', effective_date)
   }
   ieepa_exempt_products <- ieepa_exempt_tbl$hts10
   # Provenance per code (annex_ii / ita / ch98 / berman) → drives the duty

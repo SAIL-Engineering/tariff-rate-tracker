@@ -425,6 +425,60 @@ run_test('8-digit leaf kept (padded 00); 8-digit parent with children dropped', 
 
 
 # =============================================================================
+# Test 5b: IEEPA Annex II exempt-list date windows
+# =============================================================================
+
+message('\n--- Test 5b: IEEPA exempt date windows ---')
+
+run_test('pre-2025-04-05 revision does NOT exempt an electronics entry windowed at 2025-04-05', {
+  fixture <- tibble(
+    hts10 = c('8471300100', '0101210010', '7409110050'),
+    source = c('ita', 'annex_ii', 'annex_ii'),
+    effective_date_start = c('2025-04-05', NA, NA),
+    effective_date_end = c(NA, NA, '2025-07-31')
+  )
+  pre <- filter_ieepa_exempt_window(fixture, as.Date('2025-04-02'))
+  stopifnot(!'8471300100' %in% pre$hts10)   # electronics not yet exempt
+  stopifnot('0101210010' %in% pre$hts10)    # undated entry always active
+  post <- filter_ieepa_exempt_window(fixture, as.Date('2025-04-05'))
+  stopifnot('8471300100' %in% post$hts10)   # retroactive window opens Apr 5
+})
+
+run_test('end-dated entry exempts through end date, not after (copper -> 232)', {
+  fixture <- tibble(
+    hts10 = '7409110050',
+    effective_date_start = NA_character_,
+    effective_date_end = '2025-07-31'
+  )
+  stopifnot(nrow(filter_ieepa_exempt_window(fixture, as.Date('2025-07-31'))) == 1)
+  stopifnot(nrow(filter_ieepa_exempt_window(fixture, as.Date('2025-08-01'))) == 0)
+})
+
+run_test('resource CSV carries the stamped Annex II windows', {
+  path <- here('resources', 'ieepa_exempt_products.csv')
+  if (!file.exists(path)) skip_test('ieepa_exempt_products.csv not present')
+  exempt <- read_csv(path, col_types = cols(.default = col_character()))
+  stopifnot(all(c('effective_date_start', 'effective_date_end') %in% names(exempt)))
+  # Electronics (Annex II amendment, retroactive to Apr 5 2025)
+  elec <- exempt %>% filter(startsWith(hts10, '8471'))
+  stopifnot(nrow(elec) > 0)
+  stopifnot(all(elec$effective_date_start == '2025-04-05', na.rm = TRUE))
+  stopifnot(any(elec$effective_date_start == '2025-04-05'))
+  # Copper exempt only through 2025-07-31 (PP 10962); wood through 2025-10-13
+  # (PP 10976)
+  stopifnot(any(substr(exempt$hts10, 1, 2) == '74' &
+                  exempt$effective_date_end == '2025-07-31', na.rm = TRUE))
+  stopifnot(any(substr(exempt$hts10, 1, 2) == '44' &
+                  exempt$effective_date_end == '2025-10-13', na.rm = TRUE))
+  # No entry may end before it starts
+  both <- exempt %>% filter(!is.na(effective_date_start), !is.na(effective_date_end))
+  if (nrow(both) > 0) {
+    stopifnot(all(as.Date(both$effective_date_end) >= as.Date(both$effective_date_start)))
+  }
+})
+
+
+# =============================================================================
 # Test 6: Rate invariants
 # =============================================================================
 

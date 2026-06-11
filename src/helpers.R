@@ -1427,6 +1427,35 @@ classify_exempt_source <- function(hts10) {
   }, character(1), USE.NAMES = FALSE)
 }
 
+#' Date-window the IEEPA exempt list for one revision
+#'
+#' The Annex II exempt list (resources/ieepa_exempt_products.csv) is
+#' date-windowed: amendments added electronics (Apr 5 2025, retroactive per
+#' the Apr 11 memo), EO 14346 metals/gold (Sept 8 2025) and the agricultural
+#' expansion (Nov 13 2025); copper and wood were REMOVED when their Section
+#' 232 programs began (Aug 1 / Oct 14 2025). effective_date_start/_end are
+#' stamped by scripts/build_annex_ii_dates.R; blank = always active. An entry
+#' exempts a revision only within [start, end] (end = last day exempt).
+#'
+#' @param exempt_tbl Tibble with hts10 and optional effective_date_start/_end
+#'   character columns.
+#' @param effective_date The revision's effective date (Date or string).
+#' @return exempt_tbl filtered to entries active at effective_date.
+filter_ieepa_exempt_window <- function(exempt_tbl, effective_date) {
+  rd <- as.Date(effective_date)
+  if ('effective_date_start' %in% names(exempt_tbl)) {
+    exempt_tbl <- exempt_tbl %>%
+      filter(is.na(effective_date_start) |
+               as.Date(effective_date_start) <= rd)
+  }
+  if ('effective_date_end' %in% names(exempt_tbl)) {
+    exempt_tbl <- exempt_tbl %>%
+      filter(is.na(effective_date_end) |
+               as.Date(effective_date_end) >= rd)
+  }
+  exempt_tbl
+}
+
 #' Attach per-authority duty provenance as a compact JSON column
 #'
 #' Stamps each row with `duty_provenance_json` — a structured explanation of

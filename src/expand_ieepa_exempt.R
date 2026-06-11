@@ -17,15 +17,22 @@ source(here('src', 'helpers.R'))  # classify_exempt_source() — provenance per 
 cat("=== Expanding IEEPA Exempt Products ===\n\n")
 
 # --- Load current exempt list ---
+# May carry effective_date_start/_end columns (Annex II amendment windows,
+# stamped by scripts/build_annex_ii_dates.R) — preserved on write-back.
 exempt_file <- here('resources', 'ieepa_exempt_products.csv')
-current <- read_csv(exempt_file, col_types = cols(hts10 = col_character()))
+current <- read_csv(exempt_file, col_types = cols(hts10 = col_character(),
+                                                  .default = col_character()))
 cat("Current exempt products:", nrow(current), "\n")
 
 # --- Load all HTS10 codes from parsed products RDS (memory-efficient) ---
-# Load one at a time, extract hts10, then discard
+# Load one at a time, extract hts10, then discard.
+# NOTE: regenerate the product caches with the CURRENT parser before running
+# — the 8-digit-leaf parser change (port of upstream cbe646d) added lines
+# (378 ch98 + 95 ch91) that older caches lack.
 rds_files <- c(
-  here('data', 'processed', 'products_rev_32.rds'),
-  here('data', 'timeseries', 'products_2026_rev_4.rds')
+  here('data', 'timeseries', 'products_2025_rev_32.rds'),
+  here('data', 'timeseries', 'products_2026_rev_4.rds'),
+  here('data', 'timeseries', 'products_2026_rev_10.rds')
 )
 
 all_hts10 <- character()
@@ -127,15 +134,49 @@ all_exempt <- sort(unique(c(current$hts10, new_from_expansion, new_ch98, new_ita
 cat("\nTotal after all fixes:", length(all_exempt),
     "(was", nrow(current), ", +", length(all_exempt) - nrow(current), ")\n")
 
-# --- Write back (with legal-provenance source per code) ---
+# --- Write back (with legal-provenance source per code), preserving windows ---
 # `source` ties each exempt HTS10 to the exemption LAYER that covers it
 # (annex_ii / ita / ch98 / berman), which maps 1:1 to a reason_code in
 # config/duty_citations.yaml so the frontend can cite the controlling note.
-exempt_df <- tibble(hts10 = all_exempt) %>%
-  mutate(source = classify_exempt_source(hts10))
-write_csv(exempt_df, exempt_file)
+# Existing rows keep their effective_date_start/_end (Annex II amendment
+# windows). New HTS10 codes inherit the window of their HTS8 siblings when
+# the siblings agree on a single value; otherwise they get NA (always
+# active) — re-run scripts/build_annex_ii_dates.R afterwards to stamp
+# authoritatively.
+out <- tibble(hts10 = all_exempt) %>%
+  mutate(source = classify_exempt_source(hts10)) %>%
+  left_join(current %>% select(-any_of('source')), by = 'hts10')
+date_cols <- intersect(c('effective_date_start', 'effective_date_end'), names(out))
+if (length(date_cols) > 0) {
+  sibling_dates <- current %>%
+    mutate(hts8 = substr(hts10, 1, 8)) %>%
+    group_by(hts8) %>%
+    summarise(across(all_of(date_cols),
+                     ~if (n_distinct(.x) == 1) first(.x) else NA_character_),
+              .groups = 'drop')
+  out <- out %>%
+    mutate(hts8 = substr(hts10, 1, 8)) %>%
+    left_join(sibling_dates, by = 'hts8', suffix = c('', '.sib'))
+  if ('effective_date_start' %in% date_cols) {
+    out <- out %>%
+      mutate(effective_date_start = coalesce(effective_date_start,
+                                             effective_date_start.sib))
+  }
+  if ('effective_date_end' %in% date_cols) {
+    out <- out %>%
+      mutate(effective_date_end = coalesce(effective_date_end,
+                                           effective_date_end.sib))
+  }
+  out <- out %>% select(hts10, source, all_of(date_cols))
+  n_inherited_dates <- sum(!out$hts10 %in% current$hts10 &
+                             rowSums(!is.na(out[date_cols])) > 0)
+  cat("New codes inheriting sibling date windows:", n_inherited_dates, "\n")
+} else {
+  out <- out %>% select(hts10, source)
+}
+write_csv(out, exempt_file)
 cat("Written to:", exempt_file, "\n")
 cat("  Source distribution:\n")
-print(dplyr::count(exempt_df, source, sort = TRUE))
+print(dplyr::count(out, source, sort = TRUE))
 
 cat("\n=== Done ===\n")

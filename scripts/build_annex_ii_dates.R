@@ -32,14 +32,18 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(here)
 })
+source(here('src', 'helpers.R'))  # classify_exempt_source() for appended rows
 
 if (!requireNamespace('pdftools', quietly = TRUE)) {
   stop('pdftools package required')
 }
 
+# Use the change-record policy dates where populated (the build runs with
+# use_policy_dates = TRUE, so windows must live in policy-date space).
 rev_dates <- read_csv(here('config', 'revision_dates.csv'),
                       col_types = cols(.default = col_character())) %>%
-  mutate(effective_date = as.Date(effective_date)) %>%
+  mutate(effective_date = coalesce(as.Date(policy_effective_date),
+                                   as.Date(effective_date))) %>%
   arrange(effective_date)
 
 pdf_for_revision <- function(rev) {
@@ -153,14 +157,14 @@ message('\nBaseline (first revision with Annex II): ', baseline_rev)
 #   rev_22: effective September 8, 2025 (EO 14346)
 #   rev_25: effective October 14, 2025  (PP 10976 — wood moved to 232)
 START_OVERRIDES <- c(
-  rev_10 = '2025-04-05',
-  rev_22 = '2025-09-08',
-  rev_29 = '2025-11-13'
+  '2025_rev_10' = '2025-04-05',
+  '2025_rev_22' = '2025-09-08',
+  '2025_rev_29' = '2025-11-13'
 )
 END_OVERRIDES <- c(   # keyed by the revision where the code first DISAPPEARS
-  rev_17 = '2025-07-31',
-  rev_22 = '2025-09-07',
-  rev_25 = '2025-10-13'
+  '2025_rev_17' = '2025-07-31',
+  '2025_rev_22' = '2025-09-07',
+  '2025_rev_25' = '2025-10-13'
 )
 
 legal_date_for <- function(rev, overrides) {
@@ -241,15 +245,18 @@ report_diff <- function(rev_a, rev_b) {
                   sep = ':', collapse = ' '))
   }
 }
-report_diff('rev_31', 'rev_32')   # Nov 14, 2025 agricultural expansion
-report_diff('rev_23', 'rev_24')   # Sept 5, 2025 EO 14346 window
-report_diff('rev_24', 'rev_25')
+report_diff('2025_rev_31', '2025_rev_32')   # Nov 14, 2025 agricultural expansion
+report_diff('2025_rev_23', '2025_rev_24')   # Sept 5, 2025 EO 14346 window
+report_diff('2025_rev_24', '2025_rev_25')
 
-# --- Stamp the exempt list ---
+# --- Stamp the exempt list (preserving this fork's `source` column) ---
 exempt_file <- here('resources', 'ieepa_exempt_products.csv')
 exempt <- read_csv(exempt_file, col_types = cols(hts10 = col_character(),
-                                                 .default = col_character())) %>%
-  select(hts10)
+                                                 .default = col_character()))
+if (!'source' %in% names(exempt)) {
+  exempt$source <- classify_exempt_source(exempt$hts10)
+}
+exempt <- exempt %>% select(hts10, source)
 
 # For each exempt HTS10: the earliest first-appearance date among matching
 # prefixes (baseline coverage wins -> NA = always active). Entries matching
@@ -285,14 +292,15 @@ exempt$effective_date_end <- as.Date(map_dbl(stamped, ~as.numeric(.x$end)))
 removed <- first_appearance %>% filter(!is.na(end_effective_date))
 if (nrow(removed) > 0) {
   universe <- character(0)
-  for (f in c(here('data', 'processed', 'products_rev_32.rds'),
-              here('data', 'processed', 'products_2026_rev_9.rds'))) {
+  for (f in c(here('data', 'timeseries', 'products_2025_rev_32.rds'),
+              here('data', 'timeseries', 'products_2026_rev_10.rds'))) {
     if (file.exists(f)) universe <- c(universe, readRDS(f)$hts10)
   }
   universe <- unique(universe)
   add_rows <- map_dfr(seq_len(nrow(removed)), function(j) {
     kids <- universe[startsWith(universe, removed$prefix[j])]
     tibble(hts10 = kids,
+           source = classify_exempt_source(kids),
            effective_date_start = removed$first_effective_date[j],
            effective_date_end = removed$end_effective_date[j])
   }) %>%
