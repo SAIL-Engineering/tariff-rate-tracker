@@ -1,0 +1,2790 @@
+{
+  "version": 1,
+  "generated_from": "resources/tpc_policy_revision_map_usitc_archive_enriched.csv",
+  "note": "Modification sources per USITC HTS archive; URLs are Federal Register search links (fr_search), not direct documents.",
+  "revisions": {
+    "2019_basic": {
+      "effective_date": "2019-02-21",
+      "policy_effective_date": null,
+      "policy_family": "agoa_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under the African Growth and Opportunity Act and For Other Purposes",
+          "citation": "84 Fed. Reg. 35",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20African%20Growth%20and%20Opportunity%20Act%20and%20For%20Other%20Purposes%2084%20Fed.%20Reg.%2035",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "83 Fed. Reg. 67463",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2083%20Fed.%20Reg.%2067463",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2019_rev_1": {
+      "effective_date": "2019-03-25",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 11152",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2011152",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_2": {
+      "effective_date": "2019-03-28",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Effective Date of Modifications to Rules of Origin of the United States-Morocco Free Trade Agreement",
+          "citation": "84 Fed. Reg. 10883",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Effective%20Date%20of%20Modifications%20to%20Rules%20of%20Origin%20of%20the%20United%20States-Morocco%20Free%20Trade%20Agreement%2084%20Fed.%20Reg.%2010883",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_3": {
+      "effective_date": "2019-04-18",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 16310",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2016310",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_4": {
+      "effective_date": "2019-05-09",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 20459",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2020459",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_5": {
+      "effective_date": "2019-05-15",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 21389",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2021389",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Implementing Modification to Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 21892",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Modification%20to%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2021892",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_6": {
+      "effective_date": "2019-05-20",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_section_232_aluminum_and_section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Steel into the United States",
+          "citation": "84 Fed. Reg. 23421",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20into%20the%20United%20States%2084%20Fed.%20Reg.%2023421",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Modify The List of Beneficiary Developing Countries Under The Trade Act Of 1974",
+          "citation": "84 Fed. Reg. 23425",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20The%20List%20of%20Beneficiary%20Developing%20Countries%20Under%20The%20Trade%20Act%20Of%201974%2084%20Fed.%20Reg.%2023425",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Adjusting Imports of Steel into the United States",
+          "citation": "84 Fed. Reg. 23987",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20into%20the%20United%20States%2084%20Fed.%20Reg.%2023987",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Adjusting Imports of Aluminum into the United States",
+          "citation": "84 Fed. Reg. 23983",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Aluminum%20into%20the%20United%20States%2084%20Fed.%20Reg.%2023983",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_7": {
+      "effective_date": "2019-06-13",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_section_201_safeguard_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 25895",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2025895",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Additional Implementing Modification to Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 26930",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Additional%20Implementing%20Modification%20to%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2026930",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Exclusion of Particular Products From the Solar Products Safeguard Measure",
+          "citation": "84 Fed. Reg. 27684",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Exclusion%20of%20Particular%20Products%20From%20the%20Solar%20Products%20Safeguard%20Measure%2084%20Fed.%20Reg.%2027684",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Modify the List of Beneficiary Developing Countries Under the Trade Act of 1974",
+          "citation": "84 Fed. Reg. 26323",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20the%20List%20of%20Beneficiary%20Developing%20Countries%20Under%20the%20Trade%20Act%20of%201974%2084%20Fed.%20Reg.%2026323",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_8": {
+      "effective_date": "2019-07-01",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "To Implement the World Trade Organization Declaration on the Expansion of Trade in Information Technology Products and For Other Purposes",
+          "citation": "81 Fed. Reg. 44129",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20World%20Trade%20Organization%20Declaration%20on%20the%20Expansion%20of%20Trade%20in%20Information%20Technology%20Products%20and%20For%20Other%20Purposes%2081%20Fed.%20Reg.%2044129",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2019_rev_9": {
+      "effective_date": "2019-07-09",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 32821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2032821",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_10": {
+      "effective_date": "2019-07-31",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 37381",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2037381",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_11": {
+      "effective_date": "2019-08-07",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 38717",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2038717",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_12": {
+      "effective_date": "2019-08-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 43304",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2043304",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 45821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2045821",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_13": {
+      "effective_date": "2019-10-07",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 49564",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2049564",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 49600",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2049600",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions, Amendment to the Exclusion Process, and Technical Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 49591",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%2C%20Amendment%20to%20the%20Exclusion%20Process%2C%20and%20Technical%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2049591",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions, Amendment to the Exclusion Process, and Technical Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 52567",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%2C%20Amendment%20to%20the%20Exclusion%20Process%2C%20and%20Technical%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2052567",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 52553",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2052553",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_14": {
+      "effective_date": "2019-10-18",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Determination and Action Pursuant to Section 301: Enforcement of U.S. WTO Rights in Large Civil Aircraft Dispute",
+          "citation": "84 Fed. Reg. 54245",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Determination%20and%20Action%20Pursuant%20to%20Section%20301%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20Large%20Civil%20Aircraft%20Dispute%2084%20Fed.%20Reg.%2054245",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Technical Adjustments to Section 301 Action: Enforcement of U.S. WTO Rights in Large Civil Aircraft Dispute",
+          "citation": "84 Fed. Reg. 55998",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Technical%20Adjustments%20to%20Section%20301%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20Large%20Civil%20Aircraft%20Dispute%2084%20Fed.%20Reg.%2055998",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_15": {
+      "effective_date": "2019-10-24",
+      "policy_effective_date": null,
+      "policy_family": "section_201_safeguard",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Withdrawal of Bifacial Solar Panels Exclusion to the Solar Products Safeguard Measure",
+          "citation": "84 Fed. Reg. 54244",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Withdrawal%20of%20Bifacial%20Solar%20Panels%20Exclusion%20to%20the%20Solar%20Products%20Safeguard%20Measure%2084%20Fed.%20Reg.%2054244",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_16": {
+      "effective_date": "2019-10-31",
+      "policy_effective_date": null,
+      "policy_family": "gsp_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 57803",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2057803",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Modify Duty-Free Treatment Under the Generalized System of Preferences and For Other Purposes",
+          "citation": "84 Fed. Reg. 58567",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20Duty-Free%20Treatment%20Under%20the%20Generalized%20System%20of%20Preferences%20and%20For%20Other%20Purposes%2084%20Fed.%20Reg.%2058567",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_17": {
+      "effective_date": "2019-11-20",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 61674",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2061674",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_18": {
+      "effective_date": "2019-11-29",
+      "policy_effective_date": null,
+      "policy_family": "gsp",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "To Modify Duty-Free Treatment Under the Generalized System of Preferences and For Other Purposes",
+          "citation": "84 Fed. Reg. 58567",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20Duty-Free%20Treatment%20Under%20the%20Generalized%20System%20of%20Preferences%20and%20For%20Other%20Purposes%2084%20Fed.%20Reg.%2058567",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_19": {
+      "effective_date": "2019-12-05",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 65882",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2065882",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2019_rev_20": {
+      "effective_date": "2019-12-16",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Actions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 69447",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Actions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2069447",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 43304",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2043304",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 45821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2045821",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_basic": {
+      "effective_date": "2020-01-16",
+      "policy_effective_date": null,
+      "policy_family": "agoa_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=5",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under the African Growth and Opportunity Act and For Other Purposes",
+          "citation": "84 Fed. Reg. 72187",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20African%20Growth%20and%20Opportunity%20Act%20and%20For%20Other%20Purposes%2084%20Fed.%20Reg.%2072187",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 69011",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2069011",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 69012",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2069012",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 69016",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2069016",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "84 Fed. Reg. 70616",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2084%20Fed.%20Reg.%2070616",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2020_rev_1": {
+      "effective_date": "2020-01-21",
+      "policy_effective_date": null,
+      "policy_family": "archive_lookup_needed",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [],
+      "commentary": "USITC archive page captured in this pass did not show a clean 2020 Revision 1 row matching the provided Jan. 21 date; verify against archive/download file. It may be an omitted/intermediate revision or naming mismatch.",
+      "needs_review": true
+    },
+    "2020_rev_2": {
+      "effective_date": "2020-02-06",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_section_201_safeguard_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "To Further Facilitate Positive Adjustment to Competition from Imports of Large Residential Washers",
+          "citation": "85 Fed. Reg. 5125",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Further%20Facilitate%20Positive%20Adjustment%20to%20Competition%20from%20Imports%20of%20Large%20Residential%20Washers%2085%20Fed.%20Reg.%205125",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Adjusting Imports of Derivative Aluminum Articles and Derivative Steel Articles Into the United States",
+          "citation": "85 Fed. Reg. 5281",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Derivative%20Aluminum%20Articles%20and%20Derivative%20Steel%20Articles%20Into%20the%20United%20States%2085%20Fed.%20Reg.%205281",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2020_rev_3": {
+      "effective_date": "2020-02-13",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 3741",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%203741",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 6674",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%206674",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 7816",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%207816",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_4": {
+      "effective_date": "2020-02-21",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 9921",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%209921",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_5": {
+      "effective_date": "2020-03-04",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: Enforcement of U.S. WTO Rights in Large Civil Aircraft Dispute",
+          "citation": "85 Fed. Reg. 10204",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20Large%20Civil%20Aircraft%20Dispute%2085%20Fed.%20Reg.%2010204",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 10808",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2010808",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_6": {
+      "effective_date": "2020-03-18",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: Enforcement of U.S. WTO Rights in Large Civil Aircraft Dispute",
+          "citation": "85 Fed. Reg. 10204",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20Large%20Civil%20Aircraft%20Dispute%2085%20Fed.%20Reg.%2010204",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 13970",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2013970",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 15015",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2015015",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 15244",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2015244",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_7": {
+      "effective_date": "2020-03-31",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 15849",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2015849",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 17158",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2017158",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 17936",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2017936",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_8": {
+      "effective_date": "2020-04-24",
+      "policy_effective_date": null,
+      "policy_family": "gsp_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "To Modify Duty-Free Treatment Under the Generalized System of Preferences and For Other Purposes",
+          "citation": "84 Fed. Reg. 58567",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20Duty-Free%20Treatment%20Under%20the%20Generalized%20System%20of%20Preferences%20and%20For%20Other%20Purposes%2084%20Fed.%20Reg.%2058567",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 20332",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2020332",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_9": {
+      "effective_date": "2020-04-29",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 23122",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2023122",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_10": {
+      "effective_date": "2020-05-14",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 27489",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2027489",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 28691",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2028691",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 28692",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2028692",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 28693",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2028693",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_11": {
+      "effective_date": "2020-05-29",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 29503",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2029503",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 32094",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2032094",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 32098",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2032098",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_12": {
+      "effective_date": "2020-06-04",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 33775",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2033775",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_13": {
+      "effective_date": "2020-06-12",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 35975",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2035975",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 35158",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2035158",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_14": {
+      "effective_date": "2020-07-08",
+      "policy_effective_date": null,
+      "policy_family": "fta_usmca_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "To Implement USMCA and For Other Purposes",
+          "citation": "85 Fed. Reg. 39821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20USMCA%20and%20For%20Other%20Purposes%2085%20Fed.%20Reg.%2039821",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 38000",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2038000",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2020_rev_15": {
+      "effective_date": "2020-07-13",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 41267",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2041267",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusions and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 41658",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2041658",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_16": {
+      "effective_date": "2020-07-23",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 42968",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2042968",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Amendment: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 42970",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Amendment%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2042970",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 43291",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2043291",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_17": {
+      "effective_date": "2020-07-28",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusions and Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 44563",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusions%20and%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2044563",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2020_rev_18": {
+      "effective_date": "2020-07-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=4",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "85 Fed. Reg. 45949",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2085%20Fed.%20Reg.%2045949",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text. Provided list has 2020-07-30; USITC archive shows 2020 HTSA Revision 18 dated July 31, 2020.",
+      "needs_review": true
+    },
+    "2021_basic": {
+      "effective_date": "2021-03-15",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: Enforcement of U.S. WTO Rights in Large Civil Aircraft Dispute",
+          "citation": "86 Fed. Reg. 13961",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20Large%20Civil%20Aircraft%20Dispute%2086%20Fed.%20Reg.%2013961",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text. USITC archive shows 2021 HTSA Basic Edition dated March 5, 2021, while provided list uses March 15, 2021; verify whether internal effective_date intentionally differs from archive publication date.",
+      "needs_review": true
+    },
+    "2021_rev_1": {
+      "effective_date": "2021-03-17",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: Enforcement of U.S. WTO Rights in the Large Civil Aircraft Dispute",
+          "citation": "86 Fed. Reg. 14513",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20the%20Large%20Civil%20Aircraft%20Dispute%2086%20Fed.%20Reg.%2014513",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_2": {
+      "effective_date": "2021-04-01",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 13785",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2013785",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_3": {
+      "effective_date": "2021-04-26",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 22092",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2022092",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_4": {
+      "effective_date": "2021-06-10",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Action in the Section 301 Investigation of Italy's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30350",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20Italy%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030350",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action in the Section 301 Investigation of Turkey's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30353",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20Turkey%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030353",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action in the Section 301 Investigation of India's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30356",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20India%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030356",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action in the Section 301 Investigation of Spain's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30358",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20Spain%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030358",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action in the Section 301 Investigation of Austria's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30361",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20Austria%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030361",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action in the Section 301 Investigation of the United Kingdom's Digital Services Tax",
+          "citation": "86 Fed. Reg. 30364",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%20in%20the%20Section%20301%20Investigation%20of%20the%20United%20Kingdom%27s%20Digital%20Services%20Tax%2086%20Fed.%20Reg.%2030364",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_5": {
+      "effective_date": "2021-07-02",
+      "policy_effective_date": null,
+      "policy_family": "fta_usmca_and_other_hts_policy_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "To Provide for Duty-free Treatment Under the Earned Import Allowance Program, And For Other Purposes",
+          "citation": "73 Fed. Reg. 72677",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Provide%20for%20Duty-free%20Treatment%20Under%20the%20Earned%20Import%20Allowance%20Program%2C%20And%20For%20Other%20Purposes%2073%20Fed.%20Reg.%2072677",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement USMCA and For Other Purposes",
+          "citation": "85 Fed. Reg. 39821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20USMCA%20and%20For%20Other%20Purposes%2085%20Fed.%20Reg.%2039821",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2021_rev_6": {
+      "effective_date": "2021-07-09",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Suspension of Action: Enforcement of U.S. WTO Rights in the Large Civil Aircraft Dispute",
+          "citation": "86 Fed. Reg. 36313",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Suspension%20of%20Action%3A%20Enforcement%20of%20U.S.%20WTO%20Rights%20in%20the%20Large%20Civil%20Aircraft%20Dispute%2086%20Fed.%20Reg.%2036313",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_7": {
+      "effective_date": "2021-08-02",
+      "policy_effective_date": null,
+      "policy_family": "agoa",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under the African Growth and Opportunity Act and For Other Purposes",
+          "citation": "85 Fed. Reg. 85491",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20African%20Growth%20and%20Opportunity%20Act%20and%20For%20Other%20Purposes%2085%20Fed.%20Reg.%2085491",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_8": {
+      "effective_date": "2021-09-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Conforming Amendment to Product Exclusion: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 42006",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Conforming%20Amendment%20to%20Product%20Exclusion%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2042006",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 54011",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2054011",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_9": {
+      "effective_date": "2021-11-18",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Termination of Actions in the Section 301 Digital Services Tax Investigations of Austria, France, Italy, Spain, and the United Kingdom and Further Monitoring",
+          "citation": "86 Fed. Reg. 64590",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Termination%20of%20Actions%20in%20the%20Section%20301%20Digital%20Services%20Tax%20Investigations%20of%20Austria%2C%20France%2C%20Italy%2C%20Spain%2C%20and%20the%20United%20Kingdom%20and%20Further%20Monitoring%2086%20Fed.%20Reg.%2064590",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 63438",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2063438",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_10": {
+      "effective_date": "2021-12-01",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 63438",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2063438",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Termination of Action in the Section 301 Digital Services Tax Investigation of Turkey and Further Monitoring",
+          "citation": "86 Fed. Reg. 68295",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Termination%20of%20Action%20in%20the%20Section%20301%20Digital%20Services%20Tax%20Investigation%20of%20Turkey%20and%20Further%20Monitoring%2086%20Fed.%20Reg.%2068295",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_11": {
+      "effective_date": "2021-12-02",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Termination of Action in the Digital Services Tax Investigation of India and Further Monitoring",
+          "citation": "86 Fed. Reg. 68526",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Termination%20of%20Action%20in%20the%20Digital%20Services%20Tax%20Investigation%20of%20India%20and%20Further%20Monitoring%2086%20Fed.%20Reg.%2068526",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2021_rev_12": {
+      "effective_date": "2021-12-07",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Conforming Amendment to Product Exclusion and Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "86 Fed. Reg. 69350",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Conforming%20Amendment%20to%20Product%20Exclusion%20and%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2086%20Fed.%20Reg.%2069350",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_basic": {
+      "effective_date": "2022-01-26",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "To Modify the Harmonized Tariff Schedule of the United States and For Other Purposes",
+          "citation": "86 Fed. Reg. 73593",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%20and%20For%20Other%20Purposes%2086%20Fed.%20Reg.%2073593",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text. USITC archive separately shows a Jan. 26, 2022 Basic Edition and a Feb. 15, 2022 Basic and Revision 1 entry; provided list uses 2022_basic Jan. 26 and 2022_rev_1 Feb. 14.",
+      "needs_review": true
+    },
+    "2022_rev_1": {
+      "effective_date": "2022-02-14",
+      "policy_effective_date": null,
+      "policy_family": "section_201_safeguard_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "To Continue Facilitating Positive Adjustment to Competition From Imports of Certain Crystalline Silicon Photovoltaic Cells (Whether or Not Partially or Fully Assembled Into Other Products)",
+          "citation": "87 Fed. Reg. 7357",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Continue%20Facilitating%20Positive%20Adjustment%20to%20Competition%20From%20Imports%20of%20Certain%20Crystalline%20Silicon%20Photovoltaic%20Cells%20%28Whether%20or%20Not%20Partially%20or%20Fully%20Assembled%20Into%20Other%20Products%29%2087%20Fed.%20Reg.%207357",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Continue Facilitating Positive Adjustment to Competition From Imports of Large Residential Washers",
+          "citation": "86 Fed. Reg. 6541",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Continue%20Facilitating%20Positive%20Adjustment%20to%20Competition%20From%20Imports%20of%20Large%20Residential%20Washers%2086%20Fed.%20Reg.%206541",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2022_rev_2": {
+      "effective_date": "2022-02-23",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation; Technical Modifications to 301 Action",
+          "citation": "87 Fed. Reg. 9785",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%3B%20Technical%20Modifications%20to%20301%20Action%2087%20Fed.%20Reg.%209785",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_3": {
+      "effective_date": "2022-03-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Notice of Reinstatement of Certain Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 17380",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Reinstatement%20of%20Certain%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2017380",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_4": {
+      "effective_date": "2022-04-07",
+      "policy_effective_date": null,
+      "policy_family": "section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=3",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Steel Into the United States",
+          "citation": "87 Fed. Reg. 19351",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2087%20Fed.%20Reg.%2019351",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_5": {
+      "effective_date": "2022-06-03",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_section_232_aluminum_and_section_232_steel_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Aluminum Into the United States",
+          "citation": "87 Fed. Reg. 33583",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Aluminum%20Into%20the%20United%20States%2087%20Fed.%20Reg.%2033583",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Adjusting Imports of Steel Into the United States",
+          "citation": "87 Fed. Reg. 33591",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2087%20Fed.%20Reg.%2033591",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Adjusting Imports of Steel Into the United States",
+          "citation": "87 Fed. Reg. 33407",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2087%20Fed.%20Reg.%2033407",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement the United States-Oman Free Trade Agreement",
+          "citation": "73 Fed. Reg. 80289",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20United%20States-Oman%20Free%20Trade%20Agreement%2073%20Fed.%20Reg.%2080289",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement the United States-Morocco Free Trade Agreement",
+          "citation": "70 Fed. Reg. 76651",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20United%20States-Morocco%20Free%20Trade%20Agreement%2070%20Fed.%20Reg.%2076651",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 33871",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2033871",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_6": {
+      "effective_date": "2022-06-30",
+      "policy_effective_date": null,
+      "policy_family": "statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2022_rev_7": {
+      "effective_date": "2022-07-20",
+      "policy_effective_date": null,
+      "policy_family": "section_201_safeguard",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Suspension of the Safeguard Action on Imports of Certain Crystalline Silicon Photovoltaic Cells Originating in Canada and Modification of the Harmonized Tariff Schedule of the United States",
+          "citation": "87 Fed. Reg. 43369",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Suspension%20of%20the%20Safeguard%20Action%20on%20Imports%20of%20Certain%20Crystalline%20Silicon%20Photovoltaic%20Cells%20Originating%20in%20Canada%20and%20Modification%20of%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%2087%20Fed.%20Reg.%2043369",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_8": {
+      "effective_date": "2022-07-26",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "To amend the Harmonized Tariff Schedule of the United States to suspend temporarily rates of duty on imports of certain infant formula products, and for other purposes",
+          "citation": "Public Law 117-160",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20amend%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%20to%20suspend%20temporarily%20rates%20of%20duty%20on%20imports%20of%20certain%20infant%20formula%20products%2C%20and%20for%20other%20purposes%20Public%20Law%20117-160",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Increasing Duties on Certain Articles From the Russian Federation",
+          "citation": "87 Fed. Reg. 38875",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Increasing%20Duties%20on%20Certain%20Articles%20From%20the%20Russian%20Federation%2087%20Fed.%20Reg.%2038875",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2022_rev_9": {
+      "effective_date": "2022-09-09",
+      "policy_effective_date": null,
+      "policy_family": "agriculture_trq",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "2022 Tariff Rate Quota Quantity Limitations Under the U.S.-Australia Free Trade Agreement",
+          "citation": "87 Fed. Reg. 55074",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=2022%20Tariff%20Rate%20Quota%20Quantity%20Limitations%20Under%20the%20U.S.-Australia%20Free%20Trade%20Agreement%2087%20Fed.%20Reg.%2055074",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_10": {
+      "effective_date": "2022-09-23",
+      "policy_effective_date": null,
+      "policy_family": "statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Technical Correction to the Harmonized Tariff Schedule of the United States",
+          "citation": "87 Fed. Reg. 57968",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Technical%20Correction%20to%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%2087%20Fed.%20Reg.%2057968",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2022_rev_11": {
+      "effective_date": "2022-10-17",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Bulk Infant Formula to Retail Shelves Act",
+          "citation": "Public Law 117-192",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Bulk%20Infant%20Formula%20to%20Retail%20Shelves%20Act%20Public%20Law%20117-192",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Conforming Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 62485",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2062485",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Technical Amendments to Two Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 62486",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Technical%20Amendments%20to%20Two%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2062486",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2022_rev_12": {
+      "effective_date": "2022-11-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 73383",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2073383",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_basic": {
+      "effective_date": "2022-12-30",
+      "policy_effective_date": null,
+      "policy_family": "agoa_and_other_hts_policy_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under The African Growth And Opportunity Act And For Other Purposes",
+          "citation": "87 Fed. Reg. 79977",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20The%20African%20Growth%20And%20Opportunity%20Act%20And%20For%20Other%20Purposes%2087%20Fed.%20Reg.%2079977",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Modify the Harmonized Tariff Schedule of the United States and For Other Purposes",
+          "citation": "81 Fed. Reg. 87401",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%20and%20For%20Other%20Purposes%2081%20Fed.%20Reg.%2087401",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement the Dominican Republic-Central America-United States Free Trade Agreement with respect to Honduras and Nicaragua",
+          "citation": "71 Fed. Reg. 16971",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20Dominican%20Republic-Central%20America-United%20States%20Free%20Trade%20Agreement%20with%20respect%20to%20Honduras%20and%20Nicaragua%2071%20Fed.%20Reg.%2016971",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Extensions for Reinstated Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "87 Fed. Reg. 78187",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Extensions%20for%20Reinstated%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2087%20Fed.%20Reg.%2078187",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2023_rev_1": {
+      "effective_date": "2023-02-16",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Interim Extension and Request for Comments on COVID-Related Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 8027",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Interim%20Extension%20and%20Request%20for%20Comments%20on%20COVID-Related%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%208027",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Conforming and Technical Amendments: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 8986",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20and%20Technical%20Amendments%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%208986",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_2": {
+      "effective_date": "2023-03-09",
+      "policy_effective_date": null,
+      "policy_family": "fta_australia_trq_and_section_232_aluminum",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Aluminum Into the United States",
+          "citation": "88 Fed. Reg. 13267",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Aluminum%20Into%20the%20United%20States%2088%20Fed.%20Reg.%2013267",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Publication of 2023 Aggregate Quantities Under the U.S.-Australia Free Trade Agreement",
+          "citation": "88 Fed. Reg. 125",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Publication%20of%202023%20Aggregate%20Quantities%20Under%20the%20U.S.-Australia%20Free%20Trade%20Agreement%2088%20Fed.%20Reg.%20125",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_3": {
+      "effective_date": "2023-03-31",
+      "policy_effective_date": null,
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Increasing Duties on Certain Articles From the Russian Federation",
+          "citation": "88 Fed. Reg. 13277",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Increasing%20Duties%20on%20Certain%20Articles%20From%20the%20Russian%20Federation%2088%20Fed.%20Reg.%2013277",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_4": {
+      "effective_date": "2023-04-27",
+      "policy_effective_date": null,
+      "policy_family": "section_232_aluminum",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Aluminum Into the United States",
+          "citation": "88 Fed. Reg. 13267",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Aluminum%20Into%20the%20United%20States%2088%20Fed.%20Reg.%2013267",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_5": {
+      "effective_date": "2023-05-17",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 31580",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2031580",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_6": {
+      "effective_date": "2023-05-31",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 31580",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2031580",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_7": {
+      "effective_date": "2023-06-06",
+      "policy_effective_date": null,
+      "policy_family": "section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Steel Into the United States",
+          "citation": "88 Fed. Reg. 36437",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2088%20Fed.%20Reg.%2036437",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_8": {
+      "effective_date": "2023-06-13",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Conforming Amendments to Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 38120",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendments%20to%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2038120",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_9": {
+      "effective_date": "2023-06-30",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Conforming Amendments to Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 38120",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendments%20to%20Product%20Exclusion%20Extensions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2038120",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2023_rev_10": {
+      "effective_date": "2023-07-24",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Conforming Amendments to Previously Reinstated Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 46362",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendments%20to%20Previously%20Reinstated%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2046362",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2023_rev_11": {
+      "effective_date": "2023-09-21",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Extension for Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "88 Fed. Reg. 62423",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Extension%20for%20Product%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2088%20Fed.%20Reg.%2062423",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_basic": {
+      "effective_date": "2023-12-29",
+      "policy_effective_date": null,
+      "policy_family": "agoa_and_section_232_aluminum_and_section_232_steel_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "A Proclamation on Adjusting Imports of Aluminum into the United States",
+          "citation": "89 Fed. Reg. 223",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=A%20Proclamation%20on%20Adjusting%20Imports%20of%20Aluminum%20into%20the%20United%20States%2089%20Fed.%20Reg.%20223",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "A Proclamation on Adjusting Imports of Steel into the United States",
+          "citation": "89 Fed. Reg. 227",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=A%20Proclamation%20on%20Adjusting%20Imports%20of%20Steel%20into%20the%20United%20States%2089%20Fed.%20Reg.%20227",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Take Certain Actions Under the African Growth and Opportunity Act and For Other Purposes",
+          "citation": "89 Fed. Reg. 437",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20African%20Growth%20and%20Opportunity%20Act%20and%20For%20Other%20Purposes%2089%20Fed.%20Reg.%20437",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Extension of Exclusions and Request for Comments: China’s Acts, Policies and Practices Related to Technology Transfer, Intellectual Property and Innovation",
+          "citation": "88 Fed. Reg. 90225",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Extension%20of%20Exclusions%20and%20Request%20for%20Comments%3A%20China%E2%80%99s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%20and%20Innovation%2088%20Fed.%20Reg.%2090225",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2024_rev_1": {
+      "effective_date": "2024-01-25",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Conforming Amendment To Reinstated Exclusion: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "89 Fed. Reg. 3703",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendment%20To%20Reinstated%20Exclusion%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2089%20Fed.%20Reg.%203703",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_2": {
+      "effective_date": "2024-05-31",
+      "policy_effective_date": null,
+      "policy_family": "fta_usmca_and_section_232_steel_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "A Proclamation on Adjusting Imports of Steel Into the United States",
+          "citation": "89 Fed. Reg. 48233",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=A%20Proclamation%20on%20Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2089%20Fed.%20Reg.%2048233",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Take Certain Actions Under the United States-Mexico-Canada Agreement Implementation Act and For Other Purposes",
+          "citation": "85 Fed. Reg. 39821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20United%20States-Mexico-Canada%20Agreement%20Implementation%20Act%20and%20For%20Other%20Purposes%2085%20Fed.%20Reg.%2039821",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Extension of Certain Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "89 Fed. Reg. 46948",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Extension%20of%20Certain%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2089%20Fed.%20Reg.%2046948",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_3": {
+      "effective_date": "2024-06-14",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "Notice of Extension of Certain Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "89 Fed. Reg. 46948",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Extension%20of%20Certain%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2089%20Fed.%20Reg.%2046948",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_4": {
+      "effective_date": "2024-06-28",
+      "policy_effective_date": null,
+      "policy_family": "section_201_safeguard_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=2",
+      "sources": [
+        {
+          "title": "To Further Facilitate Positive Adjustment to Competition from Imports of Certain Crystalline Silicon Photovoltaic Cells (Whether or Not Partially or Fully Assembled Into Other Products)",
+          "citation": "89 Fed. Reg. 53333",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Further%20Facilitate%20Positive%20Adjustment%20to%20Competition%20from%20Imports%20of%20Certain%20Crystalline%20Silicon%20Photovoltaic%20Cells%20%28Whether%20or%20Not%20Partially%20or%20Fully%20Assembled%20Into%20Other%20Products%29%2089%20Fed.%20Reg.%2053333",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2024_rev_5": {
+      "effective_date": "2024-07-16",
+      "policy_effective_date": null,
+      "policy_family": "section_232_aluminum_and_section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "A Proclamation on Adjusting Imports of Steel Into the United States",
+          "citation": "89 Fed. Reg. 57347",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=A%20Proclamation%20on%20Adjusting%20Imports%20of%20Steel%20Into%20the%20United%20States%2089%20Fed.%20Reg.%2057347",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "A Proclamation on Adjusting Imports of Aluminum Into the United States",
+          "citation": "89 Fed. Reg. 57339",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=A%20Proclamation%20on%20Adjusting%20Imports%20of%20Aluminum%20Into%20the%20United%20States%2089%20Fed.%20Reg.%2057339",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_6": {
+      "effective_date": "2024-07-31",
+      "policy_effective_date": null,
+      "policy_family": "fta_usmca",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under the United States-Mexico-Canada Agreement Implementation Act and For Other Purposes",
+          "citation": "85 Fed. Reg. 39821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20United%20States-Mexico-Canada%20Agreement%20Implementation%20Act%20and%20For%20Other%20Purposes%2085%20Fed.%20Reg.%2039821",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_7": {
+      "effective_date": "2024-08-06",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Notice of Conforming Amendments to Reinstated Exclusions: China's Acts, Policies and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "89 Fed. Reg. 64038",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Conforming%20Amendments%20to%20Reinstated%20Exclusions%3A%20China%27s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2089%20Fed.%20Reg.%2064038",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_8": {
+      "effective_date": "2024-08-15",
+      "policy_effective_date": null,
+      "policy_family": "section_201_safeguard",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "To Further Facilitate Positive Adjustment to Competition From Imports of Certain Crystalline Silicon Photovoltaic Cells (Whether or Not Partially or Fully Assembled Into Other Products)",
+          "citation": "89 Fed. Reg. 66181",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Further%20Facilitate%20Positive%20Adjustment%20to%20Competition%20From%20Imports%20of%20Certain%20Crystalline%20Silicon%20Photovoltaic%20Cells%20%28Whether%20or%20Not%20Partially%20or%20Fully%20Assembled%20Into%20Other%20Products%29%2089%20Fed.%20Reg.%2066181",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_9": {
+      "effective_date": "2024-09-26",
+      "policy_effective_date": null,
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Notice of Modification: China’s Acts, Policies and Practices Related to Technology Transfer, Intellectual Property and Innovation",
+          "citation": "89 Fed. Reg. 76581",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%3A%20China%E2%80%99s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%20and%20Innovation%2089%20Fed.%20Reg.%2076581",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2024_rev_10": {
+      "effective_date": "2024-11-22",
+      "policy_effective_date": null,
+      "policy_family": "agoa_and_other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "To Facilitate Positive Adjustment to Competition From Imports of Fine Denier Polyester Staple Fiber",
+          "citation": "89 Fed. Reg. 92015",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Facilitate%20Positive%20Adjustment%20to%20Competition%20From%20Imports%20of%20Fine%20Denier%20Polyester%20Staple%20Fiber%2089%20Fed.%20Reg.%2092015",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Modify the Harmonized Tariff Schedule of the United States and for Other Purposes",
+          "citation": "86 Fed. Reg. 73593",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Modify%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%20and%20for%20Other%20Purposes%2086%20Fed.%20Reg.%2073593",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Determination Under the African Growth and Opportunity Act",
+          "citation": "82 Fed. Reg. 39940",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Determination%20Under%20the%20African%20Growth%20and%20Opportunity%20Act%2082%20Fed.%20Reg.%2039940",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement the World Trade Organization Declaration on the Expansion of Trade in Information Technology Products and For Other Purposes",
+          "citation": "81 Fed. Reg. 44129",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20World%20Trade%20Organization%20Declaration%20on%20the%20Expansion%20of%20Trade%20in%20Information%20Technology%20Products%20and%20For%20Other%20Purposes%2081%20Fed.%20Reg.%2044129",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_basic": {
+      "effective_date": "2025-01-01",
+      "policy_effective_date": null,
+      "policy_family": "agriculture_trq_and_section_301_china_or_dst_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "To Implement the United States-Israel Agreement On Trade In Agricultural Products And For Other Purposes",
+          "citation": "89 Fed. Reg. 105333",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20United%20States-Israel%20Agreement%20On%20Trade%20In%20Agricultural%20Products%20And%20For%20Other%20Purposes%2089%20Fed.%20Reg.%20105333",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification: China’s Acts, Policies and Practices Related to Technology Transfer, Intellectual Property and Innovation",
+          "citation": "89 Fed. Reg. 101682",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%3A%20China%E2%80%99s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%20and%20Innovation%2089%20Fed.%20Reg.%20101682",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification: China’s Acts, Policies and Practices Related to Technology Transfer, Intellectual Property and Innovation",
+          "citation": "89 Fed. Reg. 76581",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%3A%20China%E2%80%99s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%20and%20Innovation%2089%20Fed.%20Reg.%2076581",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_1": {
+      "effective_date": "2025-01-27",
+      "policy_effective_date": "2025-02-04",
+      "policy_family": "ieepa_fentanyl",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Implementation of Additional Duties on Products of the People’s Republic of China Pursuant to the President’s February 1, 2025 Executive Order Imposing Duties to Address the Synthetic Opioid Supply Chain in the People’s Republic of China",
+          "citation": "90 Fed. Reg. 9038",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementation%20of%20Additional%20Duties%20on%20Products%20of%20the%20People%E2%80%99s%20Republic%20of%20China%20Pursuant%20to%20the%20President%E2%80%99s%20February%201%2C%202025%20Executive%20Order%20Imposing%20Duties%20to%20Address%20the%20Synthetic%20Opioid%20Supply%20Chain%20in%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%209038",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_2": {
+      "effective_date": "2025-02-01",
+      "policy_effective_date": "2025-02-05",
+      "policy_family": "ieepa_fentanyl",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Amended Notice of Implementation of Additional Duties on Products of the People’s Republic of China Pursuant to the President’s February 1, 2025 Executive Order Imposing Duties to Address the Synthetic Opioid Supply Chain in the People’s Republic of China",
+          "citation": "90 Fed. Reg. 9431",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Amended%20Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20the%20People%E2%80%99s%20Republic%20of%20China%20Pursuant%20to%20the%20President%E2%80%99s%20February%201%2C%202025%20Executive%20Order%20Imposing%20Duties%20to%20Address%20the%20Synthetic%20Opioid%20Supply%20Chain%20in%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%209431",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_3": {
+      "effective_date": "2025-02-04",
+      "policy_effective_date": "2025-03-04",
+      "policy_family": "ieepa_fentanyl",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Notice of Implementation of Additional Duties on Products of Canada Pursuant to the President’s Executive Order 14193, Imposing Duties to Address the Flow of Illicit Drugs Across Our Northern Border",
+          "citation": "90 Fed. Reg. 11423",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20Canada%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014193%2C%20Imposing%20Duties%20to%20Address%20the%20Flow%20of%20Illicit%20Drugs%20Across%20Our%20Northern%20Border%2090%20Fed.%20Reg.%2011423",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Implementation of Additional Duties on Products of Mexico Pursuant to the President’s Executive Order 14194, Imposing Duties to Address the Situation At Our Southern Border",
+          "citation": "90 Fed. Reg. 11429",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20Mexico%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014194%2C%20Imposing%20Duties%20to%20Address%20the%20Situation%20At%20Our%20Southern%20Border%2090%20Fed.%20Reg.%2011429",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Further Amended Notice of Implementation of Additional Duties on Products of the People’s Republic of China Pursuant to the President’s Executive Order 14195, Imposing Duties to Address the Synthetic Opioid Supply Chain in the People’s Republic of China",
+          "citation": "90 Fed. Reg. 11426",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Further%20Amended%20Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20the%20People%E2%80%99s%20Republic%20of%20China%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014195%2C%20Imposing%20Duties%20to%20Address%20the%20Synthetic%20Opioid%20Supply%20Chain%20in%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%2011426",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_4": {
+      "effective_date": "2025-03-04",
+      "policy_effective_date": "2025-03-07",
+      "policy_family": "ieepa_fentanyl_and_section_232_aluminum_and_section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Implementation of Duties on Aluminum Pursuant to Proclamation 10895 Adjusting Imports of Aluminum into the United States",
+          "citation": "90 Fed. Reg. 11251",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementation%20of%20Duties%20on%20Aluminum%20Pursuant%20to%20Proclamation%2010895%20Adjusting%20Imports%20of%20Aluminum%20into%20the%20United%20States%2090%20Fed.%20Reg.%2011251",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Implementation of Duties on Steel Pursuant to Proclamation 10896 Adjusting Imports of Steel into the United States",
+          "citation": "90 Fed. Reg. 11249",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementation%20of%20Duties%20on%20Steel%20Pursuant%20to%20Proclamation%2010896%20Adjusting%20Imports%20of%20Steel%20into%20the%20United%20States%2090%20Fed.%20Reg.%2011249",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Amendment to Notice of Implementation of Additional Duties on Products of Canada Pursuant to the President’s Executive Order 14193, Imposing Duties to Address the Flow of Illicit Drugs Across Our Northern Border",
+          "citation": "90 Fed. Reg. 11743",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Amendment%20to%20Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20Canada%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014193%2C%20Imposing%20Duties%20to%20Address%20the%20Flow%20of%20Illicit%20Drugs%20Across%20Our%20Northern%20Border%2090%20Fed.%20Reg.%2011743",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Amendment to Notice of Implementation of Additional Duties on Products of Mexico Pursuant to the President’s Executive Order 14194, Imposing Duties to Address the Situation At Our Southern Border",
+          "citation": "90 Fed. Reg. 11746",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Amendment%20to%20Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20Mexico%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014194%2C%20Imposing%20Duties%20to%20Address%20the%20Situation%20At%20Our%20Southern%20Border%2090%20Fed.%20Reg.%2011746",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_5": {
+      "effective_date": "2025-03-05",
+      "policy_effective_date": "2025-03-14",
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Certification of Systems for Processing and Collecting Tariffs on Steel and Aluminum Articles Pursuant to the President’s February 10, 2025 Proclamations",
+          "citation": "90 Fed. Reg. 12123",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Certification%20of%20Systems%20for%20Processing%20and%20Collecting%20Tariffs%20on%20Steel%20and%20Aluminum%20Articles%20Pursuant%20to%20the%20President%E2%80%99s%20February%2010%2C%202025%20Proclamations%2090%20Fed.%20Reg.%2012123",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_6": {
+      "effective_date": "2025-03-12",
+      "policy_effective_date": "2025-04-03",
+      "policy_family": "section_232_aluminum_and_section_232_autos",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Automobiles and Automobile Parts Into the United States",
+          "citation": "90 Fed. Reg. 14705",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Automobiles%20and%20Automobile%20Parts%20Into%20the%20United%20States%2090%20Fed.%20Reg.%2014705",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Implementation of Duties on Aluminum Derivatives Beer and Empty Aluminum Cans Pursuant to Proclamation 10895 Adjusting Imports of Aluminum into the United States",
+          "citation": "90 Fed. Reg. 14786",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementation%20of%20Duties%20on%20Aluminum%20Derivatives%20Beer%20and%20Empty%20Aluminum%20Cans%20Pursuant%20to%20Proclamation%2010895%20Adjusting%20Imports%20of%20Aluminum%20into%20the%20United%20States%2090%20Fed.%20Reg.%2014786",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_7": {
+      "effective_date": "2025-04-02",
+      "policy_effective_date": "2025-04-05",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Regulating Imports With a Reciprocal Tariff To Rectify Trade Practices That Contribute to Large and Persistent Annual United States Goods Trade Deficits",
+          "citation": "90 Fed. Reg. 15041",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Regulating%20Imports%20With%20a%20Reciprocal%20Tariff%20To%20Rectify%20Trade%20Practices%20That%20Contribute%20to%20Large%20and%20Persistent%20Annual%20United%20States%20Goods%20Trade%20Deficits%2090%20Fed.%20Reg.%2015041",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_8": {
+      "effective_date": "2025-04-03",
+      "policy_effective_date": "2025-04-09",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Amendment to Reciprocal Tariffs and Updated Duties as Applied to Low-Value Imports from the People’s Republic of China",
+          "citation": "90 Fed. Reg. 15509",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Amendment%20to%20Reciprocal%20Tariffs%20and%20Updated%20Duties%20as%20Applied%20to%20Low-Value%20Imports%20from%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%2015509",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_9": {
+      "effective_date": "2025-04-05",
+      "policy_effective_date": "2025-04-10",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Modifying Reciprocal Tariff Rates To Reflect Trading Partner Retaliation and Alignment",
+          "citation": "90 Fed. Reg. 15625",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20Reciprocal%20Tariff%20Rates%20To%20Reflect%20Trading%20Partner%20Retaliation%20and%20Alignment%2090%20Fed.%20Reg.%2015625",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_10": {
+      "effective_date": "2025-04-09",
+      "policy_effective_date": "2025-04-15",
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Clarification of Exceptions Under Executive Order 14257 of April 2, 2025, as Amended",
+          "citation": "White House memo",
+          "url": "https://www.whitehouse.gov/",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_11": {
+      "effective_date": "2025-04-11",
+      "policy_effective_date": "2025-05-03",
+      "policy_family": "ieepa_fentanyl_and_section_232_autos",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Automobiles and Automobile Parts Into the United States",
+          "citation": "90 Fed. Reg. 14705",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Automobiles%20and%20Automobile%20Parts%20Into%20the%20United%20States%2090%20Fed.%20Reg.%2014705",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Implementation of Additional Duties on Products of the People’s Republic of China Pursuant to the President’s Executive Order 14256, Further Amendment to Duties Addressing the Synthetic Opioid Supply Chain in the People’s Republic of China",
+          "citation": "90 Fed. Reg. 17608",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20the%20People%E2%80%99s%20Republic%20of%20China%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014256%2C%20Further%20Amendment%20to%20Duties%20Addressing%20the%20Synthetic%20Opioid%20Supply%20Chain%20in%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%2017608",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_12": {
+      "effective_date": "2025-04-14",
+      "policy_effective_date": "2025-05-14",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Modifying Reciprocal Tariff Rates to Reflect Discussions with the People’s Republic of China",
+          "citation": "90 Fed. Reg. 21831",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20Reciprocal%20Tariff%20Rates%20to%20Reflect%20Discussions%20with%20the%20People%E2%80%99s%20Republic%20of%20China%2090%20Fed.%20Reg.%2021831",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_13": {
+      "effective_date": "2025-04-22",
+      "policy_effective_date": "2025-05-16",
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+          "citation": "90 Fed. Reg. 21487",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Addressing%20Certain%20Tariffs%20on%20Imported%20Articles%20Pursuant%20to%20the%20President%27s%20Executive%20Order%2014289%2090%20Fed.%20Reg.%2021487",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_14": {
+      "effective_date": "2025-05-02",
+      "policy_effective_date": "2025-06-04",
+      "policy_family": "section_232_steel_aluminum_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Aluminum and Steel Into the United States",
+          "citation": "90 Fed. Reg. 24199",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Aluminum%20and%20Steel%20Into%20the%20United%20States%2090%20Fed.%20Reg.%2024199",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China’s Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "90 Fed. Reg. 23987",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%E2%80%99s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2090%20Fed.%20Reg.%2023987",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_15": {
+      "effective_date": "2025-05-14",
+      "policy_effective_date": "2025-06-23",
+      "policy_family": "section_232_steel",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Implementation of Duties on Steel Pursuant to Proclamation 10896 Adjusting Imports of Steel into the United States",
+          "citation": "90 Fed. Reg. 25208",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementation%20of%20Duties%20on%20Steel%20Pursuant%20to%20Proclamation%2010896%20Adjusting%20Imports%20of%20Steel%20into%20the%20United%20States%2090%20Fed.%20Reg.%2025208",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_16": {
+      "effective_date": "2025-06-06",
+      "policy_effective_date": "2025-07-01",
+      "policy_family": "section_232_autos_and_statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Imports of Automobiles, Automobile Parts, Civil Aircraft and Civil Aircraft Parts from the United Kingdom Under Executive Order 14309",
+          "citation": "90 Fed. Reg. 27851",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Imports%20of%20Automobiles%2C%20Automobile%20Parts%2C%20Civil%20Aircraft%20and%20Civil%20Aircraft%20Parts%20from%20the%20United%20Kingdom%20Under%20Executive%20Order%2014309%2090%20Fed.%20Reg.%2027851",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_17": {
+      "effective_date": "2025-07-01",
+      "policy_effective_date": "2025-08-01",
+      "policy_family": "ieepa_fentanyl_and_section_232_copper",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Copper into the United States",
+          "citation": "90 Fed. Reg. 37727",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Copper%20into%20the%20United%20States%2090%20Fed.%20Reg.%2037727",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Amendment to Duties to Address the Flow of Illicit Drugs Across Our Northern Border",
+          "citation": "90 Fed. Reg. 37957",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Amendment%20to%20Duties%20to%20Address%20the%20Flow%20of%20Illicit%20Drugs%20Across%20Our%20Northern%20Border%2090%20Fed.%20Reg.%2037957",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_18": {
+      "effective_date": "2025-08-07",
+      "policy_effective_date": null,
+      "policy_family": "ieepa_brazil_and_ieepa_reciprocal_and_other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list?page=1",
+      "sources": [
+        {
+          "title": "To Take Certain Actions Under the United States Mexico-Canada Agreement Implementation Act and for Other Purposes",
+          "citation": "85 Fed. Reg. 39821",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Take%20Certain%20Actions%20Under%20the%20United%20States%20Mexico-Canada%20Agreement%20Implementation%20Act%20and%20for%20Other%20Purposes%2085%20Fed.%20Reg.%2039821",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Addressing Threats to the United States by the Government of Brazil",
+          "citation": "90 Fed. Reg. 37739",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Addressing%20Threats%20to%20the%20United%20States%20by%20the%20Government%20of%20Brazil%2090%20Fed.%20Reg.%2037739",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Further Modifying the Reciprocal Tariff Rates",
+          "citation": "90 Fed. Reg. 37963",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Further%20Modifying%20the%20Reciprocal%20Tariff%20Rates%2090%20Fed.%20Reg.%2037963",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_19": {
+      "effective_date": "2025-08-12",
+      "policy_effective_date": "2025-08-18",
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Adoption and Procedures of the Section 232 Steel and Aluminum Tariff Inclusions Process",
+          "citation": "90 Fed. Reg. 40326",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adoption%20and%20Procedures%20of%20the%20Section%20232%20Steel%20and%20Aluminum%20Tariff%20Inclusions%20Process%2090%20Fed.%20Reg.%2040326",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_20": {
+      "effective_date": "2025-08-20",
+      "policy_effective_date": "2025-08-27",
+      "policy_family": "ieepa_india_russian_oil",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Implementation of Additional Duties on Products of India Pursuant to the President’s Executive Order 14329, Addressing Threats to the United States by the Government of the Russian Federation",
+          "citation": "90 Fed. Reg. 41837",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Additional%20Duties%20on%20Products%20of%20India%20Pursuant%20to%20the%20President%E2%80%99s%20Executive%20Order%2014329%2C%20Addressing%20Threats%20to%20the%20United%20States%20by%20the%20Government%20of%20the%20Russian%20Federation%2090%20Fed.%20Reg.%2041837",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_21": {
+      "effective_date": "2025-08-28",
+      "policy_effective_date": "2025-09-02",
+      "policy_family": "de_minimis_suspension_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Implementation of the President’s Executive Order 14324, Suspending Duty-Free De Minimis Treatment For All Countries",
+          "citation": "90 Fed. Reg. 42418",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20the%20President%E2%80%99s%20Executive%20Order%2014324%2C%20Suspending%20Duty-Free%20De%20Minimis%20Treatment%20For%20All%20Countries%2090%20Fed.%20Reg.%2042418",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China’s Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "90 Fed. Reg. 42500",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%E2%80%99s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2090%20Fed.%20Reg.%2042500",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_22": {
+      "effective_date": "2025-09-03",
+      "policy_effective_date": "2025-09-08",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Modifying the Scope of Reciprocal Tariffs and Establishing Procedures for Implementing Trade and Security Agreements",
+          "citation": "90 Fed. Reg. 43737",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20the%20Scope%20of%20Reciprocal%20Tariffs%20and%20Establishing%20Procedures%20for%20Implementing%20Trade%20and%20Security%20Agreements%2090%20Fed.%20Reg.%2043737",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_23": {
+      "effective_date": "2025-09-12",
+      "policy_effective_date": "2025-09-16",
+      "policy_family": "country_deal_japan_and_other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Adoption and Procedures of the Section 232 Steel and Aluminum Tariff Inclusions Process",
+          "citation": "90 Fed. Reg. 40326",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adoption%20and%20Procedures%20of%20the%20Section%20232%20Steel%20and%20Aluminum%20Tariff%20Inclusions%20Process%2090%20Fed.%20Reg.%2040326",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Implementing Certain Tariff-Related Elements of the United States-Japan Agreement",
+          "citation": "90 Fed. Reg. 44638",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20the%20United%20States-Japan%20Agreement%2090%20Fed.%20Reg.%2044638",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_24": {
+      "effective_date": "2025-09-19",
+      "policy_effective_date": "2025-09-25",
+      "policy_family": "country_deal_japan_and_ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Implementing Certain Tariff-Related Elements of the U.S.-EU Framework on an Agreement on Reciprocal, Fair, and Balanced Trade",
+          "citation": "90 Fed. Reg. 46136",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20the%20U.S.-EU%20Framework%20on%20an%20Agreement%20on%20Reciprocal%2C%20Fair%2C%20and%20Balanced%20Trade%2090%20Fed.%20Reg.%2046136",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Implementing Certain Tariff-Related Elements of the United States-Japan Agreement",
+          "citation": "90 Fed. Reg. 44638",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20the%20United%20States-Japan%20Agreement%2090%20Fed.%20Reg.%2044638",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_25": {
+      "effective_date": "2025-09-26",
+      "policy_effective_date": "2025-10-14",
+      "policy_family": "ieepa_reciprocal_and_section_232_timber_lumber",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Timber, Lumber, and Their Derivative Products Into the United States",
+          "citation": "90 Fed. Reg. 48127",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Timber%2C%20Lumber%2C%20and%20Their%20Derivative%20Products%20Into%20the%20United%20States%2090%20Fed.%20Reg.%2048127",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Further Modifying the Reciprocal Tariff Rates",
+          "citation": "90 Fed. Reg. 37963",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Further%20Modifying%20the%20Reciprocal%20Tariff%20Rates%2090%20Fed.%20Reg.%2037963",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_26": {
+      "effective_date": "2025-10-06",
+      "policy_effective_date": "2025-11-01",
+      "policy_family": "section_232_mhdv",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses Into the United States",
+          "citation": "90 Fed. Reg. 48451",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Medium-%20and%20Heavy-Duty%20Vehicles%2C%20Medium-%20and%20Heavy-Duty%20Vehicle%20Parts%2C%20and%20Buses%20Into%20the%20United%20States%2090%20Fed.%20Reg.%2048451",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_27": {
+      "effective_date": "2025-10-15",
+      "policy_effective_date": "2025-11-09",
+      "policy_family": "ieepa_fentanyl_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Modification and Proposed Modification of Section 301 Action: China's Targeting of the Maritime, Logistics, and Shipbuilding Sectors for Dominance",
+          "citation": "90 Fed. Reg. 48320",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20and%20Proposed%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Targeting%20of%20the%20Maritime%2C%20Logistics%2C%20and%20Shipbuilding%20Sectors%20for%20Dominance%2090%20Fed.%20Reg.%2048320",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Modifying Duties Addressing the Synthetic Opioid Supply Chain in the People's Republic of China",
+          "citation": "90 Fed. Reg. 50725",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20Duties%20Addressing%20the%20Synthetic%20Opioid%20Supply%20Chain%20in%20the%20People%27s%20Republic%20of%20China%2090%20Fed.%20Reg.%2050725",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_28": {
+      "effective_date": "2025-10-22",
+      "policy_effective_date": "2025-11-10",
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Targeting of the Maritime, Logistics, and Shipbuilding Sectors for Dominance",
+          "citation": "90 Fed. Reg. 50947",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%20of%20Section%20301%20Action%3A%20China%27s%20Targeting%20of%20the%20Maritime%2C%20Logistics%2C%20and%20Shipbuilding%20Sectors%20for%20Dominance%2090%20Fed.%20Reg.%2050947",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_29": {
+      "effective_date": "2025-10-31",
+      "policy_effective_date": "2025-11-13",
+      "policy_family": "ieepa_reciprocal",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Modifying the Scope of the Reciprocal Tariffs With Respect to Certain Agricultural Products",
+          "citation": "90 Fed. Reg. 54091",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20the%20Scope%20of%20the%20Reciprocal%20Tariffs%20With%20Respect%20to%20Certain%20Agricultural%20Products%2090%20Fed.%20Reg.%2054091",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_30": {
+      "effective_date": "2025-11-05",
+      "policy_effective_date": "2025-11-21",
+      "policy_family": "ieepa_brazil_and_section_232_autos",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Procedures To Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908, as Amended",
+          "citation": "90 Fed. Reg. 25027",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Procedures%20To%20Administer%20Import%20Adjustment%20Offset%20Amounts%20for%20Certain%20Imports%20of%20Automobile%20Parts%20Under%20Proclamation%2010908%2C%20as%20Amended%2090%20Fed.%20Reg.%2025027",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Modifying the Scope of Tariffs on the Government of Brazil",
+          "citation": "90 Fed. Reg. 54467",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20the%20Scope%20of%20Tariffs%20on%20the%20Government%20of%20Brazil%2090%20Fed.%20Reg.%2054467",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2025_rev_31": {
+      "effective_date": "2025-11-12",
+      "policy_effective_date": "2025-11-30",
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Product Exclusion Extensions: China’s Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "90 Fed. Reg. 55232",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Product%20Exclusion%20Extensions%3A%20China%E2%80%99s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2090%20Fed.%20Reg.%2055232",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2025_rev_32": {
+      "effective_date": "2025-11-15",
+      "policy_effective_date": "2025-12-05",
+      "policy_family": "country_deal_korea",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Implementing Certain Tariff-Related Elements of the U.S.-Korea Strategic Trade and Investment Deal",
+          "citation": "90 Fed. Reg. 55964",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20the%20U.S.-Korea%20Strategic%20Trade%20and%20Investment%20Deal%2090%20Fed.%20Reg.%2055964",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2026_basic": {
+      "effective_date": "2026-01-01",
+      "policy_effective_date": null,
+      "policy_family": "agriculture_trq_and_ieepa_reciprocal_and_other_hts_policy_and_section_232_semiconductors_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Implementing Certain Tariff-Related Elements of the Framework for a United States-Switzerland-Liechtenstein Agreement on Fair, Balance, and Reciprocal Trade",
+          "citation": "90 Fed. Reg. 59281",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20the%20Framework%20for%20a%20United%20States-Switzerland-Liechtenstein%20Agreement%20on%20Fair%2C%20Balance%2C%20and%20Reciprocal%20Trade%2090%20Fed.%20Reg.%2059281",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Action: China’s Acts, Policies, and Practices Related to Targeting of the Semiconductor Industry for Dominance",
+          "citation": "90 Fed. Reg. 60848",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Action%3A%20China%E2%80%99s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Targeting%20of%20the%20Semiconductor%20Industry%20for%20Dominance%2090%20Fed.%20Reg.%2060848",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification: China’s Acts, Policies and Practices Related to Technology Transfer, Intellectual Property and Innovation",
+          "citation": "89 Fed. Reg. 76581",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%3A%20China%E2%80%99s%20Acts%2C%20Policies%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%20and%20Innovation%2089%20Fed.%20Reg.%2076581",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Modification: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "89 Fed. Reg. 101682",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Modification%3A%20China%27s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Technology%20Transfer%2C%20Intellectual%20Property%2C%20and%20Innovation%2089%20Fed.%20Reg.%20101682",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Notice of Implementation of Action: Nicaragua’s Acts, Policies, and Practices Related to Labor Rights, Human Rights and Fundamental Freedoms, and the Rule of Law",
+          "citation": "90 Fed. Reg. 60850",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Implementation%20of%20Action%3A%20Nicaragua%E2%80%99s%20Acts%2C%20Policies%2C%20and%20Practices%20Related%20to%20Labor%20Rights%2C%20Human%20Rights%20and%20Fundamental%20Freedoms%2C%20and%20the%20Rule%20of%20Law%2090%20Fed.%20Reg.%2060850",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Modification of the Allocation of the WTO Tariff-Rate Quota Volumes for Beef",
+          "citation": "90 Fed. Reg. 61497",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modification%20of%20the%20Allocation%20of%20the%20WTO%20Tariff-Rate%20Quota%20Volumes%20for%20Beef%2090%20Fed.%20Reg.%2061497",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "To Implement the United States-Israel Agreement on Trade in Agricultural Products and For Other Purposes",
+          "citation": "91 Fed. Reg. 889",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=To%20Implement%20the%20United%20States-Israel%20Agreement%20on%20Trade%20in%20Agricultural%20Products%20and%20For%20Other%20Purposes%2091%20Fed.%20Reg.%20889",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_1": {
+      "effective_date": "2026-01-16",
+      "policy_effective_date": "2026-01-15",
+      "policy_family": "section_232_semiconductors",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Adjusting Imports of Semiconductors, Semiconductor Manufacturing Equipment, and Their Derivative Products Into the United States",
+          "citation": "91 Fed. Reg. 2443",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Adjusting%20Imports%20of%20Semiconductors%2C%20Semiconductor%20Manufacturing%20Equipment%2C%20and%20Their%20Derivative%20Products%20Into%20the%20United%20States%2091%20Fed.%20Reg.%202443",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_2": {
+      "effective_date": "2026-01-30",
+      "policy_effective_date": "2026-02-01",
+      "policy_family": "statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules under section 484(f), Tariff Act of 1930",
+          "citation": "484(f)",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Changes%20approved%20by%20the%20Committee%20for%20Statistical%20Annotation%20of%20Tariff%20Schedules%20under%20section%20484%28f%29%2C%20Tariff%20Act%20of%201930%20484%28f%29",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": true
+    },
+    "2026_rev_3": {
+      "effective_date": "2026-02-12",
+      "policy_effective_date": "2026-02-07",
+      "policy_family": "agriculture_trq_and_other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Ensuring Affordable Beef for the American Consumer",
+          "citation": "91 Fed. Reg. 7107",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Ensuring%20Affordable%20Beef%20for%20the%20American%20Consumer%2091%20Fed.%20Reg.%207107",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Modifying Duties To Address Threats to the United States by the Government of the Russian Federation",
+          "citation": "91 Fed. Reg. 6501",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Modifying%20Duties%20To%20Address%20Threats%20to%20the%20United%20States%20by%20the%20Government%20of%20the%20Russian%20Federation%2091%20Fed.%20Reg.%206501",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_4": {
+      "effective_date": "2026-02-24",
+      "policy_effective_date": null,
+      "policy_family": "de_minimis_suspension_and_section_122",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems",
+          "citation": "91 Fed. Reg. 9339",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Imposing%20a%20Temporary%20Import%20Surcharge%20to%20Address%20Fundamental%20International%20Payments%20Problems%2091%20Fed.%20Reg.%209339",
+          "url_type": "fr_search"
+        },
+        {
+          "title": "Continuing the Suspension of Duty-Free De Minimis Treatment for all Countries",
+          "citation": "91 Fed. Reg. 17839",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Continuing%20the%20Suspension%20of%20Duty-Free%20De%20Minimis%20Treatment%20for%20all%20Countries%2091%20Fed.%20Reg.%2017839",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_5": {
+      "effective_date": "2026-04-08",
+      "policy_effective_date": "2026-04-06",
+      "policy_family": "section_232_metals",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Strengthening Actions Taken To Adjust Imports of Aluminum, Steel, and Copper Into the United States",
+          "citation": "91 Fed. Reg. 18201",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Strengthening%20Actions%20Taken%20To%20Adjust%20Imports%20of%20Aluminum%2C%20Steel%2C%20and%20Copper%20Into%20the%20United%20States%2091%20Fed.%20Reg.%2018201",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text. USITC archive source is Section 232 metals overhaul. Separate pharmaceutical/API proclamation appears contemporaneous but is not listed as the Modification Source for this HTS revision in the archive page captured.",
+      "needs_review": true
+    },
+    "2026_rev_6": {
+      "effective_date": "2026-04-23",
+      "policy_effective_date": "2026-04-23",
+      "policy_family": "other_hts_policy",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production to Obtain Tariff Adjustments Under Proclamation 10984",
+          "citation": "91 Fed. Reg. 21790",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Procedures%20for%20Submissions%20by%20Certain%20Steel%20and%20Aluminum%20Producers%20Committing%20to%20New%20U.S.%20Steel%20or%20Aluminum%20Production%20to%20Obtain%20Tariff%20Adjustments%20Under%20Proclamation%2010984%2091%20Fed.%20Reg.%2021790",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_7": {
+      "effective_date": "2026-04-29",
+      "policy_effective_date": "2026-04-29",
+      "policy_family": "statistical_or_technical",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Technical Corrections to the Harmonized Tariff Schedule of the United States for Duties Imposed by Presidential Proclamation 11021",
+          "citation": "91 Fed. Reg. 23056",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Notice%20of%20Technical%20Corrections%20to%20the%20Harmonized%20Tariff%20Schedule%20of%20the%20United%20States%20for%20Duties%20Imposed%20by%20Presidential%20Proclamation%2011021%2091%20Fed.%20Reg.%2023056",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    },
+    "2026_rev_9": {
+      "effective_date": "2026-05-28",
+      "policy_effective_date": "2026-05-01",
+      "policy_family": "country_deal_taiwan",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Implementing Certain Tariff-Related Elements of a Trade and Security Agreement Between the American Institute in Taiwan and the Taipei Economic and Cultural Representative Office in the United States",
+          "citation": "91 Fed. Reg. 31818",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Implementing%20Certain%20Tariff-Related%20Elements%20of%20a%20Trade%20and%20Security%20Agreement%20Between%20the%20American%20Institute%20in%20Taiwan%20and%20the%20Taipei%20Economic%20and%20Cultural%20Representative%20Office%20in%20the%20United%20States%2091%20Fed.%20Reg.%2031818",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text. Provided list intentionally excludes 2026_rev_8; archive shows 2026 Revision 8 contained Consolidated Appropriations Act changes and auto-parts offset procedures for MHDV parts. If excluded as zero-rate editorial only, document that separately because USITC lists substantive modification sources.",
+      "needs_review": true
+    },
+    "2026_rev_10": {
+      "effective_date": "2026-06-08",
+      "policy_effective_date": "2026-06-08",
+      "policy_family": "section_232_metals",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
+          "citation": "91 Fed. Reg. 34085",
+          "url": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Further%20Adjusting%20the%20Tariff%20Regimes%20for%20Imports%20of%20Aluminum%2C%20Steel%2C%20and%20Copper%20Into%20the%20United%20States%2091%20Fed.%20Reg.%2034085",
+          "url_type": "fr_search"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
+    }
+  }
+}
