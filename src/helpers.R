@@ -94,6 +94,43 @@ normalize_hts <- function(hts_code) {
   return(clean)
 }
 
+#' Sanitize a statistical reporting unit from the HTS source.
+#'
+#' USITC's HTS export inconsistently encodes some reporting units with HTML
+#' markup while encoding the SAME unit as plain ASCII in other revisions, e.g.
+#' "m<sup>2</sup>" vs "m2", "Cr<sub>2</sub>O<sub>3</sub> t" vs "Cr2O3 t",
+#' "<u>kg</u>" vs "kg", "<il>doz. prs.</il>" vs "doz. prs.", "doz.&nbsp;" vs
+#' "doz.". This canonicalizes every form to plain ASCII so a unit is identical
+#' across revisions: tags are dropped (inner text kept), entities decoded,
+#' whitespace collapsed. Display-side prettifying (m2 -> m^2) lives in the
+#' frontend, not here.
+#'
+#' Only values that actually carry markup/entities are touched; plain values
+#' (including pre-existing whitespace quirks like a trailing space in "No. ")
+#' are returned byte-for-byte. This keeps the transform scoped to the USITC
+#' markup inconsistency — so the one-off parquet backfill rewrites only the ~20
+#' affected revisions, and a fresh build produces identical output.
+#'
+#' @param x Character vector of raw reporting units (NA-safe, vectorized).
+#' @return Character vector with HTML markup stripped to plain ASCII.
+clean_reported_unit <- function(x) {
+  if (is.null(x)) return(x)
+  out <- as.character(x)
+  dirty <- !is.na(out) & grepl('<[^>]*>|&[a-z]+;', out, perl = TRUE)
+  if (!any(dirty)) return(out)
+  v <- out[dirty]
+  # Drop any HTML tag but keep its inner text. Handles <sup>/<sub>/<u>/<il>
+  # and tags carrying inline styles, e.g. <sup style="font-size: 9.75px;">.
+  v <- gsub('<[^>]*>', '', v, perl = TRUE)
+  # Decode the handful of entities the source uses.
+  v <- gsub('&nbsp;', ' ', v, fixed = TRUE)
+  v <- gsub('&amp;', '&', v, fixed = TRUE)
+  # Collapse internal whitespace (incl. stray newlines) and trim.
+  v <- trimws(gsub('\\s+', ' ', v, perl = TRUE))
+  out[dirty] <- v
+  out
+}
+
 #' Extract prefix at specified digit level
 #'
 #' @param hts10 10-digit HTS code

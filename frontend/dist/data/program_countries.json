@@ -1,0 +1,8584 @@
+{
+  "version": 1,
+  "source": "hts_general_notes_4_7_16 + fta_partners",
+  "generated_from": ["gn_program_countries.csv", "fta_partners.csv"],
+  "note": "census_code -> programs the country can claim: parsed GSP/AGOA/CBERA beneficiaries (kind=preference, from HTS General Notes 4/16/7) merged with FTA partners (kind=fta, reviewed reference). `codes` are the HTS Special-subcolumn symbols matched against a line. A country absent here asserts no preference (defaults to base NTR/MFN); presence is a candidate, not proof of eligibility.",
+  "latest_revision": "2026_rev_9",
+  "programs": {
+    "A": {
+      "program": "GSP",
+      "general_note": 4,
+      "kind": "preference"
+    },
+    "D": {
+      "program": "AGOA",
+      "general_note": 16,
+      "kind": "preference"
+    },
+    "E": {
+      "program": "CBERA (CBI)",
+      "general_note": 7,
+      "kind": "preference"
+    },
+    "USMCA": {
+      "program": "USMCA",
+      "general_note": "11",
+      "kind": "fta"
+    },
+    "CAFTA-DR": {
+      "program": "CAFTA-DR",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Panama FTA": {
+      "program": "Panama FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Colombia TPA": {
+      "program": "Colombia TPA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Peru TPA": {
+      "program": "Peru TPA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Chile FTA": {
+      "program": "Chile FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Israel FTA": {
+      "program": "Israel FTA",
+      "general_note": "8",
+      "kind": "fta"
+    },
+    "Jordan FTA": {
+      "program": "Jordan FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Oman FTA": {
+      "program": "Oman FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Bahrain FTA": {
+      "program": "Bahrain FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Singapore FTA": {
+      "program": "Singapore FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "KORUS": {
+      "program": "KORUS",
+      "general_note": "33",
+      "kind": "fta"
+    },
+    "US-Japan": {
+      "program": "US-Japan",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Australia FTA": {
+      "program": "Australia FTA",
+      "general_note": null,
+      "kind": "fta"
+    },
+    "Morocco FTA": {
+      "program": "Morocco FTA",
+      "general_note": null,
+      "kind": "fta"
+    }
+  },
+  "country_programs": {
+    "2080": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2360": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2410": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2450": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2481": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "2482": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2483": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2484": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2485": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2486": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2487": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2488": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2489": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2720": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2740": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2777": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "2779": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "3120": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "3150": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3310": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3350": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3510": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3530": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3570": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "3720": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4210": [
+      {
+        "label": "CBERA (CBI)",
+        "program": "CBERA (CBI)",
+        "kind": "preference",
+        "general_note": "7",
+        "codes": [
+          "E",
+          "E*"
+        ]
+      }
+    ],
+    "4623": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4631": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4632": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4633": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4634": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4635": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4641": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4644": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4793": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4794": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4801": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4803": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4804": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "4810": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5040": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5050": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5110": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "Jordan FTA",
+        "program": "Jordan FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "JO"
+        ]
+      }
+    ],
+    "5210": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5310": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5350": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5360": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5420": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5460": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5490": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5550": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5600": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5601": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5650": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5682": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5683": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "5740": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6022": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6023": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6024": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6040": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6142": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6143": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6144": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6150": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6223": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6224": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6225": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6226": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6227": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6413": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6863": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "6864": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7210": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7230": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7290": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7323": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7410": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7420": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7440": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7450": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7460": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7470": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7480": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7490": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7500": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7510": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7520": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7530": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7540": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7550": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7560": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7580": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7600": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7610": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7620": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7630": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7642": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7643": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7644": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7650": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7660": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7670": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7690": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7700": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7741": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7749": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7770": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7780": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7790": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7830": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7850": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7870": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7880": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7890": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7910": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7920": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7930": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7940": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7950": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7960": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      }
+    ],
+    "7970": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "7990": [
+      {
+        "label": "GSP",
+        "program": "GSP",
+        "kind": "preference",
+        "general_note": "4",
+        "codes": [
+          "A",
+          "A*"
+        ]
+      },
+      {
+        "label": "AGOA",
+        "program": "AGOA",
+        "kind": "preference",
+        "general_note": "16",
+        "codes": [
+          "D"
+        ]
+      }
+    ],
+    "1220": [
+      {
+        "label": "USMCA",
+        "program": "USMCA",
+        "kind": "fta",
+        "general_note": "11",
+        "codes": [
+          "S",
+          "S+",
+          "CA"
+        ]
+      }
+    ],
+    "2010": [
+      {
+        "label": "USMCA",
+        "program": "USMCA",
+        "kind": "fta",
+        "general_note": "11",
+        "codes": [
+          "S",
+          "S+",
+          "MX"
+        ]
+      }
+    ],
+    "2050": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2110": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2150": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2190": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2230": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2470": [
+      {
+        "label": "CAFTA-DR",
+        "program": "CAFTA-DR",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "P",
+          "P+"
+        ]
+      }
+    ],
+    "2250": [
+      {
+        "label": "Panama FTA",
+        "program": "Panama FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "PA"
+        ]
+      }
+    ],
+    "3010": [
+      {
+        "label": "Colombia TPA",
+        "program": "Colombia TPA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "CO"
+        ]
+      }
+    ],
+    "3330": [
+      {
+        "label": "Peru TPA",
+        "program": "Peru TPA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "PE"
+        ]
+      }
+    ],
+    "3370": [
+      {
+        "label": "Chile FTA",
+        "program": "Chile FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "CL"
+        ]
+      }
+    ],
+    "5081": [
+      {
+        "label": "Israel FTA",
+        "program": "Israel FTA",
+        "kind": "fta",
+        "general_note": "8",
+        "codes": [
+          "IL"
+        ]
+      }
+    ],
+    "5230": [
+      {
+        "label": "Oman FTA",
+        "program": "Oman FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "OM"
+        ]
+      }
+    ],
+    "5250": [
+      {
+        "label": "Bahrain FTA",
+        "program": "Bahrain FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "BH"
+        ]
+      }
+    ],
+    "5590": [
+      {
+        "label": "Singapore FTA",
+        "program": "Singapore FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "SG"
+        ]
+      }
+    ],
+    "5800": [
+      {
+        "label": "KORUS",
+        "program": "KORUS",
+        "kind": "fta",
+        "general_note": "33",
+        "codes": [
+          "KR"
+        ]
+      }
+    ],
+    "5880": [
+      {
+        "label": "US-Japan",
+        "program": "US-Japan",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "JP"
+        ]
+      }
+    ],
+    "6021": [
+      {
+        "label": "Australia FTA",
+        "program": "Australia FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "AU"
+        ]
+      }
+    ],
+    "7140": [
+      {
+        "label": "Morocco FTA",
+        "program": "Morocco FTA",
+        "kind": "fta",
+        "general_note": null,
+        "codes": [
+          "MA"
+        ]
+      }
+    ]
+  },
+  "revision_index": {
+    "2023_rev_10": "2023_rev_10",
+    "2023_rev_11": "2023_rev_10",
+    "2024_basic": "2024_basic",
+    "2024_rev_1": "2024_basic",
+    "2024_rev_2": "2024_basic",
+    "2024_rev_3": "2024_basic",
+    "2024_rev_4": "2024_basic",
+    "2024_rev_5": "2024_basic",
+    "2024_rev_6": "2024_basic",
+    "2024_rev_7": "2024_basic",
+    "2024_rev_8": "2024_basic",
+    "2024_rev_9": "2024_basic",
+    "2024_rev_10": "2024_basic",
+    "2025_basic": "2024_basic",
+    "2025_rev_1": "2024_basic",
+    "2025_rev_2": "2024_basic",
+    "2025_rev_3": "2024_basic",
+    "2025_rev_4": "2024_basic",
+    "2025_rev_5": "2024_basic",
+    "2025_rev_6": "2024_basic",
+    "2025_rev_7": "2024_basic",
+    "2025_rev_8": "2024_basic",
+    "2025_rev_9": "2024_basic",
+    "2025_rev_10": "2024_basic",
+    "2025_rev_11": "2024_basic",
+    "2025_rev_12": "2024_basic",
+    "2025_rev_13": "2024_basic",
+    "2025_rev_14": "2024_basic",
+    "2025_rev_15": "2024_basic",
+    "2025_rev_16": "2024_basic",
+    "2025_rev_17": "2024_basic",
+    "2025_rev_18": "2024_basic",
+    "2025_rev_19": "2024_basic",
+    "2025_rev_20": "2024_basic",
+    "2025_rev_21": "2024_basic",
+    "2025_rev_22": "2024_basic",
+    "2025_rev_23": "2024_basic",
+    "2025_rev_24": "2024_basic",
+    "2025_rev_25": "2024_basic",
+    "2025_rev_26": "2024_basic",
+    "2025_rev_27": "2024_basic",
+    "2025_rev_28": "2024_basic",
+    "2025_rev_29": "2024_basic",
+    "2025_rev_30": "2024_basic",
+    "2025_rev_31": "2024_basic",
+    "2025_rev_32": "2024_basic",
+    "2026_basic": "2024_basic",
+    "2026_rev_1": "2024_basic",
+    "2026_rev_2": "2024_basic",
+    "2026_rev_3": "2024_basic",
+    "2026_rev_4": "2024_basic",
+    "2026_rev_5": "2024_basic",
+    "2026_rev_6": "2024_basic",
+    "2026_rev_7": "2024_basic",
+    "2026_rev_8": "2026_rev_8",
+    "2026_rev_9": "2026_rev_8"
+  },
+  "by_revision": {
+    "2023_rev_10": {
+      "2080": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2360": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2481": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "2482": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2483": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2484": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2485": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2486": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2487": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2488": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2489": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2720": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2740": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2777": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2779": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3120": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3570": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3720": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4210": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "4623": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4631": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4632": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4633": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4634": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4635": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4641": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4793": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4794": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4801": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4803": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4804": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4810": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5050": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5110": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "Jordan FTA",
+          "program": "Jordan FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JO"
+          ]
+        }
+      ],
+      "5210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5360": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5601": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5682": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5683": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5740": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6022": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6023": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6024": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6142": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6143": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6144": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6223": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6224": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6225": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6226": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6227": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6413": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6863": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6864": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7230": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7290": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7323": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7440": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7470": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7480": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7500": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7520": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7540": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7560": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7580": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7610": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7620": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7630": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7642": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7643": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7660": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7670": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7690": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7700": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7741": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7749": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7770": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7780": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7790": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7830": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7850": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7870": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7880": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7890": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7910": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7920": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7930": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7940": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7950": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7960": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7970": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7990": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "1220": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "CA"
+          ]
+        }
+      ],
+      "2010": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "MX"
+          ]
+        }
+      ],
+      "2050": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2110": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2150": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2190": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2230": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2470": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2250": [
+        {
+          "label": "Panama FTA",
+          "program": "Panama FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PA"
+          ]
+        }
+      ],
+      "3010": [
+        {
+          "label": "Colombia TPA",
+          "program": "Colombia TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CO"
+          ]
+        }
+      ],
+      "3330": [
+        {
+          "label": "Peru TPA",
+          "program": "Peru TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PE"
+          ]
+        }
+      ],
+      "3370": [
+        {
+          "label": "Chile FTA",
+          "program": "Chile FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CL"
+          ]
+        }
+      ],
+      "5081": [
+        {
+          "label": "Israel FTA",
+          "program": "Israel FTA",
+          "kind": "fta",
+          "general_note": "8",
+          "codes": [
+            "IL"
+          ]
+        }
+      ],
+      "5230": [
+        {
+          "label": "Oman FTA",
+          "program": "Oman FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "OM"
+          ]
+        }
+      ],
+      "5250": [
+        {
+          "label": "Bahrain FTA",
+          "program": "Bahrain FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "BH"
+          ]
+        }
+      ],
+      "5590": [
+        {
+          "label": "Singapore FTA",
+          "program": "Singapore FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "SG"
+          ]
+        }
+      ],
+      "5800": [
+        {
+          "label": "KORUS",
+          "program": "KORUS",
+          "kind": "fta",
+          "general_note": "33",
+          "codes": [
+            "KR"
+          ]
+        }
+      ],
+      "5880": [
+        {
+          "label": "US-Japan",
+          "program": "US-Japan",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JP"
+          ]
+        }
+      ],
+      "6021": [
+        {
+          "label": "Australia FTA",
+          "program": "Australia FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "AU"
+          ]
+        }
+      ],
+      "7140": [
+        {
+          "label": "Morocco FTA",
+          "program": "Morocco FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "MA"
+          ]
+        }
+      ]
+    },
+    "2024_basic": {
+      "2080": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2360": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2481": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "2482": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2483": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2484": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2485": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2486": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2487": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2488": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2489": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2720": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2740": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2777": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2779": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3120": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3570": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3720": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4210": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "4623": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4631": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4632": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4633": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4634": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4635": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4641": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4793": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4794": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4801": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4803": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4804": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4810": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5050": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5110": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "Jordan FTA",
+          "program": "Jordan FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JO"
+          ]
+        }
+      ],
+      "5210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5360": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5601": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5682": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5683": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5740": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6022": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6023": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6024": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6142": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6143": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6144": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6223": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6224": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6225": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6226": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6227": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6413": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6863": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6864": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7230": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7290": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7323": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7440": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7470": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7480": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7500": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7520": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7540": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7560": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7580": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7610": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7620": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7630": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7642": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7643": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7660": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7670": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7690": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7700": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7741": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7749": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7770": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7780": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7790": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7830": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7850": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7870": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7880": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7890": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7910": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7920": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7930": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7940": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7950": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7960": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7970": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7990": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "1220": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "CA"
+          ]
+        }
+      ],
+      "2010": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "MX"
+          ]
+        }
+      ],
+      "2050": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2110": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2150": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2190": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2230": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2470": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2250": [
+        {
+          "label": "Panama FTA",
+          "program": "Panama FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PA"
+          ]
+        }
+      ],
+      "3010": [
+        {
+          "label": "Colombia TPA",
+          "program": "Colombia TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CO"
+          ]
+        }
+      ],
+      "3330": [
+        {
+          "label": "Peru TPA",
+          "program": "Peru TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PE"
+          ]
+        }
+      ],
+      "3370": [
+        {
+          "label": "Chile FTA",
+          "program": "Chile FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CL"
+          ]
+        }
+      ],
+      "5081": [
+        {
+          "label": "Israel FTA",
+          "program": "Israel FTA",
+          "kind": "fta",
+          "general_note": "8",
+          "codes": [
+            "IL"
+          ]
+        }
+      ],
+      "5230": [
+        {
+          "label": "Oman FTA",
+          "program": "Oman FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "OM"
+          ]
+        }
+      ],
+      "5250": [
+        {
+          "label": "Bahrain FTA",
+          "program": "Bahrain FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "BH"
+          ]
+        }
+      ],
+      "5590": [
+        {
+          "label": "Singapore FTA",
+          "program": "Singapore FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "SG"
+          ]
+        }
+      ],
+      "5800": [
+        {
+          "label": "KORUS",
+          "program": "KORUS",
+          "kind": "fta",
+          "general_note": "33",
+          "codes": [
+            "KR"
+          ]
+        }
+      ],
+      "5880": [
+        {
+          "label": "US-Japan",
+          "program": "US-Japan",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JP"
+          ]
+        }
+      ],
+      "6021": [
+        {
+          "label": "Australia FTA",
+          "program": "Australia FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "AU"
+          ]
+        }
+      ],
+      "7140": [
+        {
+          "label": "Morocco FTA",
+          "program": "Morocco FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "MA"
+          ]
+        }
+      ]
+    },
+    "2026_rev_8": {
+      "2080": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2360": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2481": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "2482": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2483": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2484": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2485": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2486": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2487": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2488": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2489": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2720": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2740": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2777": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "2779": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3120": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "3150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3570": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "3720": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4210": [
+        {
+          "label": "CBERA (CBI)",
+          "program": "CBERA (CBI)",
+          "kind": "preference",
+          "general_note": "7",
+          "codes": [
+            "E",
+            "E*"
+          ]
+        }
+      ],
+      "4623": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4631": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4632": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4633": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4634": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4635": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4641": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4793": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4794": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4801": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4803": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4804": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "4810": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5050": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5110": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "Jordan FTA",
+          "program": "Jordan FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JO"
+          ]
+        }
+      ],
+      "5210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5310": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5350": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5360": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5601": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5682": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5683": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "5740": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6022": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6023": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6024": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6040": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6142": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6143": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6144": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6150": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6223": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6224": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6225": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6226": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6227": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6413": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6863": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "6864": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7210": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7230": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7290": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7323": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7410": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7420": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7440": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7450": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7460": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7470": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7480": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7490": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7500": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7510": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7520": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7530": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7540": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7550": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7560": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7580": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7600": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7610": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7620": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7630": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7642": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7643": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7644": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7650": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7660": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7670": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7690": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7700": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7741": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7749": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7770": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7780": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7790": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7830": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7850": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7870": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7880": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7890": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7910": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7920": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7930": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7940": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7950": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7960": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        }
+      ],
+      "7970": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "7990": [
+        {
+          "label": "GSP",
+          "program": "GSP",
+          "kind": "preference",
+          "general_note": "4",
+          "codes": [
+            "A",
+            "A*"
+          ]
+        },
+        {
+          "label": "AGOA",
+          "program": "AGOA",
+          "kind": "preference",
+          "general_note": "16",
+          "codes": [
+            "D"
+          ]
+        }
+      ],
+      "1220": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "CA"
+          ]
+        }
+      ],
+      "2010": [
+        {
+          "label": "USMCA",
+          "program": "USMCA",
+          "kind": "fta",
+          "general_note": "11",
+          "codes": [
+            "S",
+            "S+",
+            "MX"
+          ]
+        }
+      ],
+      "2050": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2110": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2150": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2190": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2230": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2470": [
+        {
+          "label": "CAFTA-DR",
+          "program": "CAFTA-DR",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "P",
+            "P+"
+          ]
+        }
+      ],
+      "2250": [
+        {
+          "label": "Panama FTA",
+          "program": "Panama FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PA"
+          ]
+        }
+      ],
+      "3010": [
+        {
+          "label": "Colombia TPA",
+          "program": "Colombia TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CO"
+          ]
+        }
+      ],
+      "3330": [
+        {
+          "label": "Peru TPA",
+          "program": "Peru TPA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "PE"
+          ]
+        }
+      ],
+      "3370": [
+        {
+          "label": "Chile FTA",
+          "program": "Chile FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "CL"
+          ]
+        }
+      ],
+      "5081": [
+        {
+          "label": "Israel FTA",
+          "program": "Israel FTA",
+          "kind": "fta",
+          "general_note": "8",
+          "codes": [
+            "IL"
+          ]
+        }
+      ],
+      "5230": [
+        {
+          "label": "Oman FTA",
+          "program": "Oman FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "OM"
+          ]
+        }
+      ],
+      "5250": [
+        {
+          "label": "Bahrain FTA",
+          "program": "Bahrain FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "BH"
+          ]
+        }
+      ],
+      "5590": [
+        {
+          "label": "Singapore FTA",
+          "program": "Singapore FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "SG"
+          ]
+        }
+      ],
+      "5800": [
+        {
+          "label": "KORUS",
+          "program": "KORUS",
+          "kind": "fta",
+          "general_note": "33",
+          "codes": [
+            "KR"
+          ]
+        }
+      ],
+      "5880": [
+        {
+          "label": "US-Japan",
+          "program": "US-Japan",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "JP"
+          ]
+        }
+      ],
+      "6021": [
+        {
+          "label": "Australia FTA",
+          "program": "Australia FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "AU"
+          ]
+        }
+      ],
+      "7140": [
+        {
+          "label": "Morocco FTA",
+          "program": "Morocco FTA",
+          "kind": "fta",
+          "general_note": null,
+          "codes": [
+            "MA"
+          ]
+        }
+      ]
+    }
+  }
+}

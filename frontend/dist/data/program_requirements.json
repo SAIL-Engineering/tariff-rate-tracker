@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "source": "config/program_requirements.yaml",
+  "note": "Curated, General-Note-anchored eligibility requirements per preference program. Shown as the missing facts behind a SUGGESTED opportunity on top of the base-NTR/MFN default; SAIL never self-validates a claim. `_default_fta` is the fallback for FTAs without an explicit entry.",
+  "programs": {
+    "USMCA": {
+      "program": "USMCA",
+      "symbols": ["S", "S+"],
+      "general_note": "11",
+      "cfr": "19 CFR Part 182",
+      "requirements": [
+        {
+          "id": "usmca_originating",
+          "kind": "origin",
+          "label": "Good is USMCA-originating",
+          "detail": "Qualifies under the GN 11 / USMCA Annex 4-B rules of origin (tariff shift and/or regional value content; autos have additional LVC/steel-aluminum rules)."
+        },
+        {
+          "id": "usmca_certification",
+          "kind": "certification",
+          "label": "Valid USMCA certification of origin",
+          "detail": "A certification with the nine minimum data elements (importer, exporter, or producer may certify). Importer must possess it at the time of the claim."
+        },
+        {
+          "id": "usmca_direct",
+          "kind": "shipment",
+          "label": "Shipped without third-country processing",
+          "detail": "Transported to the U.S. without entering the commerce of a non-USMCA country (transshipment voids the claim)."
+        }
+      ],
+      "claim_note": "Importer makes the claim and must be able to substantiate origin on CBP request; penalties apply to unsupported claims."
+    },
+    "KORUS": {
+      "program": "KORUS",
+      "symbols": "KR",
+      "general_note": "33",
+      "cfr": "19 CFR 10.1001-10.1034",
+      "requirements": [
+        {
+          "id": "korus_originating",
+          "kind": "origin",
+          "label": "Good is originating under KORUS",
+          "detail": "Meets the GN 33 rules of origin (wholly obtained, tariff shift, or regional value content per the product-specific rule)."
+        },
+        {
+          "id": "korus_certification",
+          "kind": "certification",
+          "label": "Importer holds a KORUS certification of origin",
+          "detail": "No prescribed form, but the certification/supporting information must be in the importer's possession when the claim is made."
+        },
+        {
+          "id": "korus_direct",
+          "kind": "shipment",
+          "label": "Imported directly from Korea",
+          "detail": "Not entered into the commerce of a third country in transit."
+        }
+      ],
+      "claim_note": "Filer asserts the claim; documentation required and verifiable by CBP."
+    },
+    "GSP": {
+      "program": "GSP",
+      "symbols": ["A", "A*", "A+"],
+      "general_note": "4",
+      "cfr": "19 CFR 10.171-10.178a",
+      "status_note": "GSP authority lapsed 2020-12-31 and has not been reauthorized; a claim cannot be made for current entries unless/until Congress renews it (retroactive refunds have historically followed renewal).",
+      "requirements": [
+        {
+          "id": "gsp_beneficiary",
+          "kind": "eligibility",
+          "label": "Country is a designated GSP beneficiary",
+          "detail": "Listed in GN 4(a); A* excludes specified countries for the heading; A+ is least-developed beneficiaries only."
+        },
+        {
+          "id": "gsp_value_content",
+          "kind": "value_content",
+          "label": "35% value-content rule met",
+          "detail": "Cost/value of materials produced in the beneficiary country plus direct processing costs >= 35% of appraised value."
+        },
+        {
+          "id": "gsp_eligible_article",
+          "kind": "eligibility",
+          "label": "Article is GSP-eligible (not excluded)",
+          "detail": "The HTS line shows A/A*/A+ in the Special subcolumn and the product is not a statutory GSP exclusion."
+        },
+        {
+          "id": "gsp_direct",
+          "kind": "shipment",
+          "label": "Imported directly from the beneficiary country"
+        }
+      ],
+      "claim_note": "Lapsed program — shown for completeness; not currently claimable."
+    },
+    "AGOA": {
+      "program": "AGOA",
+      "symbols": "D",
+      "general_note": "16",
+      "cfr": "19 CFR 10.211-10.217",
+      "requirements": [
+        {
+          "id": "agoa_beneficiary",
+          "kind": "eligibility",
+          "label": "Country is a designated AGOA beneficiary sub-Saharan country",
+          "detail": "Listed in GN 16(a); designations change by presidential proclamation."
+        },
+        {
+          "id": "agoa_value_content",
+          "kind": "value_content",
+          "label": "35% value-content rule met",
+          "detail": "Includes the GN 16 cumulation and U.S.-content allowances."
+        },
+        {
+          "id": "agoa_eligible_article",
+          "kind": "eligibility",
+          "label": "Article is AGOA-eligible (symbol D on the line)"
+        },
+        {
+          "id": "agoa_direct",
+          "kind": "shipment",
+          "label": "Imported directly into the U.S. customs territory"
+        }
+      ],
+      "claim_note": "Apparel/textile claims have additional visa/certification requirements under GN 16."
+    },
+    "CBERA (CBI)": {
+      "program": "CBERA (CBI)",
+      "symbols": ["E", "E*"],
+      "general_note": "7",
+      "cfr": "19 CFR 10.191-10.199",
+      "requirements": [
+        {
+          "id": "cbi_beneficiary",
+          "kind": "eligibility",
+          "label": "Country is a designated CBI/CBERA beneficiary",
+          "detail": "Listed in GN 7(a); E* excludes specified countries for the heading."
+        },
+        {
+          "id": "cbi_value_content",
+          "kind": "value_content",
+          "label": "35% value-content rule met",
+          "detail": "Beneficiary-country (and qualifying U.S./PR) content >= 35% of appraised value."
+        },
+        {
+          "id": "cbi_eligible_article",
+          "kind": "eligibility",
+          "label": "Article is CBI-eligible (symbol E/E* on the line)"
+        },
+        {
+          "id": "cbi_direct",
+          "kind": "shipment",
+          "label": "Imported directly from a beneficiary country"
+        }
+      ],
+      "claim_note": ""
+    },
+    "_default_fta": {
+      "program": "FTA",
+      "general_note": null,
+      "cfr": "the program's implementing regulations (19 CFR Part 10)",
+      "requirements": [
+        {
+          "id": "fta_originating",
+          "kind": "origin",
+          "label": "Good is originating under the agreement's rules of origin",
+          "detail": "Meets the product-specific rule (wholly obtained, tariff shift, or value content) in the agreement's General Note."
+        },
+        {
+          "id": "fta_certification",
+          "kind": "certification",
+          "label": "Valid claim / certification of origin",
+          "detail": "Importer possesses the certification or supporting information required by the agreement."
+        },
+        {
+          "id": "fta_direct",
+          "kind": "shipment",
+          "label": "Imported directly from the partner country"
+        }
+      ],
+      "claim_note": "Filer asserts the claim; origin must be substantiable on CBP request."
+    }
+  },
+  "by_symbol": {
+    "S": "USMCA",
+    "S+": "USMCA",
+    "KR": "KORUS",
+    "A": "GSP",
+    "A*": "GSP",
+    "A+": "GSP",
+    "D": "AGOA",
+    "E": "CBERA (CBI)",
+    "E*": "CBERA (CBI)"
+  }
+}

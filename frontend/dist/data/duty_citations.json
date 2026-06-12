@@ -1,0 +1,557 @@
+{
+  "version": 1,
+  "legal_text_status": "curated; statutes high-confidence, HTSUS General Note numbers pending legal verification",
+  "stack_order": [
+    "base",
+    232,
+    301,
+    "ieepa_recip",
+    "ieepa_fent",
+    "s122",
+    "section_201",
+    "other"
+  ],
+  "authorities": {
+    "base": {
+      "label": "MFN / Base duty",
+      "anchor": "HTSUS Column 1-General (or Column 2 for non-NTR)"
+    },
+    "232": {
+      "label": "Section 232",
+      "anchor": "19 U.S.C. 1862 (national security)"
+    },
+    "301": {
+      "label": "Section 301",
+      "anchor": "19 U.S.C. 2411 (USTR China actions)"
+    },
+    "ieepa_recip": {
+      "label": "IEEPA Reciprocal",
+      "anchor": "EO 14257 (Apr 2, 2025); 50 U.S.C. 1701 et seq."
+    },
+    "ieepa_fent": {
+      "label": "IEEPA Fentanyl",
+      "anchor": "EO 14195/14193/14194; 50 U.S.C. 1701 et seq."
+    },
+    "s122": {
+      "label": "Section 122",
+      "anchor": "19 U.S.C. 2132 (balance-of-payments)"
+    },
+    "section_201": {
+      "label": "Section 201 Safeguard",
+      "anchor": "19 U.S.C. 2251 et seq."
+    },
+    "other": {
+      "label": "Other Ch.99 duty",
+      "anchor": "HTSUS Subchapter III, ch. 99"
+    }
+  },
+  "sources": {
+    "census_mfn_hs2": {
+      "label": "FTA/GSP preference utilization (HS2 x country)",
+      "detail": "Share of this origin's HS2 imports that entered under a preferential program (FTA/GSP), from U.S. Census calculated-duty data. Weighted into the trade-weighted effective rate in pipeline step 6c (mfn_exemption_shares)."
+    },
+    "usmca_hts10": {
+      "label": "USMCA utilization (HTS10)",
+      "detail": "Share entering under USMCA at the 10-digit level, from USITC DataWeb SPI ('S'/'S+') data. Applied to Canada/Mexico in pipeline step 7 (usmca_product_shares); more precise than the HS2-level preference weighting."
+    }
+  },
+  "programs": {
+    "S": {
+      "label": "USMCA",
+      "legal_authority": "USMCA Implementation Act (19 U.S.C. 4501 et seq.); HTSUS General Note 11"
+    },
+    "S+": {
+      "label": "USMCA (GN 11 variant)",
+      "legal_authority": "USMCA Implementation Act (19 U.S.C. 4501 et seq.); HTSUS General Note 11"
+    },
+    "A": {
+      "label": "GSP",
+      "legal_authority": "Generalized System of Preferences (19 U.S.C. 2461 et seq.); HTSUS General Note 4"
+    },
+    "A+": {
+      "label": "GSP (least-developed beneficiary)",
+      "legal_authority": "GSP for LDC beneficiaries (19 U.S.C. 2461 et seq.); HTSUS General Note 4"
+    },
+    "AU": {
+      "label": "U.S.-Australia FTA",
+      "legal_authority": "U.S.-Australia FTA Implementation Act; HTSUS General Note 28"
+    },
+    "BH": {
+      "label": "U.S.-Bahrain FTA",
+      "legal_authority": "U.S.-Bahrain FTA Implementation Act; HTSUS General Note 30"
+    },
+    "CL": {
+      "label": "U.S.-Chile FTA",
+      "legal_authority": "U.S.-Chile FTA Implementation Act; HTSUS General Note 26"
+    },
+    "CO": {
+      "label": "U.S.-Colombia TPA",
+      "legal_authority": "U.S.-Colombia Trade Promotion Agreement Implementation Act; HTSUS General Note 34"
+    },
+    "D": {
+      "label": "AGOA",
+      "legal_authority": "African Growth and Opportunity Act (19 U.S.C. 3701 et seq.); HTSUS General Note 16"
+    },
+    "E": {
+      "label": "CBERA / Caribbean Basin Initiative",
+      "legal_authority": "Caribbean Basin Economic Recovery Act (19 U.S.C. 2701 et seq.); HTSUS General Note 7"
+    },
+    "IL": {
+      "label": "U.S.-Israel FTA",
+      "legal_authority": "U.S.-Israel Free Trade Area Implementation Act (19 U.S.C. 2112 note); HTSUS General Note 8"
+    },
+    "JO": {
+      "label": "U.S.-Jordan FTA",
+      "legal_authority": "U.S.-Jordan FTA Implementation Act; HTSUS General Note 18"
+    },
+    "KR": {
+      "label": "U.S.-Korea FTA (KORUS)",
+      "legal_authority": "U.S.-Korea FTA Implementation Act; HTSUS General Note 33"
+    },
+    "MA": {
+      "label": "U.S.-Morocco FTA",
+      "legal_authority": "U.S.-Morocco FTA Implementation Act; HTSUS General Note 27"
+    },
+    "OM": {
+      "label": "U.S.-Oman FTA",
+      "legal_authority": "U.S.-Oman FTA Implementation Act; HTSUS General Note 31"
+    },
+    "P": {
+      "label": "CAFTA-DR",
+      "legal_authority": "Dominican Republic-Central America-U.S. FTA Implementation Act; HTSUS General Note 29"
+    },
+    "PA": {
+      "label": "U.S.-Panama TPA",
+      "legal_authority": "U.S.-Panama Trade Promotion Agreement Implementation Act; HTSUS General Note 35"
+    },
+    "PE": {
+      "label": "U.S.-Peru TPA",
+      "legal_authority": "U.S.-Peru Trade Promotion Agreement Implementation Act; HTSUS General Note 32"
+    },
+    "R": {
+      "label": "CBTPA",
+      "legal_authority": "Caribbean Basin Trade Partnership Act (19 U.S.C. 2701 note); HTSUS General Note 17"
+    },
+    "SG": {
+      "label": "U.S.-Singapore FTA",
+      "legal_authority": "U.S.-Singapore FTA Implementation Act; HTSUS General Note 25"
+    }
+  },
+  "reasons": {
+    "base_mfn_col1": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "MFN (Column 1-General)",
+      "legal_authority": "HTSUS Column 1-General",
+      "mechanism": "flat",
+      "narrative": "Normal-trade-relations duty for {hts10} from {country_name}: {applied_pct} under HTSUS Column 1-General. No FTA/GSP preference reduces this origin's effective rate for this product."
+    },
+    "base_free": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "Free (Column 1-General)",
+      "legal_authority": "HTSUS Column 1-General",
+      "mechanism": "flat",
+      "narrative": "{hts10} is Free (0%) under HTSUS Column 1-General; no MFN duty before additional Ch.99 programs."
+    },
+    "base_col2": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "Column 2 (non-NTR)",
+      "legal_authority": "HTSUS Column 2 (Cuba, North Korea, Russia, Belarus)",
+      "mechanism": "flat",
+      "narrative": "{country_name} is a non-NTR origin, so {hts10} dutiable at the Column 2 statutory rate ({applied_pct})."
+    },
+    "base_special_usmca": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "USMCA / special-program Free",
+      "legal_authority": "USMCA (HTSUS General Note 11) or other special program",
+      "mechanism": "flat",
+      "narrative": "{hts10} from {country_name} enters Free under a special program (e.g. USMCA), overriding the Column 1-General rate."
+    },
+    "base_mfn_blended": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "Column 1-General (NTR/MFN)",
+      "legal_authority": "HTSUS Column 1-General, net of FTA/GSP preference utilization",
+      "mechanism": "blend",
+      "narrative": "The base NTR/MFN (Column 1-General) rate for {hts10} is {statutory_pct}. About {preference_share_pct} of {country_name}'s trade in this category enters under an FTA/GSP preference program ({preference_source}), so the trade-weighted effective rate is {applied_pct}. A specific shipment owes the full base NTR/MFN rate unless it claims, and can substantiate, the applicable preference."
+    },
+    "base_usmca_blended": {
+      "authority_key": "base",
+      "status": "active",
+      "short_label": "Column 1-General (NTR/MFN)",
+      "legal_authority": "USMCA Implementation Act (19 U.S.C. 4501 et seq.); HTSUS General Note 11, applied against the Column 1-General rate",
+      "mechanism": "blend",
+      "narrative": "The base NTR/MFN (Column 1-General) rate for {hts10} is {statutory_pct}. About {preference_share_pct} of {country_name}'s trade in this 10-digit subheading enters duty-free under USMCA ({preference_source}), so the trade-weighted effective rate is {applied_pct}. A shipment that does not claim USMCA owes the full base NTR/MFN rate."
+    },
+    "s232_steel": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 steel",
+      "legal_authority": "Proclamation 9705 (Mar 8, 2018), as amended",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 steel duty {applied_pct} on {hts10} ({program_ch99}), per Proclamation 9705 as amended."
+    },
+    "s232_steel_derivative": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 steel (derivative)",
+      "legal_authority": "Proclamation 9980 (Jan 24, 2020) / 2025 derivative expansions",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "derivative",
+      "narrative": "Section 232 steel-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the steel content, not the full entered value. Computing duty owed requires the declared steel-content value."
+    },
+    "s232_aluminum": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 aluminum",
+      "legal_authority": "Proclamation 9704 (Mar 8, 2018), as amended",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 aluminum duty {applied_pct} on {hts10} ({program_ch99}), per Proclamation 9704 as amended."
+    },
+    "s232_aluminum_derivative": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 aluminum (derivative)",
+      "legal_authority": "Proclamation 9980 (Jan 24, 2020) / 2025 derivative expansions",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "derivative",
+      "narrative": "Section 232 aluminum-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the aluminum content, not the full entered value. Computing duty owed requires the declared aluminum-content value."
+    },
+    "s232_copper": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 copper",
+      "legal_authority": "Proclamation 10962 (copper, Aug 2025); annex modifications (Proc 11021); 9903.78 / 9903.82",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 copper duty {applied_pct} on {hts10} ({program_ch99}); applies to the copper content."
+    },
+    "s232_copper_derivative": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 copper (derivative)",
+      "legal_authority": "Proclamation 10962 (copper) / annex derivative tier (Proc 11021, 11032); 9903.82",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "derivative",
+      "narrative": "Section 232 copper-derivative duty on {hts10} ({program_ch99}): published rate {statutory_pct} applied to the DECLARED value of the copper content, not the full entered value. Computing duty owed requires the declared copper-content value."
+    },
+    "s232_auto": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 autos",
+      "legal_authority": "Proclamation on automobiles/parts (Mar 2025); 9903.94",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 auto duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "s232_auto_parts": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 auto parts",
+      "legal_authority": "Proclamation on automobiles/parts (Mar 2025), subdivision (r); 9903.94",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 auto-parts duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "s232_semiconductor": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 semiconductors",
+      "legal_authority": "2026 semiconductor action, U.S. Note 39; 9903.79",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 semiconductor duty {applied_pct} on {hts10} ({program_ch99}), per U.S. Note 39."
+    },
+    "s232_mhd": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 medium/heavy trucks",
+      "legal_authority": "2025 medium/heavy-duty-vehicle proclamation; 9903.74",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 medium/heavy-duty-vehicle duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "s232_wood": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232 timber/wood",
+      "legal_authority": "2025 timber/wood proclamation; 9903.76",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Section 232 timber/wood duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "s232_russia_proc10522": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232: Russia 200%",
+      "legal_authority": "Proclamation 10522 (Feb 24, 2023), retained by the April 2026 proclamation",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Russia-origin {hts10} carries the flat 200% Section 232 metals rate under Proclamation 10522; this REPLACES the ordinary 232 base rate (it does not stack on it) and is continuous across 2023–2026."
+    },
+    "s232_turkey_surtax": {
+      "authority_key": "232",
+      "status": "active",
+      "short_label": "Section 232: Turkey 50% steel",
+      "legal_authority": "Proclamation 9772 (Aug 10, 2018); 9903.80.02",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "Turkey-origin steel {hts10} carried the elevated 50% Section 232 rate (Proclamation 9772, 2018–2019); a single-country override of the 25% blanket."
+    },
+    "s232_usmca_exempt": {
+      "authority_key": "232",
+      "status": "exempt",
+      "short_label": "Exempt: USMCA (post-annex 232)",
+      "legal_authority": "April 2026 Section 232 annex, USMCA eligibility restoration",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "flat",
+      "narrative": "{hts10} from {country_name} is USMCA-eligible and, post-April-2026 annex, restored to Section 232 exemption for annex auto/MHD products outside ch. 72/73/76. SAIL applies the exempt rate ({applied_pct}); without the USMCA claim, the {counterfactual_pct} Section 232 rate would apply instead."
+    },
+    "s301_active": {
+      "authority_key": "301",
+      "status": "active",
+      "short_label": "Section 301 (China)",
+      "legal_authority": "USTR Section 301 action; HTSUS 9903.88.xx",
+      "statute": "19 U.S.C. 2411",
+      "mechanism": "flat",
+      "narrative": "Section 301 China duty {applied_pct} on {hts10} ({program_ch99}), per the USTR action lists."
+    },
+    "s301_exempt": {
+      "authority_key": "301",
+      "status": "exempt",
+      "short_label": "Exempt: Section 301 exclusion",
+      "legal_authority": "USTR Section 301 exclusion/expired list",
+      "statute": "19 U.S.C. 2411",
+      "mechanism": "flat",
+      "narrative": "{hts10} is outside the active Section 301 lists for {country_name} (excluded or never listed) in {revision}, so no Section 301 duty applies. A {counterfactual_pct} charge would reflect a 301 line that does not cover this code."
+    },
+    "ieepa_recip_active": {
+      "authority_key": "ieepa_recip",
+      "status": "active",
+      "short_label": "IEEPA reciprocal (country surcharge)",
+      "legal_authority": "EO 14257 (Apr 2, 2025); HTSUS 9903.01.25 / 9903.02.xx",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "surcharge",
+      "narrative": "IEEPA reciprocal surcharge {applied_pct} on {hts10} from {country_name} ({program_ch99}), per EO 14257."
+    },
+    "ieepa_recip_floor": {
+      "authority_key": "ieepa_recip",
+      "status": "active",
+      "short_label": "IEEPA reciprocal floor",
+      "legal_authority": "EO 14257; floor structure per FR 2025-23316 (90 FR 59281); 9903.02.xx",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "floor",
+      "narrative": "{country_name}'s IEEPA reciprocal FLOOR ({program_ch99}) brings {hts10} up to {counterfactual_pct} when its Column 1-General rate ({base_pct}) is below the floor; SAIL applies {applied_pct} after stacking."
+    },
+    "ieepa_exempt_annex_ii": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: Annex II (semiconductors/electronics, pharma, etc.)",
+      "legal_authority": "U.S. Note 2(v)(iii) to subchapter III, ch. 99 (Annex II of EO 14257)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "claimed_via": "9903.01.32",
+      "mechanism": "floor",
+      "channel": "importer_non_claim",
+      "narrative": "{country_name}'s reciprocal program ({program_ch99}) would otherwise apply {counterfactual_pct} to {hts10} (its base rate {base_pct} is below the floor), but {hts10} is on the Annex II exemption ({authority}), which carves out of BOTH the baseline surcharge and the floor. SAIL applies the exempt rate ({applied_pct}); the exemption is claimed via {claimed_via}. If it is not claimed, the {counterfactual_pct} program rate applies instead (importer-non-claim exposure); so a $0 here is an intentional exemption, not a coverage gap."
+    },
+    "ieepa_exempt_ita": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: Annex II (ITA semiconductor subset)",
+      "legal_authority": "U.S. Note 2(v)(iii) to subchapter III, ch. 99 (ITA-enumerated subheadings)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "claimed_via": "9903.01.32",
+      "mechanism": "floor",
+      "channel": "importer_non_claim",
+      "narrative": "{hts10} is an ITA-enumerated semiconductor/electronics subheading on Annex II ({authority}), which carves out of the reciprocal program ({program_ch99}). SAIL applies the exempt rate ({applied_pct}); claimed via {claimed_via}. Unclaimed, the {counterfactual_pct} program rate would apply instead."
+    },
+    "ieepa_exempt_ch98": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: Chapter 98 (statutory)",
+      "legal_authority": "U.S. Note 2(v)(i) (Ch. 98 except 9802.00.40/.50/.60/.80)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "claimed_via": "9903.01.32",
+      "mechanism": "floor",
+      "channel": "importer_non_claim",
+      "narrative": "{hts10} is a Chapter 98 provision statutorily exempt from the IEEPA reciprocal program ({authority}). SAIL applies the exempt rate ({applied_pct}); unclaimed, the {counterfactual_pct} program rate would apply instead."
+    },
+    "ieepa_exempt_berman": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: Berman Amendment (informational materials)",
+      "legal_authority": "Berman Amendment, 19 U.S.C. 2505 (Ch. 49 printed matter, Ch. 97 art/antiques)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "claimed_via": "9903.01.32",
+      "mechanism": "floor",
+      "channel": "importer_non_claim",
+      "narrative": "{hts10} is informational material (Ch. 49 / Ch. 97) exempt from IEEPA under the Berman Amendment ({authority}). SAIL applies {applied_pct}."
+    },
+    "ieepa_floor_exempt": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: floor-country product carve-out",
+      "legal_authority": "EO 14257 floor structure, product-level carve-out (FR 2025-23316)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "floor",
+      "channel": "importer_non_claim",
+      "narrative": "{hts10} from {country_name} is on the floor-country product carve-out, so the {counterfactual_pct} reciprocal floor does not apply. SAIL applies {applied_pct}."
+    },
+    "ieepa_country_eo_exempt": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: country-specific EO carve-out",
+      "legal_authority": "Country-specific executive order modifying EO 14257",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "surcharge",
+      "channel": "importer_non_claim",
+      "narrative": "{hts10} from {country_name} is carved out of the country-specific IEEPA surcharge by the controlling executive order. SAIL applies the exempt rate ({applied_pct}); unclaimed, the {counterfactual_pct} surcharge would apply instead."
+    },
+    "ieepa_duty_free_exempt": {
+      "authority_key": "ieepa_recip",
+      "status": "exempt",
+      "short_label": "Exempt: duty-free base (diagnostic scope)",
+      "legal_authority": "ieepa_exempt_scope diagnostic (duty-free-base treatment)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "surcharge",
+      "narrative": "Under the active diagnostic scope, {hts10} (base {base_pct}, duty-free) is treated as exempt from the IEEPA reciprocal surcharge. SAIL applies {applied_pct}."
+    },
+    "ieepa_not_in_program": {
+      "authority_key": "ieepa_recip",
+      "status": "not_applicable",
+      "short_label": "Not applicable: origin not in reciprocal program",
+      "legal_authority": "EO 14257 (country scope)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "surcharge",
+      "narrative": "{country_name} is not in the IEEPA reciprocal program for {revision}, so no reciprocal duty applies to {hts10}."
+    },
+    "ieepa_fent_china": {
+      "authority_key": "ieepa_fent",
+      "status": "active",
+      "short_label": "IEEPA fentanyl (China)",
+      "legal_authority": "EO 14195 (China); HTSUS 9903.01.24",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "flat",
+      "narrative": "IEEPA fentanyl duty {applied_pct} on China-origin {hts10} ({program_ch99}), per EO 14195."
+    },
+    "ieepa_fent_canada": {
+      "authority_key": "ieepa_fent",
+      "status": "active",
+      "short_label": "IEEPA fentanyl (Canada)",
+      "legal_authority": "EO 14193 (Canada); HTSUS 9903.01.10/.11",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "flat",
+      "narrative": "IEEPA fentanyl/border duty {applied_pct} on Canada-origin {hts10} ({program_ch99}), per EO 14193."
+    },
+    "ieepa_fent_mexico": {
+      "authority_key": "ieepa_fent",
+      "status": "active",
+      "short_label": "IEEPA fentanyl (Mexico)",
+      "legal_authority": "EO 14194 (Mexico)",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "flat",
+      "narrative": "IEEPA fentanyl/border duty {applied_pct} on Mexico-origin {hts10} ({program_ch99}), per EO 14194."
+    },
+    "s122_active": {
+      "authority_key": "s122",
+      "status": "active",
+      "short_label": "Section 122 surcharge",
+      "legal_authority": "19 U.S.C. 2132 (balance-of-payments authority)",
+      "mechanism": "surcharge",
+      "narrative": "Section 122 balance-of-payments surcharge {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "s201_solar": {
+      "authority_key": "section_201",
+      "status": "active",
+      "short_label": "Section 201 solar safeguard",
+      "legal_authority": "Solar safeguard (Proclamation 9693, as extended); 9903.45.21–.29",
+      "statute": "19 U.S.C. 2251 et seq.",
+      "mechanism": "safeguard",
+      "narrative": "Section 201 solar safeguard {applied_pct} on {hts10} ({program_ch99}); Canada is USMCA-exempt from this safeguard."
+    },
+    "s201_active": {
+      "authority_key": "section_201",
+      "status": "active",
+      "short_label": "Section 201 safeguard",
+      "legal_authority": "Section 201 safeguard proclamation",
+      "statute": "19 U.S.C. 2251 et seq.",
+      "mechanism": "safeguard",
+      "narrative": "Section 201 safeguard duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "other_ch99": {
+      "authority_key": "other",
+      "status": "active",
+      "short_label": "Other Chapter 99 duty",
+      "legal_authority": "HTSUS Subchapter III, ch. 99",
+      "mechanism": "flat",
+      "narrative": "Additional Chapter 99 duty {applied_pct} on {hts10} ({program_ch99})."
+    },
+    "gap_unresolved": {
+      "authority_key": "other",
+      "status": "gap",
+      "short_label": "Coverage gap: revision not loaded",
+      "legal_authority": "n/a",
+      "mechanism": null,
+      "narrative": "No rate is joined to {hts10} for {country_name} in the loaded revision ({revision}). This is a genuine coverage gap; load the revision that covers this program before relying on this $0."
+    },
+    "s232_basis_metal_content": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Duty basis: declared metal-content value",
+      "legal_authority": "Implementation of Duties on Aluminum (90 FR 11251, Mar 5, 2025) implementing Proclamation 10895; CSMS #65236645 (and successors)",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "basis",
+      "narrative": "The Section 232 duty for {program_ch99} applies to the declared value of the {basis_metal} content, not the full entered value. CBP requires reporting the {basis_metal} content as a separate entry line (with content weight in kg) when its value is less than the total entered value; duties for required HTS reporting lines must not be combined onto one line. Computing duty owed requires the declared {basis_metal}-content value."
+    },
+    "s232_full_value_proc11021": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Duty basis: full entered value (Apr 6, 2026 framework)",
+      "legal_authority": "Proclamation 11021 (91 FR 18201, Apr 9, 2026); Proclamation 11032 (Jun 2026 metals adjustment)",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "basis",
+      "narrative": "Under the April 6, 2026 metals framework, the Section 232 duty for {program_ch99} applies to the full customs value of the article (annex-tier treatment), superseding the earlier metal-content-value basis for derivative articles."
+    },
+    "s122_non232_portion_only": {
+      "authority_key": "s122",
+      "status": "note",
+      "short_label": "Section 122 does not stack on the Section 232 portion",
+      "legal_authority": "Proclamation 11012 (91 FR 9339, Feb 25, 2026), Imposing a Temporary Import Surcharge; CBP CSMS guidance on Section 122 reporting",
+      "statute": "19 U.S.C. 2132",
+      "mechanism": "stacking",
+      "narrative": "The Section 122 surcharge does not apply in addition to Section 232 on the same value portion: where Section 232 applies to part of an import, Section 122 applies only to the part not subject to Section 232. It is not a blended or discounted rate — each portion carries its own published rate."
+    },
+    "ieepa_terminated_eo14389": {
+      "authority_key": "ieepa_recip",
+      "status": "note",
+      "short_label": "IEEPA tariffs ended for entries on/after Feb 24, 2026",
+      "legal_authority": "EO 14389, Ending Certain Tariff Actions (91 FR 9347, Feb 25, 2026); CBP CSMS #67834313",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "termination",
+      "narrative": "IEEPA reciprocal and fentanyl/border tariffs are not collected for goods entered for consumption, or withdrawn from warehouse for consumption, on or after February 24, 2026 (EO 14389; CBP CSMS #67834313). Entries before that date remain subject to the rates in effect at time of entry."
+    },
+    "ieepa_india_headings_retired": {
+      "authority_key": "ieepa_recip",
+      "status": "note",
+      "short_label": "India 9903.01.84–.89 retired Feb 7, 2026",
+      "legal_authority": "CBP CSMS #67702087",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "termination",
+      "narrative": "Headings 9903.01.84–9903.01.89 are no longer in use for products of India entered on or after February 7, 2026 (CBP CSMS #67702087)."
+    },
+    "s232_basis_value_unknown_mode": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Content value unknown: CBP may require full entered value",
+      "legal_authority": "CBP CSMS #65236645 (and successors) — UPDATED GUIDANCE: Import Duties on Imports of Aluminum and Aluminum Derivative Products",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "basis",
+      "narrative": "If the metal-content value equals the entered value OR IS UNKNOWN, CBP requires reporting the Section 232 duty on the ENTIRE entered value on one entry summary line. If the content value is less than the entered value, the entry must be split into two lines (non-content portion and content portion, with content weight in kg). Do not compute a split-value duty stack until the importer provides a declared content value — confirm treatment with the broker/importer."
+    }
+  }
+}

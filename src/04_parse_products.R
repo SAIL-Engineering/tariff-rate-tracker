@@ -113,9 +113,13 @@ parse_products <- function(json_path) {
     # Statistical reporting units (nonlegal per USITC preface).
     # The HTS JSON 'units' array contains reporting units required on entry
     # documents. These do NOT by themselves drive duty calculation.
+    # USITC encodes some units with HTML markup ("m<sup>2</sup>", "<u>kg</u>",
+    # "Cr<sub>2</sub>O<sub>3</sub> t") inconsistently across revisions. Strip to
+    # plain ASCII at the source so the value is identical revision-to-revision
+    # and so the cleaned form (not the markup) feeds the inheritance stacks below.
     units_arr <- item$units %||% character(0)
-    reported_unit_1 <- if (length(units_arr) >= 1) units_arr[1] else ''
-    reported_unit_2 <- if (length(units_arr) >= 2) units_arr[2] else ''
+    reported_unit_1 <- if (length(units_arr) >= 1) clean_reported_unit(units_arr[1]) else ''
+    reported_unit_2 <- if (length(units_arr) >= 2) clean_reported_unit(units_arr[2]) else ''
 
     # Update rate stacks for any item with content (parents and products alike)
     parsed <- parse_rate(general)
