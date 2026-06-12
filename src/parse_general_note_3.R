@@ -409,7 +409,15 @@ emit_gn_program_countries <- function(only = NULL, force = FALSE,
   target <- rd$revision
   if (!is.null(only)) target <- target[target %in% only]
 
-  ex <- if (file.exists(out_path)) suppressMessages(readr::read_csv(out_path, show_col_types = FALSE)) else NULL
+  # Read every column as character. census_code / general_note are numeric-looking,
+  # so readr would infer <double> here, while the freshly-parsed rows build them as
+  # <character> (match_countries_to_census -> NA_character_/char; general_note = g$gn).
+  # bind_rows() below then can't combine the carried-forward frames (seeded from ex)
+  # with the fresh frames ("Can't combine ..1$census_code <double> and ..N <character>").
+  # Every column in this CSV is a code/name/text value — none are numeric — so forcing
+  # character keeps both paths type-identical and round-trips byte-identically.
+  ex <- if (file.exists(out_path))
+          suppressMessages(readr::read_csv(out_path, col_types = readr::cols(.default = 'c'))) else NULL
   done <- if (!is.null(ex)) unique(ex$revision) else character(0)
   todo <- if (force) target else setdiff(target, done)
   if (length(todo) == 0) {
