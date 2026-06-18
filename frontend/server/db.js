@@ -164,7 +164,20 @@ const STATS_SQL = `
   FROM rates
 `;
 
-async function initLocal() {
+// Connection-pool size. A single DuckDB/MotherDuck connection executes
+// queries SERIALLY, so one slow scan (e.g. an all-country /api/rates/arrow)
+// head-of-line-blocks every other in-flight request behind it. We therefore
+// open a small pool of INDEPENDENT instances — each is its own MotherDuck
+// session (cloud) or its own in-memory catalog (local) — and round-robin
+// requests across them so independent lookups run concurrently. Override with
+// DB_POOL_SIZE; 4 is a safe default for the Pulse/standard MotherDuck tiers.
+const POOL_SIZE = Math.max(1, Number(process.env.DB_POOL_SIZE) || 4);
+
+// One local in-memory member: an instance + connection with the `rates` and
+// `product_base_rates` views defined. Each member has its OWN in-memory
+// catalog (instances don't share catalogs), so the views are (re)created per
+// member — cheap, since read_parquet is lazy and copies no data.
+async function createLocalMember() {
   const instance = await DuckDBInstance.create();
   const connection = await instance.connect();
 
@@ -175,16 +188,31 @@ async function initLocal() {
     SELECT * FROM read_parquet('${PARQUET_PATH}/*/*.parquet', hive_partitioning = true)
     WHERE revision LIKE '20%'
   `);
-
   await connection.run(PRODUCT_BASE_RATES_VIEW_SQL);
+  return { instance, connection };
+}
 
-  const reader = await connection.runAndReadAll(STATS_SQL);
+// One MotherDuck member: an independent cloud session. Multiple sessions let
+// MotherDuck execute our queries concurrently instead of queueing them.
+async function createMotherDuckMember(motherduckDb) {
+  const instance = await DuckDBInstance.create(`md:${motherduckDb}`);
+  const connection = await instance.connect();
+  return { instance, connection };
+}
+
+async function initLocal() {
+  // Members are independent — build them in parallel to keep startup snappy.
+  const members = await Promise.all(
+    Array.from({ length: POOL_SIZE }, () => createLocalMember()),
+  );
+  // Warm the base-rate view's GROUP BY plan ONCE (on member 0) — not per
+  // member: each in-memory instance has its own catalog, but warming all of
+  // them in parallel at startup contends on a full-corpus scan. The other
+  // members compile their plan lazily on first use.
+  const reader = await members[0].connection.runAndReadAll(STATS_SQL);
   const stats = reader.getRowObjects()[0];
-
-  // Warm the base-rate view so its GROUP BY is compiled once at startup.
-  await connection.runAndReadAll('SELECT count(*) FROM product_base_rates');
-
-  return { connection, stats };
+  await members[0].connection.runAndReadAll('SELECT count(*) FROM product_base_rates');
+  return { connections: members.map((m) => m.connection), stats };
 }
 
 async function initMotherDuck({ motherduckToken, motherduckDb }) {
@@ -192,13 +220,12 @@ async function initMotherDuck({ motherduckToken, motherduckDb }) {
   // variable; setting it on process.env is the documented pattern.
   process.env.motherduck_token = motherduckToken;
 
-  const instance = await DuckDBInstance.create(`md:${motherduckDb}`);
-  const connection = await instance.connect();
-
-  const reader = await connection.runAndReadAll(STATS_SQL);
+  const members = await Promise.all(
+    Array.from({ length: POOL_SIZE }, () => createMotherDuckMember(motherduckDb)),
+  );
+  const reader = await members[0].connection.runAndReadAll(STATS_SQL);
   const stats = reader.getRowObjects()[0];
-
-  return { connection, stats };
+  return { connections: members.map((m) => m.connection), stats };
 }
 
 // Returns the set of country census codes that have at least one row in the
@@ -222,6 +249,7 @@ export async function initDatabase() {
     config.target === 'motherduck'
       ? await initMotherDuck(config)
       : await initLocal();
-  await resolveRatesProjection(db.connection);
-  return db;
+  // Schema is identical across pool members; resolve once off member 0.
+  await resolveRatesProjection(db.connections[0]);
+  return db; // { connections: DuckDBConnection[], stats }
 }

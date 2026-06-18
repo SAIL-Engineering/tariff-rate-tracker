@@ -111,11 +111,14 @@ async function rebuildProductBaseRatesBatched(conn) {
       fail(`unexpected revision name from catalog: ${JSON.stringify(rev)}`);
     }
     const t0 = Date.now();
+    // ORDER BY hts10 so the synthesis-path lookups (`SELECT * FROM
+    // product_base_rates WHERE hts10 = X`) hit a contiguous, prunable range
+    // instead of scanning the whole table. ~19K rows/revision — trivial sort.
     const body = productBaseRatesBody(`WHERE revision = '${rev}'`);
     if (i === 0) {
-      await conn.run(`CREATE TABLE product_base_rates_new AS ${body}`);
+      await conn.run(`CREATE TABLE product_base_rates_new AS ${body} ORDER BY hts10`);
     } else {
-      await conn.run(`INSERT INTO product_base_rates_new ${body}`);
+      await conn.run(`INSERT INTO product_base_rates_new ${body} ORDER BY hts10`);
     }
     log('exec.product_base_rates.partition.done', {
       revision: rev,
@@ -254,10 +257,19 @@ async function fullRebuildBatched(conn, opts) {
   log('exec.total_rows', { rows: cumulative });
 }
 
-// Post-processing: recluster `rates` by (country, hts10) and (re)build the
+// Post-processing: recluster `rates` by (hts10, country) and (re)build the
 // materialized `product_base_rates` table. Runs after a full rebuild, and
 // can also be invoked standalone via --post-only to recover from a partial
 // run (e.g. when the load phase finished but the recluster step died).
+//
+// Clustering key is (hts10, country) — NOT (country, hts10) — because EVERY
+// hot query filters on hts10 (exact 10-digit, or `hts10 LIKE 'prefix%'` for
+// rankings/autocomplete) while only some also filter country. hts10-leading
+// order makes those the contiguous, zone-map-prunable ranges MotherDuck can
+// skip-scan; the all-country /api/rates/arrow lookup in particular goes from a
+// full-corpus scan to a narrow seek. Single-country lookups stay fast too: one
+// hts10's rows (all countries × revisions) are few, so the country filter is a
+// cheap residual within the pruned hts10 range.
 //
 // Why per-partition, not a single global sort: an earlier version ran
 // `CREATE OR REPLACE TABLE rates AS SELECT * FROM rates ORDER BY ...` as
@@ -285,7 +297,7 @@ async function reclusterRatesByPartition(conn) {
 
   // Build a new, sorted table revision-by-revision. CREATE TABLE AS with
   // LIMIT 0 produces an empty table with the same schema. We then append
-  // one revision at a time with ORDER BY country, hts10 — each pass sorts
+  // one revision at a time with ORDER BY hts10, country — each pass sorts
   // ~4.7M rows on the MotherDuck side, well within its compute budget.
   await conn.run('DROP TABLE IF EXISTS rates_new');
   await conn.run(`
@@ -300,7 +312,7 @@ async function reclusterRatesByPartition(conn) {
       INSERT INTO rates_new
       SELECT * FROM rates
       WHERE revision = '${rev}'
-      ORDER BY country, hts10
+      ORDER BY hts10, country
     `);
     log('exec.rates.cluster.partition.done', {
       revision: rev,

@@ -41,7 +41,19 @@ const HTS_ARCHIVES_PATH = path.resolve(__dirname, '..', 'data', 'hts_archives');
 // Railway injects PORT; fall back to API_PORT for local dev.
 const PORT = process.env.PORT || process.env.API_PORT || 3001;
 
-let connection;
+// Round-robin connection pool. A single DuckDB/MotherDuck connection runs
+// queries serially, so one slow scan blocks every request behind it. The pool
+// (built in start() from initDatabase) lets independent lookups run on
+// different connections concurrently. pickConn() hands out the next connection;
+// read-only queries carry no per-connection session state, so round-robin is
+// safe even within a single request that fires several queries.
+let connections = [];
+let __rrCursor = 0;
+function pickConn() {
+  const c = connections[__rrCursor % connections.length];
+  __rrCursor = (__rrCursor + 1) % connections.length;
+  return c;
+}
 // Census codes of countries that have at least one row in the `rates` table.
 // Populated once at startup from `SELECT DISTINCT country FROM rates`. Used
 // to short-circuit the two rates queries for countries (e.g. CZ, most of the
@@ -294,7 +306,7 @@ async function synthesizeBaseMfnRow(hts10, country, date) {
       AND valid_from <= '${date}' AND valid_until >= '${date}'
     LIMIT 1
   `;
-  const reader = await connection.runAndReadAll(sql);
+  const reader = await pickConn().runAndReadAll(sql);
   const rows = reader.getRowObjects().map(cleanRow);
   if (rows.length === 0) return null;
   return buildSynthesizedRow(rows[0], country);
@@ -304,16 +316,23 @@ async function synthesizeBaseMfnRow(hts10, country, date) {
 // (hts10, country) has no row but product_base_rates does, emit a synthetic
 // base-MFN row. Returns a new array containing the original rows plus any
 // synthetic fillers, sorted by effective_date.
-async function fillHistoryGaps(existingRows, hts10, country) {
+async function fillHistoryGaps(existingRows, hts10, country, preloadedBase = null) {
   if (!country || !/^\d{1,6}$/.test(String(country))) return existingRows;
   if (!hts10 || !/^\d{10}$/.test(String(hts10))) return existingRows;
-  const sql = `
-    SELECT * FROM product_base_rates
-    WHERE hts10 = '${hts10}'
-    ORDER BY valid_from ASC
-  `;
-  const reader = await connection.runAndReadAll(sql);
-  const allBase = reader.getRowObjects().map(cleanRow);
+  // product_base_rates is country-INDEPENDENT (keyed on hts10 only), so a
+  // caller filling gaps for many countries of the same hts10 can fetch the
+  // base rows ONCE and pass them in via preloadedBase — avoiding one
+  // MotherDuck round-trip per country (the arrow multi-country path does this).
+  let allBase = preloadedBase;
+  if (allBase == null) {
+    const sql = `
+      SELECT * FROM product_base_rates
+      WHERE hts10 = '${hts10}'
+      ORDER BY valid_from ASC
+    `;
+    const reader = await pickConn().runAndReadAll(sql);
+    allBase = reader.getRowObjects().map(cleanRow);
+  }
   if (allBase.length === 0) return existingRows;
   const coveredRevisions = new Set(existingRows.map((r) => r.revision));
   const fillers = [];
@@ -529,7 +548,7 @@ app.get('/api/rates', async (req, res) => {
       LIMIT 10000
     `;
 
-    const reader = await connection.runAndReadAll(sql);
+    const reader = await pickConn().runAndReadAll(sql);
     let rows = reader.getRowObjects();
 
     // Convert DuckDB types for JSON serialization
@@ -546,7 +565,7 @@ app.get('/api/rates', async (req, res) => {
         ORDER BY effective_date ASC
         LIMIT 10000
       `;
-      const fbReader = await connection.runAndReadAll(fallbackSql);
+      const fbReader = await pickConn().runAndReadAll(fallbackSql);
       let fbRows = fbReader.getRowObjects().map(cleanRow);
       if (fbRows.length > 0) {
         // Phase 1: gap-fill per distinct hts10 in the prefix result set.
@@ -596,7 +615,7 @@ app.get('/api/rates', async (req, res) => {
           WHERE hts10 LIKE '${cleanCode}%'
           LIMIT 500
         `;
-        const pReader = await connection.runAndReadAll(prefixSql);
+        const pReader = await pickConn().runAndReadAll(prefixSql);
         const hts10s = pReader.getRowObjects().map((r) => String(r.hts10));
         const collected = [];
         for (const h of hts10s) {
@@ -669,6 +688,27 @@ app.get('/api/rates/arrow', async (req, res) => {
       ? String(country).split(',').map(c => c.trim()).filter(c => /^\d{1,6}$/.test(c))
       : [];
 
+    // Cache the serialized Arrow buffer. The all-country variant (empty
+    // country) is the single most expensive query in the app — a full-corpus
+    // scan — and the UI re-requests the same hts10 across tabs, so a 10-min
+    // TTL turns repeats into instant hits. Key on the sorted country set +
+    // revision/date so distinct requests don't collide.
+    const arrowCacheKey = ratesCacheKey({
+      t: 'arrow',
+      h: cleanCode,
+      c: [...countryCodes].sort().join(','),
+      r: revision ? String(revision) : '',
+      d: date && /^\d{4}-\d{2}-\d{2}$/.test(String(date)) ? String(date) : '',
+    });
+    const cachedBuf = ratesCacheGet(arrowCacheKey);
+    if (cachedBuf) {
+      res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
+      res.setHeader('Content-Length', cachedBuf.byteLength);
+      res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
+      res.setHeader('X-SAIL-Cache', 'hit');
+      return res.send(cachedBuf);
+    }
+
     let whereParts = [];
     if (cleanCode.length === 10) {
       whereParts.push(`hts10 = '${cleanCode}'`);
@@ -694,13 +734,22 @@ app.get('/api/rates/arrow', async (req, res) => {
       ORDER BY country, effective_date ASC
     `;
 
-    const reader = await connection.runAndReadAll(sql);
+    const reader = await pickConn().runAndReadAll(sql);
     let rows = reader.getRowObjects().map(cleanRow);
 
     // Phase 1 stopgap: for each requested country, fill revision gaps with
     // synthesized base-MFN rows so multi-country comparison charts have
     // complete historical coverage.
     if (countryCodes.length > 0 && cleanCode.length === 10) {
+      // Fetch the country-independent base revisions for this hts10 ONCE, then
+      // reuse for every requested country — previously this fired one
+      // product_base_rates query per country (N MotherDuck round-trips).
+      const baseReader = await pickConn().runAndReadAll(`
+        SELECT * FROM product_base_rates
+        WHERE hts10 = '${cleanCode}'
+        ORDER BY valid_from ASC
+      `);
+      const preloadedBase = baseReader.getRowObjects().map(cleanRow);
       const byCountry = new Map();
       for (const cc of countryCodes) byCountry.set(cc, []);
       for (const r of rows) {
@@ -709,7 +758,7 @@ app.get('/api/rates/arrow', async (req, res) => {
       }
       const filledAll = [];
       for (const [cc, rs] of byCountry.entries()) {
-        const filled = await fillHistoryGaps(rs, cleanCode, cc);
+        const filled = await fillHistoryGaps(rs, cleanCode, cc, preloadedBase);
         filledAll.push(...filled);
       }
       filledAll.sort((a, b) =>
@@ -726,8 +775,11 @@ app.get('/api/rates/arrow', async (req, res) => {
     const arrow = await import('apache-arrow');
 
     if (rows.length === 0) {
+      const empty = Buffer.alloc(0);
+      ratesCacheSet(arrowCacheKey, empty);
       res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
-      res.send(Buffer.alloc(0));
+      res.setHeader('X-SAIL-Cache', 'miss');
+      res.send(empty);
       return;
     }
 
@@ -749,10 +801,13 @@ app.get('/api/rates/arrow', async (req, res) => {
     const table = arrow.tableFromArrays(columnData);
     const ipcBytes = arrow.tableToIPC(table, 'stream');
 
+    const outBuf = Buffer.from(ipcBytes);
+    ratesCacheSet(arrowCacheKey, outBuf);
     res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
-    res.setHeader('Content-Length', ipcBytes.byteLength);
+    res.setHeader('Content-Length', outBuf.byteLength);
     res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
-    res.send(Buffer.from(ipcBytes));
+    res.setHeader('X-SAIL-Cache', 'miss');
+    res.send(outBuf);
   } catch (err) {
     console.error('Arrow endpoint error:', err);
     if (!res.headersSent) {
@@ -842,7 +897,7 @@ app.post('/api/rates/batch', requireSupabaseAuth, async (req, res) => {
       ORDER BY req.req_hts10, req.req_country, req.req_date, r.effective_date
     `;
 
-    const reader = await connection.runAndReadAll(sql);
+    const reader = await pickConn().runAndReadAll(sql);
     const rows = reader.getRowObjects().map(cleanRow);
 
     // Phase 1 stopgap: figure out which requested keys got zero rows and
@@ -939,7 +994,7 @@ app.get('/api/products', async (req, res) => {
       ORDER BY hts10
       LIMIT 50
     `;
-    const reader = await connection.runAndReadAll(sql);
+    const reader = await pickConn().runAndReadAll(sql);
     const rows = reader.getRowObjects();
     res.json({ data: rows.map(r => r.hts10) });
   } catch (err) {
@@ -955,9 +1010,11 @@ app.get('/api/products', async (req, res) => {
 //
 // Live GROUP BY over the `rates` table — no materialization. Bounded by the
 // prefix + single-date validity window, a chapter scan is ~tens of thousands of
-// rows; DuckDB's columnar/predicate-pushdown (and the (country, hts10) cluster
-// the push script applies in prod) keep this fast. Works identically in local
-// (parquet view) and MotherDuck (pushed table) modes — same SQL, same `rates`.
+// rows; DuckDB's columnar/predicate-pushdown (and the (hts10, country) cluster
+// the push script applies in prod, which makes `hts10 LIKE 'prefix%'` a
+// contiguous zone-map-prunable range) keep this fast. Cached for repeats.
+// Works identically in local (parquet view) and MotherDuck (pushed table)
+// modes — same SQL, same `rates`.
 //
 //   GET /api/rankings?level=chapter|heading|subheading|hts8|hts10&code=<digits>&date=<iso>
 app.get('/api/rankings', async (req, res) => {
@@ -982,6 +1039,16 @@ app.get('/api/rankings', async (req, res) => {
       ? String(date)
       : new Date().toISOString().slice(0, 10);
 
+    // This is a live GROUP BY aggregation over a prefix scan — relatively
+    // expensive — and the rankings view re-requests the same (level, code,
+    // date) as the user toggles the panel. Cache the JSON payload (10-min TTL).
+    const rankCacheKey = ratesCacheKey({ t: 'rank', l: lvl, h: cleanCode, d: asOf });
+    const rankCached = ratesCacheGet(rankCacheKey);
+    if (rankCached) {
+      res.setHeader('X-SAIL-Cache', 'hit');
+      return res.json(rankCached);
+    }
+
     const sql = `
       SELECT
         country,
@@ -999,9 +1066,12 @@ app.get('/api/rankings', async (req, res) => {
       ORDER BY mean_total_rate ASC
       LIMIT 500
     `;
-    const reader = await connection.runAndReadAll(sql);
+    const reader = await pickConn().runAndReadAll(sql);
     const rows = reader.getRowObjects().map(cleanRow);
-    res.json({ data: rows, query: { level: lvl, code: cleanCode, date: asOf } });
+    const payload = { data: rows, query: { level: lvl, code: cleanCode, date: asOf } };
+    ratesCacheSet(rankCacheKey, payload);
+    res.setHeader('X-SAIL-Cache', 'miss');
+    res.json(payload);
   } catch (err) {
     console.error('Rankings endpoint error:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -1124,7 +1194,7 @@ app.get('/api/product-info', (req, res) => {
 // --- Health check ---
 app.get('/api/health', async (_req, res) => {
   try {
-    const reader = await connection.runAndReadAll('SELECT count(*) as n FROM rates');
+    const reader = await pickConn().runAndReadAll('SELECT count(*) as n FROM rates');
     const result = reader.getRowObjects()[0];
     res.json({ status: 'ok', rows: Number(result.n) });
   } catch (err) {
@@ -1137,10 +1207,11 @@ async function start() {
   const { target } = getConfig();
   console.log(`Initializing database (DATABASE_TARGET=${target})...`);
   if (target === 'local') console.log('Parquet path:', PARQUET_PATH);
-  const { connection: conn, stats } = await initDatabase();
-  connection = conn;
+  const { connections: conns, stats } = await initDatabase();
+  connections = conns;
+  console.log(`  Connection pool size: ${connections.length}`);
   try {
-    knownRatesCountries = await loadKnownRatesCountries(connection);
+    knownRatesCountries = await loadKnownRatesCountries(connections[0]);
     console.log(`  Loaded ${knownRatesCountries.size} countries with rates rows`);
   } catch (err) {
     // Non-fatal — if the startup probe fails, we just don't short-circuit.
