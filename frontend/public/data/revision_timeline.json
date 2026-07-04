@@ -796,5 +796,11 @@
     "effectiveDate": "2026-06-08",
     "policyEffectiveDate": "2026-06-08",
     "policyEvent": "232 metals-annex expansion (PP 11032; eff. Jun 8): rate lines 9903.82.20-.26, new annex subdivisions 16(c)(xi)/16(j)/16(k), modified copper/alu exemption headings. PP 11032 effective on publication, no retro window — publication date = policy date, confirmed against the 2026HTSRev10 change record (scripts/audit_revision_dates.R)."
+  },
+  {
+    "revision": "2026_rev_11",
+    "effectiveDate": "2026-07-01",
+    "policyEffectiveDate": "2026-07-01",
+    "policyEvent": "Federal Register Links comming soon"
   }
 ]
