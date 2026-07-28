@@ -801,6 +801,12 @@
     "revision": "2026_rev_11",
     "effectiveDate": "2026-07-01",
     "policyEffectiveDate": "2026-07-01",
+    "policyEvent": "Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f) Tariff Act of 1930 as amended) (484(f))"
+  },
+  {
+    "revision": "2026_rev_12",
+    "effectiveDate": "2026-07-21",
+    "policyEffectiveDate": null,
     "policyEvent": "Federal Register Links comming soon"
   }
 ]
