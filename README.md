@@ -11,6 +11,7 @@ The repository's core product is an interval-encoded tariff panel for the U.S. t
 - Optional daily product-country extracts
 - Optional weighted ETR outputs in `output/etr/`
 - Validation and diagnostics outputs in `output/quality/` (rate-reconciliation invariants and per-revision quality metrics)
+- The **HTS retrieval corpus** consumed by SAIL GTX classification, plus the automation that publishes it (see below)
 - De-hardcoded program and legal-reference bundles in `frontend/public/data/` — HTS General-Note program symbols, Column 2 and preference-program (GSP/AGOA/CBERA/FTA) country lists, program eligibility requirements, and the duty/legal-citation registry — regenerated from source on every build (see [docs/PROVENANCE_PIPELINE.md](docs/PROVENANCE_PIPELINE.md))
 
 ## Start here
@@ -26,6 +27,7 @@ The repository's core product is an interval-encoded tariff panel for the U.S. t
 - HTS revision chronology: [docs/revision_changelog.md](docs/revision_changelog.md)
 - Policy timing vs. HTS dates: [docs/policy_timing.md](docs/policy_timing.md)
 - **MotherDuck + Express API + frontend deploy**: [docs/MOTHERDUCK.md](docs/MOTHERDUCK.md)
+- **HTS retrieval corpus + rollout automation**: [scripts/hts_automation/README.md](scripts/hts_automation/README.md)
 
 ## System requirements
 
@@ -54,6 +56,8 @@ That sequence builds the core series without requiring private benchmark data or
 - `config/policy_params.yaml`: tariff logic and related modeling parameters
 - `config/revision_dates.csv`: HTS revision schedule and benchmark date alignment
 - `scripts/`: standalone analysis tools (not part of the core pipeline)
+- `scripts/hts_automation/`: HTS revision rollout — scrape USITC, build the retrieval corpus, publish to Pinecone, update Supabase/Railway/Vercel, smoke-test, roll back on failure. See its [README](scripts/hts_automation/README.md).
+- `data/ca_tariff_source/`: the Canadian Customs Tariff export. **Committed, unlike the USITC CSVs** — CBSA publishes PDF/HTML only, so it is not re-downloadable.
 - `resources/`: committed supporting datasets and lookup tables
 
 ## Current scope

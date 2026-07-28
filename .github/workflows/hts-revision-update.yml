@@ -3,18 +3,22 @@ name: HTS Revision Update
 # What this does:
 #   - Detect new US HTS revisions from USITC (01_scrape_revision_dates.R).
 #   - If a new row landed and passes sanity checks, download both formats
-#     (02_download_hts.R), build the Ragie CSV via build_hts_minimal.py,
-#     swap the Ragie partition, upsert the Supabase row, update Railway +
+#     (02_download_hts.R), build the Pinecone corpus via build_hts_corpus.py,
+#     swap the Pinecone namespace, upsert the Supabase row, update Railway +
 #     Vercel env vars, commit the JSON to the production branch of
 #     sail-gtx-prerelease, and smoke-test the result. Rollback on failure.
 #
 # Triggers:
-#   - cron "0 7 * * 1-5"  → 2 AM EST / 3 AM EDT, weekdays
+#   - cron "0 6,7 * * *"  → daily, 2 AM local in both DST regimes
 #   - workflow_dispatch   → manual run, with optional revision_id override
 
 on:
   schedule:
-    - cron: '0 7 * * 1-5'
+    # Daily. GitHub cron is UTC-only, so 07:00 UTC is 2 AM EST but 3 AM EDT —
+    # both hours are scheduled so the run lands at 2 AM local year-round. The
+    # `gate` step exits clean when revision_dates.csv is unchanged, so the
+    # redundant run costs seconds, and `concurrency` prevents overlap.
+    - cron: '0 6,7 * * *'
   workflow_dispatch:
     inputs:
       revision_id:
@@ -44,7 +48,7 @@ jobs:
     timeout-minutes: 45
 
     env:
-      RAGIE_API_KEY:           ${{ secrets.RAGIE_API_KEY }}
+      PINECONE_API_KEY:        ${{ secrets.PINECONE_API_KEY }}
       SUPABASE_URL:            ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       RAILWAY_TOKEN:           ${{ secrets.RAILWAY_TOKEN }}
@@ -101,7 +105,7 @@ jobs:
           missing=()
           [[ -z "${PRODUCTION_BRANCH}" ]] && missing+=("SAIL_GTX_PRODUCTION_BRANCH (vars)")
           [[ -z "${SAIL_GTX_HEALTHCHECK_URL}" ]] && missing+=("SAIL_GTX_HEALTHCHECK_URL (vars)")
-          [[ -z "${RAGIE_API_KEY}" ]] && missing+=("RAGIE_API_KEY (secrets)")
+          [[ -z "${PINECONE_API_KEY}" ]] && missing+=("PINECONE_API_KEY (secrets)")
           [[ -z "${SUPABASE_URL}" ]] && missing+=("SUPABASE_URL (secrets)")
           [[ -z "${SUPABASE_SERVICE_ROLE_KEY}" ]] && missing+=("SUPABASE_SERVICE_ROLE_KEY (secrets)")
           [[ -z "${RAILWAY_TOKEN}" ]] && missing+=("RAILWAY_TOKEN (secrets)")
@@ -180,32 +184,47 @@ jobs:
           ls -la "${{ steps.target.outputs.JSON_PATH }}" "${{ steps.target.outputs.CSV_PATH }}"
 
       # ────────────────────────────────────────────────────────────────
-      # Step 4: build the Ragie CSV via build_hts_minimal.py
-      # The script also writes a .jsonl alongside; we use only the .csv.
+      # Step 4: build the Pinecone corpus via build_hts_corpus.py
+      # Emits one record per LEAF (8- and 10-digit terminals both), a prose
+      # chunk_text for embedding, a code-bearing display_text for the prompt,
+      # and a manifest the sync step asserts against.
       # ────────────────────────────────────────────────────────────────
-      - name: Build Ragie CSV
+      - name: Build Pinecone corpus
         if: steps.gate.outputs.continue == 'true'
         id: build
         run: |
           set -euo pipefail
-          stem="v5_minimal${{ steps.target.outputs.YEAR }}rev${{ steps.target.outputs.REV_NUM }}"
-          python3 scripts/hts_automation/build_hts_minimal.py \
+          stem="us_${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}"
+          python3 scripts/hts_automation/build_hts_corpus.py \
             "${{ steps.target.outputs.CSV_PATH }}" \
             scripts/hts_automation/chapters.json \
-            "$stem"
-          test -f "${stem}.csv"
-          echo "RAGIE_CSV=${stem}.csv" >> "$GITHUB_OUTPUT"
-          ls -la "${stem}.csv"
+            "$stem" \
+            --jurisdiction US \
+            --revision "${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" \
+            --max-depth 10
+          test -f "${stem}.jsonl"
+          echo "CORPUS_JSONL=${stem}.jsonl" >> "$GITHUB_OUTPUT"
+          echo "NAMESPACE=us__${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" >> "$GITHUB_OUTPUT"
+          cat "${stem}.manifest.json"
 
       # ────────────────────────────────────────────────────────────────
-      # Step 5: Ragie partition swap (upload → poll-ready → delete-old)
+      # Step 5: Pinecone namespace swap (upsert → verify → prune old)
+      #
+      # Each revision gets its OWN namespace instead of a partition mutated in
+      # place, so the new corpus is built ALONGSIDE the live one and only
+      # becomes visible when step 6 points Supabase at it. Rollback is then a
+      # single UPDATE rather than a re-upload.
+      #
+      # Pinecone meters integrated embedding at 250k tokens/min and the US
+      # corpus is ~2.3M tokens, so this step is inherently a ~10-minute job.
+      # pinecone_sync.py paces itself; the 45-minute job timeout covers it.
       # ────────────────────────────────────────────────────────────────
-      - name: Ragie partition swap
+      - name: Pinecone namespace swap
         if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
         run: |
-          python3 scripts/hts_automation/ragie_sync.py swap \
-            --csv "${{ steps.build.outputs.RAGIE_CSV }}" \
-            --partition us_hts_${{ steps.target.outputs.YEAR }}_latest
+          python3 scripts/hts_automation/pinecone_sync.py swap \
+            --jsonl "${{ steps.build.outputs.CORPUS_JSONL }}" \
+            --namespace "${{ steps.build.outputs.NAMESPACE }}"
 
       # ────────────────────────────────────────────────────────────────
       # Step 6: Supabase upsert
@@ -220,7 +239,8 @@ jobs:
             --effective-date "${{ steps.target.outputs.EFFECTIVE_DATE }}" \
             --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
             --tariff-schedule-name HTSUS \
-            --ragie-partition-id us_hts_${{ steps.target.outputs.YEAR }}_latest
+            --ragie-partition-id us_hts_${{ steps.target.outputs.YEAR }}_latest \
+            --pinecone-namespace "${{ steps.build.outputs.NAMESPACE }}"
 
       # ────────────────────────────────────────────────────────────────
       # Step 7: cross-repo commit (must precede env var update — when env
@@ -236,7 +256,7 @@ jobs:
             --branch "${PRODUCTION_BRANCH}" \
             --source "${{ steps.target.outputs.JSON_PATH }}" \
             --dest-path "server/data/hts/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
-            --dest-path "public/data/hts-explorer/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
+            --prune-keep 3 \
             --tag-name "hts-${{ steps.target.outputs.YEAR }}-rev${{ steps.target.outputs.REV_NUM }}" \
             --commit-message "chore: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} dataset (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
 
@@ -250,7 +270,6 @@ jobs:
             --year "${{ steps.target.outputs.YEAR }}" \
             --rev-num "${{ steps.target.outputs.REV_NUM }}" \
             --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
-            --ragie-partition us_hts_${{ steps.target.outputs.YEAR }}_latest \
             --snapshot-out /tmp/env-snapshot.json
 
       - name: Upload env snapshot (for rollback)
@@ -292,7 +311,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `HTS Revision Update failed (${process.env.PRODUCTION_BRANCH})`,
-              body: `Run: ${runUrl}\n\nThe automated HTS revision rollout failed. Env vars were rolled back if a snapshot existed; the Ragie partition + Supabase row may need manual inspection.`,
+              body: `Run: ${runUrl}\n\nThe automated HTS revision rollout failed. Env vars were rolled back if a snapshot existed; the Pinecone namespace + Supabase row may need manual inspection.`,
               labels: ['hts-automation', 'incident']
             });
 

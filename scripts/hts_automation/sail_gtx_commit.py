@@ -27,9 +27,19 @@ Usage:
       --commit-message "chore: HTS 2026 Rev 8 dataset (effective 2026-05-22)"
 
 Pass --dest-path more than once to write the same source to several locations in
-a single commit (the server reads server/data/hts/; the frontend HTS Explorer
-fetches public/data/hts-explorer/). The Vite htsManifestPlugin regenerates
-public/data/hts-explorer/manifest.json from these files at build time.
+a single commit.
+
+AS OF 2026-07-27 there is only ONE destination: server/data/hts/.
+`public/data/hts-explorer/hts_*.json` used to be a second committed copy of the
+same bytes; it is now gitignored and generated at dev/build time by
+vite/htsManifestPlugin.ts, which copies the LATEST revision out of
+server/data/hts/ and writes the sibling manifest.json the SPA fetches. Both
+consumers only ever read one revision at a time, so committing every revision
+twice was duplicating ~107 MB and shipping ~97 MB of never-fetched JSON to
+Vercel on every deploy.
+
+--dest-path remains repeatable, and --prune-keep bounds how many revisions
+accumulate in each destination directory.
 """
 
 from __future__ import annotations
@@ -37,6 +47,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -81,6 +92,35 @@ def _sha256_of_file(path: str) -> str:
     return h.hexdigest()
 
 
+_REV_FILE_RE = re.compile(r"^hts_(\d{4})_revision_(\d+)\.json$")
+
+
+def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list[str]:
+    """Delete all but the `keep` most recent revision datasets in each directory
+    touched by this commit, staging the deletions so they land atomically with
+    the new file.
+
+    Ordering is by (year, revision) parsed from the filename — NOT lexical, which
+    would sort revision_9 after revision_10."""
+    removed: list[str] = []
+    for directory in sorted({os.path.dirname(d) for d in dest_paths if os.path.dirname(d)}):
+        abs_dir = os.path.join(workdir, directory)
+        if not os.path.isdir(abs_dir):
+            continue
+        found = []
+        for name in os.listdir(abs_dir):
+            m = _REV_FILE_RE.match(name)
+            if m:
+                found.append(((int(m.group(1)), int(m.group(2))), name))
+        found.sort(reverse=True)
+        for _, name in found[keep:]:
+            rel = f"{directory}/{name}"
+            _run(["git", "rm", "--quiet", rel], cwd=workdir)
+            removed.append(rel)
+            print(f"pruned: {rel}")
+    return removed
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--owner", required=True)
@@ -96,6 +136,13 @@ def main() -> None:
     p.add_argument("--commit-message", required=True)
     p.add_argument("--tag-name", default=None,
                    help="Optional lightweight tag, e.g. hts-2026-rev8")
+    p.add_argument("--prune-keep", type=int, default=0, metavar="N",
+                   help="Keep only the N most recent hts_YYYY_revision_##.json in "
+                        "each destination directory, deleting older ones in the SAME "
+                        "commit. 0 (default) disables pruning. Each revision is "
+                        "~13.5 MB and lands fortnightly, so without this the target "
+                        "repo grows ~350 MB/year of files nothing reads — both the "
+                        "SPA and the server load exactly ONE revision at a time.")
     p.add_argument("--dry-run", action="store_true",
                    help="Clone + diff + write locally, but do not push")
     args = p.parse_args()
@@ -130,6 +177,9 @@ def main() -> None:
             shutil.copyfile(args.source, dest_abs)
             _run(["git", "add", dest_path], cwd=workdir)
             changed.append(dest_path)
+
+        if args.prune_keep > 0:
+            changed.extend(_prune_old_revisions(workdir, args.dest_paths, args.prune_keep))
 
         if not changed:
             print("no-op: all destinations already match source; nothing to commit")

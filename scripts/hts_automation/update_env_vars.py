@@ -125,34 +125,14 @@ def railway_set_var(name: str, value: str) -> None:
 # Ragie (resolve the current document id in a partition)
 # ────────────────────────────────────────────────────────────────────
 
-RAGIE_DOCS_API = "https://api.ragie.ai/documents"
+# NOTE: RAGIE_DOCUMENT_ID resolution used to live here. Under Pinecone the
+# retrieval scope is a NAMESPACE stored in Supabase
+# (hts_revisions.pinecone_namespace, falling back to
+# supported_countries.pinecone_namespace) rather than an env var, so there is
+# nothing to resolve and one less value to keep in sync across Railway, Vercel
+# and GitHub. Making the pointer a DB value is also what lets a revision swap
+# happen automatically on its effective date and lets a rollback be one UPDATE.
 
-
-def resolve_ragie_document_id(partition: str) -> str:
-    """Return the id of the current (ready) document in a Ragie partition.
-
-    After step 5's partition swap the partition holds a single ready document, and
-    the deployed server reads its id from RAGIE_DOCUMENT_ID. RAGIE_API_KEY is read
-    from the environment (never hardcoded)."""
-    api_key = _env("RAGIE_API_KEY")
-    r = requests.get(
-        RAGIE_DOCS_API,
-        headers={"partition": partition, "accept": "application/json",
-                 "authorization": f"Bearer {api_key}"},
-        timeout=30,
-    )
-    r.raise_for_status()
-    docs = r.json().get("documents") or []
-    if not docs:
-        sys.exit(f"ERROR: no documents found in Ragie partition '{partition}'")
-    # The API returns newest-first; prefer a 'ready' doc if a swap is mid-flight.
-    ready = [d for d in docs if d.get("status") == "ready"]
-    return (ready or docs)[0]["id"]
-
-
-# ────────────────────────────────────────────────────────────────────
-# Vercel
-# ────────────────────────────────────────────────────────────────────
 
 def _vercel_headers() -> dict[str, str]:
     return {"authorization": f"Bearer {_env('VERCEL_TOKEN')}",
@@ -227,16 +207,6 @@ def cmd_set(args: argparse.Namespace) -> None:
         "VITE_HTS_REVISION_EFFECTIVE_DATE": args.effective_date_label,
     }
 
-    # The deployed server queries one Ragie document by RAGIE_DOCUMENT_ID, and step
-    # 5 creates a NEW document each revision, so repoint it here too. Use an explicit
-    # id if given, otherwise resolve the current document from the partition.
-    ragie_doc_id = args.ragie_document_id
-    if not ragie_doc_id and args.ragie_partition:
-        ragie_doc_id = resolve_ragie_document_id(args.ragie_partition)
-        print(f"[ragie]   resolved RAGIE_DOCUMENT_ID = {ragie_doc_id} "
-              f"(partition {args.ragie_partition})", flush=True)
-    if ragie_doc_id:
-        new_values["RAGIE_DOCUMENT_ID"] = ragie_doc_id
 
     prior_railway = railway_get_vars()
     # Snapshot every var we are about to change, so revert restores all of them.
@@ -281,11 +251,11 @@ def main() -> None:
                     help='Human-readable date, e.g. "May 22, 2026"')
     sp.add_argument("--snapshot-out",
                     help="Write prior values to this JSON path for rollback")
-    sp.add_argument("--ragie-partition",
-                    help="Resolve RAGIE_DOCUMENT_ID from the current document in this "
-                         "Ragie partition (e.g. us_hts_2026_latest) and set it too")
-    sp.add_argument("--ragie-document-id",
-                    help="Set RAGIE_DOCUMENT_ID explicitly (overrides --ragie-partition)")
+    # --ragie-partition / --ragie-document-id are gone: the retrieval scope is a
+    # Supabase-held Pinecone namespace now, not an env var. Accepted and ignored
+    # for one release so an in-flight caller does not hard-fail.
+    sp.add_argument("--ragie-partition", help=argparse.SUPPRESS)
+    sp.add_argument("--ragie-document-id", help=argparse.SUPPRESS)
     sp.set_defaults(func=cmd_set)
 
     sp = sub.add_parser("revert")

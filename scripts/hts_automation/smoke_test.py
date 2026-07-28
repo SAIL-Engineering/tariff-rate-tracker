@@ -2,12 +2,14 @@
 """
 smoke_test.py — post-deploy verification for the SAIL GTX server.
 
-Three checks, all must pass for the workflow to consider the deploy good:
+Four checks, all must pass for the workflow to consider the deploy good:
   1. /health returns 200 within --timeout seconds (default 300)
   2. POST /api/classify with a tiny canary description returns 2xx
      (we don't care about correctness, only that the boot-time HTS assertion
       passed and the route is alive)
-  3. Supabase hts_revisions has a row matching the expected year + rev_num
+  3. Supabase hts_revisions has a row matching the expected year + rev_num AND
+     that row carries a pinecone_namespace
+  4. That Pinecone namespace actually answers canary queries correctly
 
 Environment:
   SAIL_GTX_HEALTHCHECK_URL    full URL to the Railway /health endpoint
@@ -70,14 +72,15 @@ def canary_classify(api_base: str, token: str | None) -> None:
     print(f"[classify] {r.status_code} OK", flush=True)
 
 
-def assert_supabase_row(year: int, rev_num: int, country: str) -> None:
+def assert_supabase_row(year: int, rev_num: int, country: str) -> str:
+    """Returns the pinecone_namespace recorded for this revision."""
     base = _env("SUPABASE_URL").rstrip("/")
     key = _env("SUPABASE_SERVICE_ROLE_KEY")
     r = requests.get(
         f"{base}/rest/v1/hts_revisions",
         headers={"apikey": key, "authorization": f"Bearer {key}"},
         params={
-            "select": "country_code,revision_year,revision_number,effective_date",
+            "select": "country_code,revision_year,revision_number,effective_date,pinecone_namespace",
             "country_code": f"eq.{country.upper()}",
             "revision_year": f"eq.{year}",
             "revision_number": f"eq.{rev_num}",
@@ -90,6 +93,64 @@ def assert_supabase_row(year: int, rev_num: int, country: str) -> None:
     if not rows:
         sys.exit(f"ERROR: no hts_revisions row for {country} {year} rev {rev_num}")
     print(f"[supabase] row found: {rows[0]}", flush=True)
+
+    # The pointer is what makes the corpus visible to the server. Without this
+    # assertion the rollout can advance the revision LABEL while retrieval keeps
+    # answering from the previous corpus — which is exactly what happened while
+    # the Ragie swap sat commented out.
+    ns = rows[0].get("pinecone_namespace")
+    if not ns:
+        sys.exit(
+            f"ERROR: hts_revisions row for {country} {year} rev {rev_num} has no "
+            f"pinecone_namespace. The revision would be advertised while retrieval "
+            f"still served the previous corpus."
+        )
+    return ns
+
+
+def assert_pinecone_corpus(namespace: str) -> None:
+    """Query the namespace that this rollout just built.
+
+    Three canaries spanning very different chapters. This is not a recall
+    measurement (that is server/scripts/evalRetrieval.ts) — it only has to catch
+    a namespace that loaded empty, embedded into the wrong field, or was pointed
+    at before it finished indexing.
+    """
+    api_key = _env("PINECONE_API_KEY")
+    version = os.environ.get("PINECONE_API_VERSION", "2025-10")
+    index = os.environ.get("PINECONE_INDEX_NAME", "sail-tariff-dense")
+    headers = {"Api-Key": api_key, "X-Pinecone-API-Version": version,
+               "Content-Type": "application/json"}
+
+    meta = requests.get(f"https://api.pinecone.io/indexes/{index}", headers=headers, timeout=30)
+    meta.raise_for_status()
+    host = meta.json().get("host")
+    if not host:
+        sys.exit(f"ERROR: Pinecone index {index!r} has no host")
+
+    canaries = [
+        ("men's cotton knitted t-shirt", "6109"),
+        ("stainless steel hex bolts with nuts", "7318"),
+        ("fresh bananas", "0803"),
+    ]
+    failures = []
+    for text, expect_heading in canaries:
+        r = requests.post(
+            f"https://{host}/records/namespaces/{namespace}/search",
+            headers=headers, timeout=60,
+            json={"query": {"inputs": {"text": text}, "top_k": 30},
+                  "fields": ["code", "heading"]},
+        )
+        r.raise_for_status()
+        hits = r.json().get("result", {}).get("hits", [])
+        headings = {str(h.get("fields", {}).get("heading", "")) for h in hits}
+        ok = expect_heading in headings
+        print(f"[pinecone] {'ok  ' if ok else 'FAIL'} {text!r} -> expect {expect_heading}", flush=True)
+        if not ok:
+            failures.append(text)
+    if failures:
+        sys.exit(f"ERROR: {len(failures)}/{len(canaries)} Pinecone canaries failed in {namespace}")
+    print(f"[pinecone] namespace {namespace} answering correctly", flush=True)
 
 
 def main() -> None:
@@ -113,7 +174,8 @@ def main() -> None:
     else:
         print("[classify] skipped (--skip-classify)", flush=True)
 
-    assert_supabase_row(args.year, args.rev_num, args.country)
+    namespace = assert_supabase_row(args.year, args.rev_num, args.country)
+    assert_pinecone_corpus(namespace)
     print("smoke test passed", flush=True)
 
 

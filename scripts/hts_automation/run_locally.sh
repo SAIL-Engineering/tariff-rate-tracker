@@ -86,7 +86,7 @@ require_env() {
   fi
 }
 
-require_env RAGIE_API_KEY
+require_env PINECONE_API_KEY
 require_env SUPABASE_URL
 require_env SUPABASE_SERVICE_ROLE_KEY
 require_env RAILWAY_TOKEN
@@ -145,21 +145,26 @@ sublog "JSON: $JSON_PATH"
 sublog "CSV:  $CSV_PATH"
 
 # ─── Step 4: build the Ragie CSV ─────────────────────────────────────
-log "Step 4/9: build Ragie minimal CSV"
-STEM="v5_minimal${YEAR}rev${REV_NUM}"
-python3 "$HERE/build_hts_minimal.py" "$CSV_PATH" "$HERE/chapters.json" "$STEM"
-RAGIE_CSV="${STEM}.csv"
-test -f "$RAGIE_CSV" || { echo "missing built CSV: $RAGIE_CSV"; exit 2; }
-sublog "Built: $RAGIE_CSV"
+log "Step 4/9: build Pinecone corpus"
+STEM="us_${YEAR}_rev_${REV_NUM}"
+python3 "$HERE/build_hts_corpus.py" "$CSV_PATH" "$HERE/chapters.json" "$STEM" \
+  --jurisdiction US --revision "${YEAR}_rev_${REV_NUM}" --max-depth 10
+CORPUS_JSONL="${STEM}.jsonl"
+test -f "$CORPUS_JSONL" || { echo "missing built corpus: $CORPUS_JSONL"; exit 2; }
+sublog "Built: $CORPUS_JSONL"
 
-# ─── Step 5: Ragie partition swap ────────────────────────────────────
+# ─── Step 5: Pinecone namespace swap ─────────────────────────────────
+# Replaces the retired Ragie swap. Each revision gets its OWN namespace rather
+# than mutating one in place, so the new corpus is built alongside the live one
+# and only becomes visible when step 6 points Supabase at it.
+NAMESPACE="us__${YEAR}_rev_${REV_NUM}"
 if [[ "$DRY_RUN" == "true" ]]; then
-  log "Step 5/9: Ragie swap (skipped — dry-run)"
+  log "Step 5/9: Pinecone swap (skipped — dry-run); namespace would be $NAMESPACE"
 else
-  log "Step 5/9: Ragie partition swap"
-  python3 "$HERE/ragie_sync.py" swap \
-    --csv "$RAGIE_CSV" \
-    --partition us_hts_${YEAR}_latest
+  log "Step 5/9: Pinecone namespace swap -> $NAMESPACE"
+  python3 "$HERE/pinecone_sync.py" swap \
+    --jsonl "$CORPUS_JSONL" \
+    --namespace "$NAMESPACE"
 fi
 
 # ─── Step 6: Supabase upsert ─────────────────────────────────────────
@@ -174,7 +179,8 @@ else
     --effective-date "$EFFECTIVE_DATE" \
     --effective-date-label "$EFFECTIVE_DATE_LABEL" \
     --tariff-schedule-name HTSUS \
-    --ragie-partition-id us_hts_${YEAR}_latest
+    --ragie-partition-id us_hts_${YEAR}_latest \
+    --pinecone-namespace "$NAMESPACE"
 fi
 
 # ─── Step 7: cross-repo commit (must precede env var update) ─────────
@@ -185,13 +191,19 @@ else
   log "Step 7/9: cross-repo commit to $SAIL_GTX_PRODUCTION_BRANCH"
   DRY_FLAG=()
 fi
+# ONE destination as of 2026-07-27: server/data/hts/ is canonical.
+# public/data/hts-explorer/hts_*.json is gitignored and regenerated at build
+# time by vite/htsManifestPlugin.ts, which copies the latest revision across and
+# writes the manifest the SPA fetches. --prune-keep 3 bounds the directory: each
+# revision is ~13.5 MB, they land fortnightly, and both the SPA and the server
+# read exactly one revision at a time.
 python3 "$HERE/sail_gtx_commit.py" \
   --owner SAIL-Engineering \
   --repo sail-gtx-prerelease \
   --branch "$SAIL_GTX_PRODUCTION_BRANCH" \
   --source "$JSON_PATH" \
   --dest-path "server/data/hts/hts_${YEAR}_revision_${REV_NUM}.json" \
-  --dest-path "public/data/hts-explorer/hts_${YEAR}_revision_${REV_NUM}.json" \
+  --prune-keep 3 \
   --tag-name "hts-${YEAR}-rev${REV_NUM}" \
   --commit-message "chore: HTS ${YEAR} Rev ${REV_NUM} dataset (effective ${EFFECTIVE_DATE})" \
   "${DRY_FLAG[@]}"
@@ -205,7 +217,6 @@ else
     --year "$YEAR" \
     --rev-num "$REV_NUM" \
     --effective-date-label "$EFFECTIVE_DATE_LABEL" \
-    --ragie-partition us_hts_${YEAR}_latest \
     --snapshot-out "$SNAPSHOT_FILE"
 fi
 

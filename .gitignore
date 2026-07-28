@@ -49,6 +49,9 @@ _*.R
 *.sh
 # …but the HTS automation wrapper is a tracked, reviewed script:
 !scripts/hts_automation/run_locally.sh
+# The `*.sh` rule above is broad; every pipeline entrypoint needs an explicit
+# exception or it is silently never committed.
+!scripts/hts_automation/refresh_ca.sh
 
 # OS files
 .DS_Store
@@ -77,3 +80,7 @@ node_modules/
 # Claude
 .claude/
 .gstack/
+
+# Python bytecode
+**/__pycache__/
+*.pyc
