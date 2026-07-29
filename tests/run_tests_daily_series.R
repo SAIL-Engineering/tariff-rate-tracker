@@ -270,6 +270,81 @@ run_test('apply_expiry_zeroing zeros s122 after expiry', {
 
 
 # =============================================================================
+# Test 6c: ACTIVATION (turn-on) split points — mirror of expiry
+# =============================================================================
+
+message('\n--- Test 6c: Activation split points ---')
+
+# A regime that takes legal effect strictly inside a revision interval. Uses the
+# real SECTION_338 registry key so the production wiring is exercised, not a
+# bespoke test-only path.
+make_activation_pp <- function() {
+  pp <- make_test_policy_params()
+  pp$SECTION_338 <- list(effective_date = as.Date('2026-08-19'),
+                         rate = 0.50, countries = c('1220'))
+  pp
+}
+
+run_test('collect_activation_adjustments reads the config registry', {
+  adj <- collect_activation_adjustments(make_activation_pp())
+  stopifnot(length(adj) == 1)
+  stopifnot(adj[[1]]$column == 'rate_s338')
+  stopifnot(adj[[1]]$activation_date == as.Date('2026-08-19'))
+  stopifnot(identical(adj[[1]]$countries, '1220'))
+})
+
+run_test('absent config block yields no activation adjustments', {
+  stopifnot(length(collect_activation_adjustments(make_test_policy_params())) == 0)
+  stopifnot(length(collect_activation_adjustments(NULL)) == 0)
+})
+
+run_test('activation contributes split point at activation_date - 1', {
+  # Convention: expiry splits on the last ACTIVE day, activation on the last
+  # INACTIVE day, so a new sub-interval opens exactly at the effective date.
+  splits <- get_expiry_split_points(
+    as.Date('2026-07-24'), as.Date('2026-12-31'), make_activation_pp())
+  stopifnot(as.Date('2026-08-18') %in% splits)
+  stopifnot(!as.Date('2026-08-19') %in% splits)
+})
+
+run_test('no activation split when the interval is entirely post-activation', {
+  splits <- get_expiry_split_points(
+    as.Date('2026-09-01'), as.Date('2026-12-31'), make_activation_pp())
+  stopifnot(!as.Date('2026-08-18') %in% splits)
+})
+
+run_test('activation gating zeros the rate before the effective date', {
+  pp <- make_activation_pp()
+  ts <- make_test_ts() %>% filter(revision == 'rev_b') %>% head(4) %>%
+    mutate(country = '1220', rate_s338 = 0.50)
+  before <- apply_expiry_zeroing(ts, as.Date('2026-08-18'), pp)
+  stopifnot(all(before$rate_s338 == 0))          # not yet in force
+  on_date <- apply_expiry_zeroing(ts, as.Date('2026-08-19'), pp)
+  stopifnot(all(on_date$rate_s338 == 0.50))      # in force on the effective day
+  after <- apply_expiry_zeroing(ts, as.Date('2026-09-01'), pp)
+  stopifnot(all(after$rate_s338 == 0.50))
+})
+
+run_test('activation gating respects country scope', {
+  pp <- make_activation_pp()
+  ts <- make_test_ts() %>% filter(revision == 'rev_b') %>% head(4) %>%
+    mutate(country = '5700', rate_s338 = 0.50)   # China, not in scope
+  out <- apply_expiry_zeroing(ts, as.Date('2026-08-18'), pp)
+  stopifnot(all(out$rate_s338 == 0.50))          # untouched: wrong country
+})
+
+run_test('expiry and activation coexist without interfering', {
+  pp <- make_activation_pp()
+  ts <- make_test_ts() %>% filter(revision == 'rev_b') %>% head(4) %>%
+    mutate(country = '1220', rate_s338 = 0.50)
+  # 2026-09-01 is past the s122 expiry (07-23) AND past the s338 activation
+  out <- apply_expiry_zeroing(ts, as.Date('2026-09-01'), pp)
+  stopifnot(all(out$rate_s122 == 0))             # expired
+  stopifnot(all(out$rate_s338 == 0.50))          # activated
+})
+
+
+# =============================================================================
 # Test 6b: Expiry boundary edge cases
 # =============================================================================
 

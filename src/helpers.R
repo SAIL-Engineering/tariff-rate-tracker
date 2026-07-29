@@ -3671,6 +3671,61 @@ collect_expiry_adjustments <- function(policy_params) {
 }
 
 
+#' Collect ACTIVATION (turn-on) adjustments from policy params
+#'
+#' The mirror image of collect_expiry_adjustments(). Some authorities take legal
+#' effect on a date that falls STRICTLY INSIDE a revision interval, or after the
+#' last published revision entirely — the HTS revision cadence and the Federal
+#' Register effective dates are independent. Examples:
+#'   - §301 Brazil       eff. 2026-07-22, but rev_12 is dated 2026-07-21
+#'   - §338 Canada       eff. 2026-08-19, carried by NO published revision yet
+#' Applying such a duty at the enclosing revision boundary would be days early;
+#' waiting for the next revision would be days late.
+#'
+#' Rather than teach the daily layer to COMPUTE these regimes (which would
+#' duplicate calculate_rates_for_revision()), the rate is computed normally in
+#' 06_calculate_rates.R for the enclosing revision and this layer simply GATES
+#' it: the column is zeroed for dates strictly BEFORE activation_date. That
+#' makes activation structurally identical to expiry — same splitter, same
+#' tested code path, opposite sign — instead of a second mechanism.
+#'
+#' Interval convention: an activation at date A contributes split point A - 1
+#' (the last INACTIVE day), so the splitter opens a new sub-interval exactly at
+#' A. This matches the expiry convention, where the split point is the last
+#' ACTIVE day.
+#'
+#' @param policy_params Policy params list from load_policy_params()
+#' @return List of adjustments, each with activation_date, column, optional
+#'   countries, and label
+collect_activation_adjustments <- function(policy_params) {
+  adjustments <- list()
+  if (is.null(policy_params)) return(adjustments)
+
+  # Registry of config blocks that turn a rate column ON at a date. Each entry
+  # is (policy_params key, rate column, label); the country scope is read from
+  # the block's `country`/`countries` field when present (NULL = all countries).
+  registry <- list(
+    list(key = 'SECTION_301_BRAZIL',      column = 'rate_s301br', label = 'Section 301 Brazil'),
+    list(key = 'SECTION_301_FORCED_LABOR', column = 'rate_s301fl', label = 'Section 301 forced labor'),
+    list(key = 'SECTION_338',             column = 'rate_s338',   label = 'Section 338')
+  )
+
+  for (entry in registry) {
+    cfg <- policy_params[[entry$key]]
+    if (is.null(cfg) || is.null(cfg$effective_date)) next
+    ctys <- cfg$countries %||% cfg$country
+    adjustments <- c(adjustments, list(list(
+      activation_date = as.Date(cfg$effective_date),
+      column = entry$column,
+      countries = if (is.null(ctys)) NULL else as.character(ctys),
+      label = entry$label
+    )))
+  }
+
+  return(adjustments)
+}
+
+
 #' Apply date-bounded policy expirations to a rate snapshot (point mode)
 #'
 #' Zeroes expired rate columns and recomputes totals via apply_stacking_rules().
@@ -3696,6 +3751,19 @@ apply_post_interval_adjustments_point <- function(snapshot, query_date, policy_p
           mutate(!!adj$column := if_else(country %in% adj$countries, 0, .data[[adj$column]]))
       } else {
         # Global adjustment (Section 122)
+        snapshot[[adj$column]] <- 0
+      }
+      needs_restacking <- TRUE
+    }
+  }
+
+  # Activation gating: zero a not-yet-effective duty for queries before its date.
+  for (adj in collect_activation_adjustments(policy_params)) {
+    if (query_date < adj$activation_date && adj$column %in% names(snapshot)) {
+      if (!is.null(adj$countries)) {
+        snapshot <- snapshot %>%
+          mutate(!!adj$column := if_else(country %in% adj$countries, 0, .data[[adj$column]]))
+      } else {
         snapshot[[adj$column]] <- 0
       }
       needs_restacking <- TRUE
@@ -3734,6 +3802,17 @@ get_expiry_split_points <- function(valid_from, valid_until, policy_params) {
     }
   }
 
+  # Activation (turn-on) split points. An activation at A contributes A - 1, the
+  # last INACTIVE day, so a new sub-interval opens exactly at A — mirroring the
+  # expiry convention where the split point is the last ACTIVE day.
+  for (adj in collect_activation_adjustments(policy_params)) {
+    act <- as.Date(adj$activation_date)
+    last_inactive <- act - 1
+    if (valid_from <= last_inactive && valid_until > last_inactive) {
+      split_dates <- c(split_dates, last_inactive)
+    }
+  }
+
   return(sort(unique(split_dates)))
 }
 
@@ -3753,6 +3832,19 @@ apply_expiry_zeroing <- function(rev_data, sub_start, policy_params) {
 
   for (adj in adjustments) {
     if (sub_start > adj$expiry_date && adj$column %in% names(rev_data)) {
+      if (!is.null(adj$countries)) {
+        rev_data <- rev_data %>%
+          mutate(!!adj$column := if_else(country %in% adj$countries, 0, .data[[adj$column]]))
+      } else {
+        rev_data[[adj$column]] <- 0
+      }
+    }
+  }
+
+  # Activation gating: the rate is computed for the enclosing revision, so zero
+  # it on sub-intervals that start BEFORE the duty legally takes effect.
+  for (adj in collect_activation_adjustments(policy_params)) {
+    if (sub_start < adj$activation_date && adj$column %in% names(rev_data)) {
       if (!is.null(adj$countries)) {
         rev_data <- rev_data %>%
           mutate(!!adj$column := if_else(country %in% adj$countries, 0, .data[[adj$column]]))

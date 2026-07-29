@@ -275,11 +275,17 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       select(-weighted_etr)
   }
 
-  # Log any expiry splits that occurred
+  # Log any expiry / activation splits that occurred
   if (!is.null(policy_params)) {
     adjustments <- collect_expiry_adjustments(policy_params)
     for (adj in adjustments) {
       message('  ', adj$label, ' expiry split at ', adj$expiry_date)
+    }
+    for (adj in collect_activation_adjustments(policy_params)) {
+      message('  ', adj$label, ' activation split at ', adj$activation_date,
+              if (!is.null(adj$countries))
+                paste0(' (countries: ', paste(adj$countries, collapse = ','), ')')
+              else '')
     }
   }
 
@@ -425,17 +431,22 @@ export_daily_slice <- function(ts, date_range, countries = NULL, products = NULL
   subset <- subset %>%
     filter(valid_until >= date_range[1], valid_from <= date_range[2])
 
-  # Collect expiry split points across the full date range
+  # Collect policy split points (expiries AND activations) across the date range
   split_dates <- if (!is.null(policy_params)) {
-    adjustments <- collect_expiry_adjustments(policy_params)
-    exp_dates <- map(adjustments, ~ as.Date(.$expiry_date))
-    exp_dates <- exp_dates[exp_dates >= date_range[1] & exp_dates <= date_range[2]]
-    sort(unique(as.Date(unlist(exp_dates), origin = '1970-01-01')))
+    pts <- c(
+      map(collect_expiry_adjustments(policy_params), ~ as.Date(.$expiry_date)),
+      # An activation at A changes state going INTO A, so the relevant boundary
+      # inside this range is A - 1 (last inactive day) — same convention as
+      # get_expiry_split_points().
+      map(collect_activation_adjustments(policy_params), ~ as.Date(.$activation_date) - 1)
+    )
+    pts <- pts[pts >= date_range[1] & pts <= date_range[2]]
+    sort(unique(as.Date(unlist(pts), origin = '1970-01-01')))
   } else {
     as.Date(character())
   }
 
-  # Expand intervals to daily, applying expiry adjustments per sub-interval
+  # Expand intervals to daily, applying policy adjustments per sub-interval
   calendar <- tibble(date = seq(date_range[1], date_range[2], by = 'day'))
 
   expanded <- subset %>%
@@ -455,6 +466,20 @@ export_daily_slice <- function(ts, date_range, countries = NULL, products = NULL
         } else {
           expanded <- expanded %>%
             mutate(!!adj$column := if_else(date > exp, 0, .data[[adj$column]]))
+        }
+      }
+    }
+    # ...and zero not-yet-effective duties on days before their activation date
+    for (adj in collect_activation_adjustments(policy_params)) {
+      act <- as.Date(adj$activation_date)
+      if (adj$column %in% names(expanded)) {
+        if (!is.null(adj$countries)) {
+          expanded <- expanded %>%
+            mutate(!!adj$column := if_else(
+              date < act & country %in% adj$countries, 0, .data[[adj$column]]))
+        } else {
+          expanded <- expanded %>%
+            mutate(!!adj$column := if_else(date < act, 0, .data[[adj$column]]))
         }
       }
     }
