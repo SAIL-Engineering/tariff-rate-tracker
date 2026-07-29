@@ -46,10 +46,25 @@ deriv_csv <- load_232_derivative_products()
 
 message('\n=== Derivative CSV invariants ===')
 
-run_test('CSV maps 85369085 to 9903.85.08 (US Note 19(k))', {
-  row <- deriv_csv %>% filter(hts_prefix == '85369085')
+run_test('CSV maps 8536.90.8585 to 9903.85.08 (US Note 19(k)) at FR granularity', {
+  # Upstream 585ce25 + cf2d5951: the FR notices list this as the specific
+  # 10-digit statistical line, not the bare 8-digit subheading. Truncating to
+  # 85369085 broadened coverage to every line under 8536.90.85. Assert the
+  # narrow, FR-faithful prefix AND that the over-broad one is gone, so the
+  # HS8-truncation over-inclusion cannot silently return.
+  row <- deriv_csv %>% filter(hts_prefix == '8536908585')
   stopifnot(nrow(row) == 1, row$ch99_code == '9903.85.08',
             row$derivative_type == 'aluminum')
+  stopifnot(nrow(deriv_csv %>% filter(hts_prefix == '85369085')) == 0)
+})
+
+run_test('derivative CSV retains mixed 8/10-digit FR granularity', {
+  # The matcher (grepl('^(p1|p2|...)')) and build_deriv_ch99_map (startsWith,
+  # longest-prefix-wins) both handle variable-width prefixes. A regression to
+  # all-8-digit would silently re-broaden ~121 subheadings (~$155B spurious).
+  widths <- nchar(deriv_csv$hts_prefix)
+  stopifnot(any(widths == 10), any(widths == 8),
+            all(widths %in% c(8, 10)))
 })
 
 run_test('no NEW same-metal multi-code prefixes (known conflicts only)', {

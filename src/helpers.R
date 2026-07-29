@@ -2970,6 +2970,41 @@ load_232_derivative_products <- function(path = here('resources', 's232_derivati
 }
 
 
+#' Per-country Section 232 DERIVATIVE rate, honoring country rate overrides
+#'
+#' Port of upstream cf2d5951 #1. Rev_14 (2025-06-04) carries explicit UK
+#' *derivative* entries at 25% (9903.81.96-.99 steel, 9903.85.13-.14 aluminum)
+#' which `extract_section232_rates()` parses into
+#' `s232_rates$steel_country_overrides` / `aluminum_country_overrides`. Those
+#' overrides were previously applied only to the PRIMARY metal programs, so UK
+#' outside-chapter derivatives were charged the blanket 50%
+#' (metal-content-scaled) instead of 25% for 2025-06-04 -> 2026-04-05. The
+#' annex era (2026-04-06+) is unaffected: it has its own UK handling and the
+#' derivative gates are off.
+#'
+#' Precedence: exemption zeros win over an override (an exempt country pays
+#' nothing regardless of a parsed override rate).
+#'
+#' @param country_vec Character vector of country codes
+#' @param exempt_list Exemption spec passed to is_232_exempt()
+#' @param blanket_rate Default derivative rate for non-exempt countries
+#' @param overrides Named list of country_code -> rate (may be NULL/empty)
+#' @return Numeric vector of per-country derivative rates
+derivative_country_rates <- function(country_vec, exempt_list, blanket_rate,
+                                     overrides = NULL) {
+  exempt <- map_lgl(country_vec, ~is_232_exempt(.x, exempt_list))
+  rate <- if_else(exempt, 0, blanket_rate)
+  if (length(overrides %||% list()) > 0) {
+    ov_idx <- match(country_vec, names(overrides))
+    has_ov <- !is.na(ov_idx) & !exempt
+    if (any(has_ov)) {
+      rate[has_ov] <- unlist(overrides, use.names = FALSE)[ov_idx[has_ov]]
+    }
+  }
+  rate
+}
+
+
 #' Map matched HTS10 products to their per-product Ch. 99 derivative code
 #'
 #' The derivative CSV carries the legally correct heading per product

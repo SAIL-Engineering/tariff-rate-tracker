@@ -773,6 +773,45 @@ run_test('non-232 product stacks IEEPA + fentanyl + s122 fully', {
 
 
 # =============================================================================
+# Test 11: Section 232 derivative country rate overrides (upstream cf2d5951 #1)
+# =============================================================================
+
+message('\n--- Test 11: 232 derivative country overrides ---')
+
+run_test('UK derivative override applies (25%, not the blanket 50%)', {
+  # The bug: *_country_overrides were honored only by the primary metal
+  # programs, so UK outside-chapter derivatives paid the blanket rate.
+  r <- derivative_country_rates(
+    country_vec  = c('4120', '5700'),          # UK, China
+    exempt_list  = NULL,
+    blanket_rate = 0.50,
+    overrides    = list('4120' = 0.25)
+  )
+  stopifnot(abs(r[1] - 0.25) < 1e-12)          # UK gets its override
+  stopifnot(abs(r[2] - 0.50) < 1e-12)          # China keeps the blanket rate
+})
+
+run_test('exemption zeros win over a country override', {
+  r <- derivative_country_rates(
+    country_vec  = c('4120'),
+    exempt_list  = c('4120'),
+    blanket_rate = 0.50,
+    overrides    = list('4120' = 0.25)
+  )
+  stopifnot(abs(r[1] - 0) < 1e-12)
+})
+
+run_test('no overrides / NULL overrides preserves blanket + exempt behavior', {
+  r_null <- derivative_country_rates(c('4120', '5700'), NULL, 0.50, NULL)
+  stopifnot(all(abs(r_null - 0.50) < 1e-12))
+  r_empty <- derivative_country_rates(c('4120'), NULL, 0.50, list())
+  stopifnot(abs(r_empty - 0.50) < 1e-12)
+  r_ex <- derivative_country_rates(c('4120', '5700'), c('5700'), 0.50, NULL)
+  stopifnot(abs(r_ex[1] - 0.50) < 1e-12, abs(r_ex[2] - 0) < 1e-12)
+})
+
+
+# =============================================================================
 # Summary
 # =============================================================================
 

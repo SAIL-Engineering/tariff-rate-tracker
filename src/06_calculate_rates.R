@@ -306,7 +306,10 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
           country_alum <- tibble(country = countries) %>%
             mutate(
               deriv_exempt = map_lgl(country, ~is_232_exempt(.x, s232_rates$aluminum_derivative_exempt)),
-              deriv_rate = if_else(deriv_exempt, 0, s232_rates$aluminum_derivative_rate)
+              deriv_rate = derivative_country_rates(country,
+                                               s232_rates$aluminum_derivative_exempt,
+                                               s232_rates$aluminum_derivative_rate,
+                                               s232_rates$aluminum_country_overrides)
             )
           rates <- rates %>%
             left_join(country_alum %>% select(country, .alum_deriv_rate = deriv_rate), by = 'country', relationship = 'many-to-one') %>%
@@ -340,7 +343,10 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
           country_steel <- tibble(country = countries) %>%
             mutate(
               deriv_exempt = map_lgl(country, ~is_232_exempt(.x, s232_rates$steel_derivative_exempt)),
-              deriv_rate = if_else(deriv_exempt, 0, s232_rates$steel_derivative_rate)
+              deriv_rate = derivative_country_rates(country,
+                                               s232_rates$steel_derivative_exempt,
+                                               s232_rates$steel_derivative_rate,
+                                               s232_rates$steel_country_overrides)
             )
           rates <- rates %>%
             left_join(country_steel %>% select(country, .steel_deriv_rate = deriv_rate), by = 'country', relationship = 'many-to-one') %>%
