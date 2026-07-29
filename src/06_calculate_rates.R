@@ -2468,31 +2468,42 @@ calculate_rates_for_revision <- function(
       message('  Section 122 exempt products: ', length(s122_exempt_hts8), ' HTS8 codes')
     }
 
-    # Set rate_s122 for all existing rows
+    # Set rate_s122 for all existing rows.
+    #
+    # Port of upstream cf0a709b: the exempt list is NOT uniformly unconditional.
+    # Note 2(aa)(iv) (541 hts8, heading 9903.03.05) exempts civil aircraft and
+    # parts only where they "otherwise meet the criteria of general note 6" — a USE
+    # test. Applying it full-line, as this did, exempted every non-aviation entry
+    # on those lines and understated §122 by ~$800M/month. s122_exempt_share()
+    # returns 1.0 for the unconditional groups and the MEASURED per-HTS10
+    # utilization share for the conditional one.
     rates <- rates %>%
-      mutate(
-        rate_s122 = if_else(
-          substr(hts10, 1, 8) %in% s122_exempt_hts8,
-          0, s122_rate
-        )
-      )
+      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10)))
 
-    # Add s122-only rows for products not yet in rates
+    # Add s122-only rows for products not yet in rates.
+    # Coverage is now "share < 1", not "not on the exempt list": a GN 6
+    # conditional line is only PARTIALLY exempt, so it still owes duty on the
+    # non-certified share and must get its pairs materialized. Filtering on list
+    # membership (the old test) would have silently dropped those.
     s122_country_rates <- tibble(
       country = countries,
       blanket_rate = s122_rate
     )
-    # All products are covered (non-exempt)
-    non_exempt_hts10 <- products %>%
-      filter(!substr(hts10, 1, 8) %in% s122_exempt_hts8) %>%
-      pull(hts10)
-    rates <- add_blanket_pairs(rates, products, non_exempt_hts10, s122_country_rates,
+    prod_share <- s122_exempt_share(products$hts10)
+    partial_hts10 <- products$hts10[prod_share < 1]
+    rates <- add_blanket_pairs(rates, products, partial_hts10, s122_country_rates,
                                'rate_s122', 'Section 122 duties')
+    # add_blanket_pairs assigns the flat blanket rate; re-apply the share so the
+    # newly added GN 6 rows carry their partial rate rather than the full 10%.
+    rates <- rates %>%
+      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10)))
 
     n_with_s122 <- sum(rates$rate_s122 > 0)
+    n_partial <- sum(prod_share > 0 & prod_share < 1)
     message('  Section 122: ', round(s122_rate * 100), '% on ',
-            n_with_s122, ' product-country pairs (',
-            length(s122_exempt_hts8), ' HTS8 exempt)')
+            format(n_with_s122, big.mark = ','), ' product-country pairs (',
+            sum(prod_share >= 1), ' HTS10 fully exempt, ', n_partial,
+            ' GN 6 use-conditional at measured utilization)')
   }
 
   # 6b1. Apply Section 201 (Trade Act §201 safeguard) tariffs.

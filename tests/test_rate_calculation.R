@@ -1203,6 +1203,80 @@ run_test('NA metal_type falls back to the chapter test, not to "no deal"', {
 
 
 # =============================================================================
+# Test 16: §122 exempt list — unconditional vs GN 6 use-conditional
+# =============================================================================
+
+message('\n--- Test 16: s122 GN 6 use-conditional exemption ---')
+
+s122_ex_fixture <- function(with_condition = TRUE, with_util = TRUE) {
+  ep <- tempfile(fileext = '.csv'); up <- tempfile(fileext = '.csv')
+  if (with_condition) {
+    write_csv(tibble(hts8 = c('02011005', '84129090', '85183020'),
+                     condition = c('none', 'gn6_civil_aircraft', 'gn6_civil_aircraft')), ep)
+  } else {
+    write_csv(tibble(hts8 = c('02011005', '84129090', '85183020')), ep)
+  }
+  if (with_util) {
+    write_csv(tibble(hts10 = '8412909000', exempt_share = 0.30,
+                     con_val = 1e6, months = 3), up)
+  } else {
+    write_csv(tibble(hts10 = character(), exempt_share = numeric(),
+                     con_val = numeric(), months = numeric()), up)
+  }
+  list(ep = ep, up = up)
+}
+
+run_test('unconditional lines stay fully exempt', {
+  f <- s122_ex_fixture()
+  s <- s122_exempt_share('0201100500', f$ep, f$up)
+  stopifnot(abs(s - 1) < 1e-12)
+  unlink(unlist(f))
+})
+
+run_test('GN 6 line uses its MEASURED utilization share, not full exemption', {
+  # The bug: a use-conditional carve-out applied full-line exempts every
+  # non-aviation entry on the same HTS8. 0.30 measured -> 70% of the duty owed.
+  f <- s122_ex_fixture()
+  s <- s122_exempt_share('8412909000', f$ep, f$up)
+  stopifnot(abs(s - 0.30) < 1e-12)
+  unlink(unlist(f))
+})
+
+run_test('GN 6 line with no measurement falls back to the HS2 mean', {
+  f <- s122_ex_fixture()
+  # 8412909099 is under the GN 6 hts8 84129090 but has no measured row of its
+  # own, so it takes the HS2 '84' mean (0.30, from the one measured 84 line).
+  stopifnot(abs(s122_exempt_share('8412909099', f$ep, f$up) - 0.30) < 1e-12)
+  # 8518302000 is GN 6 under HS2 '85', which has NO measured row at any level —
+  # so it falls through to full exemption rather than borrowing another chapter.
+  stopifnot(abs(s122_exempt_share('8518302000', f$ep, f$up) - 1) < 1e-12)
+  # A line on no list at all is simply not exempt.
+  stopifnot(abs(s122_exempt_share('8412100000', f$ep, f$up)) < 1e-12)
+  unlink(unlist(f))
+})
+
+run_test('no utilization data at all -> full exemption (prior behavior)', {
+  f <- s122_ex_fixture(with_util = FALSE)
+  s <- s122_exempt_share('8412909000', f$ep, f$up)
+  stopifnot(abs(s - 1) < 1e-12)
+  unlink(unlist(f))
+})
+
+run_test('a list without the condition column keeps the old full-line behavior', {
+  f <- s122_ex_fixture(with_condition = FALSE)
+  s <- s122_exempt_share(c('0201100500', '8412909000'), f$ep, f$up)
+  stopifnot(all(abs(s - 1) < 1e-12))
+  unlink(unlist(f))
+})
+
+run_test('unlisted products get no exemption', {
+  f <- s122_ex_fixture()
+  stopifnot(abs(s122_exempt_share('7208100000', f$ep, f$up)) < 1e-12)
+  unlink(unlist(f))
+})
+
+
+# =============================================================================
 # Summary
 # =============================================================================
 

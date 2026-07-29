@@ -3353,6 +3353,71 @@ load_s301fl_exemptions <- function(fl_cfg) {
 }
 
 
+#' Per-HTS10 Section 122 exempt share, honoring the GN 6 USE condition
+#'
+#' Port of upstream cf0a709b. U.S. note 2(aa) partitions the §122 exempt list into
+#' two legally different groups, which the engine used to treat identically:
+#'   (aa)(ii)/(iii), heading 9903.03.03-.04 — 1,115 hts8, UNCONDITIONAL. Full
+#'     exemption is correct.
+#'   (aa)(iv), heading 9903.03.05 — 541 hts8 covering civil aircraft, engines,
+#'     parts and simulators "that otherwise meet the criteria of general note 6".
+#'     That is a USE test, not a product test. Applying it full-line exempts a
+#'     consumer loudspeaker under 8518.30.20 or an industrial engine part under
+#'     8412.90.90 that owes the full 10%. Upstream sized the resulting
+#'     understatement at ~$800M/month.
+#'
+#' Resolution for the conditional group, in order: the MEASURED per-HTS10 exempt
+#' share (resources/s122_aircraft_utilization.csv — realized-rate classification
+#' from customs data, not a calibrated placeholder); else the HS2 mean of the
+#' measured shares; else full exemption, which is the prior behavior and the
+#' generous reading when no utilization evidence exists.
+#'
+#' @param hts10 Character vector of HTS10 codes
+#' @param exempt_path Path to s122_exempt_products.csv
+#' @param util_path Path to s122_aircraft_utilization.csv
+#' @return Numeric vector of exempt shares in [0, 1]; 0 = not exempt at all
+s122_exempt_share <- function(hts10,
+                              exempt_path = here('resources', 's122_exempt_products.csv'),
+                              util_path = here('resources', 's122_aircraft_utilization.csv')) {
+  n <- length(hts10)
+  if (n == 0) return(numeric(0))
+  if (!file.exists(exempt_path)) return(rep(0, n))
+
+  ex <- suppressWarnings(read_csv(exempt_path, col_types = cols(.default = col_character())))
+  if (!'hts8' %in% names(ex)) return(rep(0, n))
+  # A list without the condition column predates this fix: every line is
+  # unconditional, i.e. the old full-line behavior.
+  if (!'condition' %in% names(ex)) ex$condition <- 'none'
+
+  hts8 <- substr(hts10, 1, 8)
+  uncond <- unique(ex$hts8[ex$condition != 'gn6_civil_aircraft'])
+  gn6    <- unique(ex$hts8[ex$condition == 'gn6_civil_aircraft'])
+
+  share <- rep(0, n)
+  share[hts8 %in% uncond] <- 1
+
+  is_gn6 <- hts8 %in% gn6 & share == 0
+  if (any(is_gn6)) {
+    gn6_share <- rep(1, n)                       # final fallback: full exemption
+    if (file.exists(util_path)) {
+      u <- suppressWarnings(read_csv(util_path, col_types = cols(
+        hts10 = col_character(), exempt_share = col_double(), .default = col_guess())))
+      u <- u %>% mutate(exempt_share = pmin(1, pmax(0, exempt_share)))
+      measured <- setNames(u$exempt_share, u$hts10)
+      hit <- measured[hts10]
+      # HS2 mean of the measured set for lines with no measurement of their own.
+      hs2_mean <- u %>%
+        mutate(hs2 = substr(hts10, 1, 2)) %>%
+        group_by(hs2) %>% summarise(m = mean(exempt_share), .groups = 'drop')
+      hs2_hit <- setNames(hs2_mean$m, hs2_mean$hs2)[substr(hts10, 1, 2)]
+      gn6_share <- dplyr::coalesce(unname(hit), unname(hs2_hit), 1)
+    }
+    share[is_gn6] <- gn6_share[is_gn6]
+  }
+  pmin(1, pmax(0, share))
+}
+
+
 #' Does a revision's validity interval reach a policy activation date?
 #'
 #' A duty whose effective date falls strictly INSIDE a revision interval (§301

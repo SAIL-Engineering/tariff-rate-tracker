@@ -315,3 +315,33 @@ Two guards make a wrong guess loud rather than silent:
 **Source:** Proclamation 11047 of July 20, 2026, FR Doc 2026-14992, 91 FR 46653 (dairy); FR Doc 2026-14997 (motor vehicles); FR Doc 2026-14991 (alcoholic beverages).
 
 **Implementation:** `config/policy_params.yaml` (`section_338`), `src/helpers.R:compute_s338_rates()` and `s232_scope_mask()`, `src/06_calculate_rates.R` step 6b0c. Exposure is date-gated by `collect_activation_adjustments()`, so the duty appears only from 2026-08-19 onward even though it is computed for the enclosing revision.
+
+---
+
+## 19. Section 122: GN 6 Civil-Aircraft Exemption Is Use-Conditional
+
+**Applies to the CLOSED window 2026-02-24 → 2026-07-23** (§122 expired; see 91 Fed. Reg. 9339). Historical-series accuracy only, not forward-looking.
+
+U.S. note 2(aa) partitions the 1,656-line §122 exempt list into two legally different groups, which the engine previously treated identically:
+
+| Printed source | Codes | Condition | Treatment |
+|---|---|---|---|
+| (aa)(ii)/(iii), headings 9903.03.03–.04 | 1,115 | none — "articles the product of any country … classifiable in the following subheadings" | full exemption (**correct**) |
+| **(aa)(iv), heading 9903.03.05** | **541** | civil aircraft, engines, parts, simulators "that otherwise meet the criteria of **general note 6**" — a **USE** test | **share-scaled** (was full-line) |
+
+Applying a use test full-line exempts a consumer loudspeaker under 8518.30.20 or an industrial engine part under 8412.90.90 that owes the full 10%. Upstream sized the resulting understatement at **≈$800M/month**.
+
+**This is measured, not assumed.** `resources/s122_aircraft_utilization.csv` carries per-HTS10 exempt shares (955 lines) derived by realized-rate classification from customs data (`con_val` over 3 months) — unlike the §301 aircraft/pharma shares in section 16, which are reverse-engineered placeholders. Measured on our rev-12 product universe: **794 products** move from fully exempt to partially dutiable, retaining on average **76.7%** of the 10% (mean certified share 0.233).
+
+**The assumption is only in the fallback chain**, applied where measurement is absent:
+1. measured per-HTS10 share, else
+2. the HS2 mean of the measured shares, else
+3. full exemption — the prior behavior and the generous reading when no utilization evidence exists.
+
+Step 3 preserves a residual understatement on GN 6 lines that had no imports in the measurement window, which is by construction a small base.
+
+**Also fixed here:** our exempt list carried `8505110070` as a 10-digit code where matching is on `substr(hts10, 1, 8)`, so that exemption could never fire — a dead entry, now `85051100`.
+
+**Source:** U.S. note 2(aa) to subchapter III (rev_5 text); utilization measurement per `docs/s122_aircraft_exemption_audit.md`.
+
+**Implementation:** `src/helpers.R:s122_exempt_share()`, `src/06_calculate_rates.R` step 6b (§122 block). Note the blanket-pair coverage test is now "exempt share < 1", not list membership — a partially exempt line still owes duty and must have its product-country pairs materialized.
