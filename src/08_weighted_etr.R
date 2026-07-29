@@ -344,7 +344,7 @@ compute_weighted_etrs <- function(data, policy_params = NULL) {
     snapshot_net <- snapshot %>%
       compute_net_authority_contributions(cty_china = CTY_CHINA) %>%
       select(hts10, country, total_rate,
-             net_232, net_ieepa, net_fentanyl, net_301, net_s122, net_section_201, net_other)
+             net_232, net_ieepa, net_fentanyl, net_301, net_s122, net_section_201, net_s338, net_other)
 
     # Join snapshot rates with import flows
     rated <- flows %>%
@@ -383,7 +383,7 @@ compute_weighted_etrs <- function(data, policy_params = NULL) {
         snapshot_net <- rev_snapshot %>%
           compute_net_authority_contributions(cty_china = CTY_CHINA) %>%
           select(hts10, country, total_rate,
-                 net_232, net_ieepa, net_fentanyl, net_301, net_s122, net_section_201, net_other)
+                 net_232, net_ieepa, net_fentanyl, net_301, net_s122, net_section_201, net_s338, net_other)
 
         rated <- flows %>%
           inner_join(snapshot_net, by = c('hs10' = 'hts10', 'cty_code' = 'country')) %>%
@@ -481,6 +481,7 @@ aggregate_etrs <- function(results, imports_gtap, total_imports, partner_totals,
       etr_301 = sum(net_301 * imports) / total_imports,
       etr_s122 = sum(net_s122 * imports) / total_imports,
       etr_section_201 = sum(net_section_201 * imports) / total_imports,
+      etr_s338 = sum(net_s338 * imports) / total_imports,
       .groups = 'drop'
     ) %>%
     mutate(label = factor(label, levels = POLICY_DATES$label))

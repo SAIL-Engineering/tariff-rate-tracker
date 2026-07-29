@@ -661,6 +661,42 @@ section_122:
   rate: 0.10                    # 10% non-discriminatory rate (from 9903.03.01)
   exempt_products: 'resources/s122_exempt_products.csv'
 
+# --- Section 338 Canada (19 U.S.C. 1338; DORMANT until 2026-08-19) -----------
+# Section 338 of the Tariff Act of 1930 empowers the President to impose duties
+# to offset a foreign country's discrimination against U.S. commerce, capped at
+# 50% ad valorem and effective no earlier than 30 days after the proclamation.
+#
+# Three proclamations of 2026-07-20, published 2026-07-23 (91 FR 46653 et seq.),
+# each impose 50% on an Annex II list, all effective 12:01 a.m. ET 2026-08-19:
+#   Proclamation 11047 (FR Doc 2026-14992)  dairy               (52 hts8)
+#   FR Doc 2026-14997                       motor vehicles      (439 hts8)
+#   FR Doc 2026-14991                       alcoholic beverages (63 hts8)
+#
+# Carve-outs (Proclamation 11047 para. 2), both FULL per-article exclusions:
+#   - articles subject to §232 duties
+#   - articles subject to the WTO Agreement on Trade in Civil Aircraft,
+#     EXCLUDING unmanned aircraft
+# Otherwise the duty is "in addition to any other duties, taxes, fees, exactions,
+# and charges" — it stacks.
+#
+# NO PUBLISHED HTS REVISION CARRIES THIS YET (rev_13 published 2026-07-28, three
+# weeks before it takes effect). The ch99_heading values in
+# resources/s338_products.csv (9903.03.12-.14) are a PREDICTION: §122's
+# 9903.03.01-.11 expired 2026-07-23, freeing that range. classify_authority()
+# maps 9903.03.12+ to section_338 so a §338 heading is never misattributed to the
+# expired §122; if USITC assigns different headings, the completeness gate will
+# surface them and both the config and that branch get corrected.
+section_338:
+  effective_date: '2026-08-19'
+  rate: 0.50                                        # 19 U.S.C. 1338 ceiling
+  country: '1220'                                   # Canada census code
+  products_file: 'resources/s338_products.csv'
+  gn6_exempt_products: 'resources/s338_gn6_exempt_products.csv'
+  # HTS8 lines that are unmanned aircraft, i.e. the proclamation's exception to
+  # the civil-aircraft carve-out — these still pay. Empty until the GN 6 list is
+  # split by UAV status; see docs/assumptions.md.
+  unmanned_aircraft_hts8: []
+
 # --- Section 301 Brazil (FINAL ACTION, baseline) ------------------------------
 # USTR Notice of Action, FR Doc 2026-14542 (91 FR 45516), published 2026-07-20,
 # duties effective 2026-07-22: 25% additional ad valorem on ALL products of

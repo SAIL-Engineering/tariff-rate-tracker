@@ -293,3 +293,25 @@ Where a product's MFN rate already meets or exceeds the cap, the additional duty
 **Source:** tier structure from 91 FR 47318; the cap-base split follows the upstream Budget-Lab-Yale reading. The notice text does not state the base explicitly for each tier.
 
 **Implementation:** `src/helpers.R:s301fl_country_tiers()` (flat vs cap flag) and `compute_s301fl_rates()` (`cap_base` selection).
+
+---
+
+## 18. Section 338 Canada: Predicted Headings and the Unmanned-Aircraft Exception
+
+**Status: DORMANT.** Three proclamations of 2026-07-20, published 2026-07-23 (91 FR 46653 et seq.), impose 50% under Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338) on Canadian dairy (Proclamation 11047, 52 hts8), motor vehicles (439 hts8) and alcoholic beverages (63 hts8), all effective 12:01 a.m. ET **2026-08-19**. No published HTS revision carries them — rev 13 published 2026-07-28, three weeks early — so nothing in the current series changes.
+
+**Assumption 1 — the Chapter 99 headings are PREDICTED.** `resources/s338_products.csv` maps the three programs to `9903.03.12`, `.13` and `.14`. That is an inference, not a citation: §122's `9903.03.01`–`.11` expired at the close of 2026-07-23 (91 Fed. Reg. 9339), leaving the range free, and USITC commonly continues a subchapter.
+
+Two guards make a wrong guess loud rather than silent:
+- `classify_authority()` maps `9903.03.12+` to `section_338`, so a §338 heading is never attributed to the expired §122. Without this the `middle == 3` branch would have booked these duties as Section 122 — an authority that no longer exists.
+- If USITC assigns different headings, they arrive unclassified and the Chapter 99 completeness gate fails the build, at which point both the config and that branch get corrected. The rate application itself is config-driven and does not depend on the heading, so the duties are correct either way.
+
+**Assumption 2 — the unmanned-aircraft exception is currently EMPTY.** Proclamation 11047 para. 2 excludes "articles, **excluding unmanned aircraft**, subject to the WTO Agreement on Trade in Civil Aircraft." The exclusion is implemented from the GN 6 civil-aircraft list (554 hts8), but GN 6 does not itself distinguish unmanned aircraft, so `unmanned_aircraft_hts8` is an empty list.
+
+**Effect:** any UAV line that appears on both the GN 6 list and a §338 annex is currently treated as exempt when it should pay 50%. This **understates** the duty. The magnitude is bounded by UAV trade from Canada on the three annexes (dairy and alcohol cannot overlap; only the 439-line motor-vehicle annex plausibly can), so it is likely small — but it is a known directional bias, not a rounding artifact. Populating the list from the HTS 8806 series and the proclamation's Annex II text would close it.
+
+**Not an assumption:** the two full carve-outs themselves (§232-subject articles, WTO civil aircraft) and the 50% statutory ceiling are quoted directly from the proclamation. The implementation clamps any configured rate above 0.50 and warns, since a higher rate would exceed the President's §338 authority.
+
+**Source:** Proclamation 11047 of July 20, 2026, FR Doc 2026-14992, 91 FR 46653 (dairy); FR Doc 2026-14997 (motor vehicles); FR Doc 2026-14991 (alcoholic beverages).
+
+**Implementation:** `config/policy_params.yaml` (`section_338`), `src/helpers.R:compute_s338_rates()` and `s232_scope_mask()`, `src/06_calculate_rates.R` step 6b0c. Exposure is date-gated by `collect_activation_adjustments()`, so the duty appears only from 2026-08-19 onward even though it is computed for the enclosing revision.

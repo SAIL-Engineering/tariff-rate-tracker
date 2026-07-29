@@ -2895,6 +2895,39 @@ calculate_rates_for_revision <- function(
   }
 
 
+  # 6b0c. Apply Section 338 Canada (19 U.S.C. 1338; 91 FR 46653 et seq.,
+  #       effective 2026-08-19). Three proclamations of 2026-07-20 — dairy, motor
+  #       vehicles, alcoholic beverages — each 50% on an Annex II list.
+  #
+  #       NO published HTS revision carries these headings yet (rev_13 published
+  #       2026-07-28, three weeks early), so this is entirely config-driven and
+  #       depends on revision_interval_covers() treating the final revision as
+  #       open-ended. The activation gate then exposes the duty only from
+  #       2026-08-19 onward, so the current published series is unchanged.
+  s338_cfg <- pp$SECTION_338
+  if (!is.null(s338_cfg)) {
+    s338_eff <- as.Date(s338_cfg$effective_date)
+    s338_cty <- as.character(s338_cfg$country %||% '1220')
+    if (revision_interval_covers(revision_id, effective_date, s338_eff) &&
+        s338_cty %in% countries) {
+      rates <- add_blanket_pairs(
+        rates, products, products$hts10,
+        tibble(country = s338_cty, blanket_rate = as.numeric(s338_cfg$rate %||% 0)),
+        'rate_s338', 'Section 338 Canada duties')
+      rates$rate_s338 <- compute_s338_rates(
+        rates, s338_cfg, effective_date = max(as.Date(effective_date), s338_eff))
+      n_338 <- sum(rates$rate_s338 > 0)
+      message('  Section 338 Canada: ', round(as.numeric(s338_cfg$rate %||% 0) * 100),
+              '% on ', format(n_338, big.mark = ','), ' product-country pairs',
+              ' (effective ', s338_cfg$effective_date,
+              '; §232 articles and WTO civil-aircraft lines fully excluded per',
+              ' Proclamation 11047 para. 2)')
+    } else {
+      message('  Section 338 Canada not applicable to this revision (effective ',
+              s338_cfg$effective_date, ')')
+    }
+  }
+
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)
 

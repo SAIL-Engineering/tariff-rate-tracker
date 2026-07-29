@@ -1078,6 +1078,96 @@ run_test('revision_interval_covers spans activation inside an interval', {
 
 
 # =============================================================================
+# Test 14: Section 338 Canada (19 U.S.C. 1338)
+# =============================================================================
+
+message('\n--- Test 14: Section 338 Canada ---')
+
+s338_fixture <- function() {
+  pf <- tempfile(fileext = '.csv'); gf <- tempfile(fileext = '.csv')
+  write_csv(tibble(hts8 = c('22030000', '04061000', '87032301'),
+                   program = c('alcohol', 'dairy', 'motor_vehicles'),
+                   ch99_heading = c('9903.03.12', '9903.03.13', '9903.03.14')), pf)
+  write_csv(tibble(hts8 = '87032301'), gf)          # pretend this is a GN 6 line
+  list(cfg = list(effective_date = as.Date('2026-08-19'), rate = 0.50,
+                  country = '1220', products_file = pf, gn6_exempt_products = gf,
+                  unmanned_aircraft_hts8 = character(0)),
+       rows = tibble(
+         hts10 = c('2203000000', '0406100000', '8703230100', '0101300000', '2203000000'),
+         country = c('1220', '1220', '1220', '1220', '5700'),
+         statutory_rate_232 = 0, rate_232 = 0, s232_annex = NA_character_),
+       files = c(pf, gf))
+}
+
+run_test('applies 50% to covered Canadian lines only', {
+  f <- s338_fixture()
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-19'))
+  stopifnot(abs(r[1] - 0.50) < 1e-12)   # alcohol, Canada
+  stopifnot(abs(r[2] - 0.50) < 1e-12)   # dairy, Canada
+  stopifnot(abs(r[4] - 0) < 1e-12)      # not on any annex
+  stopifnot(abs(r[5] - 0) < 1e-12)      # covered line but wrong origin
+  unlink(f$files)
+})
+
+run_test('WTO civil-aircraft lines fully excluded (Proc 11047 para. 2)', {
+  f <- s338_fixture()
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-19'))
+  stopifnot(abs(r[3] - 0) < 1e-12)
+  unlink(f$files)
+})
+
+run_test('unmanned aircraft are the EXCEPTION to the aircraft carve-out', {
+  # "articles, EXCLUDING UNMANNED AIRCRAFT, subject to the WTO Agreement on
+  # Trade in Civil Aircraft" — a UAV line on the GN 6 list still pays.
+  f <- s338_fixture()
+  cfg <- modifyList(f$cfg, list(unmanned_aircraft_hts8 = '87032301'))
+  r <- compute_s338_rates(f$rows, cfg, as.Date('2026-08-19'))
+  stopifnot(abs(r[3] - 0.50) < 1e-12)
+  unlink(f$files)
+})
+
+run_test('articles subject to §232 fully excluded', {
+  f <- s338_fixture()
+  rows <- f$rows; rows$statutory_rate_232[1] <- 0.50
+  r <- compute_s338_rates(rows, f$cfg, as.Date('2026-08-19'))
+  stopifnot(abs(r[1] - 0) < 1e-12)
+  unlink(f$files)
+})
+
+run_test('dormant before 2026-08-19', {
+  f <- s338_fixture()
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-18'))
+  stopifnot(all(abs(r) < 1e-12))
+  unlink(f$files)
+})
+
+run_test('clamps to the 19 U.S.C. 1338 statutory ceiling of 50%', {
+  f <- s338_fixture()
+  r <- suppressWarnings(compute_s338_rates(f$rows[1, ],
+                        modifyList(f$cfg, list(rate = 0.75)), as.Date('2026-08-19')))
+  stopifnot(abs(r - 0.50) < 1e-12)
+  unlink(f$files)
+})
+
+run_test('9903.03.12+ classifies as section_338, not the expired section_122', {
+  stopifnot(classify_authority('9903.03.01') == 'section_122')
+  stopifnot(classify_authority('9903.03.11') == 'section_122')
+  stopifnot(classify_authority('9903.03.12') == 'section_338')
+  stopifnot(classify_authority('9903.03.14') == 'section_338')
+})
+
+run_test('s338 stacks additively (Proc 11047 para. 2)', {
+  df <- tibble(hts10 = '2203000000', country = '1220', base_rate = 0.02,
+               rate_232 = 0, rate_301 = 0, rate_ieepa_recip = 0.35,
+               rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
+               rate_s301fl = 0.10, rate_s301br = 0, rate_s338 = 0.50,
+               rate_other = 0, metal_share = 0)
+  res <- apply_stacking_rules(df, cty_china = '5700')
+  stopifnot(abs(res$total_additional - (0.35 + 0.10 + 0.50)) < 1e-12)
+})
+
+
+# =============================================================================
 # Summary
 # =============================================================================
 

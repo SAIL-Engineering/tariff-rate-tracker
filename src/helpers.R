@@ -977,6 +977,13 @@ load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
       as.Date(params$section_301_brazil$effective_date)
   }
 
+  # Section 338 Canada (19 U.S.C. 1338; 91 FR 46653 et seq.). Dormant until
+  # 2026-08-19; presence of this block arms the activation gate for that date.
+  if (!is.null(params$section_338)) {
+    params$SECTION_338 <- params$section_338
+    params$SECTION_338$effective_date <- as.Date(params$section_338$effective_date)
+  }
+
   # Local paths (optional user-specific file locations)
   params$LOCAL_PATHS <- load_local_paths()
 
@@ -1379,7 +1386,7 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 #' bucket keeps working.
 AUTHORITY_RATE_COLS <- c(
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other'
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other'
 )
 
 
@@ -1406,7 +1413,7 @@ zero_fill_authority_rates <- function(df, cols = AUTHORITY_RATE_COLS) {
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
@@ -1436,7 +1443,7 @@ enforce_rate_schema <- function(df) {
     hts10 = NA_character_, country = NA_character_,
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
-    rate_s301fl = 0, rate_s301br = 0, rate_other = 0,
+    rate_s301fl = 0, rate_s301br = 0, rate_s338 = 0, rate_other = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
@@ -2164,6 +2171,13 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
   } else {
     df$rate_s301br[is.na(df$rate_s301br)] <- 0
   }
+  # §338 Canada (19 U.S.C. 1338). Proclamation 11047 para. 2: the duty is "in
+  # addition to any other duties" — additive, no content split.
+  if (!'rate_s338' %in% names(df)) {
+    df$rate_s338 <- 0
+  } else {
+    df$rate_s338[is.na(df$rate_s338)] <- 0
+  }
 
   # TPC additive: all authorities stack with no mutual exclusion.
   # TPC confirmed (March 2026) they mostly agree with mutual exclusion between
@@ -2175,7 +2189,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       df %>%
         mutate(
           total_additional = rate_232 + rate_ieepa_recip + rate_ieepa_fent +
-            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
+            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
           total_rate = base_rate + total_additional
         )
     )
@@ -2241,12 +2255,12 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # China with 232: 232 + recip*nonmetal + fentanyl + 301 + s122*nonmetal + s201 + other
         country == cty_china & rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent + rate_301 +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
 
         # China without 232: reciprocal + fentanyl + 301 + s122 + s201 + other
         country == cty_china ~
           rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_other,
+          rate_s301fl + rate_s301br + rate_s338 + rate_other,
 
         # Others with 232: 232 + recip*nonmetal + fent*nonmetal + s122*nonmetal + s201 + other
         # Fentanyl follows the same content-based split as reciprocal: 232 covers
@@ -2254,11 +2268,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # For heading products (auto_parts, copper, autos), nonmetal_share ≈ 0.
         rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent * nonmetal_share +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
         TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_other
+          rate_s301fl + rate_s301br + rate_s338 + rate_other
       ),
       total_rate = base_rate + total_additional
     ) %>%
@@ -2280,7 +2294,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
 #' @param cty_china Census code for China (default: '5700')
 #' @param stacking_method 'mutual_exclusion' (default) or 'tpc_additive'
 #' @return df with net_232, net_ieepa, net_fentanyl, net_301, net_s122,
-#'   net_section_201, net_other added
+#'   net_section_201, net_s338, net_other added
 compute_net_authority_contributions <- function(df, cty_china = '5700',
                                                 stacking_method = 'mutual_exclusion') {
   # Ensure optional columns exist (backwards compat with old snapshots)
@@ -2288,6 +2302,10 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
   if (!'rate_section_201' %in% names(df)) df$rate_section_201 <- 0
   if (!'rate_other' %in% names(df)) df$rate_other <- 0
   if (!'metal_share' %in% names(df)) df$metal_share <- 1.0
+  # 2026 authorities; absent on older snapshots.
+  if (!'rate_s301fl' %in% names(df)) df$rate_s301fl <- 0
+  if (!'rate_s301br' %in% names(df)) df$rate_s301br <- 0
+  if (!'rate_s338' %in% names(df)) df$rate_s338 <- 0
 
   # TPC additive: all authorities contribute their full rate (no mutual exclusion)
   if (stacking_method == 'tpc_additive') {
@@ -2297,9 +2315,13 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
           net_232 = rate_232,
           net_ieepa = rate_ieepa_recip,
           net_fentanyl = rate_ieepa_fent,
-          net_301 = rate_301,
+          # The two 2026 §301 actions roll up into the §301 line so the ETR
+          # decomposition keeps one consistent Section 301 series; their own rate
+          # columns preserve the per-program detail.
+          net_301 = rate_301 + rate_s301fl + rate_s301br,
           net_s122 = rate_s122,
           net_section_201 = rate_section_201,
+          net_s338 = rate_s338,
           net_other = rate_other
         )
     )
@@ -2348,9 +2370,17 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
         rate_232 > 0 ~ rate_ieepa_fent * nonmetal_share,
         TRUE ~ rate_ieepa_fent
       ),
-      net_301 = if_else(country == cty_china, rate_301, 0),
+      # rate_301 is the China-only legacy §301 column, hence the cty_china gate.
+      # The 2026 actions are NOT China-scoped — Brazil (note 50) and 60 economies
+      # (note 52) — so they are added unconditionally and must not inherit that
+      # gate. All three roll up into one Section 301 line; the separate rate
+      # columns keep the programs distinguishable downstream.
+      net_301 = if_else(country == cty_china, rate_301, 0) + rate_s301fl + rate_s301br,
       net_s122 = if_else(rate_232 > 0, rate_s122 * nonmetal_share, rate_s122),
       net_section_201 = rate_section_201,
+      # §338 is a distinct statute (Tariff Act of 1930), so it gets its own line
+      # rather than folding into §301.
+      net_s338 = rate_s338,
       net_other = rate_other
     ) %>%
     select(-nonmetal_share)
@@ -2417,8 +2447,16 @@ classify_authority <- function(ch99_code) {
   middle <- suppressWarnings(as.integer(parts[2]))
   if (is.na(middle)) return('unknown')
 
-  # Section 122: 9903.03.xx (Phase 3, post-SCOTUS blanket)
+  # Section 122: 9903.03.01-.11 (Phase 3, post-SCOTUS blanket). Those eleven
+  # headings expired at the close of 2026-07-23 (91 Fed. Reg. 9339), so the
+  # subchapter has room above .11 — and the §338 Canada proclamations are
+  # PREDICTED to land at 9903.03.12-.14. Without this split a §338 heading would
+  # be silently attributed to Section 122, an authority that no longer exists.
+  # If USITC assigns §338 elsewhere, the completeness gate surfaces the heading
+  # as unresolved and this branch is corrected then.
   if (middle == 3) {
+    leaf <- suppressWarnings(as.integer(parts[3]))
+    if (!is.na(leaf) && leaf >= 12) return('section_338')
     return('section_122')
   }
 
@@ -3384,6 +3422,89 @@ s232_scope_mask <- function(rates) {
                               c('annex_1a', 'annex_1b', 'annex_1c', 'annex_3'), FALSE)
   }
   mask
+}
+
+
+#' Compute per-product-country Section 338 Canada rates
+#'
+#' Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338) lets the President
+#' impose duties to offset a foreign country's discrimination against U.S.
+#' commerce, capped at 50% ad valorem and effective no earlier than 30 days after
+#' the proclamation. Three proclamations of 2026-07-20, published 2026-07-23
+#' (91 FR 46653 et seq.), each impose 50% on an Annex II product list, all
+#' effective 12:01 a.m. ET 2026-08-19:
+#'   Proclamation 11047  dairy               (52 hts8)
+#'   (sibling)           motor vehicles      (439 hts8)
+#'   (sibling)           alcoholic beverages (63 hts8)
+#'
+#' Carve-outs, from Proclamation 11047 para. 2:
+#'   "The duties imposed in this proclamation shall not apply to articles subject
+#'    to duties pursuant to section 232 ... or articles, EXCLUDING UNMANNED
+#'    AIRCRAFT, subject to the WTO Agreement on Trade in Civil Aircraft."
+#' Both are FULL per-article exclusions. Otherwise the duty is "in addition to any
+#' other duties, taxes, fees, exactions, and charges" — it stacks.
+#'
+#' The unmanned-aircraft exception to the civil-aircraft carve-out means a GN 6
+#' line that IS an unmanned aircraft still pays. Those are enumerated separately
+#' because GN 6 itself does not distinguish them.
+#'
+#' @param rates Rates frame (needs hts10, country; uses the §232 columns)
+#' @param cfg policy_params$SECTION_338
+#' @param effective_date Revision effective date
+#' @return Numeric vector, length nrow(rates)
+compute_s338_rates <- function(rates, cfg, effective_date) {
+  n <- nrow(rates)
+  if (n == 0 || is.null(cfg)) return(rep(0, n))
+
+  eff <- as.Date(effective_date)
+  if (!is.null(cfg$effective_date) && eff < as.Date(cfg$effective_date)) {
+    return(rep(0, n))
+  }
+
+  cty <- as.character(cfg$country %||% '1220')
+  rate <- as.numeric(cfg$rate %||% 0)
+  # §338 caps the President's authority at 50% ad valorem; a config above that
+  # would be ultra vires, so clamp and warn rather than emit an illegal rate.
+  if (rate > 0.50 + 1e-9) {
+    warning('section_338 rate ', rate, ' exceeds the 19 U.S.C. 1338 statutory ',
+            'ceiling of 0.50 — clamping')
+    rate <- 0.50
+  }
+  if (rate <= 0) return(rep(0, n))
+
+  read_hts8 <- function(p, col_pref = c('hts8', 'hts_code', 'hts_prefix')) {
+    if (is.null(p)) return(NULL)
+    p <- if (file.exists(p)) p else here(p)
+    if (!file.exists(p)) return(NULL)
+    suppressWarnings(read_csv(p, col_types = cols(.default = col_character())))
+  }
+
+  prods <- read_hts8(cfg$products_file)
+  if (is.null(prods) || nrow(prods) == 0) {
+    message('  WARNING: section_338 products file missing/empty — no duty applied')
+    return(rep(0, n))
+  }
+  pcol <- intersect(c('hts8', 'hts_code', 'hts_prefix'), names(prods))[1]
+  covered <- unique(substr(prods[[pcol]], 1, 8))
+
+  gn6 <- read_hts8(cfg$gn6_exempt_products)
+  gn6_hts8 <- if (!is.null(gn6)) {
+    gcol <- intersect(c('hts8', 'hts_code', 'hts_prefix'), names(gn6))[1]
+    unique(substr(gn6[[gcol]], 1, 8))
+  } else character(0)
+  # The proclamation's unmanned-aircraft exception to the civil-aircraft carve-out.
+  uav_hts8 <- as.character(cfg$unmanned_aircraft_hts8 %||% character(0))
+  gn6_hts8 <- setdiff(gn6_hts8, substr(uav_hts8, 1, 8))
+
+  hts8 <- substr(rates$hts10, 1, 8)
+  out <- rep(0, n)
+  applies <- rates$country == cty & hts8 %in% covered
+  out[applies] <- rate
+
+  # Full exclusions.
+  out[hts8 %in% gn6_hts8] <- 0                 # WTO civil aircraft (minus UAVs)
+  out[s232_scope_mask(rates)] <- 0             # articles subject to §232
+  out
 }
 
 

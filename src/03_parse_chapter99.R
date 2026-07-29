@@ -220,7 +220,12 @@ extract_ch99_references <- function(description) {
 classify_resolution_status <- function(ch99_code, country_type) {
   case_when(
     country_type != 'unknown' ~ 'resolved_by_parser',
-    # Section 122 (post-IEEPA blanket authority): 9903.03.xx
+    # Section 338 Canada (19 U.S.C. 1338; Proclamation 11047 and siblings of
+    # 2026-07-20, eff. 2026-08-19). PREDICTED headings 9903.03.12-.14 — §122's
+    # 9903.03.01-.11 expired 2026-07-23, freeing the range. Handled by the
+    # section_338 config block.
+    grepl('^9903\\.03\\.1[2-9]$', ch99_code) ~ 'handled_by_s338_config',
+    # Section 122 (post-IEEPA blanket authority): 9903.03.01-.11
     # — handled by extract_section122_rate() + s122 logic in calculate_rates_for_revision()
     grepl('^9903\\.03\\.', ch99_code) ~ 'handled_by_s122_config',
     # IEEPA fentanyl/initial: 9903.01.01-24 — handled by extract_ieepa_fentanyl_rates()

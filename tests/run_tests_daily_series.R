@@ -184,10 +184,39 @@ run_test('net authorities sum to total_additional', {
   ts <- make_test_ts()
   net <- compute_net_authority_contributions(ts, cty_china = '5700')
   decomp_sum <- net$net_232 + net$net_ieepa + net$net_fentanyl +
-    net$net_301 + net$net_s122 + net$net_section_201 + net$net_other
+    net$net_301 + net$net_s122 + net$net_section_201 + net$net_s338 + net$net_other
   residual <- abs(decomp_sum - net$total_additional)
   max_residual <- max(residual)
   stopifnot(max_residual < 1e-10)
+})
+
+run_test('decomposition reconciles with the 2026 authorities live', {
+  # §301 forced-labor/Brazil roll up into net_301; §338 is its own line. If any of
+  # the three is omitted from the rollup the residual shows up as phantom
+  # etr_base, which is how a whole authority can silently vanish from the charts.
+  ts <- make_test_ts() %>%
+    mutate(rate_s301fl = 0.125,
+           rate_s301br = if_else(country == '5700', 0, 0.25),
+           rate_s338 = if_else(hts10 == '8703230000', 0.50, 0)) %>%
+    apply_stacking_rules(cty_china = '5700')
+  for (m in c('mutual_exclusion', 'tpc_additive')) {
+    st <- apply_stacking_rules(ts, cty_china = '5700', stacking_method = m)
+    net <- compute_net_authority_contributions(ts, cty_china = '5700',
+                                              stacking_method = m)
+    dsum <- net$net_232 + net$net_ieepa + net$net_fentanyl + net$net_301 +
+      net$net_s122 + net$net_section_201 + net$net_s338 + net$net_other
+    stopifnot(max(abs(dsum - st$total_additional)) < 1e-10)
+  }
+})
+
+run_test('the 2026 §301 actions are NOT gated on China like legacy rate_301', {
+  # net_301 zeroes legacy rate_301 off-China (it was a China-only program). The
+  # note-50 and note-52 actions cover Brazil and 60 economies, so they must be
+  # added unconditionally.
+  ts <- make_test_ts() %>% filter(country != '5700') %>%
+    mutate(rate_s301fl = 0.10, rate_s301br = 0.25)
+  net <- compute_net_authority_contributions(ts, cty_china = '5700')
+  stopifnot(all(abs(net$net_301 - 0.35) < 1e-10))
 })
 
 run_test('decomposition works with tpc_additive mode', {

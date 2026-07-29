@@ -214,6 +214,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       mean_fentanyl = mean(net_data$net_fentanyl),
       mean_s122 = mean(net_data$net_s122),
       mean_section_201 = mean(net_data$net_section_201),
+      mean_s338 = mean(net_data$net_s338),
       mean_other = mean(net_data$net_other)
     )
     if (has_weights) {
@@ -228,6 +229,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
         row$etr_fentanyl <- sum(wt_net$net_fentanyl * wt_net$imports) / total_imports
         row$etr_s122 <- sum(wt_net$net_s122 * wt_net$imports) / total_imports
         row$etr_section_201 <- sum(wt_net$net_section_201 * wt_net$imports) / total_imports
+        row$etr_s338 <- sum(wt_net$net_s338 * wt_net$imports) / total_imports
         row$etr_other <- sum(wt_net$net_other * wt_net$imports) / total_imports
       } else {
         row$etr_232 <- row$etr_301 <- row$etr_ieepa <- row$etr_fentanyl <- 0
@@ -270,7 +272,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       left_join(overall_etr, by = c('revision', 'valid_from', 'valid_until')) %>%
       mutate(
         etr_base = weighted_etr - (etr_232 + etr_301 + etr_ieepa + etr_fentanyl +
-                                    etr_s122 + etr_section_201 + etr_other)
+                                    etr_s122 + etr_section_201 + etr_s338 + etr_other)
       ) %>%
       select(-weighted_etr)
   }
@@ -491,7 +493,7 @@ export_daily_slice <- function(ts, date_range, countries = NULL, products = NULL
   # Select output columns
   default_columns <- c('date', 'hts10', 'country', 'base_rate',
                         'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-                        'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other',
+                        'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
                         'total_additional', 'total_rate', 'revision')
   out_cols <- if (!is.null(columns)) columns else default_columns
   out_cols <- intersect(out_cols, names(expanded))
