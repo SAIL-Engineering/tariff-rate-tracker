@@ -661,6 +661,42 @@ section_122:
   rate: 0.10                    # 10% non-discriminatory rate (from 9903.03.01)
   exempt_products: 'resources/s122_exempt_products.csv'
 
+# --- Section 301 Brazil (FINAL ACTION, baseline) ------------------------------
+# USTR Notice of Action, FR Doc 2026-14542 (91 FR 45516), published 2026-07-20,
+# duties effective 2026-07-22: 25% additional ad valorem on ALL products of
+# Brazil via heading 9903.05.01 / U.S. note 50 (digital trade and electronic
+# payment services; unfair preferential tariffs; anti-corruption enforcement; IP
+# protection; ethanol market access; illegal deforestation).
+#
+# Effective 2026-07-22 falls one day INSIDE rev_12's interval (published
+# 2026-07-21), so the turn-on is handled by the activation-gating mechanism
+# rather than the revision boundary — see collect_activation_adjustments().
+#
+# Stacks ADDITIVELY on everything per note 50(a) ("shall also be subject to any
+# additional duty provided for in this subchapter or in subchapter IV"),
+# INCLUDING the note-52 forced-labor §301 — Brazil is in the 12.5% forced-labor
+# tier as well, so Brazil pays 25% + 12.5%. Both roll up to authority
+# 'section_301' but need separate rate columns to express that sum.
+#
+# NOT modeled: the one-week in-transit window (9903.05.02) and the donations /
+# informational-materials exclusions (9903.05.08-.09).
+section_301_brazil:
+  effective_date: '2026-07-22'
+  # FALLBACK ONLY. Source of truth is heading 9903.05.01 ("+25%", codified from
+  # 2026 HTS rev_12); this literal is used when that heading is absent or
+  # unparseable in a revision's Chapter 99.
+  rate: 0.25
+  country: '3510'                                   # Brazil census code
+  # Note 50(a)(ii)+(iii): unconditional exclusions — fully exempt.
+  exempt_products: 'resources/s301_brazil_exempt_products.csv'
+  # Note 50(a)(iv)/(v): USE-conditional lists, share-scaled. The shares are
+  # REVERSE-ENGINEERED PLACEHOLDERS, not measured utilization — see
+  # docs/assumptions.md section 16.
+  aircraft_products: 'resources/s301_brazil_aircraft_products.csv'
+  aircraft_exempt_share: 0.90
+  pharma_products: 'resources/s301_brazil_pharma_products.csv'
+  pharma_exempt_share: 0.50
+
 # --- Section 301 forced labor (60 economies; FINAL ACTION, baseline) ---------
 # USTR Notice of Action FR Doc 2026-15181 (91 FR 47318) + presidential document
 # FR Doc 2026-15274 (91 FR 47717), both published 2026-07-28, duties effective

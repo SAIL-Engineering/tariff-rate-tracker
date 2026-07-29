@@ -944,6 +944,102 @@ run_test('s301fl stacks additively in apply_stacking_rules (note 52(a))', {
 
 
 # =============================================================================
+# Test 13: Section 301 Brazil + §232 scope mask + interval coverage
+# =============================================================================
+
+message('\n--- Test 13: 301 Brazil ---')
+
+br_test_cfg <- function(...) {
+  modifyList(list(
+    effective_date = as.Date('2026-07-22'), rate = 0.25, country = '3510',
+    exempt_products = NULL, aircraft_products = NULL, pharma_products = NULL,
+    aircraft_exempt_share = 0.90, pharma_exempt_share = 0.50
+  ), list(...))
+}
+br_rows <- function() tibble(
+  hts10 = c('0101300000', '7208100000', '0101300000'),
+  country = c('3510', '3510', '5700'),
+  statutory_rate_232 = c(0, 0.50, 0),
+  s232_annex = c(NA_character_, 'annex_1a', NA_character_),
+  rate_232 = c(0, 0.50, 0)
+)
+
+run_test('applies 25% to Brazil only, and never to other origins', {
+  r <- compute_s301br_rates(br_rows(), br_test_cfg(), as.Date('2026-07-22'))
+  stopifnot(abs(r[1] - 0.25) < 1e-12)
+  stopifnot(abs(r[3] - 0) < 1e-12)          # China untouched
+})
+
+run_test('note 50(a)(vi): §232-covered articles are excluded ENTIRELY', {
+  r <- compute_s301br_rates(br_rows(), br_test_cfg(), as.Date('2026-07-22'))
+  stopifnot(abs(r[2] - 0) < 1e-12)          # steel, statutory_rate_232 > 0
+})
+
+run_test('annex_2 is NOT shielded — those goods left §232 scope', {
+  # The April 2026 proclamation REMOVED annex II products from §232, so they are
+  # not "subject to" §232 and note 50(a)(vi) must not exempt them.
+  r <- compute_s301br_rates(
+    tibble(hts10 = '0101300000', country = '3510', statutory_rate_232 = 0,
+           s232_annex = 'annex_2', rate_232 = 0),
+    br_test_cfg(), as.Date('2026-07-22'))
+  stopifnot(abs(r - 0.25) < 1e-12)
+})
+
+run_test('HTS heading rate overrides the config fallback', {
+  r <- compute_s301br_rates(br_rows()[1, ], br_test_cfg(rate = 0.10),
+                            as.Date('2026-07-22'), hts_rate = 0.25)
+  stopifnot(abs(r - 0.25) < 1e-12)
+})
+
+run_test('contributes nothing before the effective date', {
+  r <- compute_s301br_rates(br_rows(), br_test_cfg(), as.Date('2026-07-21'))
+  stopifnot(all(abs(r) < 1e-12))
+})
+
+run_test('use-conditional lists share-scale; flat list fully exempts', {
+  ta <- tempfile(fileext = '.csv'); tp <- tempfile(fileext = '.csv')
+  tf <- tempfile(fileext = '.csv')
+  write_csv(tibble(hts8 = '39172100'), ta)
+  write_csv(tibble(hts8 = '28041000'), tp)
+  write_csv(tibble(hts8 = '02011005'), tf)
+  rows <- tibble(hts10 = c('3917210000','2804100000','0201100500','0101300000'),
+                 country = '3510', statutory_rate_232 = 0,
+                 s232_annex = NA_character_, rate_232 = 0)
+  r <- compute_s301br_rates(rows, br_test_cfg(aircraft_products = ta,
+                                              pharma_products = tp,
+                                              exempt_products = tf),
+                            as.Date('2026-07-22'))
+  stopifnot(abs(r[1] - 0.25 * 0.10) < 1e-12)   # aircraft share 0.90
+  stopifnot(abs(r[2] - 0.25 * 0.50) < 1e-12)   # pharma share 0.50
+  stopifnot(abs(r[3] - 0) < 1e-12)             # unconditional
+  stopifnot(abs(r[4] - 0.25) < 1e-12)
+  unlink(c(ta, tp, tf))
+})
+
+run_test('s232_scope_mask reads statutory rate, live rate and in-scope annexes', {
+  m <- s232_scope_mask(tibble(
+    statutory_rate_232 = c(0.5, 0,   0,          0,         0),
+    rate_232           = c(0,   0.25, 0,          0,         0),
+    s232_annex         = c(NA,  NA,  'annex_1b', 'annex_2', NA)))
+  stopifnot(identical(m, c(TRUE, TRUE, TRUE, FALSE, FALSE)))
+  stopifnot(length(s232_scope_mask(tibble())) == 0)
+})
+
+run_test('revision_interval_covers spans activation inside an interval', {
+  rd <- tibble(revision = c('r1','r2','r3'),
+               effective_date = as.Date(c('2026-07-01','2026-07-21','2026-07-24')))
+  # r2 runs 07-21..07-23, so it covers the 07-22 turn-on though it starts earlier.
+  stopifnot(revision_interval_covers('r2', as.Date('2026-07-21'),
+                                     as.Date('2026-07-22'), rd))
+  stopifnot(!revision_interval_covers('r1', as.Date('2026-07-01'),
+                                      as.Date('2026-07-22'), rd))
+  # The final revision is open-ended, so it covers any later activation.
+  stopifnot(revision_interval_covers('r3', as.Date('2026-07-24'),
+                                     as.Date('2026-08-19'), rd))
+})
+
+
+# =============================================================================
 # Summary
 # =============================================================================
 

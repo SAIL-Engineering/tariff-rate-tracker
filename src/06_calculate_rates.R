@@ -2529,6 +2529,56 @@ calculate_rates_for_revision <- function(
     }
   }
 
+  # 6b0b. Apply Section 301 Brazil (91 FR 45516, duties effective 2026-07-22).
+  #       Heading 9903.05.01 / U.S. note 50: 25% on all products of Brazil except
+  #       the note-50(a)(ii)-(v) lists, with articles subject to §232 excluded
+  #       ENTIRELY by note 50(a)(vi) / heading 9903.05.07.
+  #
+  #       Placed AFTER the §232 blocks so statutory_rate_232 and s232_annex are
+  #       populated — the note-50(a)(vi) carve-out is a full per-article exclusion
+  #       evaluated per product-country, not a content split.
+  br_cfg <- pp$SECTION_301_BRAZIL
+  if (!is.null(br_cfg)) {
+    br_eff <- as.Date(br_cfg$effective_date)
+    # Source of truth for the rate is the HTS heading; config is the fallback.
+    br_hts_rate <- {
+      h <- ch99_data %>% filter(ch99_code == '9903.05.01', !is.na(rate), rate > 0)
+      if (nrow(h) > 0) max(h$rate) else NA_real_
+    }
+    # Compute whenever this revision's INTERVAL reaches the effective date, not
+    # just when the revision starts on/after it: rev_12 starts 2026-07-21 and the
+    # duty starts 07-22, so the rate is computed here and the activation gate
+    # zeroes only the 07-21 day.
+    br_in_force <- revision_interval_covers(revision_id, effective_date, br_eff)
+    if (isTRUE(br_in_force)) {
+      br_cty <- as.character(br_cfg$country %||% '3510')
+      if (br_cty %in% countries) {
+        # Materialize Brazil pairs for products that carry no other duty, then
+        # compute the rate once over the whole frame so exemption share-scaling
+        # and the §232 carve-out apply uniformly to old and new rows.
+        rates <- add_blanket_pairs(
+          rates, products, products$hts10,
+          tibble(country = br_cty,
+                 blanket_rate = coalesce(br_hts_rate, as.numeric(br_cfg$rate %||% 0))),
+          'rate_s301br', 'Section 301 Brazil duties')
+        rates$rate_s301br <- compute_s301br_rates(
+          rates, br_cfg, effective_date = max(as.Date(effective_date), br_eff),
+          hts_rate = br_hts_rate)
+        n_br <- sum(rates$rate_s301br > 0)
+        message('  Section 301 Brazil: ', round(coalesce(br_hts_rate,
+                  as.numeric(br_cfg$rate %||% 0)) * 100), '% on ',
+                format(n_br, big.mark = ','), ' product-country pairs (rate from ',
+                if (!is.na(br_hts_rate)) 'HTS 9903.05.01' else 'config fallback',
+                '; §232-covered articles fully excluded per note 50(a)(vi);',
+                ' aircraft/pharma exempt shares ', br_cfg$aircraft_exempt_share %||% 0,
+                '/', br_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+      }
+    } else {
+      message('  Section 301 Brazil not yet effective (', br_cfg$effective_date,
+              ') — not applied')
+    }
+  }
+
   # 6b1. Apply Section 201 (Trade Act §201 safeguard) tariffs.
   #      Currently models Solar 201 (Proc 9693 + Proc 10454, 9903.45.21–.25)
   #      on CSPV cells/modules. The 201 rate stacks on top of MFN, separate

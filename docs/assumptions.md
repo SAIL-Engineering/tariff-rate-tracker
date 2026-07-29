@@ -257,6 +257,12 @@ The `nonzero_base_only` toggle partially overlaps with these product-specific ex
 | Civil-aircraft use (GN 6) | 9903.05.88 | 541 hts8 | **0.90** |
 | Pharmaceutical applications | 9903.05.89 | 700 hts8 | **0.50** |
 
+The **§301 Brazil** action (note 50(a)(iv)/(v), heading 9903.05.01) carries the
+same two conditional categories and reuses the same two share values — 546
+aircraft-use and 705 pharma-use hts8 lines. Everything below applies to it
+equally; its unconditional list (note 50(a)(ii)+(iii), 875 hts8) is fully exempt
+and needs no assumption.
+
 **These two numbers are not measured.** They are reverse-engineered from Global Trade Alert's published effective rates for the final action (2.5% aircraft, 12.5% pharma) so that our aggregate matches theirs. That is circular: it calibrates our output to a third party's output rather than to observed utilization. They are carried because they keep this fork comparable to the Budget-Lab-Yale line, which uses the same values — **not** because they are evidenced.
 
 Treat any aircraft- or pharma-heavy origin's forced-labor rate as having a wide error bar. Sensitivity is direct and linear: at share 0 those 1,241 hts8 lines pay the full 10%/12.5%; at share 1 they pay nothing.

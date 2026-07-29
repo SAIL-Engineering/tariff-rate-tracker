@@ -64,7 +64,7 @@ export_snapshot_for_etrs <- function(ts,
     'hts10', 'country',
     'base_rate', 'rate_232', 'rate_301',
     'rate_ieepa_recip', 'rate_ieepa_fent',
-    'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other',
+    'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other',
     'metal_share', 'usmca_eligible',
     'total_additional', 'total_rate'
   )
@@ -119,7 +119,7 @@ export_snapshot_for_etrs <- function(ts,
 adjust_snapshot <- function(snapshot, adjustments) {
 
   valid_cols <- c('rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-                  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other')
+                  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other')
 
   for (col_name in names(adjustments)) {
     if (!col_name %in% valid_cols) {
@@ -202,7 +202,7 @@ create_etrs_scenario <- function(ts,
     'hts10', 'country',
     'base_rate', 'rate_232', 'rate_301',
     'rate_ieepa_recip', 'rate_ieepa_fent',
-    'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other',
+    'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other',
     'metal_share', 'usmca_eligible',
     'total_additional', 'total_rate'
   )

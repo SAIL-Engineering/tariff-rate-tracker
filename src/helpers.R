@@ -1379,7 +1379,7 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 #' bucket keeps working.
 AUTHORITY_RATE_COLS <- c(
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other'
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other'
 )
 
 
@@ -1406,7 +1406,7 @@ zero_fill_authority_rates <- function(df, cols = AUTHORITY_RATE_COLS) {
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_other',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
@@ -1436,7 +1436,7 @@ enforce_rate_schema <- function(df) {
     hts10 = NA_character_, country = NA_character_,
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
-    rate_s301fl = 0, rate_other = 0,
+    rate_s301fl = 0, rate_s301br = 0, rate_other = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
@@ -2157,6 +2157,13 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
   } else {
     df$rate_s301fl[is.na(df$rate_s301fl)] <- 0
   }
+  # §301 Brazil (91 FR 45516). Note 50(a) stacks it additively on everything,
+  # including the note-52 forced-labor §301 — Brazil is in both actions.
+  if (!'rate_s301br' %in% names(df)) {
+    df$rate_s301br <- 0
+  } else {
+    df$rate_s301br[is.na(df$rate_s301br)] <- 0
+  }
 
   # TPC additive: all authorities stack with no mutual exclusion.
   # TPC confirmed (March 2026) they mostly agree with mutual exclusion between
@@ -2168,7 +2175,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       df %>%
         mutate(
           total_additional = rate_232 + rate_ieepa_recip + rate_ieepa_fent +
-            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_other,
+            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
           total_rate = base_rate + total_additional
         )
     )
@@ -2234,12 +2241,12 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # China with 232: 232 + recip*nonmetal + fentanyl + 301 + s122*nonmetal + s201 + other
         country == cty_china & rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent + rate_301 +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
 
         # China without 232: reciprocal + fentanyl + 301 + s122 + s201 + other
         country == cty_china ~
           rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_other,
+          rate_s301fl + rate_s301br + rate_other,
 
         # Others with 232: 232 + recip*nonmetal + fent*nonmetal + s122*nonmetal + s201 + other
         # Fentanyl follows the same content-based split as reciprocal: 232 covers
@@ -2247,11 +2254,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # For heading products (auto_parts, copper, autos), nonmetal_share ≈ 0.
         rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent * nonmetal_share +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_other,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
         TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_other
+          rate_s301fl + rate_s301br + rate_other
       ),
       total_rate = base_rate + total_additional
     ) %>%
@@ -3304,6 +3311,153 @@ load_s301fl_exemptions <- function(fl_cfg) {
     }
   }
 
+  out
+}
+
+
+#' Does a revision's validity interval reach a policy activation date?
+#'
+#' A duty whose effective date falls strictly INSIDE a revision interval (§301
+#' Brazil: 2026-07-22 vs rev_12 published 2026-07-21) or after the last published
+#' revision (§338 Canada: 2026-08-19) must still be COMPUTED for the enclosing
+#' revision, so the activation gate can then expose it only from its effective
+#' date onward. Computing it only when `revision effective_date >= activation`
+#' would delay the duty to the next revision — days or weeks late.
+#'
+#' @param revision_id This revision's id
+#' @param effective_date This revision's effective date
+#' @param activation_date The policy's legal effective date
+#' @param rev_dates Optional pre-loaded revision_dates (avoids a reload)
+#' @return TRUE if this revision's interval covers activation_date
+revision_interval_covers <- function(revision_id, effective_date, activation_date,
+                                     rev_dates = NULL) {
+  eff <- as.Date(effective_date)
+  act <- as.Date(activation_date)
+  if (is.na(eff) || is.na(act)) return(FALSE)
+  if (eff >= act) return(TRUE)          # revision starts on/after the activation
+
+  rd <- rev_dates
+  if (is.null(rd)) {
+    rd <- tryCatch(suppressMessages(load_revision_dates()), error = function(e) NULL)
+  }
+  if (is.null(rd) || !all(c('revision', 'effective_date') %in% names(rd))) return(FALSE)
+
+  rd <- rd %>% arrange(effective_date)
+  i <- match(revision_id, rd$revision)
+  if (is.na(i)) return(FALSE)
+  # Interval runs to the day before the next revision; the last one runs open-ended.
+  end <- if (i < nrow(rd)) as.Date(rd$effective_date[i + 1]) - 1 else as.Date('9999-12-31')
+  act <= end
+}
+
+
+#' Per-row mask: is this product-country subject to Section 232?
+#'
+#' Several 2026 authorities carve out §232-covered articles ENTIRELY rather than
+#' splitting by metal content:
+#'   - §301 Brazil, note 50(a)(vi) / heading 9903.05.07
+#'   - §338 Canada, Proclamation 11047 para. 2 ("shall not apply to articles
+#'     subject to duties pursuant to section 232")
+#' Both need the same test, so it lives here once.
+#'
+#' A product is in §232 scope if it carries a statutory §232 rate, or sits in an
+#' IN-SCOPE annex tier. Annex II is deliberately excluded: the April 2026
+#' proclamation REMOVED those products from §232 entirely, so they are not
+#' "subject to" §232 and the carve-out must not shield them. Heading programs
+#' (autos, copper, wood, MHD, semiconductors) are covered by the statutory-rate
+#' clause whenever their program is active.
+#'
+#' @param rates Rates tibble (needs statutory_rate_232 and/or s232_annex)
+#' @return Logical vector, length nrow(rates)
+s232_scope_mask <- function(rates) {
+  n <- nrow(rates)
+  if (n == 0) return(logical(0))
+  mask <- rep(FALSE, n)
+  if ('statutory_rate_232' %in% names(rates)) {
+    mask <- mask | coalesce(rates$statutory_rate_232 > 0, FALSE)
+  }
+  if ('rate_232' %in% names(rates)) {
+    mask <- mask | coalesce(rates$rate_232 > 0, FALSE)
+  }
+  if ('s232_annex' %in% names(rates)) {
+    mask <- mask | coalesce(rates$s232_annex %in%
+                              c('annex_1a', 'annex_1b', 'annex_1c', 'annex_3'), FALSE)
+  }
+  mask
+}
+
+
+#' Compute per-product-country Section 301 Brazil rates
+#'
+#' USTR Notice of Action, FR Doc 2026-14542 (91 FR 45516), published 2026-07-20,
+#' duties effective 2026-07-22: 25% additional ad valorem on ALL products of
+#' Brazil via heading 9903.05.01 / U.S. note 50, except the note-50(a)(ii)-(v)
+#' product lists. Rate is sourced from the HTS heading where available and falls
+#' back to the configured literal.
+#'
+#' Exclusions:
+#'   - note 50(a)(ii)+(iii): unconditional, fully exempt (875 hts8)
+#'   - note 50(a)(iv)/(v): USE-conditional civil-aircraft (546) / pharmaceutical
+#'     (705) lists, share-scaled (PLACEHOLDER shares — docs/assumptions.md)
+#'   - note 50(a)(vi) / heading 9903.05.07: articles subject to §232 are excluded
+#'     ENTIRELY (a full per-article exclusion, not a content split)
+#'
+#' NOT modeled: the one-week in-transit window (9903.05.02), donations and
+#' informational materials (9903.05.08-.09).
+#'
+#' @param rates Rates tibble for this revision (needs hts10, country, and the
+#'   §232 columns for the note-50(a)(vi) mask)
+#' @param br_cfg policy_params$SECTION_301_BRAZIL
+#' @param effective_date Revision effective date
+#' @param hts_rate Optional rate parsed from heading 9903.05.01 (overrides config)
+#' @return Numeric vector, length nrow(rates), of Brazil §301 rates
+compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL) {
+  n <- nrow(rates)
+  if (n == 0 || is.null(br_cfg)) return(rep(0, n))
+
+  eff <- as.Date(effective_date)
+  cty <- as.character(br_cfg$country %||% '3510')
+  rate <- if (!is.null(hts_rate) && !is.na(hts_rate) && hts_rate > 0) {
+    hts_rate
+  } else {
+    as.numeric(br_cfg$rate %||% 0)
+  }
+  if (rate <= 0) return(rep(0, n))
+
+  is_br <- rates$country == cty
+  if (!any(is_br)) return(rep(0, n))
+
+  hts8 <- substr(rates$hts10, 1, 8)
+  read_hts8 <- function(p) {
+    if (is.null(p)) return(character(0))
+    p <- if (file.exists(p)) p else here(p)
+    if (!file.exists(p)) return(character(0))
+    t <- suppressWarnings(read_csv(p, col_types = cols(.default = col_character())))
+    col <- intersect(c('hts8', 'hts_code', 'hts_prefix'), names(t))[1]
+    if (is.na(col)) character(0) else unique(substr(t[[col]], 1, 8))
+  }
+
+  flat  <- read_hts8(br_cfg$exempt_products)
+  air   <- read_hts8(br_cfg$aircraft_products)
+  pharm <- read_hts8(br_cfg$pharma_products)
+  air_share   <- as.numeric(br_cfg$aircraft_exempt_share %||% 0)
+  pharm_share <- as.numeric(br_cfg$pharma_exempt_share %||% 0)
+
+  exempt_share <- rep(0, n)
+  exempt_share <- pmax(exempt_share, if_else(hts8 %in% air,   air_share,   0))
+  exempt_share <- pmax(exempt_share, if_else(hts8 %in% pharm, pharm_share, 0))
+  exempt_share <- pmax(exempt_share, if_else(hts8 %in% flat,  1,           0))
+
+  # note 50(a)(vi): full exclusion for articles subject to §232.
+  exempt_share <- pmax(exempt_share, if_else(s232_scope_mask(rates), 1, 0))
+
+  out <- rate * (1 - pmin(1, exempt_share))
+  out[!is_br] <- 0
+  # Pre-effective-date revisions get 0; the activation gate additionally zeroes
+  # sub-intervals inside the enclosing revision (see collect_activation_adjustments).
+  if (!is.null(br_cfg$effective_date) && eff < as.Date(br_cfg$effective_date)) {
+    out[] <- 0
+  }
   out
 }
 
