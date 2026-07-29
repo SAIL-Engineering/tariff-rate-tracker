@@ -66,6 +66,47 @@ parse_countries <- function(description) {
     return(list(type = 'specific', countries = countries, exempt = character(0)))
   }
 
+  # "articles the product of <Country>" is an unambiguous country-specific scope,
+  # and it must be tested BEFORE the "except ... heading" blanket branch below.
+  #
+  # This ordering is load-bearing. The 2026 §301 regimes (note 50 Brazil, note 52
+  # forced labor for 60 economies) phrase every per-country rate line as
+  #   "Except for products described in headings 9903.05.85-9903.05.92,
+  #    articles the product of <Country>, as provided for in U.S. note 52..."
+  # which matches `except.*heading`. That branch used to consult a hardcoded
+  # 7-country shortlist (canada/mexico/japan/korea/kingdom/european/russia) and,
+  # for any country NOT on it, returned type='all' with an EMPTY country list —
+  # silently converting a country-specific duty into a blanket all-countries rate
+  # and stamping it 'resolved_by_parser' so the Ch99 completeness gate never saw
+  # it. In 2026 rev_13 that mis-scoped 53 rated headings (10%/12.5%/25%); only
+  # Mexico and Russia tripped the gate, purely because they happened to be ON the
+  # shortlist and so fell through to 'unknown'.
+  # "articles the product of a member state of the European Union" — a single
+  # heading covering all 27 EU census origins (note 52 uses this for the EU tier).
+  if (str_detect(desc_lower, 'product of a member state of the european union')) {
+    eu <- tryCatch(load_policy_params()$EU27_CODES, error = function(e) NULL)
+    if (length(eu) > 0) {
+      return(list(type = 'specific', countries = as.character(eu),
+                  exempt = character(0)))
+    }
+    return(list(type = 'unknown', countries = character(0), exempt = character(0)))
+  }
+
+  product_of <- str_match(
+    description,
+    '(?:articles?|goods)\\s+(?:that\\s+are\\s+)?the\\s+product\\s+of\\s+(?:the\\s+)?([A-Z][^,;]*?)\\s*(?:,|;|\\s+that\\s|\\s+as\\s+provided|\\s+which\\s|$)'
+  )
+  if (!is.na(product_of[1, 1])) {
+    codes <- resolve_country_name(product_of[1, 2])
+    if (length(codes) > 0) {
+      return(list(type = 'specific', countries = codes, exempt = character(0)))
+    }
+    # Named a country we cannot map to a code. Do NOT fall through to the
+    # blanket branch — that is the bug described above. Return 'unknown' so the
+    # completeness gate surfaces it if the heading carries a rate.
+    return(list(type = 'unknown', countries = character(0), exempt = character(0)))
+  }
+
   # Check for "except" clauses that reference HTS headings, not countries.
   # e.g., "Except for derivative iron or steel products described in headings 9903.81.89..."
   # These are blanket rates — the "except" carves out other HTS codes, not countries.
@@ -199,6 +240,23 @@ classify_resolution_status <- function(ch99_code, country_type) {
     grepl('^9903\\.01\\.(4[3-9]|[5-8][0-9])$', ch99_code) ~ 'handled_by_ieepa_extractor',
     # IEEPA reciprocal Phase 2 + Swiss framework: 9903.02.02-91
     grepl('^9903\\.02\\.(0[2-9]|[1-8][0-9]|9[01])$', ch99_code) ~ 'handled_by_ieepa_extractor',
+    # Section 301 Brazil (U.S. note 50, 91 FR 45516, eff. 2026-07-22):
+    # 9903.05.01 carries the +25% rate; .02-.09 are the in-transit window,
+    # subdivision carve-outs, civil aircraft, pharma, donations and
+    # informational materials — exclusions with no additional duty.
+    # Handled by the section_301_brazil config in policy_params.yaml.
+    grepl('^9903\\.05\\.01$', ch99_code) ~ 'handled_by_s301br_config',
+    grepl('^9903\\.05\\.0[2-9]$', ch99_code) ~ 's301br_exclusion_no_rate',
+    # Section 301 forced labor, 60 economies (U.S. note 52, 91 FR 47318 /
+    # 91 FR 47717, eff. 2026-07-24): 9903.05.20-.84 are the per-economy rate
+    # lines (10% / 12.5%, flat or total-duty-capped); 9903.05.85-.99 and
+    # 9903.06.01-.21 are the note 52(b)-(k) exclusions, the in-transit window
+    # and the per-country carve-outs — no additional duty of their own.
+    # Handled by the section_301_forced_labor config in policy_params.yaml.
+    grepl('^9903\\.05\\.[2-7][0-9]$', ch99_code) ~ 'handled_by_s301fl_config',
+    grepl('^9903\\.05\\.8[0-4]$', ch99_code) ~ 'handled_by_s301fl_config',
+    grepl('^9903\\.05\\.(8[5-9]|9[0-9])$', ch99_code) ~ 's301fl_exclusion_no_rate',
+    grepl('^9903\\.06\\.', ch99_code) ~ 's301fl_exclusion_no_rate',
     # Section 232 MHD vehicles: 9903.74.xx — handled by extract_section232_rates()
     # (auto_deal_rates logic)
     grepl('^9903\\.74', ch99_code) ~ 'handled_by_s232_extractor',
@@ -404,6 +462,41 @@ check_ch99_completeness <- function(ch99_data, ch99_other = NULL,
   unresolved_rated <- ch99_data %>%
     filter(resolution_status %in% c('unresolved', 'unresolved_s201'),
            !is.na(rate), rate > 0)
+
+  # Defense in depth against the mis-scoping class of bug: a heading whose text
+  # names a specific origin ("articles the product of Kazakhstan") but which the
+  # parser scoped to country_type = 'all' with an EMPTY country list is a
+  # country-specific duty silently promoted to a global blanket rate. That
+  # promotion stamps resolution_status = 'resolved_by_parser', so the
+  # unresolved-rated check above can never see it — which is exactly how 53 rated
+  # headings of the 2026 note-52 regime passed this gate while only 2 tripped it.
+  # Needs the scope columns; tolerate reduced fixtures/older caches without them.
+  mis_scoped <- if (all(c('country_type', 'countries', 'description') %in% names(ch99_data))) {
+    ch99_data %>%
+      filter(!is.na(rate), rate > 0, country_type == 'all',
+             lengths(countries) == 0,
+             grepl('the product of\\s+(?:the\\s+)?[A-Z]', coalesce(description, ''))) %>%
+      filter(!ch99_code %in% (
+        if (file.exists(here('config', 'ch99_unresolved_allowlist.csv'))) {
+          readr::read_csv(here('config', 'ch99_unresolved_allowlist.csv'),
+                          col_types = readr::cols(.default = readr::col_character()))$ch99_code
+        } else character(0)))
+  } else {
+    ch99_data[0, , drop = FALSE]
+  }
+  if (nrow(mis_scoped) > 0) {
+    msg <- paste0(
+      'Chapter 99 country scope: ', nrow(mis_scoped), ' rated heading(s) name a ',
+      'specific origin but were scoped to ALL countries with an empty country ',
+      'list — a country-specific duty promoted to a global blanket rate: ',
+      paste(utils::head(mis_scoped$ch99_code, 10), collapse = ', '),
+      if (nrow(mis_scoped) > 10) ' ...' else '',
+      '. Fix parse_countries() (or resolve_country_name() for the origin name).'
+    )
+    rev_year_ms <- suppressWarnings(as.integer(substr(revision_id %||% '', 1, 4)))
+    if (!identical(Sys.getenv('SAIL_CH99_STRICT', '1'), '0') &&
+        !is.na(rev_year_ms) && rev_year_ms >= 2025) stop(msg) else warning(msg)
+  }
 
   allow_path <- here('config', 'ch99_unresolved_allowlist.csv')
   allowed <- if (file.exists(allow_path)) {

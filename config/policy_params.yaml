@@ -661,6 +661,64 @@ section_122:
   rate: 0.10                    # 10% non-discriminatory rate (from 9903.03.01)
   exempt_products: 'resources/s122_exempt_products.csv'
 
+# --- Section 301 forced labor (60 economies; FINAL ACTION, baseline) ---------
+# USTR Notice of Action FR Doc 2026-15181 (91 FR 47318) + presidential document
+# FR Doc 2026-15274 (91 FR 47717), both published 2026-07-28, duties effective
+# 2026-07-24. USTR determined under Trade Act §301(b)/§304(a) that in each of 60
+# investigations the economy fails to impose and effectively enforce a
+# prohibition on importing goods produced with forced labor, and imposed tariffs
+# on ALL products of each investigated economy, with Annex I/II exclusions.
+# Codified as U.S. note 52(a)-(k) and headings 9903.05.20-9903.06.21 in 2026 HTS
+# rev_13. Note 52(a) stacks the duty on the general rate AND on other subchapter
+# III/IV duties except as carved out by subdivisions (b)-(k).
+#
+# Four rate tiers. NOTE the two *_net_mfn tiers are a TOTAL-DUTY CAP, not an
+# additive rate: the additional duty is max(0, cap - base_rate), the same shape
+# as the annex_3 floor. The flat tiers are additive.
+#
+# NOT modeled: the in-transit window (heading 9903.05.85 — loaded before
+# 2026-07-24 and entered before 2026-07-28).
+section_301_forced_labor:
+  effective_date: '2026-07-24'
+  rate_10: 0.10
+  rate_12_5: 0.125
+  # Annex I (common, 2,120 hts8) conditions: full/ex = unconditional exemption;
+  # aircraft/pharma = USE-conditional, share-scaled below.
+  common_exemptions: 'resources/s301fl_final_common_exemptions.csv'
+  # Annex II (per-country, 4,921 rows) conditions: full = unconditional;
+  # fta = preference-conditional (exempt only when entered free under the FTA).
+  country_exemptions: 'resources/s301fl_final_country_exemptions.csv'
+  # ASSUMPTION — NOT MEASURED. See docs/assumptions.md. The model is hts8-grained
+  # and cannot observe end use, so the USE-conditional aircraft/pharma exclusions
+  # are approximated as utilization shares (covered lines pay rate * (1 - share)).
+  # These two values are reverse-engineered from Global Trade Alert's published
+  # effective rates, NOT from measured utilization. Refinement path: the GN6
+  # civil-aircraft machinery carries measured HTS10 aircraft shares.
+  aircraft_exempt_share: 0.90
+  pharma_exempt_share: 0.50
+  # Annex I Part B adds patented pharmaceuticals effective 2026-07-31.
+  patented_pharma_exempt_date: '2026-07-31'
+  patented_pharma_products: 'resources/s232_pharma_products.csv'
+  # Economies whose cap applies AFTER preference programs are claimed.
+  post_preference_cap_countries: ['5800']             # South Korea
+  # Flat 10%: 17 economies.
+  tier_10pct: ['1220', '2010', '2050', '2110', '2150', '2740', '3310', '3570',
+               '4120', '5110', '5330', '5350', '5380', '5420', '5550', '5570',
+               '5600']
+  # 10% TOTAL-duty cap: EU-27 census origins + Taiwan.
+  tier_10pct_net_mfn: ['4010', '4050', '4099', '4190', '4210', '4231', '4239',
+                       '4279', '4280', '4330', '4351', '4359', '4370', '4470',
+                       '4490', '4510', '4550', '4700', '4710', '4730', '4759',
+                       '4791', '4792', '4840', '4850', '4870', '4910', '5830']
+  # 12.5% TOTAL-duty cap: Japan, South Korea, Switzerland.
+  tier_12_5pct_net_mfn: ['4419', '5800', '5880']
+  # Flat 12.5%: the remaining 38 investigated economies.
+  tier_12_5pct: ['2190', '2230', '2360', '2470', '3010', '3070', '3120', '3330',
+                 '3370', '3510', '3550', '4039', '4621', '4634', '4890', '5050',
+                 '5081', '5130', '5170', '5180', '5200', '5230', '5250', '5490',
+                 '5520', '5590', '5650', '5700', '5820', '6021', '6141', '7140',
+                 '7210', '7250', '7290', '7530', '7620', '7910']
+
 # --- Series time horizon ---
 # End date for timeseries valid_until on the final revision.
 # Controls how far forward daily series, ETR queries, and exports extend.

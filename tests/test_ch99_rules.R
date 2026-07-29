@@ -331,6 +331,54 @@ run_test('9902/9904 parsed with inline triggers', {
   stopifnot(out$subchapter[out$ch99_code == '9904.05.01'] == 'ag_safeguard_9904')
 })
 
+message('\n=== resolve_country_name (note-50/52 origin resolution) ===')
+
+run_test('resolves plain, articled, and diacritic HTS spellings', {
+  stopifnot(identical(resolve_country_name('Kazakhstan'), '4634'))
+  stopifnot(identical(resolve_country_name('the Philippines'), '5650'))
+  stopifnot(identical(resolve_country_name('the United Kingdom'), '4120'))
+  stopifnot(identical(resolve_country_name('Türkiye'), '4890'))       # census: "Turkey"
+  stopifnot(identical(resolve_country_name('South Korea'), '5800'))   # prefix match
+  stopifnot(identical(resolve_country_name('Syria'), '5020'))         # parenthetical gloss
+})
+
+run_test('does NOT split country names containing " and "', {
+  # "Bosnia and Herzegovina" / "Trinidad and Tobago" must resolve whole; naive
+  # splitting on ' and ' shreds them into unresolvable fragments.
+  stopifnot(length(resolve_country_name('Bosnia and Herzegovina')) == 1)
+  stopifnot(identical(resolve_country_name('Trinidad and Tobago'), '2740'))
+})
+
+run_test('resolves two origins joined by " or "', {
+  codes <- resolve_country_name('Cameroon or the Democratic Republic of the Congo')
+  stopifnot(length(codes) == 2, '7420' %in% codes)
+})
+
+run_test('European Union expands to the 27 census origins', {
+  stopifnot(length(resolve_country_name('European Union')) == 27)
+})
+
+run_test('fails CLOSED on unresolvable or partial input', {
+  stopifnot(length(resolve_country_name('Ruritania')) == 0)
+  # Partial resolution of a two-origin heading is worse than none: it applies a
+  # duty to one of two origins and looks correct.
+  stopifnot(length(resolve_country_name('Cameroon or Ruritania')) == 0)
+  stopifnot(length(resolve_country_name('')) == 0)
+  stopifnot(length(resolve_country_name(NA_character_)) == 0)
+})
+
+run_test('parse_countries scopes a note-52 rate line to its origin, not "all"', {
+  # The regression that mis-scoped 53 rated headings: this text matches
+  # `except.*heading`, and the old shortlist branch returned type='all' with an
+  # empty country list for any origin not on its 7-country list.
+  d <- paste('Except for products described in headings 9903.05.85-9903.05.92,',
+             'articles the product of Kazakhstan, as provided for in U.S. note 52',
+             'to this subchapter')
+  res <- parse_countries(d)
+  stopifnot(res$type == 'specific')
+  stopifnot(identical(res$countries, '4634'))
+})
+
 message('\n=== check_ch99_completeness ===')
 
 run_test('unresolved rated heading fails strict 2025+ build, allowlist clears it', {

@@ -949,6 +949,34 @@ load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
     params$SECTION_201 <- params$section_201
   }
 
+  # Section 301 forced labor (60 economies; 91 FR 47318 / 91 FR 47717).
+  # The UPPER-case key is what collect_activation_adjustments() looks for, so
+  # presence of this block is what arms the 2026-07-24 activation gate.
+  if (!is.null(params$section_301_forced_labor)) {
+    params$SECTION_301_FORCED_LABOR <- params$section_301_forced_labor
+    params$SECTION_301_FORCED_LABOR$effective_date <-
+      as.Date(params$section_301_forced_labor$effective_date)
+    if (!is.null(params$section_301_forced_labor$patented_pharma_exempt_date)) {
+      params$SECTION_301_FORCED_LABOR$patented_pharma_exempt_date <-
+        as.Date(params$section_301_forced_labor$patented_pharma_exempt_date)
+    }
+    # Country scope = the union of the four tiers. collect_activation_adjustments()
+    # reads `countries` for its gate scope; without it the gate would zero
+    # rate_s301fl for every country, including the investigated ones.
+    fl <- params$SECTION_301_FORCED_LABOR
+    params$SECTION_301_FORCED_LABOR$countries <- unique(c(
+      fl$tier_10pct, fl$tier_10pct_net_mfn,
+      fl$tier_12_5pct, fl$tier_12_5pct_net_mfn
+    ))
+  }
+
+  # Section 301 Brazil (91 FR 45516). Same arming semantics as above.
+  if (!is.null(params$section_301_brazil)) {
+    params$SECTION_301_BRAZIL <- params$section_301_brazil
+    params$SECTION_301_BRAZIL$effective_date <-
+      as.Date(params$section_301_brazil$effective_date)
+  }
+
   # Local paths (optional user-specific file locations)
   params$LOCAL_PATHS <- load_local_paths()
 
@@ -1341,7 +1369,7 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_other',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
@@ -1370,7 +1398,8 @@ enforce_rate_schema <- function(df) {
   defaults <- list(
     hts10 = NA_character_, country = NA_character_,
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
-    rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
+    rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
+    rate_s301fl = 0, rate_other = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
@@ -2082,6 +2111,16 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
   } else {
     df$metal_share[is.na(df$metal_share)] <- 1.0
   }
+  # §301 forced labor (91 FR 47318). Note 52(a): products subject to these
+  # headings "shall also be subject to any additional duty provided for in this
+  # subchapter or in subchapter IV" — so it stacks ADDITIVELY on everything,
+  # with no metal-content split. The note 52(b)-(k) carve-outs are applied as
+  # exemptions when the rate is computed, not as a stacking adjustment.
+  if (!'rate_s301fl' %in% names(df)) {
+    df$rate_s301fl <- 0
+  } else {
+    df$rate_s301fl[is.na(df$rate_s301fl)] <- 0
+  }
 
   # TPC additive: all authorities stack with no mutual exclusion.
   # TPC confirmed (March 2026) they mostly agree with mutual exclusion between
@@ -2093,7 +2132,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       df %>%
         mutate(
           total_additional = rate_232 + rate_ieepa_recip + rate_ieepa_fent +
-            rate_301 + rate_s122 + rate_section_201 + rate_other,
+            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_other,
           total_rate = base_rate + total_additional
         )
     )
@@ -2159,11 +2198,12 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # China with 232: 232 + recip*nonmetal + fentanyl + 301 + s122*nonmetal + s201 + other
         country == cty_china & rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent + rate_301 +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_other,
 
         # China without 232: reciprocal + fentanyl + 301 + s122 + s201 + other
         country == cty_china ~
-          rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 + rate_other,
+          rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
+          rate_s301fl + rate_other,
 
         # Others with 232: 232 + recip*nonmetal + fent*nonmetal + s122*nonmetal + s201 + other
         # Fentanyl follows the same content-based split as reciprocal: 232 covers
@@ -2171,10 +2211,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # For heading products (auto_parts, copper, autos), nonmetal_share ≈ 0.
         rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent * nonmetal_share +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_other,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
-        TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 + rate_other
+        TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 +
+          rate_s301fl + rate_other
       ),
       total_rate = base_rate + total_additional
     ) %>%
@@ -2336,6 +2377,18 @@ classify_authority <- function(ch99_code) {
   # Section 122: 9903.03.xx (Phase 3, post-SCOTUS blanket)
   if (middle == 3) {
     return('section_122')
+  }
+
+  # Section 301 (Trade Act of 1974) — two 2026 actions share subchapter 9903.05:
+  #   9903.05.01-.09        Brazil digital trade / preferential tariffs / IP /
+  #                         ethanol / deforestation (U.S. note 50, 91 FR 45516)
+  #   9903.05.20-9903.06.21 forced labor, 60 economies (U.S. note 52,
+  #                         91 FR 47318 + 91 FR 47717)
+  # Both roll up to authority 'section_301' so the ETR decomposition keeps one
+  # consistent §301 line; the specific programs stay distinguishable via their
+  # own rate columns (rate_s301br / rate_s301fl) and ch99 codes.
+  if (middle == 5 || middle == 6) {
+    return('section_301')
   }
 
   # Section 232:
@@ -2996,6 +3049,227 @@ load_232_derivative_products <- function(path = here('resources', 's232_derivati
 
   message('  Loaded ', nrow(products), ' Section 232 derivative product prefixes')
   return(products)
+}
+
+
+#' Resolve a SINGLE country name captured from Chapter 99 heading text
+#'
+#' Deliberately separate from extract_country_names(), which scans free text for
+#' ALL country substrings (used for "except products of A, B, C" exemption lists).
+#' Substring-scanning 240 census names would produce false hits — "Niger" inside
+#' "Nigeria", "India" inside "British Indian Ocean Territory" — so a captured
+#' single name gets exact/aliased resolution instead.
+#'
+#' Backed by resources/census_codes.csv (all 240 origins) rather than a hardcoded
+#' map, so new economies resolve without a code change. Returns CENSUS codes;
+#' check_country_applies() accepts either census or ISO.
+#'
+#' @param name Character scalar, e.g. "Kazakhstan", "the Philippines", "Türkiye"
+#' @return Character vector of census codes (length 0 if unresolvable)
+resolve_country_name <- function(name) {
+  if (is.null(name) || length(name) == 0 || is.na(name) || !nzchar(trimws(name))) {
+    return(character(0))
+  }
+
+  # Try the WHOLE phrase first. This must precede any splitting, because " and "
+  # is part of many country names — "Bosnia and Herzegovina", "Trinidad and
+  # Tobago", "Antigua and Barbuda", "Saint Kitts and Nevis". Splitting first
+  # would shred them into unresolvable fragments.
+  whole <- .resolve_one_country(name)
+  if (length(whole) > 0) return(whole)
+
+  # Chapter 99 rate lines routinely name two origins on one heading, e.g.
+  # "articles the product of Cameroon or the Democratic Republic of the Congo".
+  # Only " or " (and commas) separate distinct origins in this corpus; " and " is
+  # deliberately NOT a separator, per the names above.
+  parts <- unlist(strsplit(name, '\\s+or\\s+|,\\s*', perl = TRUE))
+  parts <- trimws(parts)
+  parts <- parts[nzchar(parts)]
+  if (length(parts) <= 1) return(character(0))
+
+  out <- character(0)
+  for (part in parts) {
+    codes <- .resolve_one_country(part)
+    # Fail CLOSED on a partial resolution: silently applying a two-origin duty
+    # to only one origin is a wrong number that looks right. Returning nothing
+    # makes parse_countries() report 'unknown', which the Ch99 completeness gate
+    # surfaces when the heading carries a rate.
+    if (length(codes) == 0) return(character(0))
+    out <- c(out, codes)
+  }
+  unique(out)
+}
+
+
+# Resolve one country name to census code(s). 'European Union' expands to EU27.
+.resolve_one_country <- function(name) {
+  lookup <- .census_name_lookup()
+  norm <- normalize_country_name(name)
+  if (!nzchar(norm)) return(character(0))
+  # A split part can retain the article, e.g. "Cameroon or THE Democratic
+  # Republic of the Congo" -> "the democratic republic of the congo".
+  norm <- sub('^the\\s+', '', norm)
+  if (!nzchar(norm)) return(character(0))
+
+  # The EU is named as a bloc on several reciprocal headings.
+  if (norm %in% c('european union', 'eu', 'member state of the european union',
+                  'a member state of the european union')) {
+    eu <- tryCatch(load_policy_params()$EU27_CODES, error = function(e) NULL)
+    return(if (length(eu) > 0) as.character(eu) else character(0))
+  }
+
+  # HTS spellings that differ from the Census list. normalize_country_name()
+  # strips non-ASCII and punctuation, so accented/apostrophised names arrive
+  # mangled: "Côte d'Ivoire" -> "cte divoire", "Türkiye" -> "trkiye".
+  aliases <- c(
+    'trkiye'                          = 'turkey',
+    'turkiye'                         = 'turkey',
+    'cte divoire'                     = 'cote divoire',
+    'cte divoire'                     = 'cote divoire',
+    'ivory coast'                     = 'cote divoire',
+    'south korea'                     = 'south korea republic of korea',
+    'republic of korea'               = 'south korea republic of korea',
+    'north korea'                     = 'north korea democratic peoples republic of korea',
+    'russian federation'              = 'russia',
+    'myanmar'                         = 'burma myanmar',
+    'myanmar burma'                   = 'burma myanmar',
+    'burma'                           = 'burma myanmar',
+    'democratic republic of the congo' = 'congo democratic republic of the congo',
+    'republic of the congo'           = 'congo republic of the congo',
+    'czechia'                         = 'czech republic',
+    'cabo verde'                      = 'cape verde',
+    'east timor'                      = 'timorleste'
+  )
+  if (norm %in% names(aliases)) norm <- unname(aliases[norm])
+
+  hit <- lookup$code[match(norm, lookup$norm_name)]
+  if (!is.na(hit)) return(hit)
+
+  # Census names often carry a parenthetical gloss that the HTS omits, e.g.
+  # "Falkland Islands (Islas Malvinas)", "Syria (Syrian Arab Republic)". A single
+  # unambiguous prefix match resolves those; ambiguity fails closed.
+  cand <- lookup$code[startsWith(lookup$norm_name, norm)]
+  if (length(cand) == 1) return(cand)
+
+  character(0)
+}
+
+
+# Cached normalized Census name -> code lookup (240 origins).
+.census_name_lookup_cache <- NULL
+.census_name_lookup <- function() {
+  if (!is.null(.census_name_lookup_cache)) return(.census_name_lookup_cache)
+  path <- here('resources', 'census_codes.csv')
+  if (!file.exists(path)) {
+    return(tibble(norm_name = character(0), code = character(0)))
+  }
+  tbl <- read_csv(path, col_types = cols(Code = col_character(),
+                                         Name = col_character())) %>%
+    transmute(norm_name = normalize_country_name(Name), code = Code) %>%
+    filter(nzchar(norm_name)) %>%
+    distinct(norm_name, .keep_all = TRUE)
+  # Fold in the curated GN-name aliases already maintained in the repo.
+  apath <- here('resources', 'country_name_aliases.csv')
+  if (file.exists(apath)) {
+    al <- read_csv(apath, col_types = cols(.default = col_character())) %>%
+      transmute(norm_name = normalize_country_name(gn_name), code = census_code) %>%
+      filter(nzchar(norm_name))
+    tbl <- bind_rows(tbl, al) %>% distinct(norm_name, .keep_all = TRUE)
+  }
+  .census_name_lookup_cache <<- tbl
+  tbl
+}
+
+
+#' Resolve per-country Section 301 forced-labor tier rates
+#'
+#' USTR imposed four distinct tiers (91 FR 47318). Two are FLAT additional ad
+#' valorem rates; the other two are TOTAL-DUTY CAPS, where the additional duty is
+#' whatever brings the total to the cap — max(0, cap - base_rate), the same shape
+#' as the annex_3 floor. Conflating them would overcharge every capped economy by
+#' its MFN rate.
+#'
+#' @param countries Character vector of census country codes
+#' @param fl_cfg policy_params$SECTION_301_FORCED_LABOR
+#' @return Tibble with country, fl_rate, fl_is_cap
+s301fl_country_tiers <- function(countries, fl_cfg) {
+  empty <- tibble(country = character(0), fl_rate = numeric(0), fl_is_cap = logical(0))
+  if (is.null(fl_cfg)) return(empty)
+
+  r10  <- as.numeric(fl_cfg$rate_10  %||% 0.10)
+  r125 <- as.numeric(fl_cfg$rate_12_5 %||% 0.125)
+
+  tiers <- bind_rows(
+    tibble(country = as.character(fl_cfg$tier_10pct         %||% character(0)),
+           fl_rate = r10,  fl_is_cap = FALSE),
+    tibble(country = as.character(fl_cfg$tier_10pct_net_mfn %||% character(0)),
+           fl_rate = r10,  fl_is_cap = TRUE),
+    tibble(country = as.character(fl_cfg$tier_12_5pct       %||% character(0)),
+           fl_rate = r125, fl_is_cap = FALSE),
+    tibble(country = as.character(fl_cfg$tier_12_5pct_net_mfn %||% character(0)),
+           fl_rate = r125, fl_is_cap = TRUE)
+  )
+  if (nrow(tiers) == 0) return(empty)
+
+  # A country in two tiers is a config defect — the notice assigns exactly one.
+  dup <- tiers$country[duplicated(tiers$country)]
+  if (length(dup) > 0) {
+    warning('s301fl_country_tiers: country in multiple tiers (config defect): ',
+            paste(unique(dup), collapse = ', '))
+    tiers <- tiers %>% distinct(country, .keep_all = TRUE)
+  }
+
+  tiers %>% filter(country %in% countries)
+}
+
+
+#' Load and normalize the Section 301 forced-labor exemption annexes
+#'
+#' Annex I (common) conditions: full/ex = unconditional; aircraft/pharma =
+#' USE-conditional (share-scaled by the caller). Annex II (per-country)
+#' conditions: full = unconditional; fta = preference-conditional. The `countries`
+#' column of Annex II is `;`-separated (e.g. the 27 EU census origins, or the six
+#' CAFTA-DR origins on one row), so it is exploded to one row per country.
+#'
+#' @param fl_cfg policy_params$SECTION_301_FORCED_LABOR
+#' @return list(common = tibble(hts8, condition), country = tibble(country, hts8, condition))
+load_s301fl_exemptions <- function(fl_cfg) {
+  out <- list(common = tibble(hts8 = character(0), condition = character(0)),
+              country = tibble(country = character(0), hts8 = character(0),
+                               condition = character(0)))
+  if (is.null(fl_cfg)) return(out)
+
+  cpath <- fl_cfg$common_exemptions
+  if (!is.null(cpath)) {
+    cpath <- if (file.exists(cpath)) cpath else here(cpath)
+    if (file.exists(cpath)) {
+      out$common <- read_csv(cpath, col_types = cols(.default = col_character())) %>%
+        transmute(hts8 = hts_code,
+                  # 'ex' (an ex-line carve-out) is treated as a full exemption,
+                  # matching the annex builder.
+                  condition = if_else(condition == 'ex', 'full', condition)) %>%
+        distinct()
+    } else {
+      message('  WARNING: s301fl common exemptions not found: ', cpath)
+    }
+  }
+
+  kpath <- fl_cfg$country_exemptions
+  if (!is.null(kpath)) {
+    kpath <- if (file.exists(kpath)) kpath else here(kpath)
+    if (file.exists(kpath)) {
+      out$country <- read_csv(kpath, col_types = cols(.default = col_character())) %>%
+        mutate(country = strsplit(countries, ';')) %>%
+        tidyr::unnest(country) %>%
+        transmute(country = trimws(country), hts8 = hts_code,
+                  condition = if_else(condition == 'ex', 'full', condition)) %>%
+        distinct()
+    } else {
+      message('  WARNING: s301fl country exemptions not found: ', kpath)
+    }
+  }
+
+  out
 }
 
 
