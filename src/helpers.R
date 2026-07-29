@@ -1366,6 +1366,43 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 #'     "19cfr159.3_value" for ad valorem (value in even dollars),
 #'     "19cfr159.3_specific_lte1" for specific rates <= $1/unit,
 #'     "19cfr159.3_specific_gt1" for specific rates > $1/unit.
+#' Per-authority additional-duty rate columns — SINGLE SOURCE OF TRUTH
+#'
+#' Every column here is an additional ad valorem duty that stacks onto base_rate.
+#' This list previously existed as ~14 hardcoded copies across src/ (zero-fill
+#' initializers, select() lists, NA-fill lists, export column sets). Adding an
+#' authority therefore meant editing all of them, and missing one produced silent
+#' NAs that got coalesced to 0 — i.e. a duty quietly dropped. Use this constant
+#' (or zero_fill_authority_rates()) instead of writing the list out again.
+#'
+#' NB: 'rate_other' stays LAST so downstream code that treats it as the residual
+#' bucket keeps working.
+AUTHORITY_RATE_COLS <- c(
+  'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other'
+)
+
+
+#' Add any missing per-authority rate column as 0
+#'
+#' Use in place of hand-written `rate_x = 0, rate_y = 0, ...` initializers so a
+#' new authority is picked up automatically.
+#'
+#' @param df Data frame
+#' @param cols Columns to ensure (default: all authority rate columns)
+#' @return df with every requested column present and NA-free
+zero_fill_authority_rates <- function(df, cols = AUTHORITY_RATE_COLS) {
+  for (col in cols) {
+    if (!col %in% names(df)) {
+      df[[col]] <- 0
+    } else {
+      df[[col]][is.na(df[[col]])] <- 0
+    }
+  }
+  df
+}
+
+
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
@@ -1460,8 +1497,7 @@ enforce_rate_schema <- function(df) {
   # grid pairs legitimately leaves an absent authority column NA — that IS a 0
   # rate. NB: total_additional/total_rate are deliberately NOT in this list —
   # they are guarded above (a NA total is a bug, not a fill-to-0 case).
-  rate_cols <- c('base_rate', 'statutory_base_rate', 'rate_232', 'rate_301', 'rate_ieepa_recip',
-                 'rate_ieepa_fent', 'rate_s122', 'rate_section_201', 'rate_other')
+  rate_cols <- c('base_rate', 'statutory_base_rate', AUTHORITY_RATE_COLS)
   for (col in rate_cols) {
     if (col %in% names(df)) {
       df[[col]][is.na(df[[col]])] <- 0
@@ -2964,10 +3000,9 @@ add_blanket_pairs <- function(rates, products, covered_hts10, country_rates,
     tidyr::expand_grid(country = applicable) %>%
     anti_join(existing, by = c('hts10', 'country')) %>%
     left_join(country_rates, by = 'country') %>%
-    mutate(
-      rate_232 = 0, rate_301 = 0, rate_ieepa_recip = 0,
-      rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0
-    )
+    # Zero-fill from the single source of truth: a hardcoded list here silently
+    # left any newly added authority column as NA on blanket-added pairs.
+    zero_fill_authority_rates()
 
   new_pairs[[rate_col]] <- new_pairs$blanket_rate
   new_pairs <- new_pairs %>%
@@ -3270,6 +3305,134 @@ load_s301fl_exemptions <- function(fl_cfg) {
   }
 
   out
+}
+
+
+#' Compute per-product-country Section 301 forced-labor rates
+#'
+#' USTR Notice of Action 91 FR 47318 + presidential document 91 FR 47717,
+#' effective 2026-07-24: additional duties on ALL products of 60 investigated
+#' economies, with the Annex I/II exclusions of U.S. note 52(b)-(k).
+#'
+#' Rate resolution, in order:
+#'   1. Tier lookup. FLAT tiers add fl_rate outright. CAP tiers ("10% total-duty
+#'      cap") instead add max(0, cap - base), the annex_3 floor shape — treating a
+#'      cap as additive would overcharge every capped economy by its whole MFN
+#'      rate.
+#'   2. Exempt share. Unconditional exclusions (Annex I 'full'/'ex', Annex II
+#'      'full') are share 1.0. USE-conditional exclusions cannot be observed on an
+#'      hts8-grained model, so they are approximated by a share of imports:
+#'      civil-aircraft use and pharmaceutical applications from config
+#'      (PLACEHOLDERS — see docs/assumptions.md), and the CAFTA-DR preference
+#'      condition ('fta') proxied by the measured HS2xcountry MFN-exemption share,
+#'      which is this repo's existing estimate of preference-claim rates.
+#'      Where several conditions cover one line the most generous (max) wins.
+#'   3. rate = applicable * (1 - exempt_share).
+#'
+#' Cap base: economies listed in post_preference_cap_countries have the cap
+#' measured against the post-preference (effective) base; the rest against the
+#' statutory MFN base. Falls back to base_rate when statutory is unavailable.
+#'
+#' NOT modeled: the in-transit window (heading 9903.05.85).
+#'
+#' @param products Tibble with hts10 and base_rate (optionally statutory_base_rate)
+#' @param countries Character vector of census country codes in the panel
+#' @param fl_cfg policy_params$SECTION_301_FORCED_LABOR
+#' @param effective_date Revision effective date (gates the patented-pharma annex)
+#' @param mfn_shares Optional tibble(hs2, cty_code, exemption_share) for the
+#'   'fta' preference-claim proxy; NULL treats fta lines as fully exempt
+#' @return Tibble(hts10, country, rate_s301fl) with strictly positive rates only
+compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
+                                 mfn_shares = NULL) {
+  empty <- tibble(hts10 = character(0), country = character(0),
+                  rate_s301fl = numeric(0))
+  if (is.null(fl_cfg) || is.null(products) || nrow(products) == 0) return(empty)
+
+  eff <- as.Date(effective_date)
+  if (!is.null(fl_cfg$effective_date) && eff < as.Date(fl_cfg$effective_date)) {
+    return(empty)   # regime not yet in force for this revision
+  }
+
+  tiers <- s301fl_country_tiers(countries, fl_cfg)
+  if (nrow(tiers) == 0) return(empty)
+
+  ex <- load_s301fl_exemptions(fl_cfg)
+  air_share <- as.numeric(fl_cfg$aircraft_exempt_share %||% 0)
+  pharma_share <- as.numeric(fl_cfg$pharma_exempt_share %||% 0)
+  post_pref <- as.character(fl_cfg$post_preference_cap_countries %||% character(0))
+
+  # Annex I Part B adds patented pharmaceuticals from a later date.
+  pat_hts8 <- character(0)
+  pat_date <- fl_cfg$patented_pharma_exempt_date
+  if (!is.null(pat_date) && eff >= as.Date(pat_date)) {
+    ppath <- fl_cfg$patented_pharma_products
+    if (!is.null(ppath)) {
+      ppath <- if (file.exists(ppath)) ppath else here(ppath)
+      if (file.exists(ppath)) {
+        pp_tbl <- suppressWarnings(read_csv(ppath, col_types = cols(.default = col_character())))
+        col <- intersect(c('hts8', 'hts_prefix', 'hts_code'), names(pp_tbl))[1]
+        if (!is.na(col)) pat_hts8 <- unique(substr(pp_tbl[[col]], 1, 8))
+      }
+    }
+  }
+
+  base_col <- if ('statutory_base_rate' %in% names(products)) 'statutory_base_rate' else 'base_rate'
+  prod <- products %>%
+    transmute(hts10,
+              hts8 = substr(hts10, 1, 8),
+              hs2 = substr(hts10, 1, 2),
+              base_eff = coalesce(base_rate, 0),
+              base_stat = coalesce(.data[[base_col]], base_rate, 0))
+
+  # Unconditional / conditional exemption shares, keyed by hts8.
+  common_share <- ex$common %>%
+    mutate(share = case_when(condition == 'full'     ~ 1,
+                             condition == 'aircraft' ~ air_share,
+                             condition == 'pharma'   ~ pharma_share,
+                             TRUE ~ 0)) %>%
+    group_by(hts8) %>% summarise(common_share = max(share), .groups = 'drop')
+
+  country_full <- ex$country %>% filter(condition == 'full') %>%
+    distinct(country, hts8) %>% mutate(country_share = 1)
+  country_fta <- ex$country %>% filter(condition == 'fta') %>% distinct(country, hts8)
+
+  out <- tiers %>%
+    tidyr::expand_grid(prod) %>%
+    left_join(common_share, by = 'hts8') %>%
+    left_join(country_full, by = c('country', 'hts8')) %>%
+    mutate(fta_hit = FALSE)
+
+  if (nrow(country_fta) > 0) {
+    out <- out %>%
+      left_join(country_fta %>% mutate(.fta = TRUE), by = c('country', 'hts8')) %>%
+      mutate(fta_hit = coalesce(.fta, FALSE)) %>% select(-.fta)
+  }
+
+  # 'fta' lines are exempt only when the good is actually entered under the
+  # preference. Proxy the claim rate with the measured HS2xcountry MFN-exemption
+  # share; with no share data, treat the exclusion as full (the legal default).
+  if (!is.null(mfn_shares) && nrow(mfn_shares) > 0) {
+    out <- out %>%
+      left_join(mfn_shares %>% select(hs2, cty_code, exemption_share),
+                by = c('hs2', 'country' = 'cty_code')) %>%
+      mutate(fta_share = if_else(fta_hit, coalesce(exemption_share, 0), 0)) %>%
+      select(-exemption_share)
+  } else {
+    out <- out %>% mutate(fta_share = if_else(fta_hit, 1, 0))
+  }
+
+  out %>%
+    mutate(
+      pat_share = if_else(hts8 %in% pat_hts8, 1, 0),
+      exempt_share = pmin(1, pmax(coalesce(common_share, 0),
+                                  coalesce(country_share, 0),
+                                  fta_share, pat_share)),
+      cap_base = if_else(country %in% post_pref, base_eff, base_stat),
+      applicable = if_else(fl_is_cap, pmax(0, fl_rate - cap_base), fl_rate),
+      rate_s301fl = applicable * (1 - exempt_share)
+    ) %>%
+    filter(rate_s301fl > 0) %>%
+    select(hts10, country, rate_s301fl)
 }
 
 

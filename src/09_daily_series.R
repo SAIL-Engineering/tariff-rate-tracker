@@ -491,7 +491,7 @@ export_daily_slice <- function(ts, date_range, countries = NULL, products = NULL
   # Select output columns
   default_columns <- c('date', 'hts10', 'country', 'base_rate',
                         'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-                        'rate_s122', 'rate_section_201', 'rate_other',
+                        'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other',
                         'total_additional', 'total_rate', 'revision')
   out_cols <- if (!is.null(columns)) columns else default_columns
   out_cols <- intersect(out_cols, names(expanded))

@@ -2471,6 +2471,64 @@ calculate_rates_for_revision <- function(
             length(s122_exempt_hts8), ' HTS8 exempt)')
   }
 
+  # 6b0. Apply Section 301 forced labor (60 economies; 91 FR 47318 / 91 FR 47717,
+  #      effective 2026-07-24). Codified as U.S. note 52 + headings
+  #      9903.05.20-9903.06.21 in 2026 HTS rev_13.
+  #
+  #      Config-driven rather than sourced from the HTS rate lines: the notice
+  #      assigns four DISTINCT tier semantics (two flat, two total-duty caps) that
+  #      the heading text does not distinguish — every line reads "+10%"/"+12.5%"
+  #      regardless of whether it is additive or a cap — plus per-economy Annex
+  #      I/II exclusion lists that are not in the HTS at all. The heading set is
+  #      still validated: classify_resolution_status() marks 9903.05.20-.84
+  #      handled_by_s301fl_config, so a heading appearing without config coverage
+  #      trips the completeness gate.
+  fl_cfg <- pp$SECTION_301_FORCED_LABOR
+  if (!is.null(fl_cfg)) {
+    fl_in_force <- as.Date(effective_date) >= as.Date(fl_cfg$effective_date)
+    if (fl_in_force) {
+      fl_rates <- compute_s301fl_rates(
+        products       = products,
+        countries      = countries,
+        fl_cfg         = fl_cfg,
+        effective_date = effective_date,
+        mfn_shares     = tryCatch(load_mfn_exemption_shares(), error = function(e) NULL)
+      )
+      if (nrow(fl_rates) > 0) {
+        rates <- rates %>%
+          left_join(fl_rates, by = c('hts10', 'country'), suffix = c('', '.fl')) %>%
+          mutate(rate_s301fl = coalesce(
+            if ('rate_s301fl.fl' %in% names(.)) rate_s301fl.fl else rate_s301fl, 0)) %>%
+          select(-any_of('rate_s301fl.fl'))
+
+        # Products of an investigated economy that carry no other additional duty
+        # are not yet in `rates` — add them.
+        fl_country_rates <- fl_rates %>%
+          group_by(country) %>% summarise(blanket_rate = max(rate_s301fl), .groups = 'drop')
+        rates <- add_blanket_pairs(rates, products, unique(fl_rates$hts10),
+                                   fl_country_rates, 'rate_s301fl',
+                                   'Section 301 forced-labor duties')
+        # add_blanket_pairs applies one blanket rate per country; overwrite the
+        # newly added pairs with their true per-product rate.
+        rates <- rates %>%
+          left_join(fl_rates %>% rename(.fl_true = rate_s301fl),
+                    by = c('hts10', 'country')) %>%
+          mutate(rate_s301fl = coalesce(.fl_true, 0)) %>%
+          select(-.fl_true)
+
+        n_fl <- sum(rates$rate_s301fl > 0)
+        message('  Section 301 forced labor: ', format(n_fl, big.mark = ','),
+                ' product-country pairs across ',
+                n_distinct(fl_rates$country), ' economies',
+                ' (aircraft/pharma exempt shares ', fl_cfg$aircraft_exempt_share %||% 0,
+                '/', fl_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+      }
+    } else {
+      message('  Section 301 forced labor not yet effective (',
+              fl_cfg$effective_date, ') — not applied')
+    }
+  }
+
   # 6b1. Apply Section 201 (Trade Act §201 safeguard) tariffs.
   #      Currently models Solar 201 (Proc 9693 + Proc 10454, 9903.45.21–.25)
   #      on CSPV cells/modules. The 201 rate stacks on top of MFN, separate

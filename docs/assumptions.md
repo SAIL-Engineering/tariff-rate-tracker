@@ -245,3 +245,45 @@ The `nonzero_base_only` toggle partially overlaps with these product-specific ex
 **Source:** `src/expand_ieepa_exempt.R` Fix 3 (ITA prefix expansion) based on the legal text of US Note 2 subdivision (v)(iii). The tracker's interpretation is broader; Tariff-ETRs uses a narrower product list.
 
 **Implementation:** `resources/ieepa_exempt_products.csv` (4,325 HTS10 codes), expanded from the base Annex A list via `src/expand_ieepa_exempt.R`.
+
+---
+
+## 16. Section 301 Forced Labor: Use-Conditional Exclusion Shares
+
+**Assumption:** Two of the four U.S. note 52 exclusion categories are conditioned on the **end use** of the imported article, which an HTS8-grained model cannot observe. They are approximated as a share of imports that qualifies, so covered lines pay `rate × (1 - share)` rather than being fully exempt or fully dutiable:
+
+| Note 52 category | Heading | Lines | Assumed exempt share |
+|---|---|---|---|
+| Civil-aircraft use (GN 6) | 9903.05.88 | 541 hts8 | **0.90** |
+| Pharmaceutical applications | 9903.05.89 | 700 hts8 | **0.50** |
+
+**These two numbers are not measured.** They are reverse-engineered from Global Trade Alert's published effective rates for the final action (2.5% aircraft, 12.5% pharma) so that our aggregate matches theirs. That is circular: it calibrates our output to a third party's output rather than to observed utilization. They are carried because they keep this fork comparable to the Budget-Lab-Yale line, which uses the same values — **not** because they are evidenced.
+
+Treat any aircraft- or pharma-heavy origin's forced-labor rate as having a wide error bar. Sensitivity is direct and linear: at share 0 those 1,241 hts8 lines pay the full 10%/12.5%; at share 1 they pay nothing.
+
+**Refinement path:** the GN 6 civil-aircraft machinery already carries *measured* HTS10 aircraft shares (`resources/s232_aircraft_exempt_taiwan.csv` and the note-35(c) product lists use the same legal concept). Driving `aircraft_exempt_share` from those, per HTS10 rather than one flat number, would remove half of this assumption.
+
+**Related but NOT an assumption:** the third conditional category, the CAFTA-DR preference condition (`condition = 'fta'`, 1,737 rows across six origins — note 52(i)/heading 9903.05.95), is proxied by the **measured** HS2×country MFN-exemption share already maintained in `resources/mfn_exemption_shares.csv` (4,695 pairs). That is an empirical estimate of preference-claim rates, not a calibrated placeholder.
+
+**Also not modeled:** the in-transit window (heading 9903.05.85 — goods loaded before 12:01 a.m. ET 2026-07-24 and entered before 12:01 a.m. ET 2026-07-28). This understates duty collections for one week of entries at the regime's start.
+
+**Source:** USTR Notice of Action, 91 FR 47318 (FR Doc 2026-15181); presidential document 91 FR 47717 (FR Doc 2026-15274); both published 2026-07-28, effective 2026-07-24. Share values from globaltradealert.org's published effective rates, via the upstream Budget-Lab-Yale implementation.
+
+**Implementation:** `config/policy_params.yaml` (`section_301_forced_labor`: `aircraft_exempt_share`, `pharma_exempt_share`), `src/helpers.R:compute_s301fl_rates()`, `src/06_calculate_rates.R` step 6b0. The build logs the share values on every revision where the regime applies, marked "ASSUMED, not measured".
+
+---
+
+## 17. Section 301 Forced Labor: Total-Duty Cap Base
+
+**Assumption:** Two of the four rate tiers are **total-duty caps** ("10% / 12.5% inclusive of MFN"), not additive rates, so the additional duty is `max(0, cap - base)`. Which `base` applies is a judgment call the notice does not spell out per economy:
+
+- Economies in `post_preference_cap_countries` (currently South Korea, census 5800) have the cap measured against the **post-preference (effective)** base rate.
+- All other capped economies (EU-27 + Taiwan; Japan, Switzerland) are measured against the **statutory MFN** base.
+
+Where a product's MFN rate already meets or exceeds the cap, the additional duty is zero and the product-country pair carries no forced-labor duty at all — which is the intended reading of a cap, but it means the regime's coverage count is materially smaller for capped economies than for flat-rate ones.
+
+**Why it matters:** treating a cap as additive would overcharge every capped economy by its entire MFN rate — roughly 3.5pp on average across the EU-27 in our panel, and far more on high-MFN lines (apparel, footwear). Conversely, measuring the cap against the preferential rather than statutory base lowers the additional duty wherever a preference is claimable.
+
+**Source:** tier structure from 91 FR 47318; the cap-base split follows the upstream Budget-Lab-Yale reading. The notice text does not state the base explicitly for each tier.
+
+**Implementation:** `src/helpers.R:s301fl_country_tiers()` (flat vs cap flag) and `compute_s301fl_rates()` (`cap_base` selection).

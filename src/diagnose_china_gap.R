@@ -127,7 +127,7 @@ cat('STEP 2: Authority Decomposition\n')
 cat('========================================\n\n')
 
 rate_cols <- c('base_rate', 'rate_232', 'rate_301', 'rate_ieepa_recip',
-               'rate_ieepa_fent', 'rate_s122', 'rate_section_201', 'rate_other')
+               'rate_ieepa_fent', 'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_other')
 # Use only columns that exist in the snapshot
 rate_cols <- intersect(rate_cols, names(china_merged))
 
