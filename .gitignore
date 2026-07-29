@@ -84,3 +84,11 @@ node_modules/
 # Python bytecode
 **/__pycache__/
 *.pyc
+
+# Corpus build artifacts (built into the repo root by run_locally.sh step 4)
+/us_*.jsonl
+/us_*.codes.json
+/us_*.manifest.json
+/ca_*.jsonl
+/ca_*.codes.json
+/ca_*.manifest.json

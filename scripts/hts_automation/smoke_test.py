@@ -45,6 +45,18 @@ def poll_health(url: str, timeout: int) -> None:
             if r.status_code == 200:
                 print(f"[health] 200 OK ({url})", flush=True)
                 return
+            # A 404 is a WRONG URL, not a service still warming up. Polling it
+            # for the full timeout hides a config error behind what looks like a
+            # slow deploy — which is exactly what happened: the configured URL
+            # was /health while the route is /api/health, so this had never
+            # passed. Fail immediately and say so.
+            if r.status_code == 404:
+                sys.exit(
+                    f"ERROR: {url} returned 404 — the health route does not exist "
+                    f"at that path. The server exposes /api/health and /api/ready. "
+                    f"Fix SAIL_GTX_HEALTHCHECK_URL (env file locally, repo/org "
+                    f"variable for GitHub Actions)."
+                )
             last_status = f"{r.status_code}"
         except requests.RequestException as e:
             last_status = f"exception={e}"

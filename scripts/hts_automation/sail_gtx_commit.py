@@ -93,6 +93,8 @@ def _sha256_of_file(path: str) -> str:
 
 
 _REV_FILE_RE = re.compile(r"^hts_(\d{4})_revision_(\d+)\.json$")
+# Node index emitted by build_hts_corpus.py, e.g. us_2026_rev_13.codes.json.
+_CODES_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_rev_(\d+)\.codes\.json$")
 
 
 def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list[str]:
@@ -107,17 +109,30 @@ def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list
         abs_dir = os.path.join(workdir, directory)
         if not os.path.isdir(abs_dir):
             continue
-        found = []
+        # Datasets and node indexes are pruned as SEPARATE series, each keeping
+        # `keep` entries, because indexes are per-jurisdiction (us_*, ca_*) while
+        # datasets are not. Pooling them would let one jurisdiction's indexes
+        # evict another's.
+        datasets = []
+        indexes: dict[str, list] = {}
         for name in os.listdir(abs_dir):
             m = _REV_FILE_RE.match(name)
             if m:
-                found.append(((int(m.group(1)), int(m.group(2))), name))
-        found.sort(reverse=True)
-        for _, name in found[keep:]:
-            rel = f"{directory}/{name}"
-            _run(["git", "rm", "--quiet", rel], cwd=workdir)
-            removed.append(rel)
-            print(f"pruned: {rel}")
+                datasets.append(((int(m.group(1)), int(m.group(2))), name))
+                continue
+            c = _CODES_FILE_RE.match(name)
+            if c:
+                indexes.setdefault(c.group(1), []).append(
+                    ((int(c.group(2)), int(c.group(3))), name))
+
+        series = [datasets] + list(indexes.values())
+        for group in series:
+            group.sort(reverse=True)
+            for _, name in group[keep:]:
+                rel = f"{directory}/{name}"
+                _run(["git", "rm", "--quiet", rel], cwd=workdir)
+                removed.append(rel)
+                print(f"pruned: {rel}")
     return removed
 
 
@@ -133,6 +148,13 @@ def main() -> None:
                    help="Path inside the target repo (repeatable to write the same "
                         "source to several locations in ONE commit, e.g. "
                         "server/data/hts/... AND public/data/hts-explorer/...).")
+    p.add_argument("--also", action="append", default=[], dest="also", metavar="SRC:DEST",
+                   help="Additional SRC:DEST pair to include in the SAME commit "
+                        "(repeatable). Used for the .codes.json node index that must "
+                        "ship with its dataset: the validator reads the index, and an "
+                        "index describing a different revision than the dataset beside "
+                        "it is worse than no index at all, so they cannot be allowed to "
+                        "land in separate commits.")
     p.add_argument("--commit-message", required=True)
     p.add_argument("--tag-name", default=None,
                    help="Optional lightweight tag, e.g. hts-2026-rev8")
@@ -150,6 +172,16 @@ def main() -> None:
     if not os.path.isfile(args.source):
         sys.exit(f"ERROR: source file not found: {args.source}")
 
+    extra_pairs = []
+    for spec in args.also:
+        # rsplit so Windows-style or absolute paths containing ':' still work.
+        src, _, dest = spec.rpartition(":")
+        if not src or not dest:
+            sys.exit(f"ERROR: --also expects SRC:DEST, got {spec!r}")
+        if not os.path.isfile(src):
+            sys.exit(f"ERROR: --also source not found: {src}")
+        extra_pairs.append((src, dest))
+
     token = _env("SAIL_GTX_REPO_PAT")
     _SECRETS.append(token)  # scrub the PAT from every echoed command / git output
     user_name = _env("GIT_USER_NAME", required=False, default="sail-gtx-bot") or "sail-gtx-bot"
@@ -161,20 +193,36 @@ def main() -> None:
 
     workdir = tempfile.mkdtemp(prefix="sail-gtx-clone-")
     try:
-        _run(["git", "clone", "--depth", "1", "--branch", args.branch, remote, workdir])
+        # `-c credential.helper=` disables the credential helper for THIS clone.
+        #
+        # Without it, cloning `https://x-access-token:<PAT>@github.com/...` makes
+        # the helper (e.g. `store`) persist that PAT for host github.com. Because
+        # helpers match on host, every later `git push` from ANY local repo then
+        # sends this token instead of the developer's own. This PAT is
+        # deliberately narrow (contents:write, no `workflow` scope), so pushes
+        # touching .github/workflows/ start failing with
+        # "refusing to allow a Personal Access Token to ... without workflow
+        # scope" — a confusing error that has nothing to do with the branch being
+        # pushed. Empty value = no helper, so nothing is written.
+        _run(["git", "-c", "credential.helper=", "clone",
+              "--depth", "1", "--branch", args.branch, remote, workdir])
 
         _run(["git", "config", "user.name", user_name], cwd=workdir)
         _run(["git", "config", "user.email", user_email], cwd=workdir)
 
-        src_sha = _sha256_of_file(args.source)
+        # (source, dest) work list: the primary dataset for every --dest-path,
+        # then each --also pair.
+        work = [(args.source, d) for d in args.dest_paths] + extra_pairs
+
         changed: list[str] = []
-        for dest_path in args.dest_paths:
+        for src, dest_path in work:
+            src_sha = _sha256_of_file(src)
             dest_abs = os.path.join(workdir, dest_path)
             os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
             if os.path.isfile(dest_abs) and _sha256_of_file(dest_abs) == src_sha:
                 print(f"no-op: {dest_path} already matches source (sha256={src_sha})")
                 continue
-            shutil.copyfile(args.source, dest_abs)
+            shutil.copyfile(src, dest_abs)
             _run(["git", "add", dest_path], cwd=workdir)
             changed.append(dest_path)
 

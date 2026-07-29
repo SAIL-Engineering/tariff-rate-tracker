@@ -150,8 +150,13 @@ STEM="us_${YEAR}_rev_${REV_NUM}"
 python3 "$HERE/build_hts_corpus.py" "$CSV_PATH" "$HERE/chapters.json" "$STEM" \
   --jurisdiction US --revision "${YEAR}_rev_${REV_NUM}" --max-depth 10
 CORPUS_JSONL="${STEM}.jsonl"
+# Node index for the server-side code validator. It ships in the SAME commit as
+# the dataset (step 7) so the two can never describe different revisions.
+CORPUS_CODES="${STEM}.codes.json"
 test -f "$CORPUS_JSONL" || { echo "missing built corpus: $CORPUS_JSONL"; exit 2; }
+test -f "$CORPUS_CODES" || { echo "missing node index: $CORPUS_CODES"; exit 2; }
 sublog "Built: $CORPUS_JSONL"
+sublog "Built: $CORPUS_CODES"
 
 # ─── Step 5: Pinecone namespace swap ─────────────────────────────────
 # Replaces the retired Ragie swap. Each revision gets its OWN namespace rather
@@ -203,6 +208,7 @@ python3 "$HERE/sail_gtx_commit.py" \
   --branch "$SAIL_GTX_PRODUCTION_BRANCH" \
   --source "$JSON_PATH" \
   --dest-path "server/data/hts/hts_${YEAR}_revision_${REV_NUM}.json" \
+  --also "${CORPUS_CODES}:server/data/hts/us_${YEAR}_rev_${REV_NUM}.codes.json" \
   --prune-keep 3 \
   --tag-name "hts-${YEAR}-rev${REV_NUM}" \
   --commit-message "chore: HTS ${YEAR} Rev ${REV_NUM} dataset (effective ${EFFECTIVE_DATE})" \

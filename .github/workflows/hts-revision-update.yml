@@ -203,7 +203,9 @@ jobs:
             --revision "${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" \
             --max-depth 10
           test -f "${stem}.jsonl"
+          test -f "${stem}.codes.json"
           echo "CORPUS_JSONL=${stem}.jsonl" >> "$GITHUB_OUTPUT"
+          echo "CORPUS_CODES=${stem}.codes.json" >> "$GITHUB_OUTPUT"
           echo "NAMESPACE=us__${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" >> "$GITHUB_OUTPUT"
           cat "${stem}.manifest.json"
 
@@ -256,6 +258,7 @@ jobs:
             --branch "${PRODUCTION_BRANCH}" \
             --source "${{ steps.target.outputs.JSON_PATH }}" \
             --dest-path "server/data/hts/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
+            --also "${{ steps.build.outputs.CORPUS_CODES }}:server/data/hts/us_${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}.codes.json" \
             --prune-keep 3 \
             --tag-name "hts-${{ steps.target.outputs.YEAR }}-rev${{ steps.target.outputs.REV_NUM }}" \
             --commit-message "chore: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} dataset (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
