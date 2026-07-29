@@ -2040,18 +2040,42 @@ calculate_rates_for_revision <- function(
                 ', annexes=', paste(zmc_annexes, collapse = ','))
       }
 
-      # UK annex-aware deal (replaces old flat 25% override for post-annex revisions)
+      # UK annex-aware deal (replaces old flat 25% override for post-annex revisions).
+      #
+      # Port of upstream a2c42659. US note 16(d) scopes the UK deal by METAL TYPE
+      # (steel and aluminum, not copper), which is exactly what the config's
+      # `uk_applies_to` declares — but the gate used to test the HTS CHAPTER
+      # (72/73/76) instead, and `uk_1a_chapters` was computed and then never read.
+      # A chapter gate misses every steel/aluminum annex product OUTSIDE those
+      # chapters — the downstream manufactured articles that are most of annex_1b —
+      # so the UK paid the full annex rate on them instead of its deal rate.
+      # Upstream measured UK annex_1b at +10pp too high.
+      #
+      # s232_metal carries the annex map's metal_type (classify_s232_annex reads it
+      # off the SAME winning prefix row as the tier). Where it is NA — a resource
+      # predating the metal_type column — fall back to the old chapter test so the
+      # UK deal still applies to core metals rather than vanishing.
       uk_code <- get_country_constants()$CTY_UK %||% '4120'
-      uk_1a_chapters <- annex_cfg$annexes$annex_1a$uk_applies_to %||% c('steel', 'aluminum')
-      uk_steel_alum <- c('72', '73', '76')  # UK deal for steel/aluminum, not copper
+      uk_metals_1a <- annex_cfg$annexes$annex_1a$uk_applies_to %||% c('steel', 'aluminum')
+      uk_metals_1b <- annex_cfg$annexes$annex_1b$uk_applies_to %||% c('steel', 'aluminum')
+      uk_chapter_fallback <- c('72', '73', '76')   # steel/aluminum chapters, not copper (74)
+      has_metal <- 's232_metal' %in% names(rates)
+      if (!has_metal) rates$s232_metal <- NA_character_
       rates <- rates %>%
-        mutate(rate_232 = case_when(
-          country == uk_code & s232_annex == 'annex_1a' &
-            substr(hts10, 1, 2) %in% uk_steel_alum ~ annex_cfg$annexes$annex_1a$uk_rate,
-          country == uk_code & s232_annex == 'annex_1b' &
-            substr(hts10, 1, 2) %in% uk_steel_alum ~ annex_cfg$annexes$annex_1b$uk_rate,
-          TRUE ~ rate_232
-        ))
+        mutate(
+          .uk_scope_1a = if_else(!is.na(s232_metal), s232_metal %in% uk_metals_1a,
+                                 substr(hts10, 1, 2) %in% uk_chapter_fallback),
+          .uk_scope_1b = if_else(!is.na(s232_metal), s232_metal %in% uk_metals_1b,
+                                 substr(hts10, 1, 2) %in% uk_chapter_fallback),
+          rate_232 = case_when(
+            country == uk_code & !is.na(s232_annex) & s232_annex == 'annex_1a' &
+              .uk_scope_1a ~ annex_cfg$annexes$annex_1a$uk_rate,
+            country == uk_code & !is.na(s232_annex) & s232_annex == 'annex_1b' &
+              .uk_scope_1b ~ annex_cfg$annexes$annex_1b$uk_rate,
+            TRUE ~ rate_232
+          )
+        ) %>%
+        select(-.uk_scope_1a, -.uk_scope_1b)
 
       # Country-specific 232 surcharges preserved under the annex regime.
       # Per the April 2026 proclamation, Russian aluminum remains subject to

@@ -1168,6 +1168,41 @@ run_test('s338 stacks additively (Proc 11047 para. 2)', {
 
 
 # =============================================================================
+# Test 15: UK §232 annex deal is scoped by metal type, not HTS chapter
+# =============================================================================
+
+message('\n--- Test 15: UK annex deal scope ---')
+
+# Mirrors the production gate: metal_type when known, chapter fallback when NA.
+uk_scope <- function(s232_metal, hts10,
+                     metals = c('steel', 'aluminum'),
+                     chapters = c('72', '73', '76')) {
+  if_else(!is.na(s232_metal), s232_metal %in% metals,
+          substr(hts10, 1, 2) %in% chapters)
+}
+
+run_test('outside-chapter steel/aluminum derivatives ARE in UK scope', {
+  # The bug: a chapter gate excluded every annex_1b downstream article (ch 84/85/
+  # 87/82/86), so the UK paid the full 25% instead of its 15% deal rate — +10pp.
+  stopifnot(uk_scope('steel',    '8419500000'))   # ch 84 steel derivative
+  stopifnot(uk_scope('aluminum', '8544491000'))   # ch 85 aluminum derivative
+  stopifnot(uk_scope('steel',    '8708299000'))   # ch 87 steel derivative
+})
+
+run_test('copper is NOT in UK scope even inside a metals chapter', {
+  stopifnot(!uk_scope('copper', '7409110000'))    # ch 74 copper
+  stopifnot(!uk_scope('copper', '7307190000'))    # copper typed, ch 73
+})
+
+run_test('NA metal_type falls back to the chapter test, not to "no deal"', {
+  # A resource predating the metal_type column must keep the UK deal on core
+  # metals rather than silently dropping it.
+  stopifnot(uk_scope(NA_character_, '7208100000'))    # ch 72
+  stopifnot(!uk_scope(NA_character_, '8419500000'))   # ch 84, unknown metal
+})
+
+
+# =============================================================================
 # Summary
 # =============================================================================
 
