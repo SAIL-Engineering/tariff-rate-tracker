@@ -233,3 +233,119 @@ the next full rebuild regenerates both sides with the ported logic.
   expected direction of movement per upstream's by-date comparison:
   CA −3.97pp, MX −3.38pp, China +1.86pp, ~−0.36pp universal tail,
   April-2025 timing shifts up to −8.56pp on individual days.
+
+---
+
+# Tier-3 ports + 2026 regime implementation (Budget-Lab-Yale @ upstream/master, 2026-07-29)
+
+Second port pass. Baseline for Tier-2 was upstream `2a1763cf` (2026-06-11); this
+pass triaged the **103 upstream commits after that point** and selectively ported.
+As before the upstream tree is heavily restructured (`src/pipeline/`, `src/model/`),
+so everything was **re-expressed**, not cherry-picked.
+
+Validation gate for every port: `tests/test_ch99_rules.R`,
+`tests/test_rate_calculation.R`, `tests/run_tests_daily_series.R`.
+Started 21/21 + 57/57 + 62 pass·1 fail. Ended **28/28 + 98/98 + 72 pass·0 fail**
+(the daily-series failure was pre-existing and is fixed below).
+
+## What was ported
+
+| # | Port | Upstream ref | Commit |
+|---|------|--------------|--------|
+| 6 | §232 derivative HS8-truncation over-inclusion + UK derivative overrides | 585ce25 + cf2d595 | f4b17490 |
+| 7 | Fail loud on NA effective total; + latent Annex III NA gate; + semiconductors heading gate | c0ff82a8, d6c0c3b8 | 0423fef9 |
+| 8 | Activation (turn-on) adjustments in the policy interval splitter | *(new — see below)* | 2389f842 |
+| 9 | rev_13 re-dating to change-record policy date + rev 12/13 FR metadata | *(convention of 6559c2f)* | e50d6d5e |
+| 10 | Ch99 origin resolution + note-50/52 classification + gate tightening | *(new)* | 8d19d2e4 |
+| 11 | §301 forced labor, 60 economies (rate application) | 44321709, a6bdfb1e, c7b0d7c9 | 2f925485 |
+| 12 | note 52(f)/(g)/(h) carve-outs — self-correction to #11 | 44321709 | 9987f406 |
+| 13 | §301 Brazil + shared §232 scope mask + interval coverage | 0d48f2de, 72dae1bf, 6799fa37 | 18aad62e |
+| 14 | §338 Canada + by-authority rollup fix | 0f9a3542, 221d3940, 4fcfac4b, 38b3063c, 2119810d | b45e489b |
+| 15 | UK §232 annex deal scoped by metal type, not chapter | a2c42659 | ef717cad |
+| 16 | §122 GN 6 civil-aircraft exemption is use-conditional | cf0a709b, 5736b8d8, 73abc0a2 | dabc5e72 |
+| 17 | perf: classify s232_annex on distinct hts10 | 908293f0 | 9d8a4c2a |
+
+### Measured impact
+
+- **#6** aluminum coverage 549 → 367 (−182 over-included, 73 of them the $85B
+  pharma subheading), steel 839 → 759 (−144 over-included, **+64** genuine
+  coverage gaps restored). Upstream measured −0.8pp aggregate ETR, ~5pp on
+  Switzerland.
+- **#10** 114 headings reclassified on rev_12 (102 `all`→`specific`, 11
+  `all_except`→`specific`, 1 `unknown`→`specific`), **zero** headings became less
+  resolved. **Rate impact NIL** — 0 of 8,020 product-Ch99 ref pairs point at any
+  reclassified heading, because these are country-blanket regimes applied by
+  extractors, not per-product refs. Pure correctness/provenance.
+- **#11** 1,523,316 positive-rate pairs across 86 census origins (= 60 economies).
+- **#15** 899 UK annex_1b rows gain the deal rate — they were charged 25% instead
+  of 15%, exactly the +10pp upstream measured. 0 rows lose it.
+- **#16** 794 products move from fully exempt to partially dutiable, retaining on
+  average 76.7% of the 10%.
+- **#17** 19.1× faster on a 20-country slice (44.58s → 2.34s) with provably
+  identical output; the real panel is 240 countries.
+
+### Two bugs found in THIS fork, not ported from upstream
+
+1. **Annex III sunset NA gate** (in #7). A bare
+   `if_else(s232_annex == 'annex_3', ...)` returns NA for every *non-annex*
+   product. Dormant behind `sunset_date: 2027-12-31`, so latent rather than
+   shipped — it would have silently zeroed `rate_232` (and with it §122/base)
+   from 2028-01-01. Same defect class as upstream's `annex_1c` bug at a different
+   site. Upstream's own `annex_1c` fix (050f2acf) is **not applicable**: this fork
+   has no annex_1c tier.
+2. **By-authority rollup hole** (in #14). `compute_net_authority_contributions()`
+   knew nothing about `rate_s301fl`/`rate_s301br`/`rate_s338`, so once any was
+   non-zero the decomposition stopped summing to `total_additional` and the
+   shortfall surfaced as phantom `etr_base`. Verified fixed: residual exactly
+   0.000e+00 under both stacking modes with all authorities live.
+
+### New machinery (no upstream equivalent we could port)
+
+**Activation adjustments** (#8). Upstream expresses mid-revision turn-ons with a
+`boundary_overrides` + boundary-mint splitter — the architecture we deliberately
+left out of scope. Instead, activation was made structurally identical to the
+existing *expiry* mechanism: the rate is computed normally in
+`06_calculate_rates.R` for the enclosing revision and the daily layer merely
+*gates* it, zeroing the column before the effective date. An activation at date A
+contributes split point A−1 (last inactive day), mirroring expiry's last-active-day
+convention. All three 2026 regimes need it; §338 is unexpressible without it.
+
+## Deliberately NOT ported
+
+- **AuthoritySpec migration / "Planks 0–7" / de-blobbing** — a wholesale rewrite
+  into `src/model/` + `src/pipeline/`. This is the theseus line we decided not to
+  merge.
+- **Slurm node-parallel builds, parity harness, gather streaming** — upstream's
+  HPC build topology; we run single-node into MotherDuck.
+- **Scenario / counterfactual engine** (`cc8af390`, `da89aade`, `af0f5087`,
+  Phases 6–8). The §338/§301 *baseline authority* commits were ported; their
+  *counterfactual* siblings were not.
+- **Vintage/publish/golden machinery** — incompatible with our Railway/MotherDuck
+  publish path.
+- **Weighted-ETR research + Census-IMDB store** — upstream's eval workstream.
+- **`ee958f39`** (onboard rev_11) — we are *ahead* of upstream on HTS ingestion;
+  their `revision_dates.csv` stops at rev_12, we hold rev_13.
+- **484(f) versioned-identity crosswalk** (`2f086fd8`, `cc30d818`, `15646c67`,
+  `7496efd7`, `b90b82a5`) — infrastructure, so out of scope by our rule, but it
+  solves a real problem we have (HTS codes churn across annual 484(f)
+  reclassifications; our rev_2 and rev_11 are both 484(f) updates). **The one
+  deferred item with a legitimate claim on our use case.**
+
+### Verified not applicable
+
+| Upstream | Why not |
+|---|---|
+| `050f2acf` annex_1c §122 wipe | This fork has no `annex_1c` tier (annexes are 1a/1b/2/3). |
+| `7799622f` negative `etr_base` | Arises from upstream's separate `prepare_interval_data_effective` path. Our `net_*` and `total_additional` share one basis (verified residual 0), and our daily output is the unweighted variant with no `etr_base` column. |
+| `7adfb278` stored effective total | Our daily path already uses the stored `total_additional`; our preference reductions live in the rate columns themselves, not only in `total_rate`, so re-deriving cannot lose them. |
+| `552693d9` IEEPA exempt prune | Deliberate fork divergence: we **re-expanded** that list in `1d8da1c1` (5,052 rows) where upstream **pruned** to 3,256. |
+| `d6c8d9ad` 25 restorations | 24 of 25 already present (our list is broader). The 25th, `8542390060`, exists in **none** of 7 archives spanning 2025 rev 19 → 2026 rev 13, so adding it would be a dead entry. |
+| `73abc0a2` s122 row fix | Already obtained via port #16, which took upstream's whole `s122_exempt_products.csv`. |
+
+### Still open
+
+- **`102252be`** Phase-1 statutory corrections — large (7,640-line
+  `floor_exempt_products.csv` rewrite, 241 new metal-chapter rows, 218 lines of
+  rate logic) and touches upstream's restructured `authority_adapter`/
+  `data_loaders`. Needs its own pass.
+- The 484(f) crosswalk, above.
