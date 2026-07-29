@@ -3489,26 +3489,35 @@ compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL)
 #'
 #' NOT modeled: the in-transit window (heading 9903.05.85).
 #'
-#' @param products Tibble with hts10 and base_rate (optionally statutory_base_rate)
-#' @param countries Character vector of census country codes in the panel
+#' Additional carve-outs evaluated per product-COUNTRY (not per hts8), which is
+#' why this operates on the rates frame rather than the product list:
+#'   - note 52(f) / heading 9903.05.90: articles subject to §232 are excluded
+#'     ENTIRELY (aluminum/steel/copper + derivatives, autos + parts, wood, MHD +
+#'     parts, semiconductors). A scope mask, not a content split.
+#'   - note 52(g)/(h) / headings 9903.05.93-.94: products of Canada / Mexico
+#'     entered FREE of duty under USMCA are exempt from 9903.05.29 / 9903.05.55.
+#'     Share-scaled by the measured USMCA utilization share when available,
+#'     falling back to binary eligibility.
+#'
+#' @param rates Rates frame for this revision. Needs hts10, country, base_rate;
+#'   uses statutory_base_rate, statutory_rate_232/rate_232/s232_annex (note 52(f)),
+#'   and usmca_share/usmca_eligible (note 52(g)/(h)) when present.
 #' @param fl_cfg policy_params$SECTION_301_FORCED_LABOR
 #' @param effective_date Revision effective date (gates the patented-pharma annex)
 #' @param mfn_shares Optional tibble(hs2, cty_code, exemption_share) for the
 #'   'fta' preference-claim proxy; NULL treats fta lines as fully exempt
-#' @return Tibble(hts10, country, rate_s301fl) with strictly positive rates only
-compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
-                                 mfn_shares = NULL) {
-  empty <- tibble(hts10 = character(0), country = character(0),
-                  rate_s301fl = numeric(0))
-  if (is.null(fl_cfg) || is.null(products) || nrow(products) == 0) return(empty)
+#' @return Numeric vector, length nrow(rates)
+compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NULL) {
+  n <- nrow(rates)
+  if (n == 0 || is.null(fl_cfg)) return(rep(0, n))
 
   eff <- as.Date(effective_date)
   if (!is.null(fl_cfg$effective_date) && eff < as.Date(fl_cfg$effective_date)) {
-    return(empty)   # regime not yet in force for this revision
+    return(rep(0, n))   # regime not yet in force for this revision
   }
 
-  tiers <- s301fl_country_tiers(countries, fl_cfg)
-  if (nrow(tiers) == 0) return(empty)
+  tiers <- s301fl_country_tiers(unique(rates$country), fl_cfg)
+  if (nrow(tiers) == 0) return(rep(0, n))
 
   ex <- load_s301fl_exemptions(fl_cfg)
   air_share <- as.numeric(fl_cfg$aircraft_exempt_share %||% 0)
@@ -3530,13 +3539,16 @@ compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
     }
   }
 
-  base_col <- if ('statutory_base_rate' %in% names(products)) 'statutory_base_rate' else 'base_rate'
-  prod <- products %>%
-    transmute(hts10,
-              hts8 = substr(hts10, 1, 8),
-              hs2 = substr(hts10, 1, 2),
-              base_eff = coalesce(base_rate, 0),
-              base_stat = coalesce(.data[[base_col]], base_rate, 0))
+  base_col <- if ('statutory_base_rate' %in% names(rates)) 'statutory_base_rate' else 'base_rate'
+  out <- rates %>%
+    mutate(.row = row_number(),
+           hts8 = substr(hts10, 1, 8),
+           hs2 = substr(hts10, 1, 2),
+           base_eff = coalesce(base_rate, 0),
+           base_stat = coalesce(.data[[base_col]], base_rate, 0)) %>%
+    select(.row, hts10, country, hts8, hs2, base_eff, base_stat) %>%
+    inner_join(tiers, by = 'country')
+  if (nrow(out) == 0) return(rep(0, n))
 
   # Unconditional / conditional exemption shares, keyed by hts8.
   common_share <- ex$common %>%
@@ -3550,8 +3562,7 @@ compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
     distinct(country, hts8) %>% mutate(country_share = 1)
   country_fta <- ex$country %>% filter(condition == 'fta') %>% distinct(country, hts8)
 
-  out <- tiers %>%
-    tidyr::expand_grid(prod) %>%
+  out <- out %>%
     left_join(common_share, by = 'hts8') %>%
     left_join(country_full, by = c('country', 'hts8')) %>%
     mutate(fta_hit = FALSE)
@@ -3561,6 +3572,25 @@ compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
       left_join(country_fta %>% mutate(.fta = TRUE), by = c('country', 'hts8')) %>%
       mutate(fta_hit = coalesce(.fta, FALSE)) %>% select(-.fta)
   }
+
+  # note 52(f) / heading 9903.05.90: full §232 exclusion (shared mask).
+  s232_by_row <- s232_scope_mask(rates)
+  # note 52(g)/(h) / headings 9903.05.93-.94: Canada / Mexico goods entered FREE
+  # under USMCA. Prefer the measured utilization share; fall back to binary
+  # eligibility; contribute nothing when neither column is present.
+  usmca_share_by_row <- rep(0, n)
+  usmca_ctys <- c('1220', '2010')                        # Canada, Mexico
+  in_usmca_cty <- rates$country %in% usmca_ctys
+  if ('usmca_share' %in% names(rates)) {
+    usmca_share_by_row <- if_else(in_usmca_cty,
+                                  pmin(1, pmax(0, coalesce(rates$usmca_share, 0))), 0)
+  } else if ('usmca_eligible' %in% names(rates)) {
+    usmca_share_by_row <- if_else(in_usmca_cty & coalesce(rates$usmca_eligible, FALSE), 1, 0)
+  }
+
+  out <- out %>%
+    mutate(s232_share = if_else(s232_by_row[.row], 1, 0),
+           usmca_ex_share = usmca_share_by_row[.row])
 
   # 'fta' lines are exempt only when the good is actually entered under the
   # preference. Proxy the claim rate with the measured HS2xcountry MFN-exemption
@@ -3575,18 +3605,21 @@ compute_s301fl_rates <- function(products, countries, fl_cfg, effective_date,
     out <- out %>% mutate(fta_share = if_else(fta_hit, 1, 0))
   }
 
-  out %>%
+  scored <- out %>%
     mutate(
       pat_share = if_else(hts8 %in% pat_hts8, 1, 0),
       exempt_share = pmin(1, pmax(coalesce(common_share, 0),
                                   coalesce(country_share, 0),
-                                  fta_share, pat_share)),
+                                  fta_share, pat_share,
+                                  s232_share, usmca_ex_share)),
       cap_base = if_else(country %in% post_pref, base_eff, base_stat),
       applicable = if_else(fl_is_cap, pmax(0, fl_rate - cap_base), fl_rate),
-      rate_s301fl = applicable * (1 - exempt_share)
-    ) %>%
-    filter(rate_s301fl > 0) %>%
-    select(hts10, country, rate_s301fl)
+      value = applicable * (1 - exempt_share)
+    )
+
+  res <- rep(0, n)
+  res[scored$.row] <- scored$value
+  res
 }
 
 

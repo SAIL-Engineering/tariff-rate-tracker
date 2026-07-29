@@ -857,15 +857,22 @@ fl_test_cfg <- function(...) {
   )
   modifyList(cfg, list(...))
 }
-fl_test_prods <- tibble(
-  hts10 = c('0101300000', '8802400000', '3004900000'),
-  base_rate = c(0.04, 0.00, 0.30)     # third has MFN above the 10% cap
-)
+# compute_s301fl_rates() scores the RATES frame (it must see the §232 and USMCA
+# columns for note 52(f)/(g)/(h)), so fixtures are product-country rows.
+fl_rows <- function(ctys = c('1220','4330','5700','4419'), ...) {
+  base <- tibble(hts10 = c('0101300000', '8802400000', '3004900000'),
+                 base_rate = c(0.04, 0.00, 0.30))   # third: MFN above the 10% cap
+  out <- tidyr::expand_grid(tibble(country = ctys), base) %>%
+    mutate(statutory_rate_232 = 0, rate_232 = 0, s232_annex = NA_character_)
+  if (length(list(...))) out <- dplyr::mutate(out, ...)
+  out
+}
+fl_get <- function(r, rows, cty, h) r[rows$country == cty & rows$hts10 == h]
 
 run_test('flat tiers add the rate outright; cap tiers add max(0, cap - base)', {
-  r <- compute_s301fl_rates(fl_test_prods, c('1220','4330','5700','4419'),
-                            fl_test_cfg(), as.Date('2026-07-24'))
-  g <- function(cty, h) r$rate_s301fl[r$country == cty & r$hts10 == h]
+  rows <- fl_rows()
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-24'))
+  g <- function(cty, h) fl_get(r, rows, cty, h)
   stopifnot(abs(g('1220','0101300000') - 0.10) < 1e-12)    # flat 10%
   stopifnot(abs(g('5700','0101300000') - 0.125) < 1e-12)   # flat 12.5%
   stopifnot(abs(g('4330','0101300000') - 0.06) < 1e-12)    # cap 0.10 - 0.04
@@ -874,50 +881,53 @@ run_test('flat tiers add the rate outright; cap tiers add max(0, cap - base)', {
 
 run_test('cap tier yields NO duty when MFN already exceeds the cap', {
   # 3004.90 base 0.30 > 0.10 cap -> max(0, 0.10-0.30) = 0, and the row is dropped.
-  r <- compute_s301fl_rates(fl_test_prods, c('4330'), fl_test_cfg(), as.Date('2026-07-24'))
-  stopifnot(!any(r$hts10 == '3004900000'))
+  rows <- fl_rows('4330')
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-24'))
+  stopifnot(abs(fl_get(r, rows, '4330', '3004900000')) < 1e-12)
   # ...but the flat economy still pays in full on the same line.
-  r2 <- compute_s301fl_rates(fl_test_prods, c('1220'), fl_test_cfg(), as.Date('2026-07-24'))
-  stopifnot(abs(r2$rate_s301fl[r2$hts10 == '3004900000'] - 0.10) < 1e-12)
+  rows2 <- fl_rows('1220')
+  r2 <- compute_s301fl_rates(rows2, fl_test_cfg(), as.Date('2026-07-24'))
+  stopifnot(abs(fl_get(r2, rows2, '1220', '3004900000') - 0.10) < 1e-12)
 })
 
 run_test('regime contributes nothing before its effective date', {
-  r <- compute_s301fl_rates(fl_test_prods, c('1220'), fl_test_cfg(), as.Date('2026-07-23'))
-  stopifnot(nrow(r) == 0)
+  rows <- fl_rows('1220')
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-23'))
+  stopifnot(all(abs(r) < 1e-12))
 })
 
 run_test('unconditional and USE-conditional exemptions scale correctly', {
   tmp_common <- tempfile(fileext = '.csv')
   write_csv(tibble(hts_code = c('01013000', '88024000', '30049000'),
                    condition = c('full', 'aircraft', 'pharma')), tmp_common)
-  r <- compute_s301fl_rates(fl_test_prods, c('1220'),
-                            fl_test_cfg(common_exemptions = tmp_common),
+  rows <- fl_rows('1220')
+  r <- compute_s301fl_rates(rows, fl_test_cfg(common_exemptions = tmp_common),
                             as.Date('2026-07-24'))
-  stopifnot(!any(r$hts10 == '0101300000'))                          # full -> dropped
-  stopifnot(abs(r$rate_s301fl[r$hts10 == '88024000' |
-                              r$hts10 == '8802400000'] - 0.10 * 0.10) < 1e-12)
-  stopifnot(abs(r$rate_s301fl[r$hts10 == '3004900000'] - 0.10 * 0.50) < 1e-12)
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000')) < 1e-12)          # full
+  stopifnot(abs(fl_get(r, rows, '1220', '8802400000') - 0.10 * 0.10) < 1e-12)
+  stopifnot(abs(fl_get(r, rows, '1220', '3004900000') - 0.10 * 0.50) < 1e-12)
   unlink(tmp_common)
 })
 
 run_test('country-specific "full" exemption applies to that economy only', {
   tmp_cty <- tempfile(fileext = '.csv')
   write_csv(tibble(countries = '1220', hts_code = '01013000', condition = 'full'), tmp_cty)
-  r <- compute_s301fl_rates(fl_test_prods, c('1220','5700'),
-                            fl_test_cfg(country_exemptions = tmp_cty),
+  rows <- fl_rows(c('1220','5700'))
+  r <- compute_s301fl_rates(rows, fl_test_cfg(country_exemptions = tmp_cty),
                             as.Date('2026-07-24'))
-  stopifnot(!any(r$country == '1220' & r$hts10 == '0101300000'))    # exempt
-  stopifnot(any(r$country == '5700' & r$hts10 == '0101300000'))     # unaffected
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000')) < 1e-12)     # exempt
+  stopifnot(fl_get(r, rows, '5700', '0101300000') > 0)              # unaffected
   unlink(tmp_cty)
 })
 
 run_test('semicolon-joined country rows explode to one row per economy', {
   tmp_cty <- tempfile(fileext = '.csv')
   write_csv(tibble(countries = '1220;5700', hts_code = '01013000', condition = 'full'), tmp_cty)
-  r <- compute_s301fl_rates(fl_test_prods, c('1220','5700'),
-                            fl_test_cfg(country_exemptions = tmp_cty),
+  rows <- fl_rows(c('1220','5700'))
+  r <- compute_s301fl_rates(rows, fl_test_cfg(country_exemptions = tmp_cty),
                             as.Date('2026-07-24'))
-  stopifnot(!any(r$hts10 == '0101300000'))                          # both exempt
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000')) < 1e-12)     # both exempt
+  stopifnot(abs(fl_get(r, rows, '5700', '0101300000')) < 1e-12)
   unlink(tmp_cty)
 })
 
@@ -925,11 +935,39 @@ run_test('fta lines are scaled by the preference-claim share, not fully exempt',
   tmp_cty <- tempfile(fileext = '.csv')
   write_csv(tibble(countries = '1220', hts_code = '01013000', condition = 'fta'), tmp_cty)
   shares <- tibble(hs2 = '01', cty_code = '1220', exemption_share = 0.25)
-  r <- compute_s301fl_rates(fl_test_prods, c('1220'),
-                            fl_test_cfg(country_exemptions = tmp_cty),
+  rows <- fl_rows('1220')
+  r <- compute_s301fl_rates(rows, fl_test_cfg(country_exemptions = tmp_cty),
                             as.Date('2026-07-24'), mfn_shares = shares)
-  stopifnot(abs(r$rate_s301fl[r$hts10 == '0101300000'] - 0.10 * 0.75) < 1e-12)
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000') - 0.10 * 0.75) < 1e-12)
   unlink(tmp_cty)
+})
+
+run_test('note 52(f): §232-covered articles are excluded ENTIRELY', {
+  rows <- fl_rows('1220')
+  rows$statutory_rate_232[rows$hts10 == '0101300000'] <- 0.50
+  rows$s232_annex[rows$hts10 == '8802400000'] <- 'annex_1b'
+  rows$s232_annex[rows$hts10 == '3004900000'] <- 'annex_2'   # OUT of §232 scope
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-24'))
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000')) < 1e-12)  # statutory 232
+  stopifnot(abs(fl_get(r, rows, '1220', '8802400000')) < 1e-12)  # in-scope annex
+  stopifnot(fl_get(r, rows, '1220', '3004900000') > 0)           # annex_2 still pays
+})
+
+run_test('note 52(g)/(h): CA/MX USMCA-free entries exempt, share-scaled', {
+  # Canada is a flat-10% economy; a 0.8 USMCA utilization share leaves 20% payable.
+  rows <- fl_rows(c('1220','5700'))
+  rows$usmca_share <- if_else(rows$country == '1220', 0.8, NA_real_)
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-24'))
+  stopifnot(abs(fl_get(r, rows, '1220', '0101300000') - 0.10 * 0.20) < 1e-12)
+  # A non-USMCA origin is untouched by the share column.
+  stopifnot(abs(fl_get(r, rows, '5700', '0101300000') - 0.125) < 1e-12)
+})
+
+run_test('note 52(g)/(h) falls back to binary usmca_eligible', {
+  rows <- fl_rows('1220')
+  rows$usmca_eligible <- TRUE
+  r <- compute_s301fl_rates(rows, fl_test_cfg(), as.Date('2026-07-24'))
+  stopifnot(all(abs(r) < 1e-12))
 })
 
 run_test('s301fl stacks additively in apply_stacking_rules (note 52(a))', {

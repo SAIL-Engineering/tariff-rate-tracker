@@ -2471,114 +2471,6 @@ calculate_rates_for_revision <- function(
             length(s122_exempt_hts8), ' HTS8 exempt)')
   }
 
-  # 6b0. Apply Section 301 forced labor (60 economies; 91 FR 47318 / 91 FR 47717,
-  #      effective 2026-07-24). Codified as U.S. note 52 + headings
-  #      9903.05.20-9903.06.21 in 2026 HTS rev_13.
-  #
-  #      Config-driven rather than sourced from the HTS rate lines: the notice
-  #      assigns four DISTINCT tier semantics (two flat, two total-duty caps) that
-  #      the heading text does not distinguish — every line reads "+10%"/"+12.5%"
-  #      regardless of whether it is additive or a cap — plus per-economy Annex
-  #      I/II exclusion lists that are not in the HTS at all. The heading set is
-  #      still validated: classify_resolution_status() marks 9903.05.20-.84
-  #      handled_by_s301fl_config, so a heading appearing without config coverage
-  #      trips the completeness gate.
-  fl_cfg <- pp$SECTION_301_FORCED_LABOR
-  if (!is.null(fl_cfg)) {
-    fl_in_force <- as.Date(effective_date) >= as.Date(fl_cfg$effective_date)
-    if (fl_in_force) {
-      fl_rates <- compute_s301fl_rates(
-        products       = products,
-        countries      = countries,
-        fl_cfg         = fl_cfg,
-        effective_date = effective_date,
-        mfn_shares     = tryCatch(load_mfn_exemption_shares(), error = function(e) NULL)
-      )
-      if (nrow(fl_rates) > 0) {
-        rates <- rates %>%
-          left_join(fl_rates, by = c('hts10', 'country'), suffix = c('', '.fl')) %>%
-          mutate(rate_s301fl = coalesce(
-            if ('rate_s301fl.fl' %in% names(.)) rate_s301fl.fl else rate_s301fl, 0)) %>%
-          select(-any_of('rate_s301fl.fl'))
-
-        # Products of an investigated economy that carry no other additional duty
-        # are not yet in `rates` — add them.
-        fl_country_rates <- fl_rates %>%
-          group_by(country) %>% summarise(blanket_rate = max(rate_s301fl), .groups = 'drop')
-        rates <- add_blanket_pairs(rates, products, unique(fl_rates$hts10),
-                                   fl_country_rates, 'rate_s301fl',
-                                   'Section 301 forced-labor duties')
-        # add_blanket_pairs applies one blanket rate per country; overwrite the
-        # newly added pairs with their true per-product rate.
-        rates <- rates %>%
-          left_join(fl_rates %>% rename(.fl_true = rate_s301fl),
-                    by = c('hts10', 'country')) %>%
-          mutate(rate_s301fl = coalesce(.fl_true, 0)) %>%
-          select(-.fl_true)
-
-        n_fl <- sum(rates$rate_s301fl > 0)
-        message('  Section 301 forced labor: ', format(n_fl, big.mark = ','),
-                ' product-country pairs across ',
-                n_distinct(fl_rates$country), ' economies',
-                ' (aircraft/pharma exempt shares ', fl_cfg$aircraft_exempt_share %||% 0,
-                '/', fl_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
-      }
-    } else {
-      message('  Section 301 forced labor not yet effective (',
-              fl_cfg$effective_date, ') — not applied')
-    }
-  }
-
-  # 6b0b. Apply Section 301 Brazil (91 FR 45516, duties effective 2026-07-22).
-  #       Heading 9903.05.01 / U.S. note 50: 25% on all products of Brazil except
-  #       the note-50(a)(ii)-(v) lists, with articles subject to §232 excluded
-  #       ENTIRELY by note 50(a)(vi) / heading 9903.05.07.
-  #
-  #       Placed AFTER the §232 blocks so statutory_rate_232 and s232_annex are
-  #       populated — the note-50(a)(vi) carve-out is a full per-article exclusion
-  #       evaluated per product-country, not a content split.
-  br_cfg <- pp$SECTION_301_BRAZIL
-  if (!is.null(br_cfg)) {
-    br_eff <- as.Date(br_cfg$effective_date)
-    # Source of truth for the rate is the HTS heading; config is the fallback.
-    br_hts_rate <- {
-      h <- ch99_data %>% filter(ch99_code == '9903.05.01', !is.na(rate), rate > 0)
-      if (nrow(h) > 0) max(h$rate) else NA_real_
-    }
-    # Compute whenever this revision's INTERVAL reaches the effective date, not
-    # just when the revision starts on/after it: rev_12 starts 2026-07-21 and the
-    # duty starts 07-22, so the rate is computed here and the activation gate
-    # zeroes only the 07-21 day.
-    br_in_force <- revision_interval_covers(revision_id, effective_date, br_eff)
-    if (isTRUE(br_in_force)) {
-      br_cty <- as.character(br_cfg$country %||% '3510')
-      if (br_cty %in% countries) {
-        # Materialize Brazil pairs for products that carry no other duty, then
-        # compute the rate once over the whole frame so exemption share-scaling
-        # and the §232 carve-out apply uniformly to old and new rows.
-        rates <- add_blanket_pairs(
-          rates, products, products$hts10,
-          tibble(country = br_cty,
-                 blanket_rate = coalesce(br_hts_rate, as.numeric(br_cfg$rate %||% 0))),
-          'rate_s301br', 'Section 301 Brazil duties')
-        rates$rate_s301br <- compute_s301br_rates(
-          rates, br_cfg, effective_date = max(as.Date(effective_date), br_eff),
-          hts_rate = br_hts_rate)
-        n_br <- sum(rates$rate_s301br > 0)
-        message('  Section 301 Brazil: ', round(coalesce(br_hts_rate,
-                  as.numeric(br_cfg$rate %||% 0)) * 100), '% on ',
-                format(n_br, big.mark = ','), ' product-country pairs (rate from ',
-                if (!is.na(br_hts_rate)) 'HTS 9903.05.01' else 'config fallback',
-                '; §232-covered articles fully excluded per note 50(a)(vi);',
-                ' aircraft/pharma exempt shares ', br_cfg$aircraft_exempt_share %||% 0,
-                '/', br_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
-      }
-    } else {
-      message('  Section 301 Brazil not yet effective (', br_cfg$effective_date,
-              ') — not applied')
-    }
-  }
-
   # 6b1. Apply Section 201 (Trade Act §201 safeguard) tariffs.
   #      Currently models Solar 201 (Proc 9693 + Proc 10454, 9903.45.21–.25)
   #      on CSPV cells/modules. The 201 rate stacks on top of MFN, separate
@@ -2901,6 +2793,107 @@ calculate_rates_for_revision <- function(
       message('  Semi: restored heading rate on ', nrow(semi_override), ' HTS10s')
     }
   }
+
+  # 6b0. Apply Section 301 forced labor (60 economies; 91 FR 47318 / 91 FR 47717,
+  #      effective 2026-07-24). Codified as U.S. note 52 + headings
+  #      9903.05.20-9903.06.21 in 2026 HTS rev_13.
+  #
+  #      Config-driven rather than sourced from the HTS rate lines: the notice
+  #      assigns four DISTINCT tier semantics (two flat, two total-duty caps) that
+  #      the heading text does not distinguish — every line reads "+10%"/"+12.5%"
+  #      regardless of whether it is additive or a cap — plus per-economy Annex
+  #      I/II exclusion lists that are not in the HTS at all. The heading set is
+  #      still validated: classify_resolution_status() marks 9903.05.20-.84
+  #      handled_by_s301fl_config, so a heading appearing without config coverage
+  #      trips the completeness gate.
+  #
+  #      Placed AFTER step 7 so the per-product-COUNTRY carve-outs can be
+  #      evaluated: note 52(f) needs the §232 columns and note 52(g)/(h) needs the
+  #      USMCA utilization share.
+  fl_cfg <- pp$SECTION_301_FORCED_LABOR
+  if (!is.null(fl_cfg)) {
+    fl_eff <- as.Date(fl_cfg$effective_date)
+    if (revision_interval_covers(revision_id, effective_date, fl_eff)) {
+      fl_ctys <- intersect(as.character(fl_cfg$countries %||% character(0)), countries)
+      if (length(fl_ctys) > 0) {
+        # Materialize pairs for products of investigated economies that carry no
+        # other additional duty, then score the whole frame in one pass so the
+        # exemption logic applies uniformly to pre-existing and new rows.
+        rates <- add_blanket_pairs(
+          rates, products, products$hts10,
+          tibble(country = fl_ctys,
+                 blanket_rate = as.numeric(fl_cfg$rate_12_5 %||% 0.125)),
+          'rate_s301fl', 'Section 301 forced-labor duties')
+        rates$rate_s301fl <- compute_s301fl_rates(
+          rates, fl_cfg,
+          effective_date = max(as.Date(effective_date), fl_eff),
+          mfn_shares     = tryCatch(load_mfn_exemption_shares(), error = function(e) NULL)
+        )
+        n_fl <- sum(rates$rate_s301fl > 0)
+        message('  Section 301 forced labor: ', format(n_fl, big.mark = ','),
+                ' product-country pairs across ',
+                n_distinct(rates$country[rates$rate_s301fl > 0]), ' census origins',
+                ' (§232 articles fully excluded per note 52(f); CA/MX USMCA-free',
+                ' entries per note 52(g)/(h); aircraft/pharma exempt shares ',
+                fl_cfg$aircraft_exempt_share %||% 0, '/',
+                fl_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+      }
+    } else {
+      message('  Section 301 forced labor not yet effective (',
+              fl_cfg$effective_date, ') — not applied')
+    }
+  }
+
+  # 6b0b. Apply Section 301 Brazil (91 FR 45516, duties effective 2026-07-22).
+  #       Heading 9903.05.01 / U.S. note 50: 25% on all products of Brazil except
+  #       the note-50(a)(ii)-(v) lists, with articles subject to §232 excluded
+  #       ENTIRELY by note 50(a)(vi) / heading 9903.05.07.
+  #
+  #       Placed AFTER the §232 blocks so statutory_rate_232 and s232_annex are
+  #       populated — the note-50(a)(vi) carve-out is a full per-article exclusion
+  #       evaluated per product-country, not a content split.
+  br_cfg <- pp$SECTION_301_BRAZIL
+  if (!is.null(br_cfg)) {
+    br_eff <- as.Date(br_cfg$effective_date)
+    # Source of truth for the rate is the HTS heading; config is the fallback.
+    br_hts_rate <- {
+      h <- ch99_data %>% filter(ch99_code == '9903.05.01', !is.na(rate), rate > 0)
+      if (nrow(h) > 0) max(h$rate) else NA_real_
+    }
+    # Compute whenever this revision's INTERVAL reaches the effective date, not
+    # just when the revision starts on/after it: rev_12 starts 2026-07-21 and the
+    # duty starts 07-22, so the rate is computed here and the activation gate
+    # zeroes only the 07-21 day.
+    br_in_force <- revision_interval_covers(revision_id, effective_date, br_eff)
+    if (isTRUE(br_in_force)) {
+      br_cty <- as.character(br_cfg$country %||% '3510')
+      if (br_cty %in% countries) {
+        # Materialize Brazil pairs for products that carry no other duty, then
+        # compute the rate once over the whole frame so exemption share-scaling
+        # and the §232 carve-out apply uniformly to old and new rows.
+        rates <- add_blanket_pairs(
+          rates, products, products$hts10,
+          tibble(country = br_cty,
+                 blanket_rate = coalesce(br_hts_rate, as.numeric(br_cfg$rate %||% 0))),
+          'rate_s301br', 'Section 301 Brazil duties')
+        rates$rate_s301br <- compute_s301br_rates(
+          rates, br_cfg, effective_date = max(as.Date(effective_date), br_eff),
+          hts_rate = br_hts_rate)
+        n_br <- sum(rates$rate_s301br > 0)
+        message('  Section 301 Brazil: ', round(coalesce(br_hts_rate,
+                  as.numeric(br_cfg$rate %||% 0)) * 100), '% on ',
+                format(n_br, big.mark = ','), ' product-country pairs (rate from ',
+                if (!is.na(br_hts_rate)) 'HTS 9903.05.01' else 'config fallback',
+                '; §232-covered articles fully excluded per note 50(a)(vi);',
+                ' aircraft/pharma exempt shares ', br_cfg$aircraft_exempt_share %||% 0,
+                '/', br_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+      }
+    } else {
+      message('  Section 301 Brazil not yet effective (', br_cfg$effective_date,
+              ') — not applied')
+    }
+  }
+
 
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)
