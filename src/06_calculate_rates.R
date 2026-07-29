@@ -1938,13 +1938,26 @@ calculate_rates_for_revision <- function(
       annex_pattern_map <- annex_map %>%
         mutate(pattern = paste0('^', hts_prefix)) %>%
         arrange(desc(nchar(hts_prefix)))
-      rates$s232_annex <- NA_character_
-      rates$s232_metal <- NA_character_  # covered metal (coverage source), for provenance
+      # Port of upstream 908293f0. Classify on the DISTINCT hts10 codes (~20K)
+      # and join back, instead of scanning all ~954 prefixes across the full
+      # product x country panel (~4.8M rows). Annex membership depends ONLY on
+      # hts10, so the panel scan repeated identical work once per country — ~240x
+      # redundant. Same loop, same longest-prefix-first first-match-wins order,
+      # so the result is provably identical; upstream measured ~9 min -> seconds
+      # on annex-era revisions.
+      annex_keys <- tibble(hts10 = unique(rates$hts10),
+                           s232_annex = NA_character_,
+                           s232_metal = NA_character_)
       for (i in seq_len(nrow(annex_pattern_map))) {
-        newly <- grepl(annex_pattern_map$pattern[i], rates$hts10) & is.na(rates$s232_annex)
-        rates$s232_annex[newly] <- annex_pattern_map$s232_annex[i]
-        rates$s232_metal[newly] <- annex_pattern_map$s232_metal[i]
+        newly <- grepl(annex_pattern_map$pattern[i], annex_keys$hts10) &
+          is.na(annex_keys$s232_annex)
+        annex_keys$s232_annex[newly] <- annex_pattern_map$s232_annex[i]
+        annex_keys$s232_metal[newly] <- annex_pattern_map$s232_metal[i]
       }
+      .ki <- match(rates$hts10, annex_keys$hts10)
+      rates$s232_annex <- annex_keys$s232_annex[.ki]
+      rates$s232_metal <- annex_keys$s232_metal[.ki]   # covered metal, for provenance
+      rm(.ki)
 
       # Infer annex for products not matched by the prefix CSV.
       #
