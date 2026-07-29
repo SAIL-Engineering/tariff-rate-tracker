@@ -70,7 +70,12 @@ check_schema <- function(ts) {
 #' @param ts Timeseries tibble
 #' @return Tibble with one row per revision
 compute_revision_quality <- function(ts) {
+  # Guarantee every authority rate column exists before summarising, so a cached
+  # snapshot predating an authority still reports (as 0%) instead of erroring —
+  # and so adding an authority needs no edit here. Single source of truth:
+  # AUTHORITY_RATE_COLS in helpers.R.
   ts %>%
+    zero_fill_authority_rates() %>%
     group_by(revision, effective_date) %>%
     summarise(
       n_products = n_distinct(hts10),
@@ -85,6 +90,10 @@ compute_revision_quality <- function(ts) {
       pct_ieepa_recip = round(mean(rate_ieepa_recip > 0) * 100, 1),
       pct_ieepa_fent = round(mean(rate_ieepa_fent > 0) * 100, 1),
       pct_s122 = round(mean(rate_s122 > 0) * 100, 1),
+      # 2026 authorities (columns guaranteed by zero_fill_authority_rates above).
+      pct_s301fl = round(mean(rate_s301fl > 0) * 100, 1),
+      pct_s301br = round(mean(rate_s301br > 0) * 100, 1),
+      pct_s338 = round(mean(rate_s338 > 0) * 100, 1),
       pct_usmca = round(mean(usmca_eligible, na.rm = TRUE) * 100, 1),
       n_negative_rates = sum(total_rate < 0, na.rm = TRUE),
       n_na_total = sum(is.na(total_rate)),
@@ -222,7 +231,9 @@ check_authority_timeline <- function(rev_quality) {
   authority_map <- c(
     s232 = 'pct_232', s301 = 'pct_301',
     ieepa_recip = 'pct_ieepa_recip', ieepa_fent = 'pct_ieepa_fent',
-    s122 = 'pct_s122'
+    s122 = 'pct_s122',
+    # 2026 authorities: §301 forced labor (60 economies), §301 Brazil, §338 Canada.
+    s301fl = 'pct_s301fl', s301br = 'pct_s301br', s338 = 'pct_s338'
   )
 
   all_revisions <- rev_quality$revision

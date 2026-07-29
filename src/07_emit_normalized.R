@@ -52,6 +52,13 @@ suppressPackageStartupMessages({
   ieepa_fentanyl   = 'ieepa_fentanyl',
   section_122      = 'section_122',
   section_201      = 'section_201',
+  # Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338), 2026 Canada
+  # proclamations. classify_authority() returns this for 9903.03.12+; without an
+  # entry here the normalized emit would drop or NA the authority for any such
+  # heading, exactly the "surface as an explicit error" case this table exists for.
+  # The two 2026 §301 actions (note 50 Brazil, note 52 forced labor) need no entry:
+  # they roll up to 'section_301'.
+  section_338      = 'section_338',
   other            = 'other'
 )
 

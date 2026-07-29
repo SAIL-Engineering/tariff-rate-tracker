@@ -9,3 +9,6 @@ rev_7,ieepa_recip,active,0.1,Liberation Day (10% universal baseline persists thr
 2026_rev_4,ieepa_recip,inactive,,SCOTUS invalidation
 2026_rev_4,ieepa_fent,inactive,,SCOTUS invalidation
 2026_rev_4,s122,active,0.1,Section 122 Phase 3
+2026_rev_12,s301br,active,0.1,"Section 301 Brazil 25% (91 FR 45516) codified at 9903.05.01; duties effective 2026-07-22, one day inside rev_12 — applied via activation gating"
+2026_rev_13,s301fl,active,50.0,"Section 301 forced labor, 60 economies (91 FR 47318 / 91 FR 47717) effective 2026-07-24; 86 census origins x nearly all products, so coverage is high"
+2026_rev_13,s122,inactive,0,"Section 122 expired at the close of 2026-07-23 (91 Fed. Reg. 9339) — first post-expiry revision"
