@@ -2127,11 +2127,19 @@ calculate_rates_for_revision <- function(
       # Annex III sunset: after sunset_date, products move to I-B rate
       sunset <- annex_cfg$annexes$annex_3$sunset_date
       if (!is.null(sunset) && as.Date(effective_date) > as.Date(sunset)) {
+        # NA-safe gates: s232_annex is NA on non-annex products, and a bare
+        # `s232_annex == 'annex_3'` yields NA (not FALSE) there — if_else() would
+        # then return NA rate_232 for EVERY non-annex product, which poisons
+        # stacking (total_additional -> NA) and used to be silently coalesced to 0
+        # by enforce_rate_schema(). Same defect class as upstream 050f2acf
+        # (their annex_1c framework gate); this block is dormant until the
+        # 2027-12-31 sunset, so the bug was latent rather than shipped.
         rates <- rates %>%
           mutate(
-            rate_232 = if_else(s232_annex == 'annex_3',
+            rate_232 = if_else(!is.na(s232_annex) & s232_annex == 'annex_3',
                                 annex_cfg$annexes$annex_1b$rate, rate_232),
-            s232_annex = if_else(s232_annex == 'annex_3', 'annex_1b', s232_annex)
+            s232_annex = if_else(!is.na(s232_annex) & s232_annex == 'annex_3',
+                                 'annex_1b', s232_annex)
           )
         message('  Annex III sunset: reclassified to I-B')
       }

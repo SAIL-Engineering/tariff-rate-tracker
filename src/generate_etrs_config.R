@@ -239,7 +239,12 @@ export_statutory_rates <- function(snapshot, policy_params, output_dir, ch99_dat
         kitchen_cabinets = s232_rates_check$wood_rate > 0 || s232_rates_check$wood_furniture_rate > 0,
         mhd_vehicles     = s232_rates_check$mhd_rate > 0,
         mhd_parts        = s232_rates_check$mhd_rate > 0,
-        buses            = s232_rates_check$mhd_rate > 0
+        buses            = s232_rates_check$mhd_rate > 0,
+        # Port of upstream d6c0c3b8: semiconductors (9903.79, US Note 39, eff.
+        # 2026-01-16) had no gate entry here, so the program bypassed the Ch99
+        # activation check entirely and stayed "active" on revisions that
+        # predate it. The sibling list in 06_calculate_rates.R already had it.
+        semiconductors   = s232_rates_check$semi_rate > 0
       )
     }
   }

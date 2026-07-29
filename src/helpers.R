@@ -1400,10 +1400,39 @@ enforce_rate_schema <- function(df) {
     }
   }
 
-  # Fill NAs in numeric rate columns (bind_rows can introduce NAs)
+  # Fail loud on a NA effective total (port of upstream c0ff82a8).
+  # total_additional/total_rate are computed by apply_stacking_rules() FROM the
+  # (already-filled) per-authority rate columns, so a NA here means a rate column
+  # was NA when it ENTERED stacking — and NA then poisons the arithmetic
+  # (`NA > 0` is NA, `x * NA` is NA). Silently coalescing it to 0, as this
+  # function did until this port, masks a real upstream bug: that is exactly how
+  # a bare `s232_annex == '<annex>'` if_else condition wipes rate_232 (and with
+  # it §122/base) for every non-annex product. Surface it here instead of hiding
+  # it. Fix the source; never coalesce.
+  for (col in c('total_additional', 'total_rate')) {
+    if (!col %in% names(df)) next
+    na_idx <- which(is.na(df[[col]]))
+    if (length(na_idx) > 0) {
+      id_cols <- intersect(c('hts10', 'country'), names(df))
+      sample_txt <- if (length(id_cols) > 0) {
+        ex <- utils::head(df[na_idx, id_cols, drop = FALSE], 5)
+        paste0(' Sample (', paste(id_cols, collapse = '/'), '): ',
+               paste(do.call(paste, c(unname(as.list(ex)), sep = '/')),
+                     collapse = ', '))
+      } else ''
+      stop('enforce_rate_schema: ', length(na_idx), ' row(s) have NA ', col,
+           ' after stacking — an upstream rate column was NA entering ',
+           'apply_stacking_rules() (NA poisons the total). Fix the source; do ',
+           'NOT coalesce to 0.', sample_txt)
+    }
+  }
+
+  # Fill NAs in the per-authority rate columns + base. bind_rows for MFN-only
+  # grid pairs legitimately leaves an absent authority column NA — that IS a 0
+  # rate. NB: total_additional/total_rate are deliberately NOT in this list —
+  # they are guarded above (a NA total is a bug, not a fill-to-0 case).
   rate_cols <- c('base_rate', 'statutory_base_rate', 'rate_232', 'rate_301', 'rate_ieepa_recip',
-                 'rate_ieepa_fent', 'rate_s122', 'rate_section_201', 'rate_other',
-                 'total_additional', 'total_rate')
+                 'rate_ieepa_fent', 'rate_s122', 'rate_section_201', 'rate_other')
   for (col in rate_cols) {
     if (col %in% names(df)) {
       df[[col]][is.na(df[[col]])] <- 0

@@ -698,15 +698,41 @@ run_test('adds missing columns with defaults', {
   stopifnot(result$total_rate == 0)
 })
 
-run_test('fills NAs in rate columns with 0', {
+run_test('fills NAs in per-authority rate columns with 0', {
+  # bind_rows for MFN-only grid pairs legitimately leaves an absent authority
+  # column NA — that IS a 0 rate, so these still fill.
   df <- tibble(
     hts10 = '0101300000', country = '5700',
-    base_rate = NA_real_, rate_232 = NA_real_,
-    total_rate = NA_real_
+    base_rate = NA_real_, rate_232 = NA_real_
   )
   result <- enforce_rate_schema(df)
   stopifnot(result$base_rate == 0)
   stopifnot(result$rate_232 == 0)
+})
+
+run_test('fails loud on NA total_rate / total_additional (never coalesces)', {
+  # Port of upstream c0ff82a8. A NA total means a rate column was NA ENTERING
+  # apply_stacking_rules(); coalescing it to 0 masks the real bug (this is how a
+  # bare `s232_annex == '<annex>'` if_else condition silently wipes rate_232 and
+  # §122 for every non-annex product).
+  for (col in c('total_rate', 'total_additional')) {
+    df <- tibble(hts10 = '0101300000', country = '5700')
+    df[[col]] <- NA_real_
+    err <- tryCatch({ enforce_rate_schema(df); NULL },
+                    error = function(e) conditionMessage(e))
+    stopifnot(!is.null(err))
+    stopifnot(grepl('NA', err), grepl(col, err, fixed = TRUE))
+    stopifnot(grepl('0101300000/5700', err, fixed = TRUE))  # identifies the row
+  }
+})
+
+run_test('a computed (non-NA) total passes the guard untouched', {
+  df <- tibble(hts10 = '0101300000', country = '5700',
+               base_rate = 0.02, rate_232 = 0.5,
+               total_additional = 0.5, total_rate = 0.52)
+  result <- enforce_rate_schema(df)
+  stopifnot(abs(result$total_additional - 0.5) < 1e-12)
+  stopifnot(abs(result$total_rate - 0.52) < 1e-12)
 })
 
 run_test('preserves extra columns', {

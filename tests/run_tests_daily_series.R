@@ -580,9 +580,13 @@ run_test('all policy_params heading names have matching gates', {
   }
 
   # Reproduce the heading_gates keys from 06_calculate_rates.R
+  # Keep in sync with the heading_gates list in 06_calculate_rates.R AND the
+  # one in generate_etrs_config.R (both must cover every section_232_headings
+  # key). This duplicated copy going stale is what hid the missing
+  # `semiconductors` gate in generate_etrs_config.R (upstream d6c0c3b8).
   heading_gates <- c('autos_passenger', 'autos_light_trucks', 'auto_parts',
                      'copper', 'softwood', 'wood_furniture', 'kitchen_cabinets',
-                     'mhd_vehicles', 'mhd_parts', 'buses')
+                     'mhd_vehicles', 'mhd_parts', 'buses', 'semiconductors')
 
   config_names <- names(s232_headings)
   missing_gates <- config_names[!config_names %in% heading_gates]
@@ -595,9 +599,13 @@ run_test('all policy_params heading names have matching gates', {
 
 run_test('autos_light_trucks key exists in heading_gates (not autos_light)', {
   # Verify the gate list contains the correct key
+  # Keep in sync with the heading_gates list in 06_calculate_rates.R AND the
+  # one in generate_etrs_config.R (both must cover every section_232_headings
+  # key). This duplicated copy going stale is what hid the missing
+  # `semiconductors` gate in generate_etrs_config.R (upstream d6c0c3b8).
   heading_gates <- c('autos_passenger', 'autos_light_trucks', 'auto_parts',
                      'copper', 'softwood', 'wood_furniture', 'kitchen_cabinets',
-                     'mhd_vehicles', 'mhd_parts', 'buses')
+                     'mhd_vehicles', 'mhd_parts', 'buses', 'semiconductors')
   stopifnot('autos_light_trucks' %in% heading_gates)
   stopifnot(!'autos_light' %in% heading_gates)
 })
