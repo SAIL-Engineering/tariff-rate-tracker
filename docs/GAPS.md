@@ -231,6 +231,56 @@ design, not an extraction.
 
 ---
 
+## F. Normalized-layer parity *(measured 2026-07-30)*
+
+### F1. The normalized resolver diverges from the denormalized pipeline on 27% of sampled rows
+
+**State:** `Rscript tests/test_normalized_parity.R` — 2,146 OK, **798 FAIL**
+across **261 distinct (hts10, country, revision) cases**; exit code 2.
+
+The failures have a single root cause with a cascade:
+
+| Field | Failures |
+|---|---|
+| `rate_232` | 244 |
+| `total_additional` | 251 |
+| `total_rate` | 251 |
+| `rate_ieepa_fent` | 21 |
+| `base_rate` | 17 |
+| `rate_ieepa_recip` | 9 |
+| `rate_s122` | 5 |
+
+`total_additional` and `total_rate` are downstream of `rate_232`, so the 244
+`rate_232` divergences produce essentially all of the rest.
+
+Concentrated in the chapters where §232 is heading- or content-driven rather
+than a flat blanket: **87 (86), 84 (54), 85 (34), 74 (14)**, then 83, 94, 38,
+82, 76, 34. The normalized resolver returns the raw blanket rate where the
+denormalized pipeline returns the heading rate or the metal-content-scaled
+rate — e.g. `8703230120/2010/2025_rev_20` denorm `0.160408` (auto heading rate
+after the rebate) vs norm `0.237625` (`0.50 × 0.47525` metal share); the
+resolver is treating a passenger vehicle as a metal derivative.
+
+**Impact: NOT a production defect today.** The MotherDuck push and the frontend
+read the DENORMALIZED `data/timeseries/rate_timeseries_parquet`.
+`output/normalized/` is a Phase-2 dual-write consumed only by this parity test
+and `src/resolve_rate_normalized.R`. The gap matters because the parity test
+exists to prove the normalized layer can eventually replace the denormalized
+one, and at 27% divergence it cannot.
+
+**Correction to the record:** this suite was twice described inaccurately during
+the 2026-07-30 pass — first as an ERROR (a misclassification by
+`tests/run_all_tests.R`, fixed in `0aee9569`), then as passing with exit 0. The
+second claim came from reading the exit code of a `| tail` pipeline rather than
+of `Rscript`, which reports tail's status. Commit `6aa4c910` asserts it exits 0;
+that assertion is wrong. Run it unpiped, or via `tests/run_all_tests.R`.
+
+**Closeable:** yes, but it is a port of the heading-program and metal-content
+logic from `src/06_calculate_rates.R` into `src/resolve_rate_normalized.R`, not
+a small patch. Related: the plan's T4.1 (`rate_s301fl` / `rate_s301br` /
+`rate_s338` absent from the resolver entirely).
+
+
 ## Closeability summary
 
 **✅ Parseable now (maintainable, auto-applies to future revisions):** A2 post-annex
