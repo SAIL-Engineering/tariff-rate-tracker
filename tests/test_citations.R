@@ -132,8 +132,14 @@ run_test('§232 actions carry DISTINCT citations, not one shared proclamation', 
   # legal actions that EO 14289 discriminates between. Pointing them all at the
   # steel proclamation would hand the frontend a split with no legal content.
   f <- here('output', 'contract', 'authorities.json')
+  # authorities.json is a generated artifact and gitignored, so generate it
+  # rather than skip — otherwise these assertions never run in a fresh
+  # checkout, which is exactly where a broken contract would land.
   if (!file.exists(f)) {
-    message('    (skipped — run Rscript src/emit_authority_contract.R first)')
+    suppressMessages(suppressWarnings(source(here('src', 'emit_authority_contract.R'))))
+  }
+  if (!file.exists(f)) {
+    stop('contract could not be generated')
   } else {
     j <- jsonlite::fromJSON(f)
     a <- j$authorities
@@ -149,7 +155,10 @@ run_test('§232 actions carry DISTINCT citations, not one shared proclamation', 
 run_test('every citation_key in the contract resolves to a registered authority', {
   f <- here('output', 'contract', 'authorities.json')
   if (!file.exists(f)) {
-    message('    (skipped — contract not generated)')
+    suppressMessages(suppressWarnings(source(here('src', 'emit_authority_contract.R'))))
+  }
+  if (!file.exists(f)) {
+    stop('contract could not be generated')
   } else {
     a <- jsonlite::fromJSON(f)$authorities
     keys <- unique(a$citation_key[!is.na(a$citation_key)])

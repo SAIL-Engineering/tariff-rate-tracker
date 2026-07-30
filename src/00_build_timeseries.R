@@ -531,6 +531,16 @@ build_full_timeseries <- function(
         emit_normalized_statics(rev_df, pp_build,
                                 output_dir = here('output', 'normalized'))
         message('Emitted normalized static parquets (revisions, country_group_membership)')
+
+        # Frontend authority contract. Regenerated every build so a new entry in
+        # AUTHORITY_RATE_COLS reaches the UI without a TypeScript change — and
+        # so the emitter's "every rate column must be described" check runs as
+        # part of the build rather than only when someone remembers to call it.
+        tryCatch({
+          source(here('src', 'emit_authority_contract.R'))
+        }, error = function(e) {
+          log_warn('Authority contract not emitted: ', conditionMessage(e))
+        })
       }
     }, error = function(e) {
       message('[phase2 emit_normalized_statics skipped: ', conditionMessage(e), ']')
