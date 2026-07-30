@@ -92,3 +92,6 @@ node_modules/
 /ca_*.jsonl
 /ca_*.codes.json
 /ca_*.manifest.json
+
+# Vendor payloads pulled from the Avalara cache for validation (not ours to commit)
+data/validation/avalara_cache.rds
