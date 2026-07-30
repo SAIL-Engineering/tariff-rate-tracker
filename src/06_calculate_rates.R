@@ -1613,8 +1613,17 @@ calculate_rates_for_revision <- function(
     n_steel_countries <- sum(country_232$steel_rate > 0)
     n_alum_countries <- sum(country_232$aluminum_rate > 0)
     n_auto_countries <- sum(country_232$auto_rate > 0)
+    # "Steel: 0 countries" reads like missing duty but is expected from
+    # 2026-04-06: the annex proclamation moved steel and aluminum off the
+    # blanket per-country path onto the annex tiers, so this counter goes to
+    # zero while the duty is applied by the annex override further down. Say
+    # which path is carrying it rather than leave a bare zero to be misread.
+    .blanket_metals_empty <- n_steel_countries == 0 && n_alum_countries <= 1
     message('  Steel: ', n_steel_countries, ' countries, aluminum: ',
-            n_alum_countries, ', auto: ', n_auto_countries)
+            n_alum_countries, ', auto: ', n_auto_countries,
+            if (.blanket_metals_empty)
+              ' (blanket metal path empty — annex regime carries steel/aluminum)'
+            else '')
 
     # --- Update rate_232 for products already in rates ---
     # Join heading-level rates for auto/copper/etc products

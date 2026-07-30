@@ -372,9 +372,14 @@ build_full_timeseries <- function(
         msg <- paste0('[', i, '/', n_revisions, '] ', r$rev_id, ' OK — ',
                       r$n_rows, ' rows')
         if (!is.null(r$ieepa_n_countries)) {
+          # mean of an empty set is NaN. After the 2026-02-20 invalidation
+          # IEEPA is active in 0 countries, so "mean rate: NaN%" is the normal
+          # post-invalidation state — print the reason rather than the NaN.
           msg <- paste0(msg, '; IEEPA active in ', r$ieepa_n_countries,
-                        ' countries, mean ',
-                        round(r$ieepa_mean_rate * 100, 1), '%')
+                        ' countries',
+                        if (isTRUE(r$ieepa_n_countries > 0))
+                          paste0(', mean ', round(r$ieepa_mean_rate * 100, 1), '%')
+                        else ' (none — IEEPA not in force this revision)')
         }
         if (!is.null(r$tpc_match_rate)) {
           msg <- paste0(msg, '; TPC match ',
@@ -422,9 +427,10 @@ build_full_timeseries <- function(
       if (identical(r$status, 'ok')) {
         last_successful_rev <- r$rev_id
         if (!is.null(r$ieepa_n_countries)) {
-          message('  IEEPA active in ', r$ieepa_n_countries,
-                  ' countries, mean rate: ',
-                  round(r$ieepa_mean_rate * 100, 1), '%')
+          message('  IEEPA active in ', r$ieepa_n_countries, ' countries',
+                  if (isTRUE(r$ieepa_n_countries > 0))
+                    paste0(', mean rate: ', round(r$ieepa_mean_rate * 100, 1), '%')
+                  else ' (none — IEEPA not in force this revision)')
         }
         if (!is.null(r$tpc_match_rate)) {
           message('  TPC match rate: ',
