@@ -2872,11 +2872,15 @@ calculate_rates_for_revision <- function(
           tibble(country = fl_ctys,
                  blanket_rate = as.numeric(fl_cfg$rate_12_5 %||% 0.125)),
           'rate_s301fl', 'Section 301 forced-labor duties')
+        .fl_mfn <- tryCatch(load_mfn_exemption_shares(), error = function(e) NULL)
+        .fl_eff_date <- max(as.Date(effective_date), fl_eff)
         rates$rate_s301fl <- compute_s301fl_rates(
-          rates, fl_cfg,
-          effective_date = max(as.Date(effective_date), fl_eff),
-          mfn_shares     = tryCatch(load_mfn_exemption_shares(), error = function(e) NULL)
-        )
+          rates, fl_cfg, effective_date = .fl_eff_date, mfn_shares = .fl_mfn)
+        # Statutory = the tier/cap the notice imposes BEFORE Annex I/II exclusions,
+        # the note-52(f) §232 carve-out and note-52(g)/(h) USMCA claims reduce it.
+        rates$statutory_rate_s301fl <- compute_s301fl_rates(
+          rates, fl_cfg, effective_date = .fl_eff_date, mfn_shares = .fl_mfn,
+          statutory = TRUE)
         n_fl <- sum(rates$rate_s301fl > 0)
         message('  Section 301 forced labor: ', format(n_fl, big.mark = ','),
                 ' product-country pairs across ',
@@ -2924,9 +2928,13 @@ calculate_rates_for_revision <- function(
           tibble(country = br_cty,
                  blanket_rate = coalesce(br_hts_rate, as.numeric(br_cfg$rate %||% 0))),
           'rate_s301br', 'Section 301 Brazil duties')
+        .br_eff_date <- max(as.Date(effective_date), br_eff)
         rates$rate_s301br <- compute_s301br_rates(
-          rates, br_cfg, effective_date = max(as.Date(effective_date), br_eff),
-          hts_rate = br_hts_rate)
+          rates, br_cfg, effective_date = .br_eff_date, hts_rate = br_hts_rate)
+        # Statutory = the 25% before the note-50(a)(ii)-(vi) exclusions.
+        rates$statutory_rate_s301br <- compute_s301br_rates(
+          rates, br_cfg, effective_date = .br_eff_date, hts_rate = br_hts_rate,
+          statutory = TRUE)
         n_br <- sum(rates$rate_s301br > 0)
         message('  Section 301 Brazil: ', round(coalesce(br_hts_rate,
                   as.numeric(br_cfg$rate %||% 0)) * 100), '% on ',
@@ -2962,8 +2970,11 @@ calculate_rates_for_revision <- function(
         rates, products, products$hts10,
         tibble(country = s338_cty, blanket_rate = as.numeric(s338_cfg$rate %||% 0)),
         'rate_s338', 'Section 338 Canada duties')
-      rates$rate_s338 <- compute_s338_rates(
-        rates, s338_cfg, effective_date = max(as.Date(effective_date), s338_eff))
+      .s338_eff_date <- max(as.Date(effective_date), s338_eff)
+      rates$rate_s338 <- compute_s338_rates(rates, s338_cfg, effective_date = .s338_eff_date)
+      # Statutory = the 50% before the §232 and WTO civil-aircraft exclusions.
+      rates$statutory_rate_s338 <- compute_s338_rates(
+        rates, s338_cfg, effective_date = .s338_eff_date, statutory = TRUE)
       n_338 <- sum(rates$rate_s338 > 0)
       message('  Section 338 Canada: ', round(as.numeric(s338_cfg$rate %||% 0) * 100),
               '% on ', format(n_338, big.mark = ','), ' product-country pairs',

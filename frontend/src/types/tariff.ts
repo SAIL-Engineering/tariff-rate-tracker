@@ -119,6 +119,13 @@ export interface ProductRate {
   statutory_rate_ieepa_recip: number;
   statutory_rate_ieepa_fent: number;
   statutory_rate_s122: number;
+  // Pre-exemption baselines for the 2026 authorities: the tier/cap the notice or
+  // proclamation imposes BEFORE Annex I/II product exclusions, the §232
+  // carve-outs and USMCA claims reduce it. Optional for the same reason as their
+  // effective counterparts — absent on data predating the regimes.
+  statutory_rate_s301fl?: number;
+  statutory_rate_s301br?: number;
+  statutory_rate_s338?: number;
   statutory_rate_section_201: number;
   statutory_rate_other: number;
   // Specific 8-digit Chapter 99 code driving each authority for this row.

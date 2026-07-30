@@ -1414,6 +1414,7 @@ RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s338',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
@@ -1444,6 +1445,7 @@ enforce_rate_schema <- function(df) {
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
     rate_s301fl = 0, rate_s301br = 0, rate_s338 = 0, rate_other = 0,
+    statutory_rate_s301fl = 0, statutory_rate_s301br = 0, statutory_rate_s338 = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
@@ -3517,7 +3519,7 @@ s232_scope_mask <- function(rates) {
 #' @param cfg policy_params$SECTION_338
 #' @param effective_date Revision effective date
 #' @return Numeric vector, length nrow(rates)
-compute_s338_rates <- function(rates, cfg, effective_date) {
+compute_s338_rates <- function(rates, cfg, effective_date, statutory = FALSE) {
   n <- nrow(rates)
   if (n == 0 || is.null(cfg)) return(rep(0, n))
 
@@ -3566,9 +3568,11 @@ compute_s338_rates <- function(rates, cfg, effective_date) {
   applies <- rates$country == cty & hts8 %in% covered
   out[applies] <- rate
 
-  # Full exclusions.
-  out[hts8 %in% gn6_hts8] <- 0                 # WTO civil aircraft (minus UAVs)
-  out[s232_scope_mask(rates)] <- 0             # articles subject to §232
+  # Full exclusions. `statutory = TRUE` yields the pre-exclusion 50%.
+  if (!statutory) {
+    out[hts8 %in% gn6_hts8] <- 0               # WTO civil aircraft (minus UAVs)
+    out[s232_scope_mask(rates)] <- 0           # articles subject to §232
+  }
   out
 }
 
@@ -3597,7 +3601,8 @@ compute_s338_rates <- function(rates, cfg, effective_date) {
 #' @param effective_date Revision effective date
 #' @param hts_rate Optional rate parsed from heading 9903.05.01 (overrides config)
 #' @return Numeric vector, length nrow(rates), of Brazil §301 rates
-compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL) {
+compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL,
+                                 statutory = FALSE) {
   n <- nrow(rates)
   if (n == 0 || is.null(br_cfg)) return(rep(0, n))
 
@@ -3630,12 +3635,15 @@ compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL)
   pharm_share <- as.numeric(br_cfg$pharma_exempt_share %||% 0)
 
   exempt_share <- rep(0, n)
-  exempt_share <- pmax(exempt_share, if_else(hts8 %in% air,   air_share,   0))
-  exempt_share <- pmax(exempt_share, if_else(hts8 %in% pharm, pharm_share, 0))
-  exempt_share <- pmax(exempt_share, if_else(hts8 %in% flat,  1,           0))
-
-  # note 50(a)(vi): full exclusion for articles subject to §232.
-  exempt_share <- pmax(exempt_share, if_else(s232_scope_mask(rates), 1, 0))
+  if (!statutory) {
+    # `statutory = TRUE` yields the pre-exemption 25% the notice imposes, before
+    # the note-50(a)(ii)-(vi) exclusions reduce it.
+    exempt_share <- pmax(exempt_share, if_else(hts8 %in% air,   air_share,   0))
+    exempt_share <- pmax(exempt_share, if_else(hts8 %in% pharm, pharm_share, 0))
+    exempt_share <- pmax(exempt_share, if_else(hts8 %in% flat,  1,           0))
+    # note 50(a)(vi): full exclusion for articles subject to §232.
+    exempt_share <- pmax(exempt_share, if_else(s232_scope_mask(rates), 1, 0))
+  }
 
   out <- rate * (1 - pmin(1, exempt_share))
   out[!is_br] <- 0
@@ -3693,7 +3701,8 @@ compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL)
 #' @param mfn_shares Optional tibble(hs2, cty_code, exemption_share) for the
 #'   'fta' preference-claim proxy; NULL treats fta lines as fully exempt
 #' @return Numeric vector, length nrow(rates)
-compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NULL) {
+compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NULL,
+                                 statutory = FALSE) {
   n <- nrow(rates)
   if (n == 0 || is.null(fl_cfg)) return(rep(0, n))
 
@@ -3794,10 +3803,15 @@ compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NUL
   scored <- out %>%
     mutate(
       pat_share = if_else(hts8 %in% pat_hts8, 1, 0),
-      exempt_share = pmin(1, pmax(coalesce(common_share, 0),
-                                  coalesce(country_share, 0),
-                                  fta_share, pat_share,
-                                  s232_share, usmca_ex_share)),
+      # `statutory = TRUE` yields the pre-exemption rate: the tier (or cap)
+      # the notice imposes before any Annex I/II product exclusion, §232
+      # carve-out or USMCA claim reduces it. That is the statutory_rate_*
+      # baseline the frontend compares the effective rate against.
+      exempt_share = if (statutory) 0 else
+        pmin(1, pmax(coalesce(common_share, 0),
+                     coalesce(country_share, 0),
+                     fta_share, pat_share,
+                     s232_share, usmca_ex_share)),
       cap_base = if_else(country %in% post_pref, base_eff, base_stat),
       applicable = if_else(fl_is_cap, pmax(0, fl_rate - cap_base), fl_rate),
       value = applicable * (1 - exempt_share)
