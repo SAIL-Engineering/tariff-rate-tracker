@@ -838,6 +838,81 @@ run_test('no overrides / NULL overrides preserves blanket + exempt behavior', {
 
 
 # =============================================================================
+# Test 11a: Phase 1 — per-action §232 schema and heading→action attribution
+# =============================================================================
+
+message('\n--- Test 11a: 232 per-action schema + attribution ---')
+
+run_test('per-action §232 columns exist and are zero-filled, not silently absent', {
+  stopifnot(all(S232_ACTION_RATE_COLS %in% AUTHORITY_RATE_COLS))
+  stopifnot(all(S232_ACTION_RATE_COLS %in% RATE_SCHEMA))
+  stopifnot(!anyDuplicated(RATE_SCHEMA))
+  d <- zero_fill_authority_rates(tibble(hts10 = 'x'))
+  stopifnot(all(S232_ACTION_RATE_COLS %in% names(d)))
+  stopifnot(all(vapply(S232_ACTION_RATE_COLS, function(c) d[[c]] == 0, logical(1))))
+})
+
+run_test('enforce_rate_schema fails loud on a schema column with no default', {
+  # df[[col]] <- NULL is a no-op, so a column missing from `defaults` silently
+  # stays absent and only surfaces as "column doesn't exist" much later.
+  old <- RATE_SCHEMA
+  RATE_SCHEMA <<- c(RATE_SCHEMA, 'rate_232_unobtanium')
+  err <- tryCatch({ enforce_rate_schema(tibble(hts10 = 'x', country = 'CN')); NULL },
+                  error = function(e) conditionMessage(e))
+  RATE_SCHEMA <<- old
+  stopifnot(!is.null(err))
+  stopifnot(grepl('rate_232_unobtanium', err, fixed = TRUE))
+})
+
+run_test('enforce_rate_schema materialises the per-action columns', {
+  d <- enforce_rate_schema(tibble(hts10 = '7208100000', country = '4621'))
+  stopifnot(all(S232_ACTION_RATE_COLS %in% names(d)))
+  stopifnot(all(vapply(S232_ACTION_RATE_COLS, function(c) !is.na(d[[c]]), logical(1))))
+})
+
+run_test('only Proclamation 10908 programs map to the AUTO action', {
+  # EO 14289 sec. 2(a) is Proc 10908 — passenger vehicles, light trucks, parts.
+  # MHD vehicles, buses, wood and semiconductors are SEPARATE §232 actions the
+  # order never names. Mapping them to auto would let them exclude steel and
+  # aluminum under sec. 3(a)(i) and suppress real duty.
+  m <- S232_HEADING_PROGRAM_ACTION
+  stopifnot(all(m[c('autos_passenger', 'autos_light_trucks', 'auto_parts')] == 'rate_232_auto'))
+  for (p in c('mhd_vehicles', 'mhd_parts', 'buses', 'softwood',
+              'wood_furniture', 'kitchen_cabinets', 'semiconductors')) {
+    stopifnot(identical(unname(m[[p]]), 'rate_232_other'))
+  }
+  stopifnot(identical(unname(m[['copper']]), 'rate_232_copper'))
+})
+
+run_test('an unmapped heading program falls to _other rather than vanishing', {
+  # A newly added §232 action must still be carried and visibly attributed.
+  stopifnot(is.na(unname(S232_HEADING_PROGRAM_ACTION['a_program_added_next_year'])))
+  # the pipeline's guard: unmapped + non-metal chapter => rate_232_other
+  chapter <- '84'; action <- NA_character_; blanket <- 0.30
+  goes_to_other <- blanket > 0 & (is.na(action) | identical(action, 'rate_232_other')) &
+    !(chapter %in% c('72', '73', '76'))
+  stopifnot(isTRUE(goes_to_other))
+})
+
+run_test('primary metal chapters attribute by chapter, not by heading program', {
+  # ch72/73 steel and ch76 aluminum take the blanket rate; the heading program
+  # (if any) must not override that attribution.
+  classify <- function(chapter, program, blanket) {
+    if (blanket <= 0) return(NA_character_)
+    if (chapter %in% c('72', '73')) return('rate_232_steel')
+    if (chapter %in% c('76')) return('rate_232_aluminum')
+    unname(S232_HEADING_PROGRAM_ACTION[program])
+  }
+  stopifnot(identical(classify('72', NA, 0.50), 'rate_232_steel'))
+  stopifnot(identical(classify('76', NA, 0.50), 'rate_232_aluminum'))
+  stopifnot(identical(classify('87', 'autos_passenger', 0.25), 'rate_232_auto'))
+  stopifnot(identical(classify('74', 'copper', 0.50), 'rate_232_copper'))
+  stopifnot(identical(classify('44', 'softwood', 0.10), 'rate_232_other'))
+  stopifnot(is.na(classify('84', NA, 0)))          # no duty -> no attribution
+})
+
+
+# =============================================================================
 # Test 11c: Column 2 base tier — HTSUS General Note 3(b)
 # =============================================================================
 
