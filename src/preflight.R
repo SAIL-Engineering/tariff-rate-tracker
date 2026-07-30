@@ -278,6 +278,44 @@ if (sys.nframe() == 0) {
   }
   cat('\n')
 
+  # --- 6c. AD/CVD currency ---
+  # Administrative reviews reset cash-deposit rates roughly annually per case,
+  # so this layer goes stale on its own. Silent staleness is the failure mode
+  # that matters: an old rate looks exactly like a current one.
+  cat('AD/CVD LAYER\n')
+  adcvd_rates <- file.path(base_dir, 'resources', 'adcvd_rates.csv')
+  adcvd_orders <- file.path(base_dir, 'resources', 'adcvd_orders.csv')
+  wm_file <- file.path(base_dir, 'resources', '.adcvd_watermark')
+  if (!file.exists(adcvd_rates) || !file.exists(adcvd_orders)) {
+    cat('  [--] adcvd resources absent — AD/CVD layer inactive\n')
+  } else {
+    n_orders <- max(0L, length(readLines(adcvd_orders, warn = FALSE)) - 1L)
+    n_rates  <- max(0L, length(readLines(adcvd_rates,  warn = FALSE)) - 1L)
+    cat(sprintf('  [OK] %d order(s), %d rate row(s)\n', n_orders, n_rates))
+
+    stale_days <- if (file.exists(wm_file)) {
+      as.integer(Sys.Date() - as.Date(trimws(readLines(wm_file, warn = FALSE)[1])))
+    } else NA_integer_
+    if (is.na(stale_days)) {
+      cat('  [!!] no refresh watermark — run: Rscript scripts/refresh_adcvd.R\n')
+    } else if (stale_days > 45) {
+      cat(sprintf('  [!!] rates last refreshed %d days ago (>45) — cash-deposit rates likely superseded\n',
+                  stale_days))
+      cat('  >> Run: Rscript scripts/refresh_adcvd.R\n')
+    } else {
+      cat(sprintf('  [OK] refreshed %d day(s) ago\n', stale_days))
+    }
+
+    # The order universe cannot currently be seeded from a public endpoint, so
+    # it is curated and incomplete by construction. Say so on every run rather
+    # than let a small seed read as full coverage.
+    if (n_orders < 50) {
+      cat(sprintf('  [--] order seed is INCOMPLETE (%d orders; hundreds are active).\n', n_orders))
+      cat('       Coverage gaps are reported by scripts/refresh_adcvd.R, not silently dropped.\n')
+    }
+  }
+  cat('\n')
+
   # --- 7. Run Mode Assessment ---
   cat(strrep('=', 70), '\n')
   cat('RUN MODE ASSESSMENT\n')

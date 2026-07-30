@@ -1,0 +1,5 @@
+case_number,duty_type,country,country_census,product,hts_prefixes,scope_note,order_date,revoked_date,status,citation_key,source_note
+A-570-053,AD,China,5700,Certain Aluminum Foil,7607,"Aluminum foil having a thickness of 0.2 mm or less; scope is narrative and the HTS numbers are for convenience only",2018-04-19,,active,,seed: verified via FR doc 2026-10525 administrative review
+A-580-891,AD,Korea,5800,Certain Aluminum Foil,7607,"Aluminum foil; scope narrative controls",2021-10-28,,active,,seed: verified via FR doc 2026-10525 administrative review
+A-357-820,AD,Argentina,3570,Raw Honey,0409,"Raw honey; scope narrative controls",2022-06-08,,active,,seed: verified via FR doc 2026-15436 administrative review
+A-351-857,AD,Brazil,3510,Raw Honey,0409,"Raw honey; scope narrative controls",2022-06-08,,active,,seed: verified via FR doc 2026-13040 administrative review

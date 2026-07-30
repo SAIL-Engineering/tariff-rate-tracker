@@ -1403,6 +1403,7 @@ S232_ACTION_RATE_COLS <- c(
 AUTHORITY_RATE_COLS <- c(
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  'rate_adcvd',
   S232_ACTION_RATE_COLS
 )
 
@@ -1774,6 +1775,7 @@ RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  'rate_adcvd', 'adcvd_candidates_json',
   S232_ACTION_RATE_COLS,
   'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s338',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
@@ -1806,6 +1808,7 @@ enforce_rate_schema <- function(df) {
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
     rate_s301fl = 0, rate_s301br = 0, rate_s338 = 0, rate_other = 0,
+    rate_adcvd = 0, adcvd_candidates_json = NA_character_,
     statutory_rate_s301fl = 0, statutory_rate_s301br = 0, statutory_rate_s338 = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
@@ -2642,6 +2645,14 @@ apply_eo14289_precedence <- function(df, threshold = 0,
 
 
 apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutual_exclusion') {
+  # Every authority rate column, present and NA-free. The per-column guards
+  # below predate zero_fill_authority_rates() and are kept for the metal_share
+  # default, but they are a hand-maintained list parallel to
+  # AUTHORITY_RATE_COLS: adding rate_adcvd without a ninth guard made
+  # case_when() fail on a missing object in every caller that did not happen to
+  # supply the column. Filling from the constant is what stops that recurring.
+  df <- zero_fill_authority_rates(df)
+
   # Ensure optional columns exist and have no NAs
   if (!'rate_s122' %in% names(df)) {
     df$rate_s122 <- 0
@@ -2693,7 +2704,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       df %>%
         mutate(
           total_additional = rate_232 + rate_ieepa_recip + rate_ieepa_fent +
-            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
+            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
           total_rate = base_rate + total_additional
         )
     )
@@ -2759,12 +2770,12 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # China with 232: 232 + recip*nonmetal + fentanyl + 301 + s122*nonmetal + s201 + other
         country == cty_china & rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent + rate_301 +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
 
         # China without 232: reciprocal + fentanyl + 301 + s122 + s201 + other
         country == cty_china ~
           rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_s338 + rate_other,
+          rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
 
         # Others with 232: 232 + recip*nonmetal + fent*nonmetal + s122*nonmetal + s201 + other
         # Fentanyl follows the same content-based split as reciprocal: 232 covers
@@ -2772,11 +2783,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # For heading products (auto_parts, copper, autos), nonmetal_share ≈ 0.
         rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent * nonmetal_share +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
         TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_s338 + rate_other
+          rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd
       ),
       total_rate = base_rate + total_additional
     ) %>%
@@ -2801,7 +2812,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
 #'   net_section_201, net_s338, net_other added
 compute_net_authority_contributions <- function(df, cty_china = '5700',
                                                 stacking_method = 'mutual_exclusion') {
-  # Ensure optional columns exist (backwards compat with old snapshots)
+  # Ensure optional columns exist (backwards compat with old snapshots).
+  # Filled from AUTHORITY_RATE_COLS so a newly added authority cannot be missed
+  # here while being present in apply_stacking_rules() — the two must agree or
+  # the net decomposition stops summing to total_additional.
+  df <- zero_fill_authority_rates(df)
   if (!'rate_s122' %in% names(df)) df$rate_s122 <- 0
   if (!'rate_section_201' %in% names(df)) df$rate_section_201 <- 0
   if (!'rate_other' %in% names(df)) df$rate_other <- 0

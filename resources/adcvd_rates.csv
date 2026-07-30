@@ -1,0 +1,6 @@
+case_number,exporter,rate,is_all_others,effective_from,effective_to,fr_document_number,fr_citation,notice_kind,retrieved_date
+A-570-053,Jiangsu Dingsheng New Materials Joint-Stock,0.2660,FALSE,2026-05-27,,2026-10525,91 FR (amended final results),amended_final,2026-07-30
+A-570-053,Jiangsu Zhongji Lamination Materials Co. Ltd.,0.2989,FALSE,2026-05-27,,2026-10525,91 FR (amended final results),amended_final,2026-07-30
+A-580-891,Dong-IL Aluminium Co. Ltd,0.2801,FALSE,2026-05-27,,2026-10525,91 FR (amended final results),amended_final,2026-07-30
+A-357-820,Asociacion de Cooperativas Argentinas C.L,0.1776,FALSE,2026-07-30,,2026-15436,91 FR (amended final results),amended_final,2026-07-30
+A-357-820,Review-Specific Rate for Non-Examined Companies,0.1776,TRUE,2026-07-30,,2026-15436,91 FR (amended final results),amended_final,2026-07-30
