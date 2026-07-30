@@ -534,6 +534,29 @@ authorities:
       the same result from the >0% definition alone, so the two readings agree
       on outcome and we do not encode a separate USMCA branch.
 
+  pl_117_110_suspending_ntr_russia_belarus:
+    citation: "Public Law 117-110 — Suspending Normal Trade Relations with Russia and Belarus Act (Apr. 8, 2022)"
+    statute: "Pub. L. 117-110, 136 Stat. 1163"
+    signed_date: "2022-04-08"
+    effective_date: "2022-04-09"
+    applies_to: [base_col2]
+    verified_against: "https://www.govinfo.gov/app/details/PLAW-117publ110"
+    verified: true
+    verification_scope: >
+      Statutory identity confirmed 2026-07-30. Date used as the gate on Column 2
+      applicability for Russia (census 4621) and Belarus (4622); see
+      NON_NTR_EFFECTIVE_FROM in src/helpers.R.
+    status_note: >
+      Withdrew permanent normal trade relations from Russia and Belarus, making
+      their products dutiable at Column 2 for entries on or after 2022-04-09.
+      Load-bearing because resources/gn3_column2_countries.csv back-fills
+      historical revisions from a later General Note (304 of 544 rows carry
+      fallback_from = 2026_rev_9), and so reports both origins as non-NTR as far
+      back as 2019. Without this gate Column 2 would be applied retroactively and
+      overstate duty on 2019-2021 Russian and Belarusian lines.
+      Related: Proclamation 10420 (87 FR 38875) later increased duties on certain
+      Russian articles; it is a separate action from the PNTR withdrawal itself.
+
   gn3_column2_non_ntr:
     citation: "HTSUS General Note 3(b) — Rate of duty column 2 (products of countries not entitled to normal trade relations)"
     statute: "Harmonized Tariff Schedule of the United States, General Note 3(b)"

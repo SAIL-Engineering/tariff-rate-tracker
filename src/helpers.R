@@ -1407,6 +1407,95 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Earliest date each origin is dutiable at Column 2
+#'
+#' Cuba and North Korea have been non-NTR throughout the corpus. Russia and
+#' Belarus were NOT: they held permanent normal trade relations until the
+#' Suspending Normal Trade Relations with Russia and Belarus Act (Pub. L.
+#' 117-110, signed 2022-04-08), which made their goods dutiable at Column 2 for
+#' entries on or after 2022-04-09.
+#'
+#' This gate is load-bearing because gn3_column2_countries.csv back-fills
+#' historical revisions from a LATER note — 304 of its 544 rows carry
+#' fallback_from = 2026_rev_9 — so the parsed list reports Russia and Belarus as
+#' non-NTR as far back as 2019. Applying Column 2 on that basis would swing
+#' 2019-2021 Russian lines from Free to 149.5%: a large OVERSTATEMENT, and the
+#' failure direction that is hardest to notice because the rate merely looks high.
+NON_NTR_EFFECTIVE_FROM <- c(
+  '2390' = '1900-01-01',   # Cuba
+  '5790' = '1900-01-01',   # North Korea
+  '4621' = '2022-04-09',   # Russia   — Pub. L. 117-110
+  '4622' = '2022-04-09'    # Belarus  — Pub. L. 117-110
+)
+
+
+#' Load the non-NTR (Column 2) origins for a revision, as census codes
+#'
+#' Parsed per revision from HTSUS General Note 3(b) into
+#' resources/gn3_column2_countries.csv by src/parse_general_note_3.R, then gated
+#' by NON_NTR_EFFECTIVE_FROM so back-filled rows cannot apply Column 2 before an
+#' origin actually lost normal trade relations.
+#'
+#' Fails loud when a listed country name does not resolve. A silent drop here is
+#' the worst possible failure mode: the origin keeps its Column 1 rate and the
+#' understatement is invisible. "Republic of Belarus" did exactly that.
+#'
+#' @param revision_id Revision to load (e.g. "2026_rev_13")
+#' @param effective_date Revision effective date; gates the PNTR withdrawals
+#' @param strict Stop on unresolved names (TRUE) or warn and continue
+#' @return Character vector of census country codes (possibly empty)
+load_non_ntr_countries <- function(revision_id, effective_date = NULL,
+                                   strict = TRUE) {
+  path <- here('resources', 'gn3_column2_countries.csv')
+  if (!file.exists(path)) {
+    warning('gn3_column2_countries.csv not found — Column 2 will not be applied')
+    return(character(0))
+  }
+  g <- suppressMessages(readr::read_csv(path, show_col_types = FALSE))
+  if (!all(c('country_name', 'revision') %in% names(g))) return(character(0))
+
+  rows <- g[g$revision == revision_id, , drop = FALSE]
+  if (nrow(rows) == 0) {
+    # Not an error: pre-2022 revisions predate the Russia/Belarus PNTR
+    # withdrawal, and the note is not present in every archived revision.
+    return(character(0))
+  }
+
+  names_uniq <- unique(rows$country_name)
+  resolved <- lapply(names_uniq, resolve_country_name)
+  bad <- names_uniq[lengths(resolved) == 0]
+  if (length(bad) > 0) {
+    msg <- paste0('GN 3(b) non-NTR countries did not resolve to census codes for ',
+                  revision_id, ': ', paste(bad, collapse = ', '),
+                  '. These origins would silently keep their Column 1 rate. ',
+                  'Add an alias in .resolve_one_country().')
+    if (isTRUE(strict)) stop(msg, call. = FALSE) else warning(msg)
+  }
+  codes <- unique(as.character(unlist(resolved)))
+
+  # Gate the PNTR withdrawals. Without an effective date we cannot tell whether
+  # a back-filled row is anachronistic, so drop the date-gated origins rather
+  # than risk applying Column 2 before it was owed.
+  if (length(codes) > 0) {
+    eff <- suppressWarnings(as.Date(effective_date))
+    keep <- vapply(codes, function(cc) {
+      from <- NON_NTR_EFFECTIVE_FROM[[cc]]
+      if (is.null(from)) return(TRUE)          # not date-gated
+      if (is.na(eff)) return(as.Date(from) <= as.Date('1900-01-02'))
+      eff >= as.Date(from)
+    }, logical(1))
+    dropped <- codes[!keep]
+    if (length(dropped) > 0) {
+      message('  Column 2: excluded ', length(dropped), ' origin(s) not yet non-NTR at ',
+              if (is.na(eff)) 'unknown date' else format(eff),
+              ' (', paste(dropped, collapse = ', '), ')')
+    }
+    codes <- codes[keep]
+  }
+  codes
+}
+
+
 #' Parse a Column 2 duty string into an ad valorem rate plus an explicit status
 #'
 #' Column 2 preserves 1930 Smoot-Hawley drafting, so the strings are far messier
@@ -3497,6 +3586,18 @@ resolve_country_name <- function(name) {
     'republic of korea'               = 'south korea republic of korea',
     'north korea'                     = 'north korea democratic peoples republic of korea',
     'russian federation'              = 'russia',
+    # Official long forms as they appear in HTSUS General Note 3(b). "Republic
+    # of Belarus" silently failed to resolve, which would have dropped a
+    # Column 2 origin from the non-NTR list entirely. These are listed
+    # explicitly rather than stripping "Republic of" generically, because
+    # "Democratic People's Republic of Korea" would then collapse to "Korea"
+    # and resolve to SOUTH Korea.
+    'republic of belarus'             = 'belarus',
+    'republic of cuba'                = 'cuba',
+    'democratic peoples republic of korea' =
+      'north korea democratic peoples republic of korea',
+    'korea north'                     = 'north korea democratic peoples republic of korea',
+    'korea south'                     = 'south korea republic of korea',
     'myanmar'                         = 'burma myanmar',
     'myanmar burma'                   = 'burma myanmar',
     'burma'                           = 'burma myanmar',

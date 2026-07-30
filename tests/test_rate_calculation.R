@@ -917,6 +917,42 @@ run_test('a non-derivable Column 2 names WHY rather than passing silently', {
   stopifnot(abs(r$base_rate - 0) < 1e-12)   # base untouched
 })
 
+run_test('Column 2 is NOT applied before an origin lost normal trade relations', {
+  # gn3_column2_countries.csv back-fills historical revisions from a 2026 note
+  # (304 of 544 rows carry fallback_from), so it lists Russia and Belarus as
+  # non-NTR back to 2019. They held PNTR until Pub. L. 117-110 (2022-04-09).
+  # Applying Column 2 there would OVERSTATE duty — Free becomes 149.5%.
+  pre  <- load_non_ntr_countries('2019_basic',  '2019-01-01', strict = FALSE)
+  post <- load_non_ntr_countries('2026_rev_13', '2026-07-24', strict = FALSE)
+  stopifnot(!('4621' %in% pre), !('4622' %in% pre))   # Russia, Belarus excluded
+  stopifnot('2390' %in% pre, '5790' %in% pre)         # Cuba, DPRK always non-NTR
+  stopifnot(all(c('2390', '4621', '4622', '5790') %in% post))
+})
+
+run_test('the PNTR gate switches exactly at 2022-04-09', {
+  before <- load_non_ntr_countries('2026_rev_13', '2022-04-08', strict = FALSE)
+  on_day <- load_non_ntr_countries('2026_rev_13', '2022-04-09', strict = FALSE)
+  stopifnot(!('4621' %in% before))
+  stopifnot('4621' %in% on_day)
+})
+
+run_test('an unknown effective date is treated conservatively', {
+  # Cannot tell whether a back-filled row is anachronistic, so date-gated
+  # origins are dropped rather than risk applying Column 2 before it was owed.
+  r <- load_non_ntr_countries('2026_rev_13', NA, strict = FALSE)
+  stopifnot(!('4621' %in% r), !('4622' %in% r))
+  stopifnot('2390' %in% r)
+})
+
+run_test('an unresolvable non-NTR country name fails loud, never silently drops', {
+  # "Republic of Belarus" silently returned nothing before the alias was added,
+  # which would have kept a Column 2 origin on its Column 1 rate invisibly.
+  stopifnot(identical(resolve_country_name('Republic of Belarus'), '4622'))
+  # and the official DPRK long form must not collapse to South Korea
+  stopifnot(identical(resolve_country_name("Democratic People's Republic of Korea"), '5790'))
+  stopifnot(identical(resolve_country_name('Republic of Korea'), '5800'))
+})
+
 run_test('NTR origins are untouched', {
   r <- resolve_base_rate_tier(0.02, NA_real_, '15.4¢/kg + 149.5%', FALSE)
   stopifnot(abs(r$base_rate - 0.02) < 1e-12)
