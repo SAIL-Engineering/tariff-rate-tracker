@@ -1384,9 +1384,26 @@ remap_imports_via_concordance <- function(imports, snapshot_codes, concordance) 
 #'
 #' NB: 'rate_other' stays LAST so downstream code that treats it as the residual
 #' bucket keeps working.
+#' Section 232 rates split by ACTION
+#'
+#' EO 14289 operates on distinct §232 actions, not on "Section 232" as a whole:
+#' auto EXCLUDES steel and aluminum (sec. 3(a)(i)), while steel and aluminum
+#' STACK WITH EACH OTHER (sec. 3(a)(iii)). Neither rule is expressible against a
+#' single collapsed `rate_232` scalar — a derivative containing both steel and
+#' aluminum owes duty on both contents and would otherwise under-collect.
+#'
+#' `rate_232` is retained as the RESOLVED TOTAL across actions, so every existing
+#' consumer keeps working; these columns carry the attribution underneath it.
+#' Keep the keys in sync with `authorities:` in config/stacking_rules.yaml.
+S232_ACTION_RATE_COLS <- c(
+  'rate_232_auto', 'rate_232_steel', 'rate_232_aluminum',
+  'rate_232_copper', 'rate_232_other'
+)
+
 AUTHORITY_RATE_COLS <- c(
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other'
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  S232_ACTION_RATE_COLS
 )
 
 
@@ -1414,6 +1431,7 @@ RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
   'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  S232_ACTION_RATE_COLS,
   'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s338',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
@@ -1468,6 +1486,22 @@ enforce_rate_schema <- function(df) {
     effective_date = as.Date(NA),
     valid_from = as.Date(NA), valid_until = as.Date(NA)
   )
+
+  # Per-action §232 columns default to 0, sourced from the constant so this list
+  # cannot drift from S232_ACTION_RATE_COLS.
+  for (col in S232_ACTION_RATE_COLS) defaults[[col]] <- 0
+
+  # A schema column with no default silently stays absent, because
+  # `df[[col]] <- NULL` is a no-op rather than an assignment. That produced a
+  # "column doesn't exist" error far downstream in the select() below, so catch
+  # the drift here where it is diagnosable.
+  missing_defaults <- setdiff(RATE_SCHEMA, names(defaults))
+  if (length(missing_defaults) > 0) {
+    stop('RATE_SCHEMA columns have no default in enforce_rate_schema(): ',
+         paste(missing_defaults, collapse = ', '),
+         '\n  Add them to `defaults` — otherwise they are silently dropped.',
+         call. = FALSE)
+  }
 
   for (col in RATE_SCHEMA) {
     if (!col %in% names(df)) {
