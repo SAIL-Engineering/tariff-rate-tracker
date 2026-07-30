@@ -167,6 +167,24 @@ extract_countries_from_description <- function(description) {
   # Filter out catch-all entries and member-country references
   parts <- parts[!grepl('^any country|^member countries', parts, ignore.case = TRUE)]
 
+  # Reject fragments that are tariff STRUCTURE, not origins. The "product of
+  # (.+?) that are|where|..." pattern is greedy enough to swallow classification
+  # language when a heading does not actually name a country: 9903.01.81 and
+  # .86 yielded "classified in the subheadings", which then travelled onward as
+  # if it were a country. An invented origin is worse than none — it silently
+  # scopes a duty to a country that does not exist.
+  structural <- paste0(
+    'classified|subheading|heading|chapter\\b|provided for|described in|',
+    '\\bnote\\b|enumerated|this subchapter|preceding|such goods|the foregoing'
+  )
+  dropped <- parts[grepl(structural, parts, ignore.case = TRUE)]
+  if (length(dropped) > 0) {
+    warning('Discarded non-country fragment(s) from origin text: ',
+            paste(sprintf('"%s"', dropped), collapse = ', '),
+            call. = FALSE)
+  }
+  parts <- parts[!grepl(structural, parts, ignore.case = TRUE)]
+
   return(parts)
 }
 

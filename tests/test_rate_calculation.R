@@ -927,6 +927,30 @@ message('\n--- Test 11e: EO 14289 precedence ---')
          rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
 }
 
+run_test('classification language is never mistaken for a country of origin', {
+  # The "product of (.+?) that are|where|..." pattern is greedy enough to
+  # swallow tariff structure when a heading names no country: 9903.01.81/.86
+  # produced "classified in the subheadings", which then travelled onward as an
+  # origin. An invented country silently scopes a duty to something that does
+  # not exist, which is worse than extracting nothing.
+  sp <- file.path('src', '05_parse_policy_params.R')
+  if (!file.exists(sp)) sp <- file.path('..', 'src', '05_parse_policy_params.R')
+  if (!file.exists(sp)) { message('    (skipped — parser not found)') } else {
+    suppressWarnings(suppressMessages(source(sp, local = TRUE)))
+    f <- extract_countries_from_description
+    # real origins survive
+    stopifnot('Canada' %in% suppressWarnings(f('the product of Canada that are subject to duty')))
+    got <- suppressWarnings(f('products of China and Hong Kong that are described in note 5'))
+    stopifnot(all(c('China', 'Hong Kong') %in% got))
+    # structural fragments are refused
+    for (frag in c('classified in the subheadings', 'the foregoing',
+                   'goods provided for in chapter 99')) {
+      stopifnot(!(frag %in% suppressWarnings(f(paste0('the product of ', frag,
+                                                      ' that are enumerated')))))
+    }
+  }
+})
+
 run_test('n_ch99_refs counts the refs, not the list wrapping them', {
   # The tibble() data mask shadows a local vector with the column of the same
   # name, so `ch99_refs = list(ch99_refs)` followed by `length(ch99_refs)`
