@@ -1,0 +1,830 @@
+rate_column2,rate_column2_raw
+NA,
+NA,$1.014/kg
+NA,$1.018/kg
+NA,$1.03/kg
+NA,$1.05/bbl
+NA,$1.10/kg
+0.4,$1.10/kg + 40%
+0.5,$1.10/kg + 50%
+0.6,$1.10/kg + 60%
+0.5,$1.10/kg +50%
+NA,$1.10/kg on molybdenum content + 15%
+NA,$1.10/kg on tungsten content
+NA,$1.10/t
+NA,$1.11/t
+NA,"$1.15/1,000 + 40%"
+NA,$1.15/kg
+0.6,$1.20/doz. + 60%
+NA,$1.21/kg
+0.1,$1.217/kg + 10%
+0.16,$1.217/kg + 16%
+0.175,$1.217/kg + 17.5%
+0.2,$1.217/kg + 20%
+NA,$1.241/kg
+NA,$1.27/m3
+NA,$1.285/kg
+NA,$1.29/m2
+0.175,$1.299/kg + 17.5%
+NA,$1.32/kg on tungsten content + 40%
+NA,$1.32/pf. liter
+NA,"$1.32/t, including weight of container"
+NA,$1.328/kg
+NA,$1.35/m2
+NA,$1.38/t
+0.1,$1.399/kg + 10%
+0.25,$1.44/gross + 25%
+NA,$1.443/kg
+NA,$1.50 each
+NA,$1.50 each + 35% on the battery
+NA,$1.50 each + 45% on the case
+NA,$1.50 each + 45% on the case + 35% on the battery
+NA,$1.50 each + 65%
+NA,$1.50 each + 65% + 25¢/jewel
+NA,$1.50 each + 65% on the movement + 35% on the battery
+NA,"$1.50/1,000 + 50%"
+0.35,$1.58/pr. + 35%
+0.66,$1.58/pr. + 66%
+NA,$1.59/liter
+NA,$1.631/kg
+NA,$1.65/t
+NA,$1.68/bbl
+NA,$1.68/pf. liter
+NA,$1.70 each + 45% on the case
+NA,"$1.70 each + 45% on the case + 110% on the strap, band or bracelet + 35% on the battery"
+NA,$1.70 each + 45% on the case + 35% on the battery
+NA,"$1.70 each + 45% on the case + 35% on the strap, band or bracelet"
+NA,"$1.70 each + 45% on the case + 35% on the strap, band or bracelet + 35% on the battery"
+NA,$1.70/m3
+NA,$1.75 each + 45% on the case
+0.25,$1.76/kg + 25%
+NA,"$1.76/t, including weight of container"
+NA,$1.775/kg
+NA,$1.78/pf. liter
+NA,$1.813/kg
+NA,$1.831/kg
+NA,"$1.90 each + 45% on the case + 110% on the strap, band or bracelet + 35% on the battery"
+NA,"$1.90 each + 45% on the case + 35% on the strap, band or bracelet + 35% on the battery"
+NA,$1.936/kg
+NA,$1.97/t
+NA,$1.99/pf. liter
+NA,"$1/1,000 pins + 35%"
+NA,$1/t
+NA,$10.33/t
+NA,$10.75 each
+NA,$10.95 each + 45% on the case
+NA,"$10.95 each + 45% on the case + 110% on the strap, band or bracelet"
+NA,"$10.95 each + 45% on the case + 35% on the strap, band or bracelet"
+NA,$11.50 each + 45% on the case
+0.25,$16/doz. + 25%
+NA,$2.04/pf. liter
+NA,$2.121/kg
+NA,$2.13/m2
+0.05,$2.13/m2 + 5%
+0.1,$2.194/kg + 10%
+NA,$2.208/kg
+NA,$2.21/t
+NA,$2.25 each + 15¢/jewel over 7 + 60% on the case
+NA,$2.25 each + 45% on the case
+NA,$2.25 each + 45% on the case + 35% on the battery
+NA,"$2.25 each + 45% on the case +80% on the strap, band or bracelet"
+NA,"$2.25 each + 45% on the case +80% on the strap, band or bracelet + 35% on the battery"
+NA,$2.348/kg
+NA,$2.35/pf. liter
+NA,$2.46/t
+NA,$2.48/m2
+NA,$2.50 each
+NA,$2.50 each + 35% on the battery
+NA,$2.50 each + 45% on the case + 35% on the battery
+NA,$2.50/thou- sand + 40%
+NA,$2.525/kg
+NA,$2.67/kg
+NA,"$2.70 each + 45% on the case + 110% on the strap, band or bracelet"
+NA,"$2.70 each + 45% on the case + 110% on the strap, band or bracelet + 35% on the battery"
+NA,"$2.70 each + 45% on the case + 35% on the strap, band or bracelet"
+NA,"$2.70 each + 45% on the case + 35% on the strap, band or bracelet + 35% on the battery"
+NA,$2.70 each + 45% on the case + 35% on thebattery
+NA,$2.76/t
+0.35,$2.88/gross + 35%
+NA,"$2.90 each + 45% on the case + 110% on the strap, band or bracelet + 35% on the battery"
+NA,"$2.90 each + 45% on the case + 35% on the strap, band or bracelet + 35% on the battery"
+NA,"$2/1,000 + 60%"
+NA,$2/1000
+NA,$20.70/t
+NA,$22.95/m3
+NA,$22/t
+NA,$3 each + 65%
+NA,$3 each + 65% on the movement and case + 35% on the battery
+NA,$3.08/pf. liter
+NA,$3.20/t
+NA,$3.25 each + 45% on the case + 35% on the battery
+NA,"$3.25 each + 45% on the case +80% on the strap, band or bracelet"
+NA,"$3.25 each + 45% on the case +80% on the strap, band or bracelet + 35% on the battery"
+NA,$3.50 each + 55%
+0.5,$3.50/doz. + 50%
+NA,$3.88/m2
+NA,$3.94/t
+0.5,$3/doz. + 50%
+NA,$3/head
+NA,$4 each
+NA,$4.05/pf. liter
+NA,$4.20 each + 45% on the case
+NA,"$4.20 each + 45% on the case + 110% on the strap, band or bracelet"
+NA,"$4.20 each + 45% on the case + 35% on the strap, band or bracelet"
+NA,$4.50 each + 65%
+NA,$4.50 each + 65% + 25¢/jewel
+NA,$4.50 each + 65% on the movement + 35% on the battery
+NA,$4.50 each + 65% on the movement and case + 35% on the battery
+NA,$4.75 each + 45% on the case
+NA,"$4.75 each + 45% on the case + 80% on the strap, band or bracelet"
+NA,$4.91/t
+NA,$4/1000
+NA,$40/kg of anhydrous morphine content
+NA,$5.00 each
+NA,$5.02/kg
+NA,"$5.20 each + 45% on the case + 110% on the strap, band or bracelet"
+NA,"$5.20 each + 45% on the case + 35% on the strap, band or bracelet"
+NA,$5.29/kg
+NA,$5.30/m3
+NA,$5.51/t
+NA,"$5.75 each + 45% on the case +80% on the strap, band or bracelet"
+NA,$6.45/kg
+NA,$6/1000
+NA,$7.38/t
+NA,$8.83/m3
+0.25,$9.92/kg + 25%
+0.25,$9.92/kg+ 25%
+NA,0.07¢/kg of total sugars
+0.002,0.2%
+NA,"0.2¢/kg, including weight of container"
+0.003,0.3%
+NA,0.3¢/kg
+0.2,0.3¢/kg + 20%
+NA,"0.3¢/kg, including weight of container"
+0.004,0.4%
+0.2,0.4¢/kg + 20%
+0.28,0.4¢/kg + 28%
+0.29,0.4¢/kg + 29%
+0.005,0.5%
+NA,0.55¢/kg
+NA,0.59¢/kg
+NA,0.5¢/liter
+NA,0.64¢/kg
+NA,0.6¢/kg
+0.3,0.6¢/kg +30%
+NA,0.73¢/kg
+NA,0.7¢/kg
+NA,0.88¢/kg
+NA,0.92¢/kg
+NA,0.98¢/kg
+0.01,1%
+NA,1.1¢/kg
+0.012,1.2%
+NA,1.3¢/kg
+NA,1.3¢/liter
+NA,1.4¢/kg
+NA,1.5¢/kg
+NA,1.5¢/line/ gross + 25%
+0.016,1.6%
+0.017,1.7%
+NA,1.75¢/line/ gross + 25%
+NA,1.7¢/kg
+NA,1.7¢/liter
+NA,1.8¢/kg
+NA,1.8¢/liter
+0.1,10%
+0.10300000000000001,10.3%
+0.105,10.5%
+NA,10.6¢/g
+NA,10.8¢/kg on drained weight
+1,100%
+1.03,103%
+1.05,105%
+NA,10¢ each + 30%
+NA,10¢ each + 45%
+NA,10¢/doz.
+NA,10¢/kg
+0.25,10¢/kg + 25%
+NA,10¢/kg on drained weight
+NA,10¢/m
+0.2,10¢/pack + 20%
+0.11,11%
+0.115,11.5%
+NA,11.6¢/kg on drained weight
+0.11900000000000001,11.9%
+NA,11.9¢/kg on drained weight
+1.1,110%
+1.135,113.5%
+1.145,114.5%
+NA,11¢ each + 55%
+NA,11¢/kg
+0.15,11¢/kg + 15%
+0.2,11¢/kg + 20%
+0.2,11¢/kg +20%
+NA,11¢/kg on drained weight
+0.12,12%
+0.121,12.1%
+NA,12.1¢/kg
+0.122,12.2%
+0.125,12.5%
+1.25,125%
+NA,12¢ each
+NA,12¢/kg
+0.13,13%
+NA,13.2¢/kg
+NA,13.2¢/liter
+0.135,13.5%
+NA,13.7¢/kg
+0.139,13.9%
+NA,13¢/kg
+0.14,14%
+NA,14.3¢/kg
+0.149,14.9%
+0.15,15%
+0.153,15.3%
+NA,15.4¢/kg
+1.015,15.4¢/kg + 101.5%
+1.04,15.4¢/kg + 104%
+1.045,15.4¢/kg + 104.5%
+1.195,15.4¢/kg + 119.5%
+1.285,15.4¢/kg + 128.5%
+1.33,15.4¢/kg + 133%
+1.455,15.4¢/kg + 145.5%
+1.495,15.4¢/kg + 149.5%
+0.2,15.4¢/kg + 20%
+0.31,15.4¢/kg + 31%
+0.34,15.4¢/kg + 34%
+0.36,15.4¢/kg + 36%
+0.37,15.4¢/kg + 37%
+0.39,15.4¢/kg + 39%
+0.395,15.4¢/kg + 39.5%
+0.4,15.4¢/kg + 40%
+0.405,15.4¢/kg + 40.5%
+0.41,15.4¢/kg + 41%
+0.415,15.4¢/kg + 41.5%
+0.42,15.4¢/kg + 42%
+0.425,15.4¢/kg + 42.5%
+0.43,15.4¢/kg + 43%
+0.435,15.4¢/kg + 43.5%
+0.44,15.4¢/kg + 44%
+0.445,15.4¢/kg + 44.5%
+0.45,15.4¢/kg + 45%
+0.455,15.4¢/kg + 45.5%
+0.46,15.4¢/kg + 46%
+0.465,15.4¢/kg + 46.5%
+0.47,15.4¢/kg + 47%
+0.475,15.4¢/kg + 47.5%
+0.48,15.4¢/kg + 48%
+0.485,15.4¢/kg + 48.5%
+0.49,15.4¢/kg + 49%
+0.495,15.4¢/kg + 49.5%
+0.5,15.4¢/kg + 50%
+0.51,15.4¢/kg + 51%
+0.515,15.4¢/kg + 51.5%
+0.52,15.4¢/kg + 52%
+0.525,15.4¢/kg + 52.5%
+0.53,15.4¢/kg + 53%
+0.535,15.4¢/kg + 53.5%
+0.545,15.4¢/kg + 54.5%
+0.55,15.4¢/kg + 55%
+0.565,15.4¢/kg + 56.5%
+0.57,15.4¢/kg + 57%
+0.575,15.4¢/kg + 57.5%
+0.58,15.4¢/kg + 58%
+0.585,15.4¢/kg + 58.5%
+0.59,15.4¢/kg + 59%
+0.6,15.4¢/kg + 60%
+0.61,15.4¢/kg + 61%
+0.62,15.4¢/kg + 62%
+0.63,15.4¢/kg + 63%
+0.635,15.4¢/kg + 63.5%
+0.645,15.4¢/kg + 64.5%
+0.65,15.4¢/kg + 65%
+0.655,15.4¢/kg + 65.5%
+0.665,15.4¢/kg + 66.5%
+0.675,15.4¢/kg + 67.5%
+0.685,15.4¢/kg + 68.5%
+0.705,15.4¢/kg + 70.5%
+0.71,15.4¢/kg + 71%
+0.715,15.4¢/kg + 71.5%
+0.72,15.4¢/kg + 72%
+0.73,15.4¢/kg + 73%
+0.745,15.4¢/kg + 74.5%
+0.77,15.4¢/kg + 77%
+0.775,15.4¢/kg + 77.5%
+0.785,15.4¢/kg + 78.5%
+0.79,15.4¢/kg + 79%
+0.8,15.4¢/kg + 80%
+0.82,15.4¢/kg + 82%
+0.84,15.4¢/kg + 84%
+0.87,15.4¢/kg + 87%
+0.915,15.4¢/kg + 91.5%
+0.96,15.4¢/kg + 96%
+0.36,15.4¢/kg +36%
+0.4,15.4¢/kg +40%
+0.405,15.4¢/kg +40.5%
+0.455,15.4¢/kg +45.5%
+0.46,15.4¢/kg +46%
+0.475,15.4¢/kg +47.5%
+0.48,15.4¢/kg +48%
+0.485,15.4¢/kg +48.5%
+0.5,15.4¢/kg +50%
+0.51,15.4¢/kg +51%
+0.515,15.4¢/kg +51.5%
+0.52,15.4¢/kg +52%
+0.57,15.4¢/kg +57%
+0.58,15.4¢/kg +58%
+0.59,15.4¢/kg +59%
+0.62,15.4¢/kg +62%
+0.73,15.4¢/kg +73%
+0.79,15.4¢/kg +79%
+0.8,15.4¢/kg +80%
+0.155,15.5%
+1.55,155%
+NA,15¢ each + 45%
+NA,15¢/kg
+NA,15¢/liter
+0.16,16%
+NA,16.5¢/kg
+0.3,16.5¢/kg + 30%
+0.16899999999999998,16.9%
+NA,16¢ each + 45%
+0.17,17%
+0.17300000000000001,17.3%
+0.175,17.5%
+NA,17.6¢/kg
+0.25,17.6¢/kg + 25%
+NA,17.6¢/kg on contents and container
+0.179,17.9%
+0.18,18%
+0.185,18.5%
+NA,18.5¢/ liter + $1.32/pf. liter on ethyl alcohol content
+NA,18.5¢/liter + $1.32/pf. liter
+0.187,18.7%
+0.18899999999999997,18.9%
+NA,18¢/kg
+NA,18¢/liter
+0.19,19%
+NA,19.3¢/kg
+0.195,19.5%
+0.19899999999999998,19.9%
+NA,19.9¢/kg of total sugars + 6%
+1.9269999999999998,192.7%
+NA,19¢/kg
+0.4,19¢/kg + 40%
+NA,1¢ each + 30%
+NA,1¢ each + 50%
+NA,1¢/kg
+NA,2 percent of the fair retail value
+0.02,2%
+NA,2.11¢/kg
+NA,2.1¢/pf.liter
+NA,2.2¢/kg
+NA,2.2¢/kg 
+0.335,2.2¢/kg  +  33.5%
+0.1,2.2¢/kg + 10%
+0.335,2.2¢/kg + 33.5%
+0.335,2.2¢/kg +33.5%
+NA,2.2¢/kg on manganese content
+NA,2.2¢/m2
+NA,2.3¢/kg
+0.025,2.5%
+NA,2.55¢/kg
+NA,2.5¢/kg
+NA,2.5¢/kg on lead content
+NA,2.6¢/kg
+NA,2.6¢/liter
+NA,2.8¢/kg
+0.2,20%
+0.205,20.5%
+0.209,20.9%
+NA,20.9¢/kg
+0.4,20.9¢/kg + 40%
+NA,20¢ each + 45%
+NA,20¢/gross
+NA,20¢/gross of immediate containers
+0.21,21%
+0.215,21.5%
+0.217,21.7%
+0.21899999999999997,21.9%
+NA,21¢/bbl
+0.4,21¢/kg + 40%
+0.22,22%
+0.223,22.3%
+0.225,22.5%
+0.22899999999999998,22.9%
+NA,22¢/kg
+0.3,22¢/kg + 30%
+0.415,22¢/kg + 41.5%
+0.45,22¢/kg + 45%
+NA,22¢/kg on drained weight + 45%
+NA,22¢/kg on drained weight+45%
+0.23,23%
+0.237,23.7%
+0.24,24%
+NA,24.3¢/kg
+0.81,24.3¢/kg + 81%
+0.244,24.4%
+0.245,24.5%
+0.247,24.7%
+0.249,24.9%
+0.25,25%
+0.255,25.5%
+NA,25.5¢/kg
+0.259,25.9%
+0.25,25¢/doz. + 25%
+0.26,26%
+0.262,26.2%
+0.263,26.3%
+0.265,26.5%
+0.65,26.5¢/kg +65%
+0.267,26.7%
+NA,26¢/liter
+0.27,27%
+NA,27.3¢/kg
+0.275,27.5%
+0.765,27.6¢/kg + 76.5%
+0.175,27.6¢/liter+ 17.5%
+0.27699999999999997,27.7%
+0.27899999999999997,27.9%
+0.1,27.9¢/kg + 10%
+0.28,28%
+0.285,28.5%
+0.29,29%
+0.29100000000000004,29.1%
+0.295,29.5%
+0.297,29.7%
+NA,2¢ each + 45%
+NA,2¢ each + 50%
+NA,2¢/kg
+0.03,3%
+NA,3.3¢/kg
+0.2,3.3¢/kg + 20%
+NA,3.3¢/lin. m
+0.035,3.5%
+0.036000000000000004,3.6%
+NA,3.6¢/kg
+0.6,3.7¢/kg + 60%
+NA,3.9¢/kg
+0.3,30%
+0.304,30.4%
+0.305,30.5%
+NA,30.9¢/kg
+0.76,30.9¢/kg + 76%
+0.31,31%
+0.311,31.1%
+0.313,31.3%
+0.315,31.5%
+NA,31¢/kg
+0.32,32%
+0.325,32.5%
+0.327,32.7%
+NA,32¢ each
+NA,33 1/3%
+0.33,33%
+NA,33.1¢/kg
+0.33299999999999996,33.3%
+0.33399999999999996,33.4%
+0.335,33.5%
+0.1,33.9¢/kg + 10%
+0.1,33.9¢/kg +10%
+NA,33¢/ liter
+NA,33¢/kg
+0.25,33¢/kg + 25%
+NA,33¢/liter
+0.34,34%
+0.341,34.1%
+0.345,34.5%
+0.35,35%
+0.35200000000000004,35.2%
+0.355,35.5%
+0.1,35.9¢/kg + 10%
+0.075,35.9¢/kg + 7.5%
+3.5,350%
+NA,35¢ each + 55%
+0.36,36%
+0.365,36.5%
+NA,36.8¢/kg
+NA,36.9¢/kg
+0.37,37%
+0.375,37.5%
+NA,37.5¢ each + 45%
+0.76,37.5¢/kg + 76%
+0.38,38%
+0.385,38.5%
+NA,38¢ each
+NA,38¢/m2
+0.39,39%
+0.395,39.5%
+NA,39.5¢/kg
+NA,39.7¢/kg
+NA,39.85¢/kg
+0.06,39.9¢/kg + 6%
+0.06,39.9¢/kg +6%
+NA,39.9¢/kg of total sugars + 6%
+NA,39.9¢/kg of total sugars+ 6%
+NA,3¢/kg
+NA,4 percent of the fair retail value
+0.04,4%
+0.040999999999999995,4.1%
+0.042,4.2%
+NA,4.2¢/kg
+NA,4.3817¢/kg less 0.0622005¢ /kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less 2.831562¢ /kg
+NA,4.3817¢/kg less 0.0622005¢ /kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less than 2.831562¢ /kg
+NA,4.3817¢/kg less 0.0622005¢/kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less than 2.831562¢ /kg
+NA,4.3817¢/kg less 0.0622005¢/kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less than 2.831562¢/kg
+NA,4.3¢/m2
+NA,4.4¢/kg
+0.15,4.4¢/kg + 15%
+0.2,4.4¢/kg + 20%
+0.3,4.4¢/kg + 30%
+NA,4.4¢/kg on entire contents of container
+NA,4.4¢/kg on silicon content
+0.045,4.5%
+NA,4.6¢/kg
+NA,4.7¢/kg
+0.048,4.8%
+NA,4.8¢/liter
+0.049,4.9%
+NA,4.9¢/kg
+0.4,40%
+NA,40.2¢/kg
+0.405,40.5%
+0.406,40.6%
+NA,40.8¢/kg
+NA,40¢ each + 45%
+NA,40¢/gross
+0.415,41.5%
+0.4175,41.75%
+0.42,42%
+NA,42.05¢/kg
+0.425,42.5%
+0.43,43%
+0.435,43.5%
+0.1,43.8¢/kg + 10%
+0.05,43.8¢/kg + 5%
+0.07,43.8¢/kg + 7%
+0.07,43.8¢/kg +7%
+0.44,44%
+0.441,44.1%
+NA,44¢/kg
+0.25,44¢/kg + 25%
+0.45,45%
+0.455,45.5%
+0.457,45.7%
+0.46,46%
+0.46299999999999997,46.3%
+NA,46.3¢/clean kg
+0.585,46.3¢/kg + 58.5%
+0.46799999999999997,46.8%
+0.47,47%
+0.122,47.4¢/kg + 12.2%
+0.122,47.4¢/kg +12.2%
+0.475,47.5%
+NA,47.5¢/doz.
+0.48,48%
+0.48100000000000004,48.1%
+0.48200000000000004,48.2%
+0.483,48.3%
+0.685,48.5¢/kg + 68.5%
+0.486,48.6%
+0.49,49%
+0.495,49.5%
+0.1,49.8¢/kg + 10%
+0.1,49.8¢/kg +10%
+NA,49¢/kg
+NA,49¢/t
+NA,4¢ each
+NA,4¢/kg
+NA,4¢/liter
+0.05,5%
+0.051,5.1%
+NA,5.3¢/kg
+0.055,5.5%
+NA,5.5¢/kg
+0.2,5.5¢/kg + 20%
+NA,5.6¢/kg
+0.057,5.7%
+NA,50 percent of the cost of such goods or repairs
+NA,50 percent of the cost of such parts
+NA,50 percent of the cost of such parts or materials
+0.5,50%
+0.505,50.5%
+NA,50.7¢/kg
+0.508,50.8%
+NA,50¢/gross
+0.3,50¢/gross + 30%
+0.51,51%
+0.515,51.5%
+0.517,51.7%
+0.519,51.9%
+0.52,52%
+0.523,52.3%
+0.525,52.5%
+0.45,52.9¢/kg + 45%
+0.585,52.9¢/kg + 58.5%
+0.53,53%
+0.534,53.4%
+NA,53¢/kg
+0.54,54%
+0.545,54.5%
+0.175,54.5¢/kg + 17.5%
+0.547,54.7%
+0.55,55%
+NA,55.1¢/clean kg
+NA,55.1¢/kg
+0.555,55.5%
+NA,55¢/clean kg
+NA,55¢/kg
+0.56,56%
+0.565,56.5%
+0.5670000000000001,56.7%
+0.57,57%
+NA,57.3¢/kg
+0.575,57.5%
+0.58,58%
+NA,58.4¢/kg
+0.585,58.5%
+0.59,59%
+0.595,59.5%
+NA,59.5¢/clean kg
+NA,59.5¢/kg
+NA,59.6¢/clean kg
+0.2,59¢/kg + 20%
+0.2,59¢/kg +20%
+NA,5¢ each + 45%
+NA,5¢ each + 60%
+0.06,6%
+NA,6.1¢/kg
+0.062,6.2%
+0.05,6.2¢/kg + 5%
+0.065,6.5%
+NA,6.58170¢/kg less 0.0622005¢ /kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less than 5.031562¢ /kg
+NA,6.58170¢/kg less 0.0622005¢/kg for each degree under 100 degrees (and fractions of a degree in proportion) but not less than 5.031562¢ /kg
+NA,6.58170¢/kg of total sugars
+NA,6.6¢/kg
+0.1,6.6¢/kg + 10%
+0.2,6.6¢/kg + 20%
+0.25,6.6¢/kg + 25%
+0.28,6.6¢/kg + 28%
+0.29,6.6¢/kg + 29%
+NA,6.6¢/kg on entire contents of container
+0.069,6.9%
+0.6,60%
+0.605,60.5%
+0.61,61%
+0.615,61.5%
+0.62,62%
+0.1,62.1¢/kg + 10%
+0.05,62.1¢/kg + 5%
+0.07,62.1¢/kg + 7%
+0.1,62.1¢/kg +10%
+0.07,62.1¢/kg +7%
+0.625,62.5%
+NA,62.5¢/doz.
+0.629,62.9%
+0.63,63%
+0.635,63.5%
+0.638,63.8%
+0.6409999999999999,64.1%
+0.642,64.2%
+0.645,64.5%
+0.65,65%
+NA,"65% + 25¢/jewel + 3¢ for each other piece or part, but if consisting in part of a plate or a set of plates the total duty shall not exceed the duty for the complete movement"
+0.654,65.4%
+0.655,65.5%
+0.66,66%
+NA,66.1¢/clean kg
+NA,66¢/kg
+0.004,66¢/kg + 0.4%
+0.15,66¢/kg + 15%
+0.67,67%
+0.6729999999999999,67.3%
+0.545,68.3¢/kg + 54.5%
+0.685,68.5%
+NA,68¢/kg
+0.695,69.5%
+NA,6¢ each + 40%
+NA,6¢/gross
+NA,6¢/kg
+0.07,7%
+NA,7.2¢/kg
+NA,7.4¢/kg on drained weight
+0.075,7.5%
+NA,7.7¢/kg
+0.295,7.7¢/kg + 29.5%
+0.7,70%
+NA,70% on the entire set
+NA,70.6¢/clean kg
+0.71,71%
+0.715,71.5%
+0.7170000000000001,71.7%
+0.72,72%
+0.732,73.2%
+0.735,73.5%
+NA,73.8¢/t
+0.74,74%
+0.745,74.5%
+NA,74¢/t
+0.75,75%
+NA,75.1¢/kg
+0.753,75.3%
+NA,75¢ each
+NA,75¢ each + 35% on the battery
+NA,75¢ each + 45%
+NA,75¢ each + 45% on the case
+NA,75¢ each + 45% on the case + 35% on the battery
+0.76,76%
+0.765,76.5%
+NA,77.2¢/clean kg
+NA,77.2¢/kg
+0.545,77.2¢/kg + 54.5%
+NA,77.2¢/kg on molybdenum content
+0.775,77.5%
+NA,77.5¢/doz.
+0.78,78%
+0.785,78.5%
+0.795,79.5%
+0.15,7¢/kg + 15%
+0.08,8%
+0.083,8.3%
+0.084,8.4%
+0.085,8.5%
+NA,8.6¢/kg
+NA,8.8¢/kg
+NA,8.8¢/kg on copper content + 3.3¢/kg on lead content + 3.7¢/kg on zinc content
+0.8,80%
+0.805,80.5%
+0.81,81%
+NA,81.6¢/clean kg
+0.2,81.6¢/kg + 20%
+0.2,81.6¢/kg +20%
+0.8170000000000001,81.7%
+0.82,82%
+0.585,82.7¢/kg + 58.5%
+0.1,82.8¢/kg + 10%
+0.835,83.5%
+0.84,84%
+0.845,84.5%
+0.85,85%
+NA,85¢/kg
+NA,86.1¢/kg
+NA,86.1¢/m2 of recording surface
+NA,86.1¢/m2of recording surface
+0.88,88%
+0.55,88.2¢/kg + 55%
+NA,88.2¢/kg + 55% + 12.5¢/ article
+NA,88.2¢/t
+0.885,88.5%
+NA,88¢/kg
+0.25,88¢/kg + 25%
+0.4,88¢/kg + 40%
+0.5,88¢/kg + 50%
+0.75,88¢/kg + 75%
+0.25,88¢/kg +25%
+NA,88¢/kg on magnesium content + 20%
+NA,8¢ each + 45%
+NA,8¢/kg
+0.09,9%
+NA,9.2¢/kg
+NA,9.35¢/kg
+0.095,9.5%
+NA,9.5¢/kg
+NA,9.92¢/kg
+NA,9.9¢/kg
+0.2,9.9¢/kg + 20%
+0.9,90%
+NA,90.8¢/liter
+0.93,93%
+0.075,94.6¢/kg + 7.5%
+NA,97¢/kg
+0.65,99.2¢/kg + 65%
+NA,9¢/kg
+NA,"A duty (in lieu of any other duty or tax) equal to the sum of any duty and internal- revenue tax imposed upon the importation of like articles not previously exported, but in no case in excess of the sum of (a) any customs drawback proved to have been allowed upon such exportation of the article, and (b) any internal- revenue tax imposed, at the time such article is entered, upon the importation of like articles not previously exported"
+NA,"A duty equal to the duty upon the importation of like articles not previously exported, but in no case in excess of the sum of (a) any customs drawback proved to have been allowed upon such exportation, and (b) the duty which would have been payable on any articles used in the manufacture or production of such aircraft had they not been entered and exported under heading 9813.00.05"
+NA,"A duty upon the full value of the imported article, less the cost or value of such products of the United States (see U.S. note 4 of this subchapter)"
+NA,A duty upon the value of such processing outside the United States (see U.S. note 3 of this subchapter)
+NA,A duty upon the value of the repairs or alterations (see U.S. note 3 of this subchapter)
+NA,A duty upon the value of the repairs oralterations (see U.S. note 3 of this subchapter)
+0,Free
+NA,"Free, for such temporary periods as the Secretary of the Treasury by regulation may prescribe"
+NA,"Free, under bond"
+NA,"Free, under bond, as prescribed in U.S. note 1 to this subchapter"
+NA,"Free, under bond, as prescribed in U.S. note 2 to this subchapter"
+NA,See additional U.S. note 1
+NA,See additional U.S. note 2
+NA,See additional U.S. note 3
+NA,See additional U.S. note 4
+NA,See additional U.S. note 5
+NA,The rate applicable in the absence of this heading
+NA,The rate applicable in the absence of this subheading
+NA,The rate applicable to each garment in the ensemble if entered separately
+NA,The rate applicable to each garment in the ensemble if separately entered
+NA,The rate applicable to the article of which it is a part or accessory
+NA,The rate applicable to the article of which it is an accessory
+NA,"The rate applicable to the complete, assembled"
+NA,"The rate applicable to the complete, assembled movement"
+NA,The rate applicable to the natural juice in heading 2009
+NA,"The rate applicable, to each article in the absence of this subheading"
+NA,The rate of duty appli- cable to that article in the set subject to the high- est rate of duty
+NA,The rate of duty applicable to that article in the set subject to the highest rate of duty

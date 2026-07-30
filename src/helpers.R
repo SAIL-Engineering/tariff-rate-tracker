@@ -1407,6 +1407,121 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Parse a Column 2 duty string into an ad valorem rate plus an explicit status
+#'
+#' Column 2 preserves 1930 Smoot-Hawley drafting, so the strings are far messier
+#' than Column 1: fractional percents ("33 1/3%"), percents apportioned to parts
+#' of an article ("45% on the case"), per-unit compounds ("$1.15/1,000 + 40%"),
+#' and duty caps expressed in prose.
+#'
+#' The contract is that EVERY string resolves to a named status. Returning NA
+#' with no explanation is what let 376 of 829 strings look merely "unparseable"
+#' when in fact most were recoverable and the rest were knowably specific-only.
+#'
+#' Statuses:
+#'   free           no duty
+#'   ad_valorem     a whole-article percent, fully captured
+#'   compound       whole-article percent captured; a specific component is NOT
+#'                  representable ad valorem, so the rate understates
+#'   specific_only  no percent at all — ad valorem is 0 but duty IS owed
+#'   apportioned    every percent attaches to a COMPONENT ("on the case"), so no
+#'                  single article-level rate exists without component values
+#'   alt_base_pct   a percent of something OTHER than customs value ("50 percent
+#'                  of the cost of such parts", "2 percent of the fair retail
+#'                  value"). These look parseable and are the most dangerous
+#'                  strings here: applying them as ad valorem on full value
+#'                  would silently overstate duty
+#'   ch98_conditional  Chapter 98 special classification — duty defined by
+#'                  reference to repairs, drawback or a subchapter note, so it
+#'                  cannot be evaluated from the tariff line alone
+#'   free_conditional  free subject to a condition ("Free, under bond")
+#'   cross_reference  duty defined by reference to another tariff line (GRI 3
+#'                  sets and ensembles, parts and accessories, "the rate
+#'                  applicable in the absence of this heading")
+#'   missing        empty or a literal "NA" string written into the field
+#'   unparsed       nothing matched; must never occur silently
+#'
+#' @param x Character vector of Column 2 rate strings
+#' @return tibble(ad_valorem, has_specific, is_capped, status)
+parse_column2_rate <- function(x) {
+  n <- length(x)
+  ad <- rep(NA_real_, n); spec <- rep(FALSE, n)
+  capped <- rep(FALSE, n); status <- rep('unparsed', n)
+
+  # "33 1/3%" and "16 2/3%" — mixed fractions predate decimal drafting.
+  num <- function(s) {
+    s <- trimws(s)
+    m <- regmatches(s, regexec('^([0-9]+)\\s+([0-9]+)/([0-9]+)$', s))[[1]]
+    if (length(m) == 4) return(as.numeric(m[2]) + as.numeric(m[3]) / as.numeric(m[4]))
+    suppressWarnings(as.numeric(s))
+  }
+
+  for (i in seq_len(n)) {
+    s <- x[i]
+    if (is.na(s) || !nzchar(trimws(s)) || identical(trimws(s), 'NA')) {
+      status[i] <- 'missing'; next
+    }
+    # Repair PDF/text-extraction hyphenation before matching. The source text
+    # carries line-break artifacts mid-word — "thou- sand", "appli- cable",
+    # "internal- revenue" — which would otherwise defeat every keyword below.
+    s <- gsub('([a-z])-\\s+([a-z])', '\\1\\2', s, perl = TRUE)
+    # A duty defined by reference to ANOTHER tariff line (GRI 3 sets and
+    # ensembles, parts and accessories, "in the absence of this heading").
+    # Resolving it means resolving the referenced line first.
+    if (grepl('rate (applicable|of duty applicable)', s, ignore.case = TRUE)) {
+      status[i] <- 'cross_reference'; next
+    }
+    if (grepl('^\\s*free\\s*$', s, ignore.case = TRUE)) {
+      ad[i] <- 0; status[i] <- 'free'; next
+    }
+    if (grepl('^\\s*free\\s*,', s, ignore.case = TRUE)) {
+      status[i] <- 'free_conditional'; next          # "Free, under bond"
+    }
+    # Chapter 98 special classification provisions. The duty is defined by
+    # reference to repairs, drawback, or a subchapter note rather than by a rate,
+    # so it is not derivable from the tariff line.
+    if (grepl('u\\.s\\. note|under bond|drawback|previously exported|repairs or ?alterations|value of such processing|full value of the imported article',
+              s, ignore.case = TRUE)) {
+      status[i] <- 'ch98_conditional'; next
+    }
+    # A percent of a base OTHER than customs value. Must not become ad valorem.
+    if (grepl('percent of (the|such)', s, ignore.case = TRUE)) {
+      status[i] <- 'alt_base_pct'; next
+    }
+    # A duty cap stated in prose ("the total duty shall not exceed ...").
+    capped[i] <- grepl('shall not exceed', s, ignore.case = TRUE)
+    # Any per-unit money or cents amount => a specific component exists.
+    spec[i] <- grepl('\\$|¢|cents', s, ignore.case = TRUE)
+
+    # Every percent token, with the text that follows it. A percent is
+    # APPORTIONED when it is immediately qualified by "on <something>"
+    # ("45% on the case"); otherwise it applies to the whole article.
+    m <- gregexpr('([0-9]+(?:\\.[0-9]+)?(?:\\s+[0-9]+/[0-9]+)?)\\s*%(\\s*on\\b)?',
+                  s, perl = TRUE)
+    toks <- regmatches(s, m)[[1]]
+    if (length(toks) == 0) {
+      # No percent at all. If a specific amount is present this is a real duty
+      # we cannot express ad valorem — not an unknown.
+      if (spec[i]) { ad[i] <- 0; status[i] <- 'specific_only' }
+      next
+    }
+    whole <- toks[!grepl('on\\s*$', toks)]
+    if (length(whole) == 0) {
+      status[i] <- 'apportioned'   # e.g. "$1.50 each + 45% on the case"
+      next
+    }
+    vals <- vapply(whole, function(t) num(sub('\\s*%.*$', '', t)), numeric(1))
+    vals <- vals[!is.na(vals)]
+    if (length(vals) == 0) next
+    # Whole-article percents are alternatives in this schedule, never additive.
+    ad[i] <- max(vals) / 100
+    status[i] <- if (spec[i]) 'compound' else 'ad_valorem'
+  }
+
+  tibble(ad_valorem = ad, has_specific = spec, is_capped = capped, status = status)
+}
+
+
 #' Resolve the base duty tier — Column 2 replaces Column 1 for non-NTR origins
 #'
 #' HTSUS General Note 3(b): products of countries not entitled to normal trade
@@ -1436,19 +1551,35 @@ AUTHORITY_RATE_COLS <- c(
 resolve_base_rate_tier <- function(base_rate, rate_column2, rate_column2_raw,
                                    is_non_ntr) {
   is_non_ntr <- ifelse(is.na(is_non_ntr), FALSE, is_non_ntr)
-  has_col2   <- is_non_ntr & !is.na(rate_column2)
-  # A specific component in the raw text that the ad valorem parse cannot carry.
-  partial <- has_col2 & !is.na(rate_column2_raw) &
-    grepl('¢|cents|/kg|/t\\b|/liter|/l\\b|\\$', rate_column2_raw, ignore.case = TRUE)
-  unresolved <- is_non_ntr & is.na(rate_column2) & !is.na(rate_column2_raw)
+  p <- parse_column2_rate(rate_column2_raw)
+
+  # Prefer the freshly parsed value; fall back to any pre-parsed column so a
+  # cached product table without raw text still resolves.
+  adv <- ifelse(is.na(p$ad_valorem), rate_column2, p$ad_valorem)
+
+  # Statuses that yield a usable article-level ad valorem rate.
+  usable <- p$status %in% c('ad_valorem', 'compound', 'free', 'specific_only')
+  applies <- is_non_ntr & usable & !is.na(adv)
+
+  # Residual understatement even when applied: 'compound' drops a specific
+  # component, 'specific_only' has no ad valorem equivalent at all.
+  understated <- applies & p$status %in% c('compound', 'specific_only')
+
+  # Column 2 is owed but no article-level rate is derivable. Column 1 is
+  # knowably wrong here, so the row is named rather than passed.
+  blocked <- is_non_ntr & !applies
 
   list(
-    base_rate = ifelse(has_col2, rate_column2, base_rate),
-    base_rate_source = ifelse(has_col2, 'column2',
-                              ifelse(unresolved, 'column2_unresolved', NA_character_)),
-    calc_status = ifelse(partial | unresolved, 'needs_manual_review', NA_character_),
-    replaced = has_col2,
-    exposed  = partial | unresolved
+    base_rate = ifelse(applies, adv, base_rate),
+    base_rate_source = ifelse(
+      applies, paste0('column2:', p$status),
+      ifelse(blocked, paste0('column2_blocked:', p$status), NA_character_)
+    ),
+    calc_status = ifelse(understated | blocked, 'needs_manual_review', NA_character_),
+    column2_status = p$status,
+    is_capped = p$is_capped,
+    replaced = applies,
+    exposed  = understated | blocked
   )
 }
 
