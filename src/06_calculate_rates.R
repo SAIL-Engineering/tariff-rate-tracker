@@ -701,6 +701,13 @@ calculate_rates_for_revision <- function(
       rate_column2_raw = rates$.c2raw,
       is_non_ntr       = rates$country %in% non_ntr
     )
+    # These columns are merged into below, so they must EXIST first.
+    # calc_status is not on the frame at this point — it arrives with the
+    # product tier join at step 9b — and ifelse(cond, NULL, x) fails with
+    # "replacement has length zero", which is what broke the build here.
+    if (!'base_rate_source' %in% names(rates)) rates$base_rate_source <- NA_character_
+    if (!'calc_status'      %in% names(rates)) rates$calc_status      <- NA_character_
+
     rates$base_rate        <- tier$base_rate
     rates$column2_status   <- tier$column2_status
     # Preserve any existing provenance on rows Column 2 does not touch.
