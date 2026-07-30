@@ -298,6 +298,11 @@ parse_products <- function(json_path) {
 
     # Extract Chapter 99 references
     ch99_refs <- extract_chapter99_refs(item$footnotes)
+    # Count BEFORE the tibble. Inside tibble() the `ch99_refs = list(ch99_refs)`
+    # column shadows this local vector in the data mask, so a later
+    # `length(ch99_refs)` measured the one-element LIST and returned 1 for every
+    # product regardless of how many references it actually had.
+    n_ch99_refs_actual <- length(ch99_refs)
 
     tibble(
       hts10 = hts10,
@@ -322,7 +327,7 @@ parse_products <- function(json_path) {
       calc_status = calc_status,
       ch99_refs = list(ch99_refs),
       has_complex_rate = has_complex,
-      n_ch99_refs = length(ch99_refs),
+      n_ch99_refs = n_ch99_refs_actual,
       is_8digit_line = is_8digit_line
     )
   })

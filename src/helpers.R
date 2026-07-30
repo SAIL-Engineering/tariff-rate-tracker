@@ -2964,6 +2964,33 @@ classify_authority <- function(ch99_code) {
     return('section_122')
   }
 
+  # IEEPA (50 U.S.C. 1701) — subchapters 9903.01 and 9903.02.
+  #
+  # These had NO branch at all, so every IEEPA heading fell through to 'other'.
+  # The 9903.90 branch further down does return 'ieepa_reciprocal' but is never
+  # reached by real product references — the actual headings live here.
+  #
+  # 9903.01 carries BOTH actions and is split by leaf, verified against the
+  # codes present in 2025_rev_7 through 2026_rev_1:
+  #   .01 .10 .16 .20 .24   fentanyl / border emergencies
+  #                         (EO 14193 Canada, 14194 Mexico, 14195 PRC)
+  #   .25                   reciprocal baseline
+  #   .43-.77 .84           reciprocal, country-specific
+  # 9903.02 is entirely reciprocal (EO 14257 country annexes).
+  #
+  # The split matters beyond labelling: EO 14289 sec. 2(b)-(c) covers the
+  # Canada and Mexico FENTANYL actions only. Reciprocal is absent from sec. 2
+  # and is cumulative, so collapsing the two would suppress duty the order
+  # never reached.
+  if (middle == 1) {
+    leaf <- suppressWarnings(as.integer(parts[3]))
+    if (is.na(leaf)) return('ieepa_fentanyl')
+    return(if (leaf >= 25) 'ieepa_reciprocal' else 'ieepa_fentanyl')
+  }
+  if (middle == 2) {
+    return('ieepa_reciprocal')
+  }
+
   # Section 301 (Trade Act of 1974) — two 2026 actions share subchapter 9903.05:
   #   9903.05.01-.09        Brazil digital trade / preferential tariffs / IP /
   #                         ethanol / deforestation (U.S. note 50, 91 FR 45516)

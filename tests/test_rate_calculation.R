@@ -927,6 +927,63 @@ message('\n--- Test 11e: EO 14289 precedence ---')
          rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
 }
 
+run_test('n_ch99_refs counts the refs, not the list wrapping them', {
+  # The tibble() data mask shadows a local vector with the column of the same
+  # name, so `ch99_refs = list(ch99_refs)` followed by `length(ch99_refs)`
+  # measured the one-element LIST and returned 1 for every product. That made
+  # `filter(n_ch99_refs > 0)` a no-op and left a 4.9M-row cross join to be
+  # built and discarded.
+  refs <- c('9903.88.01', '9903.01.25', '9903.80.03')
+  shadowed <- tibble(hts10 = 'x', ch99_refs = list(refs),
+                     n_ch99_refs = length(ch99_refs))
+  stopifnot(shadowed$n_ch99_refs == 1)            # the bug, pinned
+
+  n_actual <- length(refs)                        # the fix: count first
+  fixed <- tibble(hts10 = 'x', ch99_refs = list(refs), n_ch99_refs = n_actual)
+  stopifnot(fixed$n_ch99_refs == 3)
+  stopifnot(lengths(fixed$ch99_refs) == fixed$n_ch99_refs)
+
+  # a product with no refs must still count 0, not 1
+  none <- tibble(hts10 = 'y', ch99_refs = list(character(0)),
+                 n_ch99_refs = length(character(0)))
+  stopifnot(none$n_ch99_refs == 0)
+})
+
+run_test('IEEPA headings classify as IEEPA, not "other"', {
+  # 9903.01/.02 had no branch at all, so every IEEPA heading was filed as
+  # 'other' and the ETR decomposition lost the entire authority.
+  # Boundary verified against codes present in 2025_rev_7 .. 2026_rev_1.
+  for (c in c('9903.01.01', '9903.01.10', '9903.01.16', '9903.01.20', '9903.01.24')) {
+    stopifnot(identical(classify_authority(c), 'ieepa_fentanyl'))
+  }
+  for (c in c('9903.01.25', '9903.01.43', '9903.01.77', '9903.01.84',
+              '9903.02.02', '9903.02.20')) {
+    stopifnot(identical(classify_authority(c), 'ieepa_reciprocal'))
+  }
+  # nothing IEEPA should still be landing in 'other'
+  stopifnot(!identical(classify_authority('9903.01.01'), 'other'))
+})
+
+run_test('the fentanyl/reciprocal split is not cosmetic', {
+  # EO 14289 sec. 2(b)-(c) reaches the Canada and Mexico FENTANYL actions only.
+  # Reciprocal is absent from sec. 2 and is cumulative under sec. 3(c), so
+  # collapsing the two would suppress duty the order never reached.
+  stopifnot(identical(classify_authority('9903.01.10'), 'ieepa_fentanyl'))
+  stopifnot(identical(classify_authority('9903.01.25'), 'ieepa_reciprocal'))
+  stopifnot(!identical(classify_authority('9903.01.10'),
+                       classify_authority('9903.01.25')))
+})
+
+run_test('existing authority classifications are unchanged', {
+  stopifnot(identical(classify_authority('9903.88.01'), 'section_301'))
+  stopifnot(identical(classify_authority('9903.80.01'), 'section_232'))
+  stopifnot(identical(classify_authority('9903.94.01'), 'section_232'))
+  stopifnot(identical(classify_authority('9903.03.01'), 'section_122'))
+  stopifnot(identical(classify_authority('9903.03.12'), 'section_338'))
+  stopifnot(identical(classify_authority('9903.41.01'), 'section_201'))
+  stopifnot(identical(classify_authority('9903.89,61'), 'unknown'))   # data typo guard
+})
+
 run_test('era is selected by effective date from config, last matching wins', {
   stopifnot(identical(resolve_stacking_era('2024-01-01')$id, 'legacy'))
   stopifnot(identical(resolve_stacking_era('2025-06-01')$id, 'eo14289'))
