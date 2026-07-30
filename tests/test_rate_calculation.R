@@ -927,6 +927,29 @@ message('\n--- Test 11e: EO 14289 precedence ---')
          rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
 }
 
+run_test('a §232 heading is never assigned by alphabetical order', {
+  # 288,755 rows in 2026_rev_9 carried 9903.74.01 — an MHD VEHICLE heading —
+  # because derivative chapters had no attribution rule and fell through to
+  # sort(codes_232)[1]. Among them: 139,617 chapter-84 machinery rows and
+  # 32,559 chapter-74 COPPER rows.
+  codes <- c('9903.85.08', '9903.81.91', '9903.74.01', '9903.94.01', '9903.78.01')
+  stopifnot(identical(sort(codes)[1], '9903.74.01'))   # why MHD kept winning
+
+  # Attribution must follow the action that carries the duty, not the alphabet.
+  attribute <- function(steel, alum, copper, auto) {
+    if (steel > 0)  return('9903.81.91')
+    if (alum > 0)   return('9903.85.08')
+    if (copper > 0) return('9903.78.01')
+    if (auto > 0)   return('9903.94.01')
+    NA_character_
+  }
+  stopifnot(identical(attribute(0.5, 0, 0, 0), '9903.81.91'))
+  stopifnot(identical(attribute(0, 0.5, 0, 0), '9903.85.08'))
+  stopifnot(identical(attribute(0, 0, 0.5, 0), '9903.78.01'))
+  # and an unattributable row stays NA rather than claiming a heading
+  stopifnot(is.na(attribute(0, 0, 0, 0)))
+})
+
 run_test('classification language is never mistaken for a country of origin', {
   # The "product of (.+?) that are|where|..." pattern is greedy enough to
   # swallow tariff structure when a heading names no country: 9903.01.81/.86

@@ -3447,13 +3447,38 @@ resolve_ch99_codes <- function(rates, ch99_data,
     pick_base(chapter %in% c('44', '94'),               wood_base,   'wood')
     pick_base(heading %in% c('8701', '8702', '8704', '8706'), mhd_base, 'mhd')
 
-    # Fallback: any active 232 code (last resort, logged)
+    # Derivative articles outside the primary metal chapters — machinery (84),
+    # electrical (85), tools and hardware (82/83), rubber (40), glass (70) —
+    # had NO pick_base call, so they fell through to the last-resort default,
+    # which was sort(codes_232)[1]: lexicographically 9903.74.01, an MHD VEHICLE
+    # heading. That stamped 288,755 rows in 2026_rev_9 with a heading from an
+    # unrelated commodity family, including 139,617 chapter-84 machinery rows
+    # and 32,559 chapter-74 COPPER rows.
+    #
+    # Attribute by the ACTION that actually carries the duty instead. The
+    # per-action columns say which §232 action was applied, which is exactly the
+    # question the Ch99 code answers — and it is grounded in the computed rate
+    # rather than in alphabetical order.
+    if (all(S232_ACTION_RATE_COLS %in% names(rates))) {
+      pick_base(rates$rate_232_steel > 0,    c(steel_deriv, steel_base), 'steel-action')
+      pick_base(rates$rate_232_aluminum > 0, c(alum_deriv, alum_base),   'aluminum-action')
+      pick_base(rates$rate_232_copper > 0,   copper_base,                'copper-action')
+      pick_base(rates$rate_232_auto > 0,     auto_base,                  'auto-action')
+    }
+
+    # Anything still unattributed is left UNRESOLVED rather than stamped with
+    # default_232 (= sort(codes_232)[1]). A lexicographic guess is not a weaker
+    # answer, it is a wrong one: it asserts a specific legal heading from an
+    # arbitrary commodity family, and downstream nothing can distinguish it from
+    # a real attribution. NA is honest and the count is loud.
     n_default <- sum(is.na(pick) & rates$rate_232 > 0)
     if (n_default > 0) {
-      message('  ch99_code_232: ', n_default, ' rated rows fell through to ',
-              'default ', default_232)
+      warning(n_default, ' rated rows have §232 duty but no attributable ',
+              'Chapter 99 heading; left unresolved rather than defaulted to ',
+              default_232, ' (an arbitrary lexicographic pick). ',
+              'Check §232 action attribution for these rows.',
+              call. = FALSE)
     }
-    pick[is.na(pick)] <- default_232
 
     rates$ch99_code_232 <- if_else(rates$rate_232 > 0, pick, NA_character_)
   }
