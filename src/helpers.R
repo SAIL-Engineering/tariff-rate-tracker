@@ -1782,7 +1782,7 @@ RATE_SCHEMA <- c(
   'total_additional', 'total_rate',
   'usmca_eligible',
   'rate_special', 'rate_special_raw', 'special_programs_json',
-  'rate_column2', 'rate_column2_raw', 'column2_status',
+  'rate_column2', 'rate_column2_raw', 'column2_status', 's232_suppressed_json',
   'rate_basis', 'specific_amount', 'specific_rate_unit',
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
@@ -1817,7 +1817,7 @@ enforce_rate_schema <- function(df) {
     rate_special = NA_real_, rate_special_raw = NA_character_,
     special_programs_json = NA_character_,
     rate_column2 = NA_real_, rate_column2_raw = NA_character_,
-    column2_status = NA_character_,
+    column2_status = NA_character_, s232_suppressed_json = NA_character_,
     rate_basis = 'ad_valorem',
     specific_amount = NA_real_, specific_rate_unit = NA_character_,
     reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,
@@ -2516,6 +2516,121 @@ has_informative_per_type_shares <- function(df) {
       coalesce(df$copper_share, 0) > 0
   )
 }
+
+#' Load the stacking rules config
+#'
+#' Cached per session — the file is small but read on every revision.
+.stacking_rules_cache <- new.env(parent = emptyenv())
+load_stacking_rules <- function(path = NULL) {
+  p <- path %||% here('config', 'stacking_rules.yaml')
+  key <- normalizePath(p, mustWork = FALSE)
+  if (!is.null(.stacking_rules_cache[[key]])) return(.stacking_rules_cache[[key]])
+  if (!file.exists(p)) return(NULL)
+  cfg <- yaml::read_yaml(p)
+  .stacking_rules_cache[[key]] <- cfg
+  cfg
+}
+
+
+#' Resolve which stacking era governs a revision
+#'
+#' Eras are keyed by revision effective date. `from` is inclusive and the era
+#' runs until the next era's `from`, so the LAST era whose `from` is <= the
+#' effective date wins.
+#'
+#' @param effective_date Revision effective date
+#' @param cfg Parsed stacking_rules.yaml (loaded if NULL)
+#' @return The era list, or NULL when no config/era applies
+resolve_stacking_era <- function(effective_date, cfg = NULL) {
+  cfg <- cfg %||% load_stacking_rules()
+  if (is.null(cfg) || length(cfg$eras) == 0) return(NULL)
+  d <- suppressWarnings(as.Date(effective_date))
+  if (is.na(d)) return(NULL)
+  froms <- as.Date(vapply(cfg$eras, function(e) e$from %||% '1900-01-01', character(1)))
+  idx <- which(froms <= d)
+  if (length(idx) == 0) return(NULL)
+  cfg$eras[[idx[which.max(froms[idx])]]]
+}
+
+
+#' Apply the EO 14289 non-stacking precedence order
+#'
+#' 90 FR 18907 sec. 3(a), operative for entries on or after 2025-03-04 per CBP
+#' CSMS #65054270. The order runs over five NAMED actions and works by
+#' CATEGORICAL EXCLUSION, not by apportioning content:
+#'
+#'   (i)   an article subject to §232 AUTO is not subject to IEEPA Canada,
+#'         IEEPA Mexico, §232 aluminum or §232 steel
+#'   (ii)  an article subject to IEEPA Canada or Mexico is not subject to
+#'         §232 aluminum or steel
+#'   (iii) §232 aluminum and §232 steel DO stack with each other
+#'
+#' "Subject to" is CBP's: duty of more than 0% owed. That single definition also
+#' produces the USMCA result — a qualifying auto part owes 0% under Proc 10908,
+#' is therefore not subject to 2(a), and falls through to step 3 where it may
+#' still owe steel and aluminum. No USMCA special case is needed or wanted.
+#'
+#' sec. 3(b): exclusion suppresses the RATE, not the classification, so a
+#' suppressed action keeps its Chapter 99 code and is reported at 0 with a
+#' reason rather than being erased.
+#'
+#' Actions outside sec. 2 — §301, EO 14195 fentanyl for the PRC, IEEPA
+#' reciprocal, AD/CVD, copper, wood, MHD, semiconductors — are cumulative under
+#' sec. 3(c) and are never touched here.
+#'
+#' @param df Rate frame carrying the per-action §232 columns
+#' @param threshold "subject to" threshold (>) — 0 per CBP
+#' @param cty_canada,cty_mexico Census codes; IEEPA CA/MX ride on rate_ieepa_fent
+#' @return df with suppressed action rates zeroed and s232_suppressed_json set
+apply_eo14289_precedence <- function(df, threshold = 0,
+                                     cty_canada = '1220', cty_mexico = '2010') {
+  if (nrow(df) == 0) return(df)
+  df <- zero_fill_authority_rates(df, S232_ACTION_RATE_COLS)
+  if (!'rate_ieepa_fent' %in% names(df)) df$rate_ieepa_fent <- 0
+
+  is_camx <- df$country %in% c(cty_canada, cty_mexico)
+
+  # "Subject to" = duty of MORE THAN 0% owed under that action.
+  auto_subject <- df$rate_232_auto > threshold
+  camx_subject <- is_camx & df$rate_ieepa_fent > threshold
+
+  # sec. 3(a)(i) then (ii); first match wins.
+  drop_camx_ieepa <- auto_subject & is_camx
+  drop_metals     <- auto_subject | camx_subject
+
+  reason <- rep(NA_character_, nrow(df))
+  reason[drop_metals & auto_subject] <- 'eo14289_3a_i_auto'
+  reason[drop_metals & !auto_subject & camx_subject] <- 'eo14289_3a_ii_ieepa_camx'
+
+  # Record what was suppressed BEFORE zeroing — sec. 3(b) keeps the
+  # classification valid, so provenance must survive the rate going to 0.
+  supp <- vapply(seq_len(nrow(df)), function(i) {
+    if (is.na(reason[i])) return(NA_character_)
+    parts <- character(0)
+    if (drop_metals[i] && df$rate_232_steel[i] > 0)
+      parts <- c(parts, sprintf('"s232_steel":%s', df$rate_232_steel[i]))
+    if (drop_metals[i] && df$rate_232_aluminum[i] > 0)
+      parts <- c(parts, sprintf('"s232_aluminum":%s', df$rate_232_aluminum[i]))
+    if (drop_camx_ieepa[i] && df$rate_ieepa_fent[i] > 0)
+      parts <- c(parts, sprintf('"ieepa_camx":%s', df$rate_ieepa_fent[i]))
+    if (length(parts) == 0) return(NA_character_)
+    sprintf('{"rule":"%s","suppressed":{%s}}', reason[i], paste(parts, collapse = ','))
+  }, character(1))
+
+  df$rate_232_steel[drop_metals]    <- 0
+  df$rate_232_aluminum[drop_metals] <- 0
+  df$rate_ieepa_fent[drop_camx_ieepa] <- 0
+
+  # sec. 3(a)(iii): aluminum and steel stack with EACH OTHER. Nothing to do —
+  # not suppressing them IS the rule, and the per-action columns already carry
+  # both. rate_232 is re-derived from the surviving actions.
+  df$rate_232 <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
+    df$rate_232_copper + df$rate_232_other
+
+  df$s232_suppressed_json <- supp
+  df
+}
+
 
 apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutual_exclusion') {
   # Ensure optional columns exist and have no NAs

@@ -913,6 +913,112 @@ run_test('primary metal chapters attribute by chapter, not by heading program', 
 
 
 # =============================================================================
+# Test 11e: Phase 3 — EO 14289 non-stacking order (90 FR 18907 sec. 3(a))
+#           CBP CSMS #65054270
+# =============================================================================
+
+message('\n--- Test 11e: EO 14289 precedence ---')
+
+.row <- function(country = '5700', auto = 0, steel = 0, alum = 0,
+                 copper = 0, other = 0, fent = 0) {
+  tibble(hts10 = '7326908688', country = country,
+         rate_232_auto = auto, rate_232_steel = steel, rate_232_aluminum = alum,
+         rate_232_copper = copper, rate_232_other = other,
+         rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
+}
+
+run_test('era is selected by effective date from config, last matching wins', {
+  stopifnot(identical(resolve_stacking_era('2024-01-01')$id, 'legacy'))
+  stopifnot(identical(resolve_stacking_era('2025-06-01')$id, 'eo14289'))
+  stopifnot(identical(resolve_stacking_era('2026-07-24')$id, 's301_2026'))
+  # boundary is inclusive
+  stopifnot(identical(resolve_stacking_era('2025-03-04')$id, 'eo14289'))
+  stopifnot(identical(resolve_stacking_era('2025-03-03')$id, 'legacy'))
+})
+
+run_test('sec. 3(a)(i): auto excludes steel, aluminum and IEEPA CA/MX', {
+  r <- apply_eo14289_precedence(.row(country = '1220', auto = 0.25, steel = 0.50,
+                                     alum = 0.50, fent = 0.35))
+  stopifnot(r$rate_232_auto == 0.25)          # auto survives
+  stopifnot(r$rate_232_steel == 0)
+  stopifnot(r$rate_232_aluminum == 0)
+  stopifnot(r$rate_ieepa_fent == 0)           # IEEPA Canada suppressed
+  stopifnot(abs(r$rate_232 - 0.25) < 1e-12)   # total is auto alone, not the sum
+  stopifnot(grepl('eo14289_3a_i_auto', r$s232_suppressed_json))
+})
+
+run_test('sec. 3(a)(ii): IEEPA CA/MX excludes steel and aluminum but survives itself', {
+  r <- apply_eo14289_precedence(.row(country = '2010', steel = 0.50,
+                                     alum = 0.50, fent = 0.25))
+  stopifnot(r$rate_ieepa_fent == 0.25)        # the higher-precedence action stays
+  stopifnot(r$rate_232_steel == 0, r$rate_232_aluminum == 0)
+  stopifnot(abs(r$rate_232 - 0) < 1e-12)
+  stopifnot(grepl('eo14289_3a_ii_ieepa_camx', r$s232_suppressed_json))
+})
+
+run_test('sec. 3(a)(iii): steel and aluminum STACK with each other', {
+  # The rule the old single rate_232 scalar could not express at all.
+  r <- apply_eo14289_precedence(.row(country = '5700', steel = 0.50, alum = 0.50))
+  stopifnot(r$rate_232_steel == 0.50, r$rate_232_aluminum == 0.50)
+  stopifnot(abs(r$rate_232 - 1.00) < 1e-12)   # BOTH owed, not pmax
+  stopifnot(is.na(r$s232_suppressed_json))
+})
+
+run_test('USMCA falls out of the >0% definition with no special case', {
+  # A USMCA-qualifying auto part owes 0% under Proc 10908, so it is NOT
+  # "subject to" 2(a) and drops through to step 3 — where steel is still owed.
+  r <- apply_eo14289_precedence(.row(country = '1220', auto = 0, steel = 0.50))
+  stopifnot(r$rate_232_steel == 0.50)         # NOT suppressed
+  stopifnot(abs(r$rate_232 - 0.50) < 1e-12)
+  # and with a non-zero auto rate the same row IS suppressed
+  r2 <- apply_eo14289_precedence(.row(country = '1220', auto = 0.25, steel = 0.50))
+  stopifnot(r2$rate_232_steel == 0)
+})
+
+run_test('IEEPA fentanyl for the PRC is NOT in sec. 2 and is never suppressed', {
+  # EO 14195 is listed in sec. 4(b) as cumulative. Only IEEPA CANADA and MEXICO
+  # (EO 14193/14194) are in the order, and they are disambiguated by country.
+  r <- apply_eo14289_precedence(.row(country = '5700', auto = 0.25, fent = 0.20))
+  stopifnot(r$rate_ieepa_fent == 0.20)
+})
+
+run_test('copper, wood, MHD and semiconductors are cumulative under sec. 3(c)', {
+  # These are separate §232 actions the order never names, so auto must not
+  # suppress them the way it suppresses steel and aluminum.
+  r <- apply_eo14289_precedence(.row(country = '1220', auto = 0.25,
+                                     copper = 0.50, other = 0.10, steel = 0.50))
+  stopifnot(r$rate_232_copper == 0.50, r$rate_232_other == 0.10)
+  stopifnot(r$rate_232_steel == 0)
+  stopifnot(abs(r$rate_232 - (0.25 + 0.50 + 0.10)) < 1e-12)
+})
+
+run_test('sec. 3(b): suppression zeroes the RATE but keeps provenance', {
+  r <- apply_eo14289_precedence(.row(country = '1220', auto = 0.25, steel = 0.50))
+  stopifnot(!is.na(r$s232_suppressed_json))
+  stopifnot(grepl('"s232_steel":0.5', r$s232_suppressed_json, fixed = TRUE))
+})
+
+run_test('a zero-rate action is not "subject to" and triggers nothing', {
+  # Threshold is strictly greater than 0. An action present at 0% must not
+  # suppress anything, or a 0% auto line would wipe real steel duty.
+  r <- apply_eo14289_precedence(.row(country = '1220', auto = 0, fent = 0, steel = 0.50))
+  stopifnot(r$rate_232_steel == 0.50, is.na(r$s232_suppressed_json))
+})
+
+run_test('vectorises across mixed rows without cross-contamination', {
+  df <- bind_rows(
+    .row(country = '1220', auto = 0.25, steel = 0.50),   # 3(a)(i)
+    .row(country = '2010', steel = 0.50, fent = 0.25),   # 3(a)(ii)
+    .row(country = '5700', steel = 0.50, alum = 0.50),   # 3(a)(iii)
+    .row(country = '4120', steel = 0.50)                 # untouched
+  )
+  r <- apply_eo14289_precedence(df)
+  stopifnot(identical(r$rate_232_steel, c(0, 0, 0.50, 0.50)))
+  stopifnot(abs(r$rate_232 - c(0.25, 0, 1.00, 0.50)) < 1e-12)
+})
+
+
+# =============================================================================
 # Test 11d: Phase 2b/2c — Column 1 compound recovery and honest calc_status
 # =============================================================================
 
