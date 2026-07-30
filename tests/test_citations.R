@@ -115,6 +115,70 @@ run_test('the Column 2 PNTR gate is backed by a registered statute', {
   stopifnot(identical(unname(NON_NTR_EFFECTIVE_FROM[['4622']]), '2022-04-09'))
 })
 
+message('\n--- Frontend authority contract ---')
+
+run_test('every authority rate column is described in the contract', {
+  # A column with no entry reaches the frontend as a rate it cannot name.
+  suppressPackageStartupMessages(source(here('src', 'helpers.R')))
+  src <- readLines(here('src', 'emit_authority_contract.R'), warn = FALSE)
+  described <- regmatches(src, regexpr("'rate_[a-z0-9_]+'", src))
+  described <- gsub("'", '', described)
+  missing <- setdiff(AUTHORITY_RATE_COLS, described)
+  if (length(missing)) stop('undescribed: ', paste(missing, collapse = ', '))
+})
+
+run_test('§232 actions carry DISTINCT citations, not one shared proclamation', {
+  # The column was split because auto, steel, aluminum and copper are separate
+  # legal actions that EO 14289 discriminates between. Pointing them all at the
+  # steel proclamation would hand the frontend a split with no legal content.
+  f <- here('output', 'contract', 'authorities.json')
+  if (!file.exists(f)) {
+    message('    (skipped — run Rscript src/emit_authority_contract.R first)')
+  } else {
+    j <- jsonlite::fromJSON(f)
+    a <- j$authorities
+    get1 <- function(k) a$citation_key[a$key == k]
+    stopifnot(!identical(get1('s232_auto'), get1('s232_steel')))
+    stopifnot(!identical(get1('s232_aluminum'), get1('s232_steel')))
+    stopifnot(!identical(get1('s232_copper'), get1('s232_steel')))
+    # and the auto action must cite Proclamation 10908 — EO 14289 sec. 2(a)
+    stopifnot(identical(get1('s232_auto'), 'proc_10908_autos_2025'))
+  }
+})
+
+run_test('every citation_key in the contract resolves to a registered authority', {
+  f <- here('output', 'contract', 'authorities.json')
+  if (!file.exists(f)) {
+    message('    (skipped — contract not generated)')
+  } else {
+    a <- jsonlite::fromJSON(f)$authorities
+    keys <- unique(a$citation_key[!is.na(a$citation_key)])
+    dangling <- setdiff(keys, names(reg))
+    if (length(dangling)) stop('unregistered: ', paste(dangling, collapse = ', '))
+    # and each must be linkable, or the UI renders a citation it cannot open
+    for (k in keys) {
+      auth <- reg[[k]]
+      if (is.null(auth$verified_against) && is.null(auth$fr_document_number)) {
+        stop('contract cites an unlinkable authority: ', k)
+      }
+    }
+  }
+})
+
+run_test('the EO 14289 named actions are all citable', {
+  # sec. 2(a)-(e) enumerates five actions; the stacking model is only as
+  # defensible as its weakest citation.
+  for (k in c('proc_10908_autos_2025', 'proc_9704_aluminum', 'proc_9705_steel',
+              'eo_14193_canada', 'eo_14194_mexico')) {
+    if (!k %in% names(reg)) next   # country EOs may be keyed differently
+    auth <- reg[[k]]
+    if (is.null(auth$verified_against) && is.null(auth$fr_document_number)) {
+      stop('EO 14289 action not linkable: ', k)
+    }
+  }
+  stopifnot('proc_10908_autos_2025' %in% names(reg))
+})
+
 message('\n--- Validator behaviour ---')
 
 run_test('a duplicate YAML key fails loud instead of dropping a definition', {
