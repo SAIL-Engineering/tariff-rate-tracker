@@ -71,6 +71,31 @@ const NULLABLE_CH99_FIELDS = [
   'ch99_code_s201',
 ] as const;
 
+/**
+ * 2026 authority rates — number when present, `undefined` on data that predates
+ * them. Deliberately NOT in RATE_FIELDS: that group is validated as
+ * required-non-null, so listing them there would fail every row served from a
+ * pre-2026 rebuild (resolveRatesProjection drops columns the parquets lack, so
+ * the API omits them entirely rather than sending 0).
+ *
+ * Move these into RATE_FIELDS once every served vintage carries them — i.e. after
+ * the 2025-01-01-onward rebuild is pushed — so the contract tightens back to
+ * required.
+ *
+ *   rate_s301fl  §301 forced labor, 60 economies (91 FR 47318 / 91 FR 47717,
+ *                eff. 2026-07-24). Rolls up to authority 'section_301'.
+ *   rate_s301br  §301 Brazil (91 FR 45516, eff. 2026-07-22). Also rolls up to
+ *                'section_301' — an origin can owe BOTH, e.g. Brazil pays 25%
+ *                under note 50 plus 12.5% under note 52.
+ *   rate_s338    §338 Canada (19 U.S.C. 1338, eff. 2026-08-19). Its own statute,
+ *                its own ETR line.
+ */
+const OPTIONAL_RATE_FIELDS = [
+  'rate_s301fl',
+  'rate_s301br',
+  'rate_s338',
+] as const;
+
 const STRING_FIELDS = [
   'hts10',
   'country',
@@ -133,6 +158,12 @@ export function validateProductRate(value: unknown): ProductRateValidationResult
   for (const field of RATE_FIELDS) {
     if (!isNumber(obj[field])) {
       errors.push({ path: field, expected: 'number', got: obj[field] });
+    }
+  }
+  for (const field of OPTIONAL_RATE_FIELDS) {
+    const v = obj[field];
+    if (v !== undefined && !isNumber(v)) {
+      errors.push({ path: field, expected: 'number | undefined', got: v });
     }
   }
   for (const field of NULLABLE_CH99_FIELDS) {

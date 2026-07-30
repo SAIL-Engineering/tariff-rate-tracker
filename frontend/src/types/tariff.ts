@@ -99,6 +99,19 @@ export interface ProductRate {
   rate_ieepa_fent: number;
   rate_s122: number;
   rate_section_201: number;
+  // 2026 authorities — OPTIONAL because data predating them omits the columns
+  // entirely (resolveRatesProjection drops what the parquets lack). Tighten to
+  // required once every served vintage carries them.
+  //   rate_s301fl  §301 forced labor, 60 economies (91 FR 47318 / 91 FR 47717,
+  //                eff. 2026-07-24)
+  //   rate_s301br  §301 Brazil (91 FR 45516, eff. 2026-07-22)
+  // Both roll up to authority 'section_301' but are separate columns because one
+  // origin can owe BOTH — Brazil pays 25% (note 50) + 12.5% (note 52).
+  //   rate_s338    §338 Canada (19 U.S.C. 1338, eff. 2026-08-19) — own statute,
+  //                own ETR line.
+  rate_s301fl?: number;
+  rate_s301br?: number;
+  rate_s338?: number;
   rate_other: number;
   // Statutory rates — pre-scaling, pre-stacking baselines
   statutory_rate_232: number;
@@ -196,6 +209,15 @@ export const STATUTORY_KEY_MAP: Record<AuthorityKey, StatutoryKey> = {
   rate_other: 'statutory_rate_other',
 };
 
+// NB: the 2026 authorities (rate_s301fl / rate_s301br / rate_s338) are
+// deliberately NOT in AuthorityKey or STATUTORY_KEY_MAP. Those two exist to
+// compare an effective rate against its statutory pre-scaling baseline, and the
+// pipeline emits no statutory_rate_* counterpart for the new programs. Adding
+// them would make hasStatutoryDelta() silently return false rather than error —
+// misleading. If statutory-delta display is wanted for these programs, the
+// pipeline needs to emit the statutory_* columns first (they would be meaningful:
+// the Annex I/II exemption share-scaling does reduce the effective rate below
+// statutory).
 /** Returns true if the statutory rate differs from the effective rate for a given authority */
 export function hasStatutoryDelta(rate: ProductRate, key: AuthorityKey): boolean {
   const statutoryKey = STATUTORY_KEY_MAP[key];

@@ -46,6 +46,17 @@ export const RATES_COLUMNS = [
   'rate_ieepa_fent',
   'rate_s122',
   'rate_section_201',
+  // 2026 authorities. §301 forced labor (60 economies, 91 FR 47318 / 91 FR 47717,
+  // eff. 2026-07-24) and §301 Brazil (91 FR 45516, eff. 2026-07-22) are separate
+  // columns because a single origin can owe BOTH — Brazil pays 25% under note 50
+  // plus 12.5% under note 52 — but they roll up to authority 'section_301' in the
+  // ETR decomposition. §338 Canada (19 U.S.C. 1338, eff. 2026-08-19) is its own
+  // statute and its own line.
+  // resolveRatesProjection() omits any column the loaded parquets lack, so these
+  // are safe to declare before the rebuild that populates them.
+  'rate_s301fl',
+  'rate_s301br',
+  'rate_s338',
   'rate_other',
   'statutory_rate_232',
   'statutory_rate_301',
