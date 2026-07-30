@@ -1,0 +1,150 @@
+# =============================================================================
+# stacking_rules.yaml — how duties combine, by era
+# =============================================================================
+# The engine's single source of truth for stacking, exclusion and replacement.
+# The reviewed legal reading behind every rule here is docs/stacking_legal_model.md
+# — change that document first, then this file, then the code.
+#
+# Three relationships are expressible:
+#   stacks      both duties owed, additively
+#   excludes    higher-precedence action applies; the other is NOT owed at all
+#   replaces    the duty substitutes for the base rate (not additional)
+#
+# "subject to" is defined by CBP as: duty of MORE THAN 0% is owed and payable on
+# that action. This definition is load-bearing — it is what makes a
+# USMCA-qualifying auto part (0% under Proc 10908) fall through the auto step to
+# the steel/aluminum step without needing a special case.
+# =============================================================================
+
+version: 1
+
+# --- Authority keys -----------------------------------------------------------
+# Maps a stacking-model authority to the rate column that carries it. §232 is
+# split per ACTION because EO 14289 operates on distinct actions: with a single
+# collapsed rate_232 neither "auto excludes steel" nor "aluminum and steel both
+# apply" is expressible.
+authorities:
+  s232_auto:        rate_232_auto
+  s232_steel:       rate_232_steel
+  s232_aluminum:    rate_232_aluminum
+  s232_copper:      rate_232_copper
+  s232_other:       rate_232_other        # wood, MHD, semiconductors
+  ieepa_canada:     rate_ieepa_fent       # EO 14193 — carried on the fentanyl column
+  ieepa_mexico:     rate_ieepa_fent       # EO 14194 — ditto; disambiguated by country
+  ieepa_fentanyl:   rate_ieepa_fent       # EO 14195 (PRC) — NOT in EO 14289 scope
+  ieepa_reciprocal: rate_ieepa_recip      # EO 14257 — NOT in EO 14289 scope
+  s301:             rate_301
+  s301_forced_labor: rate_s301fl
+  s301_brazil:      rate_s301br
+  s122:             rate_s122
+  s201:             rate_section_201
+  s338:             rate_s338
+  adcvd:            rate_adcvd
+  other:            rate_other
+
+# --- Base-rate replacement ----------------------------------------------------
+# These REPLACE the Column 1 General base rate rather than adding to it.
+# Chapter 99 additional duties then stack on top of the replaced base.
+base_replacement:
+  column2:
+    # HTSUS General Note 3(b). Non-NTR origins are dutiable at Column 2, which
+    # substitutes for Column 1 General. Rates are frequently an order of
+    # magnitude higher (2921.46.00: Free on col 1, 15.4c/kg + 149.5% on col 2).
+    source: 'resources/gn3_column2_countries.csv'   # parsed from GN 3, per revision
+    rate_column: rate_column2
+    reason_code: base_col2                          # config/duty_citations.yaml
+    citation: 'HTSUS General Note 3(b)'
+  mtb_9902:
+    # Subchapter II MTB suspensions: "subject to duty at the rate set forth
+    # herein IN LIEU OF the rate provided therefor in chapters 1 to 97".
+    # Downward replacement. Not yet wired into the rate math — candidate only.
+    modelled: false
+    citation: 'HTSUS Chapter 99 subchapter II note 1'
+
+# --- Eras ---------------------------------------------------------------------
+# Selected by the revision's effective date. `from` is inclusive; the era runs
+# until the next era's `from`. Rules are evaluated in `precedence` order and the
+# FIRST matching group wins, mirroring EO 14289 sec. 3(a)(i) then (ii) then (iii).
+eras:
+
+  - id: legacy
+    from: '1900-01-01'
+    label: 'Pre-EO-14289: no non-stacking order'
+    # Everything stacks additively. The old metal-content nonmetal_share split
+    # applied here; it is a modelling approximation, not a legal rule.
+    non_stacking: []
+    always_cumulative: [s301, s201, adcvd, other]
+
+  - id: eo14289
+    from: '2025-03-04'      # CBP applies the order to ENTRIES on/after this date,
+                            # which precedes both the EO signature (2025-04-29)
+                            # and its HTS implementation — deliberately retroactive.
+    label: 'EO 14289 non-stacking order'
+    citation: '90 FR 18907; implementation 90 FR 21487; CBP CSMS #65054270'
+    subject_to_threshold: 0.0   # "subject to" = rate strictly greater than this
+    non_stacking:
+      # sec. 3(a)(i)
+      - precedence: 1
+        action: s232_auto
+        excludes: [ieepa_canada, ieepa_mexico, s232_aluminum, s232_steel]
+        citation: 'EO 14289 sec. 3(a)(i)'
+      # sec. 3(a)(ii)
+      - precedence: 2
+        action: [ieepa_canada, ieepa_mexico]
+        excludes: [s232_aluminum, s232_steel]
+        citation: 'EO 14289 sec. 3(a)(ii)'
+    mutually_stacking:
+      # sec. 3(a)(iii) — aluminum and steel EXPLICITLY stack with each other.
+      # A derivative containing both owes duty on BOTH contents.
+      - [s232_aluminum, s232_steel]
+    # sec. 3(c) + sec. 4(b): actions NOT listed in EO 14289 sec. 2 are cumulative
+    # and are never suppressed by the order.
+    always_cumulative:
+      [s301, ieepa_fentanyl, ieepa_reciprocal, adcvd, s201, s232_copper,
+       s232_other, other]
+    # sec. 3(b): exclusion suppresses the RATE, not the classification. A
+    # suppressed action stays visible in provenance at 0 with a reason.
+    suppressed_rows_retain_provenance: true
+
+  - id: post_ieepa
+    from: '2026-02-20'
+    label: 'IEEPA invalidated (SCOTUS) — reciprocal and fentanyl cease'
+    inherits: eo14289
+    # With ieepa_* at 0 they are no longer "subject to" anything, so steps 1 and 2
+    # of the order stop firing on their account automatically.
+    zeroed: [ieepa_reciprocal, ieepa_fentanyl, ieepa_canada, ieepa_mexico]
+
+  - id: s122
+    from: '2026-02-24'
+    label: 'Section 122 balance-of-payments surcharge window'
+    inherits: post_ieepa
+    window_closes: '2026-07-23'    # 150-day statutory limit; 91 FR 9339
+    always_cumulative_add: [s122]
+
+  - id: s232_annex
+    from: '2026-04-06'
+    label: 'Section 232 annex regime — duty on full customs value'
+    inherits: s122
+    # The April 2026 proclamation applies §232 to the full customs value,
+    # retiring metal-content-based mutual exclusion. Annex II products are
+    # REMOVED from §232 scope entirely and therefore are not "subject to" it.
+    metal_content_scaling: false
+
+  - id: s301_2026
+    from: '2026-07-22'
+    label: 'Section 301 Brazil (note 50); forced labor 60 economies (note 52) from 07-24'
+    inherits: s232_annex
+    always_cumulative_add: [s301_brazil, s301_forced_labor]
+    # Both note 50(a) and note 52(a) state the duty applies IN ADDITION to any
+    # other duty in the subchapter, so an origin can owe both (Brazil pays 25%
+    # under note 50 plus 12.5% under note 52).
+
+  - id: s338
+    from: '2026-08-19'
+    label: 'Section 338 Canada'
+    inherits: s301_2026
+    always_cumulative_add: [s338]
+    # Proclamation 11047 para. 2: "in addition to any other duties" — but does
+    # NOT apply to articles subject to §232, nor to WTO civil-aircraft articles
+    # (excluding unmanned aircraft). Those are full per-article exclusions,
+    # already implemented in compute_s338_rates().
