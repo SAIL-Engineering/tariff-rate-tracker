@@ -1407,6 +1407,52 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Resolve the base duty tier — Column 2 replaces Column 1 for non-NTR origins
+#'
+#' HTSUS General Note 3(b): products of countries not entitled to normal trade
+#' relations are dutiable at the Column 2 rate, which REPLACES Column 1-General
+#' rather than adding to it. Current non-NTR origins are Cuba, North Korea,
+#' Russia and Belarus (the latter two lost PNTR in April 2022).
+#'
+#' The gap this closes is large because Column 2 preserves 1930 Smoot-Hawley
+#' levels: 2921.46.00 is Free on Column 1 and "15.4c/kg + 149.5%" on Column 2.
+#'
+#' Three outcomes, and the third matters as much as the first:
+#'   replaced    Column 2 parsed — substitute it
+#'   exposed     Column 2 applies and parsed only PARTIALLY (compound rates keep
+#'               the ad valorem half and drop the specific half), so the result
+#'               is still an understatement and is flagged rather than trusted
+#'   unresolved  Column 2 applies but did not parse at all — Column 1 is knowably
+#'               wrong here, so the row is flagged instead of silently passing
+#'
+#' Never returns a silently-wrong base: an origin that owes Column 2 either gets
+#' it or is marked for review.
+#'
+#' @param base_rate Column 1-General ad valorem rate
+#' @param rate_column2 Parsed Column 2 ad valorem rate (NA if unparseable)
+#' @param rate_column2_raw Raw Column 2 text, used to detect partial parses
+#' @param is_non_ntr TRUE for GN 3(b) non-NTR origins
+#' @return list(base_rate, base_rate_source, calc_status, replaced, exposed)
+resolve_base_rate_tier <- function(base_rate, rate_column2, rate_column2_raw,
+                                   is_non_ntr) {
+  is_non_ntr <- ifelse(is.na(is_non_ntr), FALSE, is_non_ntr)
+  has_col2   <- is_non_ntr & !is.na(rate_column2)
+  # A specific component in the raw text that the ad valorem parse cannot carry.
+  partial <- has_col2 & !is.na(rate_column2_raw) &
+    grepl('¢|cents|/kg|/t\\b|/liter|/l\\b|\\$', rate_column2_raw, ignore.case = TRUE)
+  unresolved <- is_non_ntr & is.na(rate_column2) & !is.na(rate_column2_raw)
+
+  list(
+    base_rate = ifelse(has_col2, rate_column2, base_rate),
+    base_rate_source = ifelse(has_col2, 'column2',
+                              ifelse(unresolved, 'column2_unresolved', NA_character_)),
+    calc_status = ifelse(partial | unresolved, 'needs_manual_review', NA_character_),
+    replaced = has_col2,
+    exposed  = partial | unresolved
+  )
+}
+
+
 #' Map a §232 heading program to its per-action rate column
 #'
 #' EO 14289 sec. 2 enumerates its scope exhaustively, and only Proclamation

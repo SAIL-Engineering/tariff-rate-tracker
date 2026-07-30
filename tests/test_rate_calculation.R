@@ -838,6 +838,65 @@ run_test('no overrides / NULL overrides preserves blanket + exempt behavior', {
 
 
 # =============================================================================
+# Test 11c: Column 2 base tier — HTSUS General Note 3(b)
+# =============================================================================
+
+message('\n--- Test 11c: Column 2 base tier (GN 3(b)) ---')
+
+run_test('Column 2 REPLACES Column 1 for a non-NTR origin', {
+  # 2921.46.00: Free on Column 1, "15.4c/kg + 149.5%" on Column 2.
+  r <- resolve_base_rate_tier(base_rate = 0, rate_column2 = 1.495,
+                              rate_column2_raw = '15.4¢/kg + 149.5%',
+                              is_non_ntr = TRUE)
+  stopifnot(abs(r$base_rate - 1.495) < 1e-12)     # not 0
+  stopifnot(identical(r$base_rate_source, 'column2'))
+  stopifnot(isTRUE(r$replaced))
+})
+
+run_test('a partially-parsed compound Column 2 is flagged, not trusted', {
+  # The ad valorem half is recovered; the 15.4c/kg specific half is not. That is
+  # still an understatement, so it must not pass as a resolved rate.
+  r <- resolve_base_rate_tier(0, 1.495, '15.4¢/kg + 149.5%', TRUE)
+  stopifnot(isTRUE(r$exposed))
+  stopifnot(identical(r$calc_status, 'needs_manual_review'))
+})
+
+run_test('a pure ad valorem Column 2 is applied cleanly with no exposure flag', {
+  r <- resolve_base_rate_tier(0.02, 0.35, '35%', TRUE)
+  stopifnot(abs(r$base_rate - 0.35) < 1e-12)
+  stopifnot(!isTRUE(r$exposed), is.na(r$calc_status))
+})
+
+run_test('unparseable Column 2 is flagged rather than silently keeping Column 1', {
+  # 376 of 829 distinct Column 2 strings do not parse. Falling back to Column 1
+  # here is knowably wrong, so the row must be marked.
+  r <- resolve_base_rate_tier(0, NA_real_, '15.4¢/kg', TRUE)
+  stopifnot(identical(r$base_rate_source, 'column2_unresolved'))
+  stopifnot(identical(r$calc_status, 'needs_manual_review'))
+  stopifnot(isTRUE(r$exposed), !isTRUE(r$replaced))
+})
+
+run_test('NTR origins are untouched', {
+  r <- resolve_base_rate_tier(0.02, 1.495, '15.4¢/kg + 149.5%', FALSE)
+  stopifnot(abs(r$base_rate - 0.02) < 1e-12)
+  stopifnot(is.na(r$base_rate_source), !isTRUE(r$replaced), !isTRUE(r$exposed))
+})
+
+run_test('vectorises row-wise', {
+  r <- resolve_base_rate_tier(
+    base_rate        = c(0,    0.02, 0,    0.05),
+    rate_column2     = c(1.495, 1.495, NA,  0.35),
+    rate_column2_raw = c('15.4¢/kg + 149.5%', '15.4¢/kg + 149.5%',
+                         '15.4¢/kg', '35%'),
+    is_non_ntr       = c(TRUE, FALSE, TRUE, TRUE)
+  )
+  stopifnot(identical(r$replaced, c(TRUE, FALSE, FALSE, TRUE)))
+  stopifnot(abs(r$base_rate[2] - 0.02) < 1e-12)   # NTR row untouched
+  stopifnot(identical(r$exposed, c(TRUE, FALSE, TRUE, FALSE)))
+})
+
+
+# =============================================================================
 # Test 11b: dual-content §232 derivatives — steel and aluminum both owed
 # EO 14289 sec. 3(a)(iii); CBP CSMS #65054270
 # =============================================================================
