@@ -3125,6 +3125,29 @@ calculate_rates_for_revision <- function(
     }
   }
 
+  # 7c. EO 14289 non-stacking order (90 FR 18907 sec. 3(a); CBP CSMS #65054270).
+  #     Runs BEFORE totals are computed, and only for eras that carry the order —
+  #     it applies to entries on or after 2025-03-04, which precedes both the EO
+  #     signature and its HTS implementation. Earlier revisions keep the legacy
+  #     behavior untouched.
+  #
+  #     This is categorical exclusion between named actions, which is distinct
+  #     from the metal-content splitting in apply_stacking_rules(): that governs
+  #     how much of an article a §232 action reaches, this governs whether an
+  #     action is owed at all.
+  .era <- resolve_stacking_era(effective_date)
+  if (!is.null(.era) && length(.era$non_stacking %||% list()) > 0) {
+    .thr <- .era$subject_to_threshold %||% 0
+    .before <- sum(rates$rate_232, na.rm = TRUE)
+    rates <- apply_eo14289_precedence(rates, threshold = .thr,
+                                      cty_canada = CTY_CANADA,
+                                      cty_mexico = CTY_MEXICO)
+    .n_supp <- sum(!is.na(rates$s232_suppressed_json))
+    message('  EO 14289 (', .era$id, '): ', .n_supp,
+            ' row(s) had a lower-precedence action suppressed; ',
+            'aggregate rate_232 ', sprintf('%+.4f', sum(rates$rate_232, na.rm = TRUE) - .before))
+  }
+
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)
 

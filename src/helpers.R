@@ -2617,15 +2617,24 @@ apply_eo14289_precedence <- function(df, threshold = 0,
     sprintf('{"rule":"%s","suppressed":{%s}}', reason[i], paste(parts, collapse = ','))
   }, character(1))
 
+  # Any part of rate_232 the action columns do not account for. Later pipeline
+  # steps (the §232 annex override, country deal floors and surcharges) set
+  # rate_232 directly without touching the per-action columns, so re-deriving
+  # rate_232 as a bare sum of actions would silently DELETE that duty. Carry the
+  # unattributed remainder through untouched.
+  attributed <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
+    df$rate_232_copper + df$rate_232_other
+  residual <- pmax(df$rate_232 - attributed, 0)
+
   df$rate_232_steel[drop_metals]    <- 0
   df$rate_232_aluminum[drop_metals] <- 0
   df$rate_ieepa_fent[drop_camx_ieepa] <- 0
 
   # sec. 3(a)(iii): aluminum and steel stack with EACH OTHER. Nothing to do —
   # not suppressing them IS the rule, and the per-action columns already carry
-  # both. rate_232 is re-derived from the surviving actions.
+  # both.
   df$rate_232 <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
-    df$rate_232_copper + df$rate_232_other
+    df$rate_232_copper + df$rate_232_other + residual
 
   df$s232_suppressed_json <- supp
   df

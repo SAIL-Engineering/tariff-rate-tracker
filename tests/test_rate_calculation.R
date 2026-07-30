@@ -1005,6 +1005,22 @@ run_test('a zero-rate action is not "subject to" and triggers nothing', {
   stopifnot(r$rate_232_steel == 0.50, is.na(r$s232_suppressed_json))
 })
 
+run_test('duty not attributed to any action is preserved, never silently deleted', {
+  # The §232 annex override and country deal floors set rate_232 directly at
+  # later pipeline steps without touching the per-action columns. Re-deriving
+  # rate_232 as a bare sum of actions would delete that duty.
+  d <- .row(country = '5700', steel = 0.20)
+  d$rate_232 <- 0.50                      # 0.30 of it unattributed
+  r <- apply_eo14289_precedence(d)
+  stopifnot(abs(r$rate_232 - 0.50) < 1e-12)      # nothing suppressed, nothing lost
+
+  # and when steel IS suppressed, only steel's share goes
+  d2 <- .row(country = '1220', auto = 0.25, steel = 0.20)
+  d2$rate_232 <- 0.75                     # 0.30 unattributed
+  r2 <- apply_eo14289_precedence(d2)
+  stopifnot(abs(r2$rate_232 - (0.25 + 0.30)) < 1e-12)
+})
+
 run_test('vectorises across mixed rows without cross-contamination', {
   df <- bind_rows(
     .row(country = '1220', auto = 0.25, steel = 0.50),   # 3(a)(i)
