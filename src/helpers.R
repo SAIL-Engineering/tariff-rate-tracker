@@ -3424,9 +3424,21 @@ resolve_ch99_codes <- function(rates, ch99_data,
       deriv_sets$ch99_code[deriv_sets$derivative_type == 'aluminum'], codes_232)
     steel_deriv <- intersect(
       deriv_sets$ch99_code[deriv_sets$derivative_type == 'steel'], codes_232)
+    # The April 2026 annex proclamation consolidated steel, aluminum AND copper
+    # into one 9903.82 range, tiered by annex (1a/1b/2/3) rather than split by
+    # metal. steel_base already spanned 80-84 so it picked those up; aluminum
+    # and copper did not, and their pools collapsed to whatever legacy headings
+    # survived.
+    #
+    # In 2026_rev_13 that left alum_base holding ONLY 9903.85.67 and .68 — the
+    # two Russian 200% headings. Every aluminum row at any other rate matched
+    # nothing and fell back to a 200% Russia heading: 29,636 rows. copper_base
+    # was empty outright.
+    annex_base  <- codes_232[grepl('^9903\\.82\\.', codes_232)]
     steel_base  <- codes_232[grepl('^9903\\.(80|81|82|83|84)\\.', codes_232) & !codes_232 %in% steel_deriv]
-    alum_base   <- codes_232[grepl('^9903\\.85\\.', codes_232) & !codes_232 %in% alum_deriv]
-    copper_base <- codes_232[grepl('^9903\\.78\\.', codes_232)]
+    alum_base   <- unique(c(codes_232[grepl('^9903\\.85\\.', codes_232) & !codes_232 %in% alum_deriv],
+                            annex_base))
+    copper_base <- unique(c(codes_232[grepl('^9903\\.78\\.', codes_232)], annex_base))
     auto_base   <- codes_232[grepl('^9903\\.94\\.', codes_232)]
     wood_base   <- codes_232[grepl('^9903\\.76\\.', codes_232)]
     mhd_base    <- codes_232[grepl('^9903\\.74\\.', codes_232)]
@@ -3524,7 +3536,12 @@ resolve_ch99_codes <- function(rates, ch99_data,
       # Last resort: a code from the right commodity family whose rate does not
       # appear in the pool at all. Report it — a heading that disagrees with the
       # rate it justifies is exactly what a filer would be challenged on.
-      fallback <- sort(pool_codes)[1]
+      # Prefer a fallback that at least HAS a published rate. Several annex
+      # headings carry no parsed rate (9903.82.01, .03, .08, .11 …), and
+      # sort()[1] picks one of those first — the previous run defaulted steel to
+      # "9903.82.01 (NA%)", a heading that states no rate at all.
+      rated_pool <- pool_rates$ch99_code[!is.na(pool_rates$rate)]
+      fallback <- if (length(rated_pool)) sort(rated_pool)[1] else sort(pool_codes)[1]
       n_fb <- sum(is.na(matched) & rates$rate_232[mask] > 0)
       if (n_fb > 0) {
         fb_rate <- pool_rates$rate[match(fallback, pool_rates$ch99_code)]

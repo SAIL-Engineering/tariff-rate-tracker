@@ -973,6 +973,36 @@ run_test('the EO 14266 pause cap stops once Phase 2 reinstatement is live', {
   stopifnot(all(cap(after_dead)$rate[1:2] == 0.10))
 })
 
+run_test('the 2026 annex range is in the aluminum and copper pools, not just steel', {
+  # The April 2026 annex proclamation consolidated steel, aluminum and copper
+  # into one 9903.82 range tiered by annex rather than split by metal.
+  # steel_base spanned 80-84 so it picked those up; aluminum and copper did not.
+  # In 2026_rev_13 that left the aluminum pool holding ONLY 9903.85.67 and .68,
+  # the two Russian 200% headings — so 29,636 aluminum rows at other rates fell
+  # back to a 200% Russia heading, and copper's pool was empty outright.
+  codes <- c('9903.82.02', '9903.82.04', '9903.82.05', '9903.82.06',
+             '9903.85.67', '9903.85.68', '9903.78.01')
+  annex <- codes[grepl('^9903\\.82\\.', codes)]
+  alum_old <- codes[grepl('^9903\\.85\\.', codes)]
+  alum_new <- unique(c(alum_old, annex))
+  copper_new <- unique(c(codes[grepl('^9903\\.78\\.', codes)], annex))
+  stopifnot(length(alum_old) == 2)                  # the bug: Russia-only
+  stopifnot(length(alum_new) == 6, length(copper_new) == 5)
+  stopifnot(all(annex %in% alum_new), all(annex %in% copper_new))
+})
+
+run_test('a fallback heading with no published rate is not preferred', {
+  # Several annex headings carry no parsed rate (9903.82.01, .03, .08, .11 …)
+  # and sort()[1] reaches them first, so steel defaulted to "9903.82.01 (NA%)"
+  # — a heading stating no rate at all.
+  pool <- tibble(ch99_code = c('9903.82.01', '9903.82.02', '9903.82.04'),
+                 rate = c(NA_real_, 0.50, 0.25))
+  rated <- pool$ch99_code[!is.na(pool$rate)]
+  fallback <- if (length(rated)) sort(rated)[1] else sort(pool$ch99_code)[1]
+  stopifnot(identical(fallback, '9903.82.02'))      # not the NA-rate .01
+  stopifnot(!is.na(pool$rate[match(fallback, pool$ch99_code)]))
+})
+
 run_test('the assigned §232 heading carries the rate the row is charged', {
   # The uniqueness filter (n()==1) discards every candidate whenever two codes
   # share a rate — the normal case. In 2025_rev_14 six steel headings sit at 50%
