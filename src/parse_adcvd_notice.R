@@ -54,10 +54,28 @@ parse_adcvd_title <- function(title) {
     out$country   <- trimws(m[3])
     out$duty_type <- if (grepl('^Anti', m[5], ignore.case = TRUE)) 'AD' else 'CVD'
     pre <- tolower(m[4])
-    out$notice_kind <- if (grepl('amended final', pre)) 'amended_final'
-                       else if (grepl('final', pre))    'final'
-                       else if (grepl('prelim', pre))   'preliminary'
-                       else 'other'
+    # The whole title after the colon, so ORDER-lifecycle notices — which carry
+    # no "Results of" clause — can be told apart. These are what define the
+    # order UNIVERSE, as distinct from the review notices that reset rates:
+    #
+    #   order         establishes an order        "…: Antidumping Duty Order"
+    #   continuation  keeps it alive post-sunset  "…: Continuation of …Order"
+    #   revocation    ends it                     "…: Revocation of …Order"
+    #
+    # Active universe = established + continued − revoked. That is derivable
+    # entirely from the Federal Register, which matters because the ITA dataset
+    # API is unreachable and the ADCVD search app is a Blazor server app with no
+    # public JSON endpoint. It is also self-maintaining: an order created in
+    # 2027 arrives as a new notice with no code change.
+    tail_txt <- tolower(sub('^.*?:\\s*', '', title))
+    out$notice_kind <-
+      if (grepl('amended final', pre))                      'amended_final'
+      else if (grepl('final', pre))                         'final'
+      else if (grepl('prelim', pre))                        'preliminary'
+      else if (grepl('revocation|revoking', tail_txt))      'revocation'
+      else if (grepl('continuation', tail_txt))             'continuation'
+      else if (grepl('duty order\\s*$', tail_txt))          'order'
+      else 'other'
   }
   p <- regmatches(title, regexec(';\\s*(\\d{4}[-–]\\d{4})', title))[[1]]
   if (length(p) >= 2) out$period <- gsub('–', '-', p[2])

@@ -47,6 +47,30 @@ run_test('preliminary results do not set the operative rate', {
   stopifnot(is_rate_setting_notice('final'), is_rate_setting_notice('amended_final'))
 })
 
+run_test('order-lifecycle notices are distinguished from review results', {
+  # These define the order UNIVERSE and carry no "Results of" clause. Active
+  # set = established + continued - revoked, all derivable from the Federal
+  # Register — which matters because the ITA dataset API is unreachable and the
+  # ADCVD search app is a Blazor server app with no public JSON endpoint.
+  o <- parse_adcvd_title('Paper File Folders From Sri Lanka: Antidumping Duty Order')
+  stopifnot(identical(o$notice_kind, 'order'), identical(o$duty_type, 'AD'))
+  stopifnot(identical(o$country, 'Sri Lanka'))
+
+  cvd <- parse_adcvd_title('Steel Concrete Reinforcing Bar From Algeria: Countervailing Duty Order')
+  stopifnot(identical(cvd$notice_kind, 'order'), identical(cvd$duty_type, 'CVD'))
+
+  cont <- parse_adcvd_title('Stainless Steel Bar From India: Continuation of Antidumping Duty Order')
+  stopifnot(identical(cont$notice_kind, 'continuation'))
+
+  rev <- parse_adcvd_title('Certain Aluminum Foil From China: Revocation of Antidumping Duty Order')
+  stopifnot(identical(rev$notice_kind, 'revocation'))
+
+  # None of them set cash-deposit rates — only review results do.
+  for (k in c('order', 'continuation', 'revocation')) {
+    stopifnot(!is_rate_setting_notice(k))
+  }
+})
+
 run_test('a non-matching title yields NA rather than a guess', {
   n <- parse_adcvd_title('Notice of Scheduling of Hearing')
   stopifnot(is.na(n$duty_type), is.na(n$product), is.na(n$country))
