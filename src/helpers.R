@@ -1496,10 +1496,10 @@ load_non_ntr_countries <- function(revision_id, effective_date = NULL,
 }
 
 
-#' Parse a Column 2 duty string into an ad valorem rate plus an explicit status
+#' Parse an HTS duty-rate string into an ad valorem rate plus an explicit status
 #'
-#' Column 2 preserves 1930 Smoot-Hawley drafting, so the strings are far messier
-#' than Column 1: fractional percents ("33 1/3%"), percents apportioned to parts
+#' Used for BOTH rate columns. Column 2 preserves 1930 Smoot-Hawley drafting and
+#' is the messier of the two, but Column 1 carries the same forms: fractional percents ("33 1/3%"), percents apportioned to parts
 #' of an article ("45% on the case"), per-unit compounds ("$1.15/1,000 + 40%"),
 #' and duty caps expressed in prose.
 #'
@@ -1532,7 +1532,7 @@ load_non_ntr_countries <- function(revision_id, effective_date = NULL,
 #'
 #' @param x Character vector of Column 2 rate strings
 #' @return tibble(ad_valorem, has_specific, is_capped, status)
-parse_column2_rate <- function(x) {
+parse_duty_rate_string <- function(x) {
   n <- length(x)
   ad <- rep(NA_real_, n); spec <- rep(FALSE, n)
   capped <- rep(FALSE, n); status <- rep('unparsed', n)
@@ -1610,6 +1610,10 @@ parse_column2_rate <- function(x) {
   tibble(ad_valorem = ad, has_specific = spec, is_capped = capped, status = status)
 }
 
+#' @rdname parse_duty_rate_string
+#' @details Retained name from when this handled Column 2 only.
+parse_column2_rate <- parse_duty_rate_string
+
 
 #' Resolve the base duty tier — Column 2 replaces Column 1 for non-NTR origins
 #'
@@ -1640,7 +1644,7 @@ parse_column2_rate <- function(x) {
 resolve_base_rate_tier <- function(base_rate, rate_column2, rate_column2_raw,
                                    is_non_ntr) {
   is_non_ntr <- ifelse(is.na(is_non_ntr), FALSE, is_non_ntr)
-  p <- parse_column2_rate(rate_column2_raw)
+  p <- parse_duty_rate_string(rate_column2_raw)
 
   # Prefer the freshly parsed value; fall back to any pre-parsed column so a
   # cached product table without raw text still resolves.

@@ -913,6 +913,69 @@ run_test('primary metal chapters attribute by chapter, not by heading program', 
 
 
 # =============================================================================
+# Test 11d: Phase 2b/2c — Column 1 compound recovery and honest calc_status
+# =============================================================================
+
+message('\n--- Test 11d: Column 1 compound recovery + calc_status ---')
+
+# Mirrors the classification in src/04_parse_products.R.
+.calc_status_for <- function(rate_basis, status, is_qty = FALSE, unit = NA) {
+  if (identical(rate_basis, 'unknown')) return('needs_manual_review')
+  if (status %in% c('specific_only', 'compound')) return('base_ad_valorem_only')
+  if (status %in% c('apportioned', 'cross_reference', 'ch98_conditional',
+                    'alt_base_pct', 'free_conditional')) return('base_not_representable')
+  if (is_qty && is.na(unit)) return('missing_duty_basis_unit')
+  'ok'
+}
+
+run_test('the ad valorem half of a Column 1 compound rate is recovered', {
+  # parse_rate() returns NA for anything that is not a bare percent, so
+  # "46.3c/kg + 14.9%" lost a real 14.9% duty and became 0 downstream.
+  stopifnot(is.na(parse_rate('46.3¢/kg + 14.9%')))
+  p <- parse_duty_rate_string('46.3¢/kg + 14.9%')
+  stopifnot(abs(p$ad_valorem - 0.149) < 1e-12)
+  stopifnot(identical(p$status, 'compound'), isTRUE(p$has_specific))
+})
+
+run_test('a recovered compound is NOT reported as fully resolved', {
+  # Carrying 14.9% is right; calling it 'ok' is not — the per-unit component
+  # is still uncollected.
+  stopifnot(identical(.calc_status_for('compound', 'compound'), 'base_ad_valorem_only'))
+  stopifnot(identical(.calc_status_for('specific', 'specific_only'), 'base_ad_valorem_only'))
+})
+
+run_test('a specific-only duty is flagged even though it parses cleanly', {
+  # 909 specific + 200 compound rows carried base_rate 0 while reporting 'ok'.
+  # A duty that exists but cannot be expressed ad valorem must never read as ok.
+  p <- parse_duty_rate_string('5.7¢/kg')
+  stopifnot(identical(p$status, 'specific_only'))
+  stopifnot(abs(p$ad_valorem - 0) < 1e-12)          # 0% ad valorem is TRUE
+  stopifnot(!identical(.calc_status_for('specific', p$status), 'ok'))
+})
+
+run_test('non-representable bases are distinguished from merely partial ones', {
+  # Different remediation: a compound needs unit values, a cross-reference needs
+  # another line resolved first. Collapsing them into one flag loses that.
+  for (s in c('apportioned', 'cross_reference', 'ch98_conditional', 'alt_base_pct')) {
+    stopifnot(identical(.calc_status_for('unknown_basis', s), 'base_not_representable'))
+  }
+  stopifnot(identical(.calc_status_for('ad_valorem', 'ad_valorem'), 'ok'))
+})
+
+run_test('every Column 1 string in a real revision resolves to a named status', {
+  f <- 'data/processed/products_2026_rev_10.rds'
+  if (!file.exists(f)) {
+    message('    (skipped — products RDS not present)')
+  } else {
+    p <- readRDS(f)
+    raw <- p$base_rate_raw[!is.na(p$base_rate_raw) & nzchar(p$base_rate_raw)]
+    r <- parse_duty_rate_string(unique(raw))
+    stopifnot(sum(r$status == 'unparsed') == 0)
+  }
+})
+
+
+# =============================================================================
 # Test 11c: Column 2 base tier — HTSUS General Note 3(b)
 # =============================================================================
 

@@ -171,6 +171,24 @@ parse_products <- function(json_path) {
     has_complex <- !is_simple_rate(general) && general != ''
     base_rate_source <- if (trimws(general) != '') 'own' else NA_character_
 
+    # parse_rate() returns NA for anything that is not a bare percent, which
+    # silently drops the ad valorem HALF of every compound rate: "46.3c/kg +
+    # 14.9%" became NA and then 0 downstream, losing a real 14.9% duty. 160 of
+    # the 666 distinct Column 1 strings in 2026_rev_10 are recoverable this way.
+    #
+    # parse_duty_rate_string() recovers the article-level percent and names what
+    # it could not represent, so the residual stays visible instead of becoming
+    # an unmarked zero.
+    base_rate_status <- NA_character_
+    if (is.na(base_rate) && trimws(general) != '') {
+      pr <- parse_duty_rate_string(general)
+      base_rate_status <- pr$status
+      if (!is.na(pr$ad_valorem)) {
+        base_rate <- pr$ad_valorem
+        base_rate_source <- paste0('own:', pr$status)
+      }
+    }
+
     if (is.na(base_rate) && trimws(general) == '' && indent > 0) {
       for (i in seq(indent - 1, 0, by = -1)) {
         parent_rate <- rate_stack[[as.character(i)]]
@@ -254,8 +272,24 @@ parse_products <- function(json_path) {
     rounding_rule <- determine_rounding_rule(general_parsed)
 
     # Calc status: flag items that need manual review
+    # A specific or compound duty is NOT fully representable as an ad valorem
+    # rate. Previously only rate_basis == 'unknown' was flagged, so 1,109 rows
+    # in 2026_rev_9 (909 specific + 200 compound) carried base_rate 0 while
+    # reporting calc_status 'ok' — a real duty, silently absent, and marked fine.
+    #
+    # base_ad_valorem_only marks rows where the ad valorem part is carried but a
+    # per-unit component is not; base_not_representable marks rows where no
+    # article-level rate exists at all (apportioned to components, defined by
+    # cross-reference, or a Chapter 98 conditional provision).
     calc_status <- if (rate_basis == 'unknown') {
       'needs_manual_review'
+    } else if (identical(base_rate_status, 'specific_only') ||
+               identical(base_rate_status, 'compound')) {
+      'base_ad_valorem_only'
+    } else if (base_rate_status %in% c('apportioned', 'cross_reference',
+                                       'ch98_conditional', 'alt_base_pct',
+                                       'free_conditional')) {
+      'base_not_representable'
     } else if (is_qty_duty_relevant && is.na(specific_rate_unit)) {
       'missing_duty_basis_unit'
     } else {
