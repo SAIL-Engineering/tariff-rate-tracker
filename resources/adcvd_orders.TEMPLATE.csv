@@ -1,0 +1,38 @@
+# =============================================================================
+# adcvd_orders.csv — TEMPLATE (curated AD/CVD orders for the rate_adcvd layer)
+# =============================================================================
+# Rename to resources/adcvd_orders.csv once populated. src/load_adcvd_layer.R
+# reads it (skipping these '#' comment lines). Until a non-comment data row
+# exists, the loader returns an empty layer (rate_adcvd = 0 everywhere), so the
+# pipeline is unaffected.
+#
+# HOW TO POPULATE (see docs/adcvd_layer_design.md §"Acquisition"):
+#   1. Active orders list + covered HTS: Commerce ITA "Products Subject to
+#      AD/CVD Orders" (data.commerce.gov, ID ITA-0039) for coverage, OR
+#      access.trade.gov/ADCVD_Search.aspx (ACCESS) for case-level detail.
+#   2. Cash-deposit rates (all-others / trade-weighted): ACCESS order/segment
+#      pages or CBP ACE AD/CVD messages (trade.cbp.dhs.gov/ace/adcvd/). Use the
+#      ALL-OTHERS rate (or a trade-weighted average of firm rates) — the panel
+#      cannot carry firm-specific rates (caveat 2 in the loader header).
+#   3. country: map the order's country NAME to the tracker country code
+#      (resources/census_codes.csv / country_partner_mapping.csv).
+#   4. hts: copy the order's listed HTS (2-10 digit). These are "for convenience
+#      only" / non-dispositive (caveat 1) — wide prefixes need manual scope
+#      review before trusting the HTS-10 fan-out.
+#
+# Columns:
+#   case_number    A-### (antidumping) or C-### (countervailing)
+#   country        tracker country code (e.g. 5700 China, 5880 Japan, 4120 UK)
+#   hts            covered HTS prefix, 2-10 digits, quoted to keep leading zeros
+#   rate           ad-valorem-equivalent all-others deposit rate (0.21 = 21%)
+#   effective_date order effective date (YYYY-MM-DD); date-gates the rung
+#   revoked_date   revocation/sunset date (YYYY-MM-DD) or blank if active
+#
+# ILLUSTRATIVE rows below are COMMENTED OUT and use placeholder rates — they show
+# the format only and are NOT real cash-deposit rates. Do not uncomment until
+# replaced with sourced values.
+#   A-570-979,5700,"8413",0.00,2013-03-01,
+#   C-570-980,5700,"8413",0.00,2013-03-01,
+#   A-588-869,5880,"8482",0.00,1989-05-15,
+# =============================================================================
+case_number,country,hts,rate,effective_date,revoked_date
