@@ -3502,15 +3502,36 @@ resolve_ch99_codes <- function(rates, ch99_data,
         pick[mask] <<- pool_codes
         return(invisible(NULL))
       }
-      rate_map <- ch99_rate_lookup %>%
-        filter(ch99_code %in% pool_codes) %>%
-        group_by(rate) %>% filter(n() == 1) %>% ungroup()
-      matched <- rate_map$ch99_code[match(round(stat_232[mask], 6), rate_map$rate)]
+      pool_rates <- ch99_rate_lookup %>% filter(ch99_code %in% pool_codes)
+
+      # First choice: a code whose rate is UNIQUE in the pool, so the match is
+      # unambiguous.
+      uniq <- pool_rates %>% group_by(rate) %>% filter(n() == 1) %>% ungroup()
+      matched <- uniq$ch99_code[match(round(stat_232[mask], 6), uniq$rate)]
+
+      # Second choice: ANY code carrying the row's rate. The uniqueness filter
+      # above discards every candidate whenever two codes share a rate, which is
+      # the normal case — in 2025_rev_14 six steel headings sit at 50% and four
+      # aluminum headings at 50%. Falling straight to sort(pool)[1] then ignores
+      # the rate completely and picks alphabetically: 269,287 rows charged 50%
+      # were stamped 9903.80.01, a 25% heading, and 184 rows charged 50% got
+      # 9903.85.01, a 10% heading. The code contradicted the duty on the row.
+      tied <- pool_rates %>% group_by(rate) %>%
+        summarise(ch99_code = min(ch99_code), .groups = 'drop')
+      matched_tied <- tied$ch99_code[match(round(stat_232[mask], 6), tied$rate)]
+      matched <- coalesce(matched, matched_tied)
+
+      # Last resort: a code from the right commodity family whose rate does not
+      # appear in the pool at all. Report it — a heading that disagrees with the
+      # rate it justifies is exactly what a filer would be challenged on.
       fallback <- sort(pool_codes)[1]
       n_fb <- sum(is.na(matched) & rates$rate_232[mask] > 0)
       if (n_fb > 0) {
-        message('  ch99_code_232 base (', label, '): ', n_fb,
-                ' rows had no unique rate match; using ', fallback)
+        fb_rate <- pool_rates$rate[match(fallback, pool_rates$ch99_code)]
+        warning(sprintf(
+          '%s: %d rows owe §232 duty at a rate matching NO Chapter 99 heading in the %s pool; defaulting to %s (%.1f%%). The heading will not justify the rate.',
+          label, n_fb, label, fallback, 100 * (fb_rate %||% NA_real_)),
+          call. = FALSE)
       }
       pick[mask] <<- coalesce(matched, fallback)
       invisible(NULL)

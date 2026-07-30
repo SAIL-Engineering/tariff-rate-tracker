@@ -973,6 +973,41 @@ run_test('the EO 14266 pause cap stops once Phase 2 reinstatement is live', {
   stopifnot(all(cap(after_dead)$rate[1:2] == 0.10))
 })
 
+run_test('the assigned §232 heading carries the rate the row is charged', {
+  # The uniqueness filter (n()==1) discards every candidate whenever two codes
+  # share a rate — the normal case. In 2025_rev_14 six steel headings sit at 50%
+  # and four aluminum headings at 50%, so matching always failed and the
+  # fallback picked alphabetically, ignoring rate: 269,287 rows charged 50% were
+  # stamped 9903.80.01 (a 25% heading) and 184 rows charged 50% got 9903.85.01
+  # (a 10% heading). The heading contradicted the duty it was justifying.
+  resolve <- function(r, pool) {
+    uniq <- pool %>% group_by(rate) %>% filter(n() == 1) %>% ungroup()
+    m <- uniq$ch99_code[match(round(r, 6), uniq$rate)]
+    tied <- pool %>% group_by(rate) %>% summarise(ch99_code = min(ch99_code), .groups = 'drop')
+    dplyr::coalesce(m, tied$ch99_code[match(round(r, 6), tied$rate)], sort(pool$ch99_code)[1])
+  }
+  steel <- tibble(
+    ch99_code = c('9903.80.01', '9903.80.03', '9903.81.83',
+                  '9903.81.87', '9903.81.88', '9903.81.91'),
+    rate = c(0.25, 0.25, 0.25, 0.50, 0.50, 0.50))
+  # a 50% row must NOT get the 25% heading that sorts first
+  stopifnot(!identical(resolve(0.50, steel), '9903.80.01'))
+  stopifnot(identical(resolve(0.50, steel), '9903.81.87'))
+  stopifnot(identical(resolve(0.25, steel), '9903.80.01'))
+
+  alum <- tibble(ch99_code = c('9903.85.01', '9903.85.02', '9903.85.67'),
+                 rate = c(0.10, 0.50, 2.00))
+  stopifnot(identical(resolve(0.50, alum), '9903.85.02'))
+  stopifnot(identical(resolve(2.00, alum), '9903.85.67'))   # Russian aluminum
+  stopifnot(identical(resolve(0.10, alum), '9903.85.01'))
+
+  # every resolution must agree with the rate charged
+  for (r in c(0.25, 0.50)) {
+    code <- resolve(r, steel)
+    stopifnot(abs(steel$rate[match(code, steel$ch99_code)] - r) < 1e-9)
+  }
+})
+
 run_test('a §232 heading is never assigned by alphabetical order', {
   # 288,755 rows in 2026_rev_9 carried 9903.74.01 — an MHD VEHICLE heading —
   # because derivative chapters had no attribution rule and fell through to
