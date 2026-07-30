@@ -53,13 +53,13 @@ base_replacement:
     source: 'resources/gn3_column2_countries.csv'   # parsed from GN 3, per revision
     rate_column: rate_column2
     reason_code: base_col2                          # config/duty_citations.yaml
-    citation: 'HTSUS General Note 3(b)'
+    citation_key: gn3_column2_non_ntr
   mtb_9902:
     # Subchapter II MTB suspensions: "subject to duty at the rate set forth
     # herein IN LIEU OF the rate provided therefor in chapters 1 to 97".
     # Downward replacement. Not yet wired into the rate math — candidate only.
     modelled: false
-    citation: 'HTSUS Chapter 99 subchapter II note 1'
+    citation_key: null   # TODO register subchapter II note 1 when MTB is modelled
 
 # --- Eras ---------------------------------------------------------------------
 # Selected by the revision's effective date. `from` is inclusive; the era runs
@@ -80,23 +80,30 @@ eras:
                             # which precedes both the EO signature (2025-04-29)
                             # and its HTS implementation — deliberately retroactive.
     label: 'EO 14289 non-stacking order'
-    citation: '90 FR 18907; implementation 90 FR 21487; CBP CSMS #65054270'
+    citation_keys:
+      - eo_14289_non_stacking                  # 90 FR 18907 — the operative order
+      - fr_2025_09066_eo14289_implementation   # 90 FR 21487 — HTS implementation
+      - cbp_csms_65054270_non_stacking         # "subject to" = >0% owed
     subject_to_threshold: 0.0   # "subject to" = rate strictly greater than this
     non_stacking:
       # sec. 3(a)(i)
       - precedence: 1
         action: s232_auto
         excludes: [ieepa_canada, ieepa_mexico, s232_aluminum, s232_steel]
-        citation: 'EO 14289 sec. 3(a)(i)'
+        citation_key: eo_14289_non_stacking
+        cite_locator: 'sec. 3(a)(i)'
       # sec. 3(a)(ii)
       - precedence: 2
         action: [ieepa_canada, ieepa_mexico]
         excludes: [s232_aluminum, s232_steel]
-        citation: 'EO 14289 sec. 3(a)(ii)'
+        citation_key: eo_14289_non_stacking
+        cite_locator: 'sec. 3(a)(ii)'
     mutually_stacking:
       # sec. 3(a)(iii) — aluminum and steel EXPLICITLY stack with each other.
       # A derivative containing both owes duty on BOTH contents.
-      - [s232_aluminum, s232_steel]
+      - actions: [s232_aluminum, s232_steel]
+        citation_key: eo_14289_non_stacking
+        cite_locator: 'sec. 3(a)(iii)'
     # sec. 3(c) + sec. 4(b): actions NOT listed in EO 14289 sec. 2 are cumulative
     # and are never suppressed by the order.
     always_cumulative:
@@ -113,12 +120,15 @@ eras:
     # With ieepa_* at 0 they are no longer "subject to" anything, so steps 1 and 2
     # of the order stop firing on their account automatically.
     zeroed: [ieepa_reciprocal, ieepa_fentanyl, ieepa_canada, ieepa_mexico]
+    citation_keys: [eo_14389_ending_ieepa_tariffs, cbp_csms_67834313_ieepa_end_collection]
 
   - id: s122
     from: '2026-02-24'
     label: 'Section 122 balance-of-payments surcharge window'
     inherits: post_ieepa
-    window_closes: '2026-07-23'    # 150-day statutory limit; 91 FR 9339
+    window_closes: '2026-07-23'    # 150-day statutory limit
+    citation_keys: [s122_balance_of_payments, proc_11012_s122_surcharge,
+                    cbp_csms_67844987_s122_implementation]
     always_cumulative_add: [s122]
 
   - id: s232_annex

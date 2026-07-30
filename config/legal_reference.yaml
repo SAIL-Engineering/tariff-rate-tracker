@@ -130,34 +130,43 @@ authorities:
   # --- Copper-specific Section 232 chain (founding -> annex -> derivative expansion) ---
   proc_10962_copper_2025:
     citation: "Proclamation 10962 of July 30, 2025 — Adjusting Imports of Copper Into the United States"
-    federal_register: null
-    fr_document_number: null
+    federal_register: "90 FR 37727"
+    fr_document_number: "2025-14893"
     signed_date: "2025-07-30"
     publication_date: "2025-08-05"
     effective_date: "2025-08-01"
     statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)"
     hts_reference: "9903.78.01; HTSUS subchapter III U.S. Note 36"
     applies_to: [s232_copper, s232_copper_derivative]
-    verified: false
-    verified_against: "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=proclamation+copper+section+232"
-    verification_scope: "Federal Register volume/page and document number pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states"
+    verification_scope: "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10962, 90 FR 37727, doc 2025-14893)"
     status_note: "Founding Section 232 copper action (50% on semi-finished copper and copper-intensive derivatives, effective 2025-08-01 under 9903.78.01 / Note 36). Extended by the April 2026 annex (Proc 11021) and the June 2026 derivative expansion (Proc 11032)."
 
   proc_11032_copper_derivatives_2026:
-    citation: "Proclamation 11032 of June 2026 — Expanding Section 232 Copper Derivative Coverage"
-    federal_register: null
-    fr_document_number: null
-    signed_date: null
-    publication_date: null
+    citation: "Proclamation 11032 of June 1, 2026 — Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States"
+    federal_register: "91 FR 34085"
+    fr_document_number: "2026-11314"
+    signed_date: "2026-06-01"
+    publication_date: "2026-06-04"
     effective_date: "2026-06-08"
     statute: "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483"
     hts_reference: "9903.82.20 through 9903.82.26 (new copper-derivative annex headings)"
     applies_to: [s232_copper, s232_copper_derivative]
-    verified: false
-    source_status: federal_register_public_inspection_pending_publication
-    requires_post_publication_recheck: true
-    verification_scope: "On public inspection at the Federal Register; citation, document number, and signing date pending publication"
-    status_note: "PENDING Federal Register publication (public inspection). Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Metadata must be re-verified after publication."
+    verified_against: "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states"
+    verified: true
+    verification_scope: >
+      Citation identity retrieved from the Federal Register API 2026-07-30:
+      proclamation_number 11032, signed 2026-06-01, published 2026-06-04,
+      91 FR 34085, document 2026-11314. The heading range and 2026-06-08
+      effective date come from the HTS revision, not from the notice text.
+    source_status: federal_register_published
+    requires_post_publication_recheck: false
+    status_note: >
+      Published 2026-06-04 at 91 FR 34085. Effective for entries on or after
+      2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26.
+      Previously carried as public-inspection-pending; metadata re-verified
+      against the Federal Register API on 2026-07-30 and the pending flags cleared.
 
   # ---------------------------------------------------------------------------
   # Section 301 — 19 U.S.C. 2411
@@ -168,6 +177,13 @@ authorities:
     statute: "19 U.S.C. 2411 (Trade Act of 1974, Section 301); related modification authority under 19 U.S.C. 2417"
     applies_to: [s301_active, s301_exempt]
     verified_against: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions"
+    link_is_index: true
+    link_is_index_reason: >
+      This authority covers a multi-year program (Lists 1–4A plus successive
+      exclusion and modification notices), not a single Federal Register
+      document, so USTR's tariff-actions index is the correct landing page.
+      Individual list actions are cited separately where the engine relies on
+      one specific notice.
     verified: true
     verification_scope: "parent program/source-directory metadata only; not a complete list-level legal authority"
     status_note: "Use list-specific Federal Register notices for production-grade audit trails."
@@ -347,48 +363,64 @@ authorities:
   # pending verification — do NOT present as settled.
   eo_14245_venezuelan_oil:
     citation: "Executive Order 14245 of March 24, 2025 — Imposing Tariffs on Countries Importing Venezuelan Oil"
-    federal_register: null
+    federal_register: "90 FR 13829"
+    fr_document_number: "2025-05440"
     signed_date: "2025-03-24"
+    publication_date: "2025-03-27"
     statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
-    verified: false
-    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
-    verification_scope: "Federal Register citation and current scope pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2025/03/27/2025-05440/imposing-tariffs-on-countries-importing-venezuelan-oil"
+    verification_scope: "Citation identity confirmed via Federal Register API 2026-07-30 (EO 14245, 90 FR 13829, doc 2025-05440). Scope/current status not independently re-checked."
     status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
   eo_14323_brazil:
-    citation: "Executive Order 14323 of 2025 — IEEPA tariff action concerning Brazil"
-    federal_register: null
-    signed_date: null
+    citation: "Executive Order 14323 of July 30, 2025 — Addressing Threats to the United States by the Government of Brazil"
+    federal_register: "90 FR 37739"
+    fr_document_number: "2025-14896"
+    signed_date: "2025-07-30"
+    publication_date: "2025-08-05"
     statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
-    verified: false
-    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
-    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2025/08/05/2025-14896/addressing-threats-to-the-united-states-by-the-government-of-brazil"
+    verification_scope: "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14323, 90 FR 37739, doc 2025-14896)"
     status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
   eo_14329_russia:
-    citation: "Executive Order 14329 of 2025 — IEEPA tariff action concerning Russia"
-    federal_register: null
-    signed_date: null
+    citation: "Executive Order 14329 of August 6, 2025 — Addressing Threats to the United States by the Government of the Russian Federation"
+    federal_register: "90 FR 38701"
+    fr_document_number: "2025-15267"
+    signed_date: "2025-08-06"
+    publication_date: "2025-08-11"
     statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
-    verified: false
-    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
-    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2025/08/11/2025-15267/addressing-threats-to-the-united-states-by-the-government-of-the-russian-federation"
+    verification_scope: "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14329, 90 FR 38701, doc 2025-15267)"
     status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
   eo_14380_cuba:
-    citation: "Executive Order 14380 of 2025 — IEEPA tariff action concerning Cuba"
-    federal_register: null
-    signed_date: null
+    citation: "Executive Order 14380 of January 29, 2026 — Addressing Threats to the United States by the Government of Cuba"
+    federal_register: "91 FR 5085"
+    fr_document_number: "2026-02250"
+    signed_date: "2026-01-29"
+    publication_date: "2026-02-03"
     statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
-    verified: false
-    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
-    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2026/02/03/2026-02250/addressing-threats-to-the-united-states-by-the-government-of-cuba"
+    verification_scope: >
+      Number, title, date and citation confirmed via Federal Register API
+      2026-07-30 (EO 14380, 91 FR 5085, doc 2026-02250). Was previously labelled
+      "of 2025" — it is a 2026 order.
     status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
   eo_14382_iran:
-    citation: "Executive Order 14382 of 2025 — IEEPA tariff action concerning Iran"
-    federal_register: null
-    signed_date: null
+    citation: "Executive Order 14382 of February 6, 2026 — Addressing Threats to the United States by the Government of Iran"
+    federal_register: "91 FR 6493"
+    fr_document_number: "2026-02813"
+    signed_date: "2026-02-06"
+    publication_date: "2026-02-11"
     statute: "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)"
-    verified: false
-    verified_against: "https://www.federalregister.gov/presidential-documents/executive-orders"
-    verification_scope: "Executive Order number, title, and Federal Register citation pending confirmation"
+    verified: true
+    verified_against: "https://www.federalregister.gov/documents/2026/02/11/2026-02813/addressing-threats-to-the-united-states-by-the-government-of-iran"
+    verification_scope: >
+      Number, title, date and citation confirmed via Federal Register API
+      2026-07-30 (EO 14382, 91 FR 6493, doc 2026-02813). Was previously labelled
+      "of 2025" — it is a 2026 order.
     status_note: "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
 
   # ---------------------------------------------------------------------------
@@ -428,6 +460,92 @@ authorities:
   # ---------------------------------------------------------------------------
   # Civil aircraft / WTO Agreement on Trade in Civil Aircraft
   # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Tariff stacking / non-stacking — how duties COMBINE
+  # These are the authorities behind config/stacking_rules.yaml. Every rule in
+  # that file carries a `citation_key` resolving to an entry here, so the
+  # frontend can link the reason it shows to a primary source.
+  # ---------------------------------------------------------------------------
+
+  eo_14289_non_stacking:
+    citation: "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles"
+    federal_register: "90 FR 18907"
+    fr_document_number: "2025-07835"
+    signed_date: "2025-04-29"
+    publication_date: "2025-05-02"
+    statute: "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq."
+    applies_to: [s232_auto, s232_steel, s232_aluminum, ieepa_fent_canada, ieepa_fent_mexico]
+    verified_against: "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles"
+    verified: true
+    verification_scope: "full operative text retrieved and quoted in docs/stacking_legal_model.md"
+    status_note: >
+      Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc
+      10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel;
+      (ii) an article subject to IEEPA Canada/Mexico is not subject to §232
+      aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each
+      other. Sec. 3(b): exclusion suppresses the rate, not the classification.
+      Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain
+      cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is
+      therefore outside the order.
+
+  fr_2025_09066_eo14289_implementation:
+    citation: "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289"
+    federal_register: "90 FR 21487"
+    fr_document_number: "2025-09066"
+    publication_date: "2025-05-20"
+    agency: "U.S. Customs and Border Protection / Department of Homeland Security"
+    applies_to: [s232_auto, s232_steel, s232_aluminum, ieepa_fent_canada, ieepa_fent_mexico]
+    verified_against: "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the"
+    verified: true
+    verification_scope: "authority metadata and HTS implementation"
+
+  cbp_csms_65054270_non_stacking:
+    citation: "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289"
+    publication_date: "2025-05-15"
+    agency: "U.S. Customs and Border Protection"
+    applies_to: [s232_auto, s232_steel, s232_aluminum, ieepa_fent_canada, ieepa_fent_mexico]
+    verified_against: "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e"
+    verified: true
+    verification_scope: >
+      Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four
+      load-bearing claims confirmed verbatim against the primary source, not via
+      trade-counsel summaries.
+    quotes:
+      subject_to_definition: >
+        "'Subject to' means that duty more than 0% is owed under the tariff action."
+      prioritization_order: >
+        Filers calculate in sequence: (1) 232 Auto/Auto Parts;
+        (2) IEEPA Canada or IEEPA Mexico; (3) 232 Aluminum and/or 232 Steel.
+      usmca_parts: >
+        "Parts of passenger vehicles and light trucks that qualify for
+        preferential treatment under United States-Mexico-Canada Agreement
+        (USMCA), ARE NOT subject to the 232 Auto/Auto Parts tariff or the IEEPA
+        Canada or IEEPA Mexico tariff."
+      retroactivity: >
+        Applies "retroactively to entries of merchandise subject to the five
+        applicable tariff measures and entered for consumption or withdrawn from
+        warehouse for consumption on or after March 4, 2025."
+    status_note: >
+      The >0% definition is the threshold that drives the whole order, and the
+      reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to
+      the §232 steel/aluminum step without a special rule. Note CBP states the
+      USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches
+      the same result from the >0% definition alone, so the two readings agree
+      on outcome and we do not encode a separate USMCA branch.
+
+  gn3_column2_non_ntr:
+    citation: "HTSUS General Note 3(b) — Rate of duty column 2 (products of countries not entitled to normal trade relations)"
+    statute: "Harmonized Tariff Schedule of the United States, General Note 3(b)"
+    applies_to: [base_col2]
+    verified_against: "https://hts.usitc.gov/reststop/file?filename=General%20Note%203&release=currentRelease"
+    verified: true
+    verification_scope: "parsed per revision into resources/gn3_column2_countries.csv by src/parse_general_note_3.R"
+    status_note: >
+      Column 2 REPLACES Column 1-General for non-NTR origins; it is not an
+      additional duty. Current origins: Cuba, North Korea, Russia, Belarus
+      (Russia and Belarus lost PNTR in April 2022). Chapter 99 additional duties
+      then stack on top of the replaced base.
 
   wto_civil_aircraft:
     citation: "WTO Agreement on Trade in Civil Aircraft; HTSUS General Note 6 — Articles Eligible for Duty-Free Treatment Pursuant to the Agreement on Trade in Civil Aircraft"

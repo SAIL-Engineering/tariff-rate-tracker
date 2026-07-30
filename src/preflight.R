@@ -234,6 +234,50 @@ if (sys.nframe() == 0) {
   }
   cat('\n')
 
+  # --- 6b. Citation Integrity ---
+  # Every rule the engine derives must trace to a primary source the frontend can
+  # link to. A dangling or unlinkable citation is a build-blocking error; softer
+  # findings (unverified, stale-pending, index-only links) are reported but do
+  # not stop a build.
+  cat('CITATION INTEGRITY\n')
+  cit_script <- file.path(base_dir, 'src', 'validate_citations.R')
+  if (!file.exists(cit_script)) {
+    cat('  [--] src/validate_citations.R not found — citation checks skipped\n')
+  } else {
+    cit_out <- suppressWarnings(system2('Rscript', c(shQuote(cit_script)),
+                                        stdout = TRUE, stderr = TRUE))
+    cit_status <- attr(cit_out, 'status')
+    if (is.null(cit_status)) cit_status <- 0L
+
+    tally <- grep('^ERRORS:', cit_out, value = TRUE)
+    n_err <- if (length(tally)) {
+      as.integer(sub('.*ERRORS:\\s*(\\d+).*', '\\1', tally[1]))
+    } else NA_integer_
+    n_warn <- if (length(tally)) {
+      as.integer(sub('.*WARNINGS:\\s*(\\d+).*', '\\1', tally[1]))
+    } else NA_integer_
+
+    if (cit_status != 0 && is.na(n_err)) {
+      # The validator itself failed (e.g. duplicate YAML key) — surface it.
+      cat('  [!!] citation validator failed to run:\n')
+      for (l in utils::tail(cit_out, 6)) cat('       ', l, '\n', sep = '')
+      any_required_missing <- TRUE
+    } else {
+      cat(sprintf('  [%s] %d citation error(s), %d warning(s)\n',
+                  if (isTRUE(n_err > 0)) '!!' else 'OK',
+                  if (is.na(n_err)) 0L else n_err,
+                  if (is.na(n_warn)) 0L else n_warn))
+      if (isTRUE(n_err > 0)) {
+        for (l in grep('\\[C[12]_', cit_out, value = TRUE)) cat('       ', l, '\n', sep = '')
+        cat('  >> Run: Rscript src/validate_citations.R\n')
+        any_required_missing <- TRUE
+      } else if (isTRUE(n_warn > 0)) {
+        for (l in grep('\\[C[3567]_', cit_out, value = TRUE)) cat('       ', l, '\n', sep = '')
+      }
+    }
+  }
+  cat('\n')
+
   # --- 7. Run Mode Assessment ---
   cat(strrep('=', 70), '\n')
   cat('RUN MODE ASSESSMENT\n')

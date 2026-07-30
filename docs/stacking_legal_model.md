@@ -30,8 +30,11 @@ express the first:
 — [90 FR 18907](https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles),
 signed 2025-04-29, published 2025-05-02.
 Implementation: [90 FR 21487](https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the).
-CBP operational guidance: **CSMS #65054270** (2025-05-15), applying to entries
-**on or after 2025-03-04**.
+CBP operational guidance: **[CSMS #65054270](https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e)**
+(2025-05-15), applying to entries **on or after 2025-03-04** —
+*"retroactively to entries of merchandise subject to the five applicable tariff
+measures and entered for consumption or withdrawn from warehouse for consumption
+on or after March 4, 2025."*
 
 ### §2 — the order applies to exactly five actions
 
@@ -76,14 +79,25 @@ containing both steel and aluminum owes duty on **both** contents.
 
 ### The definition that makes it work
 
-CBP defines "**subject to**" as *duty of more than 0% is owed and payable* on that
-tariff action.
+CSMS #65054270, verbatim:
+
+> **"'Subject to' means that duty more than 0% is owed under the tariff action."**
 
 This single definition also produces the USMCA behaviour, so it needs no special
 case: a USMCA-qualifying part of a passenger vehicle or light truck owes 0% under
 Proc 10908, is therefore **not "subject to"** 2(a), and falls through Steps 1 and
 2 to Step 3 — where it may still owe §232 aluminum and/or steel. Model the
 definition, and the exception falls out.
+
+CBP states the same outcome as a direct carve-out:
+
+> "Parts of passenger vehicles and light trucks that qualify for preferential
+> treatment under United States-Mexico-Canada Agreement (USMCA), **ARE NOT
+> subject to** the 232 Auto/Auto Parts tariff or the IEEPA Canada or IEEPA Mexico
+> tariff."
+
+The two readings agree on the result. We encode only the >0% threshold and do
+**not** add a separate USMCA branch — one rule, not two that can drift apart.
 
 ### §3(b), §3(c), §4 — what stays cumulative
 
@@ -183,6 +197,6 @@ the guidance is explicitly retroactive.
 
 - EO 14289 — [90 FR 18907](https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles) (full text retrieved and quoted above)
 - Implementation notice — [90 FR 21487](https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the)
-- CBP CSMS #65054270 summaries — [International Trade Insights](https://www.internationaltradeinsights.com/2025/05/cbp-issues-guidance-on-prioritization-of-articles-subject-to-more-than-one-tariff-under-eo-14289/), [C.H. Robinson](https://www.chrobinson.com/en-us/resources/insights-and-advisories/client-advisories/2025q2/05-21-2025-client-advisory-cbp-issues-guidance-on-tariff-prioritization-under-executive-order-14289/)
+- CBP **CSMS #65054270** — [primary bulletin](https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e) (retrieved 2026-07-30; all quotes above taken from it directly). Corroborating summaries: [International Trade Insights](https://www.internationaltradeinsights.com/2025/05/cbp-issues-guidance-on-prioritization-of-articles-subject-to-more-than-one-tariff-under-eo-14289/), [C.H. Robinson](https://www.chrobinson.com/en-us/resources/insights-and-advisories/client-advisories/2025q2/05-21-2025-client-advisory-cbp-issues-guidance-on-tariff-prioritization-under-executive-order-14289/)
 - [Global Trade Alert — US Tariff Stacking, Explained](https://globaltradealert.org/blog/US-Tariff-Stacking-Explained)
 - HTSUS General Note 3(b); `resources/gn3_column2_countries.csv` (parsed from GN 3 per revision)
