@@ -1778,9 +1778,23 @@ calculate_rates_for_revision <- function(
   us_auto_content_share <- if (!is.null(auto_rebate_cfg)) auto_rebate_cfg$us_auto_content_share %||% 1 else 1
   rebate_deduction <- rebate_rate * assembly_share
 
+  # Track the rebate per row so it can be added back when statutory_rate_232 is
+  # captured at step 4c. The rebate is a MODELLED credit for US assembly content
+  # — an importer-specific fact we approximate — not a published rate, so it
+  # must not end up inside a column called "statutory". It was: statutory was
+  # snapshotted AFTER this deduction, so autos carried 25% - 1.24pp = 23.76% as
+  # their "statutory" rate. No Chapter 99 heading is published at 23.76%, so
+  # heading matching failed on every auto row and fell through to the default.
+  if (!'.auto_rebate_applied' %in% names(rates)) rates$.auto_rebate_applied <- 0
+
   if (rebate_deduction > 0 && length(auto_products) > 0) {
     rates <- rates %>%
       mutate(
+        .auto_rebate_applied = if_else(
+          hts10 %in% auto_products & rate_232 > 0,
+          pmin(rebate_deduction, rate_232),   # pmax(0) below can clip it
+          .auto_rebate_applied
+        ),
         rate_232 = if_else(
           hts10 %in% auto_products & rate_232 > 0,
           pmax(rate_232 - rebate_deduction, 0),
@@ -1948,13 +1962,26 @@ calculate_rates_for_revision <- function(
             ' product-country pairs overridden')
   }
 
-  # Save post-deal, post-rebate statutory 232 rates for CSV export.
-  # After deal overrides (step 4c), rate_232 reflects the effective rate including
-  # floor/surcharge adjustments and auto rebate. The generated other_params.yaml
-  # sets auto_rebate_rate = 0 so ETRs does not re-apply the rebate.
+  # Save the post-deal STATUTORY §232 rate.
+  #
+  # Deal rates (step 4c) are legal — the UK 25% override and the EU/JP/KR 15%
+  # floors are published terms — so they belong in the statutory rate. The auto
+  # rebate is NOT: it is a modelled credit for US assembly content, an
+  # importer-specific fact we approximate. It is added back here so the column
+  # holds a rate that a Chapter 99 heading can actually be published at.
+  #
+  # This is what made ch99_code_232 unresolvable for autos. statutory was
+  # captured after the rebate, so it read 25% - 1.24pp = 23.76%; no heading is
+  # published at 23.76%, so every auto row failed to match and took the default.
+  # 36,960 rows in 2025_rev_14 and 38,992 in 2026_rev_13.
+  #
+  # rate_232 itself is unchanged — the rebate stays in the EFFECTIVE rate, which
+  # is where it belongs. The generated other_params.yaml still sets
+  # auto_rebate_rate = 0 so ETRs does not re-apply it.
   # Derivatives (set in step 5) update this column for their products.
   rates <- rates %>%
-    mutate(statutory_rate_232 = rate_232)
+    mutate(statutory_rate_232 = rate_232 + coalesce(.auto_rebate_applied, 0)) %>%
+    select(-.auto_rebate_applied)
 
   # 5. Apply Section 232 derivative tariff + metal content scaling
   #    Aluminum derivatives (9903.85.04/.07/.08) and steel derivatives (9903.81.89-93)
