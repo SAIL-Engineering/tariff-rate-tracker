@@ -1444,7 +1444,11 @@ calculate_rates_for_revision <- function(
       tibble(
         hts10 = cfg$products,
         heading_232_rate = cfg$rate,
-        heading_usmca_exempt = isTRUE(cfg$usmca_exempt)
+        heading_usmca_exempt = isTRUE(cfg$usmca_exempt),
+        # Which §232 ACTION this heading belongs to. EO 14289 discriminates
+        # between actions (auto excludes steel/aluminum), so the program name has
+        # to survive the max() collapse below rather than being discarded.
+        heading_program = nm
       )
     })
     # If a product appears in multiple heading tariffs, take the max rate
@@ -1452,6 +1456,9 @@ calculate_rates_for_revision <- function(
       heading_product_rate <- heading_product_rate %>%
         group_by(hts10) %>%
         summarise(
+          # Keep the program that supplied the winning rate, so attribution
+          # follows the rate actually applied.
+          heading_program = heading_program[which.max(heading_232_rate)],
           heading_232_rate = max(heading_232_rate),
           heading_usmca_exempt = any(heading_usmca_exempt),
           .groups = 'drop'
@@ -1568,6 +1575,7 @@ calculate_rates_for_revision <- function(
     } else {
       rates$heading_232_rate <- 0
       rates$heading_usmca_exempt <- FALSE
+      rates$heading_program <- NA_character_
     }
 
     rates <- rates %>%
@@ -1592,6 +1600,30 @@ calculate_rates_for_revision <- function(
           TRUE ~ 0
         ),
         rate_232 = pmax(rate_232, blanket_232),
+        # Attribute the blanket duty to its §232 ACTION. Primary-chapter metal
+        # duty is steel or aluminum by chapter; heading duty follows the program
+        # that supplied the rate. Without this the action columns stay 0 on
+        # primary-chapter rows and EO 14289 precedence cannot be evaluated.
+        .action_col = case_when(
+          blanket_232 <= 0                ~ NA_character_,
+          chapter %in% STEEL_CHAPTERS     ~ 'rate_232_steel',
+          chapter %in% ALUM_CHAPTERS      ~ 'rate_232_aluminum',
+          TRUE ~ unname(S232_HEADING_PROGRAM_ACTION[heading_program])
+        ),
+        rate_232_steel = if_else(!is.na(.action_col) & .action_col == 'rate_232_steel',
+                                 pmax(rate_232_steel, blanket_232), rate_232_steel),
+        rate_232_aluminum = if_else(!is.na(.action_col) & .action_col == 'rate_232_aluminum',
+                                    pmax(rate_232_aluminum, blanket_232), rate_232_aluminum),
+        rate_232_auto = if_else(!is.na(.action_col) & .action_col == 'rate_232_auto',
+                                pmax(rate_232_auto, blanket_232), rate_232_auto),
+        rate_232_copper = if_else(!is.na(.action_col) & .action_col == 'rate_232_copper',
+                                  pmax(rate_232_copper, blanket_232), rate_232_copper),
+        # Unmapped heading programs land in _other rather than vanishing, so a
+        # newly added §232 action is still carried and visibly attributed.
+        rate_232_other = if_else(
+          blanket_232 > 0 & (is.na(.action_col) | .action_col == 'rate_232_other') &
+            !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)),
+          pmax(rate_232_other, blanket_232), rate_232_other),
         # Track which products have USMCA-eligible 232 headings (for step 7).
         # Only when the heading rate is actually used — blanket chapter products
         # (steel/aluminum) get their rate from the blanket, not the heading,
@@ -1599,8 +1631,9 @@ calculate_rates_for_revision <- function(
         s232_usmca_eligible = coalesce(heading_usmca_exempt, FALSE) & heading_rate_adj > 0 &
           !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS))
       ) %>%
-      select(-steel_rate_232, -alum_rate_232, -chapter, -blanket_232,
-             -heading_232_rate, -heading_usmca_exempt, -heading_rate_adj)
+      select(-steel_rate_232, -alum_rate_232, -chapter, -blanket_232, -.action_col,
+             -heading_232_rate, -heading_usmca_exempt, -heading_program,
+             -heading_rate_adj)
 
     # --- Add rows for 232-covered products NOT yet in rates ---
     # Include countries with any active 232 program (steel/aluminum/auto + heading
@@ -1629,6 +1662,7 @@ calculate_rates_for_revision <- function(
     } else {
       new_232_base$heading_232_rate <- 0
       new_232_base$heading_usmca_exempt <- FALSE
+      new_232_base$heading_program <- NA_character_
     }
 
     new_232_pairs <- new_232_base %>%
@@ -1654,12 +1688,28 @@ calculate_rates_for_revision <- function(
         ),
         s232_usmca_eligible = coalesce(heading_usmca_exempt, FALSE) & heading_rate_adj > 0 &
           !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)),
+        # Same action attribution as the existing-pairs branch above; these rows
+        # are §232-only, so rate_232 IS the action rate.
+        .action_col = case_when(
+          rate_232 <= 0                   ~ NA_character_,
+          chapter %in% STEEL_CHAPTERS     ~ 'rate_232_steel',
+          chapter %in% ALUM_CHAPTERS      ~ 'rate_232_aluminum',
+          TRUE ~ unname(S232_HEADING_PROGRAM_ACTION[heading_program])
+        ),
+        rate_232_steel    = if_else(!is.na(.action_col) & .action_col == 'rate_232_steel',    rate_232, 0),
+        rate_232_aluminum = if_else(!is.na(.action_col) & .action_col == 'rate_232_aluminum', rate_232, 0),
+        rate_232_auto     = if_else(!is.na(.action_col) & .action_col == 'rate_232_auto',     rate_232, 0),
+        rate_232_copper   = if_else(!is.na(.action_col) & .action_col == 'rate_232_copper',   rate_232, 0),
+        rate_232_other    = if_else(
+          rate_232 > 0 & (is.na(.action_col) | .action_col == 'rate_232_other') &
+            !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)), rate_232, 0),
         rate_301 = 0, rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0,
         rate_section_201 = 0, rate_other = 0
       ) %>%
       filter(rate_232 > 0) %>%
-      select(-steel_rate_232, -alum_rate_232, -chapter,
-             -heading_232_rate, -heading_usmca_exempt, -heading_rate_adj)
+      select(-steel_rate_232, -alum_rate_232, -chapter, -.action_col,
+             -heading_232_rate, -heading_usmca_exempt, -heading_program,
+             -heading_rate_adj)
 
     if (nrow(new_232_pairs) > 0) {
       message('  Adding ', nrow(new_232_pairs), ' product-country pairs for 232-only duties')

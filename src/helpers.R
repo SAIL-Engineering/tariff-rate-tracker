@@ -1407,6 +1407,29 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Map a §232 heading program to its per-action rate column
+#'
+#' EO 14289 sec. 2 enumerates its scope exhaustively, and only Proclamation
+#' 10908 — passenger vehicles and light trucks, and their parts — is the "auto"
+#' action in sec. 2(a). Medium/heavy-duty vehicles, buses, wood and
+#' semiconductors are SEPARATE §232 actions that the order never names, so they
+#' are cumulative and must not inherit auto's exclusion power. Copper is
+#' likewise outside the order.
+S232_HEADING_PROGRAM_ACTION <- c(
+  autos_passenger    = 'rate_232_auto',
+  autos_light_trucks = 'rate_232_auto',
+  auto_parts         = 'rate_232_auto',
+  copper             = 'rate_232_copper',
+  softwood           = 'rate_232_other',
+  wood_furniture     = 'rate_232_other',
+  kitchen_cabinets   = 'rate_232_other',
+  mhd_vehicles       = 'rate_232_other',
+  mhd_parts          = 'rate_232_other',
+  buses              = 'rate_232_other',
+  semiconductors     = 'rate_232_other'
+)
+
+
 #' Resolve Section 232 metal-content contributions for derivative articles
 #'
 #' A derivative article outside the primary metal chapters is dutiable on its
