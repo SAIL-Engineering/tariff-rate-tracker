@@ -680,6 +680,48 @@ calculate_rates_for_revision <- function(
     rates <- enforce_rate_schema(tibble())
   }
 
+  # 1a. Resolve the BASE duty tier — Column 2 replaces Column 1 for non-NTR origins
+  #     HTSUS General Note 3(b). This must run BEFORE any authority arithmetic:
+  #     §232 annex floors and §301 forced-labor caps are computed as
+  #     max(target - base_rate, 0), so substituting the base afterwards would
+  #     leave those additional rates desynced from the base they were derived
+  #     against. Column 2 REPLACES Column 1 — it is never additional.
+  non_ntr <- tryCatch(
+    load_non_ntr_countries(revision_id, effective_date, strict = FALSE),
+    error = function(e) { warning('Column 2 origins unavailable: ', conditionMessage(e)); character(0) })
+
+  if (length(non_ntr) > 0 && nrow(rates) > 0 &&
+      all(c('rate_column2', 'rate_column2_raw') %in% names(products))) {
+    rates <- rates %>%
+      left_join(products %>% select(hts10, .c2 = rate_column2, .c2raw = rate_column2_raw),
+                by = 'hts10', relationship = 'many-to-one')
+    tier <- resolve_base_rate_tier(
+      base_rate        = rates$base_rate,
+      rate_column2     = rates$.c2,
+      rate_column2_raw = rates$.c2raw,
+      is_non_ntr       = rates$country %in% non_ntr
+    )
+    rates$base_rate        <- tier$base_rate
+    rates$column2_status   <- tier$column2_status
+    # Preserve any existing provenance on rows Column 2 does not touch.
+    rates$base_rate_source <- ifelse(is.na(tier$base_rate_source),
+                                     rates$base_rate_source, tier$base_rate_source)
+    rates$calc_status      <- ifelse(is.na(tier$calc_status),
+                                     rates$calc_status, tier$calc_status)
+    rates <- rates %>% select(-.c2, -.c2raw)
+
+    n_rep <- sum(tier$replaced, na.rm = TRUE)
+    n_exp <- sum(tier$exposed,  na.rm = TRUE)
+    message('  Column 2 (GN 3(b)): ', n_rep, ' rows re-based across ',
+            length(non_ntr), ' non-NTR origin(s); ', n_exp,
+            ' flagged for review (partial or non-derivable)')
+    if (n_exp > 0) {
+      brk <- sort(table(tier$column2_status[tier$exposed]), decreasing = TRUE)
+      message('    exposure by reason: ',
+              paste(names(brk), brk, sep = '=', collapse = ', '))
+    }
+  }
+
   # 1b. Check IEEPA invalidation (SCOTUS ruling in Learning Resources v. Trump)
   #     If this revision's effective_date is on or after the invalidation date,
   #     IEEPA tariff authority is void — zero out reciprocal and fentanyl.

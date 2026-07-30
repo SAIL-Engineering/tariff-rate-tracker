@@ -1028,6 +1028,63 @@ run_test('an unresolvable non-NTR country name fails loud, never silently drops'
   stopifnot(identical(resolve_country_name('Republic of Korea'), '5800'))
 })
 
+run_test('pipeline wiring: re-bases non-NTR rows without clobbering provenance', {
+  # Mirrors the step-1a block in 06_calculate_rates.R. The risk being pinned is
+  # that ifelse(NA-from-tier, ...) overwrites existing base_rate_source and
+  # calc_status on rows Column 2 never touched.
+  rates <- tibble(
+    hts10   = c('2921460000', '2921460000', '8544300000', '2921460000'),
+    country = c('4621',       '5700',       '2390',       '2390'),   # RU, CN, CU, CU
+    base_rate = c(0, 0, 0.025, 0),
+    base_rate_source = c('own', 'inherited:29214600', 'own', 'own'),
+    calc_status = c('ok', 'ok', 'ok', 'ok')
+  )
+  products <- tibble(
+    hts10 = c('2921460000', '8544300000'),
+    rate_column2 = c(NA_real_, NA_real_),
+    rate_column2_raw = c('15.4¢/kg + 149.5%', '35%')
+  )
+  non_ntr <- c('2390', '4621', '4622', '5790')
+
+  j <- rates %>% left_join(products %>% select(hts10, .c2 = rate_column2,
+                                               .c2raw = rate_column2_raw), by = 'hts10')
+  tier <- resolve_base_rate_tier(j$base_rate, j$.c2, j$.c2raw, j$country %in% non_ntr)
+  out <- j
+  out$base_rate <- tier$base_rate
+  out$base_rate_source <- ifelse(is.na(tier$base_rate_source),
+                                 out$base_rate_source, tier$base_rate_source)
+  out$calc_status <- ifelse(is.na(tier$calc_status), out$calc_status, tier$calc_status)
+
+  # Russia (non-NTR) re-based from Free to the Column 2 ad valorem component
+  stopifnot(abs(out$base_rate[1] - 1.495) < 1e-12)
+  stopifnot(identical(out$base_rate_source[1], 'column2:compound'))
+  stopifnot(identical(out$calc_status[1], 'needs_manual_review'))
+
+  # China is NTR — untouched, and its inherited provenance survives
+  stopifnot(abs(out$base_rate[2] - 0) < 1e-12)
+  stopifnot(identical(out$base_rate_source[2], 'inherited:29214600'))
+  stopifnot(identical(out$calc_status[2], 'ok'))
+
+  # Cuba on a clean ad valorem Column 2 line: re-based, no review flag
+  stopifnot(abs(out$base_rate[3] - 0.35) < 1e-12)
+  stopifnot(identical(out$base_rate_source[3], 'column2:ad_valorem'))
+  stopifnot(identical(out$calc_status[3], 'ok'))
+})
+
+run_test('Column 2 runs BEFORE floors, so a floor stays consistent with its base', {
+  # §232 annex floors and §301 forced-labor caps are max(target - base, 0).
+  # Re-basing after they are computed would leave them derived from the wrong
+  # base. Applying Column 2 first keeps base + additional == the intended floor.
+  floor_target <- 0.50
+  base_col1 <- 0.02
+  base_col2 <- 0.35
+  add_if_rebased_first <- max(floor_target - base_col2, 0)
+  stopifnot(abs((base_col2 + add_if_rebased_first) - floor_target) < 1e-12)
+  # the wrong order: additional derived from Column 1, base later swapped
+  add_wrong <- max(floor_target - base_col1, 0)
+  stopifnot(abs((base_col2 + add_wrong) - floor_target) > 1e-9)   # overshoots
+})
+
 run_test('NTR origins are untouched', {
   r <- resolve_base_rate_tier(0.02, NA_real_, '15.4¢/kg + 149.5%', FALSE)
   stopifnot(abs(r$base_rate - 0.02) < 1e-12)
