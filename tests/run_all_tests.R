@@ -12,6 +12,11 @@
 # Usage:
 #   Rscript tests/run_all_tests.R
 #   Rscript tests/run_all_tests.R --require-data   # treat skips as failures
+#
+# Exit code is the CI signal: 0 clean, 1 any FAIL/ERROR. Do NOT pipe it into
+# head/tail/grep to read the summary — a pipeline returns the LAST command's
+# status, so `Rscript run_all_tests.R | tail -20` reports 0 even when suites
+# failed. Redirect to a file, or use `set -o pipefail`.
 # =============================================================================
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -46,15 +51,21 @@ for (s in suites) {
     any(grepl('no parquet|not found|does not exist|no such file',
               out, ignore.case = TRUE))
 
+  # The EXIT CODE is the authority, not the output format. Suites here do not
+  # all report the same way: test_normalized_parity.R signals through exit codes
+  # (0 ok / 1 emitter / 2 parity) and never prints a "Tests:" line at all.
+  # Treating a missing count as an error made a passing suite look broken.
   verdict <- if (skipped) 'SKIP'
+             else if (status == 0L) 'OK'
              else if (is.na(passed)) 'ERROR'
-             else if (failed > 0 || status != 0L) 'FAIL' else 'OK'
+             else 'FAIL'
 
   if (verdict %in% c('FAIL', 'ERROR')) {
     cat(paste0('    ', utils::tail(out, 12), collapse = '\n'), '\n')
   }
   cat(sprintf('    [%s] %s\n\n', verdict,
-              if (is.na(passed)) '' else sprintf('%d passed, %d failed', passed, failed)))
+              if (is.na(passed)) sprintf('(exit %d, no test count reported)', status)
+              else sprintf('%d passed, %d failed', passed, failed)))
 
   results[[nm]] <- list(verdict = verdict, passed = passed, failed = failed)
 }
