@@ -1407,6 +1407,56 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Resolve Section 232 metal-content contributions for derivative articles
+#'
+#' A derivative article outside the primary metal chapters is dutiable on its
+#' METAL CONTENT, so the action rate is scaled by the content share. 100 HTS
+#' prefixes appear on BOTH the steel and the aluminum derivative list — largely
+#' the August 2025 expansion into goods in metal packaging — and those articles
+#' owe duty on EACH content:
+#'
+#'   EO 14289 sec. 3(a)(iii): an article subject to the aluminum action "shall be
+#'   subject to" the steel action, and vice versa.
+#'
+#' Modelling `deriv_type` as a single value and letting steel win it collected
+#' the steel content only, understating those lines by the whole aluminum
+#' component. This resolves the two contents independently and sums them.
+#'
+#' Splitting requires BOTH content shares. Where either is unknown the caller's
+#' single-share path is used unchanged rather than guessing a share.
+#'
+#' @param rate_232 Current resolved §232 rate (may include non-derivative sources)
+#' @param rate_232_steel,rate_232_aluminum UNSCALED per-action rates
+#' @param steel_share,aluminum_share Per-metal content shares (NA treated as 0)
+#' @param scale_share Single share used by the non-dual path
+#' @param is_deriv_only TRUE for true derivatives eligible for metal scaling
+#' @return list(rate_232, rate_232_steel, rate_232_aluminum, dual)
+resolve_s232_metal_contributions <- function(rate_232, rate_232_steel, rate_232_aluminum,
+                                             steel_share, aluminum_share,
+                                             scale_share, is_deriv_only) {
+  ss <- ifelse(is.na(steel_share), 0, steel_share)
+  al <- ifelse(is.na(aluminum_share), 0, aluminum_share)
+  is_deriv_only <- ifelse(is.na(is_deriv_only), FALSE, is_deriv_only)
+
+  dual <- is_deriv_only &
+    rate_232_steel > 0 & rate_232_aluminum > 0 & ss > 0 & al > 0
+
+  scaled_single <- is_deriv_only & !dual &
+    !is.na(scale_share) & scale_share < 1.0
+
+  list(
+    rate_232 = ifelse(
+      dual,
+      rate_232_steel * ss + rate_232_aluminum * al,
+      ifelse(scaled_single, rate_232 * scale_share, rate_232)
+    ),
+    rate_232_steel    = ifelse(is_deriv_only, rate_232_steel * ss, rate_232_steel),
+    rate_232_aluminum = ifelse(is_deriv_only, rate_232_aluminum * al, rate_232_aluminum),
+    dual = dual
+  )
+}
+
+
 #' Add any missing per-authority rate column as 0
 #'
 #' Use in place of hand-written `rate_x = 0, rate_y = 0, ...` initializers so a

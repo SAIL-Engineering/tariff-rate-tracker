@@ -260,6 +260,12 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
   deriv_products <- load_232_derivative_products(effective_date = effective_date)
   deriv_matched <- character(0)
 
+  # Per-action §232 rates. These carry the UNSCALED action rate at assignment
+  # time; metal-content scaling is applied to each with its own share below, so
+  # a dual-content article can owe duty on both contents per EO 14289
+  # sec. 3(a)(iii). rate_232 remains the resolved total.
+  rates <- zero_fill_authority_rates(rates, S232_ACTION_RATE_COLS)
+
   # Initialize deriv_type column (used by stacking rules to select per-type share)
   if (!'deriv_type' %in% names(rates)) {
     rates <- rates %>% mutate(deriv_type = NA_character_)
@@ -317,6 +323,10 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
               .alum_deriv_rate = coalesce(.alum_deriv_rate, 0),
               rate_232 = if_else(hts10 %in% alum_matched & .alum_deriv_rate > 0,
                                  pmax(rate_232, .alum_deriv_rate), rate_232),
+              # Unscaled aluminum-action rate, kept separately so it survives the
+              # steel pass below rather than being overwritten by it.
+              rate_232_aluminum = if_else(hts10 %in% alum_matched & .alum_deriv_rate > 0,
+                                          .alum_deriv_rate, rate_232_aluminum),
               deriv_type = if_else(hts10 %in% alum_matched & .alum_deriv_rate > 0,
                                    'aluminum', deriv_type)
             ) %>% select(-.alum_deriv_rate)
@@ -354,9 +364,13 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
               .steel_deriv_rate = coalesce(.steel_deriv_rate, 0),
               rate_232 = if_else(hts10 %in% steel_matched & .steel_deriv_rate > 0,
                                  pmax(rate_232, .steel_deriv_rate), rate_232),
-              # Products in both types: steel takes precedence for deriv_type
-              # (stacking uses steel_share, which is correct since steel content
-              # is what triggers the steel derivative classification)
+              rate_232_steel = if_else(hts10 %in% steel_matched & .steel_deriv_rate > 0,
+                                       .steel_deriv_rate, rate_232_steel),
+              # deriv_type is single-valued and steel wins it, which is fine for
+              # provenance but must NOT decide the rate: an article containing
+              # both metals owes duty on BOTH contents (EO 14289 sec. 3(a)(iii)).
+              # rate_232_aluminum above is preserved through this pass and the
+              # two are combined in the metal-scaling block.
               deriv_type = if_else(hts10 %in% steel_matched & .steel_deriv_rate > 0,
                                    'steel', deriv_type)
             ) %>% select(-.steel_deriv_rate)
@@ -447,6 +461,13 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
 
     if (has_per_type) {
       # Per-type scaling: aluminum derivatives by aluminum_share, steel by steel_share
+      #
+      # Dual-content articles (on BOTH the steel and aluminum derivative lists —
+      # 100 prefixes, largely the Aug-2025 expansion into goods in metal
+      # packaging) owe duty on EACH metal's content. EO 14289 sec. 3(a)(iii) is
+      # explicit that the steel and aluminum actions stack with one another.
+      # Previously deriv_type was single-valued, steel won it, and the aluminum
+      # content went uncollected.
       rates <- rates %>%
         mutate(
           .scale_share = case_when(
@@ -454,14 +475,39 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
             hts10 %in% deriv_only & deriv_type == 'aluminum' ~ aluminum_share,
             hts10 %in% deriv_only                            ~ metal_share,  # fallback
             TRUE ~ 1.0
-          ),
-          rate_232 = if_else(
-            hts10 %in% deriv_only & .scale_share < 1.0,
-            rate_232 * .scale_share,
-            rate_232
           )
-        ) %>% select(-.scale_share)
+        )
+      .contrib <- resolve_s232_metal_contributions(
+        rate_232          = rates$rate_232,
+        rate_232_steel    = rates$rate_232_steel,
+        rate_232_aluminum = rates$rate_232_aluminum,
+        steel_share       = rates$steel_share,
+        aluminum_share    = rates$aluminum_share,
+        scale_share       = rates$.scale_share,
+        is_deriv_only     = rates$hts10 %in% deriv_only
+      )
+      rates$rate_232          <- .contrib$rate_232
+      rates$rate_232_steel    <- .contrib$rate_232_steel
+      rates$rate_232_aluminum <- .contrib$rate_232_aluminum
+
+      n_dual <- sum(.contrib$dual, na.rm = TRUE)
+      if (n_dual > 0) {
+        message('  Dual-content derivatives: ', n_dual,
+                ' rows owe both steel and aluminum content duty (EO 14289 3(a)(iii))')
+      }
+      rates <- rates %>% select(-.scale_share)
     } else {
+      # Without per-metal shares the two contents cannot be separated, so a
+      # dual-content article is still scaled by one aggregate share. Say so
+      # rather than let it look resolved.
+      n_dual_unsplit <- sum(rates$rate_232_steel > 0 & rates$rate_232_aluminum > 0 &
+                              rates$hts10 %in% deriv_only, na.rm = TRUE)
+      if (n_dual_unsplit > 0) {
+        warning(n_dual_unsplit, ' dual-content derivative rows cannot be split: ',
+                'metal_content method is "', metal_method,
+                '" (per-metal shares require method: bea). Aluminum content is ',
+                'not separately collected on these rows.')
+      }
       # Fallback: aggregate metal_share (backward compat for flat/cbo methods)
       rates <- rates %>%
         mutate(rate_232 = if_else(

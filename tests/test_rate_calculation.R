@@ -838,6 +838,92 @@ run_test('no overrides / NULL overrides preserves blanket + exempt behavior', {
 
 
 # =============================================================================
+# Test 11b: dual-content §232 derivatives — steel and aluminum both owed
+# EO 14289 sec. 3(a)(iii); CBP CSMS #65054270
+# =============================================================================
+
+message('\n--- Test 11b: dual-content 232 derivatives ---')
+
+run_test('dual-content article owes BOTH metal contents, not the larger one', {
+  # 100 HTS prefixes sit on both derivative lists (Aug-2025 expansion into
+  # goods in metal packaging). Steel used to win deriv_type outright and the
+  # aluminum content was never collected.
+  r <- resolve_s232_metal_contributions(
+    rate_232 = 0.50, rate_232_steel = 0.50, rate_232_aluminum = 0.50,
+    steel_share = 0.0096, aluminum_share = 0.0063,
+    scale_share = 0.0096, is_deriv_only = TRUE
+  )
+  stopifnot(isTRUE(r$dual))
+  # 50%*0.0096 + 50%*0.0063 = 0.795%, not the old 0.48%
+  stopifnot(abs(r$rate_232 - (0.50 * 0.0096 + 0.50 * 0.0063)) < 1e-12)
+  stopifnot(r$rate_232 > 0.50 * 0.0096)                      # strictly more than steel alone
+  stopifnot(abs(r$rate_232_steel    - 0.50 * 0.0096) < 1e-12)
+  stopifnot(abs(r$rate_232_aluminum - 0.50 * 0.0063) < 1e-12)
+  # action columns reconcile to the total
+  stopifnot(abs((r$rate_232_steel + r$rate_232_aluminum) - r$rate_232) < 1e-12)
+})
+
+run_test('asymmetric metal rates are each applied to their own content', {
+  # Not just a share split: the steel and aluminum ACTIONS can carry different
+  # rates (country overrides, Russian aluminum). pmax would apply the higher
+  # rate to the whole metal content and over-collect.
+  r <- resolve_s232_metal_contributions(
+    rate_232 = 2.00, rate_232_steel = 0.50, rate_232_aluminum = 2.00,
+    steel_share = 0.10, aluminum_share = 0.05,
+    scale_share = 0.10, is_deriv_only = TRUE
+  )
+  stopifnot(abs(r$rate_232 - (0.50 * 0.10 + 2.00 * 0.05)) < 1e-12)  # 0.15
+  stopifnot(abs(r$rate_232 - 2.00 * 0.15) > 1e-9)                   # != pmax * total share
+})
+
+run_test('single-metal derivatives are unchanged (no silent re-rating)', {
+  # Steel-only: must reproduce the pre-existing single-share behavior exactly.
+  r <- resolve_s232_metal_contributions(
+    rate_232 = 0.50, rate_232_steel = 0.50, rate_232_aluminum = 0,
+    steel_share = 0.20, aluminum_share = 0,
+    scale_share = 0.20, is_deriv_only = TRUE
+  )
+  stopifnot(!isTRUE(r$dual))
+  stopifnot(abs(r$rate_232 - 0.50 * 0.20) < 1e-12)
+  # Non-derivative rows are never touched, whatever the shares say.
+  r2 <- resolve_s232_metal_contributions(
+    rate_232 = 0.25, rate_232_steel = 0.50, rate_232_aluminum = 0.50,
+    steel_share = 0.30, aluminum_share = 0.30,
+    scale_share = 1.0, is_deriv_only = FALSE
+  )
+  stopifnot(!isTRUE(r2$dual), abs(r2$rate_232 - 0.25) < 1e-12)
+})
+
+run_test('missing per-metal share falls back rather than guessing', {
+  # NA aluminum_share must NOT be treated as a content of zero *and* must not
+  # silently drop the row into the dual path.
+  r <- resolve_s232_metal_contributions(
+    rate_232 = 0.50, rate_232_steel = 0.50, rate_232_aluminum = 0.50,
+    steel_share = 0.10, aluminum_share = NA_real_,
+    scale_share = 0.10, is_deriv_only = TRUE
+  )
+  stopifnot(!isTRUE(r$dual))
+  stopifnot(abs(r$rate_232 - 0.50 * 0.10) < 1e-12)   # single-share path
+})
+
+run_test('vectorises row-wise without cross-contamination', {
+  r <- resolve_s232_metal_contributions(
+    rate_232          = c(0.50, 0.50, 0.25),
+    rate_232_steel    = c(0.50, 0.50, 0.00),
+    rate_232_aluminum = c(0.50, 0.00, 0.50),
+    steel_share       = c(0.10, 0.20, 0.00),
+    aluminum_share    = c(0.05, 0.00, 0.40),
+    scale_share       = c(0.10, 0.20, 0.40),
+    is_deriv_only     = c(TRUE, TRUE, TRUE)
+  )
+  stopifnot(identical(r$dual, c(TRUE, FALSE, FALSE)))
+  stopifnot(abs(r$rate_232[1] - (0.50 * 0.10 + 0.50 * 0.05)) < 1e-12)
+  stopifnot(abs(r$rate_232[2] - 0.50 * 0.20) < 1e-12)
+  stopifnot(abs(r$rate_232[3] - 0.25 * 0.40) < 1e-12)
+})
+
+
+# =============================================================================
 # Test 12: Section 301 forced labor — tiers, caps, exemptions (91 FR 47318)
 # =============================================================================
 
