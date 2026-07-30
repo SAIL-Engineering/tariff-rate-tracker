@@ -1678,6 +1678,67 @@ resolve_base_rate_tier <- function(base_rate, rate_column2, rate_column2_raw,
 }
 
 
+#' Report Section 201 headings dropped by the fail-closed country branch
+#'
+#' §201 safeguards (9903.40/41/45) are global measures, so a heading whose
+#' country scope fails to parse is dropped by check_country_applies()'s
+#' `unknown` branch and contributes nothing. That is a real under-application —
+#' but it must NOT be "fixed" by promoting unknown scope to global.
+#'
+#' Measured on 2026_rev_9: of 20 §201 headings, seven consecutive ones
+#' (9903.41.15 through .45) carry a rate of exactly 1.00. Seven identical 100%
+#' rates in a row is a parse-artifact signature, not a safeguard schedule — the
+#' plausible neighbours are 0.25 (tires), 0.40 (leather), 0.30 and 0.14.
+#' Promoting `unknown` to global would apply 100% duty on those headings to
+#' every country, which is a far larger error than the omission it replaces.
+#'
+#' So the drop stays, and this makes it visible and measurable instead. Rates at
+#' or above 100% are flagged separately as suspected parse artifacts, because
+#' they must be re-parsed before any of this can be applied.
+#'
+#' @param ch99_data Chapter 99 table for the revision
+#' @param revision_id Revision label for the report
+#' @return tibble of dropped headings (invisibly); writes a quality CSV
+report_unresolved_s201 <- function(ch99_data, revision_id = NA_character_) {
+  if (is.null(ch99_data) || nrow(ch99_data) == 0) return(invisible(NULL))
+  if (!'ch99_code' %in% names(ch99_data)) return(invisible(NULL))
+
+  s <- ch99_data[grepl('^9903\\.(40|41|45)', ch99_data$ch99_code), , drop = FALSE]
+  if (nrow(s) == 0) return(invisible(NULL))
+
+  ct   <- if ('country_type' %in% names(s)) s$country_type else rep(NA_character_, nrow(s))
+  rate <- if ('rate' %in% names(s)) s$rate else rep(NA_real_, nrow(s))
+
+  dropped <- tibble(
+    revision = revision_id,
+    ch99_code = s$ch99_code,
+    rate = rate,
+    country_type = ct,
+    dropped = ct %in% 'unknown',
+    suspected_parse_artifact = !is.na(rate) & rate >= 1.0
+  )
+
+  n_drop <- sum(dropped$dropped, na.rm = TRUE)
+  n_art  <- sum(dropped$dropped & dropped$suspected_parse_artifact, na.rm = TRUE)
+  if (n_drop > 0) {
+    message('  §201: ', n_drop, ' of ', nrow(dropped),
+            ' safeguard heading(s) dropped — country scope did not parse ',
+            '(fail-closed; duty NOT applied)')
+    if (n_art > 0) {
+      message('    of those, ', n_art, ' carry a rate >= 100% and are likely ',
+              'MIS-PARSED — re-parse before applying, not promote to global')
+    }
+  }
+
+  out_dir <- here('output', 'quality')
+  dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+  f <- file.path(out_dir, 'unresolved_s201.csv')
+  readr::write_csv(dropped, f,
+                   append = file.exists(f) && !is.na(revision_id))
+  invisible(dropped)
+}
+
+
 #' Map a §232 heading program to its per-action rate column
 #'
 #' EO 14289 sec. 2 enumerates its scope exhaustively, and only Proclamation

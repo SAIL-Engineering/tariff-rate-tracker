@@ -927,6 +927,25 @@ message('\n--- Test 11e: EO 14289 precedence ---')
          rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
 }
 
+run_test('dropped §201 safeguards are reported, and 100% rates flagged not applied', {
+  # These headings are dropped fail-closed when country scope does not parse.
+  # The drop is PROTECTIVE, not a bug to invert: on 2026_rev_9 seven consecutive
+  # headings (9903.41.15-.45) carry exactly 1.00, which is a parse-artifact
+  # signature next to plausible neighbours of 0.25, 0.40, 0.30 and 0.14.
+  # Promoting unknown scope to global would apply 100% duty to every country.
+  d <- tibble(
+    ch99_code = c('9903.40.05', '9903.41.15', '9903.41.20', '9903.45.25', '9903.41.10'),
+    rate = c(0.25, 1.00, 1.00, 0.30, 0.40),
+    country_type = c('unknown', 'unknown', 'unknown', 'all', 'all_except'))
+  r <- suppressMessages(report_unresolved_s201(d, 'test_rev'))
+  stopifnot(sum(r$dropped) == 3)                       # only the unknown ones
+  stopifnot(!r$dropped[r$ch99_code == '9903.45.25'])   # scoped headings survive
+  stopifnot(!r$dropped[r$ch99_code == '9903.41.10'])
+  stopifnot(sum(r$dropped & r$suspected_parse_artifact) == 2)
+  # a plausible safeguard rate is NOT flagged as an artifact
+  stopifnot(!r$suspected_parse_artifact[r$ch99_code == '9903.40.05'])
+})
+
 run_test('the EO 14266 pause cap stops once Phase 2 reinstatement is live', {
   # The cap models a 90-day PAUSE but was applied unconditionally, so it kept
   # firing on all 40 IEEPA-bearing revisions — including 2026_rev_13, about a

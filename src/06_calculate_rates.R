@@ -3156,6 +3156,11 @@ calculate_rates_for_revision <- function(
   #     previously hardcoded in the frontend with actual codes driving each rate.
   #     deriv_products supplies the per-product subdivision headings so each
   #     derivative carries its legally correct code (US Note 16/19).
+  # §201 safeguards whose country scope did not parse are dropped fail-closed
+  # and contribute no duty. Record which, and how much, so the omission is
+  # measurable per revision rather than invisible.
+  report_unresolved_s201(ch99_data, revision_id)
+
   rates <- resolve_ch99_codes(rates, ch99_data,
                               ieepa_rates = ieepa_rates,
                               fentanyl_rates = fentanyl_rates,
