@@ -443,13 +443,31 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
       china_suspended <- any(
         results$ch99_code == china_entry & results$terminated
       )
-      phase1_cappable <- results$phase == 'phase1_apr9' &
+      # The cap models the EO 14266 90-day PAUSE, during which country-specific
+      # Phase 1 rates were suspended in favour of the universal baseline. It was
+      # applied on every revision, so it kept firing long after the pause ended:
+      # measured on the full build, it capped 85-86 entries on all 40 revisions
+      # carrying IEEPA, including 2026_rev_13 — roughly a year past the pause and
+      # months after IEEPA was invalidated entirely.
+      #
+      # The gate is taken from the DATA rather than a hardcoded date: once the
+      # Phase 2 reinstatement headings (9903.02.xx) are present and live, the
+      # pause is over by construction and Phase 1 is superseded. That stays
+      # correct if the reinstatement date moves, which a literal date would not.
+      phase2_live <- any(results$phase == 'phase2_aug7' & !results$terminated,
+                         na.rm = TRUE)
+
+      phase1_cappable <- !phase2_live &
+        results$phase == 'phase1_apr9' &
         (results$ch99_code != china_entry | china_suspended) &
         !is.na(results$rate) &
         results$rate > universal_baseline
 
       n_capped <- sum(phase1_cappable)
-      if (n_capped > 0) {
+      if (phase2_live) {
+        message('  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is ',
+                'live, so the EO 14266 pause no longer governs')
+      } else if (n_capped > 0) {
         results$rate[phase1_cappable] <- universal_baseline
         message('  Capped ', n_capped, ' Phase 1 entries to baseline ',
                 round(universal_baseline * 100), '%')

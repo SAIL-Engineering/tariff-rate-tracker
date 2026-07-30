@@ -927,6 +927,33 @@ message('\n--- Test 11e: EO 14289 precedence ---')
          rate_ieepa_fent = fent, rate_232 = auto + steel + alum + copper + other)
 }
 
+run_test('the EO 14266 pause cap stops once Phase 2 reinstatement is live', {
+  # The cap models a 90-day PAUSE but was applied unconditionally, so it kept
+  # firing on all 40 IEEPA-bearing revisions — including 2026_rev_13, about a
+  # year after the pause and months after IEEPA was invalidated.
+  cap <- function(results, baseline = 0.10) {
+    phase2_live <- any(results$phase == 'phase2_aug7' & !results$terminated, na.rm = TRUE)
+    cappable <- !phase2_live & results$phase == 'phase1_apr9' &
+      !is.na(results$rate) & results$rate > baseline
+    results$rate[cappable] <- baseline
+    results
+  }
+  during <- tibble(ch99_code = c('9903.01.43', '9903.01.44'),
+                   phase = c('phase1_apr9', 'phase1_apr9'),
+                   terminated = c(FALSE, FALSE), rate = c(0.34, 0.20))
+  stopifnot(all(cap(during)$rate == 0.10))          # pause in effect: capped
+
+  after <- bind_rows(during,
+                     tibble(ch99_code = '9903.02.05', phase = 'phase2_aug7',
+                            terminated = FALSE, rate = 0.15))
+  r <- cap(after)
+  stopifnot(r$rate[1] == 0.34, r$rate[2] == 0.20)   # reinstated: NOT capped
+
+  # a terminated Phase 2 entry does not count as live
+  after_dead <- after; after_dead$terminated[3] <- TRUE
+  stopifnot(all(cap(after_dead)$rate[1:2] == 0.10))
+})
+
 run_test('a §232 heading is never assigned by alphabetical order', {
   # 288,755 rows in 2026_rev_9 carried 9903.74.01 — an MHD VEHICLE heading —
   # because derivative chapters had no attribution rule and fell through to
