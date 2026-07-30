@@ -107,16 +107,21 @@ parse_adcvd_rates <- function(txt) {
     exporter = nm,
     rate = val / 100,
     # The residual rate applying to firms without their own margin. Naming
-    # varies by case type and is NOT one canonical string:
+    # varies by case type and source, and is NOT one canonical string:
     #   market economy      "All Others"
     #   administrative rev. "Review-Specific Rate for Non-Examined Companies"
     #   non-market economy  "<Country>-Wide Entity" — "China-Wide Entity",
     #                       "PRC-Wide Entity", "Vietnam-Wide Entity"
-    # The NME form is the one that matters most: it is the rate an unlisted
-    # Chinese exporter actually pays, and it is routinely the highest in the
-    # table. Matching only the literal "country-wide" missed every one of them.
+    #   Avalara payloads    "ALL COMPANIES" (manufactureName on adds[]/cvds[])
+    #
+    # The NME form is the rate an unlisted Chinese exporter actually pays and is
+    # routinely the highest in the table. "ALL COMPANIES" was found in real
+    # cached Avalara data — 8483308040/CN and 8483908080/CN both carry an ADD of
+    # 93% under that name — and the earlier pattern missed it, which would have
+    # filed the residual rate as if it were one firm's specific margin.
     is_all_others = grepl(
-      'all[- ]others|non-examined|review-specific|[a-z]+-wide entity|country-wide',
+      paste0('all[- ]others|all companies|non-examined|review-specific|',
+             '[a-z]+-wide entity|country-wide'),
       nm, ignore.case = TRUE)
   ) %>% distinct(exporter, .keep_all = TRUE)
 }

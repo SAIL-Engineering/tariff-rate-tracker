@@ -70,8 +70,11 @@ run_test('a real multi-exporter table parses with distinct firm rates', {
 })
 
 run_test('the residual rate is identified under its several names', {
+  # 'ALL COMPANIES' came from real cached Avalara data — 8483308040/CN and
+  # 8483908080/CN both carry an ADD of 93% under that name. Missing it would
+  # file the residual rate as one firm's specific margin.
   for (nm in c('All Others', 'Review-Specific Rate for Non-Examined Companies',
-               'China-Wide Entity')) {
+               'China-Wide Entity', 'ALL COMPANIES', 'All Companies')) {
     r <- parse_adcvd_rates(paste0(nm, '        17.76'))
     stopifnot(nrow(r) == 1)
     if (!r$is_all_others[1]) stop('not flagged as residual: ', nm)
