@@ -372,10 +372,25 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
     )
   })
 
-  # Drop rows with no country extracted (catch-all entries, unparseable descriptions)
+  # Drop rows with no country extracted (catch-all entries, unparseable
+  # descriptions). Name them, and say whether they carried a RATE: a dropped
+  # entry with a live rate is duty leaving the model, which is materially
+  # different from dropping a catch-all heading that never had one. The bare
+  # count said nothing about which case this was.
   n_no_country <- sum(is.na(results$country_name))
   if (n_no_country > 0) {
-    message('  Dropping ', n_no_country, ' entries with no country extracted')
+    lost <- results %>% filter(is.na(country_name))
+    rated <- lost %>% filter(!is.na(rate), rate > 0)
+    message('  Dropping ', n_no_country, ' entries with no country extracted: ',
+            paste(utils::head(lost$ch99_code, 12), collapse = ', '),
+            if (n_no_country > 12) ' ...' else '')
+    if (nrow(rated) > 0) {
+      warning(nrow(rated), ' IEEPA heading(s) carry a RATE but no extractable ',
+              'country, so their duty is dropped entirely: ',
+              paste(sprintf('%s @ %.1f%%', rated$ch99_code, 100 * rated$rate),
+                    collapse = ', '),
+              call. = FALSE)
+    }
     results <- results %>% filter(!is.na(country_name))
   }
 

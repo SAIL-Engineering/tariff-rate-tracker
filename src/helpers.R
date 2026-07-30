@@ -796,10 +796,29 @@ ensure_dir <- function(path) {
 #'   equivalents. Set FALSE when using --use-hts-dates or for utilities that
 #'   need raw HTS timing. See docs/policy_timing.md.
 #' @return List with raw params plus convenience fields
+# Parsed policy params, keyed by (path, mtime, use_policy_dates).
+#
+# The YAML was re-read and re-parsed on EVERY call, and there are ~28 call sites
+# across src/ — 06_calculate_rates alone calls it twice per revision and
+# 09_daily_series four times. Each call also re-printed the three "Policy dates:"
+# lines, which is why they appear six-plus times per revision in the build log.
+#
+# Keyed on mtime so editing config/policy_params.yaml mid-session still
+# invalidates; keyed on use_policy_dates because that flag changes the returned
+# object, and a cache that ignored it would hand back the wrong date basis.
+.policy_params_cache <- new.env(parent = emptyenv())
+
 load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
                                use_policy_dates = TRUE) {
   if (!file.exists(yaml_path)) {
     stop('Policy params YAML not found: ', yaml_path)
+  }
+
+  .cache_key <- paste(normalizePath(yaml_path, mustWork = FALSE),
+                      as.numeric(file.info(yaml_path)$mtime),
+                      isTRUE(use_policy_dates), sep = '|')
+  if (!is.null(.policy_params_cache[[.cache_key]])) {
+    return(.policy_params_cache[[.cache_key]])
   }
 
   params <- read_yaml(yaml_path)
@@ -987,6 +1006,7 @@ load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
   # Local paths (optional user-specific file locations)
   params$LOCAL_PATHS <- load_local_paths()
 
+  .policy_params_cache[[.cache_key]] <- params
   return(params)
 }
 
@@ -1846,6 +1866,7 @@ RATE_SCHEMA <- c(
   'usmca_eligible',
   'rate_special', 'rate_special_raw', 'special_programs_json',
   'rate_column2', 'rate_column2_raw', 'column2_status', 's232_suppressed_json',
+  'pending_activation_json',
   'rate_basis', 'specific_amount', 'specific_rate_unit',
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
@@ -1882,6 +1903,7 @@ enforce_rate_schema <- function(df) {
     special_programs_json = NA_character_,
     rate_column2 = NA_real_, rate_column2_raw = NA_character_,
     column2_status = NA_character_, s232_suppressed_json = NA_character_,
+    pending_activation_json = NA_character_,
     rate_basis = 'ad_valorem',
     specific_amount = NA_real_, specific_rate_unit = NA_character_,
     reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,

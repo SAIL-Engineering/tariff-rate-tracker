@@ -3148,11 +3148,37 @@ calculate_rates_for_revision <- function(
       rates$statutory_rate_s338 <- compute_s338_rates(
         rates, s338_cfg, effective_date = .s338_eff_date, statutory = TRUE)
       n_338 <- sum(rates$rate_s338 > 0)
+
+      # This revision's interval may START before the duty does. rev_13 is
+      # effective 2026-07-24 while §338 begins 2026-08-19, and the interval is
+      # treated as open-ended because it is the latest revision — so the rate is
+      # computed onto a snapshot that predates it by 26 days.
+      #
+      # The DAILY series splits activation correctly. The revision SNAPSHOT does
+      # not, and the frontend reads rates at revision granularity, so without a
+      # marker "2026 Rev 13" would show §338 on Canadian goods before it is
+      # owed. Record the activation date on the affected rows so a consumer can
+      # tell a live duty from a pre-loaded one.
+      .not_yet <- as.Date(effective_date) < s338_eff
+      if (.not_yet && n_338 > 0) {
+        rates$pending_activation_json <- if_else(
+          rates$rate_s338 > 0,
+          sprintf('{"rate_s338":{"activates":"%s","revision_effective":"%s"}}',
+                  format(s338_eff), format(as.Date(effective_date))),
+          rates$pending_activation_json %||% NA_character_)
+      }
+
       message('  Section 338 Canada: ', round(as.numeric(s338_cfg$rate %||% 0) * 100),
               '% on ', format(n_338, big.mark = ','), ' product-country pairs',
               ' (effective ', s338_cfg$effective_date,
               '; §232 articles and WTO civil-aircraft lines fully excluded per',
               ' Proclamation 11047 para. 2)')
+      if (.not_yet && n_338 > 0) {
+        message('    NOT YET ACTIVE at ', format(as.Date(effective_date)),
+                ' — ', format(n_338, big.mark = ','),
+                ' row(s) marked pending_activation_json; the daily series gates',
+                ' them, the revision snapshot must not be read as live duty')
+      }
     } else {
       message('  Section 338 Canada not applicable to this revision (effective ',
               s338_cfg$effective_date, ')')
