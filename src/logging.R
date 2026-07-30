@@ -57,6 +57,37 @@ init_logging <- function(log_file = NULL, level = 'info') {
       strrep('#', 60), '\n'
     )
     cat(header, file = log_file, append = FALSE)
+
+    # Tee plain message() output into the log as well.
+    #
+    # init_logging() only ever captured log_info() calls, and the pipeline
+    # barely uses them: 00_build_timeseries.R has 9, while 06_calculate_rates.R
+    # has ZERO and emits 85 message() calls. Every per-revision diagnostic —
+    # dual-content derivatives, EO 14289 suppressions, Column 2 re-basing, the
+    # §201 drops — went to stderr and was lost unless the operator happened to
+    # redirect it. A 14-hour build whose findings exist only in a terminal
+    # scrollback is not reviewable.
+    #
+    # The handler does NOT muffle, so the message still reaches the console; it
+    # is duplicated, not diverted. Warnings are teed too, since a warning is
+    # exactly the thing you want to find afterwards.
+    if (exists('globalCallingHandlers')) {
+      .log_env$tee_con <- file(log_file, open = 'at')
+      globalCallingHandlers(
+        message = function(m) {
+          # .log_write() emits via message() AND writes the file itself, so
+          # without this guard every log_info() would be recorded twice.
+          if (isTRUE(.log_env$in_log_write)) return(invisible(NULL))
+          try(cat(conditionMessage(m), file = .log_env$tee_con, sep = ''), silent = TRUE)
+          try(flush(.log_env$tee_con), silent = TRUE)
+        },
+        warning = function(w) {
+          try(cat('[WARNING] ', conditionMessage(w), '\n',
+                  file = .log_env$tee_con, sep = ''), silent = TRUE)
+          try(flush(.log_env$tee_con), silent = TRUE)
+        }
+      )
+    }
   } else {
     .log_env$log_file <- NULL
   }
@@ -80,7 +111,10 @@ init_logging <- function(log_file = NULL, level = 'info') {
   tag <- toupper(level)
   formatted <- paste0('[', timestamp, '] [', tag, '] ', msg_body)
 
-  # Console output
+  # Console output. Flagged so the message() tee handler installed by
+  # init_logging() does not record this line a second time.
+  .log_env$in_log_write <- TRUE
+  on.exit(.log_env$in_log_write <- FALSE, add = TRUE)
   message(formatted)
 
   # File output

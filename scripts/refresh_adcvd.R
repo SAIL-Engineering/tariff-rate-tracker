@@ -68,21 +68,37 @@ fr_get <- function(params) {
 
 # The FR API takes repeated keys for array params, which the simple encoder
 # above cannot express, so build the URL directly for those.
-url <- paste0(
+page_url <- function(pg) paste0(
   'https://www.federalregister.gov/api/v1/documents.json',
   '?conditions%5Bagencies%5D%5B%5D=international-trade-administration',
   '&conditions%5Bpublication_date%5D%5Bgte%5D=', format(since),
   '&conditions%5Bterm%5D=', URLencode('final results administrative review', TRUE),
-  '&per_page=100&order=oldest',
+  '&per_page=100&order=oldest&page=', pg,
   '&fields%5B%5D=title&fields%5B%5D=document_number&fields%5B%5D=publication_date',
   '&fields%5B%5D=citation&fields%5B%5D=raw_text_url')
 
-res <- tryCatch(jsonlite::fromJSON(url, simplifyVector = FALSE),
+res <- tryCatch(jsonlite::fromJSON(page_url(1), simplifyVector = FALSE),
                 error = function(e) { message('FR API unreachable: ', conditionMessage(e)); NULL })
 if (is.null(res)) quit(status = 1)
 
-docs <- res$results %||% list()
-message('Notices returned: ', length(docs), ' (API reports ', res$count %||% 0, ' matching)')
+total <- res$count %||% 0
+docs  <- res$results %||% list()
+
+# The API caps a page at 100. Without paging the order bootstrap silently
+# converges on whatever the first page happened to contain — 100 of 480 in a
+# six-month window — and the resulting coverage would look complete while
+# missing most of it.
+n_pages <- min(ceiling(total / 100), 20)   # 20 pages = 2,000 notices; hard stop
+if (n_pages > 1) {
+  for (pg in 2:n_pages) {
+    r <- tryCatch(jsonlite::fromJSON(page_url(pg), simplifyVector = FALSE),
+                  error = function(e) NULL)
+    if (is.null(r) || length(r$results %||% list()) == 0) break
+    docs <- c(docs, r$results)
+  }
+}
+message('Notices retrieved: ', length(docs), ' of ', total, ' matching',
+        if (total > length(docs)) paste0('  [CAPPED at ', n_pages, ' pages]') else '')
 
 new_rows <- list()
 skipped  <- list()
@@ -145,6 +161,52 @@ if (nrow(skips) > 0) {
     message('  ', nrow(unmatched), ' carried rates for orders NOT in the seed:')
     for (i in seq_len(min(8, nrow(unmatched)))) message('    - ', unmatched$title[i])
     message('  Add these to resources/adcvd_orders.csv — their rates are being lost.')
+  }
+}
+
+# --- bootstrap the order universe from the notices themselves -----------------
+# The ITA feed for the order list is not reachable (api.trade.gov does not
+# complete TLS, and the "data visualization" is a Power BI report, not a feed),
+# so the universe cannot be seeded top-down without a developer-portal key.
+#
+# It does not have to be. Every administrative-review notice NAMES its product,
+# country and duty type — that is what the title grammar gives us. The orders
+# under active review are exactly the ones whose rates change, so accumulating
+# them from the notice stream converges on the set that actually matters, with
+# no key and no scraping.
+#
+# These are written as CANDIDATES, not merged into adcvd_orders.csv. The case
+# number is not in the title and has to be attached by a human from the notice
+# body, and scope is narrative — so promotion stays a reviewed step.
+if (nrow(skips) > 0) {
+  cand <- skips %>% filter(grepl('no matching order', reason))
+  if (nrow(cand) > 0) {
+    parsed <- map_dfr(cand$title, function(t) {
+      m <- parse_adcvd_title(t)
+      tibble(product = m$product %||% NA_character_,
+             country = m$country %||% NA_character_,
+             duty_type = m$duty_type %||% NA_character_)
+    }) %>%
+      filter(!is.na(product), !is.na(country)) %>%
+      distinct(product, country, duty_type) %>%
+      mutate(case_number = NA_character_, status = 'candidate',
+             source_note = 'observed in an administrative-review notice',
+             first_seen = format(Sys.Date()))
+
+    cand_path <- here('resources', 'adcvd_orders.candidates.csv')
+    prior <- if (file.exists(cand_path)) {
+      suppressMessages(read_csv(cand_path, show_col_types = FALSE))
+    } else parsed[0, ]
+    merged_cand <- bind_rows(prior, parsed) %>%
+      distinct(product, country, duty_type, .keep_all = TRUE) %>%
+      arrange(country, product)
+    if (!dry_run) {
+      write_csv(merged_cand, cand_path)
+      message('  wrote ', nrow(merged_cand), ' candidate order(s) to ',
+              basename(cand_path), ' (+', nrow(merged_cand) - nrow(prior), ' new)')
+    } else {
+      message('  would record ', nrow(parsed), ' candidate order(s) (dry-run)')
+    }
   }
 }
 
