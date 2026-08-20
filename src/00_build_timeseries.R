@@ -47,6 +47,10 @@ library(here)
 # Source pipeline components
 source(here('src', 'logging.R'))
 source(here('src', 'helpers.R'))
+source(here('src', 'duty_ledger.R'))
+source(here('src', 'resolve_country_scope.R'))
+source(here('src', 'resolve_product_scope.R'))
+source(here('src', 'parse_note_rules.R'))
 source(here('src', '01_scrape_revision_dates.R'))
 source(here('src', '02_download_hts.R'))
 source(here('src', '03_parse_chapter99.R'))
@@ -88,7 +92,8 @@ build_full_timeseries <- function(
   only_revisions = NULL,
   stacking_method = 'mutual_exclusion',
   use_policy_dates = TRUE,
-  parallel_workers = 1L
+  parallel_workers = 1L,
+  skip_combine = FALSE
 ) {
   start_time <- Sys.time()
 
@@ -162,6 +167,42 @@ build_full_timeseries <- function(
   }
 
   message('Revisions to process: ', length(revisions_to_process))
+
+  # ---- Per-revision resource staleness preflight ----
+  # Much of "which duty programs apply per HTS+COO+date" is extracted from the
+  # chapter 99 note PDFs and General Note PDFs into per-revision resource CSVs.
+  # A revision built before its rows land silently computes on carried-forward
+  # or global data (Column 2 was OFF for 2026_rev_14-16 this way). Report the
+  # gap loudly up front; the extraction commands are in the message.
+  {
+    stale_checks <- c(
+      'resources/gn3_column2_countries.csv'  = 'Rscript -e \'source(here::here("src","parse_general_note_3.R")); emit_gn3()\'',
+      'resources/ch99_provision_status.csv'  = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
+      'resources/ch99_staged_rates.csv'      = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
+      'resources/ch99_legal_refs.csv'        = 'emit_legal_refs_incremental() (src/extract_legal_refs.R)'
+    )
+    for (res_path in names(stale_checks)) {
+      f <- here(res_path)
+      if (!file.exists(f)) next
+      covered <- tryCatch(unique(suppressMessages(readr::read_csv(
+        f, col_types = readr::cols(.default = readr::col_character())))$revision),
+        error = function(e) NULL)
+      if (is.null(covered)) next
+      missing_revs <- setdiff(revisions_to_process, covered)
+      # Pre-2022 revisions predate the reststop PDF coverage — only report
+      # gaps for revisions the extractors can actually serve.
+      missing_revs <- missing_revs[substr(missing_revs, 1, 4) >= '2022']
+      if (length(missing_revs) > 0) {
+        message('  [staleness] ', basename(res_path), ' missing ',
+                length(missing_revs), ' revision(s): ',
+                paste(utils::head(missing_revs, 6), collapse = ', '),
+                if (length(missing_revs) > 6) ' ...' else '',
+                ' — refresh via: ', stale_checks[[res_path]])
+        log_warn('Stale resource ', basename(res_path), ': ',
+                 length(missing_revs), ' target revision(s) not extracted')
+      }
+    }
+  }
 
   # ---- Handle incremental mode ----
   prev_ch99 <- NULL
@@ -557,6 +598,21 @@ build_full_timeseries <- function(
   # NEVER load all snapshots into memory at once — the monolithic approach
   # exceeds available RAM (~150M+ rows). Instead, process each snapshot
   # individually and write directly to partitioned Parquet.
+  #
+  # The combine reads ALL 136 snapshots regardless of how many revisions were
+  # rebuilt, because the parquet is a whole-corpus artifact. On a targeted
+  # --only-revisions run that is ~35 minutes of work for output the run does not
+  # need: the snapshots themselves carry the rates, and validation reads them
+  # directly. --no-combine skips it, leaving the existing parquet untouched and
+  # therefore STALE for the rebuilt revisions — run without the flag (or run
+  # scripts/combine_snapshots.R) before anything reads the parquet.
+  if (isTRUE(skip_combine)) {
+    message('\n', strrep('=', 60))
+    message('Skipping Parquet combine (--no-combine).')
+    message('  ', length(revisions_to_process), ' snapshot(s) rebuilt; parquet left as-is and is now STALE for them.')
+    message('  Run scripts/combine_snapshots.R before querying the parquet.')
+    return(invisible(NULL))
+  }
   message('\n', strrep('=', 60))
   message('Combining snapshots into Parquet (batch mode)...')
 
@@ -577,13 +633,14 @@ build_full_timeseries <- function(
     stop('No snapshot files found in ', output_dir)
   }
 
-  # Collect revision names from snapshots without loading full data
-  all_revisions_seen <- character()
-  for (f in all_snapshot_files) {
-    snap <- readRDS(f)
-    all_revisions_seen <- c(all_revisions_seen, unique(snap$revision))
-    rm(snap); gc(verbose = FALSE)
-  }
+  # Collect revision names from the FILENAMES. The previous version claimed to
+  # do this "without loading full data" while calling readRDS() on every
+  # snapshot — a full decompression pass over ~3 GB of RDS (~30 min, CPU-bound,
+  # plus 136 forced GCs) that produced nothing the write loop below does not
+  # already derive at line 617. It also emitted no output, so the build looked
+  # hung for half an hour right after "Combining snapshots into Parquet".
+  # The write loop asserts filename and payload agree, so this cannot drift.
+  all_revisions_seen <- gsub('^snapshot_|\\.rds$', '', basename(all_snapshot_files))
 
   # Build revision intervals
   horizon_end <- pp_build$SERIES_HORIZON_END %||% Sys.Date()
@@ -622,6 +679,17 @@ build_full_timeseries <- function(
       NULL
     })
     if (is.null(snap) || nrow(snap) == 0) next
+
+    # rev_intervals is keyed on the filename-derived name, while the partition
+    # directory below is keyed on snap$revision[1]. A disagreement would not
+    # error — it would yield NA valid_from/valid_until, or stretch a
+    # neighbouring revision's interval across the gap. Fail loudly instead.
+    if (!all(snap$revision == rev_name)) {
+      stop('Snapshot ', basename(f), ' contains revision(s) ',
+           paste(unique(snap$revision), collapse = ', '),
+           ' but its filename says ', rev_name,
+           ' — the revision interval join would silently mis-key.', call. = FALSE)
+    }
 
     snap <- enforce_rate_schema(snap)
     snap <- snap %>%
@@ -1140,6 +1208,7 @@ if (sys.nframe() == 0) {
   full_rebuild <- '--full' %in% args
   resume <- '--resume' %in% args
   build_only <- '--build-only' %in% args
+  skip_combine <- '--no-combine' %in% args
   core_only <- '--core-only' %in% args
   with_alternatives <- '--with-alternatives' %in% args
   refresh_usmca <- '--refresh-usmca' %in% args
@@ -1216,6 +1285,20 @@ if (sys.nframe() == 0) {
     error = function(e) message('Download check failed: ', conditionMessage(e))
   )
 
+  # --- Step B1b: General Note 3 refresh (Column 2 origins + program symbols) ---
+  # MUST run BEFORE the build: load_non_ntr_countries() keys on this CSV per
+  # revision, so calculating a new revision before its GN3 rows exist silently
+  # skips Column 2 for that revision (2026_rev_14-16 shipped with Cuba/North
+  # Korea/Russia/Belarus on Column 1 rates for exactly this reason — the emit
+  # used to run at the END of the build). INCREMENTAL + carry-forward; network
+  # op wrapped so it can never abort a build; opt out with SAIL_EMIT_GN3=0.
+  if (!identical(Sys.getenv('SAIL_EMIT_GN3', '1'), '0')) {
+    tryCatch(emit_gn3(),
+             error = function(e) message('GN3 emit failed: ', conditionMessage(e)))
+    tryCatch(emit_gn_program_countries(),
+             error = function(e) message('GN beneficiary emit failed: ', conditionMessage(e)))
+  }
+
   # --- Step B2: Refresh USMCA shares from DataWeb API (if requested) ---
   if (refresh_usmca) {
     message('\n', strrep('=', 70))
@@ -1261,7 +1344,8 @@ if (sys.nframe() == 0) {
   result <- build_full_timeseries(start_from = start_from,
                                    only_revisions = only_revisions,
                                    use_policy_dates = use_policy_dates,
-                                   parallel_workers = parallel_workers)
+                                   parallel_workers = parallel_workers,
+                                   skip_combine = skip_combine)
 
   # --- Step D: Summary ---
   if (!is.null(result)) {
@@ -1304,6 +1388,9 @@ if (sys.nframe() == 0) {
     # caches, which captures the most actionable quality signal.
     message('\n--- Ch99 Country Scope Triage Summary ---')
     tryCatch({
+      # This block runs in the CLI scope, where build_full_timeseries()'s
+      # `output_dir` argument does not exist — resolve the cache dir locally.
+      output_dir <- result$output_dir %||% 'data/timeseries'
       # Prefer year-prefixed canonical ch99 caches (e.g., ch99_2025_rev_5.rds)
       # over legacy short-format ones (ch99_rev_5.rds). The legacy files sort
       # lexicographically HIGHER than year-prefixed ("r" > "2"), so an unfiltered
@@ -1416,6 +1503,17 @@ if (sys.nframe() == 0) {
              message('Rate validation emit failed: ', conditionMessage(e))
            })
 
+  # Chapter 99 attribution coverage: does every applied duty name the provision
+  # that carries it, and does that provision agree with the duty? Report-only,
+  # so the whole residual is visible in one pass rather than one failure per
+  # rebuild. See src/emit_ch99_attribution.R for why inference was replaced.
+  tryCatch({
+    source(here::here('src', 'emit_ch99_attribution.R'), local = TRUE)
+    emit_ch99_attribution()
+  }, error = function(e) {
+    message('Chapter 99 attribution emit failed: ', conditionMessage(e))
+  })
+
   # Legal-authority extraction — machine-source the proclamations/EOs each ch99
   # authority cites, per revision, from that release's Chapter 99 PDF. INCREMENTAL:
   # only revisions not already in resources/ch99_legal_refs.csv are fetched, so a
@@ -1426,21 +1524,7 @@ if (sys.nframe() == 0) {
              error = function(e) message('Legal-refs emit failed: ', conditionMessage(e)))
   }
 
-  # General Note 3 (Column 2 country list + Special-program symbol map), per
-  # revision, from that release's GN3 PDF. INCREMENTAL: only revisions not already
-  # in resources/gn3_program_symbols.csv are fetched (carry-forward for reststop
-  # gaps), so a new revision is de-hardcoded automatically with no Claude in the
-  # loop. Network/PDF op — wrapped so it can never abort a build; opt out with
-  # SAIL_EMIT_GN3=0. The frontend bundle is regenerated by scripts/emit_program_symbols.R.
-  if (!identical(Sys.getenv('SAIL_EMIT_GN3', '1'), '0')) {
-    tryCatch(emit_gn3(),
-             error = function(e) message('GN3 emit failed: ', conditionMessage(e)))
-    # Beneficiary-country lists for the list-based preference programs (GSP GN 4,
-    # AGOA GN 16, CBERA/CBI GN 7) -> resources/gn_program_countries.csv. Same
-    # incremental + carry-forward contract; precision-first census mapping (a name
-    # that doesn't match exactly/via alias gets no census_code -> no false
-    # eligibility). De-hardcodes the frontend country->program membership map.
-    tryCatch(emit_gn_program_countries(),
-             error = function(e) message('GN beneficiary emit failed: ', conditionMessage(e)))
-  }
+  # (General Note 3 refresh moved to Step B1b, BEFORE the build — Column 2
+  #  application reads resources/gn3_column2_countries.csv per revision, so the
+  #  rows must exist before rates are calculated, not after.)
 }

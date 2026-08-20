@@ -714,33 +714,52 @@ extract_section232_rates <- function(ch99_data) {
   steel_uk <- steel_entries %>%
     filter(grepl('^9903\\.81\\.9[4-9]', ch99_code), !is.na(rate))
   steel_country_overrides <- list()
+  steel_country_override_ch99 <- list()
   if (nrow(steel_uk) > 0) {
-    uk_rate <- max(steel_uk$rate)
+    .i <- which.max(steel_uk$rate)
+    uk_rate <- steel_uk$rate[.i]
     steel_country_overrides[['4120']] <- uk_rate
+    steel_country_override_ch99[['4120']] <- steel_uk$ch99_code[.i]
   }
   # Route single-country steel surtaxes (e.g. Turkey 50%) to per-country
   # overrides so the all-country blanket above stays at the true rate.
   for (.i in seq_len(nrow(steel_surtax))) {
     .cc <- steel_surtax$.surtax_cc[.i]
-    steel_country_overrides[[.cc]] <- max(steel_country_overrides[[.cc]] %||% 0,
-                                          steel_surtax$rate[.i])
+    .prev <- steel_country_overrides[[.cc]] %||% 0
+    steel_country_overrides[[.cc]] <- max(.prev, steel_surtax$rate[.i])
+    # Keep the heading in step with the rate: only re-point it when this entry
+    # actually wins the max, or the code would name a heading whose rate lost.
+    if (steel_surtax$rate[.i] >= .prev) {
+      steel_country_override_ch99[[.cc]] <- steel_surtax$ch99_code[.i]
+    }
   }
 
+  # Capture the heading that SUPPLIED the rate, not just the number. Every
+  # branch below already knows which row it took the rate from; discarding that
+  # forced resolve_ch99_codes() to reconstruct it later by searching for a
+  # heading whose published rate matched — which cannot distinguish two headings
+  # sharing a rate, and silently picked the alphabetically first.
   if (nrow(steel_increase) > 0) {
     steel_rate <- steel_increase$rate[1]
+    steel_rate_ch99 <- steel_increase$ch99_code[1]
     steel_exempt <- character(0)
     message('  Steel 232: ', round(steel_rate * 100), '% (all countries, June 2025 increase)')
   } else if (nrow(steel_all) > 0) {
-    steel_rate <- max(steel_all$rate)
+    .i <- which.max(steel_all$rate)
+    steel_rate <- steel_all$rate[.i]
+    steel_rate_ch99 <- steel_all$ch99_code[.i]
     steel_exempt <- character(0)
     message('  Steel 232: ', round(steel_rate * 100), '% (all countries)')
   } else if (nrow(steel_except) > 0) {
-    steel_rate <- max(steel_except$rate)
+    .i <- which.max(steel_except$rate)
+    steel_rate <- steel_except$rate[.i]
+    steel_rate_ch99 <- steel_except$ch99_code[.i]
     steel_exempt <- unique(unlist(steel_except$exempt_countries))
     message('  Steel 232: ', round(steel_rate * 100), '% (all except ',
             length(steel_exempt), ' countries/groups)')
   } else {
     steel_rate <- 0
+    steel_rate_ch99 <- NA_character_
     steel_exempt <- character(0)
   }
   if (length(steel_country_overrides) > 0) {
@@ -767,26 +786,34 @@ extract_section232_rates <- function(ch99_data) {
     filter(grepl('^9903\\.85\\.1[2-5]', ch99_code),
            grepl('United Kingdom', description, ignore.case = TRUE))
   aluminum_country_overrides <- list()
+  aluminum_country_override_ch99 <- list()
   if (nrow(alum_uk) > 0) {
-    uk_alum_rate <- max(alum_uk$rate)
+    .i <- which.max(alum_uk$rate)
+    uk_alum_rate <- alum_uk$rate[.i]
     aluminum_country_overrides[['4120']] <- uk_alum_rate
+    aluminum_country_override_ch99[['4120']] <- alum_uk$ch99_code[.i]
   }
 
   if (nrow(alum_increase) > 0) {
     aluminum_rate <- alum_increase$rate[1]
+    aluminum_rate_ch99 <- alum_increase$ch99_code[1]
     aluminum_exempt <- character(0)
     message('  Aluminum 232: ', round(aluminum_rate * 100), '% (all countries, June 2025 increase)')
   } else if (nrow(alum_25_increase) > 0) {
     aluminum_rate <- alum_25_increase$rate[1]
+    aluminum_rate_ch99 <- alum_25_increase$ch99_code[1]
     aluminum_exempt <- character(0)
     message('  Aluminum 232: ', round(aluminum_rate * 100), '% (all countries, increased)')
   } else if (nrow(alum_except) > 0) {
-    aluminum_rate <- max(alum_except$rate)
+    .i <- which.max(alum_except$rate)
+    aluminum_rate <- alum_except$rate[.i]
+    aluminum_rate_ch99 <- alum_except$ch99_code[.i]
     aluminum_exempt <- unique(unlist(alum_except$exempt_countries))
     message('  Aluminum 232: ', round(aluminum_rate * 100), '% (all except ',
             length(aluminum_exempt), ' countries/groups)')
   } else {
     aluminum_rate <- 0
+    aluminum_rate_ch99 <- NA_character_
     aluminum_exempt <- character(0)
   }
   if (length(aluminum_country_overrides) > 0) {
@@ -1029,6 +1056,13 @@ extract_section232_rates <- function(ch99_data) {
     wood_deal_rates = wood_deal_rates,
     steel_country_overrides = steel_country_overrides,
     aluminum_country_overrides = aluminum_country_overrides,
+    # Forward Chapter 99 provenance: which heading supplied each rate above.
+    # Parallel to the rate fields, so a country override and its heading cannot
+    # drift apart.
+    steel_rate_ch99 = steel_rate_ch99,
+    aluminum_rate_ch99 = aluminum_rate_ch99,
+    steel_country_override_ch99 = steel_country_override_ch99,
+    aluminum_country_override_ch99 = aluminum_country_override_ch99,
     has_232 = has_232
   ))
 }
@@ -1101,11 +1135,25 @@ extract_section122_rates <- function(ch99_data) {
 #'
 #' @param ch99_data Tibble of parsed Chapter 99 entries
 #' @param policy_params Optional policy params; reads section_201.solar_rate if set
-extract_section_201_rates <- function(ch99_data, policy_params = NULL) {
+extract_section_201_rates <- function(ch99_data, policy_params = NULL,
+                                      effective_date = NULL) {
   message('Extracting Section 201 (safeguard) rates...')
 
-  # Restrict to Solar 201 (9903.45.21-.29). Washing-machine 201 (9903.45.01-.06)
-  # expired Feb 2023 — ignore those entries even if still in HTS.
+  # §201 safeguard rates STEP DOWN annually, and the operative rate for an entry
+  # date lives in a US note, not in the Rates-of-Duty column. The column carries
+  # the FIRST stage — 30% for solar, set in 2018 — so reading it is wrong from
+  # 2019 onward. The published schedule (note 18(f) for 9903.45.22, note 17(d)/(e)
+  # for the washing-machine headings) is extracted to
+  # resources/ch99_staged_rates.csv by scripts/extract_note_rules.R.
+  #
+  # This replaces `section_201.solar_rate`, which was a hardcoded constant TWO
+  # stages behind: it read 14.5% (the 2023-24 stage) for a 2025 entry where the
+  # note publishes 14%, and its config comment misdated the period it claimed.
+  # A staged rate encoded as a constant is wrong every year nobody edits it.
+  #
+  # The schedule's final period is also the provision's TERM: once an entry date
+  # passes the last stage the rate is NULL, so the washing-machine safeguard
+  # stops applying after Feb 2023 without a hardcoded expiry.
   s201_entries <- ch99_data %>%
     filter(grepl('^9903\\.45\\.(2[1-9])$', ch99_code), !is.na(rate))
 
@@ -1114,24 +1162,59 @@ extract_section_201_rates <- function(ch99_data, policy_params = NULL) {
     return(list(s201_rates = NULL, has_s201 = FALSE, solar_rate = 0))
   }
 
-  # Pull the configured rate, falling back to the published Year 8 (2025-26)
-  # value if not set. The HTS field is misleading because it shows the original
-  # Year 1 rate, not the current step-down.
-  s201_cfg <- if (!is.null(policy_params)) policy_params$SECTION_201 else NULL
-  solar_rate <- s201_cfg$solar_rate %||% 0.145
-
   hts_rates <- sort(unique(round(s201_entries$rate, 4)))
   message('  Solar 201 active: ', nrow(s201_entries),
-          ' Ch99 entries (HTS rates: ',
+          ' Ch99 entries (HTS Rates-of-Duty column shows the FIRST stage: ',
           paste(hts_rates * 100, '%', collapse = ', '), ')')
-  message('  Applying configured solar_rate: ', round(solar_rate * 100, 1),
-          '% (override via section_201.solar_rate in policy_params.yaml)')
+
+  solar_rate <- NA_real_
+  note_ref <- NA_character_
+  staged_path <- here::here('resources', 'ch99_staged_rates.csv')
+  if (!is.null(effective_date) && file.exists(staged_path)) {
+    staged <- tryCatch(suppressMessages(readr::read_csv(
+      staged_path, col_types = readr::cols(
+        ch99_codes = readr::col_character(),
+        effective_from = readr::col_date(), effective_to = readr::col_date(),
+        rate = readr::col_double(), .default = readr::col_guess()))),
+      error = function(e) NULL)
+    if (!is.null(staged) && nrow(staged) > 0 &&
+        exists('staged_rate_on', mode = 'function')) {
+      # 9903.45.22 is the solar cell/module surcharge line the products map to.
+      hit <- staged_rate_on(staged, '9903.45.22', effective_date)
+      if (!is.null(hit)) {
+        solar_rate <- hit$rate
+        note_ref <- hit$note_ref %||% 'staged schedule'
+        message('  Staged rate for ', as.character(effective_date), ': ',
+                round(solar_rate * 100, 2), '% (from the published schedule, ',
+                'resources/ch99_staged_rates.csv)')
+      } else {
+        message('  No staged period covers ', as.character(effective_date),
+                ' — the safeguard has run its term; §201 not applied')
+        return(list(s201_rates = NULL, has_s201 = FALSE, solar_rate = 0))
+      }
+    }
+  }
+
+  if (is.na(solar_rate)) {
+    # Deprecated path. Kept so a missing resource degrades rather than crashes,
+    # but it must never be silent: a constant standing in for a published
+    # schedule is the defect this replaced.
+    s201_cfg <- if (!is.null(policy_params)) policy_params$SECTION_201 else NULL
+    solar_rate <- s201_cfg$solar_rate %||% 0
+    warning('§201: no staged schedule available for ',
+            as.character(effective_date %||% 'NA'),
+            ' — falling back to the config constant (',
+            round(solar_rate * 100, 2), '%), which goes stale by construction. ',
+            'Run scripts/extract_note_rules.R to regenerate ',
+            'resources/ch99_staged_rates.csv.', call. = FALSE)
+  }
 
   return(list(
     s201_rates = s201_entries %>%
       transmute(ch99_code, rate, rate_type = 'surcharge'),
     has_s201 = TRUE,
-    solar_rate = solar_rate
+    solar_rate = solar_rate,
+    rate_note_ref = note_ref
   ))
 }
 

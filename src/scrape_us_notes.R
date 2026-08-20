@@ -113,7 +113,12 @@ FLOOR_EXEMPTIONS <- tribble(
   '9903.02.77',  'pharma',          'eu',
   '9903.02.81',  'civil_aircraft',  'korea',
   '9903.02.84',  'ptaap',           'swiss',
+  # .85 names Switzerland only; .90 is the Liechtenstein twin (same note
+  # subdivision (v)(xxiv)(c)). Both map to the combined 'swiss' group, so the
+  # exemption set is unchanged — the second row exists so Liechtenstein's
+  # exemption cites ITS heading, not Switzerland's.
   '9903.02.85',  'civil_aircraft',  'swiss',
+  '9903.02.90',  'civil_aircraft',  'swiss',
   '9903.02.86',  'pharma',          'swiss',
   '9903.96.02',  'civil_aircraft',  'japan',
 )

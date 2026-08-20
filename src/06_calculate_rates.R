@@ -67,6 +67,16 @@ library(tidyverse)
   }
 )
 
+# Forward provenance ledger. Sourced here rather than relying on the caller,
+# because tests source this file directly (tests/run_tests_daily_series.R:741)
+# without going through 00_build_timeseries.R. Guarded so re-sourcing is a no-op.
+if (!exists('record_duty', mode = 'function')) {
+  source(here::here('src', 'duty_ledger.R'))
+}
+if (!exists('resolve_product_scope_hierarchical', mode = 'function')) {
+  try(source(here::here('src', 'resolve_product_scope.R')), silent = TRUE)
+}
+
 # Country code constants — centralized in helpers.R, loaded from YAML with fallback
 .cc <- get_country_constants(.pp)
 CTY_CHINA  <- .cc$CTY_CHINA
@@ -639,6 +649,27 @@ calculate_rates_for_revision <- function(
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
 
+  # Forward provenance. Every write to an authority rate is recorded with the
+  # step that made it and the legal provision behind it, so "why does this row
+  # owe X" is a lookup rather than an attempt to invert ~175 sequential
+  # mutations from their output. Per-row capture is opt-in via the
+  # DUTY_TRACE_ROWS env var ("hts10:country,hts10:country"); the aggregate tier
+  # is always on and costs one vectorised comparison per site.
+  .trace_rows <- NULL
+  .tr_env <- Sys.getenv('DUTY_TRACE_ROWS', '')
+  if (nzchar(.tr_env)) {
+    .parts <- strsplit(trimws(strsplit(.tr_env, ',')[[1]]), ':')
+    .parts <- .parts[lengths(.parts) == 2]
+    if (length(.parts) > 0) {
+      .trace_rows <- tibble(
+        hts10   = vapply(.parts, `[`, character(1), 1),
+        country = vapply(.parts, `[`, character(1), 2))
+      message('  Duty trace: recording ', nrow(.trace_rows), ' row(s) in full')
+    }
+  }
+  duty_ledger_init(trace_rows = .trace_rows, revision = revision_id,
+                   effective_date = effective_date)
+
   # Date-gate Ch99 entries: drop rows whose legal effective_date_offset is
   # AFTER this revision's effective_date. The HTS publishes new authorities
   # before they become legally collectible (e.g., 9903.94.01 added at rev_6,
@@ -661,6 +692,11 @@ calculate_rates_for_revision <- function(
     s301_exclusions <- build_s301_exclusion_candidates(ch99_data, effective_date)
   }
 
+  # §201 quartz TRQ (9903.45.30/.31, U.S. note 41): determination only — both
+  # tiers emitted in ch99_rules_json; rate_section_201 is NEVER set for quartz
+  # (the owed rate depends on quota standing, a fact we do not hold).
+  s201_quartz <- build_s201_quartz_candidates(ch99_data)
+
   pp <- policy_params %||% load_policy_params()
   cc <- get_country_constants(pp)
   CTY_CHINA  <- cc$CTY_CHINA
@@ -678,6 +714,21 @@ calculate_rates_for_revision <- function(
   if (nrow(rates) == 0) {
     message('  No footnote-linked rates for ', revision_id, ' — blanket authorities will seed rows')
     rates <- enforce_rate_schema(tibble())
+  }
+
+  # FORWARD Chapter 99 provenance columns, initialised once so every authority
+  # can record into them without existence checks, and so bind_rows() of
+  # authority-seeded pairs cannot produce a ragged frame.
+  #
+  # These carry the heading that SUPPLIED each duty, written where the duty is
+  # applied. resolve_ch99_codes() then projects them into ch99_code_*, instead
+  # of inferring a heading afterwards by matching the computed rate — inference
+  # that cannot separate two headings sharing a rate and resolved ties
+  # alphabetically (auto PARTS -> 9903.94.01, the vehicles heading; every §201
+  # row -> 9903.41.05, a Japanese-leather heading).
+  for (.c in c('ch99_src_232', 'ch99_src_s201', 'ch99_src_ieepa_recip',
+               'ch99_src_301')) {
+    if (!.c %in% names(rates)) rates[[.c]] <- NA_character_
   }
 
   # 1a. Resolve the BASE duty tier — Column 2 replaces Column 1 for non-NTR origins
@@ -1080,6 +1131,28 @@ calculate_rates_for_revision <- function(
             ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
             ieepa_type == 'passthrough' ~ 0,
             TRUE ~ 0
+          ),
+          # FORWARD attribution. Both candidate headings are already resolved
+          # per origin above; previously they were dropped here and the code was
+          # reconstructed downstream by taking the HIGHEST-rate heading for the
+          # country, which is not necessarily the one charged.
+          #
+          # A country-specific EO surcharge (Brazil 9903.01.77 and the like) is
+          # the operative provision for that origin whenever it actually
+          # contributes, so it wins; otherwise the reciprocal floor/surcharge
+          # heading carries the duty.
+          #
+          # Recorded even when the increment is 0 AT THIS STEP: step 6d
+          # recomputes the floor against the post-MFN base_rate and resurrects
+          # duty on rows that were 0 here — gating the source on the momentary
+          # rate orphaned every such row (59% of rated recip rows fell back to
+          # the highest-rate-heading guess). Consumption (ch99_code_ieepa_recip)
+          # is gated on the FINAL rate > 0, so a would-apply source on a 0-rate
+          # row is never asserted downstream.
+          ch99_src_ieepa_recip = case_when(
+            !is.na(country_eo_ch99) & country_eo_rate > 0 &
+              !is_country_eo_exempt ~ country_eo_ch99,
+            TRUE ~ ieepa_recip_ch99
           )
         ) %>%
         select(-ieepa_country_rate, -country_eo_rate, -country_eo_ch99,
@@ -1143,6 +1216,14 @@ calculate_rates_for_revision <- function(
             ieepa_type == 'floor' & exempt_active ~ 0,
             ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
             TRUE ~ 0
+          ),
+          # Same forward attribution as the existing-rows branch above (rows
+          # here are filtered to rate > 0 below, so no momentary-rate gate is
+          # needed either).
+          ch99_src_ieepa_recip = case_when(
+            !is.na(country_eo_ch99) & country_eo_rate > 0 &
+              !is_country_eo_exempt ~ country_eo_ch99,
+            TRUE ~ ieepa_recip_ch99
           )
         ) %>%
         filter(rate_ieepa_recip > 0) %>%
@@ -1267,6 +1348,10 @@ calculate_rates_for_revision <- function(
 
     n_with_fent <- sum(rates$rate_ieepa_fent > 0)
     message('  With IEEPA fentanyl: ', n_with_fent)
+  rates <- record_duty(rates, '3', 'ieepa_fent', 'rate_ieepa_fent',
+                       'ieepa_fentanyl_country_rate',
+                       citation_key = 'eo_14195_china_fentanyl',
+                       ch99_code_col = 'ch99_code_ieepa_fent')
   } else {
     rates <- rates %>% mutate(rate_ieepa_fent = coalesce(rate_ieepa_fent, 0))
   }
@@ -1320,6 +1405,16 @@ calculate_rates_for_revision <- function(
   # Load heading-level 232 config from policy params
   s232_headings <- if (!is.null(pp)) pp$section_232_headings else NULL
 
+  # Heading-program product lists are consumed by steps that run even when this
+  # revision has no active 232 program (auto rebate 4b, deal overrides 4c,
+  # annex guard, semiconductor carve-out) — initialize them OUTSIDE the guard
+  # or a has_232=FALSE revision dies on "object 'auto_products' not found".
+  auto_products <- character(0)
+  copper_products <- character(0)
+  wood_products <- character(0)
+  mhd_products <- character(0)
+  semi_products <- character(0)
+
   if (s232_rates$has_232) {
     # --- Identify covered products by prefix matching ---
     # Chapter-level: steel (72-73), aluminum (76)
@@ -1331,11 +1426,6 @@ calculate_rates_for_revision <- function(
       pull(hts10)
 
     # Heading-level: autos, copper, etc.
-    auto_products <- character(0)
-    copper_products <- character(0)
-    wood_products <- character(0)
-    mhd_products <- character(0)
-    semi_products <- character(0)
     heading_product_lists <- list()
 
     if (!is.null(s232_headings)) {
@@ -1566,21 +1656,33 @@ calculate_rates_for_revision <- function(
         auto_exempt = map_lgl(country, ~is_232_exempt(.x, s232_rates$auto_exempt)),
         steel_rate = if_else(steel_exempt, 0, s232_rates$steel_rate),
         aluminum_rate = if_else(alum_exempt, 0, s232_rates$aluminum_rate),
-        auto_rate = if_else(auto_exempt, 0, s232_rates$auto_rate)
+        auto_rate = if_else(auto_exempt, 0, s232_rates$auto_rate),
+        # The heading that supplied each rate, carried beside it from extraction.
+        # An exempt country owes nothing, so it cites nothing.
+        steel_ch99 = if_else(steel_exempt, NA_character_,
+                             s232_rates$steel_rate_ch99 %||% NA_character_),
+        alum_ch99  = if_else(alum_exempt, NA_character_,
+                             s232_rates$aluminum_rate_ch99 %||% NA_character_)
       )
 
     # --- Apply HTS-extracted 232 country overrides (e.g., UK deal rates) ---
     # These come from country-specific ch99 entries (e.g., 9903.81.94 UK steel 25%)
+    # The heading moves WITH the rate — a country on a deal rate must cite the
+    # deal heading, not the blanket one it no longer pays.
     for (cty in names(s232_rates$steel_country_overrides)) {
       idx <- country_232$country == cty
       if (any(idx)) {
         country_232$steel_rate[idx] <- s232_rates$steel_country_overrides[[cty]]
+        country_232$steel_ch99[idx] <-
+          s232_rates$steel_country_override_ch99[[cty]] %||% NA_character_
       }
     }
     for (cty in names(s232_rates$aluminum_country_overrides)) {
       idx <- country_232$country == cty
       if (any(idx)) {
         country_232$aluminum_rate[idx] <- s232_rates$aluminum_country_overrides[[cty]]
+        country_232$alum_ch99[idx] <-
+          s232_rates$aluminum_country_override_ch99[[cty]] %||% NA_character_
       }
     }
 
@@ -1625,6 +1727,45 @@ calculate_rates_for_revision <- function(
               ' (blanket metal path empty — annex regime carries steel/aluminum)'
             else '')
 
+    # --- Resolve each heading program to its Chapter 99 heading, and CHECK it ---
+    # The declaration lives in config and is therefore capable of going stale, so
+    # it is validated against the schedule this revision actually publishes: the
+    # heading must exist, and its published rate must equal the configured rate.
+    # Anything else is reported here and contributes no attribution.
+    #
+    # This is where a retired heading surfaces. 9903.78.01 (copper, note 36) was
+    # withdrawn when the April 2026 annex proclamation folded copper into the
+    # 9903.82 range, but resources/s232_copper_products.csv still names it — so
+    # in 2026 revisions copper resolves to 'absent_in_revision' and is reported,
+    # rather than citing a heading that no longer exists.
+    .s232_program_headings <- resolve_s232_program_headings(
+      s232_headings, ch99_data, params = pp)
+    if (nrow(.s232_program_headings) > 0) {
+      .ph_bad <- .s232_program_headings %>%
+        filter(status != 'ok') %>%
+        # Keep `country`: dropping it made a Taiwan-only heading absence print
+        # as "wood_furniture unusable" while the program's default heading was
+        # present and fully applied — a false contradiction with the extractor's
+        # own "Wood furniture/cabinets 232: 25%" line.
+        distinct(program, country, ch99_code, config_rate, published_rate, status)
+      # Programs already gated OFF for this revision (e.g. semiconductors before
+      # 2026-01-16) are skipped by the apply loop with their own message —
+      # re-reporting their headings as unusable is noise.
+      if (exists('heading_gates', inherits = FALSE)) {
+        .gated_off <- names(heading_gates)[!vapply(heading_gates, isTRUE, logical(1))]
+        .ph_bad <- .ph_bad %>% filter(!program %in% .gated_off)
+      }
+      if (nrow(.ph_bad) > 0) {
+        message('  ch99_src_232: ', nrow(.ph_bad),
+                ' §232 program heading(s) unusable in this revision — ',
+                paste(sprintf('%s%s->%s (%s)', .ph_bad$program,
+                              ifelse(is.na(.ph_bad$country), '',
+                                     paste0('[', .ph_bad$country, ']')),
+                              .ph_bad$ch99_code %||% 'NA', .ph_bad$status),
+                      collapse = '; '))
+      }
+    }
+
     # --- Update rate_232 for products already in rates ---
     # Join heading-level rates for auto/copper/etc products
     if (nrow(heading_product_rate) > 0) {
@@ -1639,7 +1780,9 @@ calculate_rates_for_revision <- function(
     rates <- rates %>%
       left_join(
         country_232 %>% select(country, steel_rate_232 = steel_rate,
-                               alum_rate_232 = aluminum_rate),
+                               alum_rate_232 = aluminum_rate,
+                               steel_ch99_232 = steel_ch99,
+                               alum_ch99_232 = alum_ch99),
         by = 'country',
         relationship = 'many-to-one'
       ) %>%
@@ -1689,9 +1832,30 @@ calculate_rates_for_revision <- function(
         s232_usmca_eligible = coalesce(heading_usmca_exempt, FALSE) & heading_rate_adj > 0 &
           !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS))
       ) %>%
+      # FORWARD Chapter 99 attribution. Record the heading that carries this
+      # program's duty at the moment the duty is applied, while the program is
+      # still known. Downstream, resolve_ch99_codes() reads this instead of
+      # searching for a heading whose published rate happens to match the number
+      # it computed — the inference that put the vehicles heading 9903.94.01 on
+      # auto PARTS rows, since 9903.94.05 carries the same 25%.
+      #
+      # Only programs whose declared heading was VALIDATED against this
+      # revision's schedule contribute (see resolve_s232_program_headings); a
+      # program whose heading is absent or repriced yields NA and is reported,
+      # never guessed. Steel and aluminum are excluded here because their rate
+      # comes from the country blanket, not from a heading program.
+      mutate(
+        ch99_src_232 = case_when(
+          blanket_232 <= 0            ~ NA_character_,
+          chapter %in% STEEL_CHAPTERS ~ steel_ch99_232,
+          chapter %in% ALUM_CHAPTERS  ~ alum_ch99_232,
+          !is.na(heading_program) ~
+            s232_heading_for(heading_program, country, .s232_program_headings),
+          TRUE                        ~ NA_character_)
+      ) %>%
       select(-steel_rate_232, -alum_rate_232, -chapter, -blanket_232, -.action_col,
              -heading_232_rate, -heading_usmca_exempt, -heading_program,
-             -heading_rate_adj)
+             -heading_rate_adj, -steel_ch99_232, -alum_ch99_232)
 
     # --- Add rows for 232-covered products NOT yet in rates ---
     # Include countries with any active 232 program (steel/aluminum/auto + heading
@@ -1728,7 +1892,9 @@ calculate_rates_for_revision <- function(
       anti_join(existing_pairs_232, by = c('hts10', 'country')) %>%
       left_join(
         country_232 %>% select(country, steel_rate_232 = steel_rate,
-                               alum_rate_232 = aluminum_rate),
+                               alum_rate_232 = aluminum_rate,
+                               steel_ch99_232 = steel_ch99,
+                               alum_ch99_232 = alum_ch99),
         by = 'country',
         relationship = 'many-to-one'
       ) %>%
@@ -1762,12 +1928,22 @@ calculate_rates_for_revision <- function(
           rate_232 > 0 & (is.na(.action_col) | .action_col == 'rate_232_other') &
             !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)), rate_232, 0),
         rate_301 = 0, rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0,
-        rate_section_201 = 0, rate_other = 0
+        rate_section_201 = 0, rate_other = 0,
+        # Same forward attribution as the existing-pairs branch. These rows are
+        # §232-only, so rate_232 IS the action rate and the heading follows the
+        # same three sources: metal blanket, metal deal, or heading program.
+        ch99_src_232 = case_when(
+          rate_232 <= 0               ~ NA_character_,
+          chapter %in% STEEL_CHAPTERS ~ steel_ch99_232,
+          chapter %in% ALUM_CHAPTERS  ~ alum_ch99_232,
+          !is.na(heading_program) ~
+            s232_heading_for(heading_program, country, .s232_program_headings),
+          TRUE                        ~ NA_character_)
       ) %>%
       filter(rate_232 > 0) %>%
       select(-steel_rate_232, -alum_rate_232, -chapter, -.action_col,
              -heading_232_rate, -heading_usmca_exempt, -heading_program,
-             -heading_rate_adj)
+             -heading_rate_adj, -steel_ch99_232, -alum_ch99_232)
 
     if (nrow(new_232_pairs) > 0) {
       message('  Adding ', nrow(new_232_pairs), ' product-country pairs for 232-only duties')
@@ -1815,6 +1991,11 @@ calculate_rates_for_revision <- function(
             'pp on ', n_rebated, ' auto product-country pairs',
             if (us_auto_content_share < 1) paste0(
               '; USMCA content share: ', us_auto_content_share * 100, '%') else '')
+    # No citation_key: the rebate is a MODELLED credit for US assembly content,
+    # not a published rate. Recording that absence is the point — it surfaces in
+    # duty_ledger_uncited() rather than passing as though it were law.
+    rates <- record_duty(rates, '4b', 's232', 'rate_232', 'auto_rebate_deduction',
+                         ch99_code_col = 'ch99_code_232')
   }
 
   # 4c. Apply country-specific 232 deal rates (floor/surcharge)
@@ -1824,6 +2005,10 @@ calculate_rates_for_revision <- function(
   #     Surcharge mechanism: effective_232 = surcharge_rate (flat)
   #     These override the blanket 232 rate set in step 4 for deal countries.
   n_deal_overrides <- 0L
+
+  # Snapshot rate_232 before the deal overrides so the auto-rebate credit can be
+  # invalidated on any row a deal REPLACES. See the clearing block after 4c.
+  .rate_232_pre_deal <- rates$rate_232
 
   # Helper: convert ISO country code to Census code(s), expanding EU to 27 members
   iso_to_census_vec <- function(iso_code) {
@@ -1970,6 +2155,32 @@ calculate_rates_for_revision <- function(
     message('  232 deal rates (floor/surcharge): ', n_deal_overrides,
             ' product-country pairs overridden')
   }
+  rates <- record_duty(rates, '4c', 's232', 'rate_232', 'country_deal_floor_or_surcharge',
+                       citation_key = 'proc_10908_autos_2025', note_ref = 'note_33',
+                       ch99_code_col = 'ch99_code_232')
+
+  # A deal REPLACES rate_232 — `max(floor - base_rate, 0)` for a floor, or a flat
+  # surcharge — so the auto-rebate credit computed against the step-4 auto rate
+  # no longer describes anything in it. Adding it back below would produce a rate
+  # that corresponds to no published heading AND would breach the floor the deal
+  # exists to impose.
+  #
+  # Measured on 2025_rev_25 / 8482400000 / DE before this clearing:
+  #   4b       rate_232           0.250000 -> 0.237625   (-1.2375pp rebate)
+  #   4c       rate_232           0.237625 -> 0.092000   (EU 15% floor: 0.15 - 0.058)
+  #   4c-post  statutory_rate_232 0.092000 -> 0.104375   <- stale credit re-added
+  # giving a statutory total of 16.24% against a 15% ceiling. The deal rate IS
+  # the statutory rate for these rows; there is nothing to add back.
+  if ('.auto_rebate_applied' %in% names(rates)) {
+    .deal_replaced <- abs(rates$rate_232 - .rate_232_pre_deal) > 1e-12 &
+      rates$.auto_rebate_applied > 0
+    if (any(.deal_replaced)) {
+      rates$.auto_rebate_applied[.deal_replaced] <- 0
+      message('  Auto rebate invalidated on ', sum(.deal_replaced),
+              ' row(s) where a 232 deal replaced the rate it was computed against')
+    }
+  }
+  rm(.rate_232_pre_deal)
 
   # Save the post-deal STATUTORY §232 rate.
   #
@@ -1991,6 +2202,8 @@ calculate_rates_for_revision <- function(
   rates <- rates %>%
     mutate(statutory_rate_232 = rate_232 + coalesce(.auto_rebate_applied, 0)) %>%
     select(-.auto_rebate_applied)
+  rates <- record_duty(rates, '4c-post', 's232', 'statutory_rate_232',
+                       'auto_rebate_addback', ch99_code_col = 'ch99_code_232')
 
   # 5. Apply Section 232 derivative tariff + metal content scaling
   #    Aluminum derivatives (9903.85.04/.07/.08) and steel derivatives (9903.81.89-93)
@@ -2553,22 +2766,36 @@ calculate_rates_for_revision <- function(
           by = c('ch99_code' = 'ch99_pattern')
         ) %>%
         group_by(hts8) %>%
-        summarise(blanket_301 = max(s301_rate), .groups = 'drop')
+        # Keep the heading that SUPPLIES the max rate (forward attribution —
+        # ch99_code_301 used to be NA on every rated row because this
+        # summarise threw the heading away). Deterministic on rate ties.
+        arrange(desc(s301_rate), ch99_code, .by_group = TRUE) %>%
+        summarise(blanket_301 = first(s301_rate),
+                  src_301 = first(ch99_code), .groups = 'drop')
 
       if (nrow(s301_lookup) > 0) {
-        # Update rate_301 for existing China product-country pairs
+        # Update rate_301 for existing China product-country pairs.
+        # ch99_src_301 records the heading that supplied the applied rate at
+        # the moment it is applied (forward attribution, same contract as
+        # ch99_src_232) — set BEFORE the pmax so the comparison is against the
+        # pre-blanket rate.
+        if (!'ch99_src_301' %in% names(rates)) rates$ch99_src_301 <- NA_character_
         rates <- rates %>%
           mutate(hts8 = substr(hts10, 1, 8)) %>%
           left_join(s301_lookup, by = 'hts8', relationship = 'many-to-one') %>%
           mutate(
             blanket_301 = coalesce(blanket_301, 0),
+            ch99_src_301 = if_else(
+              country == CTY_CHINA & blanket_301 > 0 & blanket_301 >= rate_301,
+              src_301, ch99_src_301
+            ),
             rate_301 = if_else(
               country == CTY_CHINA,
               pmax(rate_301, blanket_301),
               rate_301
             )
           ) %>%
-          select(-hts8, -blanket_301)
+          select(-hts8, -blanket_301, -src_301)
 
         # Add 301-only rows for China products NOT yet in rates
         # (products with no other Ch99 duties but subject to 301)
@@ -2597,10 +2824,11 @@ calculate_rates_for_revision <- function(
             mutate(
               rate_232 = 0, rate_ieepa_recip = 0,
               rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
-              rate_301 = coalesce(blanket_301, 0)
+              rate_301 = coalesce(blanket_301, 0),
+              ch99_src_301 = src_301
             ) %>%
             filter(rate_301 > 0) %>%
-            select(-hts8, -blanket_301)
+            select(-hts8, -blanket_301, -src_301)
 
           if (nrow(new_301_pairs) > 0) {
             message('  Adding ', nrow(new_301_pairs),
@@ -2612,6 +2840,11 @@ calculate_rates_for_revision <- function(
         n_301_total <- sum(rates$country == CTY_CHINA & rates$rate_301 > 0)
         message('  Section 301 blanket: ', nrow(s301_lookup), ' HTS8 codes, ',
                 n_301_total, ' China product-country pairs with 301 rate')
+        # §301 was the only duty-writing step with no ledger record at all.
+        rates <- record_duty(rates, '6a', 's301', 'rate_301',
+                             's301_blanket_lists',
+                             citation_key = 's301_active',
+                             ch99_code_col = 'ch99_src_301')
       }
     }
   }
@@ -2694,6 +2927,9 @@ calculate_rates_for_revision <- function(
 
     n_with_s122 <- sum(rates$rate_s122 > 0)
     n_partial <- sum(prod_share > 0 & prod_share < 1)
+    rates <- record_duty(rates, '6b', 's122', 'rate_s122', 's122_blanket',
+                         citation_key = 'proc_s122_2026',
+                         ch99_code_col = 'ch99_code_s122')
     message('  Section 122: ', round(s122_rate * 100), '% on ',
             format(n_with_s122, big.mark = ','), ' product-country pairs (',
             sum(prod_share >= 1), ' HTS10 fully exempt, ', n_partial,
@@ -2705,7 +2941,8 @@ calculate_rates_for_revision <- function(
   #      on CSPV cells/modules. The 201 rate stacks on top of MFN, separate
   #      from 232/301/IEEPA. Canada is exempt under USMCA. Per-product
   #      coverage is in resources/s201_solar_products.csv.
-  s201_results <- extract_section_201_rates(ch99_data, policy_params = pp)
+  s201_results <- extract_section_201_rates(ch99_data, policy_params = pp,
+                                            effective_date = effective_date)
   if (s201_results$has_s201) {
     s201_path <- here('resources', 's201_solar_products.csv')
     if (!file.exists(s201_path)) {
@@ -2713,17 +2950,63 @@ calculate_rates_for_revision <- function(
     } else {
       s201_products <- read_csv(s201_path,
                                  col_types = cols(hts10 = col_character()))
+
+      # Coverage derived from the heading text, on top of the curated CSV.
+      # Most §201 headings state their own reach — "provided for in subheading
+      # 8450.11.00 or 8450.20.00" — usually on the unnumbered PARENT line while
+      # the rate sits on the child. Reading only the CSV is why the safeguard
+      # covered 3 HTS10s: solar, hand-listed. Solar's own scope is defined in
+      # note 18 rather than the heading, so the CSV still carries it; the
+      # extractor reports that as `by_note` instead of silently returning empty.
+      if (exists('resolve_product_scope_hierarchical', mode = 'function') &&
+          all(c('ch99_code', 'description') %in% names(ch99_data))) {
+        derived <- tryCatch({
+          sc <- resolve_product_scope_hierarchical(
+            ch99_data %>%
+              transmute(htsno = ch99_code,
+                        indent = 1L,           # leaf rows; parents already merged
+                        description = description),
+            hts10 = unique(products$hts10))
+          sc %>% filter(grepl('^9903\\.45\\.', htsno), n_products > 0)
+        }, error = function(e) NULL)
+        if (!is.null(derived) && nrow(derived) > 0) {
+          extra <- unique(unlist(lapply(seq_len(nrow(derived)), function(i)
+            covered_hts10(derived$description[i], unique(products$hts10)))))
+          new_hts <- setdiff(extra, s201_products$hts10)
+          if (length(new_hts) > 0) {
+            s201_products <- bind_rows(
+              s201_products,
+              tibble(hts10 = new_hts, ch99_code = NA_character_))
+            message('  §201 coverage from heading text: +', length(new_hts),
+                    ' HTS10 beyond the curated list')
+          }
+        }
+      }
+
       solar_rate <- s201_results$solar_rate
       s201_country_codes <- setdiff(countries, pp$country_codes$CTY_CANADA)
 
-      # Set rate_section_201 for existing rows
+      # Set rate_section_201 for existing rows, and record WHICH §201 heading
+      # covers each product while that is still known.
+      #
+      # ch99_code_s201 was previously sort(codes_s201)[1] — the alphabetically
+      # first §201 heading in the revision, regardless of which one supplied the
+      # rate. In 2025_rev_20 that is 9903.41.05, a Japanese-leather heading, so
+      # every solar row was stamped with a leather provision. s201_products
+      # already carries the covering heading per HTS10; use it.
+      .s201_code_by_hts <- s201_products %>%
+        filter(!is.na(ch99_code)) %>%
+        distinct(hts10, .keep_all = TRUE) %>%
+        select(hts10, .s201_code = ch99_code)
       rates <- rates %>%
+        left_join(.s201_code_by_hts, by = 'hts10') %>%
         mutate(
-          rate_section_201 = if_else(
-            hts10 %in% s201_products$hts10 & country %in% s201_country_codes,
-            solar_rate, rate_section_201
-          )
-        )
+          .s201_covered = hts10 %in% s201_products$hts10 &
+            country %in% s201_country_codes,
+          rate_section_201 = if_else(.s201_covered, solar_rate, rate_section_201),
+          ch99_src_s201 = if_else(.s201_covered, .s201_code, ch99_src_s201)
+        ) %>%
+        select(-.s201_code, -.s201_covered)
 
       # Add 201-only rows for products not yet in rates
       s201_country_rates <- tibble(
@@ -2733,10 +3016,22 @@ calculate_rates_for_revision <- function(
       rates <- add_blanket_pairs(rates, products, s201_products$hts10, s201_country_rates,
                                   'rate_section_201', 'Section 201 (solar)')
 
+      # add_blanket_pairs creates NEW rows after the stamp above, so they carry
+      # NA ch99_src_s201 — that was 2,193 of 2,910 rated §201 rows left without
+      # a covering heading. Re-stamp the freshly added rows from the same map.
+      rates <- rates %>%
+        left_join(.s201_code_by_hts, by = 'hts10') %>%
+        mutate(ch99_src_s201 = if_else(
+          rate_section_201 > 0 & is.na(ch99_src_s201) & !is.na(.s201_code),
+          .s201_code, ch99_src_s201)) %>%
+        select(-.s201_code)
+
       n_with_s201 <- sum(rates$rate_section_201 > 0)
       message('  Section 201 (solar): ', round(solar_rate * 100, 1), '% on ',
               n_with_s201, ' product-country pairs (',
               nrow(s201_products), ' HTS10 covered, Canada exempt)')
+      rates <- record_duty(rates, '6b2', 's201', 'rate_section_201', 's201_safeguard',
+                           citation_key = 's201_safeguards', ch99_code_col = 'ch99_code_s201')
     }
   }
 
@@ -2811,6 +3106,10 @@ calculate_rates_for_revision <- function(
     n_adjusted <- sum(rates$base_rate < rates$statutory_base_rate)
     message('  MFN exemption shares: adjusted base_rate for ', n_adjusted,
             ' product-country pairs')
+    # TRADE-WEIGHTED discount, not a legal exemption. No citation_key by
+    # design: it is a modelling adjustment, and the ledger must say so.
+    rates <- record_duty(rates, '6c', 'base', 'base_rate',
+                         'mfn_exemption_share_weighting')
 
     # 6d. Recompute IEEPA floor deduction against post-MFN base_rate.
     # Only for rows originally computed as floor-type (ieepa_type == 'floor').
@@ -2832,6 +3131,13 @@ calculate_rates_for_revision <- function(
         message('  Floor recomputation: updated rate_ieepa_recip for ', n_floor_adjusted,
                 ' floor-type pairs (against post-MFN base_rate)')
       }
+      # Recomputed against the TRADE-WEIGHTED base_rate, not statutory_base_rate.
+      # Same shape as the §232 auto-rebate defect: a value computed under one
+      # basis is reused under another. Recorded so the trace can show it.
+      rates <- record_duty(rates, '6d', 'ieepa_recip', 'rate_ieepa_recip',
+                           'floor_recompute_vs_weighted_base',
+                           citation_key = 'eo_14257_reciprocal',
+                           ch99_code_col = 'ch99_code_ieepa_recip')
     }
 
     # 6e. Recompute Annex III floor against post-MFN base_rate (same logic as 6d).
@@ -2841,11 +3147,30 @@ calculate_rates_for_revision <- function(
                      rates$base_rate < rates$statutory_base_rate
       if (any(annex3_mask)) {
         floor_val <- annex_cfg$annexes$annex_3$floor_rate
-        rates$rate_232[annex3_mask] <- pmax(0, floor_val - rates$base_rate[annex3_mask])
-        rates$statutory_rate_232[annex3_mask] <- rates$rate_232[annex3_mask]
+        # A floor says "total duty on this article is at least floor_val". It
+        # must therefore be closed against the base it is expressed against:
+        # the weighted base for the weighted rate, the STATUTORY base for the
+        # statutory rate. Copying the weighted-derived value into the statutory
+        # column (the previous behaviour) let the statutory total overshoot the
+        # floor by up to 5.7pp on ~7,000 rows per revision, because the weighted
+        # base is smaller and so leaves a wider gap to fill.
+        #
+        # Same defect class as the §232 auto-rebate credit at step 4c: a value
+        # computed under one basis reused under another.
+        rates$rate_232[annex3_mask] <-
+          pmax(0, floor_val - rates$base_rate[annex3_mask])
+        rates$statutory_rate_232[annex3_mask] <-
+          pmax(0, floor_val - rates$statutory_base_rate[annex3_mask])
         message('  Annex III floor recomputation: updated ', sum(annex3_mask),
-                ' pairs (against post-MFN base_rate)')
+                ' pairs (weighted rate vs post-MFN base_rate; ',
+                'statutory rate vs statutory_base_rate)')
       }
+      # Writes a value derived from the TRADE-WEIGHTED base_rate into
+      # statutory_rate_232 — a statutory column holding a weighted quantity.
+      rates <- record_duty(rates, '6e', 's232', 'statutory_rate_232',
+                           'annex3_floor_recompute_vs_weighted_base',
+                           citation_key = 's232_annex_2026', note_ref = 'annex_3',
+                           ch99_code_col = 'ch99_code_232')
     }
 
     # Drop transient ieepa_type column — not part of production output
@@ -3070,6 +3395,8 @@ calculate_rates_for_revision <- function(
                 ' entries per note 52(g)/(h); aircraft/pharma exempt shares ',
                 fl_cfg$aircraft_exempt_share %||% 0, '/',
                 fl_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+        rates <- record_duty(rates, '7b', 's301fl', 'rate_s301fl',
+                             's301fl_note52', citation_key = 's301fl_active')
       }
     } else {
       message('  Section 301 forced labor not yet effective (',
@@ -3124,6 +3451,8 @@ calculate_rates_for_revision <- function(
                 '; §232-covered articles fully excluded per note 50(a)(vi);',
                 ' aircraft/pharma exempt shares ', br_cfg$aircraft_exempt_share %||% 0,
                 '/', br_cfg$pharma_exempt_share %||% 0, ' — ASSUMED, not measured)')
+        rates <- record_duty(rates, '7c', 's301br', 'rate_s301br',
+                             's301br_note50', citation_key = 's301br_active')
       }
     } else {
       message('  Section 301 Brazil not yet effective (', br_cfg$effective_date,
@@ -3188,6 +3517,8 @@ calculate_rates_for_revision <- function(
                 ' row(s) marked pending_activation_json; the daily series gates',
                 ' them, the revision snapshot must not be read as live duty')
       }
+      rates <- record_duty(rates, '7d', 's338', 'rate_s338',
+                           's338_canada', citation_key = 's338_active')
     } else {
       message('  Section 338 Canada not applicable to this revision (effective ',
               s338_cfg$effective_date, ')')
@@ -3204,9 +3535,18 @@ calculate_rates_for_revision <- function(
   #     from the metal-content splitting in apply_stacking_rules(): that governs
   #     how much of an article a §232 action reaches, this governs whether an
   #     action is owed at all.
+  # 7b-bis. Park any §232 duty the per-action columns do not account for.
+  #     Several earlier steps write rate_232 directly (the pmax against
+  #     blanket_232 in step 4, country deal floors, annex overrides) without
+  #     touching the action columns, leaving duty that no §232 action explains.
+  #     Rate-neutral — it moves attribution, not money — but it must run BEFORE
+  #     EO 14289, which decides precedence by reading those very columns.
+  rates <- attribute_s232_residual(rates)
+
   .era <- resolve_stacking_era(effective_date)
-  if (!is.null(.era) && length(.era$non_stacking %||% list()) > 0) {
-    .thr <- .era$subject_to_threshold %||% 0
+  .eo_applies <- !is.null(.era) && length(.era$non_stacking %||% list()) > 0
+  .thr <- if (.eo_applies) .era$subject_to_threshold %||% 0 else 0
+  if (.eo_applies) {
     .before <- sum(rates$rate_232, na.rm = TRUE)
     rates <- apply_eo14289_precedence(rates, threshold = .thr,
                                       cty_canada = CTY_CANADA,
@@ -3219,6 +3559,22 @@ calculate_rates_for_revision <- function(
 
   # 8. Re-apply stacking rules with updated IEEPA and 232 rates
   rates <- apply_stacking_rules(rates, CTY_CHINA, stacking_method = stacking_method)
+
+  # 8a. Statutory-basis totals — the duty a single ENTRY owes, as distinct from
+  #     total_rate, which is trade-weighted (step 6c scales base_rate by the MFN
+  #     exemption share, step 7 scales base_rate/IEEPA/§122/rate_232 by the USMCA
+  #     share). Both are wanted: the weighted total drives the effective-rate
+  #     series, the statutory total answers "what do I owe on this shipment".
+  #     Gated by the same era so the two differ only in weighting.
+  rates <- compute_statutory_totals(rates, cty_china = CTY_CHINA,
+                                    stacking_method = stacking_method,
+                                    apply_eo = .eo_applies, threshold = .thr,
+                                    cty_canada = CTY_CANADA,
+                                    cty_mexico = CTY_MEXICO)
+  message('  Statutory totals: mean statutory_total_rate ',
+          sprintf('%.4f', mean(rates$statutory_total_rate, na.rm = TRUE)),
+          ' vs trade-weighted total_rate ',
+          sprintf('%.4f', mean(rates$total_rate, na.rm = TRUE)))
 
   # 8b. Resolve specific 8-digit Chapter 99 codes per authority per row.
   #     This replaces the static per-authority range labels ("9903.80-85, 9903.94")
@@ -3384,7 +3740,8 @@ calculate_rates_for_revision <- function(
     duty_free_treatment = if (exists('duty_free_treatment', inherits = FALSE)) duty_free_treatment else 'all_products',
     cc = if (exists('cc', inherits = FALSE)) cc else NULL,
     ch99_other = ch99_other,
-    s301_exclusions = s301_exclusions
+    s301_exclusions = s301_exclusions,
+    s201_quartz = if (exists('s201_quartz', inherits = FALSE)) s201_quartz else NULL
   )
 
   # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside
@@ -3485,6 +3842,13 @@ calculate_rates_for_revision <- function(
   message('  With Section 301: ', n_with_301)
   message('  With Section 122: ', n_with_s122)
   message('  USMCA eligible: ', n_usmca)
+
+  # Persist the forward provenance ledger — the build is its own process, so an
+  # in-memory ledger would die with it. Failure here must never break a build:
+  # provenance is diagnostic output, not a rate input.
+  tryCatch(duty_ledger_save(revision = revision_id),
+           error = function(e) message('  [duty ledger not saved: ',
+                                       conditionMessage(e), ']'))
 
   return(rates)
 }

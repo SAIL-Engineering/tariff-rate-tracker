@@ -149,7 +149,18 @@ rates_fixture <- tibble(
   rate_301 = 0, rate_ieepa_recip = 0, rate_ieepa_fent = 0,
   rate_s122 = 0.1, rate_section_201 = 0,
   deriv_type = c('aluminum', 'aluminum', 'aluminum', 'steel', NA),
-  deriv_ch99_code = c('9903.85.08', '9903.85.04', '9903.85.07', NA, NA)
+  deriv_ch99_code = c('9903.85.08', '9903.85.04', '9903.85.07', NA, NA),
+  # Per-action columns: the resolver attributes by the ACTION carrying the
+  # duty (rate-matching within that action's heading pool) — a row without any
+  # action column is deliberately left NA rather than guessed. Production rows
+  # always carry these (step 4 writes them; attribute_s232_residual() backfills
+  # by chapter), so the fixture mirrors that: ch76 primary = aluminum action,
+  # 7326 = steel action.
+  rate_232_auto = 0,
+  rate_232_steel = c(0, 0, 0, 0.5, 0),
+  rate_232_aluminum = c(0.09, 0.5, 0.5, 0, 0.5),
+  rate_232_copper = 0,
+  rate_232_other = 0
 )
 
 run_test('product-level subdivision codes win (the 8536.90.8585 bug)', {

@@ -1428,6 +1428,36 @@ AUTHORITY_RATE_COLS <- c(
 )
 
 
+#' Per-action §232 columns on a STATUTORY basis
+#'
+#' Derived from S232_ACTION_RATE_COLS so the two lists cannot drift.
+STATUTORY_S232_ACTION_RATE_COLS <- paste0('statutory_', S232_ACTION_RATE_COLS)
+
+
+#' Weighted rate column -> its statutory counterpart
+#'
+#' 06_calculate_rates.R deliberately scales the weighted columns by trade shares
+#' (MFN exemption share, then USMCA share), so `rate_*` answers "what does the
+#' average dollar of this trade flow pay" while `statutory_*` answers "what is
+#' the rate on this line". Both are wanted; this names the correspondence so the
+#' statutory totals can be built without a second hand-maintained list.
+#'
+#' rate_adcvd has no statutory counterpart — it is never trade-weighted.
+STATUTORY_RATE_COL_MAP <- c(
+  base_rate        = 'statutory_base_rate',
+  rate_232         = 'statutory_rate_232',
+  rate_ieepa_recip = 'statutory_rate_ieepa_recip',
+  rate_ieepa_fent  = 'statutory_rate_ieepa_fent',
+  rate_301         = 'statutory_rate_301',
+  rate_s122        = 'statutory_rate_s122',
+  rate_section_201 = 'statutory_rate_section_201',
+  rate_other       = 'statutory_rate_other',
+  rate_s301fl      = 'statutory_rate_s301fl',
+  rate_s301br      = 'statutory_rate_s301br',
+  rate_s338        = 'statutory_rate_s338'
+)
+
+
 #' Earliest date each origin is dutiable at Column 2
 #'
 #' Cuba and North Korea have been non-NTR throughout the corpus. Russia and
@@ -1477,9 +1507,32 @@ load_non_ntr_countries <- function(revision_id, effective_date = NULL,
 
   rows <- g[g$revision == revision_id, , drop = FALSE]
   if (nrow(rows) == 0) {
-    # Not an error: pre-2022 revisions predate the Russia/Belarus PNTR
-    # withdrawal, and the note is not present in every archived revision.
-    return(character(0))
+    # Carry forward from the nearest EARLIER revision that has rows. emit_gn3()
+    # refreshes this CSV per revision, but a brand-new revision built before its
+    # rows land (or while reststop is down) used to fall through here and
+    # silently switch Column 2 OFF — 2026_rev_14-16 shipped with Cuba/North
+    # Korea/Russia/Belarus on Column 1 rates for exactly this reason. Non-NTR
+    # status is sticky (it ends only by statute, which lands in a later CSV
+    # refresh as that revision's own rows), so the nearest earlier list is the
+    # correct reading. Pre-2022 revisions (before any extracted rows exist)
+    # still return empty: no earlier revision qualifies.
+    rev_key <- function(r) {
+      m <- regmatches(r, regexec('^([0-9]{4})_(?:rev_([0-9]+)|basic)$', r))
+      vapply(m, function(p) {
+        if (length(p) < 3 || p[2] == '') return(NA_real_)
+        as.numeric(p[2]) * 1000 + ifelse(p[3] == '', 0, as.numeric(p[3]))
+      }, numeric(1))
+    }
+    this_key <- rev_key(revision_id)
+    cand <- unique(g$revision)
+    keys <- rev_key(cand)
+    ok <- !is.na(keys) & !is.na(this_key) & keys < this_key
+    if (!any(ok)) return(character(0))
+    fallback_rev <- cand[ok][which.max(keys[ok])]
+    warning('GN 3(b): no Column 2 rows for ', revision_id,
+            ' in gn3_column2_countries.csv — carrying forward from ',
+            fallback_rev, '. Run emit_gn3() to extract this revision.')
+    rows <- g[g$revision == fallback_rev, , drop = FALSE]
   }
 
   names_uniq <- unique(rows$country_name)
@@ -1782,6 +1835,120 @@ S232_HEADING_PROGRAM_ACTION <- c(
 )
 
 
+#' Resolve each §232 heading-program to the Chapter 99 heading that carries it
+#'
+#' FORWARD attribution. The program that supplied a row's rate is known at the
+#' moment the rate is applied; this turns that program into the legal heading and
+#' checks the declaration against the schedule actually published in the
+#' revision. Nothing here consults the computed rate to pick a heading — that
+#' backward inference is what stamped auto PARTS rows with 9903.94.01, the
+#' vehicles heading, because both carry 25%.
+#'
+#' The declaration is config, so it can go stale. Three things are therefore
+#' verified per revision and reported rather than assumed:
+#'   exists       the heading appears in this revision's parsed Chapter 99 data
+#'   rate_agrees  its published rate equals the program's configured rate
+#'   declared     the program names a heading at all
+#' A program whose heading is absent (revisions predating the action) resolves to
+#' NA with a reason, never to a guess.
+#'
+#' @param s232_headings `section_232_headings` config block
+#' @param ch99_data Parsed Chapter 99 table for the revision (ch99_code, rate)
+#' @param params Policy params, for EU27_CODES when a country key is 'eu'
+#' @return tibble(program, country, ch99_code, config_rate, published_rate,
+#'   status) — country is NA for the program default
+resolve_s232_program_headings <- function(s232_headings, ch99_data,
+                                          params = NULL) {
+  empty <- tibble(program = character(0), country = character(0),
+                  ch99_code = character(0), config_rate = numeric(0),
+                  published_rate = numeric(0), status = character(0))
+  if (is.null(s232_headings) || length(s232_headings) == 0) return(empty)
+
+  pub <- if (!is.null(ch99_data) && nrow(ch99_data) > 0 &&
+             all(c('ch99_code', 'rate') %in% names(ch99_data))) {
+    ch99_data %>% filter(!is.na(ch99_code)) %>%
+      group_by(ch99_code) %>%
+      summarise(published_rate = suppressWarnings(max(rate, na.rm = TRUE)),
+                .groups = 'drop') %>%
+      mutate(published_rate = if_else(is.finite(published_rate),
+                                      published_rate, NA_real_))
+  } else {
+    tibble(ch99_code = character(0), published_rate = numeric(0))
+  }
+
+  eu <- params$EU27_CODES %||% character(0)
+
+  rows <- map_dfr(names(s232_headings), function(nm) {
+    cfg <- s232_headings[[nm]]
+    rate <- suppressWarnings(as.numeric(cfg$default_rate %||% NA_real_))
+    base <- tibble(program = nm, country = NA_character_,
+                   ch99_code = cfg$ch99_code %||% NA_character_,
+                   config_rate = rate)
+    byc <- cfg$ch99_code_by_country
+    if (!is.null(byc) && length(byc) > 0) {
+      base <- bind_rows(base, map_dfr(names(byc), function(k) {
+        # 'eu' is the same bloc mnemonic the rest of this config uses; expand it
+        # so a per-country heading covers every member state.
+        ks <- if (identical(k, 'eu')) eu else k
+        if (length(ks) == 0) return(tibble())
+        # config_rate is deliberately NA for a country-specific heading. The
+        # program's default_rate is the GENERAL rate; a country heading exists
+        # precisely because that country owes a different one (UK autos 7.5%,
+        # Japan wood 15%). Comparing the two would report every country deal as
+        # a mismatch. Existence is checked here; whether the heading's published
+        # rate matches the rate actually charged is a ROW-level invariant, which
+        # is the sharper test anyway.
+        tibble(program = nm, country = as.character(ks),
+               ch99_code = as.character(byc[[k]]), config_rate = NA_real_)
+      }))
+    }
+    base
+  })
+
+  rows %>%
+    left_join(pub, by = 'ch99_code') %>%
+    mutate(status = case_when(
+      is.na(ch99_code)        ~ 'undeclared',
+      !ch99_code %in% pub$ch99_code ~ 'absent_in_revision',
+      is.na(published_rate)   ~ 'published_rate_absent',
+      # Country-specific declarations carry no comparable config rate (see
+      # above); existence is the whole check for them.
+      !is.na(country)         ~ 'ok',
+      is.na(config_rate)      ~ 'config_rate_absent',
+      abs(published_rate - config_rate) > 1e-9 ~ 'rate_mismatch',
+      TRUE                    ~ 'ok'
+    ))
+}
+
+
+#' Per-row §232 heading from the program that supplied the rate
+#'
+#' @param program Character vector of heading_program per row
+#' @param country Character vector of census country codes per row
+#' @param map Result of resolve_s232_program_headings()
+#' @return Character vector of Chapter 99 headings, NA where unresolvable
+s232_heading_for <- function(program, country, map) {
+  out <- rep(NA_character_, length(program))
+  if (is.null(map) || nrow(map) == 0) return(out)
+  usable <- map %>% filter(status == 'ok')
+  if (nrow(usable) == 0) return(out)
+
+  # Country-specific declaration wins over the program default, matching the
+  # schedule: UK auto parts are 9903.94.32 at 10%, not 9903.94.05 at 25%.
+  spec <- usable %>% filter(!is.na(country))
+  if (nrow(spec) > 0) {
+    k <- match(paste(program, country), paste(spec$program, spec$country))
+    out <- spec$ch99_code[k]
+  }
+  dflt <- usable %>% filter(is.na(country))
+  if (nrow(dflt) > 0) {
+    k <- match(program, dflt$program)
+    out <- coalesce(out, dflt$ch99_code[k])
+  }
+  out
+}
+
+
 #' Resolve Section 232 metal-content contributions for derivative articles
 #'
 #' A derivative article outside the primary metal chapters is dutiable on its
@@ -1858,9 +2025,13 @@ RATE_SCHEMA <- c(
   'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
   'rate_adcvd', 'adcvd_candidates_json',
   S232_ACTION_RATE_COLS,
+  STATUTORY_S232_ACTION_RATE_COLS,
   'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s338',
+  'statutory_total_additional', 'statutory_total_rate',
+  'statutory_alternatives_json',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
+  'ch99_code_s301fl', 'ch99_code_s301br', 'ch99_code_s338',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
   'total_additional', 'total_rate',
   'usmca_eligible',
@@ -1895,6 +2066,8 @@ enforce_rate_schema <- function(df) {
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
+    ch99_code_s301fl = NA_character_, ch99_code_s301br = NA_character_,
+    ch99_code_s338 = NA_character_,
     metal_share = 1.0, s232_annex = NA_character_, s232_metal = NA_character_,
     duty_basis_232 = NA_character_,
     total_additional = 0, total_rate = 0,
@@ -1920,6 +2093,14 @@ enforce_rate_schema <- function(df) {
   # Per-action §232 columns default to 0, sourced from the constant so this list
   # cannot drift from S232_ACTION_RATE_COLS.
   for (col in S232_ACTION_RATE_COLS) defaults[[col]] <- 0
+  for (col in STATUTORY_S232_ACTION_RATE_COLS) defaults[[col]] <- 0
+  # NA, not 0. These are only produced by compute_statutory_totals(), so a
+  # snapshot predating it has not computed them — and 0 would read as "this
+  # entry owes nothing", which is a claim rather than an absence. NA makes a
+  # stale partition visibly stale instead of silently wrong.
+  defaults[['statutory_total_additional']] <- NA_real_
+  defaults[['statutory_total_rate']] <- NA_real_
+  defaults[['statutory_alternatives_json']] <- NA_character_
 
   # A schema column with no default silently stays absent, because
   # `df[[col]] <- NULL` is a no-op rather than an assignment. That produced a
@@ -2100,7 +2281,8 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
                                    duty_free_treatment = 'all_products',
                                    cc = NULL,
                                    ch99_other = NULL,
-                                   s301_exclusions = NULL) {
+                                   s301_exclusions = NULL,
+                                   s201_quartz = NULL) {
   n <- nrow(rates)
   if (n == 0) {
     rates$duty_provenance_json <- character(0)
@@ -2496,6 +2678,36 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     excl_frag[is.na(excl_frag)] <- ''
   }
 
+  # §201 quartz TRQ determination (9903.45.30/.31, U.S. note 41). The actual
+  # rate depends on quota standing, so BOTH tiers are emitted as
+  # requires-more-facts rules on every covered, non-exempt row — never a rate.
+  # Gate is product scope x country-not-exempt (NOT a rate column: by design
+  # rate_section_201 stays 0 for quartz, so there is no rate anchor to gate on).
+  quartz_frag <- rep('', n)
+  if (!is.null(s201_quartz) && nrow(s201_quartz$candidates %||% tibble::tibble()) > 0) {
+    qc <- s201_quartz$candidates %>%
+      dplyr::arrange(hts10, ch99_code) %>%
+      dplyr::mutate(frag = paste0(
+        ',{"ch99_code":"', ch99_code, '"',
+        ',"authority":"section_201"',
+        ',"program":"s201_quartz_trq"',
+        ',"status":"potentially_applicable_requires_more_facts"',
+        ',"statutory_rate":', statutory_rate,
+        ',"rate_type":"surcharge"',
+        ',"stacking_class":"additive"',   # note 41(b): cumulative, in addition
+        ',"tier":"', tier, '"',
+        ',"missing_facts":["quota_period","quota_fill_status"]',
+        ',"required_user_inputs":["entry_date","entered_quantity"]}'
+      )) %>%
+      dplyr::group_by(hts10) %>%
+      dplyr::summarise(frag = paste0(frag, collapse = ''), .groups = 'drop')
+    idx_q <- match(hts10, qc$hts10)
+    quartz_frag <- ifelse(
+      is.na(idx_q) | country %in% (s201_quartz$exempt_codes %||% character(0)),
+      '', qc$frag[idx_q])
+    quartz_frag[is.na(quartz_frag)] <- ''
+  }
+
   # 9902 MTB / 9904 ag-safeguard candidates by inline-trigger prefix match.
   other_frag <- rep('', n)
   if (!is.null(ch99_other) && nrow(ch99_other) > 0 &&
@@ -2548,7 +2760,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
 
   rules_all <- paste0(r232_rule, r301_rule, excl_frag, rrec_rule,
                       rrec_exempt_rule, rfent_rule, rs122_rule, r201_rule,
-                      other_frag)
+                      quartz_frag, other_frag)
   rules_all <- sub('^,', '', rules_all)
   rates$ch99_rules_json <- paste0('[', rules_all, ']')
 
@@ -2727,6 +2939,137 @@ apply_eo14289_precedence <- function(df, threshold = 0,
 }
 
 
+#' Attribute any §232 duty that no action column accounts for
+#'
+#' `rate_232` is the RESOLVED TOTAL across §232 actions; the per-action columns
+#' carry the attribution underneath it. Several upstream steps set `rate_232`
+#' directly — `pmax(rate_232, blanket_232)` at 06_calculate_rates.R:1660 keeps a
+#' pre-existing rate while only the blanket contribution gets attributed, and
+#' country deal floors and annex overrides likewise write `rate_232` without
+#' touching the action columns. The leftover is invisible: measured on the
+#' rebuilt corpus (2026-08-19 run) the residual is far larger than first
+#' measured: 682,549 orphan rows in 2026_rev_13 (103,671 of them landing in
+#' rate_232_other as unidentified) and 455,909 in 2026_rev_4 — the annex-era
+#' application paths write rate_232 without the action columns, which is the
+#' upstream defect to fix (see docs/GAPS.md). Rows are
+#' spread across all 240 countries, and the duty provenance labels it
+#' `other_ch99` with `ch99_code: null` — a duty with no citable legal basis.
+#'
+#' The consequence is not only cosmetic. EO 14289 sec. 3(a)(i) tests
+#' `rate_232_auto > threshold`; an unattributed duty leaves that column at 0, so
+#' the non-stacking order cannot fire on rows that may well be auto parts.
+#'
+#' This parks the remainder in `rate_232_other`, which is RATE-NEUTRAL:
+#' `apply_eo14289_precedence()` already re-derives `rate_232` as the sum of the
+#' actions plus any residual, so moving the residual into a column changes the
+#' attribution and not the total. `_other` is the conservative destination —
+#' actions outside sec. 2 are cumulative under sec. 3(c), so nothing is
+#' suppressed on a guess. Guessing `auto` instead would silently switch off
+#' IEEPA CA/MX on rows we have not identified.
+#'
+#' @param df Rate frame carrying rate_232 and the per-action columns
+#' @param verbose Emit a one-line summary naming the count and destinations
+#' @return df with the residual attributed, plus attribute `n_unattributed_s232`
+attribute_s232_residual <- function(df, verbose = TRUE) {
+  if (nrow(df) == 0 || !'rate_232' %in% names(df)) return(df)
+  df <- zero_fill_authority_rates(df, S232_ACTION_RATE_COLS)
+
+  attributed <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
+    df$rate_232_copper + df$rate_232_other
+  residual <- df$rate_232 - attributed
+  orphan <- which(residual > 1e-9)
+  if (length(orphan) == 0) {
+    attr(df, 'n_unattributed_s232') <- 0L
+    return(df)
+  }
+
+  target <- resolve_s232_action_col(df)
+  named <- !is.na(target)
+  for (col in S232_ACTION_RATE_COLS) {
+    hit <- orphan[named[orphan] & target[orphan] == col]
+    if (length(hit)) df[[col]][hit] <- df[[col]][hit] + residual[hit]
+  }
+  # Only what nothing identifies falls through to _other.
+  rest <- orphan[!named[orphan]]
+  if (length(rest)) df$rate_232_other[rest] <- df$rate_232_other[rest] + residual[rest]
+
+  if (isTRUE(verbose)) {
+    dest <- ifelse(named[orphan], target[orphan], 'rate_232_other (unidentified)')
+    tb <- sort(table(dest), decreasing = TRUE)
+    message('  §232 residual attribution: ', length(orphan),
+            ' row(s) carried duty no action column accounted for -> ',
+            paste(sprintf('%s x%d', names(tb), as.integer(tb)), collapse = ', '))
+  }
+  attr(df, 'n_unattributed_s232') <- length(orphan)
+  attr(df, 'n_unidentified_s232') <- length(rest)
+  df
+}
+
+
+#' Which §232 ACTION does a row's duty belong to?
+#'
+#' Single source of truth for the mapping, shared by the duty-provenance
+#' labeller and by `attribute_s232_residual()`. Keeping one copy matters because
+#' the two disagreeing is exactly how the annex era ended up with a provenance
+#' label of `s232_steel_derivative` on rows whose `rate_232_steel` was 0.
+#'
+#' Precedence mirrors the coverage hierarchy: in the annex era the tier
+#' (`s232_annex`) plus the covered metal (`s232_metal`) is authoritative,
+#' because the 9903.82.xx reporting code does not distinguish metal or
+#' primary-vs-derivative. Pre-annex rows fall through to the metal-specific
+#' Chapter 99 headings, then to the derivative type, then to chapter.
+#'
+#' @param df Rate frame; missing columns are treated as absent, not an error
+#' @param steel_chapters,alum_chapters Blanket metal chapters. Defaulted from
+#'   get_country_constants() rather than inherited from the caller's globals, so
+#'   the function works standalone in tests and from scripts that never define
+#'   STEEL_CHAPTERS.
+#' @return character vector of column names, NA where nothing identifies the row
+resolve_s232_action_col <- function(df, steel_chapters = NULL, alum_chapters = NULL) {
+  if (is.null(steel_chapters) || is.null(alum_chapters)) {
+    .cc <- tryCatch(get_country_constants(), error = function(e) list())
+    if (is.null(steel_chapters)) steel_chapters <- .cc$STEEL_CHAPTERS %||% c('72', '73')
+    if (is.null(alum_chapters))  alum_chapters  <- .cc$ALUM_CHAPTERS  %||% c('76')
+  }
+  n <- nrow(df)
+  get <- function(nm, default = NA) {
+    if (nm %in% names(df)) df[[nm]] else rep(default, n)
+  }
+  annex <- get('s232_annex', NA_character_)
+  metal <- get('s232_metal', NA_character_)
+  c232  <- get('ch99_code_232', NA_character_)
+  deriv <- get('deriv_type', NA_character_)
+  hts   <- get('hts10', NA_character_)
+  chap  <- substr(hts, 1, 2)
+
+  is_annex <- !is.na(annex) & annex %in% c('annex_1a', 'annex_1b', 'annex_3')
+  is_deriv <- !is.na(annex) & annex %in% c('annex_1b', 'annex_3')
+
+  dplyr::case_when(
+    # --- Annex era: (tier + metal) is the coverage source ---
+    is_annex & !is.na(metal) & metal == 'steel'    ~ 'rate_232_steel',
+    is_annex & !is.na(metal) & metal == 'aluminum' ~ 'rate_232_aluminum',
+    is_annex & !is.na(metal) & metal == 'copper'   ~ 'rate_232_copper',
+    # Annex-classified derivative whose metal is unnamed in the product list.
+    # The provenance labeller calls this a steel derivative; match it.
+    is_annex & is_deriv ~ 'rate_232_steel',
+    # --- Pre-annex: the ch99 heading is the coverage source ---
+    !is.na(c232) & grepl('^9903\\.9[34]', c232) ~ 'rate_232_auto',
+    !is.na(c232) & grepl('^9903\\.8[01]', c232) ~ 'rate_232_steel',
+    !is.na(c232) & grepl('^9903\\.85', c232)    ~ 'rate_232_aluminum',
+    !is.na(c232) & grepl('^9903\\.78', c232)    ~ 'rate_232_copper',
+    !is.na(c232) & grepl('^9903\\.7[469]', c232) ~ 'rate_232_other',  # MHD/wood/semi
+    # --- Fall back to derivative type, then to chapter ---
+    !is.na(deriv) & deriv == 'steel'    ~ 'rate_232_steel',
+    !is.na(deriv) & deriv == 'aluminum' ~ 'rate_232_aluminum',
+    !is.na(deriv) & deriv == 'copper'   ~ 'rate_232_copper',
+    !is.na(chap) & chap %in% steel_chapters ~ 'rate_232_steel',
+    !is.na(chap) & chap %in% alum_chapters  ~ 'rate_232_aluminum',
+    TRUE ~ NA_character_
+  )
+}
+
+
 apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutual_exclusion') {
   # Every authority rate column, present and NA-free. The per-column guards
   # below predate zero_fill_authority_rates() and are kept for the metal_share
@@ -2875,6 +3218,140 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       total_rate = base_rate + total_additional
     ) %>%
     select(-nonmetal_share)
+}
+
+
+#' Statutory-basis totals — the duty a single entry actually owes
+#'
+#' `total_rate` is TRADE-WEIGHTED. 06_calculate_rates.R scales base_rate, the
+#' IEEPA rates, §122 and rate_232 by the MFN exemption share and then by
+#' (1 - usmca_share), so it answers "what does the average dollar of this trade
+#' flow pay". That is the right question for an effective-rate series and the
+#' wrong one for "what do I owe on this shipment": a Mexican valve part whose
+#' line carries a categorical 25% IEEPA duty shows up as 5.4% once weighted by
+#' how much of that trade flow enters USMCA-qualifying.
+#'
+#' The `statutory_*` columns hold the unweighted rates, but they are snapshotted
+#' BEFORE stacking, so summing them double-counts every duty EO 14289 excludes —
+#' an MX auto part reads 0.525 when the entry owes 0.275. Neither column set on
+#' its own is the per-entry answer; this builds it.
+#'
+#' Measured against cached Avalara payloads on 2025_rev_14, exact agreement was
+#' 11/20 using the weighted columns, 7/20 summing statutory columns naively, and
+#' 17/20 here. The three that still differ are all lines where Avalara omits a
+#' duty that was in force.
+#'
+#' Runs the SAME engine (apply_eo14289_precedence + apply_stacking_rules) over
+#' statutory inputs, so the two totals cannot diverge in how they treat
+#' precedence or metal-content splitting — the only difference is the weighting.
+#'
+#' @param df Rate frame carrying both the weighted and statutory columns
+#' @param apply_eo Whether this revision's era carries the non-stacking order.
+#'   Gate it with the SAME resolve_stacking_era() check the weighted path uses;
+#'   applying it on a pre-2025 era would make the statutory total disagree with
+#'   the weighted one for a reason that has nothing to do with weighting.
+#' @return df with statutory_total_additional, statutory_total_rate and the
+#'   post-suppression STATUTORY_S232_ACTION_RATE_COLS attached
+compute_statutory_totals <- function(df, cty_china = '5700',
+                                     stacking_method = 'mutual_exclusion',
+                                     apply_eo = TRUE, threshold = 0,
+                                     cty_canada = '1220', cty_mexico = '2010') {
+  if (nrow(df) == 0) {
+    df$statutory_total_additional <- numeric(0)
+    df$statutory_total_rate <- numeric(0)
+    for (col in STATUTORY_S232_ACTION_RATE_COLS) df[[col]] <- numeric(0)
+    return(df)
+  }
+
+  # Swap each weighted rate for its statutory counterpart. Columns with no
+  # statutory twin (rate_adcvd) are already unweighted and carry through as-is.
+  shadow <- df
+  for (rc in names(STATUTORY_RATE_COL_MAP)) {
+    sc <- STATUTORY_RATE_COL_MAP[[rc]]
+    if (sc %in% names(df)) shadow[[rc]] <- coalesce(df[[sc]], 0)
+  }
+
+  # The per-action §232 columns are never trade-weighted (only the collapsed
+  # rate_232 is), so they are already on a statutory basis and feed the shadow
+  # directly. Re-running the suppression over them is idempotent.
+  shadow <- zero_fill_authority_rates(shadow, S232_ACTION_RATE_COLS)
+
+  .run <- function(s) {
+    if (isTRUE(apply_eo)) {
+      s <- apply_eo14289_precedence(s, threshold = threshold,
+                                    cty_canada = cty_canada,
+                                    cty_mexico = cty_mexico)
+    }
+    apply_stacking_rules(s, cty_china = cty_china,
+                         stacking_method = stacking_method)
+  }
+
+  # ---- the USMCA fork -------------------------------------------------------
+  # On a CA/MX line, whether the entry claims USMCA preference decides WHICH
+  # authority applies, not merely how much:
+  #
+  #   preference NOT claimed  MFN + IEEPA CA/MX; EO 14289 sec. 3(a)(ii) then
+  #                           excludes §232 steel and aluminum
+  #   preference claimed      base duty Free and IEEPA CA/MX exempt, but §232
+  #                           steel/aluminum STILL apply — they are not
+  #                           USMCA-exempt (see step 7 of 06_calculate_rates.R)
+  #
+  # For 7202.11.50 from Canada at 2025_rev_14 that is 0.115 versus 0.515. Both
+  # are legally correct; which one an entry owes depends on facts the corpus
+  # does not carry, because `usmca_eligible` means the TARIFF LINE is eligible,
+  # not that a given shipment qualifies and claimed it.
+  #
+  # So the default is the unclaimed treatment — preference is affirmatively
+  # claimed, never automatic — and the alternative is carried explicitly rather
+  # than discarded. Same discipline as the 9902/9904 and §301-exclusion
+  # candidates: state the fork and the missing fact instead of picking silently.
+  unclaimed <- .run(shadow)
+
+  is_camx <- df$country %in% c(cty_canada, cty_mexico)
+  shadow_c <- shadow
+  shadow_c$rate_ieepa_fent[is_camx]  <- 0
+  shadow_c$rate_ieepa_recip[is_camx] <- 0
+  shadow_c$base_rate[is_camx]        <- 0   # USMCA preference is duty-free
+  claimed <- .run(shadow_c)
+
+  df$statutory_total_additional <- unclaimed$total_additional
+  df$statutory_total_rate       <- unclaimed$total_rate
+  for (i in seq_along(S232_ACTION_RATE_COLS)) {
+    df[[STATUTORY_S232_ACTION_RATE_COLS[i]]] <- unclaimed[[S232_ACTION_RATE_COLS[i]]]
+  }
+
+  forked <- is_camx & abs(unclaimed$total_rate - claimed$total_rate) > 1e-9
+  df$statutory_alternatives_json <- NA_character_
+  if (any(forked)) {
+    df$statutory_alternatives_json[forked] <- sprintf(
+      paste0('{"basis":"usmca_preference_not_claimed","total":%.6f,',
+             '"alternative":{"basis":"usmca_preference_claimed","total":%.6f,',
+             '"note":"base duty free and IEEPA CA/MX exempt; 232 steel/aluminum still apply"},',
+             '"missing_facts":["usmca_qualification"],',
+             '"status":"requires_more_facts","rule":"eo14289_3a_ii"}'),
+      unclaimed$total_rate[forked], claimed$total_rate[forked])
+  }
+
+  # Every weighting in the pipeline is a multiplication by (1 - share) with
+  # share in [0, 1], so it can only ever DISCOUNT. The trade-weighted total may
+  # therefore sit anywhere at or below the higher statutory branch — often far
+  # below, because the MFN exemption share (step 6c) alone can take a 59% line
+  # to 12% for an origin with heavy FTA utilisation. That is not an error.
+  #
+  # What cannot happen is the weighted total EXCEEDING the higher branch: no
+  # sequence of discounts produces a number above the undiscounted one. That
+  # would mean the statutory inputs are stale relative to the weighted ones,
+  # which is exactly how the pre-existing `statutory_rate_232` annex overwrite
+  # (06_calculate_rates.R:2367) would surface.
+  hi <- pmax(unclaimed$total_rate, claimed$total_rate)
+  bad <- which(df$total_rate > hi + 1e-6)
+  if (length(bad) > 0) {
+    warning(sprintf(
+      'compute_statutory_totals: %d row(s) have a trade-weighted total_rate ABOVE the higher statutory branch (e.g. %s/%s: weighted %.4f > statutory %.4f). Weighting only discounts, so the statutory inputs on these rows are stale.',
+      length(bad), df$hts10[bad[1]], df$country[bad[1]],
+      df$total_rate[bad[1]], hi[bad[1]]), call. = FALSE)
+  }
+  df
 }
 
 
@@ -3214,6 +3691,54 @@ filter_active_ch99 <- function(ch99_data, revision_effective_date) {
             ' (earliest activation: ', earliest, ')')
     ch99_data <- ch99_data[!not_yet_active, , drop = FALSE]
   }
+
+  # --- Provisions that have STOPPED being collectible -----------------------
+  # The mirror of the activation gate above, and it was missing entirely. A
+  # heading stays in the schedule long after it dies: the notes say so, the
+  # tariff line does not.
+  #
+  #   "The following provisions have been suspended pursuant to executive
+  #    action: ... 9903.41.35 through 9903.41.45"                    (note 5)
+  #   "No rate of duty ... shall be imposed ... after the close of
+  #    September 25, 2012."                                       (note 14(b))
+  #
+  # Without this, the only thing stopping an expired 200% or 100% provision from
+  # being collected is that its country scope failed to parse — protection by
+  # accident, and it disappears the moment scope resolution improves.
+  #
+  # Two sources, both mechanical: the per-revision note extract
+  # (resources/ch99_provision_status.csv, from scripts/extract_note_rules.R) and
+  # the inline compiler's note on the tariff line itself.
+  # Inline compiler's notes ("[Compiler's note: provision terminated...]") are
+  # deliberately NOT dropped here. The IEEPA extractor already reads them — its
+  # `terminated` flag drives the Phase 1 / Phase 2 reinstatement logic, and the
+  # "Phase 1 cap NOT applied" decision needs to SEE the terminated Phase 1
+  # entries to know Phase 2 superseded them. Removing them upstream would take
+  # away that input and silently change reciprocal behaviour on 35 headings.
+  # `inline_provision_status()` stays available for extractors that want it.
+  status_path <- here::here('resources', 'ch99_provision_status.csv')
+  if (file.exists(status_path) && 'ch99_code' %in% names(ch99_data)) {
+    st <- tryCatch(suppressMessages(readr::read_csv(
+      status_path, col_types = readr::cols(
+        ch99_code = readr::col_character(), status = readr::col_character(),
+        expires_after = readr::col_date(), .default = readr::col_guess()))),
+      error = function(e) NULL)
+    if (!is.null(st) && nrow(st) > 0) {
+      # Suspension is unconditional; expiry is only in force after its date.
+      susp <- unique(st$ch99_code[st$status == 'suspended'])
+      exp_tbl <- st[st$status == 'expired' & !is.na(st$expires_after), ]
+      expired_now <- unique(exp_tbl$ch99_code[exp_tbl$expires_after < rev_date])
+      drop <- ch99_data$ch99_code %in% c(susp, expired_now)
+      if (any(drop)) {
+        rated <- sum(drop & !is.na(ch99_data$rate) & ch99_data$rate > 0)
+        message('  Dropping ', sum(drop), ' Ch99 entr',
+                if (sum(drop) == 1) 'y' else 'ies',
+                ' suspended or expired per the U.S. notes at ', rev_date,
+                ' (', rated, ' carried a rate)')
+        ch99_data <- ch99_data[!drop, , drop = FALSE]
+      }
+    }
+  }
   ch99_data
 }
 
@@ -3366,6 +3891,69 @@ build_s301_exclusion_candidates <- function(ch99_data, effective_date,
 }
 
 
+#' Build §201 quartz surface products TRQ determination candidates
+#'
+#' Quartz (9903.45.30 in-quota 25% / 9903.45.31 over-quota 50%; U.S. note 41,
+#' 91 FR 50645; quota periods from 2026-08-15) is a tariff-rate quota: the rate
+#' an entry actually owes depends on quota standing — a fact this pipeline does
+#' not hold. NO rate is collapsed into rate_section_201 (objective
+#' determinations only). Instead both tiers are emitted per covered row as
+#' requires-more-facts rules in ch99_rules_json via attach_duty_provenance().
+#'
+#' Scope is the note's OWN enumeration, not a guess: note 41(a) closes with
+#' "The scope covers imported products provided for under HTSUS subheadings
+#' 6810.99.0020, 6810.99.0040, and 7020.00.6000" -> resources/
+#' s201_quartz_products.csv. Note 41(c) exempts four country groups (CA/MX,
+#' FTA partners, developing countries, CBERA) -> resources/
+#' s201_quartz_exempt_countries.csv (names resolved to census codes through
+#' the country universe; 124 origins).
+#'
+#' @param ch99_data Parsed Chapter 99 tibble for this revision.
+#' @return list(candidates = tibble(hts10, ch99_code, tier, statutory_rate),
+#'   exempt_codes = character). Empty candidates when the headings are not in
+#'   this revision (pre-2026_rev_16) or the resource CSVs are missing.
+build_s201_quartz_candidates <- function(ch99_data) {
+  empty <- list(
+    candidates = tibble::tibble(hts10 = character(0), ch99_code = character(0),
+                                tier = character(0), statutory_rate = numeric(0)),
+    exempt_codes = character(0)
+  )
+  if (is.null(ch99_data) || nrow(ch99_data) == 0) return(empty)
+  q <- ch99_data[ch99_data$ch99_code %in% c('9903.45.30', '9903.45.31') &
+                   !is.na(ch99_data$rate), , drop = FALSE]
+  if (nrow(q) == 0) return(empty)
+
+  prod_path <- here('resources', 's201_quartz_products.csv')
+  ex_path   <- here('resources', 's201_quartz_exempt_countries.csv')
+  if (!file.exists(prod_path) || !file.exists(ex_path)) {
+    warning('Quartz §201 headings present but resources/s201_quartz_*.csv ',
+            'missing — determination NOT emitted (fail-closed).')
+    return(empty)
+  }
+  prods <- suppressMessages(readr::read_csv(
+    prod_path, col_types = readr::cols(.default = readr::col_character())))
+  exempt <- suppressMessages(readr::read_csv(
+    ex_path, col_types = readr::cols(.default = readr::col_character())))
+
+  tiers <- tibble::tibble(
+    ch99_code = c('9903.45.30', '9903.45.31'),
+    tier = c('in_quota', 'over_quota')
+  ) %>%
+    dplyr::inner_join(q %>% dplyr::distinct(ch99_code, rate), by = 'ch99_code') %>%
+    dplyr::rename(statutory_rate = rate)
+
+  candidates <- tidyr::crossing(hts10 = unique(prods$hts10), tiers)
+  message('  Section 201 quartz TRQ determination: ', nrow(prods),
+          ' HTS10 x ', nrow(tiers), ' tiers (',
+          paste(sprintf('%s@%g%%', tiers$ch99_code, tiers$statutory_rate * 100),
+                collapse = ', '),
+          '), ', dplyr::n_distinct(exempt$census_code),
+          ' note-41(c) exempt origins; rate_section_201 NOT set (TRQ facts required)')
+  list(candidates = candidates,
+       exempt_codes = unique(as.character(exempt$census_code)))
+}
+
+
 #' Resolve the specific Chapter 99 code driving each authority rate
 #'
 #' For each row in `rates`, selects the best-fit 8-digit ch99_code per active
@@ -3411,7 +3999,10 @@ resolve_ch99_codes <- function(rates, ch99_data,
       ch99_code_ieepa_recip = NA_character_,
       ch99_code_ieepa_fent = NA_character_,
       ch99_code_s122 = NA_character_,
-      ch99_code_s201 = NA_character_
+      ch99_code_s201 = NA_character_,
+      ch99_code_s301fl = NA_character_,
+      ch99_code_s301br = NA_character_,
+      ch99_code_s338 = NA_character_
     )
 
   if (is.null(ch99_data) || nrow(ch99_data) == 0 || !'ch99_code' %in% names(ch99_data)) {
@@ -3465,7 +4056,11 @@ resolve_ch99_codes <- function(rates, ch99_data,
     wood_base   <- codes_232[grepl('^9903\\.76\\.', codes_232)]
     mhd_base    <- codes_232[grepl('^9903\\.74\\.', codes_232)]
 
-    default_232 <- sort(codes_232)[1]
+    # Deliberately NOT sort(codes_232)[1]. A lexicographic pick is a specific
+    # legal assertion made on no evidence, and downstream nothing can tell it
+    # apart from a real attribution. When the broad-heading fallback below finds
+    # nothing, the honest answer is none.
+    default_232 <- NA_character_
 
     # Fallback for derivative rows with no usable product-level code: the
     # broad catch-all heading of that metal = the active heading covering
@@ -3576,12 +4171,26 @@ resolve_ch99_codes <- function(rates, ch99_data,
       invisible(NULL)
     }
 
-    pick_base(chapter %in% c('72', '73'),               steel_base,  'steel')
-    pick_base(chapter == '76',                          alum_base,   'aluminum')
-    pick_base(chapter == '74',                          copper_base, 'copper')
-    pick_base(heading %in% c('8703', '8704', '8708'),   auto_base,   'auto')
-    pick_base(chapter %in% c('44', '94'),               wood_base,   'wood')
-    pick_base(heading %in% c('8701', '8702', '8704', '8706'), mhd_base, 'mhd')
+    # FORWARD attribution first. ch99_src_232 was recorded in
+    # 06_calculate_rates.R at the moment the duty was applied, from the source
+    # that supplied the rate: the metal country blanket, a country deal heading,
+    # or the validated heading of the §232 program. It is an observation, not a
+    # deduction, so it survives two headings sharing a rate.
+    #
+    # This is what the commodity-family pick_base() calls used to do by matching
+    # the computed rate back to a heading, and what they got wrong:
+    #   auto  pooled 8708 (PARTS) with 8703/8704 (vehicles), so parts rows were
+    #         stamped 9903.94.01 — the vehicles heading — because 9903.94.05
+    #         carries the same 25% and .01 wins a lexicographic tie
+    #   mhd   8704 sits in BOTH the auto and mhd pools and auto ran first, so
+    #         MHD rows took an auto heading
+    # Neither is fixable by a better tie-break: the rate alone does not identify
+    # the provision.
+    if ('ch99_src_232' %in% names(rates)) {
+      .src <- rates$ch99_src_232
+      pick[is.na(pick) & !is.na(.src) & .src %in% codes_232] <-
+        .src[is.na(pick) & !is.na(.src) & .src %in% codes_232]
+    }
 
     # Derivative articles outside the primary metal chapters — machinery (84),
     # electrical (85), tools and hardware (82/83), rubber (40), glass (70) —
@@ -3591,16 +4200,24 @@ resolve_ch99_codes <- function(rates, ch99_data,
     # unrelated commodity family, including 139,617 chapter-84 machinery rows
     # and 32,559 chapter-74 COPPER rows.
     #
-    # Attribute by the ACTION that actually carries the duty instead. The
-    # per-action columns say which §232 action was applied, which is exactly the
-    # question the Ch99 code answers — and it is grounded in the computed rate
-    # rather than in alphabetical order.
+    # Attribute by the ACTION that actually carries the duty. This is a FALLBACK
+    # for rows the forward source above did not reach — chiefly derivative
+    # articles whose product-level heading is absent from the revision. It is
+    # still rate-matching within a pool, so it remains capable of picking the
+    # wrong member when two headings share a rate; the difference is that it now
+    # runs only on the residual, and that residual is counted below.
+    .n_before_action <- sum(is.na(pick) & rates$rate_232 > 0)
     if (all(S232_ACTION_RATE_COLS %in% names(rates))) {
       pick_base(rates$rate_232_steel > 0,    c(steel_deriv, steel_base), 'steel-action')
       pick_base(rates$rate_232_aluminum > 0, c(alum_deriv, alum_base),   'aluminum-action')
       pick_base(rates$rate_232_copper > 0,   copper_base,                'copper-action')
       pick_base(rates$rate_232_auto > 0,     auto_base,                  'auto-action')
     }
+    .n_by_action <- .n_before_action - sum(is.na(pick) & rates$rate_232 > 0)
+    .n_forward <- sum(!is.na(pick) & rates$rate_232 > 0) - .n_by_action
+    message('  ch99_code_232 attribution: ', .n_forward, ' forward (recorded), ',
+            .n_by_action, ' by rate-matched action fallback, ',
+            sum(is.na(pick) & rates$rate_232 > 0), ' unattributed')
 
     # Anything still unattributed is left UNRESOLVED rather than stamped with
     # default_232 (= sort(codes_232)[1]). A lexicographic guess is not a weaker
@@ -3610,8 +4227,7 @@ resolve_ch99_codes <- function(rates, ch99_data,
     n_default <- sum(is.na(pick) & rates$rate_232 > 0)
     if (n_default > 0) {
       warning(n_default, ' rated rows have §232 duty but no attributable ',
-              'Chapter 99 heading; left unresolved rather than defaulted to ',
-              default_232, ' (an arbitrary lexicographic pick). ',
+              'Chapter 99 heading; left unresolved rather than guessed. ',
               'Check §232 action attribution for these rows.',
               call. = FALSE)
     }
@@ -3620,8 +4236,30 @@ resolve_ch99_codes <- function(rates, ch99_data,
   }
 
   # ---- Section 301 ----
+  # FORWARD attribution first: ch99_src_301 is recorded in 06_calculate_rates.R
+  # at the moment the blanket rate is applied, from the s301_product_lists.csv
+  # heading that supplied the winning rate — an observation, not a deduction.
+  # Rows the forward source did not reach (e.g. a footnote-path rate above the
+  # blanket) fall to the single-heading case or honest NA: sort(codes_301)[1]
+  # asserted a specific List (1/2/3/4A carry different headings AND different
+  # rates) purely by alphabetical order, which downstream cannot distinguish
+  # from a real attribution.
   if ('rate_301' %in% names(rates) && length(codes_301) > 0) {
-    rates$ch99_code_301 <- if_else(rates$rate_301 > 0, sort(codes_301)[1], NA_character_)
+    .src301 <- if ('ch99_src_301' %in% names(rates)) {
+      .s <- rates$ch99_src_301
+      .s[!is.na(.s) & !.s %in% codes_301] <- NA_character_
+      .s
+    } else {
+      rep(NA_character_, nrow(rates))
+    }
+    .c301 <- if (length(codes_301) == 1) codes_301 else NA_character_
+    rates$ch99_code_301 <- if_else(rates$rate_301 > 0,
+                                   coalesce(.src301, .c301), NA_character_)
+    .n_na_301 <- sum(rates$rate_301 > 0 & is.na(rates$ch99_code_301))
+    .n_fwd_301 <- sum(rates$rate_301 > 0 & !is.na(.src301))
+    message('  ch99_code_301: ', .n_fwd_301, ' rated rows attributed from the ',
+            'recorded source; ', .n_na_301, ' left NA (',
+            length(codes_301), ' §301 headings active)')
   }
 
   # ---- IEEPA reciprocal (country-specific) ----
@@ -3641,15 +4279,36 @@ resolve_ch99_codes <- function(rates, ch99_data,
     } else {
       rates$.recip_code <- NA_character_
     }
+    # Prefer the heading RECORDED when the duty was applied. The recip_map above
+    # is a per-country arrange(desc(rate)) |> first() — the country's
+    # HIGHEST-rate heading, which is only the charged one by coincidence. A
+    # country carrying both a floor entry and a country-EO surcharge, or an
+    # origin whose top-rated heading is exempted on this product, cites the
+    # wrong provision under that rule.
+    #
+    # The hardcoded '9903.01.25' fallback stays for the universal baseline —
+    # that heading IS the legal basis for an otherwise-unlisted origin at 10% —
+    # but it now applies only when nothing better was recorded or mapped.
+    .recip_src <- if ('ch99_src_ieepa_recip' %in% names(rates)) {
+      rates$ch99_src_ieepa_recip
+    } else {
+      rep(NA_character_, nrow(rates))
+    }
     rates <- rates %>%
       mutate(
         ch99_code_ieepa_recip = if_else(
           rate_ieepa_recip > 0,
-          coalesce(.recip_code, '9903.01.25'),
+          coalesce(.recip_src, .recip_code, '9903.01.25'),
           NA_character_
         )
       ) %>%
       select(-.recip_code)
+    .n_recip_fwd <- sum(rates$rate_ieepa_recip > 0 & !is.na(.recip_src))
+    .n_recip_tot <- sum(rates$rate_ieepa_recip > 0)
+    if (.n_recip_tot > 0) {
+      message('  ch99_code_ieepa_recip: ', .n_recip_fwd, ' of ', .n_recip_tot,
+              ' rated rows attributed from the recorded source')
+    }
   }
 
   # ---- IEEPA fentanyl (country-specific) ----
@@ -3677,13 +4336,81 @@ resolve_ch99_codes <- function(rates, ch99_data,
   }
 
   # ---- Section 122 ----
+  # Same rule as §301: one active heading is an answer, several is a guess.
+  # §122 is non-discriminatory (a single blanket rate), so in practice the
+  # revision publishes one heading and this resolves rather than blanking.
   if ('rate_s122' %in% names(rates) && length(codes_s122) > 0) {
-    rates$ch99_code_s122 <- if_else(rates$rate_s122 > 0, sort(codes_s122)[1], NA_character_)
+    .c122 <- if (length(codes_s122) == 1) codes_s122 else NA_character_
+    rates$ch99_code_s122 <- if_else(rates$rate_s122 > 0, .c122, NA_character_)
+    if (is.na(.c122)) {
+      message('  ch99_code_s122: ', sum(rates$rate_s122 > 0), ' rated rows left NA — ',
+              length(codes_s122), ' §122 headings active and no recorded source')
+    }
   }
 
   # ---- Section 201 ----
-  if ('rate_section_201' %in% names(rates) && length(codes_s201) > 0) {
-    rates$ch99_code_s201 <- if_else(rates$rate_section_201 > 0, sort(codes_s201)[1], NA_character_)
+  # Projection of the heading recorded when the safeguard was applied. The
+  # previous sort(codes_s201)[1] took the alphabetically first §201 heading in
+  # the revision — 9903.41.05 in 2025_rev_20, which is Japanese leather — and
+  # stamped it on every §201 row including solar. Rows whose covering heading is
+  # unknown stay NA and are counted, rather than borrowing another programme's.
+  if ('rate_section_201' %in% names(rates)) {
+    .s201_src <- if ('ch99_src_s201' %in% names(rates)) {
+      rates$ch99_src_s201
+    } else {
+      rep(NA_character_, nrow(rates))
+    }
+    .s201_src[!is.na(.s201_src) & !.s201_src %in% codes_s201] <- NA_character_
+    rates$ch99_code_s201 <- if_else(rates$rate_section_201 > 0,
+                                    .s201_src, NA_character_)
+    .n_s201_missing <- sum(rates$rate_section_201 > 0 & is.na(rates$ch99_code_s201))
+    if (.n_s201_missing > 0) {
+      message('  ch99_code_s201: ', .n_s201_missing,
+              ' rated §201 rows have no recorded covering heading (left NA)')
+    }
+  }
+
+  # ---- 2026 country-scoped authorities: §301 forced labor / Brazil / §338 ----
+  # Each active heading in these regimes is scoped to specific origin(s) by the
+  # parse (note 52 assigns one heading per economy; note 50 = Brazil;
+  # 9903.03.12-.14 = Canada), so the covering heading is derivable as a
+  # country -> heading map from ch99_data itself. No rate matching involved.
+  if ('countries' %in% names(ch99_data)) {
+    .country_heading_map <- function(codes_regex) {
+      m <- ch99_data[grepl(codes_regex, ch99_data$ch99_code) &
+                       !is.na(ch99_data$rate), c('ch99_code', 'countries')]
+      if (nrow(m) == 0) return(NULL)
+      m <- tidyr::unnest(m, countries)
+      if (nrow(m) == 0) return(NULL)
+      m %>%
+        dplyr::mutate(country = as.character(countries)) %>%
+        dplyr::group_by(country) %>%
+        # A country under two headings of the same regime would be a parse
+        # anomaly; min() keeps the pick deterministic if it ever happens.
+        dplyr::summarise(.code = min(ch99_code), .groups = 'drop')
+    }
+    .apply_country_map <- function(rates, rate_col, code_col, codes_regex) {
+      if (!rate_col %in% names(rates)) return(rates)
+      map <- .country_heading_map(codes_regex)
+      if (is.null(map)) return(rates)
+      idx <- match(rates$country, map$country)
+      rates[[code_col]] <- dplyr::if_else(
+        !is.na(rates[[rate_col]]) & rates[[rate_col]] > 0 & !is.na(idx),
+        map$.code[idx], NA_character_)
+      n_rated <- sum(rates[[rate_col]] > 0, na.rm = TRUE)
+      n_attr  <- sum(!is.na(rates[[code_col]]))
+      if (n_rated > 0) {
+        message('  ', code_col, ': ', n_attr, ' of ', n_rated,
+                ' rated rows attributed by origin-scoped heading')
+      }
+      rates
+    }
+    rates <- .apply_country_map(rates, 'rate_s301fl', 'ch99_code_s301fl',
+                                '^9903\\.05\\.([2-7][0-9]|8[0-4])$')
+    rates <- .apply_country_map(rates, 'rate_s301br', 'ch99_code_s301br',
+                                '^9903\\.05\\.01$')
+    rates <- .apply_country_map(rates, 'rate_s338', 'ch99_code_s338',
+                                '^9903\\.03\\.1[2-9]$')
   }
 
   rates

@@ -235,8 +235,20 @@ design, not an extraction.
 
 ### F1. The normalized resolver diverges from the denormalized pipeline on 27% of sampled rows
 
-**State:** `Rscript tests/test_normalized_parity.R` — 2,146 OK, **798 FAIL**
-across **261 distinct (hts10, country, revision) cases**; exit code 2.
+**State (re-measured 2026-07-30, after the parquet recombine):**
+`Rscript tests/test_normalized_parity.R` — Stage 1 emitter smoke PASS,
+**Stage 2 parity FAIL on 413 of 2,008 cases**; exit code 2, which is what makes
+`run_all_tests.R` exit 1 while still reporting 287 passed / 0 failed.
+
+The earlier reading on this line (2,146 OK / 798 FAIL / 261 distinct cases) was
+taken against a different parquet and a different sample size, so the two are
+NOT comparable and the drop from 798 to 413 must not be read as an improvement.
+The breakdown below is from that earlier run and has not been re-derived.
+
+Unrelated to the statutory-totals work: `tests/test_normalized_parity.R` and
+`src/resolve_rate_normalized.R` contain zero references to
+`statutory_total_rate`, `statutory_total_additional` or the
+`statutory_rate_232_*` columns.
 
 The failures have a single root cause with a cascade:
 
@@ -280,6 +292,42 @@ logic from `src/06_calculate_rates.R` into `src/resolve_rate_normalized.R`, not
 a small patch. Related: the plan's T4.1 (`rate_s301fl` / `rate_s301br` /
 `rate_s338` absent from the resolver entirely).
 
+
+## G. Attribution / staleness gaps *(2026-08-19 sweep of the full 2025–2026 rebuild)*
+
+**G1. §232 forward attribution collapses in the 9903.82 era (2026_rev_5+).** ✅ Parseable.
+91 FR 18201 (eff. 2026-04-06) withdrew the whole 9903.80/.81/.85/.78 family (~300
+headings) and consolidated metals into 26 headings under 9903.82, keyed to U.S. note 16
+subdivisions. The annex-era application path sets `rate_232` from
+`section_232_annexes` config without stamping `ch99_src_232`, so ~536K rows per
+revision fall to the rate-matched action fallback (which attributes them all, but by
+rate coincidence, not observation). Fix: curate the note-16-subdivision → 9903.82
+heading map (annex_1a → .02, UK deals → .04/.05, Russia → .14–.17, floor tiers →
+.23–.26, per each heading's own text) and stamp `ch99_src_232` at the annex
+application site. Until then the residual attributor's `rate_232_other` pool
+(103K–140K rows/revision) also cannot shrink.
+
+**G2. Per-revision extracted resources go stale silently.** ✅ Mitigated 2026-08-19.
+Program applicability is extracted from note/GN PDFs into per-revision CSVs
+(`gn3_column2_countries`, `ch99_provision_status`, `ch99_staged_rates`,
+`ch99_legal_refs`, `floor_exempt_{rev}`), but the emits ran at the END of the build —
+so the first build containing a new revision always computed on stale rows (Column 2
+was silently OFF for 2026_rev_14–16). Fixed: GN3 emit moved before the build (Step
+B1b), `load_non_ntr_countries()` carries forward from the nearest earlier revision
+with a warning, and a staleness preflight in `00_build_timeseries.R` reports any
+target revision missing from each resource. Remaining: `floor_exempt_{rev}.csv`
+stops at 2026_rev_4 (post-IEEPA-invalidation; verify §122/§338-era floor relevance),
+and `s232_annex_products.csv` / `s232_copper_products.csv` are single-revision
+snapshots with no staleness signal.
+
+**G3. Solar §201 applies the over-quota tier unconditionally.** ⚠️ Needs a decision.
+`rate_section_201` applies the staged over-quota rate (14% at 2026-01-01) to all
+three solar HTS10 for all non-exempt origins; the in-quota tier (9903.45.21,
+≤12.5 GW, "No change") is a fact-dependent alternative the output does not disclose.
+The quartz safeguard (9903.45.30/.31) is now modeled as a requires-more-facts
+determination with BOTH tiers and no collapsed rate — solar should either be
+migrated to the same shape or its over-quota assumption recorded in ch99_rules_json.
+Changing it changes rates; deferred to a reviewed decision.
 
 ## Closeability summary
 

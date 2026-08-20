@@ -42,12 +42,11 @@ message('Found ', length(snapshot_files), ' snapshot files')
 # Build revision intervals
 horizon_end <- pp$SERIES_HORIZON_END %||% Sys.Date()
 
-all_revisions_seen <- character()
-for (f in snapshot_files) {
-  snap <- readRDS(f)
-  all_revisions_seen <- c(all_revisions_seen, unique(snap$revision))
-  rm(snap); gc(verbose = FALSE)
-}
+# The revision name is carried by the filename, so reading every snapshot just
+# to collect the set costs a full decompression pass over the whole corpus (3 GB
+# of RDS, ~30 min) and produces nothing the loop below does not already derive.
+# The main loop asserts filename and payload agree, so this cannot drift.
+all_revisions_seen <- gsub('^snapshot_|\\.rds$', '', basename(snapshot_files))
 
 rev_intervals <- rev_dates %>%
   filter(revision %in% unique(all_revisions_seen)) %>%
@@ -72,6 +71,18 @@ for (i in seq_along(snapshot_files)) {
   message('[', i, '/', length(snapshot_files), '] ', rev_name)
 
   snap <- readRDS(f)
+
+  # rev_intervals is keyed on the filename-derived name, while the partition
+  # directory below is keyed on snap$revision[1]. If those ever disagreed the
+  # join would not error — it would yield NA valid_from/valid_until, or stretch a
+  # neighbouring revision's interval across the gap. Fail loudly instead.
+  if (!all(snap$revision == rev_name)) {
+    stop('Snapshot ', basename(f), ' contains revision(s) ',
+         paste(unique(snap$revision), collapse = ', '),
+         ' but its filename says ', rev_name,
+         ' — the revision interval join would silently mis-key.', call. = FALSE)
+  }
+
   snap <- enforce_rate_schema(snap)
   validate_hts_column(snap)
   snap <- snap %>%

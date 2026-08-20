@@ -79,7 +79,21 @@ parse_products <- function(json_path) {
   # pass currently checks for these anomalies.
   rate_stack <- list()       # indent level -> parsed base_rate (numeric or NA)
   htsno_stack <- list()      # indent level -> htsno of the rate-bearing line (base_rate_source provenance)
-  general_raw_stack <- list() # indent level -> general raw text (for rate_type inheritance)
+  # general_raw_stack holds the nearest ancestor's rate TEXT, and
+  # general_hts_stack the htsno that text came from. These two are pushed for
+  # EVERY line with rate text, whereas rate_stack accepts only text that parses
+  # as a simple percent or "Free". The two therefore name DIFFERENT ancestors
+  # whenever a parent states a rate the simple parser cannot read, and a child
+  # then took its NUMBER from one ancestor and its BASIS from another.
+  #
+  # Measured on 2025_rev_20: of the 437 inheriting rows typed 'unknown', the two
+  # stacks disagreed on the parent in 437 — every single one. 275 were apparel
+  # ensembles whose nearest parent reads "The rate applicable to each garment in
+  # the ensemble if separately entered": rate_stack skipped that line and reached
+  # past it, so lines under 6104.29.20 inherited the rate of 6104.19.80, an
+  # unrelated garment class. That is a fabricated duty, not a labelling artefact.
+  general_raw_stack <- list() # indent level -> general raw text
+  general_hts_stack <- list() # indent level -> htsno that supplied that text
   special_stack <- list()    # indent level -> special raw text
   other_stack <- list()      # indent level -> other (Column 2) raw text
   unit1_stack <- list()      # indent level -> reported_unit_1 string
@@ -130,6 +144,7 @@ parse_products <- function(json_path) {
       for (d in deeper) { rate_stack[[d]] <<- NULL; htsno_stack[[d]] <<- NULL }
     }
     if (trimws(general) != '') {
+      general_hts_stack <<- update_stack(general_hts_stack, indent, htsno)
       general_raw_stack <<- update_stack(general_raw_stack, indent, general)
     }
     if (trimws(special_raw) != '') {
@@ -189,14 +204,59 @@ parse_products <- function(json_path) {
       }
     }
 
-    if (is.na(base_rate) && trimws(general) == '' && indent > 0) {
+    # Inherit from the NEAREST ancestor that states a rate at all — then take the
+    # number and the basis from THAT SAME ancestor.
+    #
+    # The previous version walked rate_stack, which holds only text that parses
+    # as a simple percent or "Free". A parent stating a rate the simple parser
+    # cannot read was therefore invisible to it, and the walk continued past that
+    # parent to a more distant one. The child ended up with a rate belonging to a
+    # different product group, while its basis was typed from the nearer parent —
+    # two ancestors, one row.
+    #
+    # A parent that states a rate we cannot represent is NOT an absent parent. It
+    # is a stated rule we have not resolved, and reaching past it invents a duty.
+    # So stop at it and say so.
+    inherited_general <- NULL
+    inherited_from    <- NA_character_
+    if (trimws(general) == '' && indent > 0) {
       for (i in seq(indent - 1, 0, by = -1)) {
-        parent_rate <- rate_stack[[as.character(i)]]
-        if (!is.null(parent_rate)) {
-          base_rate <- parent_rate
-          base_rate_source <- paste0('inherited:', htsno_stack[[as.character(i)]] %||% as.character(i))
-          n_inherited <<- n_inherited + 1L
+        g <- general_raw_stack[[as.character(i)]]
+        if (!is.null(g) && nzchar(trimws(g))) {
+          inherited_general <- g
+          inherited_from <- general_hts_stack[[as.character(i)]] %||% as.character(i)
           break
+        }
+      }
+    }
+
+    if (is.na(base_rate) && !is.null(inherited_general)) {
+      pr_inh <- parse_rate(inherited_general)
+      if (!is.na(pr_inh)) {
+        base_rate <- pr_inh
+        base_rate_source <- paste0('inherited:', inherited_from)
+        n_inherited <<- n_inherited + 1L
+      } else {
+        # The nearest ancestor states something we cannot reduce to a single
+        # article-level percent. Recover the ad valorem part if there is one, and
+        # keep the named status either way so calc_status reports it honestly
+        # instead of the row inheriting an unrelated ancestor's number.
+        pd <- parse_duty_rate_string(inherited_general)
+        base_rate_status <- pd$status
+        # parse_duty_rate_string() reports ad_valorem = 0 for a purely SPECIFIC
+        # duty ("4.4c/kg"), because there is no ad valorem component — 0 here
+        # means "none", not "zero percent". Taking it as a recovered rate is the
+        # NA-becomes-0 failure this file already warns about one screen down: it
+        # replaced a rate with 0 on 624 rows in 2025_rev_20. The specific
+        # component still reaches the row through general_for_type below, which
+        # is where that duty actually lives.
+        if (!is.na(pd$ad_valorem) && !identical(pd$status, 'specific_only')) {
+          base_rate <- pd$ad_valorem
+          base_rate_source <- paste0('inherited:', inherited_from, ':', pd$status)
+          n_inherited <<- n_inherited + 1L
+        } else {
+          base_rate_source <- paste0('inherited_unrepresentable:', inherited_from,
+                                     ':', pd$status)
         }
       }
     }
@@ -237,13 +297,30 @@ parse_products <- function(json_path) {
     # The duty basis unit comes from the legal rate text (e.g., "kg" from
     # "30.5¢/kg + 8.5%"), NOT from the statistical reporting units.
     # For statistical suffixes with empty general, inherit from parent.
-    general_for_type <- general
-    if (trimws(general) == '' && indent > 0) {
-      inherited_general <- inherit_from_stack(general_raw_stack, indent)
-      if (!is.null(inherited_general)) general_for_type <- inherited_general
+    # Reuse the ancestor resolved above rather than walking the stack a second
+    # time. Walking twice is what let the number and the basis come from
+    # different lines; there is now exactly one inherited ancestor per row.
+    general_for_type <- if (trimws(general) == '' && !is.null(inherited_general)) {
+      inherited_general
+    } else {
+      general
     }
     general_parsed <- parse_rate_extended(general_for_type)
     rate_basis <- general_parsed$type
+
+    # Same disagreement as in calc_status below: where parse_rate_extended()
+    # cannot type the string but parse_duty_rate_string() named it, take the
+    # named answer. Only the three statuses that map cleanly onto the existing
+    # rate_basis vocabulary are promoted — the others stay 'unknown' and are
+    # distinguished by calc_status, so downstream consumers of rate_basis
+    # (is_qty_duty_relevant, the schema) keep their five-value contract.
+    if (identical(rate_basis, 'unknown') && !is.na(base_rate_status)) {
+      rate_basis <- switch(base_rate_status,
+        specific_only = 'specific',
+        compound      = 'compound',
+        free          = 'free',
+        rate_basis)
+    }
     specific_amount <- general_parsed$specific_amount
     # specific_rate_unit: the unit from the legal rate expression
     specific_rate_unit <- general_parsed$specific_rate_unit
@@ -281,15 +358,49 @@ parse_products <- function(json_path) {
     # per-unit component is not; base_not_representable marks rows where no
     # article-level rate exists at all (apportioned to components, defined by
     # cross-reference, or a Chapter 98 conditional provision).
-    calc_status <- if (rate_basis == 'unknown') {
-      'needs_manual_review'
-    } else if (identical(base_rate_status, 'specific_only') ||
-               identical(base_rate_status, 'compound')) {
+    # ORDER MATTERS. `rate_basis == 'unknown'` used to be tested FIRST, which
+    # short-circuited every row to 'needs_manual_review' before the precise
+    # branches below could run — even though parse_duty_rate_string() had
+    # already named exactly what the string was.
+    #
+    # Two parsers see the same text: parse_rate_extended() sets rate_basis and
+    # returns 'unknown' for shapes it does not model, while
+    # parse_duty_rate_string() returns a named status for those same shapes.
+    # Testing the weaker one first discarded the stronger one's answer.
+    #
+    # Measured on 2025_rev_32: 722 rows carried rate_basis 'unknown', and 279 of
+    # them had a rate string the named parser fully classifies —
+    #   85 apportioned      "3.9% on the movement and case + 5.3% on the battery"
+    #   66 compound         "15c each + 6.4%"   <- ad valorem half IS recoverable
+    #   43 content-based    "2.5% on the value of the lead content"
+    #   24 cross_reference  "the rate applicable to the natural juice in 2009"
+    #   16 free_conditional "Free, under bond, as prescribed in U.S. note 1"
+    # The remaining 443 have an EMPTY rate string. That was previously described
+    # here as "404 already carry a correctly inherited rate — a labelling
+    # artefact, not a missing duty". That was WRONG, and measuring it is what
+    # showed why: of the 437 inheriting rows typed 'unknown', the rate stack and
+    # the text stack named different ancestors in ALL 437.
+    #   275  apparel ensembles (ch 61/62) whose nearest parent reads "The rate
+    #        applicable to each garment in the ensemble if separately entered" —
+    #        skipped, so the row took an unrelated ancestor's rate
+    #   152  split-basis duties the type parser cannot model
+    #        "1.7c/kg on lead content", "6c/kg on drained weight + 8.5%",
+    #        "3.1% on the value of the rifle + 13% on the value of the telescope"
+    # The first group was a wrong number, not a wrong label. Both are now taken
+    # from a single ancestor, and an unrepresentable parent stops the walk.
+    #
+    # So consult the named status first and fall back to the generic bucket only
+    # when nothing named it.
+    calc_status <- if (identical(base_rate_status, 'specific_only') ||
+                       identical(base_rate_status, 'compound')) {
       'base_ad_valorem_only'
-    } else if (base_rate_status %in% c('apportioned', 'cross_reference',
+    } else if (!is.na(base_rate_status) &&
+               base_rate_status %in% c('apportioned', 'cross_reference',
                                        'ch98_conditional', 'alt_base_pct',
                                        'free_conditional')) {
       'base_not_representable'
+    } else if (rate_basis == 'unknown') {
+      'needs_manual_review'
     } else if (is_qty_duty_relevant && is.na(specific_rate_unit)) {
       'missing_duty_basis_unit'
     } else {
