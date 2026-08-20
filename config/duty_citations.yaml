@@ -299,6 +299,36 @@ reasons:
     narrative: "{hts10} is outside the active Section 301 lists for {country_name} (excluded or never listed) in {revision}, so no Section 301 duty applies. A {counterfactual_pct} charge would reflect a 301 line that does not cover this code."
 
   # ---------------------------------------------------------------------------
+  # SECTION 301 (2026 actions: forced labor, Brazil) + SECTION 338
+  # No authority_key: these are not stack slots in the frontend contract yet —
+  # the key exists so the duty ledger can cite the step instead of recording
+  # an uncited write.
+  # ---------------------------------------------------------------------------
+  s301fl_active:
+    status: active
+    short_label: "Section 301 (forced labor)"
+    legal_authority: "USTR Section 301 forced-labor actions, 60 economies; U.S. note 52; HTSUS 9903.05.20-9903.05.84"
+    statute: "19 U.S.C. 2411; 91 Fed. Reg. 47318 / 47717"
+    mechanism: flat
+    narrative: "Section 301 forced-labor duty {applied_pct} on {hts10} ({program_ch99}) for {country_name}, per U.S. note 52 (eff. 2026-07-24)."
+
+  s301br_active:
+    status: active
+    short_label: "Section 301 (Brazil)"
+    legal_authority: "USTR Section 301 Brazil action; U.S. note 50; HTSUS 9903.05.01"
+    statute: "19 U.S.C. 2411; 91 Fed. Reg. 45516"
+    mechanism: flat
+    narrative: "Section 301 Brazil duty {applied_pct} on {hts10} ({program_ch99}), per U.S. note 50 (eff. 2026-07-22)."
+
+  s338_active:
+    status: active
+    short_label: "Section 338 (Canada)"
+    legal_authority: "Proclamation 11047 and siblings (2026-07-20); HTSUS 9903.03.12-.14"
+    statute: "19 U.S.C. 1338"
+    mechanism: flat
+    narrative: "Section 338 duty {applied_pct} on {hts10} ({program_ch99}) for Canada (eff. 2026-08-19)."
+
+  # ---------------------------------------------------------------------------
   # IEEPA RECIPROCAL  (the deep case; exemptions carve out of baseline + floor)
   # ---------------------------------------------------------------------------
   ieepa_recip_active:
