@@ -28,6 +28,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from typing import Any
 
 import requests
@@ -67,7 +68,23 @@ def _railway_request(query: str, variables: dict[str, Any]) -> dict[str, Any]:
     )
     last_err: str | None = None
     for headers in header_styles:
-        r = requests.post(RAILWAY_API, headers=headers, data=payload, timeout=30)
+        # Retry timeouts / connection drops / 5xx with backoff. Safe because both
+        # operations we send are idempotent (a read, and an upsert to a fixed
+        # value) — replaying one cannot double-apply anything.
+        for attempt in range(4):
+            try:
+                r = requests.post(RAILWAY_API, headers=headers, data=payload, timeout=60)
+            except (requests.Timeout, requests.ConnectionError) as e:
+                err = f"{type(e).__name__}"
+            else:
+                if r.status_code < 500:
+                    break
+                err = f"HTTP {r.status_code}"
+            if attempt == 3:
+                sys.exit(f"ERROR: Railway API unreachable after 4 attempts ({err})")
+            wait = 5 * 2 ** attempt
+            print(f"  [railway] {err}; retrying in {wait}s", flush=True)
+            time.sleep(wait)
         if r.status_code in (401, 403):
             last_err = f"HTTP {r.status_code}"
             continue
@@ -89,10 +106,17 @@ def _railway_request(query: str, variables: dict[str, Any]) -> dict[str, Any]:
 
 
 def railway_get_vars() -> dict[str, str]:
-    """Return the current variable map for the configured project/service/env."""
+    """Return the current variable map for the configured project/service/env.
+
+    unrendered: true is load-bearing twice over. Railway's rendered per-service
+    read 500s ("Problem processing request") on this project as of 2026-08 even
+    for services with no ${{...}} templates, while the unrendered read works.
+    It is also the correct form for snapshot/rollback: reverting a rendered
+    value would replace a ${{...}} template with its resolved secret.
+    """
     query = """
     query Variables($projectId: String!, $environmentId: String!, $serviceId: String!) {
-      variables(projectId: $projectId, environmentId: $environmentId, serviceId: $serviceId)
+      variables(projectId: $projectId, environmentId: $environmentId, serviceId: $serviceId, unrendered: true)
     }
     """
     data = _railway_request(query, {

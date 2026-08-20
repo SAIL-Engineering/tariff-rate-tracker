@@ -21,6 +21,14 @@
 #   scripts/hts_automation/run_locally.sh --dry-run              # no external writes
 #   scripts/hts_automation/run_locally.sh --skip-classify        # skip canary classify
 #   scripts/hts_automation/run_locally.sh --skip-scrape          # skip 01_scrape (use existing CSV)
+#   scripts/hts_automation/run_locally.sh --from-step 8          # resume a broken run at step 8
+#
+# --from-step N skips the mutating steps below N so a run that died mid-way can
+# be resumed without redoing completed work (e.g. the Pinecone upsert, which
+# refuses to run twice into the same namespace anyway). Step 2 (resolve) always
+# runs — it is read-only and every later step needs the revision it resolves.
+# Artifacts that skipped steps would have produced (downloads, corpus files)
+# must still exist from the earlier run; the script verifies this up front.
 #
 # Exit codes:
 #   0  success (or no-op — no new revision detected)
@@ -45,6 +53,7 @@ REVISION_OVERRIDE=""
 DRY_RUN="false"
 SKIP_CLASSIFY="true"   # default true: most users won't have SAIL_GTX_API_AUTH_TOKEN
 SKIP_SCRAPE="false"
+FROM_STEP=1
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -53,11 +62,21 @@ while [[ $# -gt 0 ]]; do
     --skip-classify)   SKIP_CLASSIFY="true"; shift ;;
     --run-classify)    SKIP_CLASSIFY="false"; shift ;;
     --skip-scrape)     SKIP_SCRAPE="true"; shift ;;
+    --from-step)       FROM_STEP="$2"; shift 2 ;;
     -h|--help)
-      sed -n '2,40p' "$0"; exit 0 ;;
+      sed -n '2,48p' "$0"; exit 0 ;;
     *) echo "Unknown arg: $1"; exit 1 ;;
   esac
 done
+
+if ! [[ "$FROM_STEP" =~ ^[1-9]$ ]]; then
+  echo "ERROR: --from-step must be an integer 1-9, got '$FROM_STEP'" >&2
+  exit 1
+fi
+
+# step_active N — true when step N should run under --from-step.
+step_active() { (( $1 >= FROM_STEP )); }
+skiplog()     { log "Step $1/9: $2 (skipped — resuming from step $FROM_STEP)"; }
 
 # ─── Load env file ───────────────────────────────────────────────────
 if [[ ! -f "$ENV_FILE" ]]; then
@@ -108,7 +127,9 @@ PY="python3 $HERE"
 RUN_PY()   { eval "python3 $HERE/$1.py ${@:2}"; }
 
 # ─── Step 1: scrape USITC ────────────────────────────────────────────
-if [[ "$SKIP_SCRAPE" == "true" ]]; then
+if ! step_active 1; then
+  skiplog 1 "scrape"
+elif [[ "$SKIP_SCRAPE" == "true" ]]; then
   log "Step 1/9: scrape (skipped via --skip-scrape)"
 else
   log "Step 1/9: scrape USITC + auto-clear needs_review"
@@ -135,35 +156,66 @@ done <<< "$RESOLVED"
 
 sublog "Resolved REV_ID=$REV_ID  EFFECTIVE_DATE=$EFFECTIVE_DATE  LABEL='$EFFECTIVE_DATE_LABEL'"
 
-# ─── Step 3: download both archives ──────────────────────────────────
-log "Step 3/9: download JSON + CSV for year $YEAR"
-Rscript src/02_download_hts.R --year "$YEAR"
-
-test -f "$JSON_PATH" || { echo "missing JSON: $JSON_PATH"; exit 2; }
-test -f "$CSV_PATH"  || { echo "missing CSV:  $CSV_PATH";  exit 2; }
-sublog "JSON: $JSON_PATH"
-sublog "CSV:  $CSV_PATH"
-
-# ─── Step 4: build the Ragie CSV ─────────────────────────────────────
-log "Step 4/9: build Pinecone corpus"
+# Derived names later steps read. Computed unconditionally so a resumed run
+# (--from-step) has them even when the producing step is skipped.
 STEM="us_${YEAR}_rev_${REV_NUM}"
-python3 "$HERE/build_hts_corpus.py" "$CSV_PATH" "$HERE/chapters.json" "$STEM" \
-  --jurisdiction US --revision "${YEAR}_rev_${REV_NUM}" --max-depth 10
 CORPUS_JSONL="${STEM}.jsonl"
 # Node index for the server-side code validator. It ships in the SAME commit as
 # the dataset (step 7) so the two can never describe different revisions.
 CORPUS_CODES="${STEM}.codes.json"
-test -f "$CORPUS_JSONL" || { echo "missing built corpus: $CORPUS_JSONL"; exit 2; }
-test -f "$CORPUS_CODES" || { echo "missing node index: $CORPUS_CODES"; exit 2; }
-sublog "Built: $CORPUS_JSONL"
-sublog "Built: $CORPUS_CODES"
+
+# When resuming past a step, the files it would have produced must still exist
+# from the earlier run — but only if a step we ARE going to run consumes them.
+require_file() {
+  test -f "$1" || {
+    echo "ERROR: --from-step $FROM_STEP skips the step that produces $1," >&2
+    echo "       which $2. Re-run without --from-step (or with a lower one)." >&2
+    exit 1
+  }
+}
+if (( FROM_STEP > 3 )); then
+  (( FROM_STEP <= 4 )) && require_file "$CSV_PATH" "step 4 builds the corpus from"
+  (( FROM_STEP <= 7 )) && require_file "$JSON_PATH" "step 7 commits cross-repo"
+fi
+if (( FROM_STEP > 4 )); then
+  (( FROM_STEP <= 5 )) && require_file "$CORPUS_JSONL" "step 5 upserts to Pinecone"
+  (( FROM_STEP <= 7 )) && require_file "$CORPUS_CODES" "step 7 ships beside the dataset"
+fi
+
+# ─── Step 3: download both archives ──────────────────────────────────
+if ! step_active 3; then
+  skiplog 3 "download"
+else
+  log "Step 3/9: download JSON + CSV for year $YEAR"
+  Rscript src/02_download_hts.R --year "$YEAR"
+
+  test -f "$JSON_PATH" || { echo "missing JSON: $JSON_PATH"; exit 2; }
+  test -f "$CSV_PATH"  || { echo "missing CSV:  $CSV_PATH";  exit 2; }
+  sublog "JSON: $JSON_PATH"
+  sublog "CSV:  $CSV_PATH"
+fi
+
+# ─── Step 4: build the Ragie CSV ─────────────────────────────────────
+if ! step_active 4; then
+  skiplog 4 "build corpus"
+else
+  log "Step 4/9: build Pinecone corpus"
+  python3 "$HERE/build_hts_corpus.py" "$CSV_PATH" "$HERE/chapters.json" "$STEM" \
+    --jurisdiction US --revision "${YEAR}_rev_${REV_NUM}" --max-depth 10
+  test -f "$CORPUS_JSONL" || { echo "missing built corpus: $CORPUS_JSONL"; exit 2; }
+  test -f "$CORPUS_CODES" || { echo "missing node index: $CORPUS_CODES"; exit 2; }
+  sublog "Built: $CORPUS_JSONL"
+  sublog "Built: $CORPUS_CODES"
+fi
 
 # ─── Step 5: Pinecone namespace swap ─────────────────────────────────
 # Replaces the retired Ragie swap. Each revision gets its OWN namespace rather
 # than mutating one in place, so the new corpus is built alongside the live one
 # and only becomes visible when step 6 points Supabase at it.
 NAMESPACE="us__${YEAR}_rev_${REV_NUM}"
-if [[ "$DRY_RUN" == "true" ]]; then
+if ! step_active 5; then
+  skiplog 5 "Pinecone swap"
+elif [[ "$DRY_RUN" == "true" ]]; then
   log "Step 5/9: Pinecone swap (skipped — dry-run); namespace would be $NAMESPACE"
 else
   log "Step 5/9: Pinecone namespace swap -> $NAMESPACE"
@@ -173,7 +225,9 @@ else
 fi
 
 # ─── Step 6: Supabase upsert ─────────────────────────────────────────
-if [[ "$DRY_RUN" == "true" ]]; then
+if ! step_active 6; then
+  skiplog 6 "Supabase upsert"
+elif [[ "$DRY_RUN" == "true" ]]; then
   log "Step 6/9: Supabase upsert (skipped — dry-run)"
 else
   log "Step 6/9: Supabase upsert"
@@ -189,33 +243,39 @@ else
 fi
 
 # ─── Step 7: cross-repo commit (must precede env var update) ─────────
-if [[ "$DRY_RUN" == "true" ]]; then
-  log "Step 7/9: cross-repo commit (dry-run mode)"
-  DRY_FLAG=(--dry-run)
+if ! step_active 7; then
+  skiplog 7 "cross-repo commit"
 else
-  log "Step 7/9: cross-repo commit to $SAIL_GTX_PRODUCTION_BRANCH"
-  DRY_FLAG=()
+  if [[ "$DRY_RUN" == "true" ]]; then
+    log "Step 7/9: cross-repo commit (dry-run mode)"
+    DRY_FLAG=(--dry-run)
+  else
+    log "Step 7/9: cross-repo commit to $SAIL_GTX_PRODUCTION_BRANCH"
+    DRY_FLAG=()
+  fi
+  # ONE destination as of 2026-07-27: server/data/hts/ is canonical.
+  # public/data/hts-explorer/hts_*.json is gitignored and regenerated at build
+  # time by vite/htsManifestPlugin.ts, which copies the latest revision across and
+  # writes the manifest the SPA fetches. --prune-keep 3 bounds the directory: each
+  # revision is ~13.5 MB, they land fortnightly, and both the SPA and the server
+  # read exactly one revision at a time.
+  python3 "$HERE/sail_gtx_commit.py" \
+    --owner SAIL-Engineering \
+    --repo sail-gtx-prerelease \
+    --branch "$SAIL_GTX_PRODUCTION_BRANCH" \
+    --source "$JSON_PATH" \
+    --dest-path "server/data/hts/hts_${YEAR}_revision_${REV_NUM}.json" \
+    --also "${CORPUS_CODES}:server/data/hts/us_${YEAR}_rev_${REV_NUM}.codes.json" \
+    --prune-keep 3 \
+    --tag-name "hts-${YEAR}-rev${REV_NUM}" \
+    --commit-message "chore: HTS ${YEAR} Rev ${REV_NUM} dataset (effective ${EFFECTIVE_DATE})" \
+    "${DRY_FLAG[@]}"
 fi
-# ONE destination as of 2026-07-27: server/data/hts/ is canonical.
-# public/data/hts-explorer/hts_*.json is gitignored and regenerated at build
-# time by vite/htsManifestPlugin.ts, which copies the latest revision across and
-# writes the manifest the SPA fetches. --prune-keep 3 bounds the directory: each
-# revision is ~13.5 MB, they land fortnightly, and both the SPA and the server
-# read exactly one revision at a time.
-python3 "$HERE/sail_gtx_commit.py" \
-  --owner SAIL-Engineering \
-  --repo sail-gtx-prerelease \
-  --branch "$SAIL_GTX_PRODUCTION_BRANCH" \
-  --source "$JSON_PATH" \
-  --dest-path "server/data/hts/hts_${YEAR}_revision_${REV_NUM}.json" \
-  --also "${CORPUS_CODES}:server/data/hts/us_${YEAR}_rev_${REV_NUM}.codes.json" \
-  --prune-keep 3 \
-  --tag-name "hts-${YEAR}-rev${REV_NUM}" \
-  --commit-message "chore: HTS ${YEAR} Rev ${REV_NUM} dataset (effective ${EFFECTIVE_DATE})" \
-  "${DRY_FLAG[@]}"
 
 # ─── Step 8: env var update ──────────────────────────────────────────
-if [[ "$DRY_RUN" == "true" ]]; then
+if ! step_active 8; then
+  skiplog 8 "env vars"
+elif [[ "$DRY_RUN" == "true" ]]; then
   log "Step 8/9: env vars (skipped — dry-run)"
 else
   log "Step 8/9: Railway + Vercel env var update (snapshot → $SNAPSHOT_FILE)"
@@ -231,7 +291,9 @@ SMOKE_ARGS=(--year "$YEAR" --rev-num "$REV_NUM")
 if [[ "$SKIP_CLASSIFY" == "true" ]]; then
   SMOKE_ARGS+=(--skip-classify)
 fi
-if [[ "$DRY_RUN" == "true" ]]; then
+if ! step_active 9; then
+  skiplog 9 "smoke test"
+elif [[ "$DRY_RUN" == "true" ]]; then
   log "Step 9/9: smoke test (skipped — dry-run)"
 else
   log "Step 9/9: smoke test"
