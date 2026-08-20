@@ -47,23 +47,67 @@ parse_countries <- function(description) {
 
   desc_lower <- tolower(description)
 
-  # Check for "product of China" pattern
-  if (str_detect(desc_lower, 'product of china')) {
-    return(list(type = 'specific', countries = c('CN'), exempt = character(0)))
-  }
-
-  # US Note 31 = Biden Section 301 increases (China-specific)
-  if (str_detect(desc_lower, 'u\\.s\\.\\s*note\\s*31')) {
-    return(list(type = 'specific', countries = c('CN'), exempt = character(0)))
-  }
-
-  # Check for "product of Canada" pattern
-  if (str_detect(desc_lower, 'product of canada')) {
-    countries <- c('CA')
-    if (str_detect(desc_lower, 'mexico')) {
-      countries <- c(countries, 'MX')
+  # --- Country identity comes from the universe, in CENSUS codes -----------
+  # These branches used to return ISO codes — c('CN'), c('CA'), 'UK', 'JP',
+  # 'EU', 'RU' — while every other branch returned census codes via
+  # resolve_country_name(). One column, two code systems. Downstream matches on
+  # census codes, so the ISO ones never matched and those headings' scope
+  # silently did not apply: 108 such values in 2025_rev_20 alone. 'EU' is not
+  # even a country code.
+  #
+  # A country-scoped EXCEPT clause must be handled BEFORE the universe
+  # resolver: the resolver has no notion of negation, so on the 232-style
+  # "products of iron or steel ... except products of Australia, of Argentina,
+  # ..." it returns the exempt origins as the POSITIVE scope — inverting the
+  # steel/aluminum blankets (9903.80.01/.03, 9903.85.01/.03) so the duty
+  # applies to exactly the countries the note exempts. Split the except clause
+  # off, resolve the REMAINDER for positive scope, and only then let the
+  # resolver see the rest of the text.
+  except_loc <- str_locate(desc_lower,
+    'except[^,]*(products? of|of)\\s+([^,]+(?:,\\s*(?:of\\s+)?[^,]+)*)')
+  if (!is.na(except_loc[1, 1])) {
+    except_text <- substr(description, except_loc[1, 1], except_loc[1, 2])
+    exempt <- extract_country_names(except_text)
+    if (length(exempt) > 0) {
+      # Strip by position from the original-case text: the resolver's intent
+      # pattern keys on proper nouns, so it must see the unlowered remainder.
+      remainder <- paste0(substr(description, 1, except_loc[1, 1] - 1),
+                          substr(description, except_loc[1, 2] + 1,
+                                 nchar(description)))
+      rs <- if (exists('resolve_country_scope', mode = 'function')) {
+        tryCatch(resolve_country_scope(remainder), error = function(e) NULL)
+      } else NULL
+      if (!is.null(rs) && rs$outcome == 'country_scoped' &&
+          length(rs$census_codes) > 0) {
+        return(list(type = 'specific',
+                    countries = setdiff(as.character(rs$census_codes), exempt),
+                    exempt = exempt))
+      }
+      return(list(type = 'all_except', countries = character(0),
+                  exempt = exempt))
     }
-    return(list(type = 'specific', countries = countries, exempt = character(0)))
+  }
+
+  # resolve_country_scope() answers both questions at once (is this scoped by
+  # country, and which) against the maintained 253-name universe, so no country
+  # is named in code here.
+  if (exists('resolve_country_scope', mode = 'function')) {
+    rs <- tryCatch(resolve_country_scope(description), error = function(e) NULL)
+    if (!is.null(rs) && rs$outcome == 'country_scoped' && length(rs$census_codes) > 0) {
+      return(list(type = 'specific', countries = as.character(rs$census_codes),
+                  exempt = character(0)))
+    }
+  }
+
+  # US Note 31 = Biden Section 301 increases. A NOTE reference, not a country
+  # name, so the universe cannot resolve it — this stays explicit, and resolves
+  # the origin through the same helper rather than hardcoding a code.
+  if (str_detect(desc_lower, 'u\\.s\\.\\s*note\\s*31')) {
+    cn <- resolve_country_name('China')
+    if (length(cn) > 0) {
+      return(list(type = 'specific', countries = as.character(cn),
+                  exempt = character(0)))
+    }
   }
 
   # "articles the product of <Country>" is an unambiguous country-specific scope,
@@ -111,10 +155,13 @@ parse_countries <- function(description) {
   # e.g., "Except for derivative iron or steel products described in headings 9903.81.89..."
   # These are blanket rates — the "except" carves out other HTS codes, not countries.
   if (str_detect(desc_lower, 'except.*(?:heading|subheading|9903)')) {
-    if (!any(str_detect(desc_lower, c('canada', 'mexico', 'japan', 'korea',
-                                       'kingdom', 'european', 'russia')))) {
-      return(list(type = 'all', countries = character(0), exempt = character(0)))
-    }
+    # The 7-country shortlist that used to guard this branch is gone. It was the
+    # cause the comment above describes: a country NOT on it fell through to a
+    # blanket 'all' with an empty country list. The universe resolver now runs
+    # FIRST, so any country-scoped description has already returned; reaching
+    # here means no known country is named, and 'all' is the correct reading of
+    # an "except <heading>" carve-out.
+    return(list(type = 'all', countries = character(0), exempt = character(0)))
   }
 
   # Check for "except products of..." pattern (Section 232 style)
@@ -126,10 +173,8 @@ parse_countries <- function(description) {
     return(list(type = 'all_except', countries = character(0), exempt = exempt))
   }
 
-  # Check for "product of the Russian Federation"
-  if (str_detect(desc_lower, 'russian federation')) {
-    return(list(type = 'specific', countries = c('RU'), exempt = character(0)))
-  }
+  # (Russian Federation is resolved by the universe above — it is an alias row
+  #  in resources/country_name_aliases.csv, not a hardcoded branch.)
 
   # Country-specific "products of [country]" or "[items] of the [country]" pattern
   # (Section 232 deals, wood tariffs)
@@ -138,17 +183,9 @@ parse_countries <- function(description) {
   #        "...products of the European Union..."
   #        "...parts of passenger vehicles and light trucks of the United Kingdom..."
   #        "...products of South Korea..."
-  country_specific_map <- c(
-    'united kingdom' = 'UK', 'japan' = 'JP',
-    'european union' = 'EU', 'south korea' = 'KR', 'korea' = 'KR'
-  )
-  for (name in names(country_specific_map)) {
-    if (str_detect(desc_lower, paste0('\\bof\\s+(the\\s+)?', name))) {
-      return(list(type = 'specific',
-                  countries = country_specific_map[name],
-                  exempt = character(0)))
-    }
-  }
+  # (United Kingdom / Japan / European Union / Korea are resolved by the
+  #  universe above. The old map returned ISO codes into a census-code column,
+  #  so its scope never matched downstream.)
 
   # Default: unknown — downstream consumers must opt into 'all' explicitly.
   # Returning 'unknown' instead of 'all' prevents a parser miss from silently
@@ -163,30 +200,15 @@ parse_countries <- function(description) {
 #' @param text Text containing country names
 #' @return Vector of ISO country codes
 extract_country_names <- function(text) {
-  # Map of country names to ISO codes
-  country_map <- c(
-    'australia' = 'AU', 'argentina' = 'AR', 'brazil' = 'BR',
-    'canada' = 'CA', 'mexico' = 'MX', 'china' = 'CN',
-    'people\'s republic of china' = 'CN',
-    'south korea' = 'KR', 'korea' = 'KR',
-    'japan' = 'JP', 'united kingdom' = 'UK', 'uk' = 'UK',
-    'european union' = 'EU', 'eu' = 'EU',
-    'ukraine' = 'UA', 'russia' = 'RU', 'russian federation' = 'RU',
-    'india' = 'IN', 'switzerland' = 'CH', 'liechtenstein' = 'LI',
-    'thailand' = 'TH', 'vietnam' = 'VN', 'viet nam' = 'VN',
-    'taiwan' = 'TW', 'indonesia' = 'ID'
-  )
-
-  text_lower <- tolower(text)
-  found <- character(0)
-
-  for (name in names(country_map)) {
-    if (str_detect(text_lower, name)) {
-      found <- c(found, country_map[name])
-    }
-  }
-
-  unique(found)
+  # Was a hardcoded 25-country map while resources/census_codes.csv held 241 and
+  # country_name_aliases.csv held the spelling variants — so any origin outside
+  # those 25 was silently invisible, and the codes returned were ISO into a
+  # census-code column. Delegates to the shared universe resolver, which also
+  # handles parenthetical census names, diacritics and blocs.
+  if (!exists('find_countries_in_text', mode = 'function')) return(character(0))
+  hits <- tryCatch(find_countries_in_text(text), error = function(e) NULL)
+  if (is.null(hits) || nrow(hits) == 0) return(character(0))
+  unique(as.character(unlist(hits$census_codes)))
 }
 
 
@@ -219,6 +241,22 @@ extract_ch99_references <- function(description) {
 #' @return Character vector of resolution statuses
 classify_resolution_status <- function(ch99_code, country_type) {
   case_when(
+    # §201 claims come FIRST, before the generic country-scope arm: "who applies
+    # this duty" is orthogonal to "did the country scope parse". Quartz
+    # (9903.45.30/.31) parses country_type='all' from "product of any country",
+    # which used to stamp resolved_by_parser and let a brand-new rated safeguard
+    # sail past the completeness gate with no modelling path at all.
+    #
+    # Section 201 SOLAR safeguard (CSPV cells/modules, 9903.45.21-.29) — MODELED
+    # by extract_section_201_rates() from resources/s201_solar_products.csv.
+    grepl('^9903\\.45\\.2[1-9]', ch99_code) ~ 'handled_by_s201_extractor',
+    # Section 201 QUARTZ surface products TRQ (9903.45.30 in-quota 25% /
+    # 9903.45.31 over-quota 50%; U.S. note 41, 91 FR 50645, quota periods from
+    # 2026-08-15). The actual rate depends on quota standing — a fact we do not
+    # hold — so NO rate is collapsed into rate_section_201. Emitted as a
+    # requires-more-facts determination (both tiers, note-41(c) exemptions) in
+    # ch99_rules_json via build_s201_quartz_candidates().
+    grepl('^9903\\.45\\.3[01]', ch99_code) ~ 'handled_by_s201_determination',
     country_type != 'unknown' ~ 'resolved_by_parser',
     # Section 338 Canada (19 U.S.C. 1338; Proclamation 11047 and siblings of
     # 2026-07-20, eff. 2026-08-19). PREDICTED headings 9903.03.12-.14 — §122's
@@ -282,10 +320,8 @@ classify_resolution_status <- function(ch99_code, country_type) {
     grepl('^9903\\.(88|89|9[0-3])', ch99_code) ~ 'handled_by_s301_config',
     # WTO tariff-rate quotas (TRQs): not duty-relevant surcharges
     grepl('^9903\\.(04|08|17|18|19|27|52|53|54|55)', ch99_code) ~ 'not_duty_relevant_trq',
-    # Section 201 SOLAR safeguard (CSPV cells/modules, 9903.45.21–.29) — MODELED
-    # by extract_section_201_rates(): applies the configured solar_rate over the
-    # HTS Year-1 rate (US Note; Proc 9693 as extended to 2026). G4 backport.
-    grepl('^9903\\.45\\.2[1-9]', ch99_code) ~ 'handled_by_s201_extractor',
+    # (Solar 9903.45.2x and quartz 9903.45.3x are claimed at the TOP of this
+    #  case_when, above the country-scope arm.)
     # Other Section 201 ranges (tires 9903.40; CSPV-cell/washer tiers 9903.41;
     # washing machines 9903.45.0x): legacy safeguards retained in the HTS but
     # not modeled here — needs review (confirm expiry vs. model).
@@ -305,6 +341,12 @@ classify_resolution_status <- function(ch99_code, country_type) {
 #' @param json_path Path to HTS JSON file
 #' @param revision_id Optional revision ID for log messages (e.g., "2025_rev_7")
 #' @return Tibble with parsed Chapter 99 data including resolution_status and references columns
+# Hierarchical country scope. Sourced here rather than relying on the caller,
+# because tests and scripts source this file directly.
+if (!exists('resolve_country_scope_hierarchical', mode = 'function')) {
+  try(source(here::here('src', 'resolve_country_scope.R')), silent = TRUE)
+}
+
 parse_chapter99 <- function(json_path, revision_id = NULL) {
   message('Reading HTS JSON from: ', json_path)
 
@@ -319,6 +361,44 @@ parse_chapter99 <- function(json_path, revision_id = NULL) {
   }, hts_raw)
 
   message('  Chapter 99 entries: ', length(ch99_items))
+
+  # --- Country scope carried by UNNUMBERED PARENT lines --------------------
+  # The tariff schedule is a tree, and the filter above keeps only the leaves.
+  # An unnumbered parent states the origin while the numbered child states the
+  # rate:
+  #
+  #   (no htsno) indent 0   "Articles the product of Japan:"
+  #   9903.41.15 indent 1   "Automatic data processing machines..."     100%
+  #
+  # Dropping the parent makes the child look scope-less, which is why §201
+  # reported 18 of 20 headings unresolved. Measured on 2025_rev_20: 254 headings
+  # are scoped by their own text and a further 262 ONLY through a parent — 42% of
+  # the chapter, silently lost.
+  #
+  # So walk the CONTIGUOUS slice of the raw schedule that spans Chapter 99,
+  # unnumbered lines included, and resolve scope down the indent hierarchy.
+  .idx <- which(vapply(hts_raw, function(x) grepl('^9903\\.', x$htsno %||% ''), logical(1)))
+  scope_by_code <- NULL
+  if (length(.idx) > 0 && exists('resolve_country_scope_hierarchical', mode = 'function')) {
+    slice <- hts_raw[min(.idx):max(.idx)]
+    stbl <- tibble(
+      htsno       = vapply(slice, function(x) x$htsno %||% '', character(1)),
+      indent      = suppressWarnings(as.integer(vapply(slice, function(x)
+                      as.character(x$indent %||% NA), character(1)))),
+      description = vapply(slice, function(x) x$description %||% '', character(1)))
+    stbl <- tryCatch(resolve_country_scope_hierarchical(stbl),
+                     error = function(e) { message('  [scope hierarchy skipped: ',
+                                                   conditionMessage(e), ']'); NULL })
+    if (!is.null(stbl)) {
+      scope_by_code <- stbl %>%
+        filter(nzchar(htsno)) %>%
+        select(ch99_code = htsno, scope_outcome = outcome,
+               scope_source, scope_codes = census_codes,
+               scope_names = country_names)
+      n_inh <- sum(scope_by_code$scope_source == 'inherited', na.rm = TRUE)
+      message('  Country scope via parent-line inheritance: ', n_inh, ' heading(s)')
+    }
+  }
 
   # Parse each entry
   parsed <- map_dfr(ch99_items, function(item) {
@@ -362,6 +442,52 @@ parse_chapter99 <- function(json_path, revision_id = NULL) {
       effective_date_offset = eff_offset
     )
   })
+
+  # --- Apply the hierarchy-resolved scope, MONOTONICALLY ------------------
+  # Only where the flat parser found nothing and the hierarchy found countries.
+  # Deliberately one-directional:
+  #
+  #   unknown + countries found  ->  'specific'   RECOVERS duty that was dropped
+  #   not_country_scoped         ->  left 'unknown', still fail-closed
+  #
+  # Mapping not_country_scoped to 'all' would be the larger, correct-sounding
+  # change and is exactly the one to make separately: it turns a dropped duty
+  # into a globally applied one, and several such headings carry 100% rates.
+  # Recovering scope and blanket-applying are different risks; only the first
+  # is taken here.
+  parsed$scope_outcome <- NA_character_
+  parsed$scope_source  <- NA_character_
+  if (!is.null(scope_by_code)) {
+    m <- match(parsed$ch99_code, scope_by_code$ch99_code)
+    parsed$scope_outcome <- scope_by_code$scope_outcome[m]
+    parsed$scope_source  <- scope_by_code$scope_source[m]
+    # "Articles the product of any country ..." is an explicit ALL-origins
+    # provision. The resolver marks it country_scoped with an EMPTY code list,
+    # meaning "every origin" — distinct from an empty list because nothing was
+    # found. Leaving it 'unknown' fails it closed, dropping a duty the schedule
+    # states applies universally.
+    any_country <- which(!is.na(m) & parsed$country_type == 'unknown' &
+                         parsed$scope_outcome == 'country_scoped' &
+                         lengths(scope_by_code$scope_codes[m]) == 0)
+    if (length(any_country) > 0) {
+      parsed$country_type[any_country] <- 'all'
+      message('  Scope: ', length(any_country),
+              ' heading(s) state "any country" -> all origins')
+    }
+
+    upgrade <- which(!is.na(m) & parsed$country_type == 'unknown' &
+                     parsed$scope_outcome == 'country_scoped' &
+                     lengths(scope_by_code$scope_codes[m]) > 0)
+    if (length(upgrade) > 0) {
+      for (k in upgrade) {
+        parsed$countries[[k]]  <- scope_by_code$scope_codes[[m[k]]]
+        parsed$country_type[k] <- 'specific'
+      }
+      rated <- sum(!is.na(parsed$rate[upgrade]) & parsed$rate[upgrade] > 0)
+      message('  Scope recovered from hierarchy for ', length(upgrade),
+              ' heading(s) previously unresolved (', rated, ' carrying a rate)')
+    }
+  }
 
   # Add resolution_status: classifies whether 'unknown' entries are actually
   # handled by downstream authority-specific extractors, are not duty-relevant,
@@ -467,6 +593,22 @@ check_ch99_completeness <- function(ch99_data, ch99_other = NULL,
   unresolved_rated <- ch99_data %>%
     filter(resolution_status %in% c('unresolved', 'unresolved_s201'),
            !is.na(rate), rate > 0)
+
+  # §201 safeguard ranges: a RATED heading whose only claim is the generic
+  # country-scope parse has NO modelling path — nothing applies its duty and no
+  # determination discloses it. This is exactly how quartz (9903.45.30/.31,
+  # new in 2026_rev_16) landed at 0% with no gate firing: "product of any
+  # country" parsed to country_type='all' -> resolved_by_parser, and the
+  # unresolved-rated check above never saw it. Every rated §201-range heading
+  # must be claimed by a §201 status (extractor / determination / TRQ) or go
+  # through the unresolved path above and its allowlist.
+  s201_claimed <- c('handled_by_s201_extractor', 'handled_by_s201_determination',
+                    'not_duty_relevant_trq', 'unresolved_s201', 'unresolved')
+  s201_unclaimed_rated <- ch99_data %>%
+    filter(grepl('^9903\\.(40|41|45|46|47)', ch99_code),
+           !is.na(rate), rate > 0,
+           !resolution_status %in% s201_claimed)
+  unresolved_rated <- bind_rows(unresolved_rated, s201_unclaimed_rated)
 
   # Defense in depth against the mis-scoping class of bug: a heading whose text
   # names a specific origin ("articles the product of Kazakhstan") but which the
