@@ -158,11 +158,22 @@ prov$country <- vapply(prov$iso, function(i) {
 }, character(1))
 
 parquet_root <- here('data', 'timeseries', 'rate_timeseries_parquet')
-keep <- c('hts10','country','base_rate','rate_232','rate_301','rate_ieepa_recip',
+# STATUTORY columns are the ones comparable to Avalara. base_rate/total_rate are
+# TRADE-WEIGHTED — 06_calculate_rates.R scales them by the MFN exemption share
+# and the USMCA share, so they answer "what does the average dollar of this
+# trade flow pay" while Avalara answers "what does this entry owe". Comparing
+# the weighted columns produced 650 false base mismatches (54.5%) and 954 false
+# total mismatches (80.0%) on the first run of this script.
+keep <- c('hts10','country','base_rate','statutory_base_rate',
+          'total_rate','statutory_total_rate','statutory_total_additional',
+          'statutory_alternatives_json',
+          'rate_232','rate_301','rate_ieepa_recip',
           'rate_ieepa_fent','rate_s122','rate_section_201','rate_s301fl',
-          'rate_s301br','rate_s338','rate_adcvd','total_rate','ch99_code_232',
+          'rate_s301br','rate_s338','rate_adcvd','ch99_code_232',
           'ch99_code_301','ch99_code_ieepa_recip','ch99_code_ieepa_fent',
-          'calc_status','column2_status','pending_activation_json')
+          'ch99_code_s122','ch99_code_s201','ch99_code_s301fl',
+          'ch99_code_s301br','ch99_code_s338',
+          'calc_status','column2_status','pending_activation_json','rate_basis')
 
 ours <- prov %>% filter(!is.na(revision), !is.na(country)) %>%
   group_split(revision) %>%
@@ -176,34 +187,102 @@ ours <- prov %>% filter(!is.na(revision), !is.na(country)) %>%
 
 message('Matched in our corpus: ', sum(ours$.matched), ' / ', nrow(ours))
 
+# A partition built before compute_statutory_totals() existed carries NA here.
+# Those rows cannot be compared and must not be counted as agreement.
+if (!'statutory_total_rate' %in% names(ours)) ours$statutory_total_rate <- NA_real_
+# Attribution columns added over time — partitions built before one existed
+# just contribute nothing to the heading-set comparison for that authority.
+for (.c in c('ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
+             'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
+             'ch99_code_s301fl', 'ch99_code_s301br', 'ch99_code_s338')) {
+  if (!.c %in% names(ours)) ours[[.c]] <- NA_character_
+}
+n_stale <- sum(ours$.matched & is.na(ours$statutory_total_rate))
+if (n_stale > 0) {
+  message('  NOT COMPARABLE: ', n_stale, ' matched row(s) have no statutory_total_rate ',
+          '(partition predates it). Rebuild those revisions before reading the totals below.')
+  message('    revisions: ', paste(sort(unique(
+    ours$revision[ours$.matched & is.na(ours$statutory_total_rate)])), collapse = ', '))
+}
+
 # --- comparisons --------------------------------------------------------------
 tol <- 5e-4
 cmp <- ours %>% filter(status == 'covered', .matched) %>%
   mutate(
     our_codes = pmap_chr(list(ch99_code_232, ch99_code_301,
-                              ch99_code_ieepa_recip, ch99_code_ieepa_fent),
+                              ch99_code_ieepa_recip, ch99_code_ieepa_fent,
+                              ch99_code_s122, ch99_code_s201,
+                              ch99_code_s301fl, ch99_code_s301br,
+                              ch99_code_s338),
                          function(...) {
                            v <- c(...); v <- v[!is.na(v)]
                            paste(sort(norm_code(v)), collapse = ',')
                          }),
-    d_base  = base_rate - av_mfn,
-    d_total = total_rate - av_total,
-    mismatch_base  = abs(d_base)  > tol,
-    mismatch_total = abs(d_total) > tol,
-    mismatch_codes_live = our_codes != av_codes_live,
-    has_adcvd = (av_n_add + av_n_cvd) > 0
+    # Avalara did not always keep §232 out of duty.mfn. In periods from roughly
+    # 2025-03 to 2025-06 it reported the §232 duty INSIDE mfn and listed no
+    # Chapter 99 code at all; from ~2025-10 it switched to punitiveRates. Those
+    # rows are a provider representation change, not a defect on our side, and
+    # counting them as base mismatches overstated our error by 198 rows.
+    av_mfn_absorbs_punitive =
+      (is.na(av_codes_live) | av_codes_live == '') &
+      !is.na(av_mfn) & !is.na(statutory_base_rate) &
+      (av_mfn - statutory_base_rate) > tol &
+      coalesce(rate_232, 0) > 0,
+
+    d_base  = statutory_base_rate - av_mfn,
+    mismatch_base  = abs(d_base) > tol & !av_mfn_absorbs_punitive,
+    mismatch_codes_live = our_codes != av_codes_live & !av_mfn_absorbs_punitive,
+    has_adcvd = (av_n_add + av_n_cvd) > 0,
+
+    # On a CA/MX line the USMCA fork means TWO totals are legally defensible.
+    # Our default is "preference not claimed"; the alternative rides in the
+    # JSON. Avalara was measured to use the full statutory MFN on 240 of 314
+    # CA/MX periods, i.e. it also assumes preference is NOT claimed — so the
+    # default is the right primary comparison. The claimed branch is still
+    # tested, because scoring a row as a mismatch when it matches the OTHER
+    # legally-correct branch would be a false positive.
+    alt_total = suppressWarnings(as.numeric(
+      sub('.*"alternative":\\{[^}]*"total":([0-9.]+).*', '\\1',
+          statutory_alternatives_json))),
+    d_total       = statutory_total_rate - av_total,
+    d_total_alt   = alt_total - av_total,
+    matches_default = !is.na(d_total)     & abs(d_total)     <= tol,
+    matches_alt     = !is.na(d_total_alt) & abs(d_total_alt) <= tol,
+
+    # Classes that are NOT ours to answer, in priority order. Leaving any of
+    # them in the total would attribute a known, explained gap to the stacking
+    # engine.
+    cls = case_when(
+      substr(hts10, 1, 2) == '98' ~ 'out_of_scope_ch98',
+      has_adcvd                   ~ 'adcvd_not_modelled',
+      av_mfn_absorbs_punitive     ~ 'avalara_mfn_artifact',
+      is.na(statutory_total_rate) ~ 'no_statutory_total',
+      TRUE                        ~ 'comparable'
+    ),
+    mismatch_total = cls == 'comparable' & !matches_default & !matches_alt
   )
 
+cmpbl <- cmp %>% filter(cls == 'comparable')
+pct <- function(x, d) if (d > 0) 100 * x / d else NA_real_
 message('\n', strrep('=', 72))
-message('COMPARED: ', nrow(cmp), ' rows')
+message('ROWS: ', nrow(cmp), '  (statutory basis, preference-not-claimed default)')
 message(strrep('-', 72))
-message(sprintf('  base rate  mismatch: %5d (%.1f%%)', sum(cmp$mismatch_base),
-                100 * mean(cmp$mismatch_base)))
-message(sprintf('  total rate mismatch: %5d (%.1f%%)', sum(cmp$mismatch_total),
-                100 * mean(cmp$mismatch_total)))
-message(sprintf('  live Ch99 set differs: %5d (%.1f%%)', sum(cmp$mismatch_codes_live),
-                100 * mean(cmp$mismatch_codes_live)))
-message(sprintf('  rows where Avalara has AD/CVD (we do not): %d', sum(cmp$has_adcvd)))
+for (k in c('comparable','out_of_scope_ch98','adcvd_not_modelled',
+            'avalara_mfn_artifact','no_statutory_total')) {
+  n <- sum(cmp$cls == k)
+  if (n > 0) message(sprintf('  %-22s %5d', k, n))
+}
+message(strrep('-', 72))
+message('AGREEMENT on the ', nrow(cmpbl), ' comparable rows')
+message(sprintf('  total rate mismatch : %5d (%.1f%%)',
+                sum(cmpbl$mismatch_total), pct(sum(cmpbl$mismatch_total), nrow(cmpbl))))
+message(sprintf('    of which matched via the USMCA alternative branch: %d',
+                sum(cmpbl$matches_alt & !cmpbl$matches_default)))
+message(sprintf('  base rate  mismatch : %5d (%.1f%%)',
+                sum(cmpbl$mismatch_base), pct(sum(cmpbl$mismatch_base), nrow(cmpbl))))
+message(sprintf('  live Ch99 set differs: %4d (%.1f%%)',
+                sum(cmpbl$mismatch_codes_live),
+                pct(sum(cmpbl$mismatch_codes_live), nrow(cmpbl))))
 message(strrep('=', 72))
 
 dir.create(here('output', 'quality'), recursive = TRUE, showWarnings = FALSE)
@@ -213,9 +292,13 @@ write_csv(cmp %>% select(-any_of('.matched')),
 summ <- cmp %>%
   group_by(revision, iso) %>%
   summarise(n = n(),
-            base_mm = sum(mismatch_base), total_mm = sum(mismatch_total),
+            comparable = sum(cls == 'comparable'),
+            base_mm = sum(mismatch_base),
+            total_mm = sum(mismatch_total, na.rm = TRUE),
             code_mm = sum(mismatch_codes_live),
-            mean_d_total = mean(d_total, na.rm = TRUE), .groups = 'drop') %>%
+            av_artifact = sum(av_mfn_absorbs_punitive),
+            mean_d_total = mean(d_total[cls == 'comparable'], na.rm = TRUE),
+            .groups = 'drop') %>%
   arrange(desc(total_mm))
 write_csv(summ, here('output', 'quality', 'avalara_diff_summary.csv'))
 message('Wrote output/quality/avalara_diff{,_summary}.csv')

@@ -149,7 +149,14 @@ function listRevisions() {
     revisions.push(name);
   }
   // Numeric-aware sort: 2025_basic, 2025_rev_1, 2025_rev_2, ..., 2025_rev_10, ...
+  // Year FIRST, then rev number — the previous comparator sorted by rev number
+  // alone, interleaving years (…, 2025_rev_16, 2026_rev_16, 2025_rev_17, …)
+  // and making the plan line report 2025_rev_32 as "last". Order never affected
+  // which partitions load, only the display and physical insert order.
   revisions.sort((a, b) => {
+    const ay = parseInt(a.slice(0, 4), 10);
+    const by = parseInt(b.slice(0, 4), 10);
+    if (ay !== by) return ay - by;
     const an = parseInt((a.match(/rev_(\d+)/) || [])[1] ?? '-1', 10);
     const bn = parseInt((b.match(/rev_(\d+)/) || [])[1] ?? '-1', 10);
     if (an !== bn) return an - bn;

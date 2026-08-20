@@ -806,7 +806,31 @@
   {
     "revision": "2026_rev_12",
     "effectiveDate": "2026-07-21",
-    "policyEffectiveDate": null,
-    "policyEvent": "Federal Register Links comming soon"
+    "policyEffectiveDate": "2026-07-21",
+    "policyEvent": "Section 301 Brazil final action codified (USTR FR Doc 2026-14542, 91 FR 45516; duties effective 2026-07-22): 9 new ch99 headings 9903.05.01-.09 under U.S. note 50, 25% on all products of Brazil except the note-50 exclusion lists."
+  },
+  {
+    "revision": "2026_rev_13",
+    "effectiveDate": "2026-07-28",
+    "policyEffectiveDate": "2026-07-24",
+    "policyEvent": "Section 301 forced-labor final action against 60 economies (91 FR 47318 USTR notice / 91 FR 47717 presidential document; effective 2026-07-24): U.S. note 52(a)-(k) and headings 9903.05.20-9903.06.21 established, 10%/12.5% additional ad valorem per economy on all products, with Annex I/II exclusions."
+  },
+  {
+    "revision": "2026_rev_14",
+    "effectiveDate": "2026-07-31",
+    "policyEffectiveDate": "2026-07-31",
+    "policyEvent": "Notice of Actions in Section 301 Investigations of Acts, Policies, and Practices of Various Economies Related to the Failure of Each Economy To Impose and Effectively Enforce a Prohibition on the Importation of Goods Produced With Forced Labor (91 Fed. Reg. 47318) Notice of Action: Brazils Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; & Illegal Deforestation (91 Fed. Reg. 45516) Adjusting Imports of Pharmaceuticals and Pharmaceutical Ingredients Into the United States (91 Fed. Reg. 18183"
+  },
+  {
+    "revision": "2026_rev_15",
+    "effectiveDate": "2026-08-03",
+    "policyEffectiveDate": "2026-08-03",
+    "policyEvent": "Notice of Reduction of Tariffs on Patented Pharmaceuticals and Pharmaceutical Ingredients for Products of the United Kingdom Implemented by Presidential Proclamation 11020 (91 Fed. Reg. 49406"
+  },
+  {
+    "revision": "2026_rev_16",
+    "effectiveDate": "2026-08-14",
+    "policyEffectiveDate": "2026-08-14",
+    "policyEvent": "To Facilitate Positive Adjustment to Competition from Imports of Quartz Surface Products (91 Fed. Reg. 50645). Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f), Tariff Act of 1930, as amended) (484(f))"
   }
 ]

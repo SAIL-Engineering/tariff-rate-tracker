@@ -95,3 +95,4 @@ node_modules/
 
 # Vendor payloads pulled from the Avalara cache for validation (not ours to commit)
 data/validation/avalara_cache.rds
+data/validation/avalara_resolved.rds
