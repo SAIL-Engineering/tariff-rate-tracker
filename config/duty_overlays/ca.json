@@ -1,0 +1,35 @@
+{
+  "_comment": "Curated Canadian duty overlays, applied automatically by build_duty_rates.py on EVERY revision build. Hand-reviewed; update when an Order in Council changes. Alerts with verified:false render as warnings ('scope pending verification'), never as asserted rates; set verified:true and list exact tariff items to promote them to duty rows.",
+  "flat_taxes": [
+    {
+      "treatment": "GST",
+      "name": "GST — Goods and Services Tax (federal, 5% on the duty-paid value)",
+      "rate_text": "5%",
+      "ad_valorem": 0.05,
+      "applies_note": "Most imports; provincial HST/PST depends on the province of delivery and is not included.",
+      "legal_basis": "Excise Tax Act, Part IX"
+    }
+  ],
+  "surtax_alerts": [
+    {
+      "id": "china_ev_2024",
+      "name": "Surtax on Chinese-made electric vehicles (100%)",
+      "origin_countries": ["CN"],
+      "rate_text": "100%",
+      "prefixes": ["870240", "870360", "870370", "870380", "870460"],
+      "legal_basis": "China Surtax Order (2024), in force 2024-10-01",
+      "verified": false,
+      "scope_note": "Scope approximated by EV subheadings; the Order lists exact tariff items — verify before relying."
+    },
+    {
+      "id": "china_steel_aluminum_2024",
+      "name": "Surtax on Chinese steel and aluminum products (25%)",
+      "origin_countries": ["CN"],
+      "rate_text": "25%",
+      "prefixes": ["72", "73", "76"],
+      "legal_basis": "China Surtax Order (2024), in force 2024-10-22",
+      "verified": false,
+      "scope_note": "The Order lists specific tariff items within chapters 72/73/76; chapter-level match shown as an alert until the item list is transcribed."
+    }
+  ]
+}

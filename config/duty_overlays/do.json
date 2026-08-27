@@ -1,0 +1,16 @@
+{
+  "_comment": "Curated Dominican Republic preferential overlays, applied automatically by build_duty_rates.py on every revision build. DR-CAFTA tariff staging completed (final ag lines by 2025), so originating goods of the parties enter duty-free; the entitlement caveat (certification of origin) always renders.",
+  "preferences": [
+    {
+      "treatment": "DR_CAFTA",
+      "name": "DR-CAFTA / Tratado de Libre Comercio República Dominicana–Centroamérica–Estados Unidos — originating goods duty-free",
+      "origin_countries": ["US", "CR", "GT", "HN", "NI", "SV"],
+      "rate_text": "Free",
+      "ad_valorem": 0,
+      "conditional": true,
+      "legal_basis": "DR-CAFTA (staging completed; certification of origin required)",
+      "exception_prefixes": [],
+      "note": "A small set of agricultural lines historically carried TRQ mechanics; staging concluded with the 2025 schedule."
+    }
+  ]
+}

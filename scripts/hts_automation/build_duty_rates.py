@@ -63,6 +63,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build_hts_corpus as bhc  # noqa: E402
 
+
+def load_overlay(jur: str) -> dict:
+    """Curated per-jurisdiction overlay (config/duty_overlays/<jur>.json):
+    flat taxes, surtax alerts, treaty preferences, VAT reference tables.
+    Applied automatically on EVERY build so new revisions inherit them; each
+    entry carries its own honesty flags (verified / notes) which the UI
+    renders verbatim."""
+    path = Path(f"config/duty_overlays/{jur.lower()}.json")
+    if not path.is_file():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {k: v for k, v in data.items() if not k.startswith("_")}
+
 CA_RATE_COLUMNS = [
     "MFN", "AUT", "NZT", "CCCT", "LDCT", "GPT", "UST", "MXT", "CIAT", "CT",
     "CRT", "IT", "NT", "SLT", "PT", "COLT", "JT", "PAT", "HNT", "KRT",
@@ -133,9 +146,12 @@ CA_COVERAGE = {
     "excludes": [
         "SIMA anti-dumping/countervailing duties (CBSA 'Measures in Force' "
         "is a separate publication, not part of the tariff schedule).",
-        "Surtax orders (e.g. the 2024-25 China EV/steel/aluminum surtaxes) — "
-        "separate orders-in-council, not in the schedule.",
-        "GST/HST/PST and excise taxes.",
+        "Provincial HST/PST and excise taxes (federal GST is shown; the "
+        "provincial component depends on the province of delivery).",
+        "Exact surtax-order scope: China surtax orders surface as ALERTS on "
+        "matching chapters/subheadings until their tariff-item lists are "
+        "transcribed and marked verified — an alert is a flag to check the "
+        "Order, not an asserted rate.",
         "Tariff-rate-quota within-access permit logic (over-access rates are "
         "the schedule rates shown).",
         "Ad-valorem equivalents for specific/compound rates (shown verbatim, "
@@ -184,6 +200,27 @@ def build_ca(csv_path: Path, jur: str, revision: str):
     for root in roots:
         walk(root, [])
 
+    overlay = load_overlay("ca")
+    # Surtax alerts: informational warning rows on matching leaves — a flag to
+    # check the Order in Council, never an asserted rate while verified:false.
+    for alert in overlay.get("surtax_alerts", []):
+        prefixes = tuple(alert.get("prefixes", []))
+        matched = 0
+        for rec in list(records):
+            if rec["treatment"] != "MFN":
+                continue                       # one alert per leaf, keyed off MFN rows
+            if not rec["digits"].startswith(prefixes):
+                continue
+            out = _record(jur, revision, rec["code"], rec["digits"],
+                          f"surtax_alert_{alert['id']}", alert["rate_text"],
+                          informational=True, category="alert",
+                          conditional=True)
+            out["origin_code"] = ",".join(alert.get("origin_countries", []))
+            out["origin_name"] = alert["name"]
+            records.append(out)
+            matched += 1
+        print(f"[ca] surtax alert {alert['id']}: {matched:,} leaves flagged")
+
     treatments_path = Path("config/ca_tariff_treatments.json")
     treatments = json.loads(treatments_path.read_text(encoding="utf-8"))["treatments"]
     tout = []
@@ -199,7 +236,25 @@ def build_ca(csv_path: Path, jur: str, revision: str):
             "legal_basis": t.get("legal_basis", ""),
             "transcription_pending": bool(t.get("transcription_pending")),
         })
-    return records, tout, dict(CA_COVERAGE)
+    for alert in overlay.get("surtax_alerts", []):
+        tout.append({
+            "treatment": f"surtax_alert_{alert['id']}",
+            "name": alert["name"],
+            "origin_countries": alert.get("origin_countries", []),
+            "applies": None, "conditional": True,
+            "legal_basis": alert.get("legal_basis", ""),
+            "transcription_pending": not alert.get("verified", False),
+            "category": "alert",
+            "scope_note": alert.get("scope_note", ""),
+        })
+    coverage = dict(CA_COVERAGE)
+    coverage["flat_taxes"] = overlay.get("flat_taxes", [])
+    coverage["provides"] = coverage["provides"] + [
+        "Federal GST (5%) as a flat import-tax line, and China surtax-order "
+        "ALERTS on matching goods (scope pending verification against the "
+        "Orders' tariff-item lists).",
+    ]
+    return records, tout, coverage
 
 
 # ── EU ───────────────────────────────────────────────────────────────────────
@@ -246,7 +301,9 @@ EU_COVERAGE = {
         "Ad-valorem equivalents for specific, compound or Meursing (EA/ADSZ) "
         "duties — the formula is shown verbatim; only a compound duty's "
         "leading percentage enters the rate comparison.",
-        "Member-state import VAT and excise.",
+        "Excise duties, and product-specific reduced/zero VAT rates — the "
+        "standard import-VAT reference table by destination member state IS "
+        "included, but it is a reference, not a per-product determination.",
         "Measures published after this monthly snapshot (each measure also "
         "carries its own legal dates).",
     ],
@@ -554,6 +611,9 @@ def build_eu(duties_xlsx: Path, geo_xlsx: Path | None, jur: str, revision: str,
     # Union") is the authoritative member list from the same extract — the 27
     # member states plus XI (Northern Ireland, under the EU goods regime per
     # the Windsor Framework). The synthetic "EU" member code is dropped.
+    overlay = load_overlay("eu")
+    if overlay.get("member_import_vat"):
+        coverage["member_import_vat"] = overlay["member_import_vat"]
     members = sorted(m for m in groups.get("1010", []) if m != "EU")
     if members:
         coverage["applies_in"] = members
@@ -575,9 +635,9 @@ DO_COVERAGE = {
         "Selectivo al Consumo (ad valorem and specific).",
     ],
     "excludes": [
-        "Preferential rates: DR-CAFTA, the EU EPA and CARICOM schedules are "
-        "separate treaty annexes and are NOT in the published tariff book — "
-        "no preferential dimension is shown.",
+        "EU EPA (EPA CARIFORUM-UE) and CARICOM preferential schedules — "
+        "separate treaty annexes not yet transcribed (DR-CAFTA IS included, "
+        "from the curated overlay).",
         "Anti-dumping/safeguard measures.",
         "Exact landed-cost computation: the total shown is the sum of the "
         "listed ad-valorem line items; DGA liquidation applies ISC/ITBIS on "
@@ -620,6 +680,25 @@ def build_do(csv_path: Path, jur: str, revision: str):
                                        informational=True, category="tax"))
     # Full nomenclature, Spanish first with English translation — these names
     # render verbatim as the line items in the UI.
+    overlay = load_overlay("do")
+    pref_records = []
+    for pref in overlay.get("preferences", []):
+        exceptions = tuple(pref.get("exception_prefixes", []))
+        added = 0
+        for rec in list(records):
+            if rec["treatment"] != "MFN":
+                continue
+            if exceptions and rec["digits"].startswith(exceptions):
+                continue
+            out = _record(jur, revision, rec["code"], rec["digits"],
+                          pref["treatment"], pref["rate_text"],
+                          conditional=bool(pref.get("conditional", True)))
+            out["origin_code"] = ",".join(pref.get("origin_countries", []))
+            pref_records.append(out)
+            added += 1
+        print(f"[do] preference {pref['treatment']}: {added:,} leaves covered")
+    records.extend(pref_records)
+
     tout = [
         {"treatment": "MFN",
          "name": "Gravamen — Customs duty (tariff)",
@@ -642,7 +721,23 @@ def build_do(csv_path: Path, jur: str, revision: str):
          "origin_countries": [], "applies": "all_origins", "conditional": False,
          "legal_basis": "Ley 253-12", "category": "tax"},
     ]
-    return records, tout, dict(DO_COVERAGE)
+    for pref in overlay.get("preferences", []):
+        tout.append({
+            "treatment": pref["treatment"], "name": pref["name"],
+            "origin_countries": pref.get("origin_countries", []),
+            "applies": None,
+            "conditional": bool(pref.get("conditional", True)),
+            "legal_basis": pref.get("legal_basis", ""),
+            "note": pref.get("note", ""),
+        })
+    coverage = dict(DO_COVERAGE)
+    if overlay.get("preferences"):
+        coverage["provides"] = coverage["provides"] + [
+            "DR-CAFTA duty-free treatment for originating goods of the "
+            "parties (US, CR, GT, HN, NI, SV) — certification of origin "
+            "required; from the curated overlay, re-applied on every build.",
+        ]
+    return records, tout, coverage
 
 
 def main() -> int:

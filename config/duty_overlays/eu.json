@@ -1,0 +1,13 @@
+{
+  "_comment": "EU reference overlays, applied automatically by build_duty_rates.py on every monthly snapshot build. Standard import-VAT rates by destination member state — REFERENCE ONLY: reduced/zero rates exist per product and member states change rates; review this table periodically.",
+  "member_import_vat": {
+    "as_of": "2026-01",
+    "note": "Standard import VAT rate of the destination member state, charged on the duty-paid value. Reduced and zero rates exist for many products; verify the destination state's current rate before relying.",
+    "rates": {
+      "AT": 20, "BE": 21, "BG": 20, "CY": 19, "CZ": 21, "DE": 19, "DK": 25,
+      "EE": 24, "ES": 21, "FI": 25.5, "FR": 20, "GR": 24, "HR": 25, "HU": 27,
+      "IE": 23, "IT": 22, "LT": 21, "LU": 17, "LV": 21, "MT": 18, "NL": 21,
+      "PL": 23, "PT": 23, "RO": 21, "SE": 25, "SI": 22, "SK": 23, "XI": 20
+    }
+  }
+}
