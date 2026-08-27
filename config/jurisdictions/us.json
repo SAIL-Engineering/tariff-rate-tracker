@@ -1,0 +1,65 @@
+{
+  "_comment": "Jurisdiction spec for the refresh.py orchestrator. See _schema.json.",
+  "code": "US",
+  "name": "United States",
+  "tariff_schedule_name": "HTSUS",
+  "lang": "en",
+  "acquire": {
+    "adapter": "usitc",
+    "_comment": "Wraps src/01_scrape_revision_dates.R + latest_revision.R + src/02_download_hts.R. The revision registry config/revision_dates.csv is OWNED by the R scrape \u2014 the orchestrator never writes it."
+  },
+  "source_format": "usitc",
+  "chapters_file": "scripts/hts_automation/chapters.json",
+  "max_depth": 10,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "us__{year}_rev_{number}",
+  "stem_pattern": "us_{year}_rev_{number}",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship",
+    "envvars",
+    "smoke"
+  ],
+  "publish": {
+    "keep": 3,
+    "_comment_keep": "Latest + previous two, per operator decision 2026-08-27. Pruning happens only at swap time, so history is never trimmed retroactively.",
+    "golden_queries": "config/jurisdictions/us_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "us_hts_{year}_latest",
+    "promote_country_pointer": false
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "source": "dataset_json",
+    "dest_path": "server/data/hts/hts_{year}_revision_{number}.json",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/us_{year}_rev_{number}.codes.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "hts-{year}-rev{number}",
+    "commit_message": "chore: HTS {year} Rev {number} dataset (effective {effective_date})"
+  },
+  "envvars": {
+    "_comment": "Deliberately US-only across the fleet: other jurisdictions resolve their revision from Supabase (countryConfig.ts), which needs no deploy. These VITE_ vars remain only for the US Explorer/agent boot path."
+  },
+  "smoke": {
+    "country": "US",
+    "golden_queries": "config/jurisdictions/us_golden_queries.json"
+  },
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "registry": "config/revision_dates.csv"
+}

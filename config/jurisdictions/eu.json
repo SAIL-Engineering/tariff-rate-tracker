@@ -1,0 +1,79 @@
+{
+  "_comment": "European Union \u2014 TARIC (10-digit), EN corpus. Monthly CIRCABC release N of year Y maps to revision Y_rev_N. Corpus-only rollout like CA; the ship step carries the codes.json node index for the server-side hallucination guard.",
+  "code": "EU",
+  "name": "European Union",
+  "tariff_schedule_name": "EU Combined Nomenclature / TARIC",
+  "lang": "en",
+  "acquire": {
+    "adapter": "eu_taric",
+    "options": {
+      "dest": "data/eu_tariff_source/eu_tariff_{year}_rev_{number}.csv"
+    },
+    "manual_dir": "data/eu_tariff_source",
+    "manual_prefix": "eu_tariff"
+  },
+  "source_format": "taric",
+  "chapters_file": "scripts/hts_automation/chapters_eu.json",
+  "max_depth": 10,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "eu__{year}_rev_{number}",
+  "stem_pattern": "eu_{year}_rev_{number}",
+  "registry": "config/jurisdictions/eu_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/eu_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "eu_taric_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/eu_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/eu_{year}_revision_{number}.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "eu-taric-{year}-rev{number}",
+    "commit_message": "chore: EU TARIC {year} snapshot {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "eu_duties_xlsx",
+    "source_format": "taric",
+    "geo_areas_key": "eu_geo_xlsx",
+    "_comment": "Rates come from the Duties Import workbook staged by the eu_taric acquire step (extras), not the nomenclature CSV."
+  }
+}

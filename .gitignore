@@ -47,6 +47,9 @@ analyze_*.R
 _*.R
 *.ps1
 *.sh
+# Any shell script under scripts/ is a build tool, never scratch — re-include
+# the whole subtree so a new entrypoint cannot be silently untracked.
+!scripts/**/*.sh
 # …but the HTS automation wrapper is a tracked, reviewed script:
 !scripts/hts_automation/run_locally.sh
 # The `*.sh` rule above is broad; every pipeline entrypoint needs an explicit
@@ -86,13 +89,35 @@ node_modules/
 *.pyc
 
 # Corpus build artifacts (built into the repo root by run_locally.sh step 4)
+# Corpus build artifacts land at the repo root for every jurisdiction.
+# Manifests for shipped US revisions are committed deliberately (see below);
+# everything else is regenerable from the committed sources.
 /us_*.jsonl
 /us_*.codes.json
 /us_*.manifest.json
 /ca_*.jsonl
 /ca_*.codes.json
 /ca_*.manifest.json
+/eu_*.jsonl
+/eu_*.codes.json
+/eu_*.manifest.json
+/do_*.jsonl
+/do_*.codes.json
+/do_*.manifest.json
+/*_*.coverage.json
+/*_*.diff.json
+# SPA HTS Explorer datasets (shipped cross-repo by the ship step, not here)
+/??_*_revision_*.json
+# Derived duty-rate outputs (shipped cross-repo by the ship step)
+/*.rates/
+/*.rates.index.json
+/*.treatments.json
 
 # Vendor payloads pulled from the Avalara cache for validation (not ours to commit)
 data/validation/avalara_cache.rds
 data/validation/avalara_resolved.rds
+
+# CBSA acquisition cache (zip + accdb + full table exports, tens of MB;
+# the canonical sorted TPHS lands beside it as ca_tariff_<rev>.csv)
+data/ca_tariff_source/.cbsa_download/
+data/eu_tariff_source/.circabc_download/

@@ -1,0 +1,6 @@
+TARIFF,EFF_DATE,CHANGE,SUB_CHAP,DESC1,DESC2,DESC3,FOOTNOTE,UOM,MFN,AUT,NZT,CCCT,LDCT,GPT,UST,MXT,CIAT,CT,CRT,IT,NT,SLT,PT,COLT,JT,PAT,HNT,KRT,CEUT,CPTPT,UKT,row_id,UAT,General Tariff
+52.06,01/01/98 00:00:00,0,,"Cotton yarn (other than sewing thread), containing less than 85% by weight of cotton, not put up for retail sale.",,,,,,,,,,,,,,,,,,,,,,,,,,,,37740,,
+5206.4,01/01/98 00:00:00,0,,"Multiple (folded) or cabled yarn, of combed fibres:",,,,,,,,,,,,,,,,,,,,,,,,,,,,37774,,
+5206.41.00,01/01/25 00:00:00,0,,Measuring per single yarn 714.29 decitex or more (not exceeding 14 metric number per single yarn),,,,,Free,,,Free,Free,,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,37775,Free,35%
+5206.41.00.00,01/01/25 00:00:00,0,,Measuring per single yarn 714.29 decitex or more (not exceeding 14 metric number per single yarn),,,,KGM,Free,,,Free,Free,,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,37776,Free,35%
+5206.41.00.00,01/01/25 00:00:00,0,,Measuring per single yarn 714.29 decitex or more (not exceeding 14 metric number per single yarn),,,,KGM,Free,,,Free,Free,,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,Free,53919,Free,35%

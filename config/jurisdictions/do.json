@@ -1,0 +1,73 @@
+{
+  "_comment": "Dominican Republic \u2014 Arancel de Aduanas (DGA), Spanish, 8-digit leaves. No public machine-readable source: the manual adapter globs data/do_tariff_source/ where the user drops the transcribed book. Corpus-only rollout like CA/EU.",
+  "code": "DO",
+  "name": "Dominican Republic",
+  "tariff_schedule_name": "Arancel de Aduanas (RD)",
+  "lang": "es",
+  "acquire": {
+    "adapter": "manual",
+    "manual_dir": "data/do_tariff_source",
+    "manual_prefix": "do_tariff"
+  },
+  "source_format": "dga",
+  "chapters_file": "scripts/hts_automation/chapters_do.json",
+  "max_depth": 8,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "do__{year}_rev_{number}",
+  "stem_pattern": "do_{year}_rev_{number}",
+  "registry": "config/jurisdictions/do_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/do_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "do_arancel_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/do_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/do_{year}_revision_{number}.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "do-arancel-{year}-rev{number}",
+    "commit_message": "chore: DR Arancel {year} enmienda {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "source_csv"
+  }
+}

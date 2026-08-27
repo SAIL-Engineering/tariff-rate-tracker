@@ -1,0 +1,33 @@
+# Offline unit tests for the hts_automation pipeline. No secrets, no network:
+# everything runs against fixture slices committed under tests/python/fixtures.
+name: python-tests
+
+on:
+  push:
+    paths:
+      - "scripts/hts_automation/**"
+      - "tests/python/**"
+      - "config/jurisdictions/**"
+      - ".github/workflows/python-tests.yml"
+  pull_request:
+    paths:
+      - "scripts/hts_automation/**"
+      - "tests/python/**"
+      - "config/jurisdictions/**"
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: python -m pytest tests/python -q
+      # The *.sh gitignore rule is broad and silently untracks new entrypoints
+      # unless re-included; fail loudly if any pipeline script is ignored.
+      - name: no ignored shell scripts under scripts/
+        run: |
+          bad=$(git check-ignore $(find scripts -name '*.sh') 2>/dev/null || true)
+          if [ -n "$bad" ]; then echo "gitignored pipeline scripts:"; echo "$bad"; exit 1; fi

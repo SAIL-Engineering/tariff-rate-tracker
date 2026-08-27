@@ -1,0 +1,12 @@
+HTS Number,Indent,Description,Unit of Quantity,General Rate of Duty,Special Rate of Duty,Column 2 Rate of Duty,Quota Quantity,Additional Duties
+0103,0,Live swine:,,,,,,
+0103.10.00.00,1,Purebred breeding animals,"[""No.""]",Free,,Free,,
+,1,Other:,,,,,,
+0103.91.00,2,Weighing less than 50 kg each,,Free,,4.4¢/kg,,
+0103.91.00.10,3,Weighing less than 7 kg each,"[""No."",""kg""]",,,,,
+0103.91.00.20,3,Weighing 7 kg or more but less than 23 kg each,"[""No."",""kg""]",,,,,
+0103.91.00.30,3,Weighing 23 kg or more but less than 50 kg each,"[""No."",""kg""]",,,,,
+0103.92.00,2,Weighing 50 kg or more each,,Free,,4.4¢/kg,,
+0103.92.00.10,3,Imported for immediate slaughter,"[""No."",""kg""]",,,,,
+0103.92.00.20,3,Breeding animals other than purebred breeding animals,"[""No."",""kg""]",,,,,
+0103.92.00.91,3,Other,"[""No."",""kg""]",,,,,

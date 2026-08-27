@@ -2,11 +2,13 @@ name: HTS Revision Update
 
 # What this does:
 #   - Detect new US HTS revisions from USITC (01_scrape_revision_dates.R).
-#   - If a new row landed and passes sanity checks, download both formats
-#     (02_download_hts.R), build the Pinecone corpus via build_hts_corpus.py,
-#     swap the Pinecone namespace, upsert the Supabase row, update Railway +
-#     Vercel env vars, commit the JSON to the production branch of
-#     sail-gtx-prerelease, and smoke-test the result. Rollback on failure.
+#   - If a new row landed and passes sanity checks, run the SAME orchestrator
+#     the laptop runs — scripts/hts_automation/refresh.py --jurisdiction US —
+#     which downloads both formats, builds the corpus, swaps the Pinecone
+#     namespace, upserts Supabase, commits the JSON to sail-gtx-prerelease,
+#     updates Railway + Vercel env vars, and smoke-tests (rolling back env
+#     vars itself on smoke failure). One pipeline, not a third inline copy:
+#     the previous version re-implemented steps 4-9 here and drifted.
 #
 # Triggers:
 #   - cron "0 6,7 * * *"  → daily, 2 AM local in both DST regimes
@@ -63,6 +65,8 @@ jobs:
       SAIL_GTX_API_BASE:       ${{ vars.SAIL_GTX_API_BASE }}
       SAIL_GTX_API_AUTH_TOKEN: ${{ secrets.SAIL_GTX_API_AUTH_TOKEN }}
       PRODUCTION_BRANCH:       ${{ vars.SAIL_GTX_PRODUCTION_BRANCH }}
+      SAIL_GTX_PRODUCTION_BRANCH: ${{ vars.SAIL_GTX_PRODUCTION_BRANCH }}
+      HTS_ENV_SNAPSHOT_PATH:   /tmp/env-snapshot.json
 
     steps:
       # ────────────────────────────────────────────────────────────────
@@ -152,7 +156,8 @@ jobs:
           fi
 
       # ────────────────────────────────────────────────────────────────
-      # Step 2: resolve the target revision into year/rev/effective_date/label
+      # Resolve the target revision (read-only) — feeds the commit-back
+      # message; the rollout itself re-resolves inside refresh.py.
       # ────────────────────────────────────────────────────────────────
       - name: Resolve target revision
         if: steps.gate.outputs.continue == 'true'
@@ -165,135 +170,33 @@ jobs:
             output=$(Rscript scripts/hts_automation/latest_revision.R)
           fi
           echo "$output"
-          # Splice every KEY=VALUE line into $GITHUB_OUTPUT
           echo "$output" >> "$GITHUB_OUTPUT"
 
       # ────────────────────────────────────────────────────────────────
-      # Step 3: download JSON + CSV
+      # The rollout: the SAME spec-driven orchestrator run_locally.sh wraps.
+      # config/jurisdictions/us.json declares the steps
+      # (acquire → build → publish → register → ship → envvars → smoke);
+      # --skip-scrape because the gate step above already scraped. On smoke
+      # failure refresh.py reverts the env vars from the snapshot itself and
+      # exits 9; the artifact + issue steps below still fire via failure().
       # ────────────────────────────────────────────────────────────────
-      - name: Download HTS archives (JSON + CSV)
-        if: steps.gate.outputs.continue == 'true'
-        run: Rscript src/02_download_hts.R --year ${{ steps.target.outputs.YEAR }}
-
-      - name: Verify both archives now exist
+      - name: Run US rollout (refresh.py)
         if: steps.gate.outputs.continue == 'true'
         run: |
           set -euo pipefail
-          test -f "${{ steps.target.outputs.JSON_PATH }}" || { echo "missing JSON"; exit 1; }
-          test -f "${{ steps.target.outputs.CSV_PATH }}"  || { echo "missing CSV";  exit 1; }
-          ls -la "${{ steps.target.outputs.JSON_PATH }}" "${{ steps.target.outputs.CSV_PATH }}"
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 4: build the Pinecone corpus via build_hts_corpus.py
-      # Emits one record per LEAF (8- and 10-digit terminals both), a prose
-      # chunk_text for embedding, a code-bearing display_text for the prompt,
-      # and a manifest the sync step asserts against.
-      # ────────────────────────────────────────────────────────────────
-      - name: Build Pinecone corpus
-        if: steps.gate.outputs.continue == 'true'
-        id: build
-        run: |
-          set -euo pipefail
-          stem="us_${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}"
-          python3 scripts/hts_automation/build_hts_corpus.py \
-            "${{ steps.target.outputs.CSV_PATH }}" \
-            scripts/hts_automation/chapters.json \
-            "$stem" \
-            --jurisdiction US \
-            --revision "${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" \
-            --max-depth 10
-          test -f "${stem}.jsonl"
-          test -f "${stem}.codes.json"
-          echo "CORPUS_JSONL=${stem}.jsonl" >> "$GITHUB_OUTPUT"
-          echo "CORPUS_CODES=${stem}.codes.json" >> "$GITHUB_OUTPUT"
-          echo "NAMESPACE=us__${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}" >> "$GITHUB_OUTPUT"
-          cat "${stem}.manifest.json"
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 5: Pinecone namespace swap (upsert → verify → prune old)
-      #
-      # Each revision gets its OWN namespace instead of a partition mutated in
-      # place, so the new corpus is built ALONGSIDE the live one and only
-      # becomes visible when step 6 points Supabase at it. Rollback is then a
-      # single UPDATE rather than a re-upload.
-      #
-      # Pinecone meters integrated embedding at 250k tokens/min and the US
-      # corpus is ~2.3M tokens, so this step is inherently a ~10-minute job.
-      # pinecone_sync.py paces itself; the 45-minute job timeout covers it.
-      # ────────────────────────────────────────────────────────────────
-      - name: Pinecone namespace swap
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        run: |
-          python3 scripts/hts_automation/pinecone_sync.py swap \
-            --jsonl "${{ steps.build.outputs.CORPUS_JSONL }}" \
-            --namespace "${{ steps.build.outputs.NAMESPACE }}"
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 6: Supabase upsert
-      # ────────────────────────────────────────────────────────────────
-      - name: Supabase upsert hts_revisions row
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        run: |
-          python3 scripts/hts_automation/supabase_insert_revision.py \
-            --country US \
-            --year "${{ steps.target.outputs.YEAR }}" \
-            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
-            --effective-date "${{ steps.target.outputs.EFFECTIVE_DATE }}" \
-            --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
-            --tariff-schedule-name HTSUS \
-            --ragie-partition-id us_hts_${{ steps.target.outputs.YEAR }}_latest \
-            --pinecone-namespace "${{ steps.build.outputs.NAMESPACE }}"
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 7: cross-repo commit (must precede env var update — when env
-      # var changes redeploy Railway, the JSON file must already be present
-      # or the boot-time assertion will fail and we'll trigger the rollback.)
-      # ────────────────────────────────────────────────────────────────
-      - name: Commit JSON to sail-gtx-prerelease production branch
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        run: |
-          python3 scripts/hts_automation/sail_gtx_commit.py \
-            --owner SAIL-Engineering \
-            --repo sail-gtx-prerelease \
-            --branch "${PRODUCTION_BRANCH}" \
-            --source "${{ steps.target.outputs.JSON_PATH }}" \
-            --dest-path "server/data/hts/hts_${{ steps.target.outputs.YEAR }}_revision_${{ steps.target.outputs.REV_NUM }}.json" \
-            --also "${{ steps.build.outputs.CORPUS_CODES }}:server/data/hts/us_${{ steps.target.outputs.YEAR }}_rev_${{ steps.target.outputs.REV_NUM }}.codes.json" \
-            --prune-keep 3 \
-            --tag-name "hts-${{ steps.target.outputs.YEAR }}-rev${{ steps.target.outputs.REV_NUM }}" \
-            --commit-message "chore: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} dataset (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 8: update env vars on both platforms (captures prior values)
-      # ────────────────────────────────────────────────────────────────
-      - name: Update Railway + Vercel env vars
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        run: |
-          python3 scripts/hts_automation/update_env_vars.py set \
-            --year "${{ steps.target.outputs.YEAR }}" \
-            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
-            --effective-date-label "${{ steps.target.outputs.EFFECTIVE_DATE_LABEL }}" \
-            --snapshot-out /tmp/env-snapshot.json
+          args=(--jurisdiction US --skip-scrape)
+          [[ -n "${{ inputs.revision_id }}" ]] && args+=(--revision "${{ inputs.revision_id }}")
+          [[ "${{ inputs.dry_run }}" == "true" ]] && args+=(--dry-run)
+          [[ "${{ inputs.skip_smoke_classify }}" != "true" ]] && args+=(--run-classify)
+          python3 scripts/hts_automation/refresh.py "${args[@]}"
 
       - name: Upload env snapshot (for rollback)
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
+        if: always() && steps.gate.outputs.continue == 'true' && !inputs.dry_run && hashFiles('/tmp/env-snapshot.json') != ''
         uses: actions/upload-artifact@v4
         with:
           name: env-snapshot-${{ github.run_id }}
           path: /tmp/env-snapshot.json
           retention-days: 7
-
-      # ────────────────────────────────────────────────────────────────
-      # Step 9: smoke test (poll /health + canary classify + supabase row)
-      # ────────────────────────────────────────────────────────────────
-      - name: Smoke test deploy
-        if: steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        id: smoke
-        run: |
-          python3 scripts/hts_automation/smoke_test.py \
-            --year "${{ steps.target.outputs.YEAR }}" \
-            --rev-num "${{ steps.target.outputs.REV_NUM }}" \
-            $( [[ "${{ inputs.skip_smoke_classify }}" == "true" ]] && echo "--skip-classify" )
 
       # ────────────────────────────────────────────────────────────────
       # Step 10: rollback path. Runs only if a previous step in this job failed.

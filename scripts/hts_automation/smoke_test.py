@@ -22,6 +22,7 @@ Environment:
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 import time
@@ -120,7 +121,7 @@ def assert_supabase_row(year: int, rev_num: int, country: str) -> str:
     return ns
 
 
-def assert_pinecone_corpus(namespace: str) -> None:
+def assert_pinecone_corpus(namespace: str, golden_queries: str | None = None) -> None:
     """Query the namespace that this rollout just built.
 
     Three canaries spanning very different chapters. This is not a recall
@@ -145,6 +146,12 @@ def assert_pinecone_corpus(namespace: str) -> None:
         ("stainless steel hex bolts with nuts", "7318"),
         ("fresh bananas", "0803"),
     ]
+    if golden_queries:
+        # Per-jurisdiction canaries: same JSON shape pinecone_sync.py consumes.
+        with open(golden_queries, encoding="utf-8") as fh:
+            data = json.load(fh)
+        canaries = [(d["query"], d["expect_heading"]) if isinstance(d, dict)
+                    else (d[0], d[1]) for d in data]
     failures = []
     for text, expect_heading in canaries:
         r = requests.post(
@@ -170,6 +177,8 @@ def main() -> None:
     p.add_argument("--year", type=int, required=True)
     p.add_argument("--rev-num", type=int, required=True)
     p.add_argument("--country", default="US")
+    p.add_argument("--golden-queries", default=None,
+                   help="JSON file of per-jurisdiction canary queries")
     p.add_argument("--timeout", type=int, default=300,
                    help="Per-check timeout in seconds")
     p.add_argument("--skip-classify", action="store_true",
@@ -187,7 +196,7 @@ def main() -> None:
         print("[classify] skipped (--skip-classify)", flush=True)
 
     namespace = assert_supabase_row(args.year, args.rev_num, args.country)
-    assert_pinecone_corpus(namespace)
+    assert_pinecone_corpus(namespace, args.golden_queries)
     print("smoke test passed", flush=True)
 
 

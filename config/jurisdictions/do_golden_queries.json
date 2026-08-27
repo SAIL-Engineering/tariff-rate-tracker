@@ -1,0 +1,8 @@
+[
+  {"query": "stainless steel hex bolts with nuts, threaded fasteners", "expect_heading": "7318"},
+  {"query": "men's cotton knitted t-shirt, short sleeve", "expect_heading": "6109"},
+  {"query": "portable laptop computer, notebook", "expect_heading": "8471"},
+  {"query": "fresh bananas", "expect_heading": "0803"},
+  {"query": "guineos o plátanos frescos", "expect_heading": "0803"},
+  {"query": "camiseta de algodón de punto para hombre", "expect_heading": "6109"}
+]

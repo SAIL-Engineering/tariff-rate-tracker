@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Jurisdiction spec for scripts/hts_automation/refresh.py",
+  "description": "Documents what spec.py validates programmatically. _comment* keys are ignored everywhere.",
+  "type": "object",
+  "required": ["code", "name", "tariff_schedule_name", "acquire", "source_format",
+               "chapters_file", "max_depth", "namespace_pattern", "stem_pattern", "steps"],
+  "properties": {
+    "code": {"type": "string", "pattern": "^[A-Z]{2}$"},
+    "name": {"type": "string"},
+    "tariff_schedule_name": {"type": "string"},
+    "lang": {"enum": ["en", "es"]},
+    "acquire": {
+      "type": "object",
+      "required": ["adapter"],
+      "properties": {
+        "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "manual"]},
+        "options": {"type": "object"},
+        "system_requires": {"type": "array", "items": {"type": "string"}},
+        "manual_dir": {"type": "string"},
+        "manual_prefix": {"type": "string"}
+      }
+    },
+    "source_format": {"enum": ["usitc", "cbsa", "taric", "dga"]},
+    "chapters_file": {"type": "string"},
+    "max_depth": {"type": "integer", "minimum": 4, "maximum": 12},
+    "revision_id_pattern": {"type": "string"},
+    "namespace_pattern": {"type": "string"},
+    "stem_pattern": {"type": "string"},
+    "registry": {"type": "string"},
+    "steps": {
+      "type": "array",
+      "items": {"enum": ["acquire", "build", "verify", "publish", "register",
+                          "ship", "envvars", "smoke"]},
+      "uniqueItems": true,
+      "$comment": "Ordering constraints enforced by spec.py MUST_PRECEDE: acquire<build<verify<publish<register; ship<envvars."
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "max_removed_pct": {"type": "number"},
+        "max_added_pct": {"type": "number"},
+        "max_leaf_to_internal_pct": {"type": "number"},
+        "max_redescribed_pct": {"type": "number"}
+      }
+    },
+    "publish": {
+      "type": "object",
+      "properties": {"keep": {"type": "integer"}, "golden_queries": {"type": "string"}}
+    },
+    "register": {
+      "type": "object",
+      "properties": {"ragie_partition_id_template": {"type": "string"},
+                     "promote_country_pointer": {"type": "boolean"}}
+    },
+    "ship": {
+      "type": "object",
+      "properties": {
+        "owner": {"type": "string"}, "repo": {"type": "string"},
+        "source": {"type": "string"}, "dest_path": {"type": "string"},
+        "also": {"type": "array", "items": {
+          "type": "object", "required": ["from", "to"],
+          "properties": {"from": {"type": "string"}, "to": {"type": "string"}}}},
+        "prune_keep": {"type": "integer"},
+        "tag_name": {"type": "string"}, "commit_message": {"type": "string"}
+      }
+    },
+    "duty_rates": {
+      "type": "object",
+      "properties": {"source_key": {"type": "string"},
+                     "source_format": {"enum": ["cbsa", "taric", "dga"]},
+                     "geo_areas_key": {"type": "string"}}
+    },
+    "envvars": {"type": ["object", "null"]},
+    "smoke": {"type": ["object", "null"],
+              "properties": {"country": {"type": "string"},
+                             "golden_queries": {"type": "string"}}}
+  }
+}

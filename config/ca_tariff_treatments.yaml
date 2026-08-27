@@ -1,0 +1,81 @@
+# =============================================================================
+# Canada — origin↔treatment mapping for the derived duty-rates build
+# =============================================================================
+# The TPHS table carries the RATE per treatment column but NOT which origins
+# each treatment covers. That mapping is the Customs Tariff (S.C. 1997, c.36)
+# Schedule "List of Countries and Applicable Tariff Treatments", published
+# annually by CBSA (the T-list; also reproduced in Memorandum D11-4-3).
+#
+# This YAML is the single source of truth (same pattern as duty_citations.yaml);
+# build_duty_rates.py emits the committed JSON from it. Review annually against
+# the CBSA T-list publication. valid_from/valid_until let an accession be an
+# APPEND, never an edit.
+#
+# `conditional: true` = entitlement carries rules-of-origin / direct-shipment
+# conditions (all preferential treatments do formally; the flag marks the ones
+# whose ORIGIN LIST itself is conditional or graduated — GPT/LDCT/CCCT).
+# `transcription_pending: true` = the member list below is seeded from public
+# knowledge and MUST be verified against the current CBSA T-list before this
+# treatment's rows are presented as authoritative.
+#
+# General Tariff is NOT enumerated: it applies when the origin appears in no
+# other list (i.e. no MFN entitlement — in practice North Korea).
+treatments:
+  MFN:
+    name: Most-Favoured-Nation Tariff
+    applies: all_wto_and_entitled            # default treatment for nearly every origin
+    conditional: false
+    legal_basis: "Customs Tariff s.29; WTO"
+  AUT:  { name: Australia Tariff,     origin_countries: [AU], conditional: false, legal_basis: "Customs Tariff s.34 (CANZ)" }
+  NZT:  { name: New Zealand Tariff,   origin_countries: [NZ], conditional: false, legal_basis: "Customs Tariff s.35" }
+  UST:  { name: United States Tariff, origin_countries: [US], conditional: false, legal_basis: CUSMA }
+  MXT:  { name: Mexico Tariff,        origin_countries: [MX], conditional: false, legal_basis: CUSMA }
+  CIAT: { name: Canada-Israel Agreement Tariff, origin_countries: [IL], conditional: false, legal_basis: CIFTA }
+  CT:   { name: Chile Tariff,         origin_countries: [CL], conditional: false, legal_basis: CCFTA }
+  CRT:  { name: Costa Rica Tariff,    origin_countries: [CR], conditional: false, legal_basis: CCRFTA }
+  IT:   { name: Iceland Tariff,       origin_countries: [IS], conditional: false, legal_basis: CEFTA }
+  NT:   { name: Norway Tariff,        origin_countries: ["NO"], conditional: false, legal_basis: CEFTA }
+  SLT:  { name: Switzerland-Liechtenstein Tariff, origin_countries: [CH, LI], conditional: false, legal_basis: CEFTA }
+  PT:   { name: Peru Tariff,          origin_countries: [PE], conditional: false, legal_basis: CPFTA }
+  COLT: { name: Colombia Tariff,      origin_countries: [CO], conditional: false, legal_basis: CCOFTA }
+  JT:   { name: Jordan Tariff,        origin_countries: [JO], conditional: false, legal_basis: CJFTA }
+  PAT:  { name: Panama Tariff,        origin_countries: [PA], conditional: false, legal_basis: CPAFTA }
+  HNT:  { name: Honduras Tariff,      origin_countries: [HN], conditional: false, legal_basis: CHFTA }
+  KRT:  { name: Korea Tariff,         origin_countries: [KR], conditional: false, legal_basis: CKFTA }
+  UAT:  { name: Ukraine Tariff,       origin_countries: [UA], conditional: false, legal_basis: CUFTA }
+  UKT:  { name: United Kingdom Tariff, origin_countries: [GB], conditional: false, legal_basis: "Canada-UK TCA" }
+  CEUT:
+    name: Canada-European Union Tariff
+    origin_countries: [AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU,
+                       IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK]
+    conditional: false
+    legal_basis: CETA
+  CPTPT:
+    name: Comprehensive and Progressive Trans-Pacific Partnership Tariff
+    origin_countries: [AU, BN, CL, JP, MY, MX, NZ, PE, SG, VN, GB]
+    conditional: false
+    legal_basis: CPTPP
+    transcription_pending: true   # verify ratification set (GB acceded 2024; others staged)
+  CCCT:
+    name: Commonwealth Caribbean Countries Tariff
+    origin_countries: [AG, BB, BS, BZ, DM, GD, GY, JM, KN, LC, TT, VC]
+    conditional: true
+    legal_basis: CARIBCAN
+    transcription_pending: true
+  GPT:
+    name: General Preferential Tariff
+    origin_countries: []          # ~100 countries; graduated periodically
+    conditional: true
+    legal_basis: "Customs Tariff s.33"
+    transcription_pending: true
+  LDCT:
+    name: Least Developed Country Tariff
+    origin_countries: []          # UN LDC list as applied by CBSA
+    conditional: true
+    legal_basis: "Customs Tariff s.38"
+    transcription_pending: true
+  General Tariff:
+    name: General Tariff
+    applies: no_other_entitlement
+    conditional: false
+    legal_basis: "Customs Tariff s.29(1) — 35% fallback"

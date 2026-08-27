@@ -222,10 +222,30 @@ def wait_for_count(host: str, namespace: str, expected: int) -> None:
     )
 
 
-def golden_query_check(host: str, namespace: str, top_k: int = 30) -> int:
+def load_golden_queries(path: str | None):
+    """Per-jurisdiction golden queries from JSON: [["query text", "heading"], ...]
+    or [{"query": ..., "expect_heading": ...}, ...]. None -> the built-in US set
+    (whose 4-digit headings are HS-harmonized and transfer to most schedules)."""
+    if not path:
+        return GOLDEN_QUERIES
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    out = []
+    for item in data:
+        if isinstance(item, dict):
+            out.append((item["query"], item["expect_heading"]))
+        else:
+            out.append((item[0], item[1]))
+    if not out:
+        sys.exit(f"ERROR: {path} contains no golden queries")
+    return out
+
+
+def golden_query_check(host: str, namespace: str, top_k: int = 30,
+                       queries=None) -> int:
     """Returns the number of FAILED golden queries."""
     failures = 0
-    for text, expect_heading in GOLDEN_QUERIES:
+    for text, expect_heading in (queries or GOLDEN_QUERIES):
         body = _request(
             f"https://{host}/records/namespaces/{namespace}/search",
             method="POST",
@@ -284,9 +304,10 @@ def cmd_verify(args) -> None:
     if count == 0:
         sys.exit(f"ERROR: namespace {args.namespace} is empty or does not exist")
     print(f"[verify] {args.namespace}: {count:,} records")
-    failures = golden_query_check(host, args.namespace)
+    queries = load_golden_queries(getattr(args, "golden_queries", None))
+    failures = golden_query_check(host, args.namespace, queries=queries)
     if failures:
-        sys.exit(f"ERROR: {failures}/{len(GOLDEN_QUERIES)} golden queries failed")
+        sys.exit(f"ERROR: {failures}/{len(queries)} golden queries failed")
     print(f"[verify] all {len(GOLDEN_QUERIES)} golden queries passed")
 
 
@@ -346,6 +367,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("verify")
     sp.add_argument("--namespace", required=True)
+    sp.add_argument("--golden-queries", default=None,
+                    help="JSON file of per-jurisdiction golden queries; "
+                         "default is the built-in (US-derived, HS-harmonized) set")
     sp.set_defaults(func=cmd_verify)
 
     sp = sub.add_parser("delete")
@@ -355,6 +379,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("swap")
     sp.add_argument("--jsonl", required=True)
     sp.add_argument("--namespace", required=True)
+    sp.add_argument("--golden-queries", default=None,
+                    help="JSON file of per-jurisdiction golden queries")
     sp.add_argument("--force", action="store_true")
     sp.add_argument("--keep", type=int, default=2,
                     help="Namespaces to retain for this jurisdiction (default 2: "

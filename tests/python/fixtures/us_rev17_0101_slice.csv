@@ -1,0 +1,13 @@
+HTS Number,Indent,Description,Unit of Quantity,General Rate of Duty,Special Rate of Duty,Column 2 Rate of Duty,Quota Quantity,Additional Duties
+0101,0,"Live horses, asses, mules and hinnies:",,,,,,
+,1,Horses:,,,,,,
+0101.21.00,2,Purebred breeding animals,,Free,,Free,,
+0101.21.00.10,3,Males,"[""No.""]",,,,,
+0101.21.00.20,3,Females,"[""No.""]",,,,,
+0101.29.00,2,Other,,Free,,20%,,
+0101.29.00.10,3,Imported for immediate slaughter,"[""No.""]",,,,,
+0101.29.00.90,3,Other,"[""No.""]",,,,,
+0101.30.00.00,1,Asses,"[""No.""]",6.8%,"Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)",15%,,
+0101.90,1,Other:,,,,,,
+0101.90.30.00,2,Imported for immediate slaughter,"[""No.""]",Free,,Free,,
+0101.90.40.00,2,Other,"[""No.""]",4.5%,"Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)",20%,,

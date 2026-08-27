@@ -1,0 +1,85 @@
+{
+  "_comment": "Canada. Corpus-only rollout: no cross-repo dataset (until HTS Explorer Phase D), no env vars, no smoke \u2014 countryConfig.ts resolves CA from Supabase.",
+  "code": "CA",
+  "name": "Canada",
+  "tariff_schedule_name": "Canadian Customs Tariff",
+  "lang": "en",
+  "acquire": {
+    "adapter": "cbsa",
+    "options": {
+      "language": "eng",
+      "table": "TPHS",
+      "dest": "data/ca_tariff_source/ca_tariff_{year}_rev_{number}.csv",
+      "revision_number_offset": 1,
+      "_comment_offset": "CBSA numbers the base edition T2026 (=0) and updates T2026-1...; our registry started at 2026_rev_1 for the base edition, hence +1. Verified against the committed rev_1 CSV before first automated publish."
+    },
+    "system_requires": [
+      "mdb-tables",
+      "mdb-export"
+    ],
+    "manual_dir": "data/ca_tariff_source",
+    "manual_prefix": "ca_tariff"
+  },
+  "source_format": "cbsa",
+  "chapters_file": "scripts/hts_automation/chapters_ca.json",
+  "max_depth": 10,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "ca__{year}_rev_{number}",
+  "stem_pattern": "ca_{year}_rev_{number}",
+  "registry": "config/jurisdictions/ca_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/ca_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "canada_tariff_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/ca_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/ca_{year}_revision_{number}.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "ca-tariff-{year}-rev{number}",
+    "commit_message": "chore: Canadian Customs Tariff {year} rev {number} node index (effective {effective_date})",
+    "_comment": "codes.json only \u2014 without it the server-side hallucination guard goes silently inactive for CA at the next revision."
+  },
+  "duty_rates": {
+    "source_key": "source_csv"
+  }
+}

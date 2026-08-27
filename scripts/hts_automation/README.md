@@ -1,16 +1,59 @@
-# HTS revision rollout
+# HTS revision rollout — multi-jurisdiction
 
 Detects new tariff revisions, builds the retrieval corpus that SAIL GTX
 classification searches, publishes it to Pinecone, and points the app at it —
-with a smoke test and rollback at the end.
+with completeness gates, a smoke test, and rollback.
 
-Two jurisdictions, two triggers:
+ONE spec-driven orchestrator serves every jurisdiction:
 
-| | US | Canada |
-|---|---|---|
-| Discovery | automatic — `hts-revision-update.yml`, daily | manual — CBSA has no feed |
-| Source | USITC CSV, re-downloaded each run | committed CBSA export |
-| Rollout | 9-step workflow | `refresh_ca.sh`, one command |
+```bash
+python3 scripts/hts_automation/refresh.py --jurisdiction US   # or CA / EU / DO
+```
+
+`run_locally.sh` (US) and `refresh_ca.sh` (CA) survive as thin wrappers with
+their historical flags. The GitHub workflow (`hts-revision-update.yml`) calls
+the same orchestrator — there is no separate inline copy to drift.
+
+| | US | Canada | EU | Dominican Republic |
+|---|---|---|---|---|
+| Spec | `config/jurisdictions/us.json` | `ca.json` | `eu.json` | `do.json` |
+| Discovery | USITC scrape (daily cron) | CBSA menu page scrape (`.accdb` download + mdbtools TPHS export) | CIRCABC REST (monthly release folders) | manual — user drops the book in `data/do_tariff_source/` |
+| Source format | `usitc` (Indent column) | `cbsa` (ancestor-count indent) | `taric` (producline suffix + dash indent + official IS_LEAF) | `dga` (dash-prefix hierarchy, Spanish) |
+| Leaf depth | 8/10-digit | 10-digit (67 at 8, 1 at 4) | 10-digit TARIC (16,708 official leaves) | 8-digit (7,697) |
+| Steps | acquire build publish register ship envvars smoke | acquire build verify publish register ship | same as CA | same as CA |
+| Duty rates | US rate pipeline (MotherDuck) | `build_duty_rates.py` (25 TPHS treatments, inherited) | measures 103/142 + origin groups | Grav./ITBIS/Selectivo |
+
+Key commands:
+
+```bash
+refresh.py -j CA --plan-only                # show the plan, run nothing
+refresh.py -j CA --dry-run                  # build + verify, no external writes
+refresh.py -j US --from-step publish        # resume a broken run (names or 1-based index)
+refresh.py -j DO --acquire-adapter manual --source path.csv --effective-date 2022-01-01
+```
+
+Completeness guarantees (the reason this pipeline exists):
+
+* **Source-row conservation** (exit 5/6): every coded source row must appear in
+  the built tree and the tree may invent nothing.
+* **Official leaf cross-check** (EU, exit 7): our leaf set must equal the EU's
+  own `Declarable codes.xlsx` IS_LEAF flags exactly.
+* **Cross-revision diff** (`diff_revisions.py`, the `verify` step): added /
+  removed / leaf→internal / redescribed vs the previous revision, gated by
+  per-jurisdiction percentages — a bad parse never reaches Pinecone.
+* **Golden queries** per jurisdiction (`config/jurisdictions/*_golden_queries.json`)
+  at publish and smoke time.
+* **Byte-identical regression**: `tests/python/` (pytest, offline) locks the
+  four documented `build_tree()` fixes, the loaders, and the record schema.
+
+Retention: `publish.keep = 3` — the latest revision plus the previous two per
+jurisdiction, pruned only at swap time (operator decision 2026-08-27).
+
+Artifacts shipped to sail-gtx-prerelease per revision (one commit):
+`server/data/hts/<jur>_<year>_rev_<n>.codes.json` (hallucination-guard index),
+`server/data/hts/<jur>_<year>_revision_<n>.json` (HTS Explorer dataset;
+US keeps the legacy `hts_<year>_revision_<n>.json` name), and
+`server/data/duty-rates/…` (per-chapter derived duty rates + treatments).
 
 ---
 

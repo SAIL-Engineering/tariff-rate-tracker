@@ -1,0 +1,31 @@
+[
+  {
+    "query": "stainless steel hex bolts with nuts, threaded fasteners",
+    "expect_heading": "7318"
+  },
+  {
+    "query": "men's cotton knitted t-shirt, short sleeve",
+    "expect_heading": "6109"
+  },
+  {
+    "query": "portable laptop computer, notebook",
+    "expect_heading": "8471"
+  },
+  {
+    "query": "fresh bananas",
+    "expect_heading": "0803"
+  },
+  {
+    "query": "brake pads for passenger motor vehicles",
+    "expect_heading": "8708"
+  },
+  {
+    "query": "horses for slaughter, live",
+    "expect_heading": "0101"
+  },
+  {
+    "query": "young domestic cattle for slaughter weighing under 80 kg",
+    "expect_heading": "0102",
+    "_comment": "exercises a genuine TARIC 10-digit subdivision (0102.29.10.xx weight split)"
+  }
+]

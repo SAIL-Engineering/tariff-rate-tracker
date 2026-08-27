@@ -63,13 +63,26 @@ import json
 import re
 import sys
 from collections import Counter
+from dataclasses import dataclass, field
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 
 # A leaf whose description is one of these is a residual/basket provision: it is
 # defined by exclusion from its siblings rather than by its own text.
+# Per-language: the DR corpus is Spanish ("Los demás"). CORPUS_LANG is set once
+# from --lang in main(); the default keeps US/CA/EU output byte-identical.
 BASKET_RE = re.compile(r"^(other|others|other,?\s+nesoi|nesoi)$", re.IGNORECASE)
+_BASKET_RES = {
+    "en": BASKET_RE,
+    "es": re.compile(r"^(los\s+dem[áa]s|las\s+dem[áa]s|otros|otras|otro|otra)$",
+                     re.IGNORECASE),
+}
+_EXCLUSION_TEMPLATES = {
+    "en": "{desc}, other than: {clause}",
+    "es": "{desc}, excepto: {clause}",
+}
+CORPUS_LANG = "en"
 
 # Cap how many siblings get named in an exclusion clause. Some baskets have
 # dozens; naming all of them bloats the vector without adding discrimination.
@@ -112,7 +125,25 @@ def _code_parts(code: str) -> dict:
 
 
 def _is_basket(desc: str) -> bool:
-    return bool(BASKET_RE.match(_clean_txt(desc)))
+    return bool(_BASKET_RES[CORPUS_LANG].match(_clean_txt(desc)))
+
+
+@dataclass
+class LoadStats:
+    """Row accounting from a loader, carried through to the manifest and the
+    completeness assertion. `coded_digits` is the post-dedup set of digit
+    strings that MUST appear in the built tree — the source-row conservation
+    invariant (exit 5/6 in main) is checked against exactly this set."""
+    raw_row_count: int = 0
+    coded_row_count: int = 0
+    condition_row_count: int = 0
+    dropped_duplicates: int = 0
+    dropped_uncoded: int = 0
+    coded_digits: set = field(default_factory=set)
+    # Officially published leaf flags (EU: Declarable codes IS_LEAF). When
+    # present, the builder asserts its own tree's leaf set equals this exactly
+    # (exit 7) — a given-truth completeness check no inference can beat.
+    official_leaf_digits: set | None = None
 
 
 def _parse_units(raw: str) -> list[str]:
@@ -187,25 +218,35 @@ def load_rows_cbsa(path: Path):
     """
     raw = []
     seen: set[str] = set()
+    stats = LoadStats()
     dupes = 0
     with path.open(newline="", encoding="utf-8-sig") as fh:
         for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
             code = (r.get("TARIFF") or "").strip()
             digits = _digits_only(code)
             if not digits:
+                stats.dropped_uncoded += 1
                 continue
             if digits in seen:
                 dupes += 1
                 continue
             seen.add(digits)
-            desc = " ".join(
-                (r.get(k) or "").strip()
+            # Collapse ALL internal whitespace (the Access export carries
+            # literal newlines inside long descriptions; T2026-1 introduced
+            # hundreds). Embedded newlines corrupt chunk/display text and
+            # register as false "redescriptions" in the cross-revision diff.
+            desc = " ".join(" ".join(
+                (r.get(k) or "").split())
                 for k in ("DESC1", "DESC2", "DESC3")
                 if (r.get(k) or "").strip()
             )
             raw.append((code, digits, desc, (r.get("UOM") or "").strip()))
     if dupes:
         print(f"  note: skipped {dupes} duplicate CBSA code(s)", file=sys.stderr)
+    stats.dropped_duplicates = dupes
+    stats.coded_row_count = len(raw)
+    stats.coded_digits = set(seen)
 
     rows = [{
         "HTS Number": code,
@@ -230,24 +271,181 @@ def load_rows_cbsa(path: Path):
                     f"input is not in document order"
                 )
         emitted.add(digits)
-    return rows
+    return rows, stats
+
+
+# ── EU TARIC ─────────────────────────────────────────────────────────────────
+# Source: the canonical CSV emitted by acquire/eu_taric.py (one row per
+# nomenclature line, already joined with the official Declarable-codes
+# IS_LEAF flag and carrying a computed INDENT — 0 chapter / 1 heading /
+# 1 + dash-count otherwise; verified clean for 2026-08).
+#
+# SUFFIX 80 is a real nomenclature line; 10..70 are grouping rows -> mapped to
+# CONDITION rows, the same construct as USITC's uncoded rows, so ONE
+# build_tree() serves the EU too. Codes are stored as the full zero-padded
+# 10-digit TARIC form (that is what an EU import declaration carries and what
+# the report parser normalizes to), so `digits` is 10 for every node and
+# hierarchy comes entirely from INDENT.
+def _taric_display(digits: str, full: bool) -> str:
+    """Book-style display: leaves show the full declarable 10-digit form;
+    internal levels trim trailing zero-pairs (0101000000 -> 0101,
+    0101210000 -> 0101.21) exactly as the printed nomenclature does."""
+    if not full:
+        while len(digits) > 4 and digits.endswith("00"):
+            digits = digits[:-2]
+    segs = [digits[:4]] + [digits[i:i + 2] for i in range(4, len(digits), 2)]
+    return ".".join(segs)
+
+
+def load_rows_taric(path: Path):
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            suffix = (r.get("SUFFIX") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            if suffix != "80":
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": indent,
+                             "_code": ""})
+                continue
+            if len(digits) != 10 or not digits.isdigit():
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if digits[2:] == "00000000":
+                # Chapter rows duplicate the chapters file (which prefixes
+                # every breadcrumb already) and are never classification
+                # targets — dropping them makes headings roots, exactly like
+                # the USITC file, which has no chapter rows either.
+                stats.dropped_uncoded += 1
+                continue
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate active TARIC code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            official_leaf = (r.get("IS_LEAF") or "").strip() == "1"
+            if official_leaf:
+                stats.official_leaf_digits.add(digits)
+            display = _taric_display(digits, full=official_leaf)
+            rows.append({"HTS Number": display,
+                         "Description": desc,
+                         "Unit of Quantity": "",
+                         "_indent": indent,
+                         "_code": display,
+                         "_digits": digits})
+    return rows, stats
+
+
+# ── DGA (Dominican Republic) ─────────────────────────────────────────────────
+# Source: the user-transcribed Arancel de Aduanas CSV (Spanish; DGA publishes
+# PDF only). Hierarchy is encoded as LEADING DASHES in the description —
+# heading rows (4-digit "01.01") carry none; each nesting level adds one.
+# Rows with no code and a trailing ":" are grouping rows -> condition rows.
+# Leaves are 8-digit; DR never uses 10.
+#
+# Quirks handled here, all real and counted:
+#   * "[05.03]"-style bracketed codes are suppressed/deleted HS headings with
+#     empty descriptions -> dropped (they are not classifiable provisions).
+#   * one stray bare chapter row ("77", blank description) -> dropped.
+#   * three 6-digit codes appear twice (e.g. 7113.19), the second time as a
+#     nested "Los demás:" group header -> the second occurrence becomes a
+#     CONDITION row, keeping its text without colliding on the code.
+_DGA_DASH_RE = re.compile(r"^(\s*-\s*)+")
+
+
+def load_rows_dga(path: Path):
+    rows = []
+    stats = LoadStats()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            clean = {k.strip(): (v.strip() if v else "") for k, v in r.items()
+                     if k is not None}
+            code_raw = clean.get("Código", "")
+            desc_raw = clean.get("Designación de la mercancía", "")
+            m = _DGA_DASH_RE.match(desc_raw)
+            dashes = m.group(0).count("-") if m else 0
+            desc = " ".join(desc_raw[m.end():].split()) if m else " ".join(desc_raw.split())
+
+            if "[" in code_raw:                       # suppressed heading
+                stats.dropped_uncoded += 1
+                continue
+            digits = _digits_only(code_raw)
+            if digits and len(digits) < 4:            # stray bare chapter row
+                stats.dropped_uncoded += 1
+                continue
+
+            is_condition = not digits
+            if digits and digits in seen:
+                if desc.endswith(":") or _is_basket(desc):
+                    is_condition = True               # repeated group header
+                    stats.dropped_duplicates += 1
+                else:
+                    raise SystemExit(f"ERROR: duplicate DGA code {code_raw!r} "
+                                     f"with non-group description {desc!r}")
+
+            if is_condition:
+                if not desc:
+                    stats.dropped_uncoded += 1
+                    continue
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": dashes,
+                             "_code": ""})
+                continue
+
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            rows.append({"HTS Number": code_raw, "Description": desc,
+                         "Unit of Quantity": "", "_indent": dashes,
+                         "_code": code_raw})
+    return rows, stats
 
 
 def load_rows(path: Path):
     rows = []
+    stats = LoadStats()
     with path.open(newline="", encoding="utf-8-sig") as fh:
         for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
             clean = {k.strip(): (v.strip() if v else "") for k, v in r.items()}
             clean["_indent"] = int(clean.get("Indent") or 0)
             clean["_code"] = clean["HTS Number"]
+            digits = _digits_only(clean["_code"])
+            if digits:
+                stats.coded_row_count += 1
+                stats.coded_digits.add(digits)
+            else:
+                stats.condition_row_count += 1
             rows.append(clean)
-    return rows
+    return rows, stats
 
 
 def load_chapters(path: Path):
+    """Full chapter records keyed by chapter number.
+
+    Returns {chapter: {"description": ..., ...everything else in the file}} so
+    section titles and any future fields stop being discarded at parse time.
+    Duplicate chapter keys are a config bug (chapters.json shipped with chapter
+    99 twice and dict last-wins hid it) — fail loudly.
+    """
     with path.open(encoding="utf-8") as fh:
         data = json.load(fh)
-    return {c["chapter"]: c["description"] for c in data}
+    out: dict[str, dict] = {}
+    for c in data:
+        ch = c["chapter"]
+        if ch in out:
+            raise SystemExit(f"ERROR: duplicate chapter {ch!r} in {path.name}")
+        out[ch] = dict(c)
+    return out
 
 
 class Node(dict):
@@ -348,7 +546,7 @@ def make_path_text(path_nodes, this_node, chapters_map):
 
     parts = []
     if chapter and chapter in chapters_map:
-        chapter_desc = _clean_txt(chapters_map[chapter])
+        chapter_desc = _clean_txt(chapters_map[chapter]["description"])
         if chapter_desc:
             parts.append(f"{chapter} {chapter_desc}")
 
@@ -394,7 +592,7 @@ def resolve_description(node, parent) -> str:
     truncated = len(named) > MAX_SIBLINGS_NAMED
     shown = named[:MAX_SIBLINGS_NAMED]
     clause = "; ".join(shown) + ("; ..." if truncated else "")
-    return f"{desc}, other than: {clause}"
+    return _EXCLUSION_TEMPLATES[CORPUS_LANG].format(desc=desc, clause=clause)
 
 
 def make_chunk_text(path_nodes, this_node, chapters_map) -> str:
@@ -405,7 +603,7 @@ def make_chunk_text(path_nodes, this_node, chapters_map) -> str:
 
     segments: list[str] = []
     if chapter and chapter in chapters_map:
-        chapter_desc = _clean_txt(chapters_map[chapter])
+        chapter_desc = _clean_txt(chapters_map[chapter]["description"])
         if chapter_desc:
             segments.append(chapter_desc)
 
@@ -448,7 +646,7 @@ def collect_node_index(roots) -> dict:
 
     def walk(n):
         code = (n.get("HTS Number") or "").strip()
-        digits = _digits_only(code)
+        digits = n.get("_digits") or _digits_only(code)
         if digits:
             nodes[digits] = bool(n["children"])
         for c in n["children"]:
@@ -472,8 +670,15 @@ def flatten_tree_to_records(roots, chapters_map, jurisdiction, revision):
         is_leaf = not node["children"]
 
         if is_leaf and code:
-            parts = _code_parts(code)
-            digits = parts["digits"]
+            # A loader may provide `_digits` when the DISPLAY code is trimmed
+            # (EU internal levels print as the book does — 0101.21 — while the
+            # canonical identity stays the full zero-padded TARIC form).
+            digits = node.get("_digits") or _code_parts(code)["digits"]
+            parts = {
+                "chapter": digits[:2] if len(digits) >= 2 else "",
+                "heading": digits[:4] if len(digits) >= 4 else "",
+                "subheading": digits[:6] if len(digits) >= 6 else "",
+            }
             display_text = make_path_text(path, node, chapters_map)
             chunk_text = make_chunk_text(path, node, chapters_map)
 
@@ -534,21 +739,31 @@ def main() -> int:
     p.add_argument("out_stem", help="Output base name; .jsonl and .manifest.json are appended")
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
-    p.add_argument("--source-format", choices=("usitc", "cbsa"), default="usitc",
+    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga"), default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
-                        "export where hierarchy is implied by code digit length.")
+                        "export where hierarchy is implied by code digit length; "
+                        "taric = the canonical EU CSV from acquire/eu_taric.py; "
+                        "dga = the Dominican Republic Arancel CSV (Spanish, "
+                        "dash-prefix hierarchy).")
+    p.add_argument("--lang", choices=tuple(_BASKET_RES), default="en",
+                   help="Corpus language: drives basket-provision detection "
+                        "('Los demás') and the exclusion-clause template.")
     p.add_argument("--max-depth", type=int, default=10,
                    help="Deepest legal code length for this jurisdiction (US/CA=10). "
                         "A leaf deeper than this fails the build.")
     args = p.parse_args()
+
+    global CORPUS_LANG
+    CORPUS_LANG = args.lang
 
     csv_path = Path(args.csv_path)
     chapters_path = Path(args.chapters_path)
     out_stem = Path(args.out_stem)
     out_stem.parent.mkdir(parents=True, exist_ok=True)
 
-    raw_rows = (load_rows_cbsa(csv_path) if args.source_format == 'cbsa'
-                else load_rows(csv_path))
+    loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
+               "taric": load_rows_taric, "dga": load_rows_dga}
+    raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)
     records, depth_hist, truncated = flatten_tree_to_records(
@@ -574,6 +789,42 @@ def main() -> int:
         print(f"ERROR: {dupes:,} duplicate record ids", file=sys.stderr)
         return 4
 
+    # ── Source-row conservation (the "no code is missed" invariant) ──────
+    # Every coded source row (post-dedup) must appear as exactly one node in
+    # the built tree, and the tree must invent nothing. Both directions are
+    # impossible under a correct build_tree(), which is precisely why they are
+    # the right assertions: free when everything works, and the only thing
+    # that fires when it does not.
+    nodes = collect_node_index(roots)
+    missing = sorted(load_stats.coded_digits - set(nodes))
+    if missing:
+        print(f"ERROR: {len(missing):,} coded source row(s) never reached the "
+              f"tree; first 20: {missing[:20]}", file=sys.stderr)
+        return 5
+    extra = sorted(set(nodes) - load_stats.coded_digits)
+    if extra:
+        print(f"ERROR: {len(extra):,} tree node(s) have no source row; "
+              f"first 20: {extra[:20]}", file=sys.stderr)
+        return 6
+
+    # ── Official leaf cross-check (EU) ───────────────────────────────────
+    # The source publishes its own leaf flags; our reconstructed tree must
+    # agree EXACTLY. A mismatch means the hierarchy was rebuilt wrong even
+    # though every code is present — the one failure mode L1 cannot see.
+    if load_stats.official_leaf_digits is not None:
+        ours = {d for d, has_children in nodes.items() if not has_children}
+        official = load_stats.official_leaf_digits
+        not_ours = sorted(official - ours)
+        not_official = sorted(ours - official)
+        if not_ours or not_official:
+            print(f"ERROR: leaf set disagrees with the official IS_LEAF flags: "
+                  f"{len(not_ours):,} official leaves are internal in our tree "
+                  f"(first: {not_ours[:10]}); {len(not_official):,} of our "
+                  f"leaves are official non-leaves (first: {not_official[:10]})",
+                  file=sys.stderr)
+            return 7
+        print(f"  official leaf cross-check: {len(official):,} leaves agree")
+
     jsonl_path = out_stem.with_suffix(".jsonl")
     write_jsonl(records, jsonl_path)
 
@@ -590,6 +841,12 @@ def main() -> int:
         "max_chunk_text_chars": max(len(r["chunk_text"]) for r in records),
         "truncated_chunk_text": truncated["chunk"],
         "truncated_display_text": truncated["display"],
+        "node_count": len(nodes),
+        "source_raw_row_count": load_stats.raw_row_count,
+        "source_coded_row_count": load_stats.coded_row_count,
+        "source_condition_row_count": load_stats.condition_row_count,
+        "dropped_duplicate_count": load_stats.dropped_duplicates,
+        "dropped_uncoded_count": load_stats.dropped_uncoded,
     }
     manifest_path = out_stem.with_name(out_stem.name + ".manifest.json")
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -597,7 +854,6 @@ def main() -> int:
     # Node index for the server-side code validator. Small (one bool per code)
     # and jurisdiction-agnostic, so it belongs beside the corpus rather than
     # being reconstructed from a 13.5 MB raw dataset at runtime.
-    nodes = collect_node_index(roots)
     codes_path = out_stem.with_name(out_stem.name + ".codes.json")
     codes_path.write_text(json.dumps({
         "jurisdiction": args.jurisdiction,
@@ -607,6 +863,46 @@ def main() -> int:
         "nodes": nodes,
     }, separators=(",", ":")) + "\n", encoding="utf-8")
     print(f"Wrote node index ({len(nodes):,} codes) -> {codes_path}")
+
+    # ── Per-revision coverage report ─────────────────────────────────────
+    # Per-chapter accounting an operator (or the cross-revision diff) can
+    # watch move. Orphan roots = roots whose code is longer than a heading —
+    # CA has 353 (Ch.99 provisions with no heading row); a jump in that
+    # number means the source changed shape.
+    per_chapter: dict[str, dict] = {}
+    for digits, has_children in nodes.items():
+        ch = digits[:2]
+        c = per_chapter.setdefault(ch, {"nodes": 0, "leaves": 0, "baskets": 0})
+        c["nodes"] += 1
+        if not has_children:
+            c["leaves"] += 1
+    for r in records:
+        if r["is_basket"] and r["chapter"] in per_chapter:
+            per_chapter[r["chapter"]]["baskets"] += 1
+    orphan_roots = [
+        (root.get("HTS Number") or "").strip()
+        for root in roots
+        if len(_digits_only(root.get("HTS Number") or "")) > 4
+    ]
+    chapters_no_codes = sorted(set(chapters_map) - set(per_chapter))
+    codes_no_chapter_entry = sorted(set(per_chapter) - set(chapters_map))
+    coverage = {
+        "jurisdiction": args.jurisdiction,
+        "revision": args.revision,
+        "per_chapter": {k: per_chapter[k] for k in sorted(per_chapter)},
+        "orphan_root_count": len(orphan_roots),
+        "orphan_roots_sample": orphan_roots[:20],
+        "chapters_in_config_with_no_codes": chapters_no_codes,
+        "chapters_with_codes_but_no_config_entry": codes_no_chapter_entry,
+    }
+    coverage_path = out_stem.with_name(out_stem.name + ".coverage.json")
+    coverage_path.write_text(json.dumps(coverage, indent=2) + "\n", encoding="utf-8")
+    if codes_no_chapter_entry:
+        # Records in these chapters get NO chapter prefix in chunk_text or
+        # display_text — visible here rather than silently degraded.
+        print(f"  WARNING: chapters with codes but no chapters-file entry: "
+              f"{codes_no_chapter_entry}", file=sys.stderr)
+    print(f"Wrote coverage report -> {coverage_path}")
 
     print(f"Wrote {len(records):,} leaf records -> {jsonl_path}")
     print(f"  depth histogram: {manifest['depth_histogram']}")

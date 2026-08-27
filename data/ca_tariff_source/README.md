@@ -1,11 +1,15 @@
 # Canadian Customs Tariff — source
 
-`ca_tariff_2026_rev_1.csv` is the CBSA tariff export. **It is committed, unlike
-the USITC CSVs in `data/hts_archives_csv/` which are gitignored.** That is
-deliberate: the US files are re-downloadable from USITC by `02_download_hts.R`,
-whereas CBSA publishes the tariff as PDF/HTML only, with no machine-readable
-form at any stable URL. This file cannot be re-fetched, so losing it means
-losing the ability to rebuild the Canadian corpus.
+`ca_tariff_2026_rev_1.csv` is the CBSA tariff export — specifically an
+`mdb-export` of the `TPHS` table from CBSA's Microsoft Access distribution of
+the Customs Tariff (the "Microsoft Access format" zip linked from
+https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/menu-eng.html).
+**It is committed, unlike the USITC CSVs in `data/hts_archives_csv/` which are
+gitignored.** Committing it keeps the corpus rebuildable offline and pins the
+exact bytes a revision was built from, but the file IS re-derivable: CBSA
+publishes a machine-readable `.accdb` per revision (an earlier version of this
+README claimed PDF/HTML only — that was wrong), and the `cbsa` acquisition
+adapter downloads and re-exports it automatically.
 
 ## Refreshing Canada — two steps
 
@@ -77,8 +81,9 @@ Counting ancestors makes an orphan a root, which is correct by construction.
 
 ## Revisions
 
-`refresh_ca.sh` handles the bump; see above. Canada is deliberately NOT wired
-into `hts-revision-update.yml`, which discovers new editions by scraping USITC.
-CBSA publishes no feed and no machine-readable endpoint, so noticing a new
-edition is the one part that needs a human. Everything after the file lands is
-automated.
+`refresh_ca.sh` handles the bump; see above. New editions are discovered by
+the `cbsa` acquisition adapter, which parses the CBSA tariff page headings
+(`T2026`, `T2026-1`, ...) on both the English and French pages, downloads the
+Access distribution, and exports `TPHS` to this directory. If the scrape ever
+breaks, dropping the export here by hand (the old manual flow) still works —
+that is the `manual` acquisition adapter.

@@ -43,7 +43,7 @@
   },
   {
     "chapter": "08",
-    "description": "Edible fruit and nuts; peel of citrus fruits or melons",
+    "description": "Edible fruit and nuts; peel of citrus fruit or melons",
     "section": "II",
     "sectionTitle": "Vegetable products"
   },
@@ -85,13 +85,13 @@
   },
   {
     "chapter": "15",
-    "description": "Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes",
+    "description": "Animal, vegetable or microbial fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes",
     "section": "III",
-    "sectionTitle": "Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes"
+    "sectionTitle": "Animal, vegetable or microbial fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes"
   },
   {
     "chapter": "16",
-    "description": "Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates",
+    "description": "Preparations of meat, of fish, of crustaceans, molluscs or other aquatic invertebrates, or of insects",
     "section": "IV",
     "sectionTitle": "Prepared foodstuffs; beverages, spirits and vinegar; tobacco and manufactured tobacco substitutes"
   },
@@ -139,7 +139,7 @@
   },
   {
     "chapter": "24",
-    "description": "Tobacco and manufactured tobacco substitutes",
+    "description": "Tobacco and manufactured tobacco substitutes; products, whether or not containing nicotine, intended for inhalation without combustion; other nicotine containing products intended for the intake of nicotine into the human body",
     "section": "IV",
     "sectionTitle": "Prepared foodstuffs; beverages, spirits and vinegar; tobacco and manufactured tobacco substitutes"
   },
@@ -243,19 +243,19 @@
     "chapter": "41",
     "description": "Raw hides and skins (other than furskins) and leather",
     "section": "VIII",
-    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof"
+    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut"
   },
   {
     "chapter": "42",
     "description": "Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silkworm gut)",
     "section": "VIII",
-    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof"
+    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut"
   },
   {
     "chapter": "43",
     "description": "Furskins and artificial fur; manufactures thereof",
     "section": "VIII",
-    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof"
+    "sectionTitle": "Raw hides and skins, leather, furskins and articles thereof; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut"
   },
   {
     "chapter": "44",
@@ -381,25 +381,25 @@
     "chapter": "64",
     "description": "Footwear, gaiters and the like; parts of such articles",
     "section": "XII",
-    "sectionTitle": "Footwear, headgear, umbrellas, etc."
+    "sectionTitle": "Footwear, headgear, umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair"
   },
   {
     "chapter": "65",
     "description": "Headgear and parts thereof",
     "section": "XII",
-    "sectionTitle": "Footwear, headgear, umbrellas, etc."
+    "sectionTitle": "Footwear, headgear, umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair"
   },
   {
     "chapter": "66",
-    "description": "Umbrellas, sun umbrellas, walking-sticks, seat-sticks, whips, riding-crops and parts thereof",
+    "description": "Umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof",
     "section": "XII",
-    "sectionTitle": "Footwear, headgear, umbrellas, etc."
+    "sectionTitle": "Footwear, headgear, umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair"
   },
   {
     "chapter": "67",
     "description": "Prepared feathers and down and articles made of feathers or of down; artificial flowers; articles of human hair",
     "section": "XII",
-    "sectionTitle": "Footwear, headgear, umbrellas, etc."
+    "sectionTitle": "Footwear, headgear, umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair"
   },
   {
     "chapter": "68",
@@ -421,9 +421,9 @@
   },
   {
     "chapter": "71",
-    "description": "Natural or cultured pearls, precious or semiprecious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin",
+    "description": "Natural or cultured pearls, precious or semi-precious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin",
     "section": "XIV",
-    "sectionTitle": "Natural or cultured pearls, precious or semiprecious stones, precious metals, metals clad with precious metal and articles thereof; imitation jewellery; coin"
+    "sectionTitle": "Natural or cultured pearls, precious or semi-precious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin"
   },
   {
     "chapter": "72",
@@ -452,12 +452,6 @@
   {
     "chapter": "76",
     "description": "Aluminium and articles thereof",
-    "section": "XV",
-    "sectionTitle": "Base metals and articles of base metal"
-  },
-  {
-    "chapter": "77",
-    "description": "(Reserved for possible future use in the harmonised system)",
     "section": "XV",
     "sectionTitle": "Base metals and articles of base metal"
   },
@@ -501,23 +495,23 @@
     "chapter": "84",
     "description": "Nuclear reactors, boilers, machinery and mechanical appliances; parts thereof",
     "section": "XVI",
-    "sectionTitle": "Machinery and mechanical appliances; electrical equipment; parts thereof; etc."
+    "sectionTitle": "Machinery and mechanical appliances; electrical equipment; parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles"
   },
   {
     "chapter": "85",
     "description": "Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles",
     "section": "XVI",
-    "sectionTitle": "Machinery and mechanical appliances; electrical equipment; parts thereof; etc."
+    "sectionTitle": "Machinery and mechanical appliances; electrical equipment; parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles"
   },
   {
     "chapter": "86",
-    "description": "Railway or tramway locomotives, rolling-stock and parts thereof; railway or tramway track fixtures and fittings and parts thereof; mechanical (including electro-mechanical) traffic signalling equipment of all kinds",
+    "description": "Railway or tramway locomotives, rolling stock and parts thereof; railway or tramway track fixtures and fittings and parts thereof; mechanical (including electromechanical) traffic signalling equipment of all kinds",
     "section": "XVII",
     "sectionTitle": "Vehicles, aircraft, vessels and associated transport equipment"
   },
   {
     "chapter": "87",
-    "description": "Vehicles other than railway or tramway rollingstock, and parts and accessories thereof",
+    "description": "Vehicles other than railway or tramway rolling stock, and parts and accessories thereof",
     "section": "XVII",
     "sectionTitle": "Vehicles, aircraft, vessels and associated transport equipment"
   },
@@ -559,13 +553,13 @@
   },
   {
     "chapter": "94",
-    "description": "Furniture; bedding, mattresses, mattress supports, cushions and similar stuffed furnishings; lamps and lighting fittings, not elsewhere specified or included; illuminated signs, illuminated name-plates and the like; prefabricated buildings",
+    "description": "Furniture; bedding, mattresses, mattress supports, cushions and similar stuffed furnishings; luminaires and lighting fittings, not elsewhere specified or included; illuminated signs, illuminated nameplates and the like; prefabricated buildings",
     "section": "XX",
     "sectionTitle": "Miscellaneous manufactured articles"
   },
   {
     "chapter": "95",
-    "description": "Toys, games, and sports requisites; parts and accessories thereof",
+    "description": "Toys, games and sports requisites; parts and accessories thereof",
     "section": "XX",
     "sectionTitle": "Miscellaneous manufactured articles"
   },
@@ -583,14 +577,14 @@
   },
   {
     "chapter": "98",
-    "description": "Special Classification Provisions Relating to Articles Exported and Returned to the United States",
-    "section": "XXII",
-    "sectionTitle": "Special Classification Provisions..."
+    "description": "Complete industrial plant",
+    "section": "XXI",
+    "sectionTitle": "Works of art, collectors' pieces and antiques"
   },
   {
     "chapter": "99",
-    "description": "Temporary Legislation Introducing Changes to Different HTS Code Headings",
-    "section": "XXIII",
-    "sectionTitle": "Temporary Legislation..."
+    "description": "Special combined nomenclature codes",
+    "section": "XXI",
+    "sectionTitle": "Works of art, collectors' pieces and antiques"
   }
 ]

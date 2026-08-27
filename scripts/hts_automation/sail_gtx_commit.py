@@ -92,9 +92,18 @@ def _sha256_of_file(path: str) -> str:
     return h.hexdigest()
 
 
-_REV_FILE_RE = re.compile(r"^hts_(\d{4})_revision_(\d+)\.json$")
+# Datasets. The legacy US name carries no jurisdiction (hts_2026_revision_17
+# .json); every other jurisdiction (and, eventually, the US too) uses the
+# prefixed form (ca_2026_revision_1.json). Both regexes feed ONE per-
+# jurisdiction series map so one jurisdiction's datasets can never evict
+# another's — the exact bug the unprefixed regex had once CA started shipping.
+_REV_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_revision_(\d+)\.json$")
+_LEGACY_REV_FILE_RE = re.compile(r"^hts_(\d{4})_revision_(\d+)\.json$")  # => "us"
 # Node index emitted by build_hts_corpus.py, e.g. us_2026_rev_13.codes.json.
 _CODES_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_rev_(\d+)\.codes\.json$")
+# Derived duty rates: the per-revision index file plus its chapter directory.
+_RATES_INDEX_RE = re.compile(r"^([a-z]{2})_(\d{4})_rev_(\d+)\.rates\.index\.json$")
+_RATES_DIR_RE = re.compile(r"^([a-z]{2})_(\d{4})_rev_(\d+)\.rates$")
 
 
 def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list[str]:
@@ -113,24 +122,41 @@ def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list
         # `keep` entries, because indexes are per-jurisdiction (us_*, ca_*) while
         # datasets are not. Pooling them would let one jurisdiction's indexes
         # evict another's.
-        datasets = []
+        datasets: dict[str, list] = {}
         indexes: dict[str, list] = {}
         for name in os.listdir(abs_dir):
             m = _REV_FILE_RE.match(name)
             if m:
-                datasets.append(((int(m.group(1)), int(m.group(2))), name))
+                datasets.setdefault(m.group(1), []).append(
+                    ((int(m.group(2)), int(m.group(3))), name))
+                continue
+            lm = _LEGACY_REV_FILE_RE.match(name)
+            if lm:
+                datasets.setdefault("us", []).append(
+                    ((int(lm.group(1)), int(lm.group(2))), name))
                 continue
             c = _CODES_FILE_RE.match(name)
             if c:
                 indexes.setdefault(c.group(1), []).append(
                     ((int(c.group(2)), int(c.group(3))), name))
+                continue
+            ri = _RATES_INDEX_RE.match(name)
+            if ri:
+                indexes.setdefault(ri.group(1) + ":rates-index", []).append(
+                    ((int(ri.group(2)), int(ri.group(3))), name))
+                continue
+            rd = _RATES_DIR_RE.match(name)
+            if rd and os.path.isdir(os.path.join(abs_dir, name)):
+                indexes.setdefault(rd.group(1) + ":rates-dir", []).append(
+                    ((int(rd.group(2)), int(rd.group(3))), name))
 
-        series = [datasets] + list(indexes.values())
+        series = list(datasets.values()) + list(indexes.values())
         for group in series:
             group.sort(reverse=True)
             for _, name in group[keep:]:
                 rel = f"{directory}/{name}"
-                _run(["git", "rm", "--quiet", rel], cwd=workdir)
+                # a .rates chapter DIRECTORY prunes recursively
+                _run(["git", "rm", "--quiet", "-r", rel], cwd=workdir)
                 removed.append(rel)
                 print(f"pruned: {rel}")
     return removed
@@ -142,8 +168,8 @@ def main() -> None:
     p.add_argument("--repo", required=True)
     p.add_argument("--branch", required=True,
                    help="Production branch to push to (e.g. illegal-transshipment)")
-    p.add_argument("--source", required=True, help="Local path to the JSON file")
-    p.add_argument("--dest-path", required=True, action="append", dest="dest_paths",
+    p.add_argument("--source", default=None, help="Local path to the JSON file")
+    p.add_argument("--dest-path", action="append", dest="dest_paths", default=[],
                    metavar="PATH",
                    help="Path inside the target repo (repeatable to write the same "
                         "source to several locations in ONE commit, e.g. "
@@ -169,8 +195,12 @@ def main() -> None:
                    help="Clone + diff + write locally, but do not push")
     args = p.parse_args()
 
-    if not os.path.isfile(args.source):
+    if args.source and not os.path.isfile(args.source):
         sys.exit(f"ERROR: source file not found: {args.source}")
+    if args.source and not args.dest_paths:
+        sys.exit("ERROR: --source given but no --dest-path")
+    if args.dest_paths and not args.source:
+        sys.exit("ERROR: --dest-path given but no --source")
 
     extra_pairs = []
     for spec in args.also:
@@ -178,9 +208,22 @@ def main() -> None:
         src, _, dest = spec.rpartition(":")
         if not src or not dest:
             sys.exit(f"ERROR: --also expects SRC:DEST, got {spec!r}")
+        if os.path.isdir(src):
+            # A directory ships its whole tree (e.g. the per-chapter duty-rate
+            # files), each file landing at DEST/<relative path>, all in the
+            # same commit.
+            for root, _dirs, files in os.walk(src):
+                for name in sorted(files):
+                    fsrc = os.path.join(root, name)
+                    rel = os.path.relpath(fsrc, src)
+                    extra_pairs.append((fsrc, os.path.join(dest, rel)))
+            continue
         if not os.path.isfile(src):
             sys.exit(f"ERROR: --also source not found: {src}")
         extra_pairs.append((src, dest))
+
+    if not args.source and not extra_pairs:
+        sys.exit("ERROR: nothing to ship — give --source/--dest-path or --also")
 
     token = _env("SAIL_GTX_REPO_PAT")
     _SECRETS.append(token)  # scrub the PAT from every echoed command / git output
@@ -212,7 +255,8 @@ def main() -> None:
 
         # (source, dest) work list: the primary dataset for every --dest-path,
         # then each --also pair.
-        work = [(args.source, d) for d in args.dest_paths] + extra_pairs
+        work = ([(args.source, d) for d in args.dest_paths] if args.source else []) \
+            + extra_pairs
 
         changed: list[str] = []
         for src, dest_path in work:
@@ -227,7 +271,12 @@ def main() -> None:
             changed.append(dest_path)
 
         if args.prune_keep > 0:
-            changed.extend(_prune_old_revisions(workdir, args.dest_paths, args.prune_keep))
+            # Prune every directory this commit touched — including --also
+            # destinations. Driving pruning off --dest-path alone made
+            # prune_keep a silent no-op for jurisdictions that ship only
+            # node indexes / datasets / duty rates via --also.
+            all_dests = list(args.dest_paths) + [d for _, d in extra_pairs]
+            changed.extend(_prune_old_revisions(workdir, all_dests, args.prune_keep))
 
         if not changed:
             print("no-op: all destinations already match source; nothing to commit")
