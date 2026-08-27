@@ -579,8 +579,10 @@ DO_COVERAGE = {
         "separate treaty annexes and are NOT in the published tariff book — "
         "no preferential dimension is shown.",
         "Anti-dumping/safeguard measures.",
-        "Per-line tax computation (taxes are listed, never summed into the "
-        "duty figure).",
+        "Exact landed-cost computation: the UI shows an ESTIMATED total using "
+        "the statutory cascading bases (duty on CIF; ISC ad valorem on "
+        "CIF + duty; ITBIS on CIF + duty + ISC); specific ISC amounts (DOP "
+        "per unit) are shown verbatim, never converted to a percentage.",
     ],
     "source": "DGA Arancel de Aduanas, 7ma Enmienda (2022)",
 }
