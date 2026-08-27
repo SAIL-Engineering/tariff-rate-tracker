@@ -579,10 +579,10 @@ DO_COVERAGE = {
         "separate treaty annexes and are NOT in the published tariff book — "
         "no preferential dimension is shown.",
         "Anti-dumping/safeguard measures.",
-        "Exact landed-cost computation: the UI shows an ESTIMATED total using "
-        "the statutory cascading bases (duty on CIF; ISC ad valorem on "
-        "CIF + duty; ITBIS on CIF + duty + ISC); specific ISC amounts (DOP "
-        "per unit) are shown verbatim, never converted to a percentage.",
+        "Exact landed-cost computation: the total shown is the sum of the "
+        "listed ad-valorem line items; DGA liquidation applies ISC/ITBIS on "
+        "cascading bases, and specific ISC amounts (DOP per unit) are shown "
+        "verbatim, never converted to a percentage.",
     ],
     "source": "DGA Arancel de Aduanas, 7ma Enmienda (2022)",
 }
@@ -618,19 +618,29 @@ def build_do(csv_path: Path, jur: str, revision: str):
                 records.append(_record(jur, revision, code, digits,
                                        "ISC_ESPECIFICO", se,
                                        informational=True, category="tax"))
+    # Full nomenclature, Spanish first with English translation — these names
+    # render verbatim as the line items in the UI.
     tout = [
-        {"treatment": "MFN", "name": "Gravamen (applied MFN rate)",
+        {"treatment": "MFN",
+         "name": "Gravamen — Customs duty (tariff)",
          "origin_countries": [], "applies": "all_origins", "conditional": False,
          "legal_basis": "Arancel de Aduanas RD, 7ma Enmienda"},
-        {"treatment": "ITBIS", "name": "ITBIS (VAT on import)",
+        {"treatment": "ISC_AD_VALOREM",
+         "name": "Impuesto Selectivo al Consumo, ad valorem — "
+                 "Selective Consumption Tax (ad valorem)",
+         "origin_countries": [], "applies": "all_origins", "conditional": False,
+         "legal_basis": "Ley 11-92 Título IV", "category": "tax"},
+        {"treatment": "ISC_ESPECIFICO",
+         "name": "Impuesto Selectivo al Consumo, específico — "
+                 "Selective Consumption Tax (specific, DOP per unit)",
+         "origin_countries": [], "applies": "all_origins", "conditional": False,
+         "legal_basis": "Ley 11-92 Título IV", "category": "tax"},
+        {"treatment": "ITBIS",
+         "name": "ITBIS, Impuesto sobre Transferencias de Bienes "
+                 "Industrializados y Servicios — Tax on the Transfer of "
+                 "Industrialized Goods and Services (VAT on import)",
          "origin_countries": [], "applies": "all_origins", "conditional": False,
          "legal_basis": "Ley 253-12", "category": "tax"},
-        {"treatment": "ISC_AD_VALOREM", "name": "Impuesto Selectivo al Consumo (ad valorem)",
-         "origin_countries": [], "applies": "all_origins", "conditional": False,
-         "legal_basis": "Ley 11-92 Título IV", "category": "tax"},
-        {"treatment": "ISC_ESPECIFICO", "name": "Impuesto Selectivo al Consumo (específico, DOP)",
-         "origin_countries": [], "applies": "all_origins", "conditional": False,
-         "legal_basis": "Ley 11-92 Título IV", "category": "tax"},
     ]
     return records, tout, dict(DO_COVERAGE)
 
