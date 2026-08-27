@@ -1,0 +1,712 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2025-10-31T02:26:14Z",
+  "source_files": {
+    "chapters": "chapters.json",
+    "sections": "hts_sections.json"
+  },
+  "sections": [
+    {
+      "section": "I",
+      "title": "Live animals; animal products",
+      "start_chapter": 1,
+      "end_chapter": 5,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "01",
+          "title": "Live animals",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "02",
+          "title": "Meat and edible meat offal",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "03",
+          "title": "Fish and crustaceans, molluscs and other aquatic invertebrates",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "04",
+          "title": "Dairy produce; birds' eggs; natural honey; edible products of animal origin, not elsewhere specified or included",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "05",
+          "title": "Products of animal origin, not elsewhere specified or included",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "title": "Vegetable products",
+      "start_chapter": 6,
+      "end_chapter": 14,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "06",
+          "title": "Live trees and other plants; bulbs, roots and the like; cut flowers and ornamental foliage",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "07",
+          "title": "Edible vegetables and certain roots and tubers",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "08",
+          "title": "Edible fruit and nuts; peel of citrus fruits or melons",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "09",
+          "title": "Coffee, tea, maté and spices",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "10",
+          "title": "Cereals",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "11",
+          "title": "Products of the milling industry; malt; starches; inulin; wheat gluten",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "12",
+          "title": "Oil seeds and oleaginous fruits; miscellaneous grains, seeds and fruit; industrial or medicinal plants; straw and fodder",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "13",
+          "title": "Lac; gums, resins and other vegetable saps and extracts",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "14",
+          "title": "Vegetable plaiting materials; vegetable products not elsewhere specified or included",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "III",
+      "title": "Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes",
+      "start_chapter": 15,
+      "end_chapter": 15,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "15",
+          "title": "Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "IV",
+      "title": "Prepared foodstuffs; beverages, spirits and vinegar; tobacco and manufactured tobacco substitutes",
+      "start_chapter": 16,
+      "end_chapter": 24,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "16",
+          "title": "Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "17",
+          "title": "Sugars and sugar confectionery",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "18",
+          "title": "Cocoa and cocoa preparations",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "19",
+          "title": "Preparations of cereals, flour, starch or milk; pastrycooks' products",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "20",
+          "title": "Preparations of vegetables, fruit, nuts or other parts of plants",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "21",
+          "title": "Miscellaneous edible preparations",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "22",
+          "title": "Beverages, spirits and vinegar",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "23",
+          "title": "Residues and waste from the food industries; prepared animal fodder",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "24",
+          "title": "Tobacco and manufactured tobacco substitutes",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "V",
+      "title": "Mineral products",
+      "start_chapter": 25,
+      "end_chapter": 27,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "25",
+          "title": "Salt; sulphur; earths and stone; plastering materials, lime and cement",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "26",
+          "title": "Ores, slag and ash",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "27",
+          "title": "Mineral fuels, mineral oils and products of their distillation; bituminous substances; mineral waxes",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "VI",
+      "title": "Products of the chemical or allied industries",
+      "start_chapter": 28,
+      "end_chapter": 38,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "28",
+          "title": "Inorganic chemicals; organic or inorganic compounds of precious metals, of rare-earth metals, of radioactive elements or of isotopes",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "29",
+          "title": "Organic chemicals",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "30",
+          "title": "Pharmaceutical products",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "31",
+          "title": "Fertilisers",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "32",
+          "title": "Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints and varnishes; putty and other mastics; inks",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "33",
+          "title": "Essential oils and resinoids; perfumery, cosmetic or toilet preparations",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "34",
+          "title": "Soap, organic surface-active agents, washing preparations, lubricating preparations, artificial waxes, prepared waxes, polishing or scouring preparations, candles and similar articles, modelling pastes, 'dental waxes' and dental preparations with a basis of plaster",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "35",
+          "title": "Albuminoidal substances; modified starches; glues; enzymes",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "36",
+          "title": "Explosives; pyrotechnic products; matches; pyrophoric alloys; certain combustible preparations",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "37",
+          "title": "Photographic or cinematographic goods",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "38",
+          "title": "Miscellaneous chemical products",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "VII",
+      "title": "Plastics and articles thereof; rubber and articles thereof",
+      "start_chapter": 39,
+      "end_chapter": 40,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "39",
+          "title": "Plastics and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "40",
+          "title": "Rubber and articles thereof",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "VIII",
+      "title": "Raw hides and skins, leather, furskins and articles thereof; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silkworm gut)",
+      "start_chapter": 41,
+      "end_chapter": 43,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "41",
+          "title": "Raw hides and skins (other than furskins) and leather",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "42",
+          "title": "Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silkworm gut)",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "43",
+          "title": "Furskins and artificial fur; manufactures thereof",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "IX",
+      "title": "Wood and articles of wood; wood charcoal; cork and articles of cork; manufactures of straw, of esparto or of other plaiting materials; basketware and wickerwork",
+      "start_chapter": 44,
+      "end_chapter": 46,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "44",
+          "title": "Wood and articles of wood; wood charcoal",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "45",
+          "title": "Cork and articles of cork",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "46",
+          "title": "Manufactures of straw, of esparto or of other plaiting materials; basketware and wickerwork",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "X",
+      "title": "Pulp of wood or of other fibrous cellulosic material; recovered (waste and scrap) paper or paperboard; paper and paperboard and articles thereof",
+      "start_chapter": 47,
+      "end_chapter": 49,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "47",
+          "title": "Pulp of wood or of other fibrous cellulosic material; recovered (waste and scrap) paper or paperboard",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "48",
+          "title": "Paper and paperboard; articles of paper pulp, of paper or of paperboard",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "49",
+          "title": "Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XI",
+      "title": "Textiles and textile articles",
+      "start_chapter": 50,
+      "end_chapter": 63,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "50",
+          "title": "Silk",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "51",
+          "title": "Wool, fine or coarse animal hair; horsehair yarn and woven fabric",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "52",
+          "title": "Cotton",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "53",
+          "title": "Other vegetable textile fibres; paper yarn and woven fabrics of paper yarn",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "54",
+          "title": "Man-made filaments; strip and the like of man-made textile materials",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "55",
+          "title": "Man-made staple fibres",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "56",
+          "title": "Wadding, felt and nonwovens; special yarns; twine, cordage, ropes and cables and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "57",
+          "title": "Carpets and other textile floor coverings",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "58",
+          "title": "Special woven fabrics; tufted textile fabrics; lace; tapestries; trimmings; embroidery",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "59",
+          "title": "Impregnated, coated, covered or laminated textile fabrics; textile articles of a kind suitable for industrial use",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "60",
+          "title": "Knitted or crocheted fabrics",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "61",
+          "title": "Articles of apparel and clothing accessories, knitted or crocheted",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "62",
+          "title": "Articles of apparel and clothing accessories, not knitted or crocheted",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "63",
+          "title": "Other made-up textile articles; sets; worn clothing and worn textile articles; rags",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XII",
+      "title": "Footwear, headgear, umbrellas, sun umbrellas, walking-sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair",
+      "start_chapter": 64,
+      "end_chapter": 67,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "64",
+          "title": "Footwear, gaiters and the like; parts of such articles",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "65",
+          "title": "Headgear and parts thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "66",
+          "title": "Umbrellas, sun umbrellas, walking-sticks, seat-sticks, whips, riding-crops and parts thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "67",
+          "title": "Prepared feathers and down and articles made of feathers or of down; artificial flowers; articles of human hair",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XIII",
+      "title": "Articles of stone, plaster, cement, asbestos, mica or similar materials; ceramic products; glass and glassware",
+      "start_chapter": 68,
+      "end_chapter": 70,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "68",
+          "title": "Articles of stone, plaster, cement, asbestos, mica or similar materials",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "69",
+          "title": "Ceramic products",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "70",
+          "title": "Glass and glassware",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XIV",
+      "title": "Natural or cultured pearls, precious or semi-precious stones, precious metals, metals clad with precious metal and articles thereof; imitation jewellery; coin",
+      "start_chapter": 71,
+      "end_chapter": 71,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "71",
+          "title": "Natural or cultured pearls, precious or semiprecious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XV",
+      "title": "Base metals and articles of base metal",
+      "start_chapter": 72,
+      "end_chapter": 83,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "72",
+          "title": "Iron and steel",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "73",
+          "title": "Articles of iron or steel",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "74",
+          "title": "Copper and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "75",
+          "title": "Nickel and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "76",
+          "title": "Aluminium and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "77",
+          "title": "(Reserved for possible future use in the harmonised system)",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "78",
+          "title": "Lead and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "79",
+          "title": "Zinc and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "80",
+          "title": "Tin and articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "81",
+          "title": "Other base metals; cermets; articles thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "82",
+          "title": "Tools, implements, cutlery, spoons and forks, of base metal; parts thereof of base metal",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "83",
+          "title": "Miscellaneous articles of base metal",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XVI",
+      "title": "Machinery and mechanical appliances; electrical equipment; parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles",
+      "start_chapter": 84,
+      "end_chapter": 85,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "84",
+          "title": "Nuclear reactors, boilers, machinery and mechanical appliances; parts thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "85",
+          "title": "Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XVII",
+      "title": "Vehicles, aircraft, vessels and associated transport equipment",
+      "start_chapter": 86,
+      "end_chapter": 89,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "86",
+          "title": "Railway or tramway locomotives, rolling-stock and parts thereof; railway or tramway track fixtures and fittings and parts thereof; mechanical (including electro-mechanical) traffic signalling equipment of all kinds",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "87",
+          "title": "Vehicles other than railway or tramway rollingstock, and parts and accessories thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "88",
+          "title": "Aircraft, spacecraft, and parts thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "89",
+          "title": "Ships, boats and floating structures",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XVIII",
+      "title": "Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments and apparatus; clocks and watches; musical instruments; parts and accessories thereof",
+      "start_chapter": 90,
+      "end_chapter": 92,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "90",
+          "title": "Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments and apparatus; parts and accessories thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "91",
+          "title": "Clocks and watches and parts thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "92",
+          "title": "Musical instruments; parts and accessories of such articles",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XIX",
+      "title": "Arms and ammunition; parts and accessories thereof",
+      "start_chapter": 93,
+      "end_chapter": 93,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "93",
+          "title": "Arms and ammunition; parts and accessories thereof",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XX",
+      "title": "Miscellaneous manufactured articles",
+      "start_chapter": 94,
+      "end_chapter": 96,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "94",
+          "title": "Furniture; bedding, mattresses, mattress supports, cushions and similar stuffed furnishings; lamps and lighting fittings, not elsewhere specified or included; illuminated signs, illuminated name-plates and the like; prefabricated buildings",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "95",
+          "title": "Toys, games, and sports requisites; parts and accessories thereof",
+          "chapterNotes": ""
+        },
+        {
+          "chapter": "96",
+          "title": "Miscellaneous manufactured articles",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XXI",
+      "title": "Works of art, collectors' pieces and antiques",
+      "start_chapter": 97,
+      "end_chapter": 97,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "97",
+          "title": "Works of art, collectors' pieces and antiques",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XXII",
+      "title": "Special Classification Provisions Relating to Articles Exported and Returned to the United States",
+      "start_chapter": 98,
+      "end_chapter": 98,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "98",
+          "title": "Special Classification Provisions Relating to Articles Exported and Returned to the United States",
+          "chapterNotes": ""
+        }
+      ]
+    },
+    {
+      "section": "XXIII",
+      "title": "Temporary Legislation Introducing Changes to Different HTS Code Headings",
+      "start_chapter": 99,
+      "end_chapter": 99,
+      "sectionNotes": "",
+      "chapters": [
+        {
+          "chapter": "99",
+          "title": "Temporary Legislation Introducing Changes to Different HTS Code Headings",
+          "chapterNotes": ""
+        }
+      ]
+    }
+  ]
+}

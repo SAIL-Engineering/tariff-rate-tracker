@@ -1,0 +1,128 @@
+[
+  {
+    "start": 1,
+    "end": 5,
+    "section": "I",
+    "title": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "start": 6,
+    "end": 14,
+    "section": "II",
+    "title": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "start": 15,
+    "end": 15,
+    "section": "III",
+    "title": "GRASAS Y ACEITES ANIMALES, VEGETALES O DE ORIGEN MICROBIANO, Y PRODUCTOS DE SU DESDOBLAMIENTO; GRASAS ALIMENTICIAS ELABORADAS; CERAS DE ORIGEN ANIMAL O VEGETAL"
+  },
+  {
+    "start": 16,
+    "end": 24,
+    "section": "IV",
+    "title": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "start": 25,
+    "end": 27,
+    "section": "V",
+    "title": "PRODUCTOS MINERALES"
+  },
+  {
+    "start": 28,
+    "end": 38,
+    "section": "VI",
+    "title": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "start": 39,
+    "end": 40,
+    "section": "VII",
+    "title": "PLÁSTICO Y SUS MANUFACTURAS; CAUCHO Y SUS MANUFACTURAS"
+  },
+  {
+    "start": 41,
+    "end": 43,
+    "section": "VIII",
+    "title": "PIELES, CUEROS, PELETERÍA Y MANUFACTURAS DE ESTAS MATERIAS; ARTÍCULOS DE TALABARTERÍA O GUARNICIONERÍA; ARTÍCULOS DE VIAJE, BOLSOS DE MANO (CARTERAS) Y CONTINENTES SIMILARES; MANUFACTURAS DE TRIPA"
+  },
+  {
+    "start": 44,
+    "end": 46,
+    "section": "IX",
+    "title": "MADERA, CARBÓN VEGETAL Y MANUFACTURAS DE MADERA; CORCHO Y SUS MANUFACTURAS; MANUFACTURAS DE ESPARTERÍA O CESTERÍA"
+  },
+  {
+    "start": 47,
+    "end": 49,
+    "section": "X",
+    "title": "PASTA DE MADERA O DE LAS DEMÁS MATERIAS FIBROSAS CELULÓSICAS; PAPEL O CARTÓN PARA RECICLAR (DESPERDICIOS Y DESECHOS); PAPEL O CARTÓN Y SUS APLICACIONES"
+  },
+  {
+    "start": 50,
+    "end": 63,
+    "section": "XI",
+    "title": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "start": 64,
+    "end": 67,
+    "section": "XII",
+    "title": "CALZADO, SOMBREROS Y DEMÁS TOCADOS, PARAGUAS, QUITASOLES, BASTONES, LÁTIGOS, FUSTAS, Y SUS PARTES; PLUMAS PREPARADAS Y ARTÍCULOS DE PLUMAS; FLORES ARTIFICIALES; MANUFACTURAS DE CABELLO"
+  },
+  {
+    "start": 68,
+    "end": 70,
+    "section": "XIII",
+    "title": "MANUFACTURAS DE PIEDRA, YESO FRAGUABLE, CEMENTO, AMIANTO (ASBESTO), MICA O MATERIAS ANÁLOGAS; PRODUCTOS CERÁMICOS; VIDRIO Y MANUFACTURAS DE VIDRIO"
+  },
+  {
+    "start": 71,
+    "end": 71,
+    "section": "XIV",
+    "title": "PERLAS FINAS (NATURALES) O CULTIVADAS, PIEDRAS PRECIOSAS O SEMIPRECIOSAS, METALES PRECIOSOS, CHAPADOS DE METAL PRECIOSO (PLAQUÉ) Y MANUFACTURAS DE ESTAS MATERIAS; BISUTERÍA; MONEDAS"
+  },
+  {
+    "start": 72,
+    "end": 83,
+    "section": "XV",
+    "title": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "start": 84,
+    "end": 85,
+    "section": "XVI",
+    "title": "MÁQUINAS Y APARATOS, MATERIAL ELÉCTRICO Y SUS PARTES; APARATOS DE GRABACIÓN O REPRODUCCIÓN DE SONIDO, APARATOS DE GRABACIÓN O REPRODUCCIÓN DE IMAGEN Y SONIDO EN TELEVISIÓN, Y LAS PARTES Y ACCESORIOS DE ESTOS APARATOS"
+  },
+  {
+    "start": 86,
+    "end": 89,
+    "section": "XVII",
+    "title": "MATERIAL DE TRANSPORTE"
+  },
+  {
+    "start": 90,
+    "end": 92,
+    "section": "XVIII",
+    "title": "INSTRUMENTOS Y APARATOS DE ÓPTICA, FOTOGRAFÍA O CINEMATOGRAFÍA, DE MEDIDA, CONTROL O PRECISIÓN; INSTRUMENTOS Y APARATOS MEDICOQUIRÚRGICOS; APARATOS DE RELOJERÍA; INSTRUMENTOS MUSICALES; PARTES Y ACCESORIOS DE ESTOS INSTRUMENTOS O APARATOS"
+  },
+  {
+    "start": 93,
+    "end": 93,
+    "section": "XIX",
+    "title": "ARMAS, MUNICIONES, Y SUS PARTES Y ACCESORIOS"
+  },
+  {
+    "start": 94,
+    "end": 96,
+    "section": "XX",
+    "title": "MERCANCÍAS Y PRODUCTOS DIVERSOS"
+  },
+  {
+    "start": 97,
+    "end": 97,
+    "section": "XXI",
+    "title": "OBJETOS DE ARTE O COLECCIÓN Y ANTIGÜEDADES"
+  }
+]

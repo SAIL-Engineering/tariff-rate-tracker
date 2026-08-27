@@ -1,0 +1,596 @@
+[
+  {
+    "chapter": "01",
+    "description": "Animales vivos",
+    "section": "I",
+    "sectionTitle": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "chapter": "02",
+    "description": "Carne y despojos comestibles",
+    "section": "I",
+    "sectionTitle": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "chapter": "03",
+    "description": "Pescados y crustáceos, moluscos y demás invertebrados acuáticos",
+    "section": "I",
+    "sectionTitle": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "chapter": "04",
+    "description": "Leche y productos lácteos; huevos de ave; miel natural; productos comestibles de origen animal, no expresados ni comprendidos en otra parte",
+    "section": "I",
+    "sectionTitle": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "chapter": "05",
+    "description": "Los demás productos de origen animal no expresados ni comprendidos en otra parte",
+    "section": "I",
+    "sectionTitle": "ANIMALES VIVOS Y PRODUCTOS DEL REINO ANIMAL"
+  },
+  {
+    "chapter": "06",
+    "description": "Plantas vivas y productos de la floricultura",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "07",
+    "description": "Hortalizas, plantas, raíces y tubérculos alimenticios",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "08",
+    "description": "Frutas y frutos comestibles; cortezas de agrios (cítricos), melones o sandías",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "09",
+    "description": "Café, té, yerba mate y especias",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "10",
+    "description": "Cereales",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "11",
+    "description": "Productos de la molinería; malta; almidón y fécula; inulina; gluten de trigo",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "12",
+    "description": "Semillas y frutos oleaginosos; semillas y frutos diversos; plantas industriales o medicinales; paja y forraje",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "13",
+    "description": "Gomas, resinas y demás jugos y extractos vegetales",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "14",
+    "description": "Materias trenzables y demás productos de origen vegetal, no expresados ni comprendidos en otra parte",
+    "section": "II",
+    "sectionTitle": "PRODUCTOS DEL REINO VEGETAL"
+  },
+  {
+    "chapter": "15",
+    "description": "Grasas y aceites, animales, vegetales o de origen microbiano, y productos de su desdoblamiento; grasas alimenticias elaboradas; ceras de origen animal o vegetal",
+    "section": "III",
+    "sectionTitle": "GRASAS Y ACEITES ANIMALES, VEGETALES O DE ORIGEN MICROBIANO, Y PRODUCTOS DE SU DESDOBLAMIENTO; GRASAS ALIMENTICIAS ELABORADAS; CERAS DE ORIGEN ANIMAL O VEGETAL"
+  },
+  {
+    "chapter": "16",
+    "description": "Preparaciones de carne, pescado, crustáceos, moluscos o demás invertebrados acuáticos, o de insectos",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "17",
+    "description": "Azúcares y artículos de confitería",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "18",
+    "description": "Cacao y sus preparaciones",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "19",
+    "description": "Preparaciones a base de cereales, harina, almidón, fécula o leche; productos de pastelería",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "20",
+    "description": "Preparaciones de hortalizas, frutas u otros frutos o demás partes de plantas",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "21",
+    "description": "Preparaciones alimenticias diversas",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "22",
+    "description": "Bebidas, líquidos alcohólicos y vinagre",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "23",
+    "description": "Residuos y desperdicios de las industrias alimentarias; alimentos preparados para animales",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "24",
+    "description": "Tabaco y sucedáneos del tabaco elaborados; productos, incluso con nicotina, destinados para la inhalación sin combustión; otros productos que contengan nicotina destinados para la absorción de nicotina en el cuerpo humano",
+    "section": "IV",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS ALIMENTARIAS; BEBIDAS, LÍQUIDOS ALCOHÓLICOS Y VINAGRE; TABACO Y SUCEDÁNEOS DEL TABACO ELABORADOS; PRODUCTOS, INCLUSO CON NICOTINA, DESTINADOS PARA LA INHALACIÓN SIN COMBUSTIÓN; OTROS PRODUCTOS QUE CONTENGAN NICOTINA DESTINADOS PARA LA ABSORCIÓN DE NICOTINA EN EL CUERPO HUMANO"
+  },
+  {
+    "chapter": "25",
+    "description": "Sal; azufre; tierras y piedras; yesos, cales y cementos",
+    "section": "V",
+    "sectionTitle": "PRODUCTOS MINERALES"
+  },
+  {
+    "chapter": "26",
+    "description": "Minerales metalíferos, escorias y cenizas",
+    "section": "V",
+    "sectionTitle": "PRODUCTOS MINERALES"
+  },
+  {
+    "chapter": "27",
+    "description": "Combustibles minerales, aceites minerales y productos de su destilación; materias bituminosas; ceras minerales",
+    "section": "V",
+    "sectionTitle": "PRODUCTOS MINERALES"
+  },
+  {
+    "chapter": "28",
+    "description": "Productos químicos inorgánicos; compuestos inorgánicos u orgánicos de metal precioso, de elementos radiactivos, de metales de las tierras raras o de isótopos",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "29",
+    "description": "Productos químicos orgánicos",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "30",
+    "description": "Productos farmacéuticos",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "31",
+    "description": "Abonos",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "32",
+    "description": "Extractos curtientes o tintóreos; taninos y sus derivados; pigmentos y demás materias colorantes; pinturas y barnices; mástiques; tintas",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "33",
+    "description": "Aceites esenciales y resinoides; preparaciones de perfumería, de tocador o de cosmética",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "34",
+    "description": "Jabón, agentes de superficie orgánicos, preparaciones para lavar, preparaciones lubricantes, ceras artificiales, ceras preparadas, productos de limpieza, velas y artículos similares, pastas para modelar, «ceras para odontología» y preparaciones para odontología a base de yeso fraguable",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "35",
+    "description": "Materias albuminoideas; productos a base de almidón o de fécula modificados; colas; enzimas",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "36",
+    "description": "Pólvora y explosivos; artículos de pirotecnia; fósforos (cerillas); aleaciones pirofóricas; materias inflamables",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "37",
+    "description": "Productos fotográficos o cinematográficos",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "38",
+    "description": "Productos diversos de las industrias químicas",
+    "section": "VI",
+    "sectionTitle": "PRODUCTOS DE LAS INDUSTRIAS QUÍMICAS O DE LAS INDUSTRIAS CONEXAS"
+  },
+  {
+    "chapter": "39",
+    "description": "Plástico y sus manufacturas",
+    "section": "VII",
+    "sectionTitle": "PLÁSTICO Y SUS MANUFACTURAS; CAUCHO Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "40",
+    "description": "Caucho y sus manufacturas",
+    "section": "VII",
+    "sectionTitle": "PLÁSTICO Y SUS MANUFACTURAS; CAUCHO Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "41",
+    "description": "Pieles (excepto la peletería) y cueros",
+    "section": "VIII",
+    "sectionTitle": "PIELES, CUEROS, PELETERÍA Y MANUFACTURAS DE ESTAS MATERIAS; ARTÍCULOS DE TALABARTERÍA O GUARNICIONERÍA; ARTÍCULOS DE VIAJE, BOLSOS DE MANO (CARTERAS) Y CONTINENTES SIMILARES; MANUFACTURAS DE TRIPA"
+  },
+  {
+    "chapter": "42",
+    "description": "Manufacturas de cuero; artículos de talabartería o guarnicionería; artículos de viaje, bolsos de mano (carteras) y continentes similares; manufacturas de tripa",
+    "section": "VIII",
+    "sectionTitle": "PIELES, CUEROS, PELETERÍA Y MANUFACTURAS DE ESTAS MATERIAS; ARTÍCULOS DE TALABARTERÍA O GUARNICIONERÍA; ARTÍCULOS DE VIAJE, BOLSOS DE MANO (CARTERAS) Y CONTINENTES SIMILARES; MANUFACTURAS DE TRIPA"
+  },
+  {
+    "chapter": "43",
+    "description": "Peletería y confecciones de peletería; peletería facticia o artificial",
+    "section": "VIII",
+    "sectionTitle": "PIELES, CUEROS, PELETERÍA Y MANUFACTURAS DE ESTAS MATERIAS; ARTÍCULOS DE TALABARTERÍA O GUARNICIONERÍA; ARTÍCULOS DE VIAJE, BOLSOS DE MANO (CARTERAS) Y CONTINENTES SIMILARES; MANUFACTURAS DE TRIPA"
+  },
+  {
+    "chapter": "44",
+    "description": "Madera, carbón vegetal y manufacturas de madera",
+    "section": "IX",
+    "sectionTitle": "MADERA, CARBÓN VEGETAL Y MANUFACTURAS DE MADERA; CORCHO Y SUS MANUFACTURAS; MANUFACTURAS DE ESPARTERÍA O CESTERÍA"
+  },
+  {
+    "chapter": "45",
+    "description": "Corcho y sus manufacturas",
+    "section": "IX",
+    "sectionTitle": "MADERA, CARBÓN VEGETAL Y MANUFACTURAS DE MADERA; CORCHO Y SUS MANUFACTURAS; MANUFACTURAS DE ESPARTERÍA O CESTERÍA"
+  },
+  {
+    "chapter": "46",
+    "description": "Manufacturas de espartería o cestería",
+    "section": "IX",
+    "sectionTitle": "MADERA, CARBÓN VEGETAL Y MANUFACTURAS DE MADERA; CORCHO Y SUS MANUFACTURAS; MANUFACTURAS DE ESPARTERÍA O CESTERÍA"
+  },
+  {
+    "chapter": "47",
+    "description": "Pasta de madera o de las demás materias fibrosas celulósicas; papel o cartón para reciclar (desperdicios y desechos)",
+    "section": "X",
+    "sectionTitle": "PASTA DE MADERA O DE LAS DEMÁS MATERIAS FIBROSAS CELULÓSICAS; PAPEL O CARTÓN PARA RECICLAR (DESPERDICIOS Y DESECHOS); PAPEL O CARTÓN Y SUS APLICACIONES"
+  },
+  {
+    "chapter": "48",
+    "description": "Papel y cartón; manufacturas de pasta de celulosa, de papel o cartón",
+    "section": "X",
+    "sectionTitle": "PASTA DE MADERA O DE LAS DEMÁS MATERIAS FIBROSAS CELULÓSICAS; PAPEL O CARTÓN PARA RECICLAR (DESPERDICIOS Y DESECHOS); PAPEL O CARTÓN Y SUS APLICACIONES"
+  },
+  {
+    "chapter": "49",
+    "description": "Productos editoriales, de la prensa y de las demás industrias gráficas; textos manuscritos o mecanografiados y planos",
+    "section": "X",
+    "sectionTitle": "PASTA DE MADERA O DE LAS DEMÁS MATERIAS FIBROSAS CELULÓSICAS; PAPEL O CARTÓN PARA RECICLAR (DESPERDICIOS Y DESECHOS); PAPEL O CARTÓN Y SUS APLICACIONES"
+  },
+  {
+    "chapter": "50",
+    "description": "Seda",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "51",
+    "description": "Lana y pelo fino u ordinario; hilados y tejidos de crin",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "52",
+    "description": "Algodón",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "53",
+    "description": "Las demás fibras textiles vegetales; hilados de papel y tejidos de hilados de papel",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "54",
+    "description": "Filamentos sintéticos o artificiales; tiras y formas similares de materia textil sintética o artificial",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "55",
+    "description": "Fibras sintéticas o artificiales discontinuas",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "56",
+    "description": "Guata, fieltro y tela sin tejer; hilados especiales; cordeles, cuerdas y cordajes; artículos de cordelería",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "57",
+    "description": "Alfombras y demás revestimientos para el suelo, de materia textil",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "58",
+    "description": "Tejidos especiales; superficies textiles con mechón insertado; encajes; tapicería; pasamanería; bordados",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "59",
+    "description": "Telas impregnadas, recubiertas, revestidas o estratificadas; artículos técnicos de materia textil",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "60",
+    "description": "Tejidos de punto",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "61",
+    "description": "Prendas y complementos (accesorios), de vestir, de punto",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "62",
+    "description": "Prendas y complementos (accesorios), de vestir, excepto los de punto",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "63",
+    "description": "Los demás artículos textiles confeccionados; juegos; prendería y trapos",
+    "section": "XI",
+    "sectionTitle": "MATERIAS TEXTILES Y SUS MANUFACTURAS"
+  },
+  {
+    "chapter": "64",
+    "description": "Calzado, polainas y artículos análogos; partes de estos artículos",
+    "section": "XII",
+    "sectionTitle": "CALZADO, SOMBREROS Y DEMÁS TOCADOS, PARAGUAS, QUITASOLES, BASTONES, LÁTIGOS, FUSTAS, Y SUS PARTES; PLUMAS PREPARADAS Y ARTÍCULOS DE PLUMAS; FLORES ARTIFICIALES; MANUFACTURAS DE CABELLO"
+  },
+  {
+    "chapter": "65",
+    "description": "Sombreros, demás tocados y sus partes",
+    "section": "XII",
+    "sectionTitle": "CALZADO, SOMBREROS Y DEMÁS TOCADOS, PARAGUAS, QUITASOLES, BASTONES, LÁTIGOS, FUSTAS, Y SUS PARTES; PLUMAS PREPARADAS Y ARTÍCULOS DE PLUMAS; FLORES ARTIFICIALES; MANUFACTURAS DE CABELLO"
+  },
+  {
+    "chapter": "66",
+    "description": "Paraguas, sombrillas, quitasoles, bastones, bastones asiento, látigos, fustas, y sus partes",
+    "section": "XII",
+    "sectionTitle": "CALZADO, SOMBREROS Y DEMÁS TOCADOS, PARAGUAS, QUITASOLES, BASTONES, LÁTIGOS, FUSTAS, Y SUS PARTES; PLUMAS PREPARADAS Y ARTÍCULOS DE PLUMAS; FLORES ARTIFICIALES; MANUFACTURAS DE CABELLO"
+  },
+  {
+    "chapter": "67",
+    "description": "Plumas y plumón preparados y artículos de plumas o plumón; flores artificiales; manufacturas de cabello",
+    "section": "XII",
+    "sectionTitle": "CALZADO, SOMBREROS Y DEMÁS TOCADOS, PARAGUAS, QUITASOLES, BASTONES, LÁTIGOS, FUSTAS, Y SUS PARTES; PLUMAS PREPARADAS Y ARTÍCULOS DE PLUMAS; FLORES ARTIFICIALES; MANUFACTURAS DE CABELLO"
+  },
+  {
+    "chapter": "68",
+    "description": "Manufacturas de piedra, yeso fraguable, cemento, amianto (asbesto), mica o materias análogas",
+    "section": "XIII",
+    "sectionTitle": "MANUFACTURAS DE PIEDRA, YESO FRAGUABLE, CEMENTO, AMIANTO (ASBESTO), MICA O MATERIAS ANÁLOGAS; PRODUCTOS CERÁMICOS; VIDRIO Y MANUFACTURAS DE VIDRIO"
+  },
+  {
+    "chapter": "69",
+    "description": "Productos cerámicos",
+    "section": "XIII",
+    "sectionTitle": "MANUFACTURAS DE PIEDRA, YESO FRAGUABLE, CEMENTO, AMIANTO (ASBESTO), MICA O MATERIAS ANÁLOGAS; PRODUCTOS CERÁMICOS; VIDRIO Y MANUFACTURAS DE VIDRIO"
+  },
+  {
+    "chapter": "70",
+    "description": "Vidrio y sus manufacturas",
+    "section": "XIII",
+    "sectionTitle": "MANUFACTURAS DE PIEDRA, YESO FRAGUABLE, CEMENTO, AMIANTO (ASBESTO), MICA O MATERIAS ANÁLOGAS; PRODUCTOS CERÁMICOS; VIDRIO Y MANUFACTURAS DE VIDRIO"
+  },
+  {
+    "chapter": "71",
+    "description": "Perlas finas (naturales) o cultivadas, piedras preciosas o semipreciosas, metales preciosos, chapados de metal precioso (plaqué) y manufacturas de estas materias; bisutería; monedas",
+    "section": "XIV",
+    "sectionTitle": "PERLAS FINAS (NATURALES) O CULTIVADAS, PIEDRAS PRECIOSAS O SEMIPRECIOSAS, METALES PRECIOSOS, CHAPADOS DE METAL PRECIOSO (PLAQUÉ) Y MANUFACTURAS DE ESTAS MATERIAS; BISUTERÍA; MONEDAS"
+  },
+  {
+    "chapter": "72",
+    "description": "Fundición, hierro y acero",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "73",
+    "description": "Manufacturas de fundición, hierro o acero",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "74",
+    "description": "Cobre y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "75",
+    "description": "Níquel y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "76",
+    "description": "Aluminio y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "77",
+    "description": "(Reservado para una futura utilización en el Sistema Armonizado)",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "78",
+    "description": "Plomo y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "79",
+    "description": "Cinc y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "80",
+    "description": "Estaño y sus manufacturas",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "81",
+    "description": "Los demás metales comunes; cermets; manufacturas de estas materias",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "82",
+    "description": "Herramientas y útiles, artículos de cuchillería y cubiertos de mesa, de metal común; partes de estos artículos, de metal común",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "83",
+    "description": "Manufacturas diversas de metal común",
+    "section": "XV",
+    "sectionTitle": "METALES COMUNES Y MANUFACTURAS DE ESTOS METALES"
+  },
+  {
+    "chapter": "84",
+    "description": "Reactores nucleares, calderas, máquinas, aparatos y artefactos mecánicos; partes de estas máquinas o aparatos",
+    "section": "XVI",
+    "sectionTitle": "MÁQUINAS Y APARATOS, MATERIAL ELÉCTRICO Y SUS PARTES; APARATOS DE GRABACIÓN O REPRODUCCIÓN DE SONIDO, APARATOS DE GRABACIÓN O REPRODUCCIÓN DE IMAGEN Y SONIDO EN TELEVISIÓN, Y LAS PARTES Y ACCESORIOS DE ESTOS APARATOS"
+  },
+  {
+    "chapter": "85",
+    "description": "Máquinas, aparatos y material eléctrico, y sus partes; aparatos de grabación o reproducción de sonido, aparatos de grabación o reproducción de imagen y sonido en televisión, y las partes y accesorios de estos aparatos",
+    "section": "XVI",
+    "sectionTitle": "MÁQUINAS Y APARATOS, MATERIAL ELÉCTRICO Y SUS PARTES; APARATOS DE GRABACIÓN O REPRODUCCIÓN DE SONIDO, APARATOS DE GRABACIÓN O REPRODUCCIÓN DE IMAGEN Y SONIDO EN TELEVISIÓN, Y LAS PARTES Y ACCESORIOS DE ESTOS APARATOS"
+  },
+  {
+    "chapter": "86",
+    "description": "Vehículos y material para vías férreas o similares, y sus partes; aparatos mecánicos (incluso electromecánicos) de señalización para vías de comunicación",
+    "section": "XVII",
+    "sectionTitle": "MATERIAL DE TRANSPORTE"
+  },
+  {
+    "chapter": "87",
+    "description": "Vehículos automóviles, tractores, velocípedos y demás vehículos terrestres; sus partes y accesorios",
+    "section": "XVII",
+    "sectionTitle": "MATERIAL DE TRANSPORTE"
+  },
+  {
+    "chapter": "88",
+    "description": "Aeronaves, vehículos espaciales, y sus partes",
+    "section": "XVII",
+    "sectionTitle": "MATERIAL DE TRANSPORTE"
+  },
+  {
+    "chapter": "89",
+    "description": "Barcos y demás artefactos flotantes",
+    "section": "XVII",
+    "sectionTitle": "MATERIAL DE TRANSPORTE"
+  },
+  {
+    "chapter": "90",
+    "description": "Instrumentos y aparatos de óptica, fotografía o cinematografía, de medida, control o precisión; instrumentos y aparatos medicoquirúrgicos; partes y accesorios de estos instrumentos o aparatos",
+    "section": "XVIII",
+    "sectionTitle": "INSTRUMENTOS Y APARATOS DE ÓPTICA, FOTOGRAFÍA O CINEMATOGRAFÍA, DE MEDIDA, CONTROL O PRECISIÓN; INSTRUMENTOS Y APARATOS MEDICOQUIRÚRGICOS; APARATOS DE RELOJERÍA; INSTRUMENTOS MUSICALES; PARTES Y ACCESORIOS DE ESTOS INSTRUMENTOS O APARATOS"
+  },
+  {
+    "chapter": "91",
+    "description": "Aparatos de relojería y sus partes",
+    "section": "XVIII",
+    "sectionTitle": "INSTRUMENTOS Y APARATOS DE ÓPTICA, FOTOGRAFÍA O CINEMATOGRAFÍA, DE MEDIDA, CONTROL O PRECISIÓN; INSTRUMENTOS Y APARATOS MEDICOQUIRÚRGICOS; APARATOS DE RELOJERÍA; INSTRUMENTOS MUSICALES; PARTES Y ACCESORIOS DE ESTOS INSTRUMENTOS O APARATOS"
+  },
+  {
+    "chapter": "92",
+    "description": "Instrumentos musicales; sus partes y accesorios",
+    "section": "XVIII",
+    "sectionTitle": "INSTRUMENTOS Y APARATOS DE ÓPTICA, FOTOGRAFÍA O CINEMATOGRAFÍA, DE MEDIDA, CONTROL O PRECISIÓN; INSTRUMENTOS Y APARATOS MEDICOQUIRÚRGICOS; APARATOS DE RELOJERÍA; INSTRUMENTOS MUSICALES; PARTES Y ACCESORIOS DE ESTOS INSTRUMENTOS O APARATOS"
+  },
+  {
+    "chapter": "93",
+    "description": "Armas, municiones, y sus partes y accesorios",
+    "section": "XIX",
+    "sectionTitle": "ARMAS, MUNICIONES, Y SUS PARTES Y ACCESORIOS"
+  },
+  {
+    "chapter": "94",
+    "description": "Muebles; mobiliario medicoquirúrgico; artículos de cama y similares; luminarias y aparatos de alumbrado no expresados ni comprendidos en otra parte; anuncios, letreros y placas indicadoras, luminosos y artículos similares; construcciones prefabricadas",
+    "section": "XX",
+    "sectionTitle": "MERCANCÍAS Y PRODUCTOS DIVERSOS"
+  },
+  {
+    "chapter": "95",
+    "description": "Juguetes, juegos y artículos para recreo o deporte; sus partes y accesorios",
+    "section": "XX",
+    "sectionTitle": "MERCANCÍAS Y PRODUCTOS DIVERSOS"
+  },
+  {
+    "chapter": "96",
+    "description": "Manufacturas diversas",
+    "section": "XX",
+    "sectionTitle": "MERCANCÍAS Y PRODUCTOS DIVERSOS"
+  },
+  {
+    "chapter": "97",
+    "description": "Objetos de arte o colección y antigüedades",
+    "section": "XXI",
+    "sectionTitle": "OBJETOS DE ARTE O COLECCIÓN Y ANTIGÜEDADES"
+  },
+  {
+    "chapter": "98",
+    "description": "(Reservado para usos particulares por las Partes contratantes)",
+    "section": "",
+    "sectionTitle": "(Reservado para usos particulares por las Partes contratantes)"
+  },
+  {
+    "chapter": "99",
+    "description": "(Reservado para usos particulares por las Partes contratantes)",
+    "section": "",
+    "sectionTitle": "(Reservado para usos particulares por las Partes contratantes)"
+  }
+]
