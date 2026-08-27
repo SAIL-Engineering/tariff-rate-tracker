@@ -388,6 +388,16 @@ def build_eu(duties_xlsx: Path, geo_xlsx: Path | None, jur: str, revision: str,
         raise SystemExit("ERROR: Geographical areas composition workbook is "
                          "required — origin groups cannot be expanded without it")
 
+    # Nested-bloc expansion: several TARIC groups (EU-Canada / EU-Switzerland
+    # re-imported-goods arrangements, PAN-EU cumulation) list the synthetic
+    # member "EU" rather than the member states. Expand it to group 1010's
+    # real members so (a) the UI never shows "EU" as if it were a country and
+    # (b) an origin like DE correctly matches those arrangements.
+    eu_members = [m for m in groups.get("1010", []) if m != "EU"]
+    for grp, members in groups.items():
+        if "EU" in members and eu_members:
+            groups[grp] = sorted(set(m for m in members if m != "EU") | set(eu_members))
+
     # ── measure exclusions ───────────────────────────────────────────
     # key: (digits, measure_type, origin_code, add_code) -> {excluded ISO}
     # An exclusion row without an add code applies to every add code of the

@@ -122,37 +122,38 @@
     },
     "CPTPT": {
       "name": "Comprehensive and Progressive Trans-Pacific Partnership Tariff",
-      "origin_countries": ["AU", "BN", "CL", "JP", "MY", "MX", "NZ", "PE", "SG", "VN", "GB"],
+      "origin_countries": ["AU", "BN", "CL", "JP", "MX", "MY", "NZ", "PE", "SG", "VN"],
       "conditional": false,
       "legal_basis": "CPTPP",
-      "transcription_pending": true
+      "verified_against": "CBSA T2026 List of Countries and Applicable Tariff Treatments, fetched 2026-08-27"
     },
     "CCCT": {
       "name": "Commonwealth Caribbean Countries Tariff",
-      "origin_countries": ["AG", "BB", "BS", "BZ", "DM", "GD", "GY", "JM", "KN", "LC", "TT", "VC"],
+      "origin_countries": ["AG", "AI", "BB", "BM", "BS", "BZ", "DM", "GD", "GY", "JM", "KN", "KY", "LC", "MS", "TC", "TT", "VC", "VG"],
       "conditional": true,
       "legal_basis": "CARIBCAN",
-      "transcription_pending": true
+      "verified_against": "CBSA T2026 List of Countries and Applicable Tariff Treatments, fetched 2026-08-27"
     },
     "GPT": {
       "name": "General Preferential Tariff",
-      "origin_countries": [],
+      "origin_countries": ["AF", "AI", "AO", "BD", "BF", "BI", "BJ", "BO", "BT", "CC", "CD", "CF", "CG", "CI", "CK", "CM", "CV", "CX", "DJ", "EA", "EG", "ER", "ET", "FK", "FM", "GH", "GM", "GN", "GW", "HN", "HT", "IC", "IO", "KE", "KG", "KH", "KI", "KM", "LA", "LB", "LK", "LR", "LS", "MA", "MG", "ML", "MM", "MN", "MR", "MS", "MW", "MZ", "NE", "NF", "NG", "NI", "NP", "NU", "PG", "PH", "PK", "PN", "RW", "SB", "SD", "SH", "SL", "SN", "SO", "SS", "ST", "SV", "SY", "SZ", "TD", "TF", "TG", "TJ", "TK", "TL", "TN", "TZ", "UA", "UG", "UZ", "VU", "WS", "YE", "ZM", "ZW"],
       "conditional": true,
       "legal_basis": "Customs Tariff s.33",
-      "transcription_pending": true
+      "verified_against": "CBSA T2026 List of Countries and Applicable Tariff Treatments, fetched 2026-08-27"
     },
     "LDCT": {
       "name": "Least Developed Country Tariff",
-      "origin_countries": [],
+      "origin_countries": ["AF", "AO", "BD", "BF", "BI", "BJ", "BT", "CD", "CF", "DJ", "ER", "ET", "GM", "GN", "GW", "HT", "KH", "KI", "KM", "LA", "LR", "LS", "MG", "ML", "MM", "MR", "MW", "MZ", "NE", "NP", "RW", "SB", "SD", "SL", "SN", "SO", "SS", "ST", "TD", "TG", "TL", "TZ", "UG", "YE", "ZM"],
       "conditional": true,
       "legal_basis": "Customs Tariff s.38",
-      "transcription_pending": true
+      "verified_against": "CBSA T2026 List of Countries and Applicable Tariff Treatments, fetched 2026-08-27"
     },
     "General Tariff": {
       "name": "General Tariff",
       "applies": "no_other_entitlement",
       "conditional": false,
-      "legal_basis": "Customs Tariff s.29(1) — 35% fallback"
+      "legal_basis": "Customs Tariff s.29(1) — 35% fallback",
+      "no_mfn_origins_note": "Per the T2026 list, Belarus and Russia have no MFN entitlement (withdrawn 2022) — the General Tariff applies to them."
     }
   }
 }
