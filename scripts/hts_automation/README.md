@@ -73,6 +73,12 @@ Manual check: `python3 scripts/hts_automation/check_upstream.py -j CA`.
 Secrets/vars are pushed with `set_repo_secrets.py` (run it yourself; it
 reads `.env.hts_automation`).
 
+The US leg is pure Python since 2026-08: `usitc_native.py` ports the three
+R scripts (releaseList scrape/merge, latest-revision resolve, archive
+download) byte-compatibly — verified against live R runs — so no leg needs
+an R toolchain. The R originals remain for the tariff pipeline, which also
+owns the un-ported Chapter 99 PDF probe.
+
 The US leg in step terms:
 
 ```

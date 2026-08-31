@@ -87,39 +87,13 @@ jobs:
 
     steps:
       # ────────────────────────────────────────────────────────────────
-      # Setup (per-jurisdiction: R only for US, mdbtools only for CA)
+      # Setup (all-Python; mdbtools only for CA — the US USITC acquisition
+      # was ported from R to scripts/hts_automation/usitc_native.py)
       # ────────────────────────────────────────────────────────────────
       - name: Checkout tariff-rate-tracker
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup R
-        if: matrix.jurisdiction == 'US'
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.4'
-          use-public-rspm: true
-
-      - name: Cache R packages
-        if: matrix.jurisdiction == 'US'
-        # setup-r exports R_LIBS_USER; caching that library skips the
-        # multi-minute install on every nightly after the first.
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: r-pkgs-${{ runner.os }}-r4.4-tidyverse-jsonlite-here-digest
-
-      - name: Install R packages
-        if: matrix.jurisdiction == 'US'
-        # No DESCRIPTION/renv.lock in this repo today; install the small set
-        # of packages this workflow needs directly (skipping any already
-        # restored from cache). Public RSPM (set above) serves pre-compiled
-        # binaries on Ubuntu.
-        run: |
-          Rscript -e 'pkgs <- c("tidyverse", "jsonlite", "here", "digest");
-                      missing <- setdiff(pkgs, rownames(installed.packages()));
-                      if (length(missing)) install.packages(missing) else message("all cached")'
 
       - name: Install mdbtools
         if: matrix.jurisdiction == 'CA'
