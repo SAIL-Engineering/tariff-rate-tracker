@@ -279,12 +279,20 @@ def append_registry(spec: dict, ctx: RunCtx) -> None:
     import csv as _csv
     import datetime as _dt
     path = Path(registry)
+    fields = ["revision", "effective_date", "effective_date_label",
+              "source_url", "source_sha256", "acquired_at", "notes"]
     rows = []
     if path.exists():
         with path.open(newline="", encoding="utf-8") as fh:
-            rows = list(_csv.DictReader(fh))
-    fields = ["revision", "effective_date", "effective_date_label",
-              "source_url", "source_sha256", "acquired_at", "notes"]
+            reader = _csv.DictReader(fh)
+            if reader.fieldnames and list(reader.fieldnames) != fields:
+                # Not ours to write (US points registry at the R-owned
+                # revision_dates.csv for verify's --registry). Rewriting it
+                # with our 7 fields would truncate provenance and crash.
+                print(f"  registry {registry} has a different schema "
+                      f"(owned elsewhere) — not writing")
+                return
+            rows = list(reader)
     new = {"revision": ctx["revision"], "effective_date": ctx["effective_date"],
            "effective_date_label": ctx["effective_date_label"],
            "source_url": ctx.get("source_url", ""),
@@ -373,6 +381,87 @@ STEP_IMPL = {"build": do_build, "verify": do_verify, "publish": do_publish,
              "smoke": do_smoke}
 
 
+# ─── Nightly gate ────────────────────────────────────────────────────
+
+def gh_output(**kv) -> None:
+    """Append key=value lines to $GITHUB_OUTPUT when running under Actions."""
+    path = os.environ.get("GITHUB_OUTPUT")
+    if not path:
+        return
+    with open(path, "a", encoding="utf-8") as fh:
+        for k, v in kv.items():
+            fh.write(f"{k}={v}\n")
+
+
+def gate_if_new(spec: dict, adapter, args) -> None:
+    """--if-new: compare the latest UPSTREAM revision against the latest
+    revision REGISTERED in Supabase; exit 0 when there is nothing new. Runs
+    before the expensive fetch. Supabase is the source of truth — the registry
+    CSV records acquired, not published, so it only colors the messages."""
+    from check_upstream import registry_has, supabase_latest
+
+    check_fn = getattr(adapter, "check_latest", None)
+    if check_fn is None:
+        log(f"gate: adapter cannot check upstream — proceeding")
+        gh_output(gate="proceed", reason="adapter has no check_latest")
+        return
+    log(f"gate: checking upstream for {spec['code']}")
+    check = check_fn(spec, args)
+
+    if check.status == "in_progress":
+        print(f"::warning title=HTS {spec['code']} release in progress::"
+              f"{check.detail}")
+        log(f"gate: upstream release in progress — nothing to do yet "
+            f"({check.detail})")
+        gh_output(gate="in_progress", reason=check.detail)
+        sys.exit(0)
+
+    try:
+        registered = supabase_latest(spec["code"])
+    except Exception as exc:                        # noqa: BLE001
+        # register needs Supabase anyway; guessing here risks a duplicate
+        # publish (Pinecone refuses) or a silent skip of a real revision.
+        sys.exit(f"ERROR: gate cannot verify published state for "
+                 f"{spec['code']} (Supabase unreachable: {exc}) — "
+                 f"refusing to guess")
+
+    if not isinstance(check.rev_num, int):
+        log(f"gate: upstream revision {check.rev_id!r} has non-numeric "
+            f"rev_num — cannot compare, proceeding (register will validate)")
+        gh_output(gate="proceed", reason=f"non-numeric rev_num {check.rev_num!r}",
+                  REV_ID=check.rev_id or "", YEAR=check.year or "",
+                  REV_NUM=check.rev_num or "",
+                  EFFECTIVE_DATE=check.effective_date)
+        return
+
+    upstream = (check.year, check.rev_num)
+    outputs = dict(REV_ID=check.rev_id, YEAR=check.year, REV_NUM=check.rev_num,
+                   EFFECTIVE_DATE=check.effective_date)
+    if registered is None:
+        log(f"gate: no {spec['code']} revision registered yet — first rollout "
+            f"({check.rev_id})")
+        gh_output(gate="proceed", reason="first revision", **outputs)
+        return
+    if upstream > registered:
+        resume = (" (already acquired locally — resuming an interrupted "
+                  "rollout)" if registry_has(spec, check.rev_id) else "")
+        log(f"gate: NEW revision {check.rev_id} upstream "
+            f"(published: {registered[0]}_rev_{registered[1]}){resume}")
+        gh_output(gate="proceed", reason=f"new revision {check.rev_id}", **outputs)
+        return
+    if upstream == registered:
+        log(f"gate: up to date — {check.rev_id} is already published")
+        gh_output(gate="skip", reason=f"up to date at {check.rev_id}", **outputs)
+        sys.exit(0)
+    print(f"::warning title=HTS {spec['code']} registry ahead of upstream::"
+          f"published {registered[0]}_rev_{registered[1]} > upstream "
+          f"{check.rev_id} — offset misconfiguration or upstream retraction")
+    log(f"gate: published {registered[0]}_rev_{registered[1]} is AHEAD of "
+        f"upstream {check.rev_id} — investigate; skipping is the safe action")
+    gh_output(gate="skip", reason="registry ahead of upstream", **outputs)
+    sys.exit(0)
+
+
 # ─── Main ────────────────────────────────────────────────────────────
 
 def main() -> int:
@@ -389,6 +478,10 @@ def main() -> int:
     p.add_argument("--until", help="stop after this step")
     p.add_argument("--plan-only", action="store_true",
                    help="print the plan (steps, env, artifacts) and exit")
+    p.add_argument("--if-new", action="store_true",
+                   help="exit 0 without running anything when the latest "
+                        "upstream revision is already registered in Supabase "
+                        "(the nightly idempotency gate)")
     p.add_argument("--acquire-adapter", help="override the spec's adapter "
                                              "(e.g. manual when a scraper breaks)")
     p.add_argument("--source", help="manual adapter: path to the source file")
@@ -425,6 +518,9 @@ def main() -> int:
     load_env_file()
     need = required_env(spec, scheduled)
     missing = [v for v in need if not os.environ.get(v)]
+
+    if args.if_new and "acquire" in scheduled and not args.plan_only:
+        gate_if_new(spec, adapter, args)
 
     # Resolve (read-only) always runs; acquire (network) only when scheduled
     # and never under --plan-only.

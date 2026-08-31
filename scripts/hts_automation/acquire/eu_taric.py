@@ -298,3 +298,39 @@ def _cli(argv=None) -> int:
 
 if __name__ == "__main__":
     sys.exit(_cli())
+
+
+def check_latest(spec: dict, args):
+    """Cheap upstream check for the nightly gate: BFS the CIRCABC folder
+    metadata (no workbook downloads) and report the newest COMPLETE release,
+    or in_progress when a newer month folder exists but is still missing
+    required workbooks (EU uploads a release over several days — that window
+    must be a clean skip, not a red build).
+
+    Calls the vendor's discovery functions directly: main(--check-only)
+    raises TaricError on newer-but-incomplete before honoring the flag."""
+    from check_upstream import UpstreamCheck
+    from .vendor import eu_taric_downloader as vendor
+
+    session = vendor.make_session()
+    candidates, incomplete = vendor.discover_release_candidates(
+        session, vendor.DEFAULT_ROOT_ID,
+        timeout=90, max_depth=4, max_folders=1000, year=None)
+    candidate = vendor.select_release(candidates, None)
+    release = candidate.release_month              # e.g. "2026-08"
+    if not release:
+        raise SystemExit("ERROR: EU check: selected release has no "
+                         "release_month — CIRCABC layout changed?")
+    newer_incomplete = [(rm, miss) for rm, miss in incomplete if rm > release]
+    if newer_incomplete:
+        rm, miss = max(newer_incomplete)
+        return UpstreamCheck(
+            status="in_progress", rev_id=None,
+            detail=f"release {rm} is uploading (missing: {', '.join(miss)}); "
+                   f"newest complete release is {release}")
+    year, month = (int(x) for x in release.split("-"))
+    return UpstreamCheck(
+        status="available",
+        rev_id=f"{year}_rev_{month}", year=year, rev_num=month,
+        effective_date=f"{release}-01",
+        detail=f"CIRCABC release {release}")

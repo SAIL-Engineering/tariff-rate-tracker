@@ -57,11 +57,23 @@ US keeps the legacy `hts_<year>_revision_<n>.json` name), and
 
 ---
 
-## US — automatic
+## Nightly automation — US, CA, EU
 
-`.github/workflows/hts-revision-update.yml`, cron `0 6,7 * * *` (2 AM local in
-both DST regimes; the gate exits clean when nothing changed, so the redundant
-run costs seconds). `run_locally.sh` mirrors it step for step.
+`.github/workflows/hts-revision-update.yml`, cron `0 6,7 * * *` (2 AM
+US-Eastern in both DST regimes), one serial matrix leg per jurisdiction.
+Each leg runs `refresh.py --jurisdiction <JUR> --if-new`: the gate asks the
+upstream source for its latest revision (USITC scrape / CBSA menu page /
+CIRCABC folder listing — no corpus download) and compares against the latest
+revision registered in Supabase, exiting 0 in seconds when nothing is new.
+EU months whose CIRCABC folder is still uploading report `in_progress` and
+skip cleanly. On a new revision the leg runs the full rollout and commits the
+registry CSV (+ CA/EU source CSVs) back to this repo. `run_locally.sh`
+mirrors the US leg step for step; `refresh.py -j CA` / `-j EU` mirror theirs.
+Manual check: `python3 scripts/hts_automation/check_upstream.py -j CA`.
+Secrets/vars are pushed with `set_repo_secrets.py` (run it yourself; it
+reads `.env.hts_automation`).
+
+The US leg in step terms:
 
 ```
 1 scrape USITC          01_scrape_revision_dates.R --auto-clear-review
@@ -82,8 +94,11 @@ pointer exists **and** queries the corpus, which is the check that would have
 caught it.
 
 Required secrets: `PINECONE_API_KEY`, `SUPABASE_URL`,
-`SUPABASE_SERVICE_ROLE_KEY`, `RAILWAY_*`, `VERCEL_*`, `SAIL_GTX_REPO_PAT`.
-(`RAGIE_API_KEY` is no longer referenced and can be deleted.)
+`SUPABASE_SERVICE_ROLE_KEY`, `SAIL_GTX_REPO_PAT` + the
+`SAIL_GTX_PRODUCTION_BRANCH` variable for every leg; the US leg additionally
+`RAILWAY_*`, `VERCEL_*`, and the `SAIL_GTX_HEALTHCHECK_URL` /
+`SAIL_GTX_API_BASE` variables. (`RAGIE_API_KEY` is no longer referenced and
+can be deleted.)
 
 ## Canada — one command
 

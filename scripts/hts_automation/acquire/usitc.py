@@ -62,3 +62,22 @@ def fetch(spec: dict, args) -> AcquireResult:
         if path and not Path(path).is_file():
             raise SystemExit(f"ERROR: missing {what} after download: {path}")
     return res
+
+
+def check_latest(spec: dict, args):
+    """Upstream check for the nightly gate: refresh the USITC release list
+    (the scrape updates config/revision_dates.csv), then resolve the newest
+    eligible revision from it. Sets skip_scrape so a following fetch() does
+    not scrape twice in the same process."""
+    from check_upstream import UpstreamCheck
+
+    if not getattr(args, "skip_scrape", False):
+        print("[check:usitc] scraping USITC release list")
+        _run(["Rscript", "src/01_scrape_revision_dates.R", "--auto-clear-review"])
+        args.skip_scrape = True
+    res = resolve(spec, args)
+    return UpstreamCheck(
+        status="available",
+        rev_id=res.rev_id, year=res.year, rev_num=res.rev_num,
+        effective_date=res.effective_date,
+        detail="latest eligible row in config/revision_dates.csv")

@@ -203,3 +203,41 @@ def fetch(spec: dict, args) -> AcquireResult:
         source_sha256=_sha256(dest),
         acquired_at=_dt.datetime.now(_dt.timezone.utc).isoformat(),
     )
+
+
+def check_latest(spec: dict, args):
+    """Cheap upstream check for the nightly gate: scrape the CBSA tariff menu
+    page (one HTML GET, no .accdb download) and map the newest revision to our
+    numbering. Mirrors fetch()'s year fallback for early January."""
+    from check_upstream import UpstreamCheck
+    from .vendor import cbsa_canadian_tariff as vendor
+
+    opts = (spec.get("acquire") or {}).get("options") or {}
+    language = opts.get("language", "eng")
+    offset = int(opts.get("revision_number_offset", 1))
+
+    session = vendor.make_session()
+    year = _dt.date.today().year
+    last_err: Exception | None = None
+    for attempt_year in (year, year - 1):
+        try:
+            revs = {language: vendor.discover_language(
+                session, attempt_year, language, timeout=30)}
+            latest, _ = vendor.choose_latest_revision(revs, language)
+            break
+        except Exception as exc:                    # noqa: BLE001
+            last_err = exc
+            print(f"[check:cbsa] T{attempt_year} page not readable ({exc})",
+                  file=sys.stderr)
+    else:
+        raise SystemExit(f"ERROR: CBSA check failed for {year} and {year - 1}: "
+                         f"{last_err}")
+
+    rev_year = int(str(latest.revision)[1:5])
+    our_num = latest.revision_number + offset
+    return UpstreamCheck(
+        status="available",
+        rev_id=f"{rev_year}_rev_{our_num}",
+        year=rev_year, rev_num=our_num,
+        effective_date=latest.effective_date,
+        detail=f"CBSA {latest.revision} (offset {offset:+d})")

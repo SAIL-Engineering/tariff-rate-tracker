@@ -1,30 +1,38 @@
 name: HTS Revision Update
 
-# What this does:
-#   - Detect new US HTS revisions from USITC (01_scrape_revision_dates.R).
-#   - If a new row landed and passes sanity checks, run the SAME orchestrator
-#     the laptop runs — scripts/hts_automation/refresh.py --jurisdiction US —
-#     which downloads both formats, builds the corpus, swaps the Pinecone
-#     namespace, upserts Supabase, commits the JSON to sail-gtx-prerelease,
-#     updates Railway + Vercel env vars, and smoke-tests (rolling back env
-#     vars itself on smoke failure). One pipeline, not a third inline copy:
-#     the previous version re-implemented steps 4-9 here and drifted.
+# Nightly multi-jurisdiction HTS rollout.
+#
+#   For each of US / CA / EU (serially): ask the upstream source whether a
+#   revision newer than the one registered in Supabase exists
+#   (refresh.py --if-new); if yes, run the SAME orchestrator the laptop runs —
+#   scripts/hts_automation/refresh.py --jurisdiction <JUR> — which downloads
+#   the schedule, builds the corpus, publishes to Pinecone, registers in
+#   Supabase, and commits the built JSON to sail-gtx-prerelease (from whose
+#   production branch Railway + Vercel auto-deploy). The US leg additionally
+#   updates Railway/Vercel env vars and smoke-tests, rolling env vars back
+#   itself on smoke failure.
 #
 # Triggers:
-#   - cron "0 6,7 * * *"  → daily, 2 AM local in both DST regimes
-#   - workflow_dispatch   → manual run, with optional revision_id override
+#   - cron "0 6,7 * * *"  → daily, 2 AM US-Eastern in both DST regimes; the
+#     second run queues behind the first (concurrency) and its gates no-op.
+#   - workflow_dispatch   → manual run for one or all jurisdictions.
 
 on:
   schedule:
-    # Daily. GitHub cron is UTC-only, so 07:00 UTC is 2 AM EST but 3 AM EDT —
-    # both hours are scheduled so the run lands at 2 AM local year-round. The
-    # `gate` step exits clean when revision_dates.csv is unchanged, so the
-    # redundant run costs seconds, and `concurrency` prevents overlap.
+    # GitHub cron is UTC-only, so 07:00 UTC is 2 AM EST but 3 AM EDT — both
+    # hours are scheduled so the run lands at 2 AM Eastern year-round. The
+    # --if-new gate exits clean when nothing changed, so the redundant run
+    # costs a page-scrape, and `concurrency` prevents overlap.
     - cron: '0 6,7 * * *'
   workflow_dispatch:
     inputs:
+      jurisdiction:
+        description: 'Which jurisdiction(s) to run'
+        type: choice
+        options: [all, US, CA, EU]
+        default: all
       revision_id:
-        description: 'Optional revision ID override, e.g. 2026_rev_8'
+        description: 'US only — roll out this revision instead of gating on latest (CBSA/TARIC fetchers always take the latest upstream)'
         required: false
         default: ''
       dry_run:
@@ -32,12 +40,12 @@ on:
         type: boolean
         default: false
       skip_smoke_classify:
-        description: 'Skip the canary POST /api/classify in smoke test'
+        description: 'US only — skip the canary POST /api/classify in smoke test'
         type: boolean
         default: true
 
 permissions:
-  contents: write      # commit revision_dates.csv + archives back to this repo
+  contents: write      # commit registry CSVs back to this repo
   issues: write        # open an issue on failure
 
 concurrency:
@@ -47,7 +55,20 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false     # an EU failure must not cancel the CA leg
+      max-parallel: 1      # serial legs: no race on the sail-gtx push or this repo's commit-back
+      matrix:
+        include:
+          - jurisdiction: US
+            timeout: 45
+          - jurisdiction: CA
+            timeout: 60
+          - jurisdiction: EU
+            timeout: 90
+    # On dispatch, honor the jurisdiction picker; on schedule, run all three.
+    if: github.event_name == 'schedule' || inputs.jurisdiction == 'all' || inputs.jurisdiction == matrix.jurisdiction
 
     env:
       PINECONE_API_KEY:        ${{ secrets.PINECONE_API_KEY }}
@@ -66,11 +87,12 @@ jobs:
       SAIL_GTX_API_AUTH_TOKEN: ${{ secrets.SAIL_GTX_API_AUTH_TOKEN }}
       PRODUCTION_BRANCH:       ${{ vars.SAIL_GTX_PRODUCTION_BRANCH }}
       SAIL_GTX_PRODUCTION_BRANCH: ${{ vars.SAIL_GTX_PRODUCTION_BRANCH }}
-      HTS_ENV_SNAPSHOT_PATH:   /tmp/env-snapshot.json
+      # Inside the workspace so hashFiles() can see it (it cannot read /tmp).
+      HTS_ENV_SNAPSHOT_PATH:   ${{ github.workspace }}/env-snapshot.json
 
     steps:
       # ────────────────────────────────────────────────────────────────
-      # Setup
+      # Setup (per-jurisdiction: R only for US, mdbtools only for CA)
       # ────────────────────────────────────────────────────────────────
       - name: Checkout tariff-rate-tracker
         uses: actions/checkout@v4
@@ -78,18 +100,24 @@ jobs:
           fetch-depth: 0
 
       - name: Setup R
+        if: matrix.jurisdiction == 'US'
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.4'
           use-public-rspm: true
 
       - name: Install R packages
+        if: matrix.jurisdiction == 'US'
         # No DESCRIPTION/renv.lock in this repo today; install the small set
         # of packages this workflow needs directly. Public RSPM (set above)
-        # serves pre-compiled binaries on Ubuntu so this takes ~30s, not
-        # the multi-minute source compile path.
+        # serves pre-compiled binaries on Ubuntu.
         run: |
           Rscript -e 'install.packages(c("tidyverse", "jsonlite", "here", "digest"))'
+
+      - name: Install mdbtools
+        if: matrix.jurisdiction == 'CA'
+        # ca.json system_requires: the CBSA .accdb export needs mdb-tables/mdb-export.
+        run: sudo apt-get update && sudo apt-get install -y mdbtools
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -102,113 +130,72 @@ jobs:
         run: pip install -r scripts/hts_automation/requirements.txt
 
       # ────────────────────────────────────────────────────────────────
-      # Validate workflow configuration before doing anything destructive
+      # Validate configuration before doing anything destructive.
+      # CA/EU need no Railway/Vercel: their revisions resolve from Supabase
+      # and their data deploys ride the sail-gtx branch push.
       # ────────────────────────────────────────────────────────────────
       - name: Validate config
         run: |
           missing=()
           [[ -z "${PRODUCTION_BRANCH}" ]] && missing+=("SAIL_GTX_PRODUCTION_BRANCH (vars)")
-          [[ -z "${SAIL_GTX_HEALTHCHECK_URL}" ]] && missing+=("SAIL_GTX_HEALTHCHECK_URL (vars)")
           [[ -z "${PINECONE_API_KEY}" ]] && missing+=("PINECONE_API_KEY (secrets)")
           [[ -z "${SUPABASE_URL}" ]] && missing+=("SUPABASE_URL (secrets)")
           [[ -z "${SUPABASE_SERVICE_ROLE_KEY}" ]] && missing+=("SUPABASE_SERVICE_ROLE_KEY (secrets)")
-          [[ -z "${RAILWAY_TOKEN}" ]] && missing+=("RAILWAY_TOKEN (secrets)")
-          [[ -z "${VERCEL_TOKEN}" ]] && missing+=("VERCEL_TOKEN (secrets)")
           [[ -z "${SAIL_GTX_REPO_PAT}" ]] && missing+=("SAIL_GTX_REPO_PAT (secrets)")
+          if [[ "${{ matrix.jurisdiction }}" == "US" ]]; then
+            [[ -z "${SAIL_GTX_HEALTHCHECK_URL}" ]] && missing+=("SAIL_GTX_HEALTHCHECK_URL (vars)")
+            [[ -z "${SAIL_GTX_API_BASE}" ]] && missing+=("SAIL_GTX_API_BASE (vars)")
+            [[ -z "${RAILWAY_TOKEN}" ]] && missing+=("RAILWAY_TOKEN (secrets)")
+            [[ -z "${RAILWAY_PROJECT_ID}" ]] && missing+=("RAILWAY_PROJECT_ID (secrets)")
+            [[ -z "${RAILWAY_SERVICE_ID}" ]] && missing+=("RAILWAY_SERVICE_ID (secrets)")
+            [[ -z "${RAILWAY_ENVIRONMENT_ID}" ]] && missing+=("RAILWAY_ENVIRONMENT_ID (secrets)")
+            [[ -z "${VERCEL_TOKEN}" ]] && missing+=("VERCEL_TOKEN (secrets)")
+            [[ -z "${VERCEL_PROJECT_ID}" ]] && missing+=("VERCEL_PROJECT_ID (secrets)")
+          fi
           if (( ${#missing[@]} )); then
             printf 'Missing required config: %s\n' "${missing[@]}"
             exit 1
           fi
-          echo "config ok; production branch = ${PRODUCTION_BRANCH}"
+          echo "config ok (${{ matrix.jurisdiction }}); production branch = ${PRODUCTION_BRANCH}"
 
       # ────────────────────────────────────────────────────────────────
-      # Step 1: discover new revisions (or honor the workflow_dispatch input)
+      # The rollout. --if-new is the idempotency gate: refresh.py checks the
+      # upstream source (USITC scrape / CBSA menu page / CIRCABC folder list)
+      # against the latest revision registered in Supabase and exits 0 in
+      # seconds when there is nothing new, emitting gate=skip. A US
+      # revision_id override bypasses the gate (as before).
       # ────────────────────────────────────────────────────────────────
-      - name: Scrape USITC for new revisions
-        id: scrape
+      - name: Run rollout (refresh.py)
+        id: rollout
         run: |
           set -euo pipefail
-          # Snapshot pre-scrape so we can detect a real diff afterwards.
-          cp config/revision_dates.csv /tmp/revision_dates.before.csv
-          Rscript src/01_scrape_revision_dates.R --auto-clear-review || true
-          if diff -q /tmp/revision_dates.before.csv config/revision_dates.csv >/dev/null; then
-            echo "revision_dates.csv unchanged"
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "revision_dates.csv was updated:"
-            diff /tmp/revision_dates.before.csv config/revision_dates.csv || true
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+          args=(--jurisdiction "${{ matrix.jurisdiction }}" --if-new)
+          if [[ "${{ matrix.jurisdiction }}" == "US" && -n "${{ inputs.revision_id }}" ]]; then
+            args=(--jurisdiction US --revision "${{ inputs.revision_id }}" --skip-scrape)
           fi
-
-      - name: Decide whether to continue
-        id: gate
-        run: |
-          set -euo pipefail
-          if [[ -n "${{ inputs.revision_id }}" ]]; then
-            echo "continue=true" >> "$GITHUB_OUTPUT"
-            echo "Manual revision_id override: ${{ inputs.revision_id }}"
-          elif [[ "${{ steps.scrape.outputs.changed }}" == "true" ]]; then
-            echo "continue=true" >> "$GITHUB_OUTPUT"
-            echo "Continuing — new revision detected"
-          else
-            echo "continue=false" >> "$GITHUB_OUTPUT"
-            echo "No changes detected — exiting clean"
-          fi
-
-      # ────────────────────────────────────────────────────────────────
-      # Resolve the target revision (read-only) — feeds the commit-back
-      # message; the rollout itself re-resolves inside refresh.py.
-      # ────────────────────────────────────────────────────────────────
-      - name: Resolve target revision
-        if: steps.gate.outputs.continue == 'true'
-        id: target
-        run: |
-          set -euo pipefail
-          if [[ -n "${{ inputs.revision_id }}" ]]; then
-            output=$(Rscript scripts/hts_automation/latest_revision.R --revision "${{ inputs.revision_id }}")
-          else
-            output=$(Rscript scripts/hts_automation/latest_revision.R)
-          fi
-          echo "$output"
-          echo "$output" >> "$GITHUB_OUTPUT"
-
-      # ────────────────────────────────────────────────────────────────
-      # The rollout: the SAME spec-driven orchestrator run_locally.sh wraps.
-      # config/jurisdictions/us.json declares the steps
-      # (acquire → build → publish → register → ship → envvars → smoke);
-      # --skip-scrape because the gate step above already scraped. On smoke
-      # failure refresh.py reverts the env vars from the snapshot itself and
-      # exits 9; the artifact + issue steps below still fire via failure().
-      # ────────────────────────────────────────────────────────────────
-      - name: Run US rollout (refresh.py)
-        if: steps.gate.outputs.continue == 'true'
-        run: |
-          set -euo pipefail
-          args=(--jurisdiction US --skip-scrape)
-          [[ -n "${{ inputs.revision_id }}" ]] && args+=(--revision "${{ inputs.revision_id }}")
           [[ "${{ inputs.dry_run }}" == "true" ]] && args+=(--dry-run)
-          [[ "${{ inputs.skip_smoke_classify }}" != "true" ]] && args+=(--run-classify)
+          [[ "${{ matrix.jurisdiction }}" == "US" && "${{ inputs.skip_smoke_classify }}" == "false" ]] && args+=(--run-classify)
           python3 scripts/hts_automation/refresh.py "${args[@]}"
 
       - name: Upload env snapshot (for rollback)
-        if: always() && steps.gate.outputs.continue == 'true' && !inputs.dry_run && hashFiles('/tmp/env-snapshot.json') != ''
+        if: always() && matrix.jurisdiction == 'US' && steps.rollout.outputs.gate == 'proceed' && !inputs.dry_run && hashFiles('env-snapshot.json') != ''
         uses: actions/upload-artifact@v4
         with:
           name: env-snapshot-${{ github.run_id }}
-          path: /tmp/env-snapshot.json
+          path: env-snapshot.json
           retention-days: 7
 
       # ────────────────────────────────────────────────────────────────
-      # Step 10: rollback path. Runs only if a previous step in this job failed.
+      # Rollback path (US only — CA/EU touch no deploy env vars).
       # ────────────────────────────────────────────────────────────────
       - name: Rollback env vars
-        if: failure() && steps.gate.outputs.continue == 'true' && hashFiles('/tmp/env-snapshot.json') != ''
+        if: failure() && matrix.jurisdiction == 'US' && hashFiles('env-snapshot.json') != ''
         run: |
           python3 scripts/hts_automation/update_env_vars.py revert \
-            --snapshot /tmp/env-snapshot.json
+            --snapshot "${HTS_ENV_SNAPSHOT_PATH}"
 
       - name: Open failure issue
-        if: failure() && steps.gate.outputs.continue == 'true'
+        if: failure()
         uses: actions/github-script@v7
         with:
           script: |
@@ -216,27 +203,33 @@ jobs:
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `HTS Revision Update failed (${process.env.PRODUCTION_BRANCH})`,
-              body: `Run: ${runUrl}\n\nThe automated HTS revision rollout failed. Env vars were rolled back if a snapshot existed; the Pinecone namespace + Supabase row may need manual inspection.`,
+              title: `HTS Revision Update failed — ${{ matrix.jurisdiction }} (${process.env.PRODUCTION_BRANCH})`,
+              body: `Run: ${runUrl}\n\nThe automated ${{ matrix.jurisdiction }} HTS revision rollout failed. Env vars were rolled back if a snapshot existed (US); the Pinecone namespace + Supabase row may need manual inspection. Resume locally with:\n\n    python3 scripts/hts_automation/refresh.py -j ${{ matrix.jurisdiction }} --from-step <step>`,
               labels: ['hts-automation', 'incident']
             });
 
       # ────────────────────────────────────────────────────────────────
-      # Step 11: commit revision_dates.csv + archives back to this repo (on success)
+      # Commit the per-jurisdiction registry back on success so the repo
+      # records what was rolled out. Corpus artifacts stay gitignored
+      # (large, regeneratable); the acquired source CSVs for CA/EU are
+      # tracked so a laptop clone can resume/verify offline.
       # ────────────────────────────────────────────────────────────────
-      - name: Commit revision_dates.csv on success
-        if: success() && steps.gate.outputs.continue == 'true' && !inputs.dry_run
-        # Archive JSON/CSV files are intentionally gitignored in this repo
-        # (large, regeneratable). We only commit the curated revision_dates.csv
-        # so the next run knows what's been processed.
+      - name: Commit registry on success
+        if: success() && steps.rollout.outputs.gate == 'proceed' && !inputs.dry_run
         run: |
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add config/revision_dates.csv
+          case "${{ matrix.jurisdiction }}" in
+            US) git add config/revision_dates.csv ;;
+            CA) git add config/jurisdictions/ca_revisions.csv data/ca_tariff_source/*.csv ;;
+            EU) git add config/jurisdictions/eu_revisions.csv data/eu_tariff_source/*.csv ;;
+          esac
           if git diff --cached --quiet; then
-            echo "revision_dates.csv unchanged — nothing to commit"
+            echo "registry unchanged — nothing to commit"
           else
-            git commit -m "data: HTS ${{ steps.target.outputs.YEAR }} Rev ${{ steps.target.outputs.REV_NUM }} (effective ${{ steps.target.outputs.EFFECTIVE_DATE }})"
+            git commit -m "data: ${{ matrix.jurisdiction }} HTS ${{ steps.rollout.outputs.YEAR }} Rev ${{ steps.rollout.outputs.REV_NUM }} (effective ${{ steps.rollout.outputs.EFFECTIVE_DATE }})"
+            # A previous matrix leg may have pushed; we're on the trigger SHA.
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi
