@@ -59,16 +59,11 @@ jobs:
     strategy:
       fail-fast: false     # an EU failure must not cancel the CA leg
       max-parallel: 1      # serial legs: no race on the sail-gtx push or this repo's commit-back
+      # On dispatch, honor the jurisdiction picker; on schedule, run all three.
+      # (The picker must shape the matrix itself — the `matrix` context is not
+      # available in a job-level `if`.)
       matrix:
-        include:
-          - jurisdiction: US
-            timeout: 45
-          - jurisdiction: CA
-            timeout: 60
-          - jurisdiction: EU
-            timeout: 90
-    # On dispatch, honor the jurisdiction picker; on schedule, run all three.
-    if: github.event_name == 'schedule' || inputs.jurisdiction == 'all' || inputs.jurisdiction == matrix.jurisdiction
+        include: ${{ (github.event_name != 'workflow_dispatch' || inputs.jurisdiction == 'all') && fromJSON('[{"jurisdiction":"US","timeout":45},{"jurisdiction":"CA","timeout":60},{"jurisdiction":"EU","timeout":90}]') || fromJSON('{"US":[{"jurisdiction":"US","timeout":45}],"CA":[{"jurisdiction":"CA","timeout":60}],"EU":[{"jurisdiction":"EU","timeout":90}]}')[inputs.jurisdiction] }}
 
     env:
       PINECONE_API_KEY:        ${{ secrets.PINECONE_API_KEY }}
