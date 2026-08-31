@@ -101,13 +101,25 @@ jobs:
           r-version: '4.4'
           use-public-rspm: true
 
+      - name: Cache R packages
+        if: matrix.jurisdiction == 'US'
+        # setup-r exports R_LIBS_USER; caching that library skips the
+        # multi-minute install on every nightly after the first.
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: r-pkgs-${{ runner.os }}-r4.4-tidyverse-jsonlite-here-digest
+
       - name: Install R packages
         if: matrix.jurisdiction == 'US'
         # No DESCRIPTION/renv.lock in this repo today; install the small set
-        # of packages this workflow needs directly. Public RSPM (set above)
-        # serves pre-compiled binaries on Ubuntu.
+        # of packages this workflow needs directly (skipping any already
+        # restored from cache). Public RSPM (set above) serves pre-compiled
+        # binaries on Ubuntu.
         run: |
-          Rscript -e 'install.packages(c("tidyverse", "jsonlite", "here", "digest"))'
+          Rscript -e 'pkgs <- c("tidyverse", "jsonlite", "here", "digest");
+                      missing <- setdiff(pkgs, rownames(installed.packages()));
+                      if (length(missing)) install.packages(missing) else message("all cached")'
 
       - name: Install mdbtools
         if: matrix.jurisdiction == 'CA'
