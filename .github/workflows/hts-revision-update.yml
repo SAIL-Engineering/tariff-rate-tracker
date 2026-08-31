@@ -13,17 +13,20 @@ name: HTS Revision Update
 #   itself on smoke failure.
 #
 # Triggers:
-#   - cron "0 6,7 * * *"  → daily, 2 AM US-Eastern in both DST regimes; the
+#   - cron "0 6,7 * * 1-5" → weekdays (Mon-Fri), 2 AM US-Eastern in both DST
+#     regimes; anything published over a weekend is picked up Monday; the
 #     second run queues behind the first (concurrency) and its gates no-op.
 #   - workflow_dispatch   → manual run for one or all jurisdictions.
 
 on:
   schedule:
     # GitHub cron is UTC-only, so 07:00 UTC is 2 AM EST but 3 AM EDT — both
-    # hours are scheduled so the run lands at 2 AM Eastern year-round. The
-    # --if-new gate exits clean when nothing changed, so the redundant run
-    # costs a page-scrape, and `concurrency` prevents overlap.
-    - cron: '0 6,7 * * *'
+    # hours are scheduled so the run lands at 2 AM Eastern year-round, and
+    # 1-5 restricts it to Monday-Friday (6-7 UTC on a weekday IS the same
+    # weekday in Eastern). The --if-new gate exits clean when nothing
+    # changed, so the redundant run costs a page-scrape, and `concurrency`
+    # prevents overlap.
+    - cron: '0 6,7 * * 1-5'
   workflow_dispatch:
     inputs:
       jurisdiction:
