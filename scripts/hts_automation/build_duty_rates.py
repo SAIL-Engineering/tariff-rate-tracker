@@ -367,6 +367,35 @@ def _display(digits: str) -> str:
     return f"{digits[:4]}.{digits[4:6]}.{digits[6:8]}.{digits[8:10]}"
 
 
+XI_COVERAGE = {
+    "provides": [
+        "The EU-aligned duty baseline Northern Ireland applies under the "
+        "Windsor Framework: TARIC third-country (erga omnes) rates, every "
+        "EU tariff preference with member expansion and exclusions, "
+        "customs-union rates, suspensions, and informational trade-remedy/"
+        "quota measures — the rates payable for goods 'at risk' of moving "
+        "into the EU.",
+        "Monthly TARIC snapshot depth at the full 10-digit level.",
+    ],
+    "excludes": [
+        "The 'not at risk' lane: goods brought into Northern Ireland under "
+        "the UK Internal Market Scheme (UKIMS) that will stay in the UK pay "
+        "the UK (GB) rate — usually lower, often zero. Check the United "
+        "Kingdom schedule for that rate; at-risk determination is the "
+        "trader's responsibility.",
+        "Preferential origin-rule verification (preference rows are "
+        "candidates, not entitlements).",
+        "Tariff-quota balances/exhaustion status (in-quota rates are shown "
+        "as conditional, never auto-selected).",
+        "UK/EU VAT and excise on import.",
+        "Duty reimbursement/waiver schemes for at-risk goods later shown to "
+        "have remained in the UK.",
+    ],
+    "source": "Northern Ireland Online Tariff (EU TARIC baseline under the "
+              "Windsor Framework; monthly CIRCABC extract)",
+}
+
+
 def build_eu(duties_xlsx: Path, geo_xlsx: Path | None, jur: str, revision: str,
              nomenclature_csv: Path, snapshot_date: _dt.date,
              exclusions_xlsx: Path | None = None,
@@ -615,7 +644,7 @@ def build_eu(duties_xlsx: Path, geo_xlsx: Path | None, jur: str, revision: str,
              "conditional": False,
              "legal_basis": "Reg. (EEC) 2658/87 Annex I / TARIC measure 103"}]
     tout += [origin_treatments[k] for k in sorted(origin_treatments)]
-    coverage = dict(EU_COVERAGE)
+    coverage = dict(XI_COVERAGE if jur == "XI" else EU_COVERAGE)
     coverage["as_of"] = snapshot_date.isoformat()
     # WHERE these rates apply: TARIC geographical group 1010 ("European
     # Union") is the authoritative member list from the same extract — the 27

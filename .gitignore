@@ -105,6 +105,9 @@ node_modules/
 /do_*.codes.json
 /do_*.manifest.json
 /gb_*.jsonl
+/xi_*.jsonl
+/xi_*.codes.json
+/xi_*.manifest.json
 /gb_*.codes.json
 /gb_*.manifest.json
 /*_*.coverage.json
