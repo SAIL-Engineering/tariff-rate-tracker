@@ -456,8 +456,7 @@ def fetch(spec: dict, args) -> AcquireResult:
     return AcquireResult(
         rev_id=rev_id, year=year_out, rev_num=num_out,
         effective_date=effective_out,
-        effective_date_label=(f"{d.strftime('%B')} {d.day}, {d.year} "
-                              f"Swiss tariff (master data {master_created[:10]})"),
+        effective_date_label=f"{d.strftime('%B')} {d.day}, {d.year}",
         source_csv=str(dest),
         source_url=f"{HOST}/TariffMasterData_v6.zip",
         source_sha256=_sha256(dest),

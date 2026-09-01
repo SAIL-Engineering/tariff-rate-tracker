@@ -537,8 +537,7 @@ def fetch(spec: dict, args) -> AcquireResult:
     return AcquireResult(
         rev_id=rev_id, year=year, rev_num=num,
         effective_date=effective,
-        effective_date_label=(f"{d.strftime('%B')} {d.day}, {d.year} "
-                              f"UK tariff ({version})"),
+        effective_date_label=f"{d.strftime('%B')} {d.day}, {d.year}",
         source_csv=str(dest),
         source_url=f"{API}/versions/{version}/metadata?format=html",
         source_sha256=_sha256(dest),
