@@ -225,3 +225,45 @@ UPDATE hts_revisions SET pinecone_namespace = NULL
 Resolution falls back to `supported_countries.pinecone_namespace` (last known
 good). No deploy, no re-upload. Env vars roll back separately from the snapshot
 `update_env_vars.py` writes.
+
+
+## United Kingdom & Northern Ireland
+
+**United Kingdom (GB)** — landed 2026-09-01 (tracker 672227a9, sail-gtx d27f1ed).
+
+- **Corpus**: the DBT Data API commodities report converts into the existing
+  TARIC canonical format (the UK tariff is TARIC-descended), so the whole
+  corpus/Explorer/chapters machinery is reused — 25,846 nodes, 16,726 leaves
+  matching the declarable universe exactly, hierarchy built from parent__sid
+  chains (never code length), verified by reconcile_sources with zero
+  discrepancies.
+- **The daily-version problem**: UK versions bump near-daily (v4.0.1590 →
+  1591 in one day) but mostly change measures. The nightly gate is
+  two-stage — it hashes the classification-relevant fields and only
+  republishes Pinecone when the nomenclature changed; otherwise it runs a
+  rates-only refresh that reships just the duty artifacts under the standing
+  revision. Duty data stays day-fresh without namespace churn, and the
+  treatments coverage as-of line carries the exact dataset version.
+- **Duty engine**: 86,454 records from measures-as-defined + ancestor-walk,
+  geographic membership from the official trade-tariff service API, all 72
+  measure types inventoried (unknown ones surface as informational, never
+  dropped), VAT 20% as the flat-tax overlay line. Both hard gates pass live:
+  97.8% UKGT leaf coverage (the rest is genuinely TCD-free in the dataset)
+  and a 25,919-pair reconciliation against the UK's own 1.1M-row leaf
+  expansion with 0.00% misses.
+
+**Northern Ireland (XI)** — its own schedule, exactly as HMG hosts it. The
+NI Online Tariff applies the EU's TARIC baseline under the Windsor
+Framework, so XI reuses the eu_taric adapter wholesale (same CIRCABC
+release; identity/paths via spec options). Its coverage block explains the
+two lanes: 'at risk' goods pay these EU-aligned rates; 'not at risk' UKIMS
+goods pay the GB rate.
+
+**The customs territory**: GB coverage declares applies_in = [GG, IM, JE,
+XI] — England/Scotland/Wales plus the Crown Dependencies customs union,
+with NI legally inside but dual-system for inbound goods. The consumer app
+shows the UK as an umbrella (home nations as ISO 3166-2 rows GB-ENG/GB-SCT/
+GB-WLS normalizing to GB on selection; IM/GG/JE remapped to GB) beside a
+separate Northern Ireland row. GB prompts speak pure UK-tariff vocabulary
+(Commodity Code, TCTA 2018, ATaR/HMRC); XI keeps TARIC vocabulary framed
+for NI.

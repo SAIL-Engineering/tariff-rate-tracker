@@ -985,7 +985,11 @@ def build_gb(measures_csv: Path, geo_json: Path, jur: str, revision: str,
                             "UK tariff measure type 103"}]
     tout += [origin_treatments[k] for k in sorted(origin_treatments)]
     coverage = dict(GB_COVERAGE)
-    coverage["as_of"] = snapshot
+    # Day-fresh visibility: the UK dataset republishes near-daily and the
+    # rates-only refresh reships these artifacts without a new corpus
+    # revision, so the as-of line carries the exact dataset version.
+    coverage["as_of"] = (f"{snapshot} · dataset {dec.get('version')}"
+                        if dec.get("version") else snapshot)
     # The unified UK Customs Territory: England/Scotland/Wales (GB) plus
     # Northern Ireland (legally within it; Windsor dual-system for goods
     # entering NI), the Isle of Man, and the Channel Islands (UK-Crown
