@@ -275,35 +275,45 @@ def convert(tree_xml: Path, out_csv: Path) -> dict:
 
 
 def make_ch_chapters(tree_xml: Path, out_json: Path) -> None:
-    """chapters_ch.json from the tree's OWN structure: TN2 rows are the
+    """Chapters files from the tree's OWN structure: TN2 rows are the
     chapters, the preceding TAB row (in sorter order) is the section —
-    Swiss titles, not the generic HS section file."""
+    Swiss titles, not the generic HS section file. One file per language:
+    out_json (EN, the default) plus .de/.fr/.it siblings, so the Tariff
+    Schedule page's language switcher localizes section/chapter headers
+    along with the rows."""
     ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
              "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII",
              "XIX", "XX", "XXI"]
     rows = _parse_tree(tree_xml)
-    chapters, section, section_title = [], "", ""
-    for x in rows:
-        en = x["texts"].get("en", "")
-        if x["type"] == "TAB":
-            n = int(x["num"])
-            section = ROMAN[n - 1] if 1 <= n <= len(ROMAN) else x["num"]
-            section_title = en.capitalize() if en.isupper() else en
-        elif x["type"] == "TN2":
-            chapters.append({"chapter": x["num"],
-                             "description": (en.capitalize()
-                                             if en.isupper() else en),
-                             "section": section,
-                             "sectionTitle": section_title})
-    seen = set()
-    for c in chapters:
-        if c["chapter"] in seen:
-            raise SystemExit(f"ERROR: duplicate chapter {c['chapter']}")
-        seen.add(c["chapter"])
-    out_json.write_text(json.dumps(chapters, indent=2, ensure_ascii=False)
+    for lang in ("en",) + LANGS:
+        chapters, section, section_title = [], "", ""
+        for x in rows:
+            txt = x["texts"].get(lang) or x["texts"].get("en", "")
+            # Sentence-casing an ALL-CAPS heading is only safe in English:
+            # German would lose its noun capitalization ("Lebende tiere und
+            # waren…"), so the other languages keep the published casing.
+            if txt.isupper() and lang == "en":
+                txt = txt.capitalize()
+            if x["type"] == "TAB":
+                n = int(x["num"])
+                section = ROMAN[n - 1] if 1 <= n <= len(ROMAN) else x["num"]
+                section_title = txt
+            elif x["type"] == "TN2":
+                chapters.append({"chapter": x["num"], "description": txt,
+                                 "section": section,
+                                 "sectionTitle": section_title})
+        seen = set()
+        for c in chapters:
+            if c["chapter"] in seen:
+                raise SystemExit(f"ERROR: duplicate chapter {c['chapter']}")
+            seen.add(c["chapter"])
+        dest = (out_json if lang == "en"
+                else out_json.with_suffix(f".{lang}.json"))
+        dest.write_text(json.dumps(chapters, indent=2, ensure_ascii=False)
                         + "\n", encoding="utf-8")
-    print(f"[ch_tares] {out_json}: {len(chapters)} chapters, "
-          f"Swiss sections from TAB rows")
+    print(f"[ch_tares] {out_json} (+{'/'.join(LANGS)}): "
+          f"{len(chapters)} chapters, Swiss sections from TAB rows, "
+          f"4 languages")
 
 
 # ─── adapter surface ─────────────────────────────────────────────────
