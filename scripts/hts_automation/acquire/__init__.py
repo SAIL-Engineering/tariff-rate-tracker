@@ -52,6 +52,8 @@ def get_adapter(name: str):
         from . import cbsa as mod
     elif name == "eu_taric":
         from . import eu_taric as mod
+    elif name == "uk_tariff":
+        from . import uk_tariff as mod
     else:
         raise SystemExit(f"ERROR: unknown acquisition adapter {name!r}")
     return mod

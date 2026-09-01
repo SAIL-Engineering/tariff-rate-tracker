@@ -173,6 +173,9 @@ def load_env_file() -> None:
 # ─── Step implementations ────────────────────────────────────────────
 
 def do_build(spec: dict, ctx: RunCtx, args) -> None:
+    if getattr(args, "rates_only", False):
+        _build_duty_rates(spec, ctx)
+        return
     cmd = [sys.executable, str(HERE / "build_hts_corpus.py"),
            str(ctx["source_csv"]), spec["chapters_file"], ctx["stem"],
            "--jurisdiction", spec["code"], "--revision", ctx["revision"],
@@ -194,6 +197,10 @@ def do_build(spec: dict, ctx: RunCtx, args) -> None:
         if spec.get("lang", "en") != "en":
             ecmd += ["--lang", spec["lang"]]
         run(ecmd, REGISTRY["build"].exit_code)
+    _build_duty_rates(spec, ctx)
+
+
+def _build_duty_rates(spec: dict, ctx: RunCtx) -> None:
     duty = spec.get("duty_rates")
     if duty and not ctx.get(duty.get("source_key", "source_csv")):
         # Resuming without the acquire step: the staged workbook path is gone.
@@ -217,6 +224,11 @@ def do_build(spec: dict, ctx: RunCtx, args) -> None:
                               ("eu_addcodes_xlsx", "--addcodes")):
                 if ctx.get(key):
                     dcmd += [flag, str(ctx[key])]
+        elif fmt == "uk":
+            dcmd += ["--nomenclature", str(ctx["source_csv"]),
+                     "--snapshot-date", str(ctx["effective_date"]),
+                     "--geo-areas", str(ctx[duty["geo_areas_key"]]),
+                     "--declarable", str(ctx[duty["declarable_key"]])]
         run(dcmd, REGISTRY["build"].exit_code)
 
 
@@ -331,7 +343,12 @@ def do_ship(spec: dict, ctx: RunCtx, args) -> None:
     if ship.get("dest_path"):
         cmd += ["--source", str(ctx[ship.get("source", "dataset_json")]),
                 "--dest-path", render(ship["dest_path"], ctx)]
-    for extra in ship.get("also", []):
+    also = ship.get("also", [])
+    if getattr(args, "rates_only", False):
+        also = [e for e in also
+                if e.get("from") in ("rates_dir", "rates_index",
+                                     "treatments_json")]
+    for extra in also:
         src_path = ctx.get(extra.get("from", ""))
         if not src_path:
             sys.exit(f"ERROR: ship.also references unknown/empty artifact key "
@@ -415,6 +432,20 @@ def gate_if_new(spec: dict, adapter, args) -> None:
             f"({check.detail})")
         gh_output(gate="in_progress", reason=check.detail)
         sys.exit(0)
+
+    # Adapters may attach a decision payload (e.g. the UK's two-stage gate:
+    # mode=rates_only when only the duty measures moved). Stash it for
+    # fetch(); a rates-only refresh bypasses the registered-revision
+    # comparison entirely — the corpus revision is not advancing.
+    args.upstream_extras = dict(check.extras or {})
+    if args.upstream_extras.get("mode") == "rates_only":
+        log(f"gate: {check.detail}")
+        gh_output(gate="rates_only", reason=check.detail,
+                  REV_ID=check.rev_id or "", YEAR=check.year or "",
+                  REV_NUM=check.rev_num or "",
+                  EFFECTIVE_DATE=check.effective_date)
+        args.rates_only = True
+        return
 
     try:
         registered = supabase_latest(spec["code"])
@@ -521,6 +552,12 @@ def main() -> int:
 
     if args.if_new and "acquire" in scheduled and not args.plan_only:
         gate_if_new(spec, adapter, args)
+    if getattr(args, "rates_only", False):
+        # Nomenclature unchanged upstream: refresh ONLY the duty artifacts
+        # under the standing corpus revision. No publish/register/verify.
+        scheduled = [st for st in scheduled
+                     if st in ("acquire", "build", "ship")]
+        log(f"rates-only refresh: steps reduced to {' -> '.join(scheduled)}")
 
     # Resolve (read-only) always runs; acquire (network) only when scheduled
     # and never under --plan-only.

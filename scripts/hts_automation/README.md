@@ -57,7 +57,7 @@ US keeps the legacy `hts_<year>_revision_<n>.json` name), and
 
 ---
 
-## Nightly automation — US, CA, EU
+## Nightly automation — US, CA, EU, GB
 
 `.github/workflows/hts-revision-update.yml`, cron `0 6,7 * * *` (2 AM
 US-Eastern in both DST regimes), one serial matrix leg per jurisdiction.
@@ -70,6 +70,10 @@ skip cleanly. On a new revision the leg runs the full rollout and commits the
 registry CSV (+ CA/EU source CSVs) back to this repo. `run_locally.sh`
 mirrors the US leg step for step; `refresh.py -j CA` / `-j EU` mirror theirs.
 Manual check: `python3 scripts/hts_automation/check_upstream.py -j CA`.
+GB (United Kingdom) versions bump near-daily; its two-stage gate republishes
+the Pinecone corpus only when the nomenclature hash changes and otherwise
+ships a rates-only refresh of the duty artifacts (state in
+data/gb_tariff_source/state.json).
 Secrets/vars are pushed with `set_repo_secrets.py` (run it yourself; it
 reads `.env.hts_automation`).
 

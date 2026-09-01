@@ -31,6 +31,8 @@ SOURCES = {
            "scripts/hts_automation/chapters_eu.json", "en"),
     "DO": ("data/do_tariff_source", "do_tariff", "dga",
            "scripts/hts_automation/chapters_do.json", "es"),
+    "GB": ("data/gb_tariff_source", "gb_tariff", "taric",
+           "scripts/hts_automation/chapters_gb.json", "en"),
 }
 
 
@@ -44,7 +46,7 @@ def newest_source(directory: str, prefix: str) -> Path:
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO"), required=True)
+    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO", "GB"), required=True)
     p.add_argument("--source", type=Path)
     p.add_argument("--codes", type=Path, help="a built <jur>_<rev>.codes.json to cross-check")
     p.add_argument("--explorer", type=Path, help="a built <jur>_<year>_revision_<n>.json to cross-check")

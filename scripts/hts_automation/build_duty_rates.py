@@ -635,6 +635,330 @@ def build_eu(duties_xlsx: Path, geo_xlsx: Path | None, jur: str, revision: str,
     return records, tout, coverage
 
 
+# ── United Kingdom ───────────────────────────────────────────────────────────
+
+# Duty-bearing measure types (become treatment rows the best-rate logic sees).
+GB_MEASURE_DUTY = {
+    "103": "third_country",     # UK Global Tariff MFN when area is 1011
+    "105": "end_use",           # non-preferential duty under authorised use
+    "112": "suspension_autonomous",
+    "115": "suspension_end_use",
+    "117": "suspension_ships",
+    "119": "suspension_airworthiness",
+    "142": "preference",
+    "145": "preference_end_use",
+}
+# Informational categories (surface as rows, never MFN/best).
+GB_MEASURE_INFO = {
+    "122": "quota", "123": "quota", "143": "quota", "146": "quota",
+    "551": "anti_dumping", "552": "anti_dumping",
+    "553": "countervailing", "554": "countervailing",
+    "555": "anti_dumping", "564": "trade_remedy_registration",
+    "695": "additional_duties",
+    "109": "supplementary_unit", "110": "supplementary_unit",
+    "488": "unit_price",
+}
+GB_ERGA_OMNES = "1011"
+
+GB_COVERAGE = {
+    "provides": [
+        "The complete UK tariff measure set at declared depth with ancestor "
+        "inheritance: UK Global Tariff (third-country duty), every tariff "
+        "preference with its origin list, authorised-use rates, and tariff "
+        "suspensions — duty expressions verbatim from the official dataset.",
+        "Trade remedies (anti-dumping/countervailing), tariff quotas, "
+        "additional duties, and import/export controls listed as "
+        "informational rows with legal citations (never summed into a rate).",
+        "Refreshed from every new dataset version (published near-daily); "
+        "the as-of line shows the exact version served.",
+    ],
+    "excludes": [
+        "Preferential origin-rule verification: a preference row is a "
+        "candidate, not an entitlement — proof of origin is required.",
+        "Live tariff-quota balances/exhaustion status (quota rates are shown "
+        "as conditional; the in-quota rate is never auto-selected).",
+        "Import VAT beyond the standard-rate line shown (reduced and "
+        "zero-rated goods exist; VAT/excise measures are not part of this "
+        "dataset export), and excise duties.",
+        "Measures requiring an additional code or certificate are shown as "
+        "conditional, not asserted.",
+        "Ad-valorem equivalents for specific/compound duties (shown "
+        "verbatim, never converted).",
+        "Northern Ireland (XI) imports, which follow the EU tariff under "
+        "the Windsor Framework — see the EU jurisdiction.",
+    ],
+    "source": "UK Integrated Online Tariff (DBT Data API, "
+              "uk-tariff-2021-01-01)",
+}
+
+
+def _gb_split(value: str) -> list[str]:
+    v = (value or "").strip()
+    if not v or v == "#NA":
+        return []
+    return [x.strip() for x in v.split("|") if x.strip()]
+
+
+def build_gb(measures_csv: Path, geo_json: Path, jur: str, revision: str,
+             nomenclature_csv: Path, snapshot_date, declarable_json: Path):
+    """UK: measures-as-defined (declared-level, 87k rows) + ancestor-walk,
+    mirroring the EU declared-level design. Geographic membership comes from
+    the trade-tariff service API snapshot (the flattened CSVs name areas but
+    not members); exclusions/conditions/footnotes/quotas arrive inline per
+    row. The build hard-fails unless every leaf reaches a 103 erga-omnes
+    rate AND a sampled reconciliation against the dataset's own leaf
+    expansion (measures-on-declarable) round-trips."""
+    geo = json.loads(geo_json.read_text(encoding="utf-8"))["areas"]
+    eu_members = [m for m in geo.get("1013", {}).get("members", [])
+                  if m not in ("EU",)]
+
+    def area_members(area_id: str) -> list[str]:
+        if area_id in geo and geo[area_id]["members"]:
+            out = set()
+            for m in geo[area_id]["members"]:
+                out.update(eu_members if m == "EU" else [m])
+            return sorted(out)
+        return [area_id] if len(area_id) == 2 else []
+
+    def expand_exclusions(ids: list[str]) -> list[str]:
+        out = set()
+        for i in ids:
+            out.update(eu_members if i == "EU" else [i])
+        return sorted(out)
+
+    snapshot = snapshot_date.isoformat()
+    declared_duty: dict[str, dict] = {}   # digits -> key -> rec
+    info_records: list[dict] = []
+    seen_info = set()
+    taxonomy: dict[tuple, int] = {}
+    stats = {"rows": 0, "expired": 0, "future": 0, "unknown_types": 0}
+
+    with measures_csv.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats["rows"] += 1
+            mtype = r["measure__type__id"]
+            taxonomy[(mtype, r["measure__type__description"])] = \
+                taxonomy.get((mtype, r["measure__type__description"]), 0) + 1
+            digits = r["commodity__code"].strip()
+            end = (r["measure__effective_end_date"] or "").strip()
+            if end and end != "#NA" and end < snapshot:
+                stats["expired"] += 1
+                continue
+            origin = r["measure__geographical_area__id"].strip()
+            origin_name = r["measure__geographical_area__description"].strip()
+            add_code = (r["measure__additional_code__code"] or "").strip()
+            if add_code == "#NA":
+                add_code = ""
+            duty = (r["measure__duty_expression"] or "").strip()
+            if duty == "#NA":
+                duty = ""
+            conditions = _gb_split(r["measure__conditions"])
+            footnotes = _gb_split(r["measure__footnotes"])
+            excluded = expand_exclusions(
+                _gb_split(r["measure__excluded_geographical_areas__ids"]))
+            quota = (r["measure__quota__order_number"] or "").strip()
+            if quota == "#NA":
+                quota = ""
+            reg_id = (r["measure__regulation__id"] or "").strip()
+            if reg_id == "#NA":
+                reg_id = ""
+
+            if mtype in GB_MEASURE_DUTY:
+                kind = GB_MEASURE_DUTY[mtype]
+                if mtype == "103":
+                    treatment = ("erga_omnes" if origin == GB_ERGA_OMNES
+                                 else f"third_country_{origin}")
+                elif kind.startswith("suspension"):
+                    treatment = kind
+                elif kind == "preference":
+                    treatment = f"pref_{origin}"
+                elif kind == "preference_end_use":
+                    treatment = f"pref_end_use_{origin}"
+                else:
+                    treatment = kind
+                start = (r["measure__effective_start_date"] or "").strip()
+                is_future = bool(start and start != "#NA" and start > snapshot)
+                if is_future:
+                    # A future-start duty would collide with the current row
+                    # for the same key; the near-daily rates refresh picks it
+                    # up on its start date instead.
+                    stats["future"] += 1
+                    continue
+                rec = _record(jur, revision, _display(digits), digits,
+                              treatment, duty,
+                              # Everything except the true erga-omnes UKGT
+                              # needs entitlement/scope: preferences need
+                              # proof of origin, origin-scoped 103s apply to
+                              # their origin only, suspensions/end-use need
+                              # the qualifying use.
+                              conditional=(treatment != "erga_omnes"
+                                           or bool(conditions)
+                                           or bool(add_code)))
+                rec["measure_type"] = mtype
+                rec["origin_code"] = origin
+                rec["origin_name"] = origin_name
+                if excluded:
+                    rec["excluded_origins"] = excluded
+                if conditions:
+                    rec["conditions"] = "; ".join(conditions)[:300]
+                if footnotes:
+                    rec["footnotes"] = footnotes[:12]
+                if add_code:
+                    rec["add_code"] = add_code
+                    name = (r["measure__additional_code__description"] or "")
+                    if name and name != "#NA":
+                        rec["add_code_name"] = name[:80]
+                if quota:
+                    rec["quota_order_number"] = quota
+                    rec["conditional"] = True
+                if reg_id:
+                    rec["regulation_id"] = reg_id
+                key = (treatment, origin, add_code)
+                slot = declared_duty.setdefault(digits, {})
+                prev = slot.get(key)
+                if prev is None or (prev.get("_start", "") < (start or "")):
+                    rec["_start"] = start if start != "#NA" else ""
+                    rec["_measure_sid"] = r["measure__sid"]
+                    slot[key] = rec
+            else:
+                category = GB_MEASURE_INFO.get(mtype, "control")
+                if mtype not in GB_MEASURE_INFO:
+                    stats["unknown_types"] += 1
+                label = r["measure__type__description"].strip()
+                dedupe = (digits, mtype, origin, add_code, duty)
+                if dedupe in seen_info:
+                    continue
+                seen_info.add(dedupe)
+                rec = _record(jur, revision, _display(digits), digits,
+                              f"{category}_{mtype}", duty,
+                              informational=True, category=category,
+                              conditional=bool(conditions or quota))
+                rec["measure_type"] = mtype
+                rec["measure_name"] = label[:90]
+                rec["origin_code"] = origin
+                rec["origin_name"] = origin_name
+                if excluded:
+                    rec["excluded_origins"] = excluded
+                if add_code:
+                    rec["add_code"] = add_code
+                if quota:
+                    rec["quota_order_number"] = quota
+                if reg_id:
+                    rec["regulation_id"] = reg_id
+                rec["_measure_sid"] = r["measure__sid"]
+                info_records.append(rec)
+
+    # Taxonomy report: never silently absorb a new measure type (spec §25).
+    print(f"[gb] measure-type inventory: {len(taxonomy)} types over "
+          f"{stats['rows']:,} rows ({stats['expired']:,} expired dropped, "
+          f"{stats['future']:,} future-start duty rows deferred)")
+    unknown = sorted({t for (t, _d) in taxonomy}
+                     - set(GB_MEASURE_DUTY) - set(GB_MEASURE_INFO))
+    if unknown:
+        print(f"[gb] NOTE: {len(unknown)} measure types outside the known "
+              f"duty/info maps carried as informational 'control': "
+              f"{', '.join(unknown)}")
+
+    # ── coverage checks ──────────────────────────────────────────────
+    leaves = _load_eu_leaf_tree(nomenclature_csv)
+    covered = sum(1 for leaf in leaves
+                  if any(k[0] == "erga_omnes"
+                         for anc in _eu_ancestors(leaf)
+                         for k in declared_duty.get(anc, {})))
+    pct = 100.0 * covered / len(leaves)
+    print(f"[gb] UKGT (erga omnes) coverage via ancestor walk: "
+          f"{covered:,}/{len(leaves):,} leaves ({pct:.1f}%)")
+    if pct < 95.0:
+        raise SystemExit(f"ERROR: GB MFN leaf coverage {pct:.1f}% below the "
+                         f"95% floor — inheritance or parsing regressed")
+
+    # Sampled reconciliation against measures-on-declarable: the dataset's
+    # own leaf expansion is ground truth for what the walk must resolve.
+    dec = json.loads(declarable_json.read_text(encoding="utf-8"))
+    sample = dec.get("sample_measures") or {}
+    sid_to_code = {}
+    commodities = declarable_json.parent / "commodities.csv"
+    if sample and commodities.is_file():
+        with commodities.open(newline="", encoding="utf-8-sig") as fh:
+            for r in csv.DictReader(fh):
+                sid_to_code[r["commodity__sid"]] = r["commodity__code"]
+        kept_sids = ({rec["_measure_sid"] for recs in declared_duty.values()
+                      for rec in recs.values()}
+                     | {rec["_measure_sid"] for rec in info_records})
+        checked = missing = 0
+        for sid, msids in sample.items():
+            code = sid_to_code.get(sid)
+            if not code:
+                continue
+            reachable = set()
+            for anc in _eu_ancestors(code):
+                for rec in declared_duty.get(anc, {}).values():
+                    reachable.add(rec["_measure_sid"])
+            for rec in info_records:
+                if rec["digits"] in _eu_ancestors(code):
+                    reachable.add(rec["_measure_sid"])
+            for msid in msids:
+                if msid not in kept_sids:
+                    continue          # expired/future rows we dropped
+                checked += 1
+                if msid not in reachable:
+                    missing += 1
+        miss_pct = 100.0 * missing / checked if checked else 0.0
+        print(f"[gb] sampled reconciliation vs measures-on-declarable: "
+              f"{checked:,} (sid, measure) pairs, {missing:,} unreachable "
+              f"({miss_pct:.2f}%)")
+        if checked and miss_pct > 1.0:
+            raise SystemExit(
+                f"ERROR: {miss_pct:.2f}% of sampled declarable measures are "
+                f"NOT reachable via the ancestor walk — the declared-level "
+                f"model diverges from the dataset's own leaf expansion")
+    else:
+        print("[gb] WARNING: no reconciliation sample available — the "
+              "walk-vs-expansion proof did not run", file=sys.stderr)
+
+    records = []
+    for recs in declared_duty.values():
+        for rec in recs.values():
+            rec.pop("_start", None)
+            rec.pop("_measure_sid", None)
+            records.append(rec)
+    for rec in info_records:
+        rec.pop("_measure_sid", None)
+    records.extend(info_records)
+
+    # ── treatments file ──────────────────────────────────────────────
+    origin_treatments: dict[str, dict] = {}
+    for recs in declared_duty.values():
+        for (treatment, origin_code, _ac), rec in recs.items():
+            if treatment == "erga_omnes" or treatment in origin_treatments:
+                continue
+            kind = GB_MEASURE_DUTY.get(rec["measure_type"], "")
+            origin_treatments[treatment] = {
+                "treatment": treatment,
+                "name": (f"Tariff preference — {rec['origin_name']}"
+                         if kind == "preference" else
+                         f"{kind.replace('_', ' ').title()} — "
+                         f"{rec['origin_name']}"),
+                "origin_countries": area_members(origin_code),
+                "applies": None,
+                "conditional": True,
+                "legal_basis": f"UK tariff measure type {rec['measure_type']}",
+            }
+    tout = [{"treatment": "erga_omnes",
+             "name": "UK Global Tariff (third-country duty)",
+             "origin_countries": [], "applies": "all_origins",
+             "conditional": False,
+             "legal_basis": "Taxation (Cross-border Trade) Act 2018 / "
+                            "UK tariff measure type 103"}]
+    tout += [origin_treatments[k] for k in sorted(origin_treatments)]
+    coverage = dict(GB_COVERAGE)
+    coverage["as_of"] = snapshot
+    overlay = load_overlay("gb")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
 # ── Dominican Republic ───────────────────────────────────────────────────────
 
 DO_COVERAGE = {
@@ -754,7 +1078,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path,
                    help="canonical CSV (cbsa/dga) or Duties Import xlsx (taric)")
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga"), required=True)
+    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--nomenclature", type=Path,
@@ -768,6 +1092,9 @@ def main() -> int:
                    help="taric: Measure conditions.xlsx (optional)")
     p.add_argument("--addcodes", type=Path,
                    help="taric: Additional codes descriptions.xlsx (optional)")
+    p.add_argument("--declarable", type=Path,
+                   help="uk: declarable.json from the acquire step (sid "
+                        "universe + reconciliation samples)")
     p.add_argument("--snapshot-date", default=None,
                    help="taric: the extract's snapshot date (YYYY-MM-DD); "
                         "measures whose end date is before this are dropped")
@@ -788,6 +1115,18 @@ def main() -> int:
             nomenclature_csv=args.nomenclature, snapshot_date=snapshot,
             exclusions_xlsx=args.exclusions, conditions_xlsx=args.conditions,
             addcodes_xlsx=args.addcodes)
+    elif args.source_format == "uk":
+        for flag, val in (("--nomenclature", args.nomenclature),
+                          ("--snapshot-date", args.snapshot_date),
+                          ("--geo-areas", args.geo_areas),
+                          ("--declarable", args.declarable)):
+            if not val:
+                sys.exit(f"ERROR: {flag} is required for uk")
+        records, treatments, coverage = build_gb(
+            args.source, args.geo_areas, jur, args.revision,
+            nomenclature_csv=args.nomenclature,
+            snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
+            declarable_json=args.declarable)
     else:
         records, treatments, coverage = build_do(args.source, jur, args.revision)
 
@@ -840,7 +1179,7 @@ def main() -> int:
         # taric: records live at the code where TARIC declares the measure;
         # the consumer resolves a leaf by walking self -> CN8 -> HS6 -> HS4 ->
         # chapter (zero-padded), most specific per (treatment,origin,add_code).
-        "inherit": ("ancestor-walk" if args.source_format == "taric" else "exact"),
+        "inherit": ("ancestor-walk" if args.source_format in ("taric", "uk") else "exact"),
         "chapters": chapters_index,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

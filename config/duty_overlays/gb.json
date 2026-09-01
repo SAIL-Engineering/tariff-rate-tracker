@@ -1,0 +1,13 @@
+{
+  "_comment": "Curated UK duty overlays, applied automatically by build_duty_rates.py on EVERY revision build. The dataset itself carries per-code VAT measures (type 305, incl. reduced/zero rates) which surface as informational rows; this flat_taxes entry is the headline reminder that import VAT applies on top of duty.",
+  "flat_taxes": [
+    {
+      "treatment": "VAT",
+      "name": "VAT — Value Added Tax (standard rate, on the duty-inclusive value)",
+      "rate_text": "20%",
+      "ad_valorem": 0.20,
+      "applies_note": "Standard rate; some goods are reduced-rated (5%) or zero-rated — the per-code VAT rows below reflect the dataset's own VAT measures.",
+      "legal_basis": "Value Added Tax Act 1994"
+    }
+  ]
+}

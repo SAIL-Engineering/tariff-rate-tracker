@@ -104,6 +104,9 @@ node_modules/
 /do_*.jsonl
 /do_*.codes.json
 /do_*.manifest.json
+/gb_*.jsonl
+/gb_*.codes.json
+/gb_*.manifest.json
 /*_*.coverage.json
 /*_*.diff.json
 # SPA HTS Explorer datasets (shipped cross-repo by the ship step, not here)
@@ -121,3 +124,4 @@ data/validation/avalara_resolved.rds
 # the canonical sorted TPHS lands beside it as ca_tariff_<rev>.csv)
 data/ca_tariff_source/.cbsa_download/
 data/eu_tariff_source/.circabc_download/
+data/gb_tariff_source/.uk_download/

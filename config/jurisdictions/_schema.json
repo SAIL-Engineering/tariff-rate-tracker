@@ -14,14 +14,14 @@
       "type": "object",
       "required": ["adapter"],
       "properties": {
-        "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "manual"]},
+        "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "uk_tariff", "manual"]},
         "options": {"type": "object"},
         "system_requires": {"type": "array", "items": {"type": "string"}},
         "manual_dir": {"type": "string"},
         "manual_prefix": {"type": "string"}
       }
     },
-    "source_format": {"enum": ["usitc", "cbsa", "taric", "dga"]},
+    "source_format": {"enum": ["usitc", "cbsa", "taric", "dga", "uk"]},
     "chapters_file": {"type": "string"},
     "max_depth": {"type": "integer", "minimum": 4, "maximum": 12},
     "revision_id_pattern": {"type": "string"},
@@ -68,7 +68,7 @@
     "duty_rates": {
       "type": "object",
       "properties": {"source_key": {"type": "string"},
-                     "source_format": {"enum": ["cbsa", "taric", "dga"]},
+                     "source_format": {"enum": ["cbsa", "taric", "dga", "uk"]},
                      "geo_areas_key": {"type": "string"}}
     },
     "envvars": {"type": ["object", "null"]},

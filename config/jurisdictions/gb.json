@@ -1,0 +1,62 @@
+{
+  "_comment": "United Kingdom — DBT Data API dataset uk-tariff-2021-01-01. Versions bump near-daily; the uk_tariff adapter's two-stage gate maps them to corpus revisions (nomenclature changes) vs rates-only refreshes (measures churn). rev = {published_year}_rev_{version patch}.",
+  "code": "GB",
+  "name": "United Kingdom",
+  "tariff_schedule_name": "UK Integrated Online Tariff",
+  "lang": "en",
+  "acquire": {
+    "adapter": "uk_tariff",
+    "options": {
+      "dest": "data/gb_tariff_source/gb_tariff_{year}_rev_{number}.csv"
+    },
+    "manual_dir": "data/gb_tariff_source",
+    "manual_prefix": "gb_tariff"
+  },
+  "source_format": "taric",
+  "chapters_file": "scripts/hts_automation/chapters_gb.json",
+  "max_depth": 10,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "gb__{year}_rev_{number}",
+  "stem_pattern": "gb_{year}_rev_{number}",
+  "registry": "config/jurisdictions/gb_revisions.csv",
+  "steps": ["acquire", "build", "verify", "publish", "register", "ship"],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/gb_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "gb_uktt_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {"from": "codes_json",
+       "to": "server/data/hts/gb_{year}_rev_{number}.codes.json"},
+      {"from": "explorer_json",
+       "to": "server/data/hts/gb_{year}_revision_{number}.json"},
+      {"from": "rates_dir",
+       "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"},
+      {"from": "rates_index",
+       "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"},
+      {"from": "treatments_json",
+       "to": "server/data/duty-rates/{jur_lower}.treatments.json"}
+    ],
+    "prune_keep": 3,
+    "tag_name": "gb-tariff-{year}-rev{number}",
+    "commit_message": "chore: UK tariff {year} v-patch {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "gb_measures_csv",
+    "source_format": "uk",
+    "geo_areas_key": "gb_geo_json",
+    "declarable_key": "gb_declarable_json"
+  }
+}
