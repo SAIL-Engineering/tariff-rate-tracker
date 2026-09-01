@@ -1,0 +1,96 @@
+{
+  "_comment": "Switzerland \u2014 BAZG Passar master data (datahub.bazg.admin.ch). One Swiss tariff covers CH and Liechtenstein (1923 Customs Treaty). Filenames never change; the ch_tares adapter's ETag gate maps daily regenerations to rates-only refreshes and rare TariffsTree changes to corpus revisions. rev = {year}_rev_{MMDD} from the master-data created date.",
+  "code": "CH",
+  "name": "Switzerland",
+  "tariff_schedule_name": "Swiss Customs Tariff (Tares)",
+  "lang": "en",
+  "languages": [
+    "de",
+    "fr",
+    "it"
+  ],
+  "acquire": {
+    "adapter": "ch_tares",
+    "options": {
+      "dest": "data/ch_tariff_source/ch_tariff_{year}_rev_{number}.csv"
+    },
+    "manual_dir": "data/ch_tariff_source",
+    "manual_prefix": "ch_tariff"
+  },
+  "source_format": "ch",
+  "chapters_file": "scripts/hts_automation/chapters_ch.json",
+  "max_depth": 8,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "ch__{year}_rev_{number}",
+  "stem_pattern": "ch_{year}_rev_{number}",
+  "registry": "config/jurisdictions/ch_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/ch_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "ch_tares_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/ch_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/ch_{year}_revision_{number}.json"
+      },
+      {
+        "from": "explorer_json_de",
+        "to": "server/data/hts/ch_{year}_revision_{number}.de.json"
+      },
+      {
+        "from": "explorer_json_fr",
+        "to": "server/data/hts/ch_{year}_revision_{number}.fr.json"
+      },
+      {
+        "from": "explorer_json_it",
+        "to": "server/data/hts/ch_{year}_revision_{number}.it.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "ch-tares-{year}-rev{number}",
+    "commit_message": "chore: Swiss tariff {year} master data {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "ch_master_xml",
+    "source_format": "ch",
+    "geo_areas_key": "ch_countries_xml",
+    "base_key": "ch_base_xml"
+  }
+}

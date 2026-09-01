@@ -1,0 +1,9 @@
+[
+  {"query": "stainless steel wood screws 4mm", "expect_heading": "7318"},
+  {"query": "men's cotton t-shirt short sleeve", "expect_heading": "6109"},
+  {"query": "laptop computer 14 inch", "expect_heading": "8471"},
+  {"query": "fresh bananas", "expect_heading": "0803"},
+  {"query": "car bumper plastic exterior part", "expect_heading": "8708"},
+  {"query": "pure-bred breeding horses live", "expect_heading": "0101"},
+  {"query": "milk chocolate bars with hazelnuts", "expect_heading": "1806"}
+]

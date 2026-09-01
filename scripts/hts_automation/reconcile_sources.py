@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -35,11 +36,14 @@ SOURCES = {
            "scripts/hts_automation/chapters_gb.json", "en"),
     "XI": ("data/xi_tariff_source", "xi_tariff", "taric",
            "scripts/hts_automation/chapters_xi.json", "en"),
+    "CH": ("data/ch_tariff_source", "ch_tariff", "ch",
+           "scripts/hts_automation/chapters_ch.json", "en"),
 }
 
 
 def newest_source(directory: str, prefix: str) -> Path:
-    cands = sorted(Path(directory).glob(f"{prefix}_*_rev_*.csv"),
+    cands = sorted((p for p in Path(directory).glob(f"{prefix}_*_rev_*.csv")
+                    if not re.search(r"\.(de|fr|it)\.csv$", p.name)),
                    key=lambda p: p.stat().st_mtime, reverse=True)
     if not cands:
         sys.exit(f"ERROR: no {prefix}_*.csv in {directory}")
@@ -48,7 +52,7 @@ def newest_source(directory: str, prefix: str) -> Path:
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO", "GB", "XI"), required=True)
+    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO", "GB", "XI", "CH"), required=True)
     p.add_argument("--source", type=Path)
     p.add_argument("--codes", type=Path, help="a built <jur>_<rev>.codes.json to cross-check")
     p.add_argument("--explorer", type=Path, help="a built <jur>_<year>_revision_<n>.json to cross-check")
@@ -60,7 +64,7 @@ def main() -> int:
 
     bhc.CORPUS_LANG = lang
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
-               "dga": bhc.load_rows_dga}
+               "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch}
     rows, stats = loaders[fmt](src)
     roots = bhc.build_tree(rows)
     nodes = bhc.collect_node_index(roots)
@@ -80,13 +84,13 @@ def main() -> int:
     print(f"  tree nodes: {len(nodes):,}  leaves: {len(leaves):,}")
 
     # 2. official leaf truth
-    if fmt == "taric":
+    if fmt in ("taric", "ch"):
         if stats.official_leaf_digits != leaves:
             failures.append(
                 f"leaf set != official IS_LEAF "
                 f"({len(stats.official_leaf_digits):,} official vs {len(leaves):,} ours)")
         else:
-            print(f"  EU: leaf set equals official IS_LEAF ({len(leaves):,}) ✔")
+            print(f"  {args.jurisdiction}: leaf set equals official IS_LEAF ({len(leaves):,}) ✔")
     if fmt == "dga":
         if len(leaves) != 7697:
             failures.append(f"DO leaves {len(leaves):,} != the book's 7,697")

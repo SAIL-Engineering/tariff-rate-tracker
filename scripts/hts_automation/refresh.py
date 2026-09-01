@@ -83,6 +83,13 @@ def build_ctx(spec: dict, res) -> RunCtx:
     # JSON as dataset_json instead)
     ctx["explorer_json"] = (f"{ctx['jur_lower']}_{res.year}_revision_{res.rev_num}.json"
                             if spec["source_format"] != "usitc" else "")
+    # Multilingual schedules (CH): one Explorer dataset per extra language,
+    # built from the adapter's sibling canonical CSVs; EN stays the default,
+    # unsuffixed dataset.
+    for _lang in spec.get("languages", []):
+        ctx[f"explorer_json_{_lang}"] = (
+            f"{ctx['jur_lower']}_{res.year}_revision_{res.rev_num}.{_lang}.json"
+            if ctx["explorer_json"] else "")
     # Derived duty rates (CA/EU/DO): per-chapter dir + index + treatments
     ctx["rates_dir"] = (f"{stem}.rates" if spec.get("duty_rates") else "")
     ctx["rates_index"] = (f"{stem}.rates.index.json" if spec.get("duty_rates") else "")
@@ -197,6 +204,16 @@ def do_build(spec: dict, ctx: RunCtx, args) -> None:
         if spec.get("lang", "en") != "en":
             ecmd += ["--lang", spec["lang"]]
         run(ecmd, REGISTRY["build"].exit_code)
+        for _lang in spec.get("languages", []):
+            lang_csv = Path(str(ctx["source_csv"])).with_suffix(f".{_lang}.csv")
+            if not lang_csv.is_file():
+                sys.exit(f"ERROR: language CSV missing: {lang_csv}")
+            run([sys.executable, str(HERE / "build_explorer_dataset.py"),
+                 str(lang_csv),
+                 "--source-format", spec["source_format"],
+                 "--jurisdiction", spec["code"],
+                 "--out", ctx[f"explorer_json_{_lang}"]],
+                REGISTRY["build"].exit_code)
     _build_duty_rates(spec, ctx)
 
 
@@ -229,6 +246,13 @@ def _build_duty_rates(spec: dict, ctx: RunCtx) -> None:
                      "--snapshot-date", str(ctx["effective_date"]),
                      "--geo-areas", str(ctx[duty["geo_areas_key"]]),
                      "--declarable", str(ctx[duty["declarable_key"]])]
+        elif fmt == "ch":
+            dcmd += ["--nomenclature", str(ctx["source_csv"]),
+                     "--snapshot-date", str(ctx["effective_date"]),
+                     "--geo-areas", str(ctx[duty["geo_areas_key"]]),
+                     "--base-data", str(ctx[duty["base_key"]])]
+            if ctx.get("ch_master_created"):
+                dcmd += ["--created", str(ctx["ch_master_created"])]
         run(dcmd, REGISTRY["build"].exit_code)
 
 

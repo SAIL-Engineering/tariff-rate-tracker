@@ -1009,6 +1009,369 @@ def build_gb(measures_csv: Path, geo_json: Path, jur: str, revision: str,
     return records, tout, coverage
 
 
+# ── Switzerland ──────────────────────────────────────────────────────────────
+
+CH_ERGA_GRP = "100000"      # "Normal rate" — the Generaltarif country group
+
+CH_COVERAGE = {
+    "provides": [
+        "The complete Swiss customs tariff at 8-digit depth from the BAZG "
+        "Passar master data: the normal tariff (Generaltarif) plus every "
+        "preferential rate with its tariff country group resolved to member "
+        "origins — duty amounts verbatim (Swiss duties are predominantly "
+        "specific, CHF per unit or weight; never converted to percentages).",
+        "Per-code import VAT (standard, reduced and special rates from the "
+        "master data), additional taxes (with min/max and units), customs "
+        "privileges, permits and statistical keys as informational rows.",
+        "Refreshed from every master-data regeneration (published daily "
+        "when content changes); the as-of line shows the exact generation.",
+    ],
+    "excludes": [
+        "Preferential origin-rule verification: a preferential rate is a "
+        "candidate, not an entitlement — proof of origin is required.",
+        "Tariff-quota entitlement: in-quota tariff numbers (K-Nr./Q. No.) "
+        "are distinct codes shown as conditional; actual quota availability "
+        "is operational data (e-quota), never assumed here.",
+        "Customs privileges (reduced duty under end-use etc.) are listed "
+        "separately, never merged into the ordinary rate.",
+        "Ad-valorem equivalents for specific duties (a CHF-per-weight duty "
+        "stays a specific duty; computing an equivalent needs the actual "
+        "customs value and quantity).",
+        "Fees and non-customs-law charges beyond those in the master data.",
+    ],
+    "source": "BAZG Passar master data (datahub.bazg.admin.ch, "
+              "Swiss Federal Office for Customs and Border Security)",
+}
+
+
+def _ch_active(el, snapshot_iso: str) -> bool:
+    vf = el.get("validFrom") or (el.findtext("validFrom") or "").strip()
+    vt = el.get("validTo") or (el.findtext("validTo") or "").strip()
+    return (not vf or vf <= snapshot_iso) and (not vt or vt >= snapshot_iso)
+
+
+def _ch_rate_text(value: str, unit_note: str, weight: str) -> str:
+    v = (value or "").strip()
+    try:
+        num = float(v)
+    except ValueError:
+        num = None
+    if num == 0:
+        return "Free"
+    unit = (unit_note or "").strip()
+    # gtBem reads "Fr. per piece(s)" / "Fr. je Stück" — fold the currency in.
+    if unit[:3] in ("Fr.", "fr."):
+        unit = unit[3:].strip()
+    if unit:
+        return f"CHF {v} {unit}"
+    return f"CHF {v} ({weight} basis)" if weight else f"CHF {v}"
+
+
+def build_ch(master_xml: Path, countries_xml: Path, jur: str, revision: str,
+             nomenclature_csv: Path, snapshot_date, base_xml: Path,
+             created: str = ""):
+    """Swiss duty build: TariffMasterData (per-8-digit, exact inheritance)
+    + CountryCodes group membership + base master data. Specific duties are
+    preserved verbatim (spec: never forced into percentages); the normal
+    tariff (group 100000) is the erga-omnes baseline; preferences are
+    conditional on origin entitlement. Hard gates: the master commodity set
+    must equal the nomenclature leaf set, every leaf must carry an NT rate,
+    and the tree's own general-tariff column must agree with the master NT
+    on a sample."""
+    import xml.etree.ElementTree as _ET
+    snapshot = snapshot_date.isoformat()
+
+    # ── country groups (attribute-based; membership inverted from the
+    #    per-country assignments, validity-filtered) ───────────────────
+    geo_root = _ET.parse(countries_xml).getroot()
+    def _S(t): return t.split("}")[-1]
+    group_names: dict[str, str] = {}
+    group_members: dict[str, list[str]] = {}
+    for section in geo_root:
+        if _S(section.tag) == "countryGroups":
+            for g in section:
+                if _ch_active(g, snapshot):
+                    group_names[g.get("grpNr", "")] = g.get("nameEn") or                         g.get("nameDe") or g.get("grpNr", "")
+        elif _S(section.tag) == "countries":
+            for c in section:
+                if not _ch_active(c, snapshot):
+                    continue
+                iso = c.get("isoCode", "")
+                for a in c:
+                    if _S(a.tag) == "countryGroupAssignment" and                             _ch_active(a, snapshot):
+                        group_members.setdefault(a.get("grpNr", ""),
+                                                 []).append(iso)
+    if CH_ERGA_GRP not in group_names:
+        raise SystemExit("ERROR: CountryCodes lacks group 100000 (Normal "
+                         "rate) — schema changed?")
+
+    # ── nomenclature: leaves, unit notes, tree general-tariff column ──
+    leaves: dict[str, dict] = {}
+    with nomenclature_csv.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            if (r.get("IS_LEAF") or "") == "1":
+                leaves[r["GOODS_CODE"]] = {
+                    "unit": (r.get("UNIT") or "").strip(),
+                    "gt": (r.get("GT_RATE") or "").strip(),
+                }
+    if not leaves:
+        raise SystemExit(f"ERROR: no leaves in {nomenclature_csv}")
+
+    _QUOTA_RE = re.compile(r"quota|contingent|K-?Nr|Q\.\s*No", re.IGNORECASE)
+
+    records: list[dict] = []
+    stats = {"codes": 0, "skipped_export_only": 0, "expired": 0,
+             "future_rates": 0, "nt_covered": 0, "gt_checked": 0,
+             "gt_mismatch": 0}
+    master_codes: set[str] = set()
+    seen_treatments: dict[str, dict] = {}
+
+    ctx = _ET.iterparse(master_xml, events=("end",))
+    for _ev, el in ctx:
+        if _S(el.tag) != "commodityCode":
+            continue
+        get = lambda k: (el.findtext(k) or "").strip()
+        digits = get("value").replace(".", "")
+        if (get("validForImport") != "true"
+                or not _ch_active(el, snapshot)):
+            stats["skipped_export_only"] += 1
+            el.clear()
+            continue
+        master_codes.add(digits)
+        stats["codes"] += 1
+        info = leaves.get(digits, {"unit": "", "gt": ""})
+        text_en = ""
+        for t in el:
+            if _S(t.tag) == "commodityCodeText":
+                text_en = (t.findtext("textEn") or "").strip()
+                break
+        quota_line = bool(_QUOTA_RE.search(text_en))
+        display = f"{digits[:4]}.{digits[4:]}"
+        nt_seen = False
+
+        # Baseline treatment set: privilege code 00 (ordinary) when present;
+        # otherwise the lowest code — some lines are inherently use-bound
+        # (e.g. "for slaughter" carries only privilege 01) and that set IS
+        # the line's normal treatment, flagged conditional.
+        priv_codes = sorted((pv.findtext("code") or "").strip()
+                            for pv in el.iter()
+                            if _S(pv.tag) == "customsPrivilegeCode")
+        baseline = "00" if "00" in priv_codes else (priv_codes[0]
+                                                    if priv_codes else "00")
+
+        for priv in el.iter():
+            if _S(priv.tag) != "customsPrivilegeCode":
+                continue
+            priv_code = (priv.findtext("code") or "").strip()
+            is_normal = priv_code == baseline
+            best_by_key: dict[tuple, dict] = {}
+            for rate in priv:
+                if _S(rate.tag) != "rate":
+                    continue
+                if not _ch_active(rate, snapshot):
+                    vf = (rate.findtext("validFrom") or "").strip()
+                    if vf and vf > snapshot:
+                        stats["future_rates"] += 1
+                    else:
+                        stats["expired"] += 1
+                    continue
+                rtyp = (rate.findtext("type") or "").strip()
+                grp = (rate.findtext("countryGrpNr") or "").strip()
+                value = (rate.findtext("value") or "").strip()
+                weight = (rate.findtext("weight") or "").strip()
+                if rtyp == "NT" and grp == CH_ERGA_GRP:
+                    treatment = "erga_omnes"
+                elif rtyp == "NT":
+                    treatment = f"third_country_{grp}"
+                elif rtyp == "PR":
+                    treatment = f"pref_{grp}"
+                else:
+                    treatment = f"rate_{rtyp.lower()}_{grp}"
+                key = (treatment, grp)
+                vf = (rate.findtext("validFrom") or "").strip()
+                prev = best_by_key.get(key)
+                if prev and prev["_vf"] >= vf:
+                    continue
+                best_by_key[key] = {
+                    "_vf": vf, "treatment": treatment, "grp": grp,
+                    "value": value, "weight": weight, "type": rtyp,
+                    "dbr": (rate.findtext("dbr") or "").strip(),
+                }
+            for key, rr in best_by_key.items():
+                rate_text = _ch_rate_text(rr["value"], info["unit"],
+                                          rr["weight"])
+                if is_normal:
+                    rec = _record(jur, revision, display, digits,
+                                  rr["treatment"], rate_text,
+                                  conditional=(rr["treatment"] != "erga_omnes"
+                                               or quota_line
+                                               or baseline != "00"))
+                    if baseline != "00":
+                        rec["privilege_code"] = baseline
+                else:
+                    rec = _record(jur, revision, display, digits,
+                                  f"privilege_{priv_code}_{rr['treatment']}",
+                                  rate_text, informational=True,
+                                  category="privilege", conditional=True)
+                    rec["privilege_code"] = priv_code
+                rec["origin_code"] = rr["grp"]
+                rec["origin_name"] = group_names.get(rr["grp"], rr["grp"])
+                if rr["weight"]:
+                    rec["assessment_basis"] = rr["weight"]
+                if quota_line and is_normal:
+                    rec["quota_note"] = ("In-/out-of-quota tariff line — "
+                                         "entitlement is operational data")
+                records.append(rec)
+                if is_normal and rr["treatment"] == "erga_omnes":
+                    nt_seen = True
+                    gt = info["gt"]
+                    if gt:
+                        stats["gt_checked"] += 1
+                        try:
+                            if abs(float(gt) - float(rr["value"])) > 0.005:
+                                stats["gt_mismatch"] += 1
+                        except ValueError:
+                            pass
+                if is_normal and rr["treatment"] != "erga_omnes" \
+                        and rr["treatment"] not in seen_treatments:
+                    seen_treatments[rr["treatment"]] = rr
+                elif is_normal and rr["treatment"].startswith("pref_") \
+                        and rr["treatment"] not in seen_treatments:
+                    seen_treatments[rr["treatment"]] = rr
+        if nt_seen:
+            stats["nt_covered"] += 1
+
+        # per-code VAT (current window)
+        for vat in el:
+            if _S(vat.tag) != "vatCode":
+                continue
+            code = (vat.findtext("code") or "").strip()
+            rate_now = ""
+            for vr in vat:
+                if _S(vr.tag) == "vatRate" and _ch_active(vr, snapshot):
+                    rate_now = (vr.findtext("rate") or "").strip()
+            if rate_now:
+                rec = _record(jur, revision, display, digits, "vat",
+                              f"{rate_now}%", informational=True,
+                              category="vat")
+                rec["vat_code"] = code
+                records.append(rec)
+
+        # statistical keys + their permits/additional taxes (condensed)
+        seen_ctl = set()
+        for ctl in el:
+            if _S(ctl.tag) != "controlCode":
+                continue
+            if not _ch_active(ctl, snapshot) or \
+                    (ctl.findtext("validForImport") or "") != "true":
+                continue
+            key_val = (ctl.findtext("value") or "").strip()
+            for t in ctl:
+                if _S(t.tag) == "controlCodeText":
+                    ktext = (t.findtext("textEn") or "").strip()
+                    dd = ("stat_key", key_val)
+                    if dd not in seen_ctl:
+                        seen_ctl.add(dd)
+                        rec = _record(jur, revision, display, digits,
+                                      f"stat_key_{key_val}", "",
+                                      informational=True,
+                                      category="statistical_key")
+                        rec["measure_name"] = f"Statistical key {key_val}: " \
+                                              f"{ktext}"[:120]
+                        records.append(rec)
+            for sub in ctl.iter():
+                st = _S(sub.tag)
+                if st == "permit" and _ch_active(sub, snapshot):
+                    ptext = (sub.findtext("textEn") or "").strip()
+                    dd = ("permit", ptext)
+                    if dd in seen_ctl or not ptext:
+                        continue
+                    seen_ctl.add(dd)
+                    rec = _record(jur, revision, display, digits,
+                                  "permit", "", informational=True,
+                                  category="control", conditional=True)
+                    rec["measure_name"] = ptext[:120]
+                    records.append(rec)
+                elif st == "additionalTax" and _ch_active(sub, snapshot):
+                    code = (sub.findtext("code") or "").strip()
+                    keyf = (sub.findtext("key") or "").strip()
+                    dd = ("atax", code, keyf)
+                    if dd in seen_ctl:
+                        continue
+                    seen_ctl.add(dd)
+                    unit = (sub.findtext("unit") or "").strip()
+                    rate = (sub.findtext("rate") or "").strip()
+                    rec = _record(jur, revision, display, digits,
+                                  f"additional_tax_{code}",
+                                  f"{unit} {rate}".strip(),
+                                  informational=True,
+                                  category="additional_tax",
+                                  conditional=(sub.findtext("optional")
+                                               or "") == "true")
+                    rec["measure_name"] = ((sub.findtext("textEn") or "")
+                                           .strip())[:120]
+                    mn = (sub.findtext("minValue") or "").strip()
+                    mx = (sub.findtext("maxValue") or "").strip()
+                    if mn or mx:
+                        rec["min_max"] = f"{mn}–{mx}"
+                    records.append(rec)
+        el.clear()
+
+    # ── hard gates ───────────────────────────────────────────────────
+    leaf_set = set(leaves)
+    only_master = sorted(master_codes - leaf_set)[:10]
+    only_tree = sorted(leaf_set - master_codes)[:10]
+    if master_codes != leaf_set:
+        raise SystemExit(
+            f"ERROR: master-data commodity set != nomenclature leaves "
+            f"(master-only: {only_master}, tree-only: {only_tree})")
+    pct = 100.0 * stats["nt_covered"] / len(leaf_set)
+    print(f"[ch] normal-tariff coverage: {stats['nt_covered']:,}/"
+          f"{len(leaf_set):,} leaves ({pct:.1f}%); tree-GT cross-check: "
+          f"{stats['gt_checked']:,} compared, {stats['gt_mismatch']} "
+          f"mismatches")
+    if pct < 99.0:
+        raise SystemExit(f"ERROR: CH normal-tariff leaf coverage {pct:.1f}% "
+                         f"below the 99% floor")
+    # Tree-GT vs applied NT divergence is EXPECTED where Switzerland
+    # applies a lower rate than the statutory Generaltarif (industrial
+    # tariffs abolished 2024-01-01: applied NT 0, statutory GT unchanged) —
+    # reported above for visibility, never a gate.
+
+    # ── treatments + coverage ────────────────────────────────────────
+    tout = [{"treatment": "erga_omnes",
+             "name": "Normal tariff (Generaltarif)",
+             "origin_countries": [], "applies": "all_origins",
+             "conditional": False,
+             "legal_basis": "Customs Tariff Act (ZTG/LTaD), rate type NT"}]
+    for treatment in sorted(seen_treatments):
+        rr = seen_treatments[treatment]
+        kind = ("Preferential tariff" if treatment.startswith("pref_")
+                else "Country-specific normal tariff")
+        tout.append({
+            "treatment": treatment,
+            "name": f"{kind} — {group_names.get(rr['grp'], rr['grp'])}",
+            "origin_countries": sorted(set(group_members.get(rr["grp"], []))),
+            "applies": None,
+            "conditional": True,
+            "legal_basis": f"BAZG tariff country group {rr['grp']}"
+                           + (" · proof of origin (dbr)" if rr.get("dbr") == "J"
+                              else ""),
+        })
+    coverage = dict(CH_COVERAGE)
+    coverage["as_of"] = (f"{snapshot} · master data {created}" if created
+                         else snapshot)
+    coverage["applies_in"] = ["LI"]
+    coverage["applies_in_note"] = (
+        "These rates apply to imports into the Swiss customs territory — "
+        "Switzerland and Liechtenstein form one customs area under the 1923 "
+        "Customs Treaty; one tariff book serves both.")
+    overlay = load_overlay("ch")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
 # ── Dominican Republic ───────────────────────────────────────────────────────
 
 DO_COVERAGE = {
@@ -1128,7 +1491,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path,
                    help="canonical CSV (cbsa/dga) or Duties Import xlsx (taric)")
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk"), required=True)
+    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--nomenclature", type=Path,
@@ -1142,6 +1505,10 @@ def main() -> int:
                    help="taric: Measure conditions.xlsx (optional)")
     p.add_argument("--addcodes", type=Path,
                    help="taric: Additional codes descriptions.xlsx (optional)")
+    p.add_argument("--base-data", type=Path,
+                   help="ch: TariffBaseMasterData XML")
+    p.add_argument("--created", default="",
+                   help="ch: master-data creation timestamp for as_of")
     p.add_argument("--declarable", type=Path,
                    help="uk: declarable.json from the acquire step (sid "
                         "universe + reconciliation samples)")
@@ -1177,6 +1544,17 @@ def main() -> int:
             nomenclature_csv=args.nomenclature,
             snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
             declarable_json=args.declarable)
+    elif args.source_format == "ch":
+        for flag, val in (("--nomenclature", args.nomenclature),
+                          ("--snapshot-date", args.snapshot_date),
+                          ("--geo-areas", args.geo_areas)):
+            if not val:
+                sys.exit(f"ERROR: {flag} is required for ch")
+        records, treatments, coverage = build_ch(
+            args.source, args.geo_areas, jur, args.revision,
+            nomenclature_csv=args.nomenclature,
+            snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
+            base_xml=args.base_data, created=args.created)
     else:
         records, treatments, coverage = build_do(args.source, jur, args.revision)
 

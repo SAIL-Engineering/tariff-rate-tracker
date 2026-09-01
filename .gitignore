@@ -104,6 +104,9 @@ node_modules/
 /do_*.jsonl
 /do_*.codes.json
 /do_*.manifest.json
+/ch_*.jsonl
+/ch_*.codes.json
+/ch_*.manifest.json
 /gb_*.jsonl
 /xi_*.jsonl
 /xi_*.codes.json
@@ -128,3 +131,4 @@ data/validation/avalara_resolved.rds
 data/ca_tariff_source/.cbsa_download/
 data/eu_tariff_source/.circabc_download/
 data/gb_tariff_source/.uk_download/
+data/ch_tariff_source/.ch_download/

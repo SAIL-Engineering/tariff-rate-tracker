@@ -342,6 +342,62 @@ def load_rows_taric(path: Path):
     return rows, stats
 
 
+# ── Swiss (CH) ───────────────────────────────────────────────────────────────
+# Source: the canonical CSV emitted by acquire/ch_tares.py from the BAZG
+# TariffsTree (native 8-digit Swiss tariff numbers — never padded to 10).
+# SUFFIX 80 = TN2/TN4/TN6/TN8 coded rows (TN2 chapter rows are dropped here,
+# mirroring the TARIC loader — the chapters file prefixes every breadcrumb);
+# SUFFIX 10 = VT6/VT8 leading texts -> condition rows. INDENT comes computed
+# from the tree tiers (see the adapter docstring). TN8 rows carry IS_LEAF=1
+# and a UNIT note ("Fr. per piece(s)"). Display: 0101 / 0101.21 / 0101.2110.
+def _ch_display(digits: str) -> str:
+    if len(digits) <= 4:
+        return digits
+    return f"{digits[:4]}.{digits[4:]}"
+
+
+def load_rows_ch(path: Path):
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            suffix = (r.get("SUFFIX") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            if suffix != "80":
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": indent,
+                             "_code": ""})
+                continue
+            if not digits.isdigit() or len(digits) not in (2, 4, 6, 8):
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if len(digits) == 2:
+                # Chapter rows duplicate the chapters file — drop, making
+                # headings roots (same as the TARIC and USITC paths).
+                stats.dropped_uncoded += 1
+                continue
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate Swiss code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if (r.get("IS_LEAF") or "").strip() == "1":
+                stats.official_leaf_digits.add(digits)
+            display = _ch_display(digits)
+            rows.append({"HTS Number": display,
+                         "Description": desc,
+                         "Unit of Quantity": (r.get("UNIT") or "").strip(),
+                         "_indent": indent,
+                         "_code": display,
+                         "_digits": digits})
+    return rows, stats
+
+
 # ── DGA (Dominican Republic) ─────────────────────────────────────────────────
 # Source: the user-transcribed Arancel de Aduanas CSV (Spanish; DGA publishes
 # PDF only). Hierarchy is encoded as LEADING DASHES in the description —
@@ -739,7 +795,7 @@ def main() -> int:
     p.add_argument("out_stem", help="Output base name; .jsonl and .manifest.json are appended")
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
-    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga"), default="usitc",
+    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch"), default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
                         "taric = the canonical EU CSV from acquire/eu_taric.py; "
@@ -762,7 +818,8 @@ def main() -> int:
     out_stem.parent.mkdir(parents=True, exist_ok=True)
 
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
-               "taric": load_rows_taric, "dga": load_rows_dga}
+               "taric": load_rows_taric, "dga": load_rows_dga,
+               "ch": load_rows_ch}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

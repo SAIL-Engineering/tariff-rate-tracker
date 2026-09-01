@@ -54,6 +54,8 @@ def get_adapter(name: str):
         from . import eu_taric as mod
     elif name == "uk_tariff":
         from . import uk_tariff as mod
+    elif name == "ch_tares":
+        from . import ch_tares as mod
     else:
         raise SystemExit(f"ERROR: unknown acquisition adapter {name!r}")
     return mod

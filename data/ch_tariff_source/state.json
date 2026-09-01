@@ -1,0 +1,19 @@
+{
+  "cache_dir": "data/ch_tariff_source/.ch_download/2026-09-01",
+  "classification_hash": "12ff223b41a0a881c41f789b77302587d9f4f5867f760a4af0cb539ede994562",
+  "corpus_effective": "2026-09-01",
+  "corpus_revision": "2026_rev_901",
+  "etags": {
+    "CountryCodes_v3": "\"ebbfc42428e50109057e5719ca110ff3\"",
+    "TariffBaseMasterData_v2": "\"26b16e8e1f6f5d9fbc2dd885f45e966b\"",
+    "TariffMasterData_v6": "\"e3f915fc3ee4510a07fbd52090de4aae\"",
+    "TariffsTree_v1": "\"955a92e142fb7b8f862d1e2f45816c08\""
+  },
+  "rates_created": "2026-09-01T18:25:14",
+  "xsd_sha": {
+    "CountryCodes_v3": "c6861ff641cd407ba2b26609eef096d73803410afd19b9ea3984f0c866ef6d07",
+    "TariffBaseMasterData_v2": "3ae5375466c84674240fab4e309be49550b99642ac431ab7b5ed7b4dcf1c00ce",
+    "TariffMasterData_v6": "6b62690aec9ac02cbd9cd16e0c82855fb5688fef6a5a0173ae2958c9b4eebcc8",
+    "TariffsTree_v1": "365fe401094e5dde8da30da3d6de8f420e44c02cc6b84623420b208b9675fffc"
+  }
+}
