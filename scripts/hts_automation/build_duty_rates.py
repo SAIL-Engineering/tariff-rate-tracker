@@ -713,8 +713,12 @@ GB_COVERAGE = {
         "conditional, not asserted.",
         "Ad-valorem equivalents for specific/compound duties (shown "
         "verbatim, never converted).",
-        "Northern Ireland (XI) imports, which follow the EU tariff under "
-        "the Windsor Framework — see the EU jurisdiction.",
+        "Northern Ireland import specifics: XI is legally part of the UK "
+        "customs territory and NI-to-GB movements are unfettered, but goods "
+        "ENTERING Northern Ireland operate the Windsor Framework "
+        "dual-system — 'at risk' goods pay the EU-aligned Northern Ireland "
+        "Online Tariff rate (see the Northern Ireland schedule); 'not at "
+        "risk' UKIMS goods pay these UK rates.",
     ],
     "source": "UK Integrated Online Tariff (DBT Data API, "
               "uk-tariff-2021-01-01)",
@@ -982,6 +986,19 @@ def build_gb(measures_csv: Path, geo_json: Path, jur: str, revision: str,
     tout += [origin_treatments[k] for k in sorted(origin_treatments)]
     coverage = dict(GB_COVERAGE)
     coverage["as_of"] = snapshot
+    # The unified UK Customs Territory: England/Scotland/Wales (GB) plus
+    # Northern Ireland (legally within it; Windsor dual-system for goods
+    # entering NI), the Isle of Man, and the Channel Islands (UK-Crown
+    # Dependencies Customs Union). Goods originating anywhere in it are in
+    # free circulation for a GB import.
+    coverage["applies_in"] = ["GG", "IM", "JE", "XI"]
+    coverage["applies_in_note"] = (
+        "These rates apply to imports into the UK customs territory — "
+        "England, Scotland and Wales, with the Isle of Man and the Channel "
+        "Islands (Jersey, Guernsey) inside the same customs union. Northern "
+        "Ireland is legally part of the territory too, but goods entering "
+        "Northern Ireland operate the Windsor Framework dual-system — see "
+        "the Northern Ireland Online Tariff schedule.")
     overlay = load_overlay("gb")
     if overlay.get("flat_taxes"):
         coverage["flat_taxes"] = overlay["flat_taxes"]
