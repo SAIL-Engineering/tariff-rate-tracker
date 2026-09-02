@@ -54,6 +54,14 @@
         "to": "server/data/hts/eu_{year}_revision_{number}.json"
       },
       {
+        "from": "explorer_json_de",
+        "to": "server/data/hts/eu_{year}_revision_{number}.de.json"
+      },
+      {
+        "from": "explorer_json_fr",
+        "to": "server/data/hts/eu_{year}_revision_{number}.fr.json"
+      },
+      {
         "from": "rates_dir",
         "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
       },
@@ -75,5 +83,9 @@
     "source_format": "taric",
     "geo_areas_key": "eu_geo_xlsx",
     "_comment": "Rates come from the Duties Import workbook staged by the eu_taric acquire step (extras), not the nomenclature CSV."
-  }
+  },
+  "languages": [
+    "de",
+    "fr"
+  ]
 }

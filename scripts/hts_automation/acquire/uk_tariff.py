@@ -448,8 +448,10 @@ def resolve(spec: dict, args) -> AcquireResult:
         effective_date = getattr(args, "effective_date", None)
 
     if not _A.effective_date and not _A.source:
-        candidates = sorted(directory.glob(f"{prefix}_*_rev_*.csv"),
-                            key=lambda p: p.stat().st_mtime, reverse=True)
+        candidates = sorted(
+            (c for c in directory.glob(f"{prefix}_*_rev_*.csv")
+             if re.fullmatch(rf"{re.escape(prefix)}_\d{{4}}_rev_\d+", c.stem)),
+            key=lambda p: p.stat().st_mtime, reverse=True)
         if candidates:
             rev_id = candidates[0].stem.replace(f"{prefix}_", "")
             registry = spec.get("registry")

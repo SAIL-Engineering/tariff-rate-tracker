@@ -83,13 +83,16 @@ def build_ctx(spec: dict, res) -> RunCtx:
     # JSON as dataset_json instead)
     ctx["explorer_json"] = (f"{ctx['jur_lower']}_{res.year}_revision_{res.rev_num}.json"
                             if spec["source_format"] != "usitc" else "")
-    # Multilingual schedules (CH): one Explorer dataset per extra language,
+    # Multilingual schedules (CH/EU/KR): one Explorer dataset AND one corpus
+    # per extra language. Corpus variants publish to `{namespace}_{lang}`
+    # namespaces; English stays the unsuffixed default everywhere.
     # built from the adapter's sibling canonical CSVs; EN stays the default,
     # unsuffixed dataset.
     for _lang in spec.get("languages", []):
         ctx[f"explorer_json_{_lang}"] = (
             f"{ctx['jur_lower']}_{res.year}_revision_{res.rev_num}.{_lang}.json"
             if ctx["explorer_json"] else "")
+        ctx[f"corpus_jsonl_{_lang}"] = f"{stem}.{_lang}.jsonl"
     # Derived duty rates (CA/EU/DO): per-chapter dir + index + treatments
     ctx["rates_dir"] = (f"{stem}.rates" if spec.get("duty_rates") else "")
     ctx["rates_index"] = (f"{stem}.rates.index.json" if spec.get("duty_rates") else "")
@@ -195,6 +198,28 @@ def do_build(spec: dict, ctx: RunCtx, args) -> None:
     for key in ("corpus_jsonl", "codes_json"):
         if not ctx.artifact(key).is_file():
             sys.exit(f"ERROR: build did not produce {ctx[key]}")
+    # Language-variant corpora: same tree/record schema, per-language CSV and
+    # chapters file, stem suffixed so every artifact lands beside the English
+    # one. The language corpus publishes to `{namespace}_{lang}`.
+    for _lang in spec.get("languages", []):
+        lang_csv = Path(str(ctx["source_csv"])).with_suffix(f".{_lang}.csv")
+        if not lang_csv.is_file():
+            sys.exit(f"ERROR: language CSV missing: {lang_csv}")
+        chapters = Path(spec["chapters_file"]).with_suffix(f".{_lang}.json")
+        if not chapters.is_file():
+            sys.exit(f"ERROR: language chapters file missing: {chapters}")
+        lcmd = [sys.executable, str(HERE / "build_hts_corpus.py"),
+                str(lang_csv), str(chapters), f"{ctx['stem']}.{_lang}",
+                "--jurisdiction", spec["code"],
+                "--revision", ctx["revision"],
+                "--max-depth", str(spec["max_depth"]),
+                "--lang", _lang]
+        if spec["source_format"] != "usitc":
+            lcmd += ["--source-format", spec["source_format"]]
+        run(lcmd, REGISTRY["build"].exit_code)
+        if not ctx.artifact(f"corpus_jsonl_{_lang}").is_file():
+            sys.exit(f"ERROR: build did not produce "
+                     f"{ctx[f'corpus_jsonl_{_lang}']}")
     if ctx.get("explorer_json"):
         ecmd = [sys.executable, str(HERE / "build_explorer_dataset.py"),
                 str(ctx["source_csv"]),
@@ -279,12 +304,32 @@ def do_verify(spec: dict, ctx: RunCtx, args) -> None:
 
 def do_publish(spec: dict, ctx: RunCtx, args) -> None:
     pub = spec.get("publish") or {}
+    keep = str(args.keep if args.keep is not None else pub.get("keep", 3))
     cmd = [sys.executable, str(HERE / "pinecone_sync.py"), "swap",
            "--jsonl", ctx["corpus_jsonl"], "--namespace", ctx["namespace"],
-           "--keep", str(args.keep if args.keep is not None else pub.get("keep", 3))]
+           "--keep", keep]
     if pub.get("golden_queries"):
         cmd += ["--golden-queries", pub["golden_queries"]]
     run(cmd, REGISTRY["publish"].exit_code)
+    # Language variants: same record count as English (hard parity check —
+    # a language corpus missing lines would silently degrade retrieval for
+    # that language), golden queries English-only.
+    for _lang in spec.get("languages", []):
+        import json as _json
+        base_manifest = _json.loads(
+            Path(f"{ctx['stem']}.manifest.json").read_text(encoding="utf-8"))
+        lang_manifest = _json.loads(
+            Path(f"{ctx['stem']}.{_lang}.manifest.json").read_text(encoding="utf-8"))
+        if base_manifest.get("record_count") != lang_manifest.get("record_count"):
+            sys.exit(f"ERROR: {_lang} corpus record_count "
+                     f"{lang_manifest.get('record_count')} != English "
+                     f"{base_manifest.get('record_count')} — language corpora "
+                     f"must be structurally identical")
+        lcmd = [sys.executable, str(HERE / "pinecone_sync.py"), "swap",
+                "--jsonl", ctx[f"corpus_jsonl_{_lang}"],
+                "--namespace", f"{ctx['namespace']}_{_lang}",
+                "--keep", keep]
+        run(lcmd, REGISTRY["publish"].exit_code)
 
 
 def do_register(spec: dict, ctx: RunCtx, args) -> None:

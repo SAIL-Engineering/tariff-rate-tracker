@@ -77,10 +77,18 @@ _BASKET_RES = {
     "en": BASKET_RE,
     "es": re.compile(r"^(los\s+dem[áa]s|las\s+dem[áa]s|otros|otras|otro|otra)$",
                      re.IGNORECASE),
+    "de": re.compile(r"^(andere|anderes?|übrige)$", re.IGNORECASE),
+    "fr": re.compile(r"^(autres?)$", re.IGNORECASE),
+    "it": re.compile(r"^(altr[oie]|altre)$", re.IGNORECASE),
+    "ko": re.compile(r"^(기타)$"),
 }
 _EXCLUSION_TEMPLATES = {
     "en": "{desc}, other than: {clause}",
     "es": "{desc}, excepto: {clause}",
+    "de": "{desc}, ausgenommen: {clause}",
+    "fr": "{desc}, autres que : {clause}",
+    "it": "{desc}, diversi da: {clause}",
+    "ko": "{desc} (제외: {clause})",
 }
 CORPUS_LANG = "en"
 
@@ -882,7 +890,7 @@ def main() -> int:
             return 7
         print(f"  official leaf cross-check: {len(official):,} leaves agree")
 
-    jsonl_path = out_stem.with_suffix(".jsonl")
+    jsonl_path = Path(f"{out_stem}.jsonl")
     write_jsonl(records, jsonl_path)
 
     basket_count = sum(1 for r in records if r["is_basket"])

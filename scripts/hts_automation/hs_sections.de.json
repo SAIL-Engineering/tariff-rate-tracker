@@ -1,0 +1,128 @@
+[
+  {
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs",
+    "start": 1,
+    "end": 5
+  },
+  {
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs",
+    "start": 6,
+    "end": 14
+  },
+  {
+    "section": "III",
+    "sectionTitle": "Tierische, pflanzliche oder mikrobielle Fette und Öle und Erzeugnisse ihrer Spaltung; genießbare verarbeitete Fette; Wachse tierischen und pflanzlichen Ursprungs",
+    "start": 15,
+    "end": 15
+  },
+  {
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper",
+    "start": 16,
+    "end": 24
+  },
+  {
+    "section": "V",
+    "sectionTitle": "Mineralische Stoffe",
+    "start": 25,
+    "end": 27
+  },
+  {
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien",
+    "start": 28,
+    "end": 38
+  },
+  {
+    "section": "VII",
+    "sectionTitle": "Kunststoffe und Waren daraus; Kautschuk und Waren daraus",
+    "start": 39,
+    "end": 40
+  },
+  {
+    "section": "VIII",
+    "sectionTitle": "Häute, Felle, Leder, Pelzfelle und Waren daraus; Sattlerwaren; Reiseartikel, Handtaschen und ähnliche Behältnisse; Waren aus Därmen",
+    "start": 41,
+    "end": 43
+  },
+  {
+    "section": "IX",
+    "sectionTitle": "Holz und Holzwaren; Holzkohle; Kork und Korkwaren; Flechtwaren und Korbmacherwaren",
+    "start": 44,
+    "end": 46
+  },
+  {
+    "section": "X",
+    "sectionTitle": "Halbstoffe aus Holz oder anderen cellulosehaltigen Faserstoffen; Papier oder Pappe (Abfälle und Ausschuss) zur Wiedergewinnung; Papier, Pappe und Waren daraus",
+    "start": 47,
+    "end": 49
+  },
+  {
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus",
+    "start": 50,
+    "end": 63
+  },
+  {
+    "section": "XII",
+    "sectionTitle": "Schuhe, Kopfbedeckungen, Regen- und Sonnenschirme, Gehstöcke, Sitzstöcke, Peitschen, Reitpeitschen und Teile davon; zugerichtete Federn und Waren aus Federn; künstliche Blumen; Waren aus Menschenhaaren",
+    "start": 64,
+    "end": 67
+  },
+  {
+    "section": "XIII",
+    "sectionTitle": "Waren aus Steinen, Gips, Zement, Asbest, Glimmer oder ähnlichen Stoffen; keramische Waren; Glas und Glaswaren",
+    "start": 68,
+    "end": 70
+  },
+  {
+    "section": "XIV",
+    "sectionTitle": "Echte Perlen oder Zuchtperlen, Edelsteine oder Schmucksteine, Edelmetalle, Edelmetallplattierungen und Waren daraus; Fantasieschmuck; Münzen",
+    "start": 71,
+    "end": 71
+  },
+  {
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus",
+    "start": 72,
+    "end": 83
+  },
+  {
+    "section": "XVI",
+    "sectionTitle": "Maschinen, Apparate, mechanische Geräte und elektrotechnische Waren, Teile davon; Tonaufnahme- oder Tonwiedergabegeräte, Fernseh-Bild- und -Tonaufzeichnungsgeräte oder Fernseh-Bild- und -Tonwiedergabegeräte, Teile und Zubehör für diese Geräte",
+    "start": 84,
+    "end": 85
+  },
+  {
+    "section": "XVII",
+    "sectionTitle": "Beförderungsmittel",
+    "start": 86,
+    "end": 89
+  },
+  {
+    "section": "XVIII",
+    "sectionTitle": "Optische, fotografische oder kinematografische Instrumente, Apparate und Geräte; Mess-, Prüf- oder Präzisionsinstrumente, -apparate und -geräte; medizinische und chirurgische Instrumente, Apparate und Geräte; Uhrmacherwaren; Musikinstrumente; Teile und Zubehör für diese Instrumente, Apparate und Geräte",
+    "start": 90,
+    "end": 92
+  },
+  {
+    "section": "XIX",
+    "sectionTitle": "Waffen und Munition; Teile davon und Zubehör",
+    "start": 93,
+    "end": 93
+  },
+  {
+    "section": "XX",
+    "sectionTitle": "Verschiedene Waren",
+    "start": 94,
+    "end": 96
+  },
+  {
+    "section": "XXI",
+    "sectionTitle": "Kunstgegenstände, Sammlungsstücke und Antiquitäten",
+    "start": 97,
+    "end": 99
+  }
+]

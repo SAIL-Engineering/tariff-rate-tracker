@@ -1,0 +1,128 @@
+[
+  {
+    "section": "I",
+    "sectionTitle": "Animaux vivants et produits du règne animal",
+    "start": 1,
+    "end": 5
+  },
+  {
+    "section": "II",
+    "sectionTitle": "Produits du règne végétal",
+    "start": 6,
+    "end": 14
+  },
+  {
+    "section": "III",
+    "sectionTitle": "Graisses et huiles animales, végétales ou d'origine microbienne et produits de leur dissociation; graisses alimentaires élaborées; cires d'origine animale ou végétale",
+    "start": 15,
+    "end": 15
+  },
+  {
+    "section": "IV",
+    "sectionTitle": "Produits des industries alimentaires; boissons, liquides alcooliques et vinaigres; tabacs et succédanés de tabac fabriqués; produits, contenant ou non de la nicotine, destinés à une inhalation sans combustion; autres produits contenant de la nicotine destinés à l'absorption de la nicotine dans le corps humain",
+    "start": 16,
+    "end": 24
+  },
+  {
+    "section": "V",
+    "sectionTitle": "Produits minéraux",
+    "start": 25,
+    "end": 27
+  },
+  {
+    "section": "VI",
+    "sectionTitle": "Produits des industries chimiques ou des industries connexes",
+    "start": 28,
+    "end": 38
+  },
+  {
+    "section": "VII",
+    "sectionTitle": "Matières plastiques et ouvrages en ces matières; caoutchouc et ouvrages en caoutchouc",
+    "start": 39,
+    "end": 40
+  },
+  {
+    "section": "VIII",
+    "sectionTitle": "Peaux, cuirs, pelleteries et ouvrages en ces matières; articles de bourrellerie ou de sellerie; articles de voyage, sacs à main et contenants similaires; ouvrages en boyaux",
+    "start": 41,
+    "end": 43
+  },
+  {
+    "section": "IX",
+    "sectionTitle": "Bois, charbon de bois et ouvrages en bois; liège et ouvrages en liège; ouvrages de sparterie ou de vannerie",
+    "start": 44,
+    "end": 46
+  },
+  {
+    "section": "X",
+    "sectionTitle": "Pâtes de bois ou d'autres matières fibreuses cellulosiques; papier ou carton à recycler (déchets et rebuts); papier et ses applications",
+    "start": 47,
+    "end": 49
+  },
+  {
+    "section": "XI",
+    "sectionTitle": "Matières textiles et ouvrages en ces matières",
+    "start": 50,
+    "end": 63
+  },
+  {
+    "section": "XII",
+    "sectionTitle": "Chaussures, coiffures, parapluies, parasols, cannes, fouets, cravaches et leurs parties; plumes apprêtées et articles en plumes; fleurs artificielles; ouvrages en cheveux",
+    "start": 64,
+    "end": 67
+  },
+  {
+    "section": "XIII",
+    "sectionTitle": "Ouvrages en pierres, plâtre, ciment, amiante, mica ou matières analogues; produits céramiques; verre et ouvrages en verre",
+    "start": 68,
+    "end": 70
+  },
+  {
+    "section": "XIV",
+    "sectionTitle": "Perles fines ou de culture, pierres gemmes ou similaires, métaux précieux, plaqués ou doublés de métaux précieux et ouvrages en ces matières; bijouterie de fantaisie; monnaies",
+    "start": 71,
+    "end": 71
+  },
+  {
+    "section": "XV",
+    "sectionTitle": "Métaux communs et ouvrages en ces métaux",
+    "start": 72,
+    "end": 83
+  },
+  {
+    "section": "XVI",
+    "sectionTitle": "Machines et appareils, matériel électrique et leurs parties; appareils d'enregistrement ou de reproduction du son, appareils d'enregistrement ou de reproduction des images et du son en télévision, et parties et accessoires de ces appareils",
+    "start": 84,
+    "end": 85
+  },
+  {
+    "section": "XVII",
+    "sectionTitle": "Matériel de transport",
+    "start": 86,
+    "end": 89
+  },
+  {
+    "section": "XVIII",
+    "sectionTitle": "Instruments et appareils d'optique, de photographie ou de cinématographie, de mesure, de contrôle ou de précision; instruments et appareils médico-chirurgicaux; horlogerie; instruments de musique; parties et accessoires de ces instruments ou appareils",
+    "start": 90,
+    "end": 92
+  },
+  {
+    "section": "XIX",
+    "sectionTitle": "Armes, munitions et leurs parties et accessoires",
+    "start": 93,
+    "end": 93
+  },
+  {
+    "section": "XX",
+    "sectionTitle": "Marchandises et produits divers",
+    "start": 94,
+    "end": 96
+  },
+  {
+    "section": "XXI",
+    "sectionTitle": "Objets d'art, de collection ou d'antiquité",
+    "start": 97,
+    "end": 99
+  }
+]

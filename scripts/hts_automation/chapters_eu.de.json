@@ -1,0 +1,590 @@
+[
+  {
+    "chapter": "01",
+    "description": "LEBENDE TIERE",
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs"
+  },
+  {
+    "chapter": "02",
+    "description": "FLEISCH UND GENIESSBARE SCHLACHTNEBENERZEUGNISSE",
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs"
+  },
+  {
+    "chapter": "03",
+    "description": "FISCHE UND KREBSTIERE, WEICHTIERE UND ANDERE WIRBELLOSE WASSERTIERE",
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs"
+  },
+  {
+    "chapter": "04",
+    "description": "MILCH UND MILCHERZEUGNISSE; VOGELEIER; NATÜRLICHER HONIG; GENIESSBARE WAREN TIERISCHEN URSPRUNGS, ANDERWEIT WEDER GENANNT NOCH INBEGRIFFEN",
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs"
+  },
+  {
+    "chapter": "05",
+    "description": "ANDERE WAREN TIERISCHEN URSPRUNGS, ANDERWEIT WEDER GENANNT NOCH INBEGRIFFEN",
+    "section": "I",
+    "sectionTitle": "Lebende Tiere und Waren tierischen Ursprungs"
+  },
+  {
+    "chapter": "06",
+    "description": "LEBENDE PFLANZEN UND WAREN DES BLUMENHANDELS",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "07",
+    "description": "GEMÜSE, PFLANZEN, WURZELN UND KNOLLEN, DIE ZU ERNÄHRUNGSZWECKEN VERWENDET WERDEN",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "08",
+    "description": "GENIESSBARE FRÜCHTE UND NÜSSE; SCHALEN VON ZITRUSFRÜCHTEN ODER VON MELONEN",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "09",
+    "description": "KAFFEE, TEE, MATE UND GEWÜRZE",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "10",
+    "description": "GETREIDE",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "11",
+    "description": "MÜLLEREIERZEUGNISSE; MALZ; STÄRKE; INULIN; KLEBER VON WEIZEN",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "12",
+    "description": "ÖLSAMEN UND ÖLHALTIGE FRÜCHTE; VERSCHIEDENE SAMEN UND FRÜCHTE; PFLANZEN ZUM GEWERBE- ODER HEILGEBRAUCH; STROH UND FUTTER",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "13",
+    "description": "SCHELLACK; GUMMEN, HARZE UND ANDERE PFLANZENSÄFTE UND PFLANZENAUSZÜGE",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "14",
+    "description": "FLECHTSTOFFE UND ANDERE WAREN PFLANZLICHEN URSPRUNGS, ANDERWEIT WEDER GENANNT NOCH INBEGRIFFEN",
+    "section": "II",
+    "sectionTitle": "Waren pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "15",
+    "description": "TIERISCHE, PFLANZLICHE ODER MIKROBIELLE FETTE UND ÖLE UND ERZEUGNISSE IHRER SPALTUNG; GENIESSBARE VERARBEITETE FETTE; WACHSE TIERISCHEN ODER PFLANZLICHEN URSPRUNGS",
+    "section": "III",
+    "sectionTitle": "Tierische, pflanzliche oder mikrobielle Fette und Öle und Erzeugnisse ihrer Spaltung; genießbare verarbeitete Fette; Wachse tierischen und pflanzlichen Ursprungs"
+  },
+  {
+    "chapter": "16",
+    "description": "ZUBEREITUNGEN VON FLEISCH, FISCHEN, KREBSTIEREN, WEICHTIEREN, ANDEREN WIRBELLOSEN WASSERTIEREN ODER VON INSEKTEN",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "17",
+    "description": "ZUCKER UND ZUCKERWAREN",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "18",
+    "description": "KAKAO UND ZUBEREITUNGEN AUS KAKAO",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "19",
+    "description": "ZUBEREITUNGEN AUS GETREIDE, MEHL, STÄRKE ODER MILCH; BACKWAREN",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "20",
+    "description": "ZUBEREITUNGEN VON GEMÜSE, FRÜCHTEN, NÜSSEN ODER ANDEREN PFLANZENTEILEN",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "21",
+    "description": "VERSCHIEDENE LEBENSMITTELZUBEREITUNGEN",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "22",
+    "description": "GETRÄNKE, ALKOHOLHALTIGE FLÜSSIGKEITEN UND ESSIG",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "23",
+    "description": "RÜCKSTÄNDE UND ABFÄLLE DER LEBENSMITTELINDUSTRIE; ZUBEREITETES FUTTER",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "24",
+    "description": "TABAK UND VERARBEITETE TABAKERSATZSTOFFE; ERZEUGNISSE, AUCH NIKOTINHALTIG, DIE ZUR INHALATION OHNE VERBRENNUNG BESTIMMT SIND; ANDERE NIKOTINHALTIGE ERZEUGNISSE, DIE ZUR NIKOTINAUFNAHME IN DEN MENSCHLICHEN KÖRPER BESTIMMT SIND",
+    "section": "IV",
+    "sectionTitle": "Waren der Lebensmittelindustrie; Getränke, alkoholhaltige Flüssigkeiten und Essig; Tabak und verarbeitete Tabakersatzstoffe; Erzeugnisse, auch nikotinhaltig, zur Inhalation ohne Verbrennung; andere nikotinhaltige Erzeugnisse zur Aufnahme von Nikotin in den menschlichen Körper"
+  },
+  {
+    "chapter": "25",
+    "description": "SALZ; SCHWEFEL; STEINE UND ERDEN; GIPS, KALK UND ZEMENT",
+    "section": "V",
+    "sectionTitle": "Mineralische Stoffe"
+  },
+  {
+    "chapter": "26",
+    "description": "ERZE SOWIE SCHLACKEN UND ASCHEN",
+    "section": "V",
+    "sectionTitle": "Mineralische Stoffe"
+  },
+  {
+    "chapter": "27",
+    "description": "MINERALISCHE BRENNSTOFFE, MINERALÖLE UND ERZEUGNISSE IHRER DESTILLATION; BITUMINÖSE STOFFE; MINERALWACHSE",
+    "section": "V",
+    "sectionTitle": "Mineralische Stoffe"
+  },
+  {
+    "chapter": "28",
+    "description": "ANORGANISCHE CHEMISCHE ERZEUGNISSE; ANORGANISCHE ODER ORGANISCHE VERBINDUNGEN VON EDELMETALLEN, VON SELTENERDMETALLEN, VON RADIOAKTIVEN ELEMENTEN ODER VON ISOTOPEN",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "29",
+    "description": "ORGANISCHE CHEMISCHE ERZEUGNISSE",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "30",
+    "description": "PHARMAZEUTISCHE ERZEUGNISSE",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "31",
+    "description": "DÜNGEMITTEL",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "32",
+    "description": "GERB- UND FARBSTOFFAUSZÜGE; TANNINE UND IHRE DERIVATE; FARBSTOFFE, PIGMENTE UND ANDERE FARBMITTEL; ANSTRICHFARBEN UND LACKE; KITTE; TINTEN",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "33",
+    "description": "ÄTHERISCHE ÖLE UND RESINOIDE; ZUBEREITETE RIECH-, KÖRPERPFLEGE- ODER SCHÖNHEITSMITTEL",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "34",
+    "description": "SEIFEN, ORGANISCHE GRENZFLÄCHENAKTIVE STOFFE, ZUBEREITETE WASCHMITTEL, ZUBEREITETE SCHMIERMITTEL, KÜNSTLICHE WACHSE, ZUBEREITETE WACHSE, SCHUHCREME, SCHEUERPULVER UND DERGLEICHEN, KERZEN UND ÄHNLICHE ERZEUGNISSE, MODELLIERMASSEN, \"DENTALWACHS\" UND ZUBEREITUNGEN FÜR ZAHNÄRZTLICHE ZWECKE AUF DER GRUNDLAGE VON GIPS",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "35",
+    "description": "EIWEISSSTOFFE; MODIFIZIERTE STÄRKE; KLEBSTOFFE; ENZYME",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "36",
+    "description": "PULVER UND SPRENGSTOFFE; PYROTECHNISCHE ARTIKEL; ZÜNDHÖLZER; ZÜNDMETALL-LEGIERUNGEN; LEICHT ENTZÜNDLICHE STOFFE",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "37",
+    "description": "ERZEUGNISSE ZU FOTOGRAFISCHEN ODER KINEMATOGRAFISCHEN ZWECKEN",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "38",
+    "description": "VERSCHIEDENE ERZEUGNISSE DER CHEMISCHEN INDUSTRIE",
+    "section": "VI",
+    "sectionTitle": "Erzeugnisse der chemischen Industrie und verwandter Industrien"
+  },
+  {
+    "chapter": "39",
+    "description": "KUNSTSTOFFE UND WAREN DARAUS",
+    "section": "VII",
+    "sectionTitle": "Kunststoffe und Waren daraus; Kautschuk und Waren daraus"
+  },
+  {
+    "chapter": "40",
+    "description": "KAUTSCHUK UND WAREN DARAUS",
+    "section": "VII",
+    "sectionTitle": "Kunststoffe und Waren daraus; Kautschuk und Waren daraus"
+  },
+  {
+    "chapter": "41",
+    "description": "HÄUTE, FELLE (ANDERE ALS PELZFELLE) UND LEDER",
+    "section": "VIII",
+    "sectionTitle": "Häute, Felle, Leder, Pelzfelle und Waren daraus; Sattlerwaren; Reiseartikel, Handtaschen und ähnliche Behältnisse; Waren aus Därmen"
+  },
+  {
+    "chapter": "42",
+    "description": "LEDERWAREN; SATTLERWAREN; REISEARTIKEL, HANDTASCHEN UND ÄHNLICHE BEHÄLTNISSE; WAREN AUS DÄRMEN",
+    "section": "VIII",
+    "sectionTitle": "Häute, Felle, Leder, Pelzfelle und Waren daraus; Sattlerwaren; Reiseartikel, Handtaschen und ähnliche Behältnisse; Waren aus Därmen"
+  },
+  {
+    "chapter": "43",
+    "description": "PELZFELLE UND KÜNSTLICHES PELZWERK; WAREN DARAUS",
+    "section": "VIII",
+    "sectionTitle": "Häute, Felle, Leder, Pelzfelle und Waren daraus; Sattlerwaren; Reiseartikel, Handtaschen und ähnliche Behältnisse; Waren aus Därmen"
+  },
+  {
+    "chapter": "44",
+    "description": "HOLZ UND HOLZWAREN; HOLZKOHLE",
+    "section": "IX",
+    "sectionTitle": "Holz und Holzwaren; Holzkohle; Kork und Korkwaren; Flechtwaren und Korbmacherwaren"
+  },
+  {
+    "chapter": "45",
+    "description": "KORK UND KORKWAREN",
+    "section": "IX",
+    "sectionTitle": "Holz und Holzwaren; Holzkohle; Kork und Korkwaren; Flechtwaren und Korbmacherwaren"
+  },
+  {
+    "chapter": "46",
+    "description": "FLECHTWAREN UND KORBMACHERWAREN",
+    "section": "IX",
+    "sectionTitle": "Holz und Holzwaren; Holzkohle; Kork und Korkwaren; Flechtwaren und Korbmacherwaren"
+  },
+  {
+    "chapter": "47",
+    "description": "HALBSTOFFE AUS HOLZ ODER ANDEREN CELLULOSEHALTIGEN FASERSTOFFEN; PAPIER ODER PAPPE (ABFÄLLE UND AUSSCHUSS) ZUR WIEDERGEWINNUNG",
+    "section": "X",
+    "sectionTitle": "Halbstoffe aus Holz oder anderen cellulosehaltigen Faserstoffen; Papier oder Pappe (Abfälle und Ausschuss) zur Wiedergewinnung; Papier, Pappe und Waren daraus"
+  },
+  {
+    "chapter": "48",
+    "description": "PAPIER UND PAPPE; WAREN AUS PAPIERHALBSTOFF, PAPIER ODER PAPPE",
+    "section": "X",
+    "sectionTitle": "Halbstoffe aus Holz oder anderen cellulosehaltigen Faserstoffen; Papier oder Pappe (Abfälle und Ausschuss) zur Wiedergewinnung; Papier, Pappe und Waren daraus"
+  },
+  {
+    "chapter": "49",
+    "description": "BÜCHER, ZEITUNGEN, BILDDRUCKE UND ANDERE ERZEUGNISSE DES GRAFISCHEN GEWERBES; HAND- ODER MASCHINENGESCHRIEBENE SCHRIFTSTÜCKE UND PLÄNE",
+    "section": "X",
+    "sectionTitle": "Halbstoffe aus Holz oder anderen cellulosehaltigen Faserstoffen; Papier oder Pappe (Abfälle und Ausschuss) zur Wiedergewinnung; Papier, Pappe und Waren daraus"
+  },
+  {
+    "chapter": "50",
+    "description": "SEIDE",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "51",
+    "description": "WOLLE, FEINE UND GROBE TIERHAARE; GARNE UND GEWEBE AUS ROSSHAAR",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "52",
+    "description": "BAUMWOLLE",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "53",
+    "description": "ANDERE PFLANZLICHE SPINNSTOFFE; PAPIERGARNE UND GEWEBE AUS PAPIERGARNEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "54",
+    "description": "SYNTHETISCHE ODER KÜNSTLICHE FILAMENTE;",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "55",
+    "description": "SYNTHETISCHE ODER KÜNSTLICHE SPINNFASERN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "56",
+    "description": "WATTE, FILZE UND VLIESSTOFFE; SPEZIALGARNE; BINDFÄDEN, SEILE UND TAUE; SEILERWAREN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "57",
+    "description": "TEPPICHE UND ANDERE FUSSBODENBELÄGE, AUS SPINNSTOFFEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "58",
+    "description": "SPEZIALGEWEBE; GETUFTETE SPINNSTOFFERZEUGNISSE; SPITZEN; TAPISSERIEN; POSAMENTIERWAREN; STICKEREIEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "59",
+    "description": "GETRÄNKTE, BESTRICHENE, ÜBERZOGENE ODER LAMINIERTE GEWEBE; WAREN DES TECHNISCHEN BEDARFS, AUS SPINNSTOFFEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "60",
+    "description": "GEWIRKE UND GESTRICKE",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "61",
+    "description": "KLEIDUNG UND BEKLEIDUNGSZUBEHÖR, AUS GEWIRKEN ODER GESTRICKEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "62",
+    "description": "KLEIDUNG UND BEKLEIDUNGSZUBEHÖR, AUSGENOMMEN AUS GEWIRKEN ODER GESTRICKEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "63",
+    "description": "ANDERE KONFEKTIONIERTE SPINNSTOFFWAREN; WARENZUSAMMENSTELLUNGEN; ALTWAREN UND LUMPEN",
+    "section": "XI",
+    "sectionTitle": "Spinnstoffe und Waren daraus"
+  },
+  {
+    "chapter": "64",
+    "description": "SCHUHE, GAMASCHEN UND ÄHNLICHE WAREN; TEILE DAVON",
+    "section": "XII",
+    "sectionTitle": "Schuhe, Kopfbedeckungen, Regen- und Sonnenschirme, Gehstöcke, Sitzstöcke, Peitschen, Reitpeitschen und Teile davon; zugerichtete Federn und Waren aus Federn; künstliche Blumen; Waren aus Menschenhaaren"
+  },
+  {
+    "chapter": "65",
+    "description": "KOPFBEDECKUNGEN UND TEILE DAVON",
+    "section": "XII",
+    "sectionTitle": "Schuhe, Kopfbedeckungen, Regen- und Sonnenschirme, Gehstöcke, Sitzstöcke, Peitschen, Reitpeitschen und Teile davon; zugerichtete Federn und Waren aus Federn; künstliche Blumen; Waren aus Menschenhaaren"
+  },
+  {
+    "chapter": "66",
+    "description": "REGENSCHIRME, SONNENSCHIRME, GEHSTÖCKE, SITZSTÖCKE, PEITSCHEN, REITPEITSCHEN UND TEILE DAVON",
+    "section": "XII",
+    "sectionTitle": "Schuhe, Kopfbedeckungen, Regen- und Sonnenschirme, Gehstöcke, Sitzstöcke, Peitschen, Reitpeitschen und Teile davon; zugerichtete Federn und Waren aus Federn; künstliche Blumen; Waren aus Menschenhaaren"
+  },
+  {
+    "chapter": "67",
+    "description": "ZUGERICHTETE FEDERN UND DAUNEN UND WAREN AUS FEDERN ODER DAUNEN; KÜNSTLICHE BLUMEN; WAREN AUS MENSCHENHAAREN",
+    "section": "XII",
+    "sectionTitle": "Schuhe, Kopfbedeckungen, Regen- und Sonnenschirme, Gehstöcke, Sitzstöcke, Peitschen, Reitpeitschen und Teile davon; zugerichtete Federn und Waren aus Federn; künstliche Blumen; Waren aus Menschenhaaren"
+  },
+  {
+    "chapter": "68",
+    "description": "WAREN AUS STEINEN, GIPS, ZEMENT, ASBEST, GLIMMER ODER ÄHNLICHEN STOFFEN",
+    "section": "XIII",
+    "sectionTitle": "Waren aus Steinen, Gips, Zement, Asbest, Glimmer oder ähnlichen Stoffen; keramische Waren; Glas und Glaswaren"
+  },
+  {
+    "chapter": "69",
+    "description": "KERAMISCHE WAREN",
+    "section": "XIII",
+    "sectionTitle": "Waren aus Steinen, Gips, Zement, Asbest, Glimmer oder ähnlichen Stoffen; keramische Waren; Glas und Glaswaren"
+  },
+  {
+    "chapter": "70",
+    "description": "GLAS UND GLASWAREN",
+    "section": "XIII",
+    "sectionTitle": "Waren aus Steinen, Gips, Zement, Asbest, Glimmer oder ähnlichen Stoffen; keramische Waren; Glas und Glaswaren"
+  },
+  {
+    "chapter": "71",
+    "description": "ECHTE PERLEN ODER ZUCHTPERLEN, EDELSTEINE ODER SCHMUCKSTEINE, EDELMETALLE, EDELMETALLPLATTIERUNGEN UND WAREN DARAUS; FANTASIESCHMUCK; MÜNZEN",
+    "section": "XIV",
+    "sectionTitle": "Echte Perlen oder Zuchtperlen, Edelsteine oder Schmucksteine, Edelmetalle, Edelmetallplattierungen und Waren daraus; Fantasieschmuck; Münzen"
+  },
+  {
+    "chapter": "72",
+    "description": "EISEN UND STAHL",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "73",
+    "description": "WAREN AUS EISEN ODER STAHL",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "74",
+    "description": "KUPFER UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "75",
+    "description": "NICKEL UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "76",
+    "description": "ALUMINIUM UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "78",
+    "description": "BLEI UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "79",
+    "description": "ZINK UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "80",
+    "description": "ZINN UND WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "81",
+    "description": "ANDERE UNEDLE METALLE; CERMETS; WAREN DARAUS",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "82",
+    "description": "WERKZEUGE, SCHNEIDWAREN UND ESSBESTECKE, AUS UNEDLEN METALLEN; TEILE DAVON, AUS UNEDLEN METALLEN",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "83",
+    "description": "VERSCHIEDENE WAREN AUS UNEDLEN METALLEN",
+    "section": "XV",
+    "sectionTitle": "Unedle Metalle und Waren daraus"
+  },
+  {
+    "chapter": "84",
+    "description": "KERNREAKTOREN, KESSEL, MASCHINEN, APPARATE UND MECHANISCHE GERÄTE; TEILE DAVON",
+    "section": "XVI",
+    "sectionTitle": "Maschinen, Apparate, mechanische Geräte und elektrotechnische Waren, Teile davon; Tonaufnahme- oder Tonwiedergabegeräte, Fernseh-Bild- und -Tonaufzeichnungsgeräte oder Fernseh-Bild- und -Tonwiedergabegeräte, Teile und Zubehör für diese Geräte"
+  },
+  {
+    "chapter": "85",
+    "description": "ELEKTRISCHE MASCHINEN, APPARATE, GERÄTE UND ANDERE ELEKTROTECHNISCHE WAREN, TEILE DAVON; TONAUFNAHME- ODER TONWIEDERGABEGERÄTE, BILD- UND TONAUFZEICHNUNGS- ODER -WIEDERGABEGERÄTE, FÜR DAS FERNSEHEN, TEILE UND ZUBEHÖR FÜR DIESE GERÄTE",
+    "section": "XVI",
+    "sectionTitle": "Maschinen, Apparate, mechanische Geräte und elektrotechnische Waren, Teile davon; Tonaufnahme- oder Tonwiedergabegeräte, Fernseh-Bild- und -Tonaufzeichnungsgeräte oder Fernseh-Bild- und -Tonwiedergabegeräte, Teile und Zubehör für diese Geräte"
+  },
+  {
+    "chapter": "86",
+    "description": "SCHIENENFAHRZEUGE UND ORTSFESTES GLEISMATERIAL, TEILE DAVON; MECHANISCHE (AUCH ELEKTROMECHANISCHE) SIGNALGERÄTE FÜR VERKEHRSWEGE",
+    "section": "XVII",
+    "sectionTitle": "Beförderungsmittel"
+  },
+  {
+    "chapter": "87",
+    "description": "ZUGMASCHINEN, KRAFTWAGEN, KRAFTRÄDER, FAHRRÄDER UND ANDERE NICHT SCHIENENGEBUNDENE LANDFAHRZEUGE, TEILE DAVON UND ZUBEHÖR",
+    "section": "XVII",
+    "sectionTitle": "Beförderungsmittel"
+  },
+  {
+    "chapter": "88",
+    "description": "LUFTFAHRZEUGE UND RAUMFAHRZEUGE, TEILE DAVON",
+    "section": "XVII",
+    "sectionTitle": "Beförderungsmittel"
+  },
+  {
+    "chapter": "89",
+    "description": "WASSERFAHRZEUGE UND SCHWIMMENDE VORRICHTUNGEN",
+    "section": "XVII",
+    "sectionTitle": "Beförderungsmittel"
+  },
+  {
+    "chapter": "90",
+    "description": "OPTISCHE, FOTOGRAFISCHE ODER KINEMATOGRAFISCHE INSTRUMENTE, APPARATE UND GERÄTE; MESS-, PRÜF- ODER PRÄZISIONSINSTRUMENTE, -APPARATE UND -GERÄTE; MEDIZINISCHE UND CHIRURGISCHE INSTRUMENTE, APPARATE UND GERÄTE; TEILE UND ZUBEHÖR FÜR DIESE INSTRUMENTE, APPARATE UND GERÄTE",
+    "section": "XVIII",
+    "sectionTitle": "Optische, fotografische oder kinematografische Instrumente, Apparate und Geräte; Mess-, Prüf- oder Präzisionsinstrumente, -apparate und -geräte; medizinische und chirurgische Instrumente, Apparate und Geräte; Uhrmacherwaren; Musikinstrumente; Teile und Zubehör für diese Instrumente, Apparate und Geräte"
+  },
+  {
+    "chapter": "91",
+    "description": "UHRMACHERWAREN",
+    "section": "XVIII",
+    "sectionTitle": "Optische, fotografische oder kinematografische Instrumente, Apparate und Geräte; Mess-, Prüf- oder Präzisionsinstrumente, -apparate und -geräte; medizinische und chirurgische Instrumente, Apparate und Geräte; Uhrmacherwaren; Musikinstrumente; Teile und Zubehör für diese Instrumente, Apparate und Geräte"
+  },
+  {
+    "chapter": "92",
+    "description": "MUSIKINSTRUMENTE; TEILE UND ZUBEHÖR FÜR DIESE INSTRUMENTE",
+    "section": "XVIII",
+    "sectionTitle": "Optische, fotografische oder kinematografische Instrumente, Apparate und Geräte; Mess-, Prüf- oder Präzisionsinstrumente, -apparate und -geräte; medizinische und chirurgische Instrumente, Apparate und Geräte; Uhrmacherwaren; Musikinstrumente; Teile und Zubehör für diese Instrumente, Apparate und Geräte"
+  },
+  {
+    "chapter": "93",
+    "description": "WAFFEN UND MUNITION; TEILE DAVON UND ZUBEHÖR",
+    "section": "XIX",
+    "sectionTitle": "Waffen und Munition; Teile davon und Zubehör"
+  },
+  {
+    "chapter": "94",
+    "description": "MÖBEL; MEDIZINISCH-CHIRURGISCHE MÖBEL; BETTAUSSTATTUNGEN UND ÄHNLICHE WAREN; LEUCHTEN UND BELEUCHTUNGSKÖRPER, ANDERWEIT WEDER GENANNT NOCH INBEGRIFFEN; REKLAMELEUCHTEN, LEUCHTSCHILDER, BELEUCHTETE NAMENSSCHILDER UND DERGLEICHEN; VORGEFERTIGTE GEBÄUDE",
+    "section": "XX",
+    "sectionTitle": "Verschiedene Waren"
+  },
+  {
+    "chapter": "95",
+    "description": "SPIELZEUG, SPIELE, UNTERHALTUNGSARTIKEL UND SPORTGERÄTE; TEILE DAVON UND ZUBEHÖR",
+    "section": "XX",
+    "sectionTitle": "Verschiedene Waren"
+  },
+  {
+    "chapter": "96",
+    "description": "VERSCHIEDENE WAREN",
+    "section": "XX",
+    "sectionTitle": "Verschiedene Waren"
+  },
+  {
+    "chapter": "97",
+    "description": "KUNSTGEGENSTÄNDE, SAMMLUNGSSTÜCKE UND ANTIQUITÄTEN",
+    "section": "XXI",
+    "sectionTitle": "Kunstgegenstände, Sammlungsstücke und Antiquitäten"
+  },
+  {
+    "chapter": "98",
+    "description": "VOLLSTÄNDIGE FABRIKATIONSANLAGEN",
+    "section": "XXI",
+    "sectionTitle": "Kunstgegenstände, Sammlungsstücke und Antiquitäten"
+  },
+  {
+    "chapter": "99",
+    "description": "BESONDERE CODES DER KOMBINIERTEN NOMENKLATUR",
+    "section": "XXI",
+    "sectionTitle": "Kunstgegenstände, Sammlungsstücke und Antiquitäten"
+  }
+]

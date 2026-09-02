@@ -44,7 +44,13 @@ def resolve(spec: dict, args) -> AcquireResult:
         prefix = opts.get("prefix") or (spec.get("acquire") or {}).get("manual_prefix") or ""
         candidates = sorted(directory.glob(f"{prefix}_*_rev_*.*"),
                             key=lambda p: p.stat().st_mtime, reverse=True)
-        candidates = [c for c in candidates if not c.name.endswith(".meta.json")]
+        # Only canonical stems qualify: language-variant CSVs
+        # (…_rev_901.de.csv) and sidecars sit beside the base file and must
+        # never be picked as "the" source.
+        stem_re = re.compile(rf"^{re.escape(prefix)}_\d{{4}}_rev_\d+$")
+        candidates = [c for c in candidates
+                      if not c.name.endswith(".meta.json")
+                      and stem_re.match(c.stem)]
         if not candidates:
             raise SystemExit(
                 f"ERROR: no source found in {directory}/ named {prefix}_<year>_rev_<n>.*\n"

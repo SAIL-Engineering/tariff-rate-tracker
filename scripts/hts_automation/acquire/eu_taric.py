@@ -71,7 +71,7 @@ def _read_rows(path: Path) -> list[dict[str, str]]:
 
 
 def convert(nomenclature: Path, declarable: Path, out_csv: Path,
-            check_lang: Path | None = None) -> dict:
+            check_lang: Path | None = None, lang: str = "en") -> dict:
     """Join the nomenclature and the official leaf flags into the canonical CSV.
 
     Returns summary stats. Fails loudly on: unparseable codes, duplicate
@@ -112,9 +112,11 @@ def convert(nomenclature: Path, declarable: Path, out_csv: Path,
         # TARIC exports encode a non-breaking space as "|" ("80|kg"); it is
         # never meaningful text, and "|" is display_text's separator downstream.
         desc = " ".join((r.get("G") or "").replace("|", " ").split())
-        if desc.isupper():
+        if desc.isupper() and lang == "en":
             # Chapter titles are shouted in the export; sentence-case them so
             # chunk_text reads as prose (embedding quality, prompt rendering).
+            # English only — German would lose its noun capitalization, so
+            # other languages keep the published casing.
             desc = desc.capitalize()
         is_leaf = ""
         if suffix == "80":
@@ -176,8 +178,10 @@ def resolve(spec: dict, args) -> AcquireResult:
         effective_date = getattr(args, "effective_date", None)
 
     if not _A.effective_date and not _A.source:
-        candidates = sorted(directory.glob(f"{prefix}_*_rev_*.csv"),
-                            key=lambda p: p.stat().st_mtime, reverse=True)
+        candidates = sorted(
+            (c for c in directory.glob(f"{prefix}_*_rev_*.csv")
+             if re.fullmatch(rf"{re.escape(prefix)}_\d{{4}}_rev_\d+", c.stem)),
+            key=lambda p: p.stat().st_mtime, reverse=True)
         if candidates:
             rev_id = candidates[0].stem.replace(f"{prefix}_", "")
             registry = spec.get("registry")
@@ -253,6 +257,18 @@ def fetch(spec: dict, args) -> AcquireResult:
 
     dest = Path(dest_template.format(year=year, number=month))
     convert(nom, dec, dest, check_lang=files.get("nomenclature_fr"))
+    # Language-variant canonical CSVs (same structure, native descriptions):
+    # they feed the per-language corpus + Explorer datasets. Missing language
+    # workbooks fail loudly — a jurisdiction that declares languages must
+    # ship them.
+    for _lang in (spec.get("languages") or []):
+        lang_nom = files.get(f"nomenclature_{_lang}")
+        if not lang_nom:
+            raise SystemExit(f"ERROR: release lacks Nomenclature "
+                             f"{_lang.upper()} but spec declares language "
+                             f"{_lang!r}")
+        convert(lang_nom, dec, Path(f"{dest.with_suffix('')}.{_lang}.csv"),
+                lang=_lang)
     extras = {
         "eu_duties_xlsx": str(files["duties_import"]),
         "eu_geo_xlsx": str(files["geo_composition"]),

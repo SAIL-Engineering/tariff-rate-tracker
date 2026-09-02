@@ -21,6 +21,7 @@ import csv
 import datetime as _dt
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -103,8 +104,10 @@ def resolve(spec: dict, args) -> AcquireResult:
 
     if not _A.effective_date and not _A.source:
         # peek the newest file to learn the revision, then ask the registry
-        candidates = sorted(directory.glob(f"{prefix}_*_rev_*.csv"),
-                            key=lambda p: p.stat().st_mtime, reverse=True)
+        candidates = sorted(
+            (c for c in directory.glob(f"{prefix}_*_rev_*.csv")
+             if re.fullmatch(rf"{re.escape(prefix)}_\d{{4}}_rev_\d+", c.stem)),
+            key=lambda p: p.stat().st_mtime, reverse=True)
         if candidates:
             rev_id = candidates[0].stem.replace(f"{prefix}_", "")
             found = _effective_from_registry(spec, rev_id)

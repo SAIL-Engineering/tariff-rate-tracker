@@ -317,14 +317,32 @@ def cmd_delete(args) -> None:
     print(f"deleted namespace {args.namespace}")
 
 
+def _parse_namespace(ns: str) -> tuple:
+    """`eu__2026_rev_9_de` -> (jur='eu', year=2026, num=9, lang='de');
+    the language suffix is '' for the default (English) corpus."""
+    jur, rest = ns.split("__", 1)
+    year, _, tail = rest.partition("_rev_")
+    num, _, lang = tail.partition("_")
+    return (jur, int(year), int(num), lang)
+
+
 def _revision_sort_key(ns: str) -> tuple:
     """Sort `us__2026_rev_9` before `us__2026_rev_10` — numerically, not lexically."""
     try:
-        jur, rest = ns.split("__", 1)
-        year, _, num = rest.partition("_rev_")
-        return (jur, int(year), int(num))
+        jur, year, num, lang = _parse_namespace(ns)
+        return (jur, year, num, lang)
     except (ValueError, TypeError):
-        return (ns, -1, -1)
+        return (ns, -1, -1, "")
+
+
+def _series_key(ns: str) -> str:
+    """Prune series: one keep=N window PER LANGUAGE, so publishing en+de+fr
+    of one revision can never evict another language's older revisions."""
+    try:
+        jur, _y, _n, lang = _parse_namespace(ns)
+        return f"{jur}::{lang}"
+    except (ValueError, TypeError):
+        return ns
 
 
 def cmd_swap(args) -> None:
@@ -340,14 +358,15 @@ def cmd_swap(args) -> None:
     # Only prune AFTER the new namespace verifies. Keep the previous revision so
     # a rollback (NULL out hts_revisions.pinecone_namespace) still has a corpus
     # to fall back to.
-    siblings = sorted(
-        (n for n in list_namespaces(host) if n.startswith(prefix)),
-        key=_revision_sort_key,
-        reverse=True,
-    )
-    for stale in siblings[args.keep:]:
-        print(f"[swap] pruning stale namespace {stale}")
-        _request(f"https://{host}/namespaces/{stale}", method="DELETE")
+    by_series: dict[str, list[str]] = {}
+    for n in list_namespaces(host):
+        if n.startswith(prefix):
+            by_series.setdefault(_series_key(n), []).append(n)
+    for series in by_series.values():
+        series.sort(key=_revision_sort_key, reverse=True)
+        for stale in series[args.keep:]:
+            print(f"[swap] pruning stale namespace {stale}")
+            _request(f"https://{host}/namespaces/{stale}", method="DELETE")
 
     print(json.dumps({"namespace": args.namespace,
                       "record_count": list_namespaces(host).get(args.namespace, 0)}))

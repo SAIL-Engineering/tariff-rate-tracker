@@ -21,14 +21,17 @@ import sys
 from pathlib import Path
 
 
-def from_taric(path: Path) -> list[dict]:
+def from_taric(path: Path, lang: str = "en") -> list[dict]:
     out = []
     with path.open(newline="", encoding="utf-8-sig") as fh:
         for r in csv.DictReader(fh):
             digits = (r.get("GOODS_CODE") or "").strip()
             if (r.get("SUFFIX") or "") == "80" and digits[2:] == "00000000":
                 desc = " ".join((r.get("DESCRIPTION") or "").split())
-                if desc.isupper():
+                # Sentence-casing a shouted heading is only safe in English —
+                # German would lose its noun capitalization; other languages
+                # keep the published casing.
+                if desc.isupper() and lang == "en":
                     desc = desc.capitalize()
                 out.append({"chapter": digits[:2], "description": desc})
     return out
@@ -39,12 +42,14 @@ def main() -> int:
     p.add_argument("csv_path", type=Path)
     p.add_argument("--source-format", choices=("taric",), required=True)
     p.add_argument("--out", type=Path, required=True)
+    p.add_argument("--lang", default="en",
+                   help="language of the source CSV (casing rules)")
     p.add_argument("--sections", type=Path,
                    help="HS sections JSON ([{section, sectionTitle, start, "
                         "end}]) to enrich each chapter with section metadata")
     args = p.parse_args()
 
-    chapters = from_taric(args.csv_path)
+    chapters = from_taric(args.csv_path, args.lang)
     if args.sections:
         sections = json.loads(args.sections.read_text(encoding="utf-8"))
         for c in chapters:
