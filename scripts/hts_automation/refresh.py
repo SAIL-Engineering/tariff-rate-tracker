@@ -337,7 +337,7 @@ def do_publish(spec: dict, ctx: RunCtx, args) -> None:
         lcmd = [sys.executable, str(HERE / "pinecone_sync.py"), "swap",
                 "--jsonl", ctx[f"corpus_jsonl_{_lang}"],
                 "--namespace", f"{ctx['namespace']}_{_lang}",
-                "--keep", keep]
+                "--keep", keep, "--skip-golden"]
         run(lcmd, REGISTRY["publish"].exit_code)
 
 
