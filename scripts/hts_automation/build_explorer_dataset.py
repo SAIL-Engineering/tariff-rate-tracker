@@ -59,7 +59,7 @@ def _do_rates(csv_path: Path) -> dict[str, dict[str, str]]:
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("csv_path", type=Path)
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "ch"), required=True)
+    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "ch", "kr"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--lang", default="en")
     p.add_argument("--out", type=Path, required=True)
@@ -67,7 +67,7 @@ def main() -> int:
 
     bhc.CORPUS_LANG = args.lang if args.lang in bhc._BASKET_RES else "en"
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
-               "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch}
+               "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr}
     rows, stats = loaders[args.source_format](args.csv_path)
 
     rates: dict[str, dict[str, str]] = {}

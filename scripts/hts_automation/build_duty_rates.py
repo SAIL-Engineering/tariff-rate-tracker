@@ -1372,6 +1372,286 @@ def build_ch(master_xml: Path, countries_xml: Path, jur: str, revision: str,
     return records, tout, coverage
 
 
+# ── South Korea ──────────────────────────────────────────────────────────────
+
+KR_COVERAGE = {
+    "provides": [
+        "The complete KCS tariff-rate set at 10-digit HSK depth — every rate "
+        "class in the official schedule (basic, WTO concession, provisional, "
+        "adjustment, quota, LDC, APTA/GSTP and every FTA schedule), with the "
+        "applied non-preferential rate computed per the official UNI-PASS "
+        "rate-application priority (세율적용 우선순위).",
+        "Specific-duty components (unit tax amount, base price) verbatim, "
+        "never converted to percentages.",
+        "Korean and English nomenclature at every hierarchy level.",
+    ],
+    "excludes": [
+        "FTA origin-rule verification: preference rows are candidates — proof "
+        "of origin and agreement conditions are required.",
+        "Tariff-rate-quota entitlement and operational quota status (in-quota "
+        "rates are shown as conditional, never auto-selected).",
+        "Partial-country scopes the bulk file does not enumerate (applicable-"
+        "country classification 2 without a listed scope renders as "
+        "conditional).",
+        "Internal taxes beyond the flat VAT line (individual consumption tax, "
+        "liquor tax, education taxes).",
+        "Anti-dumping/countervailing and other tier-1 special measures are "
+        "listed with their additive nature noted, never summed into a rate.",
+    ],
+    "source": "Korea Customs Service — Tariff Schedule by Item Number "
+              "(data.go.kr 15051179) + UNI-PASS rate precedence",
+}
+
+
+def _kr_load_classes(classes_json: Path) -> list[dict]:
+    import re as _re
+    doc = json.loads(classes_json.read_text(encoding="utf-8"))
+    rules = doc["rules"]
+    for r in rules:
+        r["_re"] = _re.compile(r["pattern"])
+    return rules
+
+
+def _kr_rule_for(rules: list[dict], code: str) -> dict | None:
+    for r in rules:
+        if r["_re"].fullmatch(code):
+            return r
+    return None
+
+
+def _kr_rate_text(rate: str, unit_tax: str, base_price: str) -> str:
+    parts = []
+    if rate:
+        parts.append(f"{rate}%")
+    if unit_tax:
+        parts.append(f"₩{unit_tax} per unit")
+    if base_price:
+        parts.append(f"(base price ₩{base_price})")
+    return " ".join(parts)
+
+
+def build_kr(rates_xlsx: Path, jur: str, revision: str,
+             nomenclature_csv: Path, snapshot_date,
+             classes_json: Path, rates_date: str = ""):
+    """KR: every rate row declared at 10-digit HSK (inherit 'exact'), the
+    applied non-preferential rate computed per the official UNI-PASS
+    precedence, everything else carried as labeled candidates. Blank duty
+    components stay NULL, never 0."""
+    from acquire._xlsx_lite import read_sheets
+
+    rules = _kr_load_classes(classes_json)
+    snapshot = snapshot_date.isoformat()
+    snap_num = snapshot.replace("-", "")
+
+    leaves = []
+    with nomenclature_csv.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            if (r.get("IS_LEAF") or "") == "1":
+                leaves.append((r.get("GOODS_CODE") or "").strip())
+    if not leaves:
+        raise SystemExit(f"ERROR: no IS_LEAF rows in {nomenclature_csv}")
+
+    # Both period sheets merged; identical rows deduped; expired rows dropped.
+    seen_rows = set()
+    per_hsk: dict[str, list[dict]] = {}
+    unknown: dict[str, int] = {}
+    stats = {"rows": 0, "expired": 0, "future": 0, "dupes": 0}
+    for sheet, rows in read_sheets(str(rates_xlsx)).items():
+        hdr = rows[0] if rows else {}
+        if (hdr.get("A"), hdr.get("B")) != ("품목번호", "관세율구분"):
+            raise SystemExit(f"ERROR: rates sheet {sheet!r} header changed: "
+                             f"{ {k: hdr.get(k) for k in 'ABC'} }")
+        for r in rows[1:]:
+            stats["rows"] += 1
+            hsk = (r.get("A") or "").strip()
+            cls = (r.get("B") or "").strip()
+            rate = (r.get("C") or "").strip()
+            unit_tax = (r.get("D") or "").strip()
+            base_price = (r.get("E") or "").strip()
+            country_cls = (r.get("F") or "").strip()
+            use_cls = (r.get("G") or "").strip()
+            start = (r.get("H") or "").strip()
+            end = (r.get("I") or "").strip()
+            if end and end < snap_num:
+                stats["expired"] += 1
+                continue
+            if start and start > snap_num:
+                stats["future"] += 1
+                continue
+            key = (hsk, cls, rate, unit_tax, start, end, use_cls)
+            if key in seen_rows:
+                stats["dupes"] += 1
+                continue
+            seen_rows.add(key)
+            per_hsk.setdefault(hsk, []).append({
+                "cls": cls, "rate": rate, "unit_tax": unit_tax,
+                "base_price": base_price, "country_cls": country_cls,
+                "use_cls": use_cls, "start": start, "end": end,
+                "rule": _kr_rule_for(rules, cls)})
+
+    records: list[dict] = []
+    treatments_seen: dict[str, dict] = {}
+    applied_from = {"C-family": 0, "B": 0, "A": 0, "none": 0}
+    for hsk, rows in per_hsk.items():
+        display = f"{hsk[:4]}.{hsk[4:6]}-{hsk[6:]}"
+        # applied non-preferential rate per official precedence
+        def _num(x):
+            try:
+                return float(x["rate"])
+            except (TypeError, ValueError):
+                return None
+        a = next((x for x in rows if x["rule"] and
+                  x["rule"].get("treatment") == "basic"), None)
+        b = next((x for x in rows if x["rule"] and
+                  x["rule"].get("treatment") == "provisional"), None)
+        cs = [x for x in rows if x["rule"] and x["rule"].get("treatment")
+              in ("wto_concession", "wto_concession_alt")
+              and _num(x) is not None]
+        base = b or a                      # tier 6 beats tier 7
+        chosen, source = base, ("B" if b else ("A" if a else "none"))
+        if cs and base is not None and _num(base) is not None:
+            c_best = min(cs, key=_num)
+            if _num(c_best) < _num(base):
+                chosen, source = c_best, "C-family"
+        elif cs and base is None:
+            chosen, source = min(cs, key=_num), "C-family"
+        applied_from[source] += 1
+        if chosen is not None:
+            rec = _record(jur, revision, display, hsk, "erga_omnes",
+                          _kr_rate_text(chosen["rate"], chosen["unit_tax"],
+                                        chosen["base_price"]))
+            rec["source_class"] = chosen["cls"]
+            if chosen["use_cls"]:
+                rec["use_class"] = chosen["use_cls"]
+                rec["conditional"] = True
+            records.append(rec)
+
+        for x in rows:
+            rule = x["rule"]
+            rate_text = _kr_rate_text(x["rate"], x["unit_tax"], x["base_price"])
+            if rule is None:
+                unknown[x["cls"]] = unknown.get(x["cls"], 0) + 1
+                rec = _record(jur, revision, display, hsk,
+                              f"unknown_{x['cls']}", rate_text,
+                              informational=True, category="unknown",
+                              conditional=True)
+                rec["rate_class"] = x["cls"]
+                records.append(rec)
+                continue
+            tier = rule.get("tier")
+            if rule.get("family"):                      # FTA (tier 2)
+                treatment = f"pref_{x['cls']}"
+                rec = _record(jur, revision, display, hsk, treatment,
+                              rate_text, conditional=True)
+                rec["rate_class"] = x["cls"]
+                # family name lives once in the treatments map, not on all
+                # ~358k rows
+                records.append(rec)
+                treatments_seen.setdefault(treatment, {
+                    "treatment": treatment,
+                    "name": f"{rule['family']} — schedule {x['cls']}",
+                    "origin_countries": rule.get("origins", []),
+                    "applies": None, "conditional": True,
+                    "legal_basis": "Customs Act / FTA implementation "
+                                   "(UNI-PASS tier 2)"})
+            elif rule.get("treatment") in ("basic", "provisional",
+                                           "wto_concession",
+                                           "wto_concession_alt"):
+                # raw applied-rate inputs: informational so the computed
+                # erga_omnes stays the single best-rate carrier
+                rec = _record(jur, revision, display, hsk,
+                              rule["treatment"], rate_text,
+                              informational=True, category="rate_basis")
+                rec["rate_class"] = x["cls"]
+                records.append(rec)
+            else:
+                # Class-scoped treatment names: APTA/GSTP/quota classes come
+                # in sub-schedule variants (E2A1 quota tranche vs E2A2) that
+                # must stay distinguishable rows, exactly like FTA staging
+                # codes.
+                treatment = (rule["treatment"] if x["cls"] ==
+                             rule["treatment"] else
+                             f"{rule['treatment']}_{x['cls'].lower()}")
+                conditional = bool(rule.get("conditional")
+                                   or x["use_cls"] or x["country_cls"] == "2")
+                informational = tier in (0, 1) or rule.get("category") in (
+                    "quota", "adjustment")
+                rec = _record(jur, revision, display, hsk, treatment,
+                              rate_text,
+                              informational=informational,
+                              category=rule.get("category", "duty")
+                              if informational else "duty",
+                              conditional=conditional)
+                rec["rate_class"] = x["cls"]
+                if rule.get("additive"):
+                    rec["additive"] = True
+                if x["use_cls"]:
+                    rec["use_class"] = x["use_cls"]
+                records.append(rec)
+                if not informational and treatment not in treatments_seen:
+                    treatments_seen[treatment] = {
+                        "treatment": treatment,
+                        "name": (rule["name"] if x["cls"] == rule["treatment"]
+                                 else f"{rule['name']} — schedule {x['cls']}"),
+                        "origin_countries": rule.get("origins", []),
+                        "applies": None, "conditional": True,
+                        "legal_basis": f"Customs Act (UNI-PASS tier {tier})"}
+
+    if unknown:
+        print(f"[kr] NOTE: {len(unknown)} UNKNOWN rate classes carried "
+              f"informationally: {sorted(unknown)} — extend "
+              f"config/kr_rate_classes.json after checking UNI-PASS")
+    print(f"[kr] {stats['rows']:,} rate rows ({stats['expired']:,} expired, "
+          f"{stats['future']:,} future dropped, {stats['dupes']:,} "
+          f"cross-sheet dupes); applied rate from {applied_from}")
+
+    # Residual same-key duplicates (one class active twice at the snapshot —
+    # staged windows/quota tranches): first row stands, later ones stay
+    # visible as informational variants rather than tripping the collision
+    # gate or double-counting in best-rate.
+    seen_keys: set = set()
+    demoted = 0
+    for r in records:
+        if r.get("informational"):
+            continue
+        key = (r["digits"], r["treatment"], r.get("origin_code"),
+               r.get("add_code"))
+        if key in seen_keys:
+            r["informational"] = True
+            r["category"] = "rate_variant"
+            demoted += 1
+        else:
+            seen_keys.add(key)
+    if demoted:
+        print(f"[kr] {demoted} same-class variant rows carried as "
+              f"informational rate_variant")
+
+    erga_by_hsk = {r["digits"] for r in records if r["treatment"] == "erga_omnes"}
+    covered = sum(1 for leaf in leaves if leaf in erga_by_hsk)
+    pct = 100.0 * covered / len(leaves)
+    print(f"[kr] applied-rate coverage: {covered:,}/{len(leaves):,} leaves "
+          f"({pct:.1f}%)")
+    if pct < 99.0:
+        raise SystemExit(f"ERROR: KR applied-rate coverage {pct:.1f}% below "
+                         f"the 99% floor — every HSK carries an A row in the "
+                         f"source, so a miss means parsing regressed")
+
+    tout = [{"treatment": "erga_omnes",
+             "name": "Applied non-preferential rate (per the official "
+                     "UNI-PASS rate-application priority)",
+             "origin_countries": [], "applies": "all_origins",
+             "conditional": False,
+             "legal_basis": "Customs Act; 세율적용 우선순위 (UNI-PASS)"}]
+    tout += [treatments_seen[k] for k in sorted(treatments_seen)]
+    coverage = dict(KR_COVERAGE)
+    coverage["as_of"] = (f"{snapshot} · 관세율표 {rates_date}"
+                        if rates_date else snapshot)
+    overlay = load_overlay("kr")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
 # ── Dominican Republic ───────────────────────────────────────────────────────
 
 DO_COVERAGE = {
@@ -1491,7 +1771,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path,
                    help="canonical CSV (cbsa/dga) or Duties Import xlsx (taric)")
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch"), required=True)
+    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch", "kr"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--nomenclature", type=Path,
@@ -1509,6 +1789,12 @@ def main() -> int:
                    help="ch: TariffBaseMasterData XML")
     p.add_argument("--created", default="",
                    help="ch: master-data creation timestamp for as_of")
+    p.add_argument("--classes", type=Path,
+                   help="kr: config/kr_rate_classes.json (rate-class "
+                        "dictionary + precedence)")
+    p.add_argument("--rates-date", default="",
+                   help="kr: the rates file's dated filename suffix for the "
+                        "coverage as-of line")
     p.add_argument("--declarable", type=Path,
                    help="uk: declarable.json from the acquire step (sid "
                         "universe + reconciliation samples)")
@@ -1555,6 +1841,17 @@ def main() -> int:
             nomenclature_csv=args.nomenclature,
             snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
             base_xml=args.base_data, created=args.created)
+    elif args.source_format == "kr":
+        for flag, val in (("--nomenclature", args.nomenclature),
+                          ("--snapshot-date", args.snapshot_date),
+                          ("--classes", args.classes)):
+            if not val:
+                sys.exit(f"ERROR: {flag} is required for kr")
+        records, treatments, coverage = build_kr(
+            args.source, jur, args.revision,
+            nomenclature_csv=args.nomenclature,
+            snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
+            classes_json=args.classes, rates_date=args.rates_date)
     else:
         records, treatments, coverage = build_do(args.source, jur, args.revision)
 

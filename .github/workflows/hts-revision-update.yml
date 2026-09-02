@@ -32,7 +32,7 @@ on:
       jurisdiction:
         description: 'Which jurisdiction(s) to run'
         type: choice
-        options: [all, US, CA, EU, GB, XI, CH]
+        options: [all, US, CA, EU, GB, XI, CH, KR]
         default: all
       revision_id:
         description: 'US only — roll out this revision instead of gating on latest (CBSA/TARIC fetchers always take the latest upstream)'

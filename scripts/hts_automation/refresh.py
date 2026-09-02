@@ -266,6 +266,15 @@ def _build_duty_rates(spec: dict, ctx: RunCtx) -> None:
                               ("eu_addcodes_xlsx", "--addcodes")):
                 if ctx.get(key):
                     dcmd += [flag, str(ctx[key])]
+        elif fmt == "kr":
+            import datetime as _dt
+            dcmd += ["--nomenclature", str(ctx["source_csv"]),
+                     # the KR rates file is validity-driven and refreshed on
+                     # its own cadence — current rates are what we serve
+                     "--snapshot-date", _dt.date.today().isoformat(),
+                     "--classes", "config/kr_rate_classes.json"]
+            if ctx.get("kr_rates_date"):
+                dcmd += ["--rates-date", str(ctx["kr_rates_date"])]
         elif fmt == "uk":
             dcmd += ["--nomenclature", str(ctx["source_csv"]),
                      "--snapshot-date", str(ctx["effective_date"]),

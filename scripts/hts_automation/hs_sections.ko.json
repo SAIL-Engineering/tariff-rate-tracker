@@ -1,0 +1,128 @@
+[
+  {
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품",
+    "start": 1,
+    "end": 5
+  },
+  {
+    "section": "II",
+    "sectionTitle": "식물성 생산품",
+    "start": 6,
+    "end": 14
+  },
+  {
+    "section": "III",
+    "sectionTitle": "동물성ㆍ식물성ㆍ미생물성 지방과 기름 및 이들의 분해생산물, 조제한 식용 지방과 동물성ㆍ식물성 왁스",
+    "start": 15,
+    "end": 15
+  },
+  {
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품",
+    "start": 16,
+    "end": 24
+  },
+  {
+    "section": "V",
+    "sectionTitle": "광물성 생산품",
+    "start": 25,
+    "end": 27
+  },
+  {
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품",
+    "start": 28,
+    "end": 38
+  },
+  {
+    "section": "VII",
+    "sectionTitle": "플라스틱과 그 제품, 고무와 그 제품",
+    "start": 39,
+    "end": 40
+  },
+  {
+    "section": "VIII",
+    "sectionTitle": "원피ㆍ가죽ㆍ모피와 이들의 제품, 마구, 여행용구ㆍ핸드백과 이와 유사한 용기, 동물 거트(gut)의 제품",
+    "start": 41,
+    "end": 43
+  },
+  {
+    "section": "IX",
+    "sectionTitle": "목재와 그 제품, 목탄, 코르크와 그 제품, 짚ㆍ에스파르토(esparto)나 그 밖의 조물 재료의 제품, 바구니 세공물(basketware)과 지조세공물(wickerwork)",
+    "start": 44,
+    "end": 46
+  },
+  {
+    "section": "X",
+    "sectionTitle": "목재나 그 밖의 섬유질 셀룰로오스 재료의 펄프, 회수한 종이ㆍ판지(웨이스트와 스크랩), 종이ㆍ판지와 이들의 제품",
+    "start": 47,
+    "end": 49
+  },
+  {
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품",
+    "start": 50,
+    "end": 63
+  },
+  {
+    "section": "XII",
+    "sectionTitle": "신발류ㆍ모자류ㆍ산류ㆍ지팡이ㆍ시트스틱ㆍ채찍ㆍ승마용 채찍과 이들의 부분품, 조제 깃털과 그 제품, 조화, 사람 머리카락으로 된 제품",
+    "start": 64,
+    "end": 67
+  },
+  {
+    "section": "XIII",
+    "sectionTitle": "돌ㆍ플라스터(plaster)ㆍ시멘트ㆍ석면ㆍ운모나 이와 유사한 재료의 제품, 도자제품, 유리와 유리제품",
+    "start": 68,
+    "end": 70
+  },
+  {
+    "section": "XIV",
+    "sectionTitle": "천연진주ㆍ양식진주ㆍ귀석ㆍ반귀석ㆍ귀금속ㆍ귀금속을 입힌 금속과 이들의 제품, 모조 신변장식용품, 주화",
+    "start": 71,
+    "end": 71
+  },
+  {
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품",
+    "start": 72,
+    "end": 83
+  },
+  {
+    "section": "XVI",
+    "sectionTitle": "기계류ㆍ전기기기와 이들의 부분품, 녹음기와 음성 재생기, 텔레비전의 영상과 음성의 기록기ㆍ재생기와 이들의 부분품ㆍ부속품",
+    "start": 84,
+    "end": 85
+  },
+  {
+    "section": "XVII",
+    "sectionTitle": "차량ㆍ항공기ㆍ선박과 수송기기 관련품",
+    "start": 86,
+    "end": 89
+  },
+  {
+    "section": "XVIII",
+    "sectionTitle": "광학기기ㆍ사진용 기기ㆍ영화용 기기ㆍ측정기기ㆍ검사기기ㆍ정밀기기ㆍ의료용 기기, 시계, 악기, 이들의 부분품과 부속품",
+    "start": 90,
+    "end": 92
+  },
+  {
+    "section": "XIX",
+    "sectionTitle": "무기ㆍ총포탄과 이들의 부분품과 부속품",
+    "start": 93,
+    "end": 93
+  },
+  {
+    "section": "XX",
+    "sectionTitle": "잡품",
+    "start": 94,
+    "end": 96
+  },
+  {
+    "section": "XXI",
+    "sectionTitle": "예술품ㆍ수집품ㆍ골동품",
+    "start": 97,
+    "end": 99
+  }
+]

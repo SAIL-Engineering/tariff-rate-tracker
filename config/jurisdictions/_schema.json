@@ -14,7 +14,7 @@
       "type": "object",
       "required": ["adapter"],
       "properties": {
-        "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "uk_tariff", "ch_tares", "manual"]},
+        "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "uk_tariff", "ch_tares", "kr_kcs", "manual"]},
         "options": {"type": "object"},
         "system_requires": {"type": "array", "items": {"type": "string"}},
         "manual_dir": {"type": "string"},
@@ -68,7 +68,7 @@
     "duty_rates": {
       "type": "object",
       "properties": {"source_key": {"type": "string"},
-                     "source_format": {"enum": ["cbsa", "taric", "dga", "uk", "ch"]},
+                     "source_format": {"enum": ["cbsa", "taric", "dga", "uk", "ch", "kr"]},
                      "geo_areas_key": {"type": "string"}}
     },
     "envvars": {"type": ["object", "null"]},

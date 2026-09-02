@@ -364,6 +364,54 @@ def _ch_display(digits: str) -> str:
     return f"{digits[:4]}.{digits[4:]}"
 
 
+def _kr_display(digits: str) -> str:
+    """KCS dotting: 0101 / 0101.2 / 0101.21 / 0101.21-10 / 0101.21-1000."""
+    if len(digits) <= 4:
+        return digits
+    if len(digits) <= 6:
+        return f"{digits[:4]}.{digits[4:]}"
+    return f"{digits[:4]}.{digits[4:6]}-{digits[6:]}"
+
+
+def load_rows_kr(path: Path):
+    """Canonical kr CSV: variable-length codes (4..10 digits after the
+    chapter rows are dropped), real 5/7/9-digit intermediate levels, INDENT
+    already the longest-prefix chain depth, every row coded (no condition
+    rows), IS_LEAF=1 on the 10-digit HSK universe."""
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            if not digits.isdigit() or not 2 <= len(digits) <= 10:
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if len(digits) == 2:
+                # Chapter rows duplicate the chapters file — drop, making
+                # headings roots (same as the CH/TARIC/USITC paths).
+                stats.dropped_uncoded += 1
+                continue
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate HSK code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if (r.get("IS_LEAF") or "").strip() == "1":
+                stats.official_leaf_digits.add(digits)
+            display = _kr_display(digits)
+            rows.append({"HTS Number": display,
+                         "Description": desc,
+                         "Unit of Quantity": (r.get("UNIT") or "").strip(),
+                         "_indent": indent,
+                         "_code": display,
+                         "_digits": digits})
+    return rows, stats
+
+
 def load_rows_ch(path: Path):
     rows = []
     stats = LoadStats()
@@ -803,7 +851,7 @@ def main() -> int:
     p.add_argument("out_stem", help="Output base name; .jsonl and .manifest.json are appended")
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
-    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch"), default="usitc",
+    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch", "kr"), default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
                         "taric = the canonical EU CSV from acquire/eu_taric.py; "
@@ -827,7 +875,7 @@ def main() -> int:
 
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
                "taric": load_rows_taric, "dga": load_rows_dga,
-               "ch": load_rows_ch}
+               "ch": load_rows_ch, "kr": load_rows_kr}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

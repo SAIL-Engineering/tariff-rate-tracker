@@ -267,3 +267,29 @@ GB-WLS normalizing to GB on selection; IM/GG/JE remapped to GB) beside a
 separate Northern Ireland row. GB prompts speak pure UK-tariff vocabulary
 (Commodity Code, TCTA 2018, ATaR/HMRC); XI keeps TARIC vocabulary framed
 for NI.
+
+
+## South Korea (KR)
+
+KCS datasets on data.go.kr: hierarchy 15130660 (5 level-sheets, KO+EN at
+every level, real 5/7/9-digit intermediates — parents are the longest
+existing shorter prefix, never digit arithmetic) + HS master 15049722
+(active-validity filter, units) for classification; rates 15051179 for
+duties. The portal's JS download flow (page → uddi →
+selectFileDataDownload.do → fileDownload.do, captcha-gated check-limit
+first) is implemented in acquire/kr_kcs.py; revision discovery polls the
+/catalog/{id}/fileData.json metadata (dated alternateName + dateModified)
+with the three-outcome gate: classification files changed → full rollout
+(rev = {year}_rev_{MMDD}); rates only → rates_only refresh; else skip. The
+Korean corpus publishes to kr__{rev}_ko beside the English default, and
+the Explorer ships an EN/KO switcher with bilingual chapters (Korean HS
+section titles curated in hs_sections.ko.json).
+
+Duty engine: every rate row is declared at 10-digit HSK (inherit "exact");
+config/kr_rate_classes.json maps the 224 observed rate classes onto the
+official UNI-PASS 세율적용 우선순위 (captured 2026-09-02): the served
+erga_omnes is the computed applied rate (B beats A; C-family applies when
+lower), FTA schedules are conditional preferences per class, tier-1
+specials (anti-dumping etc.) are informational with their additive nature
+flagged, quotas conditional, unknown classes trip a loud informational
+fallback. Specific components (₩ unit tax, base price) stay verbatim.

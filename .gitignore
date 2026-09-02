@@ -108,6 +108,9 @@ node_modules/
 /ch_*.codes.json
 /ch_*.manifest.json
 /gb_*.jsonl
+/kr_*.jsonl
+/kr_*.codes.json
+/kr_*.manifest.json
 /xi_*.jsonl
 /xi_*.codes.json
 /xi_*.manifest.json
@@ -132,3 +135,4 @@ data/ca_tariff_source/.cbsa_download/
 data/eu_tariff_source/.circabc_download/
 data/gb_tariff_source/.uk_download/
 data/ch_tariff_source/.ch_download/
+data/kr_tariff_source/.kr_download/

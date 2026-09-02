@@ -1,0 +1,584 @@
+[
+  {
+    "chapter": "01",
+    "description": "제1류 살아 있는 동물",
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품"
+  },
+  {
+    "chapter": "02",
+    "description": "제2류 육과 식용 설육(屑肉)",
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품"
+  },
+  {
+    "chapter": "03",
+    "description": "제3류 어류ㆍ갑각류ㆍ연체동물과 그 밖의 수생(水生) 무척추동물",
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품"
+  },
+  {
+    "chapter": "04",
+    "description": "제4류 낙농품, 새의 알, 천연꿀, 다른 류로 분류되지 않은 식용인 동물성 생산품",
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품"
+  },
+  {
+    "chapter": "05",
+    "description": "제5류 다른 류로 분류되지 않은 동물성 생산품",
+    "section": "I",
+    "sectionTitle": "산 동물과 동물성 생산품"
+  },
+  {
+    "chapter": "06",
+    "description": "제6류 살아 있는 수목과 그 밖의 식물, 인경(鱗莖)ㆍ뿌리와 이와 유사한 물품, 절화(切花)와 장식용 잎",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "07",
+    "description": "제7류 식용의 채소ㆍ뿌리ㆍ괴경(塊莖)",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "08",
+    "description": "제8류 식용의 과실과 견과류, 감귤류ㆍ멜론의 껍질",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "09",
+    "description": "제9류 커피ㆍ차ㆍ마테(maté)ㆍ향신료",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "10",
+    "description": "제10류 곡물",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "11",
+    "description": "제11류 제분공업의 생산품과 맥아, 전분, 이눌린(inulin), 밀의 글루텐(gluten)",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "12",
+    "description": "제12류 채유(採油)에 적합한 종자와 과실, 각종 종자와 과실, 공업용ㆍ의약용 식물, 짚과 사료용 식물",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "13",
+    "description": "제13류 락(lac), 검ㆍ수지ㆍ그 밖의 식물성 수액과 추출물(extract)",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "14",
+    "description": "제14류 식물성 편조물(編組物)용 재료와 다른 류로 분류되지 않은 식물성 생산품",
+    "section": "II",
+    "sectionTitle": "식물성 생산품"
+  },
+  {
+    "chapter": "15",
+    "description": "제15류 동물성ㆍ식물성ㆍ미생물성 지방과 기름 및이들의 분해생산물, 조제한 식용 지방과 동물성ㆍ식물성 왁스",
+    "section": "III",
+    "sectionTitle": "동물성ㆍ식물성ㆍ미생물성 지방과 기름 및 이들의 분해생산물, 조제한 식용 지방과 동물성ㆍ식물성 왁스"
+  },
+  {
+    "chapter": "16",
+    "description": "제16류 육류ㆍ어류ㆍ갑각류ㆍ연체동물이나 그 밖의 수생(水生) 무척추동물 또는 곤충의 조제품",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "17",
+    "description": "제17류 당류(糖類)와 설탕과자",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "18",
+    "description": "제18류 코코아와 그 조제품",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "19",
+    "description": "제19류 곡물ㆍ고운 가루ㆍ전분ㆍ밀크의 조제품과 베이커리 제품",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "20",
+    "description": "제20류 채소ㆍ과실ㆍ견과류나 식물의그 밖의 부분의 조제품",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "21",
+    "description": "제21류 각종 조제 식료품",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "22",
+    "description": "제22류 음료ㆍ주류ㆍ식초",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "23",
+    "description": "제23류 식품 공업에서 생기는 잔재물과 웨이스트(waste), 조제 사료",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "24",
+    "description": "제24류 담배와 제조한 담배 대용물, 연소시키지 않고흡입하도록 만들어진 물품(니코틴을 함유하였는지에 상관없다), 니코틴을 함유한 그 밖의 물품으로 인체 내에 니코틴을 흡수시키도록 만들어진 것",
+    "section": "IV",
+    "sectionTitle": "조제 식료품, 음료ㆍ주류ㆍ식초, 담배와 제조한 담배 대용물, 연소시키지 않고 흡입하도록 만들어진 물품(니코틴 함유 여부와 상관없다), 인체 내 니코틴 흡수용 그 밖의 니코틴 함유 물품"
+  },
+  {
+    "chapter": "25",
+    "description": "제25류 소금, 황, 토석류(土石類), 석고ㆍ석회ㆍ시멘트",
+    "section": "V",
+    "sectionTitle": "광물성 생산품"
+  },
+  {
+    "chapter": "26",
+    "description": "제26류 광(鑛)ㆍ슬래그(slag)ㆍ회(灰)",
+    "section": "V",
+    "sectionTitle": "광물성 생산품"
+  },
+  {
+    "chapter": "27",
+    "description": "제27류 광물성 연료ㆍ광물유(鑛物油)와 이들의 증류물, 역청(瀝靑)물질, 광물성 왁스",
+    "section": "V",
+    "sectionTitle": "광물성 생산품"
+  },
+  {
+    "chapter": "28",
+    "description": "제28류 무기화학품, 귀금속ㆍ희토류(稀土類)금속ㆍ방사성원소ㆍ동위원소의 유기화합물이나 무기화합물",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "29",
+    "description": "제29류 유기화학품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "30",
+    "description": "제30류 의료용품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "31",
+    "description": "제31류 비료",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "32",
+    "description": "제32류 유연용ㆍ염색용 추출물(extract), 탄닌과 이들의 유도체, 염료ㆍ안료와 그 밖의 착색제, 페인트ㆍ바니시(varnish), 퍼티(putty)와 그 밖의 매스틱(mastic), 잉크",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "33",
+    "description": "제33류 정유(essential oil)와 레지노이드(resinoid), 조제향료와 화장품ㆍ화장용품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "34",
+    "description": "제34류 비누ㆍ유기계면활성제ㆍ조제 세제ㆍ조제 윤활제ㆍ인조 왁스ㆍ조제 왁스ㆍ광택용이나 연마용 조제품ㆍ양초와 이와 유사한 물품ㆍ조형용 페이스트(paste)ㆍ치과용 왁스와 플라스터(plaster)를 기본 재료로 한 치과용 조제품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "35",
+    "description": "제35류 단백질계 물질, 변성전분, 글루(glue), 효소",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "36",
+    "description": "제36류 화약류, 화공품, 성냥, 발화성 합금, 특정 가연성 조제품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "37",
+    "description": "제37류 사진용이나 영화용 재료",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "38",
+    "description": "제38류 각종 화학공업 생산품",
+    "section": "VI",
+    "sectionTitle": "화학공업이나 연관공업의 생산품"
+  },
+  {
+    "chapter": "39",
+    "description": "제39류 플라스틱과 그 제품",
+    "section": "VII",
+    "sectionTitle": "플라스틱과 그 제품, 고무와 그 제품"
+  },
+  {
+    "chapter": "40",
+    "description": "제40류 고무와 그 제품",
+    "section": "VII",
+    "sectionTitle": "플라스틱과 그 제품, 고무와 그 제품"
+  },
+  {
+    "chapter": "41",
+    "description": "제41류 원피(모피는 제외한다)와 가죽",
+    "section": "VIII",
+    "sectionTitle": "원피ㆍ가죽ㆍ모피와 이들의 제품, 마구, 여행용구ㆍ핸드백과 이와 유사한 용기, 동물 거트(gut)의 제품"
+  },
+  {
+    "chapter": "42",
+    "description": "제42류 가죽제품, 마구, 여행용구ㆍ핸드백과 이와 유사한 용기, 동물 거트(gut)[누에의 거트(gut)는 제외한다]의 제품",
+    "section": "VIII",
+    "sectionTitle": "원피ㆍ가죽ㆍ모피와 이들의 제품, 마구, 여행용구ㆍ핸드백과 이와 유사한 용기, 동물 거트(gut)의 제품"
+  },
+  {
+    "chapter": "43",
+    "description": "제43류 모피ㆍ인조모피와 이들의 제품",
+    "section": "VIII",
+    "sectionTitle": "원피ㆍ가죽ㆍ모피와 이들의 제품, 마구, 여행용구ㆍ핸드백과 이와 유사한 용기, 동물 거트(gut)의 제품"
+  },
+  {
+    "chapter": "44",
+    "description": "제44류 목재와 그 제품, 목탄",
+    "section": "IX",
+    "sectionTitle": "목재와 그 제품, 목탄, 코르크와 그 제품, 짚ㆍ에스파르토(esparto)나 그 밖의 조물 재료의 제품, 바구니 세공물(basketware)과 지조세공물(wickerwork)"
+  },
+  {
+    "chapter": "45",
+    "description": "제45류 코르크(cork)와 그 제품",
+    "section": "IX",
+    "sectionTitle": "목재와 그 제품, 목탄, 코르크와 그 제품, 짚ㆍ에스파르토(esparto)나 그 밖의 조물 재료의 제품, 바구니 세공물(basketware)과 지조세공물(wickerwork)"
+  },
+  {
+    "chapter": "46",
+    "description": "제46류 짚ㆍ에스파르토(esparto)나 그 밖의 조물 재료의 제품, 바구니 세공물(basketware)과 지조세공물(枝條細工物)",
+    "section": "IX",
+    "sectionTitle": "목재와 그 제품, 목탄, 코르크와 그 제품, 짚ㆍ에스파르토(esparto)나 그 밖의 조물 재료의 제품, 바구니 세공물(basketware)과 지조세공물(wickerwork)"
+  },
+  {
+    "chapter": "47",
+    "description": "제47류 목재나 그 밖의 섬유질 셀룰로오스재료의 펄프, 회수한 종이ㆍ판지[웨이스트(waste)와 스크랩(scrap)]",
+    "section": "X",
+    "sectionTitle": "목재나 그 밖의 섬유질 셀룰로오스 재료의 펄프, 회수한 종이ㆍ판지(웨이스트와 스크랩), 종이ㆍ판지와 이들의 제품"
+  },
+  {
+    "chapter": "48",
+    "description": "제48류 종이와 판지, 제지용 펄프ㆍ종이ㆍ판지의 제품",
+    "section": "X",
+    "sectionTitle": "목재나 그 밖의 섬유질 셀룰로오스 재료의 펄프, 회수한 종이ㆍ판지(웨이스트와 스크랩), 종이ㆍ판지와 이들의 제품"
+  },
+  {
+    "chapter": "49",
+    "description": "제49류 인쇄서적ㆍ신문ㆍ회화ㆍ그 밖의 인쇄물, 수제(手製)문서ㆍ타자문서ㆍ도면",
+    "section": "X",
+    "sectionTitle": "목재나 그 밖의 섬유질 셀룰로오스 재료의 펄프, 회수한 종이ㆍ판지(웨이스트와 스크랩), 종이ㆍ판지와 이들의 제품"
+  },
+  {
+    "chapter": "50",
+    "description": "제50류 견",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "51",
+    "description": "제51류 양모ㆍ동물의 부드러운 털이나 거친 털ㆍ말의 털로 만든 실과 직물",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "52",
+    "description": "제52류 면",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "53",
+    "description": "제53류 그 밖의 식물성 방직용 섬유, 종이실(paper yarn)과 종이실로 만든 직물",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "54",
+    "description": "제54류 인조필라멘트, 인조방직용 섬유재료의 스트립(strip)과 이와 유사한 것",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "55",
+    "description": "제55류 인조스테이플섬유",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "56",
+    "description": "제56류 워딩(wadding)ㆍ펠트(felt)ㆍ부직포, 특수사, 끈ㆍ배의 밧줄(cordage)ㆍ로프ㆍ케이블과 이들의 제품",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "57",
+    "description": "제57류 양탄자류와 그 밖의 방직용 섬유로 만든 바닥깔개",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "58",
+    "description": "제58류 특수직물, 터프트(tuft)한 직물, 레이스, 태피스트리(tapestry), 트리밍(trimming), 자수천",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "59",
+    "description": "제59류 침투ㆍ도포ㆍ피복하거나 적층한 방직용 섬유의 직물, 공업용인 방직용 섬유제품",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "60",
+    "description": "제60류 메리야스 편물과 뜨개질 편물",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "61",
+    "description": "제61류 의류와 그 부속품(메리야스 편물이나 뜨개질 편물로 한정한다)",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "62",
+    "description": "제62류 의류와 그 부속품(메리야스 편물이나 뜨개질편물은 제외한다)",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "63",
+    "description": "제63류 제품으로 된 방직용 섬유의 그 밖의 물품, 세트, 사용하던 의류ㆍ방직용 섬유제품, 넝마",
+    "section": "XI",
+    "sectionTitle": "방직용 섬유와 방직용 섬유의 제품"
+  },
+  {
+    "chapter": "64",
+    "description": "제64류 신발류ㆍ각반과 이와 유사한 것, 이들의 부분품",
+    "section": "XII",
+    "sectionTitle": "신발류ㆍ모자류ㆍ산류ㆍ지팡이ㆍ시트스틱ㆍ채찍ㆍ승마용 채찍과 이들의 부분품, 조제 깃털과 그 제품, 조화, 사람 머리카락으로 된 제품"
+  },
+  {
+    "chapter": "65",
+    "description": "제65류 모자류와 그 부분품",
+    "section": "XII",
+    "sectionTitle": "신발류ㆍ모자류ㆍ산류ㆍ지팡이ㆍ시트스틱ㆍ채찍ㆍ승마용 채찍과 이들의 부분품, 조제 깃털과 그 제품, 조화, 사람 머리카락으로 된 제품"
+  },
+  {
+    "chapter": "66",
+    "description": "제66류 산류(傘類)ㆍ지팡이ㆍ시트스틱(seat-stick)ㆍ채찍ㆍ승마용 채찍과 이들의 부분품",
+    "section": "XII",
+    "sectionTitle": "신발류ㆍ모자류ㆍ산류ㆍ지팡이ㆍ시트스틱ㆍ채찍ㆍ승마용 채찍과 이들의 부분품, 조제 깃털과 그 제품, 조화, 사람 머리카락으로 된 제품"
+  },
+  {
+    "chapter": "67",
+    "description": "제67류 조제 깃털ㆍ솜털과 그 제품, 조화, 사람 머리카락으로 된 제품",
+    "section": "XII",
+    "sectionTitle": "신발류ㆍ모자류ㆍ산류ㆍ지팡이ㆍ시트스틱ㆍ채찍ㆍ승마용 채찍과 이들의 부분품, 조제 깃털과 그 제품, 조화, 사람 머리카락으로 된 제품"
+  },
+  {
+    "chapter": "68",
+    "description": "제68류 돌ㆍ플라스터(plaster)ㆍ시멘트ㆍ석면ㆍ운모나 이와 유사한 재료의 제품",
+    "section": "XIII",
+    "sectionTitle": "돌ㆍ플라스터(plaster)ㆍ시멘트ㆍ석면ㆍ운모나 이와 유사한 재료의 제품, 도자제품, 유리와 유리제품"
+  },
+  {
+    "chapter": "69",
+    "description": "제69류 도자제품",
+    "section": "XIII",
+    "sectionTitle": "돌ㆍ플라스터(plaster)ㆍ시멘트ㆍ석면ㆍ운모나 이와 유사한 재료의 제품, 도자제품, 유리와 유리제품"
+  },
+  {
+    "chapter": "70",
+    "description": "제70류 유리와 유리제품",
+    "section": "XIII",
+    "sectionTitle": "돌ㆍ플라스터(plaster)ㆍ시멘트ㆍ석면ㆍ운모나 이와 유사한 재료의 제품, 도자제품, 유리와 유리제품"
+  },
+  {
+    "chapter": "71",
+    "description": "제71류 천연진주ㆍ양식진주ㆍ귀석ㆍ반귀석ㆍ귀금속ㆍ귀금속을 입힌 금속과 이들의 제품, 모조 신변장식용품, 주화",
+    "section": "XIV",
+    "sectionTitle": "천연진주ㆍ양식진주ㆍ귀석ㆍ반귀석ㆍ귀금속ㆍ귀금속을 입힌 금속과 이들의 제품, 모조 신변장식용품, 주화"
+  },
+  {
+    "chapter": "72",
+    "description": "제72류 철강",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "73",
+    "description": "제73류 철강의 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "74",
+    "description": "제74류 구리와 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "75",
+    "description": "제75류 니켈과 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "76",
+    "description": "제76류 알루미늄과 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "77",
+    "description": "제77류 (유 보)",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "78",
+    "description": "제78류 납과 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "79",
+    "description": "제79류 아연과 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "80",
+    "description": "제80류 주석과 그 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "81",
+    "description": "제81류 그 밖의 비금속(卑金屬), 서멧(cermet), 이들의 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "82",
+    "description": "제82류 비금속(卑金屬)으로 만든 공구ㆍ도구ㆍ칼붙이ㆍ스푼ㆍ포크, 이들의 부분품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "83",
+    "description": "제83류 비금속(卑金屬)으로 만든 각종 제품",
+    "section": "XV",
+    "sectionTitle": "비금속(卑金屬)과 그 제품"
+  },
+  {
+    "chapter": "84",
+    "description": "제84류 원자로ㆍ보일러ㆍ기계류와 이들의 부분품",
+    "section": "XVI",
+    "sectionTitle": "기계류ㆍ전기기기와 이들의 부분품, 녹음기와 음성 재생기, 텔레비전의 영상과 음성의 기록기ㆍ재생기와 이들의 부분품ㆍ부속품"
+  },
+  {
+    "chapter": "85",
+    "description": "제85류 전기기기와 그 부분품, 녹음기ㆍ음성 재생기ㆍ텔레비전의 영상과 음성의 기록기ㆍ재생기와 이들의 부분품ㆍ부속품",
+    "section": "XVI",
+    "sectionTitle": "기계류ㆍ전기기기와 이들의 부분품, 녹음기와 음성 재생기, 텔레비전의 영상과 음성의 기록기ㆍ재생기와 이들의 부분품ㆍ부속품"
+  },
+  {
+    "chapter": "86",
+    "description": "제86류 철도용이나 궤도용 기관차ㆍ차량과 이들의 부분품, 철도용이나 궤도용 장비품과 그 부분품, 기계식(전기기계식을 포함한다) 각종 교통신호용 기기",
+    "section": "XVII",
+    "sectionTitle": "차량ㆍ항공기ㆍ선박과 수송기기 관련품"
+  },
+  {
+    "chapter": "87",
+    "description": "제87류 철도용이나 궤도용 외의 차량과 그 부분품ㆍ부속품",
+    "section": "XVII",
+    "sectionTitle": "차량ㆍ항공기ㆍ선박과 수송기기 관련품"
+  },
+  {
+    "chapter": "88",
+    "description": "제88류 항공기와 우주선, 이들의 부분품",
+    "section": "XVII",
+    "sectionTitle": "차량ㆍ항공기ㆍ선박과 수송기기 관련품"
+  },
+  {
+    "chapter": "89",
+    "description": "제89류 선박과 수상 구조물",
+    "section": "XVII",
+    "sectionTitle": "차량ㆍ항공기ㆍ선박과 수송기기 관련품"
+  },
+  {
+    "chapter": "90",
+    "description": "제90류 광학기기ㆍ사진용 기기ㆍ영화용 기기ㆍ측정기기ㆍ검사기기ㆍ정밀기기ㆍ의료용 기기, 이들의 부분품과 부속품",
+    "section": "XVIII",
+    "sectionTitle": "광학기기ㆍ사진용 기기ㆍ영화용 기기ㆍ측정기기ㆍ검사기기ㆍ정밀기기ㆍ의료용 기기, 시계, 악기, 이들의 부분품과 부속품"
+  },
+  {
+    "chapter": "91",
+    "description": "제91류 시계와 그 부분품",
+    "section": "XVIII",
+    "sectionTitle": "광학기기ㆍ사진용 기기ㆍ영화용 기기ㆍ측정기기ㆍ검사기기ㆍ정밀기기ㆍ의료용 기기, 시계, 악기, 이들의 부분품과 부속품"
+  },
+  {
+    "chapter": "92",
+    "description": "제92류 악기와 그 부분품과 부속품",
+    "section": "XVIII",
+    "sectionTitle": "광학기기ㆍ사진용 기기ㆍ영화용 기기ㆍ측정기기ㆍ검사기기ㆍ정밀기기ㆍ의료용 기기, 시계, 악기, 이들의 부분품과 부속품"
+  },
+  {
+    "chapter": "93",
+    "description": "제93류 무기ㆍ총포탄과 이들의 부분품과 부속품",
+    "section": "XIX",
+    "sectionTitle": "무기ㆍ총포탄과 이들의 부분품과 부속품"
+  },
+  {
+    "chapter": "94",
+    "description": "제94류 가구, 침구ㆍ매트리스ㆍ매트리스 서포트(mattress support)ㆍ쿠션과 이와 유사한 물품, 다른 류로 분류되지 않은 조명기구, 조명용 사인ㆍ조명용 네임플레이트(name-plate)와 이와 유사한 물품, 조립식 건축물",
+    "section": "XX",
+    "sectionTitle": "잡품"
+  },
+  {
+    "chapter": "95",
+    "description": "제95류 완구ㆍ게임용구ㆍ운동용구와 이들의 부분품과 부속품",
+    "section": "XX",
+    "sectionTitle": "잡품"
+  },
+  {
+    "chapter": "96",
+    "description": "제96류 잡품",
+    "section": "XX",
+    "sectionTitle": "잡품"
+  },
+  {
+    "chapter": "97",
+    "description": "제97류 예술품ㆍ수집품ㆍ골동품",
+    "section": "XXI",
+    "sectionTitle": "예술품ㆍ수집품ㆍ골동품"
+  }
+]

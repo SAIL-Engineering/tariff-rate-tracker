@@ -1,0 +1,13 @@
+{
+ "_comment": "Curated Korean duty overlays, applied automatically on every build.",
+ "flat_taxes": [
+  {
+   "treatment": "VAT",
+   "name": "VAT — Value Added Tax (부가가치세, on the duty-inclusive value)",
+   "rate_text": "10%",
+   "ad_valorem": 0.1,
+   "applies_note": "Standard rate on imports; certain goods are exempt or zero-rated under the VAT Act.",
+   "legal_basis": "Value-Added Tax Act (부가가치세법)"
+  }
+ ]
+}

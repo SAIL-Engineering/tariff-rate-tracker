@@ -1,0 +1,84 @@
+{
+  "_comment": "South Korea — KCS datasets on data.go.kr (hierarchy 15130660 + HS master 15049722 for classification; rates 15051179 for duties). rev = {year}_rev_{MMDD} from the hierarchy file's dated name; the three-outcome gate refreshes duty data whenever the rates dataset moves. Korean corpus variant publishes to kr__{...}_ko.",
+  "code": "KR",
+  "name": "South Korea",
+  "tariff_schedule_name": "Korean Customs Tariff (HSK)",
+  "lang": "en",
+  "languages": [
+    "ko"
+  ],
+  "acquire": {
+    "adapter": "kr_kcs",
+    "options": {
+      "dest": "data/kr_tariff_source/kr_tariff_{year}_rev_{number}.csv"
+    },
+    "manual_dir": "data/kr_tariff_source",
+    "manual_prefix": "kr_tariff"
+  },
+  "source_format": "kr",
+  "chapters_file": "scripts/hts_automation/chapters_kr.json",
+  "max_depth": 10,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "kr__{year}_rev_{number}",
+  "stem_pattern": "kr_{year}_rev_{number}",
+  "registry": "config/jurisdictions/kr_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/kr_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "kr_hsk_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/kr_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/kr_{year}_revision_{number}.json"
+      },
+      {
+        "from": "explorer_json_ko",
+        "to": "server/data/hts/kr_{year}_revision_{number}.ko.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "kr-hsk-{year}-rev{number}",
+    "commit_message": "chore: Korea HSK {year} dataset {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "kr_rates_xlsx",
+    "source_format": "kr"
+  }
+}

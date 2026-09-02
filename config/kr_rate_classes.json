@@ -1,0 +1,459 @@
+{
+ "_comment": "Curated Korean tariff-rate-class dictionary, built from the official UNI-PASS 세율적용 우선순위 page (openULS0201009Q.do, captured 2026-09-02) and the observed 224 classes in dataset 15051179. Rules are ordered regexes: the FIRST match wins (specific FTA sub-schedules before their family prefix). Unknown codes trip the build's loud informational fallback, never silently averaged. Applied-rate precedence implemented in build_kr: tier-1 specials sit on top (some ADDITIVE); FTA (tier 2) applies when lower than 3-7 with origin entitlement; C/W (tier 3) apply when lower than 4-7; then L/P, R, B before A.",
+ "rules": [
+  {
+   "pattern": "^I\\d*$",
+   "treatment": "anti_dumping",
+   "tier": 1,
+   "category": "anti_dumping",
+   "additive": true,
+   "name": "Anti-dumping duty (덤핑방지관세)"
+  },
+  {
+   "pattern": "^M\\d*$",
+   "treatment": "countervailing",
+   "tier": 1,
+   "category": "countervailing",
+   "additive": true,
+   "name": "Countervailing duty (상계관세)"
+  },
+  {
+   "pattern": "^J\\d*$",
+   "treatment": "retaliatory",
+   "tier": 1,
+   "category": "retaliatory",
+   "name": "Retaliatory duty (보복관세)"
+  },
+  {
+   "pattern": "^K\\d*$",
+   "treatment": "emergency",
+   "tier": 1,
+   "category": "emergency",
+   "name": "Emergency (safeguard) duty (긴급관세)"
+  },
+  {
+   "pattern": "^T\\d*$",
+   "treatment": "agri_safeguard",
+   "tier": 1,
+   "category": "agri_safeguard",
+   "additive": true,
+   "name": "Special agricultural safeguard (농림축산물특별긴급관세)"
+  },
+  {
+   "pattern": "^FCL\\d*$",
+   "family": "KR-Chile FTA",
+   "origins": [
+    "CL"
+   ]
+  },
+  {
+   "pattern": "^FASPH\\d*$",
+   "family": "KR-ASEAN FTA (Philippines schedule)",
+   "origins": [
+    "PH"
+   ]
+  },
+  {
+   "pattern": "^FASID\\d*$",
+   "family": "KR-ASEAN FTA (Indonesia schedule)",
+   "origins": [
+    "ID"
+   ]
+  },
+  {
+   "pattern": "^FASTH\\d*$",
+   "family": "KR-ASEAN FTA (Thailand schedule)",
+   "origins": [
+    "TH"
+   ]
+  },
+  {
+   "pattern": "^FAS\\d*$",
+   "family": "KR-ASEAN FTA",
+   "origins": [
+    "BN",
+    "KH",
+    "ID",
+    "LA",
+    "MY",
+    "MM",
+    "PH",
+    "SG",
+    "TH",
+    "VN"
+   ]
+  },
+  {
+   "pattern": "^FSG\\d*$",
+   "family": "KR-Singapore FTA",
+   "origins": [
+    "SG"
+   ]
+  },
+  {
+   "pattern": "^FEFIS\\d*$",
+   "family": "KR-EFTA FTA (Iceland schedule)",
+   "origins": [
+    "IS"
+   ]
+  },
+  {
+   "pattern": "^FEFNO\\d*$",
+   "family": "KR-EFTA FTA (Norway schedule)",
+   "origins": [
+    "NO"
+   ]
+  },
+  {
+   "pattern": "^FEFCH\\d*$",
+   "family": "KR-EFTA FTA (Switzerland schedule)",
+   "origins": [
+    "CH",
+    "LI"
+   ]
+  },
+  {
+   "pattern": "^FEF\\d*$",
+   "family": "KR-EFTA FTA",
+   "origins": [
+    "CH",
+    "IS",
+    "LI",
+    "NO"
+   ]
+  },
+  {
+   "pattern": "^FIN\\d*$",
+   "family": "KR-India CEPA",
+   "origins": [
+    "IN"
+   ]
+  },
+  {
+   "pattern": "^FEU\\d*$",
+   "family": "KR-EU FTA",
+   "origins": [
+    "AT",
+    "BE",
+    "BG",
+    "HR",
+    "CY",
+    "CZ",
+    "DK",
+    "EE",
+    "FI",
+    "FR",
+    "DE",
+    "GR",
+    "HU",
+    "IE",
+    "IT",
+    "LV",
+    "LT",
+    "LU",
+    "MT",
+    "NL",
+    "PL",
+    "PT",
+    "RO",
+    "SK",
+    "SI",
+    "ES",
+    "SE"
+   ]
+  },
+  {
+   "pattern": "^FPE\\d*$",
+   "family": "KR-Peru FTA",
+   "origins": [
+    "PE"
+   ]
+  },
+  {
+   "pattern": "^FUS\\d*$",
+   "family": "KR-US FTA (KORUS)",
+   "origins": [
+    "US"
+   ]
+  },
+  {
+   "pattern": "^FTR\\d*$",
+   "family": "KR-Türkiye FTA",
+   "origins": [
+    "TR"
+   ]
+  },
+  {
+   "pattern": "^FAU\\d*$",
+   "family": "KR-Australia FTA",
+   "origins": [
+    "AU"
+   ]
+  },
+  {
+   "pattern": "^FCA\\d*$",
+   "family": "KR-Canada FTA",
+   "origins": [
+    "CA"
+   ]
+  },
+  {
+   "pattern": "^FCO\\d*$",
+   "family": "KR-Colombia FTA",
+   "origins": [
+    "CO"
+   ]
+  },
+  {
+   "pattern": "^FCN\\d*$",
+   "family": "KR-China FTA",
+   "origins": [
+    "CN"
+   ]
+  },
+  {
+   "pattern": "^FVN\\d*$",
+   "family": "KR-Vietnam FTA",
+   "origins": [
+    "VN"
+   ]
+  },
+  {
+   "pattern": "^FNZ\\d*$",
+   "family": "KR-New Zealand FTA",
+   "origins": [
+    "NZ"
+   ]
+  },
+  {
+   "pattern": "^FGB\\d*$",
+   "family": "KR-UK FTA",
+   "origins": [
+    "GB"
+   ]
+  },
+  {
+   "pattern": "^FIL\\d*$",
+   "family": "KR-Israel FTA",
+   "origins": [
+    "IL"
+   ]
+  },
+  {
+   "pattern": "^FID\\d*$",
+   "family": "KR-Indonesia CEPA",
+   "origins": [
+    "ID"
+   ]
+  },
+  {
+   "pattern": "^FKH\\d*$",
+   "family": "KR-Cambodia FTA",
+   "origins": [
+    "KH"
+   ]
+  },
+  {
+   "pattern": "^FPH\\d*$",
+   "family": "KR-Philippines FTA",
+   "origins": [
+    "PH"
+   ]
+  },
+  {
+   "pattern": "^FCENI\\d*$",
+   "family": "KR-Central America FTA (Nicaragua)",
+   "origins": [
+    "NI"
+   ]
+  },
+  {
+   "pattern": "^FCEPA\\d*$",
+   "family": "KR-Central America FTA (Panama)",
+   "origins": [
+    "PA"
+   ]
+  },
+  {
+   "pattern": "^FCECR\\d*$",
+   "family": "KR-Central America FTA (Costa Rica)",
+   "origins": [
+    "CR"
+   ]
+  },
+  {
+   "pattern": "^FCEHN\\d*$",
+   "family": "KR-Central America FTA (Honduras)",
+   "origins": [
+    "HN"
+   ]
+  },
+  {
+   "pattern": "^FCESV\\d*$",
+   "family": "KR-Central America FTA (El Salvador)",
+   "origins": [
+    "SV"
+   ]
+  },
+  {
+   "pattern": "^FRCAS\\d*$",
+   "family": "RCEP (ASEAN schedule)",
+   "origins": [
+    "BN",
+    "KH",
+    "ID",
+    "LA",
+    "MY",
+    "MM",
+    "PH",
+    "SG",
+    "TH",
+    "VN"
+   ]
+  },
+  {
+   "pattern": "^FRCAU\\d*$",
+   "family": "RCEP (Australia schedule)",
+   "origins": [
+    "AU"
+   ]
+  },
+  {
+   "pattern": "^FRCNZ\\d*$",
+   "family": "RCEP (New Zealand schedule)",
+   "origins": [
+    "NZ"
+   ]
+  },
+  {
+   "pattern": "^FRCCN\\d*$",
+   "family": "RCEP (China schedule)",
+   "origins": [
+    "CN"
+   ]
+  },
+  {
+   "pattern": "^FRCJP\\d*$",
+   "family": "RCEP (Japan schedule)",
+   "origins": [
+    "JP"
+   ]
+  },
+  {
+   "pattern": "^(C|CIT|C\\d+|C\\d+A\\d+)$",
+   "treatment": "wto_concession",
+   "tier": 3,
+   "name": "WTO concession rate (WTO양허관세)"
+  },
+  {
+   "pattern": "^D\\d*$",
+   "treatment": "pref_wto_dev",
+   "tier": 3,
+   "conditional": true,
+   "name": "WTO developing-country concession (WTO개도국간 양허)"
+  },
+  {
+   "pattern": "^E1(A|B)?\\d*$",
+   "treatment": "pref_apta",
+   "tier": 3,
+   "conditional": true,
+   "origins": [
+    "BD",
+    "CN",
+    "IN",
+    "LA",
+    "LK",
+    "MN"
+   ],
+   "name": "APTA concession (아태협정양허관세)"
+  },
+  {
+   "pattern": "^E2(A\\d+)?$",
+   "treatment": "pref_apta_bd",
+   "tier": 3,
+   "conditional": true,
+   "origins": [
+    "BD"
+   ],
+   "name": "APTA — Bangladesh concession"
+  },
+  {
+   "pattern": "^E3(A\\d+)?$",
+   "treatment": "pref_apta_la",
+   "tier": 3,
+   "conditional": true,
+   "origins": [
+    "LA"
+   ],
+   "name": "APTA — Laos concession"
+  },
+  {
+   "pattern": "^G\\d*$",
+   "treatment": "pref_gstp",
+   "tier": 3,
+   "conditional": true,
+   "name": "UNCTAD GSTP concession (개발도상국간 협정관세)"
+  },
+  {
+   "pattern": "^F$",
+   "treatment": "intl_cooperation",
+   "tier": 3,
+   "conditional": true,
+   "name": "International cooperation tariff (국제협력관세)"
+  },
+  {
+   "pattern": "^N\\d*$",
+   "treatment": "beneficial",
+   "tier": 3,
+   "conditional": true,
+   "name": "Beneficial tariff (편익관세)"
+  },
+  {
+   "pattern": "^W\\d*$",
+   "treatment": "wto_concession_alt",
+   "tier": 3,
+   "name": "WTO concession, alternate schedule (별표 1나)"
+  },
+  {
+   "pattern": "^L\\d*$",
+   "treatment": "adjustment",
+   "tier": 4,
+   "category": "adjustment",
+   "name": "Adjustment tariff (조정관세, 제69조)"
+  },
+  {
+   "pattern": "^P\\d*$",
+   "treatment": "quota",
+   "tier": 4,
+   "category": "quota",
+   "conditional": true,
+   "name": "Tariff-rate quota (할당관세)"
+  },
+  {
+   "pattern": "^R$",
+   "treatment": "pref_ldc",
+   "tier": 5,
+   "conditional": true,
+   "name": "LDC preferential tariff (최빈개발도상국 특혜관세)"
+  },
+  {
+   "pattern": "^B$",
+   "treatment": "provisional",
+   "tier": 6,
+   "name": "Provisional tariff (잠정관세)"
+  },
+  {
+   "pattern": "^A\\d*$",
+   "treatment": "basic",
+   "tier": 7,
+   "name": "Basic tariff (기본관세)"
+  },
+  {
+   "pattern": "^U$",
+   "treatment": "unbound",
+   "tier": 0,
+   "category": "unbound",
+   "name": "WTO unbound marker (미양허)"
+  }
+ ]
+}
