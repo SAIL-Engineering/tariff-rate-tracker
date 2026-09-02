@@ -304,6 +304,13 @@ def cmd_verify(args) -> None:
     if count == 0:
         sys.exit(f"ERROR: namespace {args.namespace} is empty or does not exist")
     print(f"[verify] {args.namespace}: {count:,} records")
+    if getattr(args, "skip_golden", False):
+        # Language-variant corpora: the golden probes are English and the
+        # built-in fallback is US-specific. Recall is proven on the English
+        # base namespace; the variant is gated by record-count parity instead
+        # (enforced in refresh.do_publish).
+        print("[verify] golden queries skipped (language variant)")
+        return
     queries = load_golden_queries(getattr(args, "golden_queries", None))
     failures = golden_query_check(host, args.namespace, queries=queries)
     if failures:
@@ -389,6 +396,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--golden-queries", default=None,
                     help="JSON file of per-jurisdiction golden queries; "
                          "default is the built-in (US-derived, HS-harmonized) set")
+    sp.add_argument("--skip-golden", action="store_true",
+                    help="language-variant namespaces: skip the English golden "
+                         "probes (record-count parity gates these instead)")
     sp.set_defaults(func=cmd_verify)
 
     sp = sub.add_parser("delete")
@@ -400,6 +410,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--namespace", required=True)
     sp.add_argument("--golden-queries", default=None,
                     help="JSON file of per-jurisdiction golden queries")
+    sp.add_argument("--skip-golden", action="store_true",
+                    help="language-variant namespaces: skip the English golden "
+                         "probes (record-count parity gates these instead)")
     sp.add_argument("--force", action="store_true")
     sp.add_argument("--keep", type=int, default=2,
                     help="Namespaces to retain for this jurisdiction (default 2: "
