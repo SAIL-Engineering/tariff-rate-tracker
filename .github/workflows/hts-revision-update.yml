@@ -66,7 +66,7 @@ jobs:
       # (The picker must shape the matrix itself — the `matrix` context is not
       # available in a job-level `if`.)
       matrix:
-        include: ${{ (github.event_name != 'workflow_dispatch' || inputs.jurisdiction == 'all') && fromJSON('[{"jurisdiction":"US","timeout":45},{"jurisdiction":"CA","timeout":60},{"jurisdiction":"EU","timeout":90},{"jurisdiction":"GB","timeout":75},{"jurisdiction":"XI","timeout":90},{"jurisdiction":"CH","timeout":75}]') || fromJSON('{"US":[{"jurisdiction":"US","timeout":45}],"CA":[{"jurisdiction":"CA","timeout":60}],"EU":[{"jurisdiction":"EU","timeout":90}],"GB":[{"jurisdiction":"GB","timeout":75}],"XI":[{"jurisdiction":"XI","timeout":90}],"CH":[{"jurisdiction":"CH","timeout":75}]}')[inputs.jurisdiction] }}
+        include: ${{ (github.event_name != 'workflow_dispatch' || inputs.jurisdiction == 'all') && fromJSON('[{"jurisdiction":"US","timeout":45},{"jurisdiction":"CA","timeout":60},{"jurisdiction":"EU","timeout":90},{"jurisdiction":"GB","timeout":75},{"jurisdiction":"XI","timeout":90},{"jurisdiction":"CH","timeout":75},{"jurisdiction":"KR","timeout":60}]') || fromJSON('{"US":[{"jurisdiction":"US","timeout":45}],"CA":[{"jurisdiction":"CA","timeout":60}],"EU":[{"jurisdiction":"EU","timeout":90}],"GB":[{"jurisdiction":"GB","timeout":75}],"XI":[{"jurisdiction":"XI","timeout":90}],"CH":[{"jurisdiction":"CH","timeout":75}],"KR":[{"jurisdiction":"KR","timeout":60}]}')[inputs.jurisdiction] }}
 
     env:
       PINECONE_API_KEY:        ${{ secrets.PINECONE_API_KEY }}
@@ -217,7 +217,8 @@ jobs:
             EU) git add config/jurisdictions/eu_revisions.csv data/eu_tariff_source/*.csv ;;
             GB) git add config/jurisdictions/gb_revisions.csv data/gb_tariff_source/*.csv data/gb_tariff_source/state.json ;;
             XI) git add config/jurisdictions/xi_revisions.csv data/xi_tariff_source/*.csv ;;
-            CH) git add config/jurisdictions/ch_revisions.csv data/ch_tariff_source/*.csv data/ch_tariff_source/state.json scripts/hts_automation/chapters_ch.json ;;
+            CH) git add config/jurisdictions/ch_revisions.csv data/ch_tariff_source/*.csv data/ch_tariff_source/state.json scripts/hts_automation/chapters_ch*.json ;;
+            KR) git add config/jurisdictions/kr_revisions.csv data/kr_tariff_source/*.csv data/kr_tariff_source/state.json scripts/hts_automation/chapters_kr*.json ;;
           esac
           if git diff --cached --quiet; then
             echo "registry unchanged — nothing to commit"
