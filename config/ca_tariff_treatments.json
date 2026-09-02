@@ -127,6 +127,12 @@
       "legal_basis": "CPTPP",
       "verified_against": "CBSA T2026 List of Countries and Applicable Tariff Treatments, fetched 2026-08-27"
     },
+    "CPUKT": {
+      "name": "Comprehensive and Progressive Trans-Pacific Partnership — United Kingdom Tariff",
+      "origin_countries": "GB",
+      "conditional": false,
+      "legal_basis": "CPTPP — United Kingdom accession protocol (CBSA T2026-2, effective 2026-09-01)"
+    },
     "CCCT": {
       "name": "Commonwealth Caribbean Countries Tariff",
       "origin_countries": ["AG", "AI", "BB", "BM", "BS", "BZ", "DM", "GD", "GY", "JM", "KN", "KY", "LC", "MS", "TC", "TT", "VC", "VG"],

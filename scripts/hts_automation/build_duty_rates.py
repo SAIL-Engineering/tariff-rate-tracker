@@ -79,7 +79,7 @@ def load_overlay(jur: str) -> dict:
 CA_RATE_COLUMNS = [
     "MFN", "AUT", "NZT", "CCCT", "LDCT", "GPT", "UST", "MXT", "CIAT", "CT",
     "CRT", "IT", "NT", "SLT", "PT", "COLT", "JT", "PAT", "HNT", "KRT",
-    "CEUT", "CPTPT", "UKT", "UAT", "General Tariff",
+    "CEUT", "CPTPT", "UKT", "CPUKT", "UAT", "General Tariff",
 ]
 
 _PCT_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*%\s*$")

@@ -32,7 +32,7 @@ import build_hts_corpus as bhc  # noqa: E402
 
 # CA preferential columns worth naming in the compact summary (full set lives
 # in build_duty_rates.py).
-CA_SPECIAL_COLS = ("UST", "MXT", "CEUT", "CPTPT", "UKT", "CCCT", "LDCT", "GPT", "KRT", "JT")
+CA_SPECIAL_COLS = ("UST", "MXT", "CEUT", "CPTPT", "UKT", "CPUKT", "CCCT", "LDCT", "GPT", "KRT", "JT")
 
 
 def _ca_rates(csv_path: Path) -> dict[str, dict[str, str]]:

@@ -553,7 +553,23 @@ def check_latest(spec: dict, args):
     from check_upstream import UpstreamCheck
 
     session = _session()
-    version, published = resolve_latest_version(session)
+    try:
+        version, published = resolve_latest_version(session)
+    except Exception as first_err:                      # noqa: BLE001
+        # The latest redirect can point at a version whose pages 500 while
+        # the publication is still propagating (seen live: v4.0.1592).
+        # Retry once, then classify as a clean in-progress skip rather than
+        # a red nightly — tomorrow's run picks it up.
+        import time as _time
+        _time.sleep(10)
+        try:
+            version, published = resolve_latest_version(session)
+        except Exception as exc:                        # noqa: BLE001
+            from check_upstream import UpstreamCheck
+            return UpstreamCheck(
+                status="in_progress",
+                detail=f"upstream version metadata unavailable "
+                       f"({exc}); publication likely in progress")
     state = load_state()
     patch = version_patch(version)
     year = int(published[:4])

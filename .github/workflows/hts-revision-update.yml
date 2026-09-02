@@ -184,13 +184,20 @@ jobs:
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `HTS Revision Update failed — ${{ matrix.jurisdiction }} (${process.env.PRODUCTION_BRANCH})`,
-              body: `Run: ${runUrl}\n\nThe automated ${{ matrix.jurisdiction }} HTS revision rollout failed. Env vars were rolled back if a snapshot existed (US); the Pinecone namespace + Supabase row may need manual inspection. Resume locally with:\n\n    python3 scripts/hts_automation/refresh.py -j ${{ matrix.jurisdiction }} --from-step <step>`,
-              labels: ['hts-automation', 'incident']
-            });
+            const title = `HTS Revision Update failed — ${{ matrix.jurisdiction }} (${process.env.PRODUCTION_BRANCH})`;
+            const body = `Run: ${runUrl}\n\nThe automated ${{ matrix.jurisdiction }} HTS revision rollout failed. Env vars were rolled back if a snapshot existed (US); the Pinecone namespace + Supabase row may need manual inspection. Resume locally with:\n\n    python3 scripts/hts_automation/refresh.py -j ${{ matrix.jurisdiction }} --from-step <step>`;
+            try {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title, body,
+                labels: ['hts-automation', 'incident'],
+              });
+            } catch (err) {
+              // Issues are disabled on this repo (HTTP 410): the incident must
+              // still be visible, and this step must not mask the real failure.
+              core.error(`${title} — ${body} (issue creation unavailable: ${err.message})`);
+            }
 
       # ────────────────────────────────────────────────────────────────
       # Commit the per-jurisdiction registry back on success so the repo

@@ -32,6 +32,9 @@ EXPECTED_TPHS_COLUMNS = (
     "FOOTNOTE", "UOM", "MFN", "AUT", "NZT", "CCCT", "LDCT", "GPT", "UST",
     "MXT", "CIAT", "CT", "CRT", "IT", "NT", "SLT", "PT", "COLT", "JT", "PAT",
     "HNT", "KRT", "CEUT", "CPTPT", "UKT", "row_id", "UAT", "General Tariff",
+    # T2026-2 (effective 2026-09-01) appended CPUKT — the UK's CPTPP-accession
+    # tariff treatment.
+    "CPUKT",
 )
 
 
