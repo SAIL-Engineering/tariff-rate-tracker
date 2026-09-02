@@ -42,7 +42,10 @@ import hashlib
 import json
 import re
 import sys
+import time
 from pathlib import Path
+
+import requests
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -67,7 +70,6 @@ HIER_SHEET_HEADER = {"B": "한글품목명", "C": "영문품목명"}
 
 
 def _session():
-    import requests
     s = requests.Session()
     s.headers["User-Agent"] = ("Mozilla/5.0 (X11; Linux x86_64) "
                                "AppleWebKit/537.36 Chrome/128.0 Safari/537.36")
@@ -117,6 +119,16 @@ def fetch_metadata(session, dataset_id: str) -> dict:
     return {"alternateName": alt,
             "dateModified": meta.get("dateModified") or "",
             "file_date": m.group(1) if m else ""}
+
+
+def _fetch_all_metadata(session) -> dict:
+    """All three catalog records, with one retry on transient network errors
+    (the portal is slow from overseas even when it does answer)."""
+    try:
+        return {k: fetch_metadata(session, v) for k, v in DATASETS.items()}
+    except requests.RequestException:
+        time.sleep(10)
+        return {k: fetch_metadata(session, v) for k, v in DATASETS.items()}
 
 
 def download_dataset(session, dataset_id: str, dest: Path) -> None:
@@ -468,7 +480,17 @@ def check_latest(spec: dict, args):
     from check_upstream import UpstreamCheck
 
     session = _session()
-    metas = {k: fetch_metadata(session, v) for k, v in DATASETS.items()}
+    try:
+        metas = _fetch_all_metadata(session)
+    except requests.RequestException as exc:
+        # data.go.kr throttles/blocks some foreign cloud IP ranges (GitHub's
+        # runners included), and the portal has maintenance windows. A network
+        # failure is not a data signal: report a clean skip so the nightly
+        # stays green and the next reachable run (or a local one) catches up.
+        return UpstreamCheck(
+            status="in_progress",
+            detail=f"data.go.kr unreachable from this network — "
+                   f"skipping KR gate ({type(exc).__name__}: {exc})")
     state = load_state()
 
     def changed(name: str) -> bool:

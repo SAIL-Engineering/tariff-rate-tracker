@@ -72,16 +72,25 @@ REGISTRY: dict[str, StepDef] = {s.name: s for s in [
 ]}
 
 
-def step_consumes(spec: dict, name: str) -> tuple:
+RATES_ONLY_SHIP_KEYS = ("rates_dir", "rates_index", "treatments_json")
+
+
+def step_consumes(spec: dict, name: str, rates_only: bool = False) -> tuple:
     """A step's consumed artifacts, spec-adjusted:
       - US ship also ships the raw dataset;
       - EVERY ship.also `from` key is consumed, so the preflight catches a
         missing Explorer dataset or duty-rates dir at plan time instead of
-        four steps into a run (after a Pinecone publish)."""
+        four steps into a run (after a Pinecone publish);
+      - a rates-only refresh ships ONLY the duty artifacts (do_ship reduces
+        its `also` list the same way), so the preflight must not demand the
+        corpus/Explorer artifacts the reduced run never rebuilds."""
     base = REGISTRY[name].consumes
     if name == "ship":
         ship = spec.get("ship") or {}
-        extra = tuple(a["from"] for a in ship.get("also", [])
+        also = ship.get("also", [])
+        if rates_only:
+            also = [a for a in also if a.get("from") in RATES_ONLY_SHIP_KEYS]
+        extra = tuple(a["from"] for a in also
                       if a.get("from") and a["from"] not in base)
         if ship.get("source") == "dataset_json":
             extra = ("dataset_json",) + extra
@@ -91,14 +100,18 @@ def step_consumes(spec: dict, name: str) -> tuple:
 
 def step_produces(spec: dict, name: str) -> tuple:
     """A step's produced artifacts, spec-adjusted: `build` also produces the
-    Explorer dataset (non-US) and the duty-rate outputs when the spec enables
-    them."""
+    Explorer dataset (non-US), the duty-rate outputs, and one corpus +
+    Explorer dataset per extra language when the spec enables them."""
     base = REGISTRY[name].produces
     if name == "build":
         if spec.get("source_format", "usitc") != "usitc":
             base = base + ("explorer_json",)
         if spec.get("duty_rates"):
             base = base + ("rates_dir", "rates_index", "treatments_json")
+        for _lang in spec.get("languages", []):
+            base = base + (f"corpus_jsonl_{_lang}",)
+            if spec.get("source_format", "usitc") != "usitc":
+                base = base + (f"explorer_json_{_lang}",)
         return tuple(dict.fromkeys(base))
     return base
 

@@ -37,7 +37,8 @@ sys.path.insert(0, str(HERE))
 
 from acquire import get_adapter                       # noqa: E402
 from spec import load_spec, render, spec_path_for     # noqa: E402
-from steps import REGISTRY, step_consumes, producer_of  # noqa: E402
+from steps import (REGISTRY, RATES_ONLY_SHIP_KEYS, step_consumes,  # noqa: E402
+                   producer_of)
 
 
 def log(msg: str) -> None:
@@ -146,12 +147,13 @@ def required_env(spec: dict, scheduled: list[str]) -> list[str]:
     return need
 
 
-def preflight_artifacts(spec: dict, scheduled: list[str], ctx: RunCtx) -> list[str]:
+def preflight_artifacts(spec: dict, scheduled: list[str], ctx: RunCtx,
+                        rates_only: bool = False) -> list[str]:
     """For every scheduled step, every consumed artifact whose producer is NOT
     scheduled must already exist on disk. Returns a list of error strings."""
     errors = []
     for s in scheduled:
-        for key in step_consumes(spec, s):
+        for key in step_consumes(spec, s, rates_only=rates_only):
             producer = producer_of(spec, key)
             if producer in scheduled:
                 continue
@@ -423,9 +425,7 @@ def do_ship(spec: dict, ctx: RunCtx, args) -> None:
                 "--dest-path", render(ship["dest_path"], ctx)]
     also = ship.get("also", [])
     if getattr(args, "rates_only", False):
-        also = [e for e in also
-                if e.get("from") in ("rates_dir", "rates_index",
-                                     "treatments_json")]
+        also = [e for e in also if e.get("from") in RATES_ONLY_SHIP_KEYS]
     for extra in also:
         src_path = ctx.get(extra.get("from", ""))
         if not src_path:
@@ -647,7 +647,8 @@ def main() -> int:
     ctx["source_sha256"] = getattr(res, "source_sha256", "")
     ctx.update(getattr(res, "extras", {}) or {})
 
-    errors = preflight_artifacts(spec, scheduled, ctx)
+    errors = preflight_artifacts(spec, scheduled, ctx,
+                                 rates_only=getattr(args, "rates_only", False))
 
     print(f"\n[plan] jurisdiction {spec['code']}  revision {ctx['revision']}  "
           f"namespace {ctx['namespace']}")

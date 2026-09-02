@@ -124,3 +124,29 @@ def test_producer_map(monkeypatch):
     assert producer_of(s, "corpus_jsonl") == "build"
     assert producer_of(s, "source_csv") == "acquire"
     assert producer_of(s, "diff_json") == "verify"
+
+
+def test_language_artifacts_have_build_as_producer(monkeypatch):
+    """CH/EU/KR ship per-language corpora + Explorer datasets; the preflight
+    must know build produces them or a full rollout dies at plan time."""
+    from steps import step_produces
+    ch = _load("ch.json", monkeypatch)
+    produced = set(step_produces(ch, "build"))
+    for lang in ("de", "fr", "it"):
+        assert f"corpus_jsonl_{lang}" in produced
+        assert f"explorer_json_{lang}" in produced
+        assert producer_of(ch, f"explorer_json_{lang}") == "build"
+
+
+def test_rates_only_ship_consumes_only_duty_artifacts(monkeypatch):
+    """A rates-only refresh never rebuilds the corpus/Explorer artifacts, so
+    the preflight must not demand them (CH 2026-09-02 regression)."""
+    ch = _load("ch.json", monkeypatch)
+    full = set(step_consumes(ch, "ship"))
+    reduced = set(step_consumes(ch, "ship", rates_only=True))
+    assert "explorer_json_de" in full
+    assert reduced <= {"rates_dir", "rates_index", "treatments_json"} | set(
+        REGISTRY["ship"].consumes)
+    assert "explorer_json_de" not in reduced
+    assert "explorer_json" not in reduced
+    assert {"rates_dir", "rates_index", "treatments_json"} <= reduced

@@ -149,3 +149,22 @@ def test_gate_modes(tmp_path, monkeypatch):
     metas["hierarchy"] = {"file_date": "20270101", "dateModified": "w", "alternateName": ""}
     chk = kr.check_latest({"code": "KR"}, args)
     assert chk.extras["mode"] == "full" and chk.rev_id == "2027_rev_101"
+
+
+def test_gate_network_failure_is_clean_skip(monkeypatch):
+    """data.go.kr blocks/throttles some foreign cloud IPs (GitHub runners):
+    a connect timeout must yield a clean in_progress skip, after one retry."""
+    import requests as _requests
+    calls = {"n": 0, "slept": 0}
+
+    def _boom(session, dataset_id):
+        calls["n"] += 1
+        raise _requests.ConnectionError("connect timeout (simulated)")
+
+    monkeypatch.setattr(kr, "_session", lambda: None)
+    monkeypatch.setattr(kr, "fetch_metadata", _boom)
+    monkeypatch.setattr(kr.time, "sleep", lambda s: calls.__setitem__("slept", s))
+    chk = kr.check_latest({"code": "KR"}, argparse.Namespace())
+    assert chk.status == "in_progress"
+    assert "unreachable" in chk.detail
+    assert calls["n"] == 2 and calls["slept"] == 10
