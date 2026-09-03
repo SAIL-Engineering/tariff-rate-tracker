@@ -277,6 +277,8 @@ def _build_duty_rates(spec: dict, ctx: RunCtx) -> None:
                      "--classes", "config/kr_rate_classes.json"]
             if ctx.get("kr_rates_date"):
                 dcmd += ["--rates-date", str(ctx["kr_rates_date"])]
+        elif fmt == "tw":
+            dcmd += ["--nomenclature", str(ctx["source_csv"])]
         elif fmt == "uk":
             dcmd += ["--nomenclature", str(ctx["source_csv"]),
                      "--snapshot-date", str(ctx["effective_date"]),

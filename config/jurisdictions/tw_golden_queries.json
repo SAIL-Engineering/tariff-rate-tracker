@@ -1,0 +1,10 @@
+[
+  {"query": "stainless steel wood screws 4mm", "expect_heading": "7318"},
+  {"query": "men's cotton t-shirt short sleeve", "expect_heading": "6109"},
+  {"query": "laptop computer 14 inch", "expect_heading": "8471"},
+  {"query": "fresh bananas", "expect_heading": "0803"},
+  {"query": "car bumper plastic exterior part", "expect_heading": "8708"},
+  {"query": "oolong tea partially fermented", "expect_heading": "0902"},
+  {"query": "tapioca pearls for bubble tea", "expect_heading": "1903"},
+  {"query": "bicycle not motorized", "expect_heading": "8712"}
+]

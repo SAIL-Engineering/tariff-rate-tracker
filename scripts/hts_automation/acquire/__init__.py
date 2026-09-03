@@ -58,6 +58,8 @@ def get_adapter(name: str):
         from . import kr_kcs as mod
     elif name == "ch_tares":
         from . import ch_tares as mod
+    elif name == "tw_customs":
+        from . import tw_customs as mod
     else:
         raise SystemExit(f"ERROR: unknown acquisition adapter {name!r}")
     return mod

@@ -1,0 +1,584 @@
+[
+  {
+    "chapter": "01",
+    "description": "活動物",
+    "section": "I",
+    "sectionTitle": "活動物；動物產品"
+  },
+  {
+    "chapter": "02",
+    "description": "肉及食用雜碎",
+    "section": "I",
+    "sectionTitle": "活動物；動物產品"
+  },
+  {
+    "chapter": "03",
+    "description": "魚類、甲殼類、軟體類及其他水產無脊椎動物",
+    "section": "I",
+    "sectionTitle": "活動物；動物產品"
+  },
+  {
+    "chapter": "04",
+    "description": "乳製品；禽蛋；天然蜜；未列名食用動物產品",
+    "section": "I",
+    "sectionTitle": "活動物；動物產品"
+  },
+  {
+    "chapter": "05",
+    "description": "未列名動物產品",
+    "section": "I",
+    "sectionTitle": "活動物；動物產品"
+  },
+  {
+    "chapter": "06",
+    "description": "活樹及其他植物；球莖、根及類似品；切花及裝飾用葉",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "07",
+    "description": "食用蔬菜及部分根菜與塊莖菜類",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "08",
+    "description": "食用果實及堅果；柑橘屬果實或甜瓜之外皮",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "09",
+    "description": "咖啡、茶、馬黛茶及香料",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "10",
+    "description": "穀類",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "11",
+    "description": "製粉工業產品；麥芽；澱粉；菊糖；麵筋",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "12",
+    "description": "油料種子及含油質果實；雜項穀粒、種子及果實；工業用或藥用植物；芻草及飼料",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "13",
+    "description": "蟲漆；植物膠、樹脂、其他植物汁液及萃取物",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "14",
+    "description": "編結用植物性材料；未列名植物產品",
+    "section": "II",
+    "sectionTitle": "植物產品"
+  },
+  {
+    "chapter": "15",
+    "description": "動植物或微生物油脂及其分解物；調製食用油脂；動植物蠟",
+    "section": "III",
+    "sectionTitle": "動植物或微生物油脂及其分解物；調製食用油脂；動植物蠟"
+  },
+  {
+    "chapter": "16",
+    "description": "肉、魚類、甲殼類、軟體類、其他水產無脊椎動物或昆蟲等之調製品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "17",
+    "description": "糖及糖果",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "18",
+    "description": "可可及可可製品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "19",
+    "description": "穀類、粉、澱粉或奶之調製食品；糕餅類食品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "20",
+    "description": "蔬菜、果實、堅果或植物其他部分之調製品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "21",
+    "description": "雜項調製食品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "22",
+    "description": "飲料、酒類及醋",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "23",
+    "description": "食品工業產製過程之殘渣及廢品；調製動物飼料",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "24",
+    "description": "菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品",
+    "section": "IV",
+    "sectionTitle": "調製食品；飲料；酒類及醋；菸類及已製菸類代用品；以非燃燒方式吸入之產品，無論是否含尼古丁；其他供人攝入尼古丁之含尼古丁產品"
+  },
+  {
+    "chapter": "25",
+    "description": "鹽；硫磺；泥土及石料；石膏料；石灰及水泥",
+    "section": "V",
+    "sectionTitle": "礦產品"
+  },
+  {
+    "chapter": "26",
+    "description": "礦石、熔渣及礦灰",
+    "section": "V",
+    "sectionTitle": "礦產品"
+  },
+  {
+    "chapter": "27",
+    "description": "礦物燃料、礦油及其蒸餾產品；含瀝青物質；礦蠟",
+    "section": "V",
+    "sectionTitle": "礦產品"
+  },
+  {
+    "chapter": "28",
+    "description": "無機化學品；貴金屬、稀土金屬、放射性元素及其同位素之有機及無機化合物",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "29",
+    "description": "有機化學產品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "30",
+    "description": "醫藥品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "31",
+    "description": "肥料",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "32",
+    "description": "鞣革或染色用萃取物；鞣酸及其衍生物；染料、顏料及其他著色料；漆類及凡立水；油灰及其他灰泥；墨類",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "33",
+    "description": "精油及樹脂狀物質；香水、化粧品或盥洗用品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "34",
+    "description": "肥皂，有機界面活性劑，洗滌劑，潤滑劑，人造蠟，配製蠟，擦光或除垢劑，蠟燭及類似品，塑型用軟膏，「牙科用蠟」以及石膏為基料之牙科用劑",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "35",
+    "description": "蛋白狀物質；改質澱粉；膠；酵素",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "36",
+    "description": "炸藥；煙火品；火柴；引火合金；可燃製品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "37",
+    "description": "感光或電影用品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "38",
+    "description": "雜項化學產品",
+    "section": "VI",
+    "sectionTitle": "化學或有關工業的產品"
+  },
+  {
+    "chapter": "39",
+    "description": "塑膠及其製品",
+    "section": "VII",
+    "sectionTitle": "塑膠及其製品；橡膠及其製品"
+  },
+  {
+    "chapter": "40",
+    "description": "橡膠及其製品",
+    "section": "VII",
+    "sectionTitle": "塑膠及其製品；橡膠及其製品"
+  },
+  {
+    "chapter": "41",
+    "description": "生皮（毛皮除外）及皮革",
+    "section": "VIII",
+    "sectionTitle": "生皮、皮革、毛皮及其製品；鞍具及輓具；旅行用物品、手提袋及其類似容器；動物腸製品（蠶腸除外）"
+  },
+  {
+    "chapter": "42",
+    "description": "皮革製品；鞍具及輓具；旅行用物品、手提袋及類似容器；動物腸製品（蠶腸除外）",
+    "section": "VIII",
+    "sectionTitle": "生皮、皮革、毛皮及其製品；鞍具及輓具；旅行用物品、手提袋及其類似容器；動物腸製品（蠶腸除外）"
+  },
+  {
+    "chapter": "43",
+    "description": "毛皮與人造毛皮及其製品",
+    "section": "VIII",
+    "sectionTitle": "生皮、皮革、毛皮及其製品；鞍具及輓具；旅行用物品、手提袋及其類似容器；動物腸製品（蠶腸除外）"
+  },
+  {
+    "chapter": "44",
+    "description": "木及木製品；木炭",
+    "section": "IX",
+    "sectionTitle": "木及木製品；木炭；軟木及軟木製品；草及其他編結材料之編結品；編籃及柳條編結品。"
+  },
+  {
+    "chapter": "45",
+    "description": "軟木及軟木製品",
+    "section": "IX",
+    "sectionTitle": "木及木製品；木炭；軟木及軟木製品；草及其他編結材料之編結品；編籃及柳條編結品。"
+  },
+  {
+    "chapter": "46",
+    "description": "草及其他編結材料之編結品；編籃及柳條編結品",
+    "section": "IX",
+    "sectionTitle": "木及木製品；木炭；軟木及軟木製品；草及其他編結材料之編結品；編籃及柳條編結品。"
+  },
+  {
+    "chapter": "47",
+    "description": "木漿或其他纖維素材料之紙漿；回收（廢料及碎屑）紙或紙板",
+    "section": "X",
+    "sectionTitle": "木漿或其他纖維素材料之紙漿；回收（廢料及碎屑）紙或紙板；紙及紙板及其製品"
+  },
+  {
+    "chapter": "48",
+    "description": "紙及紙板；紙漿、紙或紙板之製品",
+    "section": "X",
+    "sectionTitle": "木漿或其他纖維素材料之紙漿；回收（廢料及碎屑）紙或紙板；紙及紙板及其製品"
+  },
+  {
+    "chapter": "49",
+    "description": "書籍，新聞報紙，圖書及其他印刷工業產品；手寫稿、打字稿及設計圖樣",
+    "section": "X",
+    "sectionTitle": "木漿或其他纖維素材料之紙漿；回收（廢料及碎屑）紙或紙板；紙及紙板及其製品"
+  },
+  {
+    "chapter": "50",
+    "description": "絲",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "51",
+    "description": "羊毛，動物粗細毛；馬毛紗及其梭織物",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "52",
+    "description": "棉花",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "53",
+    "description": "其他植物紡織纖維；紙紗及紙紗梭織物",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "54",
+    "description": "人造纖維絲；人造紡織材料之扁條及類似品",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "55",
+    "description": "人造纖維棉",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "56",
+    "description": "填充用材料、氈呢、不織布；特種紗；撚線、繩、索、纜及其製品",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "57",
+    "description": "地毯及其他紡織材料覆地物",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "58",
+    "description": "特殊梭織物；簇絨織物；花邊織物；掛毯；裝飾織物；刺繡織物",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "59",
+    "description": "浸漬、塗佈、被覆或黏合之紡織物；工業用紡織物",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "60",
+    "description": "針織品或鉤針織品",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "61",
+    "description": "針織或鉤針織之衣著及服飾附屬品",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "62",
+    "description": "非針織及非鉤針織之衣著及服飾附屬品",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "63",
+    "description": "其他製成紡織品；組合品；舊衣著及舊紡織品；破布",
+    "section": "XI",
+    "sectionTitle": "紡織品及紡織製品"
+  },
+  {
+    "chapter": "64",
+    "description": "鞋靴、綁腿及類似品；此類物品之零件",
+    "section": "XII",
+    "sectionTitle": "鞋、帽、雨傘、遮陽傘、手杖、座凳式手杖、鞭、馬鞭及其零件；已整理之羽毛及其製品；人造花；人髮製品。"
+  },
+  {
+    "chapter": "65",
+    "description": "帽類及其零件",
+    "section": "XII",
+    "sectionTitle": "鞋、帽、雨傘、遮陽傘、手杖、座凳式手杖、鞭、馬鞭及其零件；已整理之羽毛及其製品；人造花；人髮製品。"
+  },
+  {
+    "chapter": "66",
+    "description": "雨傘、陽傘、手杖、座凳式手杖、鞭、馬鞭及其零件",
+    "section": "XII",
+    "sectionTitle": "鞋、帽、雨傘、遮陽傘、手杖、座凳式手杖、鞭、馬鞭及其零件；已整理之羽毛及其製品；人造花；人髮製品。"
+  },
+  {
+    "chapter": "67",
+    "description": "已整理之羽毛、羽絨及其製品；人造花；人髮製品",
+    "section": "XII",
+    "sectionTitle": "鞋、帽、雨傘、遮陽傘、手杖、座凳式手杖、鞭、馬鞭及其零件；已整理之羽毛及其製品；人造花；人髮製品。"
+  },
+  {
+    "chapter": "68",
+    "description": "石料、膠泥、水泥、石棉、雲母或類似材料之製品",
+    "section": "XIII",
+    "sectionTitle": "石料、膠泥、水泥、石棉、雲母或類似材料之製品；陶瓷產品；玻璃及玻璃器"
+  },
+  {
+    "chapter": "69",
+    "description": "陶瓷產品",
+    "section": "XIII",
+    "sectionTitle": "石料、膠泥、水泥、石棉、雲母或類似材料之製品；陶瓷產品；玻璃及玻璃器"
+  },
+  {
+    "chapter": "70",
+    "description": "玻璃及玻璃器",
+    "section": "XIII",
+    "sectionTitle": "石料、膠泥、水泥、石棉、雲母或類似材料之製品；陶瓷產品；玻璃及玻璃器"
+  },
+  {
+    "chapter": "71",
+    "description": "天然珍珠或養珠、寶石或次寶石、貴金屬、被覆貴金屬之金屬及其製品；仿首飾；鑄幣",
+    "section": "XIV",
+    "sectionTitle": "天然珍珠或養珠、寶石或次寶石、貴金屬、被覆貴金屬之金屬及其製品；仿首飾；鑄幣"
+  },
+  {
+    "chapter": "72",
+    "description": "鋼鐵",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "73",
+    "description": "鋼鐵製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "74",
+    "description": "銅及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "75",
+    "description": "鎳及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "76",
+    "description": "鋁及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "78",
+    "description": "鉛及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "79",
+    "description": "鋅及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "80",
+    "description": "錫及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "81",
+    "description": "其他卑金屬；瓷金；及其製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "82",
+    "description": "卑金屬製工具、器具、利器、匙、叉及其零件",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "83",
+    "description": "雜項卑金屬製品",
+    "section": "XV",
+    "sectionTitle": "卑金屬及卑金屬製品"
+  },
+  {
+    "chapter": "84",
+    "description": "核子反應器、鍋爐、機器及機械用具；及其零件",
+    "section": "XVI",
+    "sectionTitle": "機械及機械用具；電機設備；及其零件；錄音機及聲音重放機，電視影像、聲音記錄機及重放機，上述各物之零件及附件"
+  },
+  {
+    "chapter": "85",
+    "description": "電機與設備及其零件；錄音機及聲音重放機；電視影像、聲音記錄機及重放機；以及上述各物之零件及附件",
+    "section": "XVI",
+    "sectionTitle": "機械及機械用具；電機設備；及其零件；錄音機及聲音重放機，電視影像、聲音記錄機及重放機，上述各物之零件及附件"
+  },
+  {
+    "chapter": "86",
+    "description": "鐵道或電車道機車、車輛及其零件；鐵道或電車道軌道固定設備及配件與零件；各種機械式（包括電動機械）交通信號設備",
+    "section": "XVII",
+    "sectionTitle": "車輛、航空器、船舶及有關運輸設備"
+  },
+  {
+    "chapter": "87",
+    "description": "鐵道及電車道車輛以外之車輛及其零件與附件",
+    "section": "XVII",
+    "sectionTitle": "車輛、航空器、船舶及有關運輸設備"
+  },
+  {
+    "chapter": "88",
+    "description": "航空器、太空船及其零件",
+    "section": "XVII",
+    "sectionTitle": "車輛、航空器、船舶及有關運輸設備"
+  },
+  {
+    "chapter": "89",
+    "description": "船舶及浮動構造體",
+    "section": "XVII",
+    "sectionTitle": "車輛、航空器、船舶及有關運輸設備"
+  },
+  {
+    "chapter": "90",
+    "description": "光學、照相、電影、計量、檢查、精密、內科或外科儀器及器具；上述物品之零件及附件",
+    "section": "XVIII",
+    "sectionTitle": "光學、照相、電影、計量、檢查、精密、內科或外科儀器及器具；鐘錶；樂器；上述物品之零件及附件"
+  },
+  {
+    "chapter": "91",
+    "description": "鐘、錶及其零件",
+    "section": "XVIII",
+    "sectionTitle": "光學、照相、電影、計量、檢查、精密、內科或外科儀器及器具；鐘錶；樂器；上述物品之零件及附件"
+  },
+  {
+    "chapter": "92",
+    "description": "樂器；與其零件及附件",
+    "section": "XVIII",
+    "sectionTitle": "光學、照相、電影、計量、檢查、精密、內科或外科儀器及器具；鐘錶；樂器；上述物品之零件及附件"
+  },
+  {
+    "chapter": "93",
+    "description": "武器與彈藥；及其零件與附件",
+    "section": "XIX",
+    "sectionTitle": "武器與彈藥；及其零件與附件"
+  },
+  {
+    "chapter": "94",
+    "description": "家具；寢具、褥、褥支持物、軟墊及類似充填家具；未列名之燈具及照明裝置；照明標誌，照明名牌及類似品；組合式建築物",
+    "section": "XX",
+    "sectionTitle": "雜項製品"
+  },
+  {
+    "chapter": "95",
+    "description": "玩具、遊戲品與運動用品；及其零件與附件",
+    "section": "XX",
+    "sectionTitle": "雜項製品"
+  },
+  {
+    "chapter": "96",
+    "description": "雜項製品",
+    "section": "XX",
+    "sectionTitle": "雜項製品"
+  },
+  {
+    "chapter": "97",
+    "description": "藝術品、珍藏品及古董",
+    "section": "XXI",
+    "sectionTitle": "藝術品、珍藏品及古董"
+  },
+  {
+    "chapter": "98",
+    "description": "關稅配額之貨品",
+    "section": "XXI",
+    "sectionTitle": "藝術品、珍藏品及古董"
+  }
+]

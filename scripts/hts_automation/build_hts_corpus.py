@@ -81,6 +81,7 @@ _BASKET_RES = {
     "fr": re.compile(r"^(autres?)$", re.IGNORECASE),
     "it": re.compile(r"^(altr[oie]|altre)$", re.IGNORECASE),
     "ko": re.compile(r"^(기타)$"),
+    "zh": re.compile(r"^(其他|其他者)$"),
 }
 _EXCLUSION_TEMPLATES = {
     "en": "{desc}, other than: {clause}",
@@ -89,6 +90,7 @@ _EXCLUSION_TEMPLATES = {
     "fr": "{desc}, autres que : {clause}",
     "it": "{desc}, diversi da: {clause}",
     "ko": "{desc} (제외: {clause})",
+    "zh": "{desc}（不包括：{clause}）",
 }
 CORPUS_LANG = "en"
 
@@ -403,6 +405,55 @@ def load_rows_kr(path: Path):
             if (r.get("IS_LEAF") or "").strip() == "1":
                 stats.official_leaf_digits.add(digits)
             display = _kr_display(digits)
+            rows.append({"HTS Number": display,
+                         "Description": desc,
+                         "Unit of Quantity": (r.get("UNIT") or "").strip(),
+                         "_indent": indent,
+                         "_code": display,
+                         "_digits": digits})
+    return rows, stats
+
+
+def _tw_display(digits: str) -> str:
+    """Taiwan CCC dotting: 0101 / 0101.2 / 0101.21 / 0101.21.00 /
+    0101.21.00.00-3 (8-digit tariff no + statistical pair + check digit)."""
+    if len(digits) <= 4:
+        return digits
+    if len(digits) <= 6:
+        return f"{digits[:4]}.{digits[4:]}"
+    if len(digits) <= 8:
+        return f"{digits[:4]}.{digits[4:6]}.{digits[6:]}"
+    return f"{digits[:4]}.{digits[4:6]}.{digits[6:8]}.{digits[8:10]}-{digits[10:]}"
+
+
+def load_rows_tw(path: Path):
+    """Canonical tw CSV: variable-length codes (4..11 digits after the
+    chapter rows are dropped), real 5-digit intermediate levels, INDENT
+    already the longest-prefix chain depth, IS_LEAF=1 on the 11-digit CCC
+    universe (8-digit tariff no + 2 statistical + 1 check digit)."""
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            if not digits.isdigit() or not 2 <= len(digits) <= 11:
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if len(digits) == 2:
+                stats.dropped_uncoded += 1
+                continue
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate CCC code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if (r.get("IS_LEAF") or "").strip() == "1":
+                stats.official_leaf_digits.add(digits)
+            display = _tw_display(digits)
             rows.append({"HTS Number": display,
                          "Description": desc,
                          "Unit of Quantity": (r.get("UNIT") or "").strip(),
@@ -851,7 +902,7 @@ def main() -> int:
     p.add_argument("out_stem", help="Output base name; .jsonl and .manifest.json are appended")
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
-    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch", "kr"), default="usitc",
+    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw"), default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
                         "taric = the canonical EU CSV from acquire/eu_taric.py; "
@@ -875,7 +926,7 @@ def main() -> int:
 
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
                "taric": load_rows_taric, "dga": load_rows_dga,
-               "ch": load_rows_ch, "kr": load_rows_kr}
+               "ch": load_rows_ch, "kr": load_rows_kr, "tw": load_rows_tw}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

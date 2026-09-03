@@ -1,0 +1,84 @@
+{
+  "_comment": "Taiwan — Customs Import Tariff via portal.sw.nat.gov.tw (GC453/GC413 downloads: bilingual MAIN xls with 11-digit CCC codes + three duty columns; note_8_E/C hierarchy files with section titles in both languages). rev = {year}_rev_{MMDD} from the page's 'CCC CODE last modify date'. The portal session-gates downloads and may geo-restrict: the adapter re-sessions once and reports in_progress on persistent blocks. Chinese corpus variant publishes to tw__{...}_zh.",
+  "code": "TW",
+  "name": "Taiwan",
+  "tariff_schedule_name": "Customs Import Tariff of Taiwan (CCC)",
+  "lang": "en",
+  "languages": [
+    "zh"
+  ],
+  "acquire": {
+    "adapter": "tw_customs",
+    "options": {
+      "dest": "data/tw_tariff_source/tw_tariff_{year}_rev_{number}.csv"
+    },
+    "manual_dir": "data/tw_tariff_source",
+    "manual_prefix": "tw_tariff"
+  },
+  "source_format": "tw",
+  "chapters_file": "scripts/hts_automation/chapters_tw.json",
+  "max_depth": 11,
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "tw__{year}_rev_{number}",
+  "stem_pattern": "tw_{year}_rev_{number}",
+  "registry": "config/jurisdictions/tw_revisions.csv",
+  "steps": [
+    "acquire",
+    "build",
+    "verify",
+    "publish",
+    "register",
+    "ship"
+  ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
+  "publish": {
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/tw_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "tw_ccc_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/tw_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/tw_{year}_revision_{number}.json"
+      },
+      {
+        "from": "explorer_json_zh",
+        "to": "server/data/hts/tw_{year}_revision_{number}.zh.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
+      }
+    ],
+    "prune_keep": 3,
+    "tag_name": "tw-ccc-{year}-rev{number}",
+    "commit_message": "chore: Taiwan CCC {year} dataset {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "tw_main_xls",
+    "source_format": "tw"
+  }
+}

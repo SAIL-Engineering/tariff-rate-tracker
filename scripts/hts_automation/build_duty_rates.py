@@ -1652,6 +1652,166 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
     return records, tout, coverage
 
 
+# ── Taiwan ───────────────────────────────────────────────────────────────────
+
+TW_COVERAGE = {
+    "provides": [
+        "The complete three-column Customs Import Tariff at 11-digit CCC "
+        "depth: Column I (WTO members and reciprocal territories — the "
+        "applied rate for most origins), Column II (preferential — FTA "
+        "partners, ECFA, LDCs; per-line origin lists from the schedule "
+        "itself), Column III (general rate for other origins).",
+        "Specific and compound duties verbatim (NT$/unit, 'whichever is "
+        "higher'), never converted to percentages.",
+        "Traditional Chinese and English nomenclature at every level, and "
+        "the schedule's levy-rule markers (稽徵規定).",
+    ],
+    "excludes": [
+        "FTA origin-rule verification: Column II rows are candidates — "
+        "proof of origin and agreement conditions are required.",
+        "Tariff-rate-quota entitlement and operational status (levy marker "
+        "R flags TRQ lines; in-quota administration is not modeled).",
+        "Anti-dumping/countervailing case rates and provisional 機動 "
+        "adjustments outside the published schedule.",
+        "Internal taxes beyond the flat lines (commodity tax, tobacco and "
+        "alcohol taxes on specific goods).",
+    ],
+}
+
+# 稽徵規定 (levy-rule) markers seen in the schedule; unknown codes pass
+# through verbatim with a generic label.
+TW_LEVY_GLOSSARY = {
+    "R": "tariff-rate quota line",
+    "T": "tobacco/alcohol tax applies",
+    "T*": "tobacco/alcohol tax applies (variant)",
+    "Z": "levy rule Z",
+    "G": "levy rule G",
+    "L": "levy rule L",
+    "L*": "levy rule L (variant)",
+    "B": "levy rule B",
+    "N": "levy rule N",
+}
+
+_TW_COL2_GROUP = re.compile(r"([^()]+?)\(([^)]+)\)")
+
+
+def _tw_pref_treatment(origins: list[str]) -> str:
+    """Deterministic, self-describing treatment key for a Column II origin
+    set — stable across revisions so the consumer's keys don't churn."""
+    return "pref_" + "-".join(o.lower().replace("*", "") for o in sorted(origins))
+
+
+def build_tw(main_xls: Path, jur: str, revision: str,
+             nomenclature_csv: Path):
+    """TW: one row per 11-digit CCC code in the MAIN portal xls, carrying
+    all three duty columns. erga_omnes = Column I (the applied rate for WTO
+    members — practically all origins); Column II preferential groups become
+    conditional treatments keyed by their origin set; Column III rides as an
+    informational general rate. Blank components stay NULL, never 0."""
+    from acquire.tw_customs import parse_main_xls
+
+    leaves = []
+    with nomenclature_csv.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            if (r.get("IS_LEAF") or "") == "1":
+                leaves.append((r.get("GOODS_CODE") or "").strip())
+    if not leaves:
+        raise SystemExit(f"ERROR: no IS_LEAF rows in {nomenclature_csv}")
+
+    rows = parse_main_xls(main_xls)
+    records: list[dict] = []
+    treatments_seen: dict[str, dict] = {}
+    col1_missing = 0
+
+    def display(digits: str) -> str:
+        return (f"{digits[:4]}.{digits[4:6]}.{digits[6:8]}."
+                f"{digits[8:10]}-{digits[10:]}")
+
+    for row in rows:
+        code = row["code"]
+        disp = display(code)
+        if row["col1"]:
+            records.append(_record(jur, revision, disp, code, "erga_omnes",
+                                   row["col1"]))
+        else:
+            col1_missing += 1
+        # Column II: 1..3 "rate (origins)" groups per cell.
+        c2 = row["col2"]
+        if c2:
+            groups = _TW_COL2_GROUP.findall(c2)
+            leftover = _TW_COL2_GROUP.sub("", c2).strip()
+            if not groups or leftover:
+                raise SystemExit(f"ERROR: unparseable Column II cell for "
+                                 f"{code}: {c2!r} — format changed")
+            for rate, origins_raw in groups:
+                origins = [o.strip() for o in origins_raw.split(",") if o.strip()]
+                treatment = _tw_pref_treatment(origins)
+                records.append(_record(jur, revision, disp, code, treatment,
+                                       rate.strip(), conditional=True))
+                treatments_seen.setdefault(treatment, {
+                    "treatment": treatment,
+                    "name": "Preferential (Column II) — " + ", ".join(sorted(origins)),
+                    "origin_countries": sorted(origins),
+                    "applies": None, "conditional": True,
+                    "legal_basis": "Customs Import Tariff, Column II "
+                                   "(FTA/ECFA/LDC preferential)"})
+        if row["col3"]:
+            records.append(_record(jur, revision, disp, code,
+                                   "general_non_wto", row["col3"],
+                                   informational=True, category="general_rate"))
+        if row["levy"]:
+            note = "; ".join(TW_LEVY_GLOSSARY.get(tok, f"levy rule {tok}")
+                             for tok in row["levy"].split())
+            records.append(_record(jur, revision, disp, code, "levy_rule",
+                                   f"{row['levy']} ({note})",
+                                   informational=True, category="levy_rule",
+                                   conditional=True))
+
+    # Leaf-set integrity: the nomenclature CSV and the rates both come from
+    # the same xls, so any mismatch means a parsing regression.
+    xls_codes = {r["code"] for r in rows}
+    missing = [l for l in leaves if l not in xls_codes]
+    if missing:
+        raise SystemExit(f"ERROR: {len(missing)} nomenclature leaves absent "
+                         f"from the rates parse (first: {missing[:5]})")
+
+    covered = sum(1 for r in records if r["treatment"] == "erga_omnes")
+    pct = 100.0 * covered / len(leaves)
+    print(f"[tw] {len(records):,} records; Column I coverage "
+          f"{covered:,}/{len(leaves):,} leaves ({pct:.1f}%); "
+          f"{len(treatments_seen)} Column II origin-set treatments; "
+          f"{col1_missing} rows without a Column I rate")
+    if pct < 99.5:
+        raise SystemExit(f"ERROR: TW Column I coverage {pct:.1f}% below the "
+                         f"99.5% floor — every CCC line carries a Column I "
+                         f"rate in the source, so a miss means parsing "
+                         f"regressed")
+
+    tout = [{"treatment": "erga_omnes",
+             "name": "Column I — WTO members and reciprocal territories "
+                     "(the applied rate for most origins)",
+             "origin_countries": [], "applies": "all_origins",
+             "conditional": False,
+             "legal_basis": "Customs Import Tariff of the Republic of "
+                            "China, Column I"},
+            {"treatment": "general_non_wto",
+             "name": "Column III — general rate (origins outside Columns "
+                     "I/II)",
+             "origin_countries": [], "applies": None, "conditional": True,
+             "legal_basis": "Customs Import Tariff, Column III"},
+            {"treatment": "levy_rule",
+             "name": "稽徵規定 levy-rule marker",
+             "origin_countries": [], "applies": None, "conditional": True,
+             "legal_basis": "Customs Import Tariff, collection provisions"}]
+    tout += [treatments_seen[k] for k in sorted(treatments_seen)]
+    coverage = dict(TW_COVERAGE)
+    coverage["as_of"] = f"{revision} · CCC schedule ({main_xls.name})"
+    overlay = load_overlay("tw")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
 # ── Dominican Republic ───────────────────────────────────────────────────────
 
 DO_COVERAGE = {
@@ -1771,7 +1931,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path,
                    help="canonical CSV (cbsa/dga) or Duties Import xlsx (taric)")
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch", "kr"), required=True)
+    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch", "kr", "tw"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--nomenclature", type=Path,
@@ -1841,6 +2001,12 @@ def main() -> int:
             nomenclature_csv=args.nomenclature,
             snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
             base_xml=args.base_data, created=args.created)
+    elif args.source_format == "tw":
+        if not args.nomenclature:
+            sys.exit("ERROR: --nomenclature is required for tw")
+        records, treatments, coverage = build_tw(
+            args.source, jur, args.revision,
+            nomenclature_csv=args.nomenclature)
     elif args.source_format == "kr":
         for flag, val in (("--nomenclature", args.nomenclature),
                           ("--snapshot-date", args.snapshot_date),

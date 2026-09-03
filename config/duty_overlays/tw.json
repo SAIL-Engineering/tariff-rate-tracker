@@ -1,0 +1,16 @@
+{
+  "flat_taxes": [
+    {
+      "name": "Business tax (營業稅, VAT)",
+      "rate_text": "5%",
+      "basis": "CIF + duty",
+      "note": "Levied on virtually all imports at customs clearance."
+    },
+    {
+      "name": "Trade promotion service fee (推廣貿易服務費)",
+      "rate_text": "0.04%",
+      "basis": "CIF (dutiable value)",
+      "note": "Collected on imports; de minimis amounts exempt."
+    }
+  ]
+}

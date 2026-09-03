@@ -40,6 +40,8 @@ SOURCES = {
            "scripts/hts_automation/chapters_ch.json", "en"),
     "KR": ("data/kr_tariff_source", "kr_tariff", "kr",
            "scripts/hts_automation/chapters_kr.json", "en"),
+    "TW": ("data/tw_tariff_source", "tw_tariff", "tw",
+           "scripts/hts_automation/chapters_tw.json", "en"),
 }
 
 
@@ -54,7 +56,7 @@ def newest_source(directory: str, prefix: str) -> Path:
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO", "GB", "XI", "CH", "KR"), required=True)
+    p.add_argument("--jurisdiction", choices=("CA", "EU", "DO", "GB", "XI", "CH", "KR", "TW"), required=True)
     p.add_argument("--source", type=Path)
     p.add_argument("--codes", type=Path, help="a built <jur>_<rev>.codes.json to cross-check")
     p.add_argument("--explorer", type=Path, help="a built <jur>_<year>_revision_<n>.json to cross-check")
@@ -66,7 +68,8 @@ def main() -> int:
 
     bhc.CORPUS_LANG = lang
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
-               "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr}
+               "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr,
+               "tw": bhc.load_rows_tw}
     rows, stats = loaders[fmt](src)
     roots = bhc.build_tree(rows)
     nodes = bhc.collect_node_index(roots)
