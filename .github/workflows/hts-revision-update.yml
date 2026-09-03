@@ -57,7 +57,12 @@ concurrency:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    # Taiwan's portal 403s GitHub's Azure IP range, so the TW leg can run on
+    # a self-hosted runner with residential/office egress instead: register a
+    # runner (Settings → Actions → Runners) and set the repo VARIABLE
+    # TW_RUNNER to its label (e.g. "self-hosted"). Unset, every leg stays on
+    # ubuntu-latest and the TW gate skips cleanly while blocked.
+    runs-on: ${{ (matrix.jurisdiction == 'TW' && vars.TW_RUNNER) || 'ubuntu-latest' }}
     timeout-minutes: ${{ matrix.timeout }}
     strategy:
       fail-fast: false     # an EU failure must not cancel the CA leg
