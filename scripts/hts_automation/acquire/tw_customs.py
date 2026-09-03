@@ -117,10 +117,25 @@ class PortalBlocked(RuntimeError):
 
 def fetch_page(session: requests.Session) -> str:
     """GET the GC453 page: establishes the session cookies every download
-    needs, and carries the 'CCC CODE last modify date' version signal."""
+    needs, and carries the 'CCC CODE last modify date' version signal.
+
+    On 403 (the portal hard-blocks some cloud IP ranges — GitHub's runners
+    among them), retry once with the stock requests User-Agent before giving
+    up: the USITC static host showed the inverse pattern (browser UAs
+    blocked, tool UAs allowed), so the cheap second attempt is worth it."""
     try:
         resp = session.get(PAGE_EN, timeout=60)
         resp.raise_for_status()
+    except requests.HTTPError as exc:
+        if exc.response is not None and exc.response.status_code == 403:
+            try:
+                resp = session.get(PAGE_EN, timeout=60,
+                                   headers={"User-Agent": requests.utils.default_user_agent()})
+                resp.raise_for_status()
+                return resp.text
+            except requests.RequestException:
+                pass
+        raise PortalBlocked(f"GC453 unreachable: {exc}") from exc
     except requests.RequestException as exc:
         raise PortalBlocked(f"GC453 unreachable: {exc}") from exc
     return resp.text

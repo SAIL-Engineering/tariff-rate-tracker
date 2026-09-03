@@ -80,6 +80,10 @@ jobs:
       VERCEL_PROJECT_ID:       ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TEAM_ID:          ${{ secrets.VERCEL_TEAM_ID }}
       SAIL_GTX_REPO_PAT:       ${{ secrets.SAIL_GTX_REPO_PAT }}
+      # Optional Taiwan egress proxy: portal.sw.nat.gov.tw 403s GitHub's
+      # runner IP range (observed 2026-09-03). Unset = the TW leg gate
+      # skips cleanly (in_progress) and TW updates run locally instead.
+      TW_PORTAL_PROXY:         ${{ secrets.TW_PORTAL_PROXY }}
       SAIL_GTX_HEALTHCHECK_URL: ${{ vars.SAIL_GTX_HEALTHCHECK_URL }}
       SAIL_GTX_API_BASE:       ${{ vars.SAIL_GTX_API_BASE }}
       SAIL_GTX_API_AUTH_TOKEN: ${{ secrets.SAIL_GTX_API_AUTH_TOKEN }}
