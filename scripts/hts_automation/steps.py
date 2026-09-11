@@ -13,7 +13,8 @@ correct for ANY subset of steps, any jurisdiction:
 
 Artifact keys are logical names resolved against the run context (RunCtx):
   source_csv, dataset_json, corpus_jsonl, codes_json, manifest_json,
-  coverage_json, diff_json, env_snapshot
+  coverage_json, diff_json, notes_json, notes_manifest, notes_*_jsonl,
+  env_snapshot
 """
 from __future__ import annotations
 
@@ -41,6 +42,10 @@ REGISTRY: dict[str, StepDef] = {s.name: s for s in [
             produces=("corpus_jsonl", "codes_json", "manifest_json",
                       "coverage_json"),
             exit_code=2),
+    StepDef("notes",
+            produces=("notes_json", "notes_manifest", "notes_gri_jsonl",
+                      "notes_section_jsonl", "notes_chapter_jsonl"),
+            exit_code=2),
     StepDef("verify",
             consumes=("codes_json", "corpus_jsonl"),
             produces=("diff_json",),
@@ -48,6 +53,12 @@ REGISTRY: dict[str, StepDef] = {s.name: s for s in [
     StepDef("publish",
             consumes=("corpus_jsonl", "manifest_json"),
             requires_env=("PINECONE_API_KEY",),
+            exit_code=3,
+            skip_on_dry_run=True),
+    StepDef("publish_notes",
+            consumes=("notes_manifest", "notes_gri_jsonl",
+                      "notes_section_jsonl", "notes_chapter_jsonl"),
+            requires_env=("PINECONE_API_KEY", "PINECONE_NOTES_INDEX"),
             exit_code=3,
             skip_on_dry_run=True),
     StepDef("register",

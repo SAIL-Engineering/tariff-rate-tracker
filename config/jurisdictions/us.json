@@ -17,8 +17,10 @@
   "steps": [
     "acquire",
     "build",
+    "notes",
     "verify",
     "publish",
+    "publish_notes",
     "register",
     "ship",
     "envvars",
@@ -28,6 +30,15 @@
     "keep": 3,
     "_comment_keep": "Latest + previous two, per operator decision 2026-08-27. Pruning happens only at swap time, so history is never trimmed retroactively.",
     "golden_queries": "config/jurisdictions/us_golden_queries.json"
+  },
+  "notes": {
+    "out_dir": "data/hts_notes/{revision}",
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/us_notes_golden_queries.json",
+    "no_notes_chapters": [77],
+    "max_removed_pct": 5.0,
+    "max_added_pct": 10.0,
+    "_comment": "Chapter 77 is HS-reserved. Drift thresholds compare exact cite IDs when the prior cache is present and otherwise conservatively compare totals from committed manifests."
   },
   "register": {
     "ragie_partition_id_template": "us_hts_{year}_latest",
@@ -42,6 +53,10 @@
       {
         "from": "codes_json",
         "to": "server/data/hts/us_{year}_rev_{number}.codes.json"
+      },
+      {
+        "from": "notes_json",
+        "to": "server/data/hts/us_{year}_rev_{number}.notes.json"
       }
     ],
     "prune_keep": 3,

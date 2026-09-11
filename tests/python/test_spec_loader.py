@@ -31,7 +31,7 @@ def test_spec_validates(path, monkeypatch):
     assert s["code"].lower() == path.stem
     # referenced files exist
     for key in ("golden_queries",):
-        for block in ("publish", "smoke"):
+        for block in ("publish", "notes", "smoke"):
             v = (s.get(block) or {}).get(key)
             if v:
                 assert Path(v).is_file(), f"{path.name}: {block}.{key} -> {v}"
@@ -64,4 +64,9 @@ def test_golden_query_files_wellformed():
         data = json.loads(p.read_text())
         assert data, p.name
         for item in data:
-            assert item["query"] and len(item["expect_heading"]) == 4, (p.name, item)
+            assert item["query"], (p.name, item)
+            if "expect_heading" in item:
+                assert len(item["expect_heading"]) == 4, (p.name, item)
+            else:
+                assert item.get("family") in {"gri", "section", "chapter"}, (p.name, item)
+                assert item.get("expect_cite_id"), (p.name, item)

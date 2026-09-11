@@ -1,0 +1,22 @@
+[
+  {
+    "family": "gri",
+    "query": "unfinished or incomplete article that already has the essential character of the finished article",
+    "expect_cite_id": "GRI-2(a)"
+  },
+  {
+    "family": "section",
+    "query": "printed plastic shopping bag with cartoon characters",
+    "expect_cite_id": "SN-VII-2"
+  },
+  {
+    "family": "chapter",
+    "query": "knitted cotton T-shirt garment",
+    "expect_cite_id": "N-61-1"
+  },
+  {
+    "family": "chapter",
+    "query": "plastic toy building blocks for children",
+    "expect_cite_id": "N-95-1"
+  }
+]

@@ -23,6 +23,10 @@ Environment:
   PINECONE_INDEX_NAME   default "sail-tariff-dense"
   PINECONE_API_VERSION  default "2025-10"
 
+Every subcommand also accepts ``--index``. This is intentionally explicit for
+the legal-notes publisher so notes can never be loaded into the line index by
+an inherited environment variable.
+
 Example:
   python3 pinecone_sync.py swap \
       --jsonl out/us_2026_rev_13.jsonl \
@@ -157,8 +161,8 @@ def _estimate_tokens(record: dict) -> int:
     return max(1, len(str(record.get("chunk_text", ""))) // 4)
 
 
-def index_host() -> str:
-    name = os.environ.get("PINECONE_INDEX_NAME", "sail-tariff-dense")
+def index_host(index_name: str | None = None) -> str:
+    name = index_name or os.environ.get("PINECONE_INDEX_NAME", "sail-tariff-dense")
     body = _request(f"{CONTROL_PLANE}/indexes/{name}")
     host = body.get("host")
     if not host:
@@ -222,22 +226,32 @@ def wait_for_count(host: str, namespace: str, expected: int) -> None:
     )
 
 
-def load_golden_queries(path: str | None):
+def load_golden_queries(path: str | None, family: str | None = None):
     """Per-jurisdiction golden queries from JSON: [["query text", "heading"], ...]
-    or [{"query": ..., "expect_heading": ...}, ...]. None -> the built-in US set
-    (whose 4-digit headings are HS-harmonized and transfer to most schedules)."""
-    if not path:
-        return GOLDEN_QUERIES
-    with open(path, encoding="utf-8") as fh:
-        data = json.load(fh)
+    or dictionaries with ``expect_heading`` / ``expect_cite_id``. An optional
+    family lets the notes publisher use one query file across its three
+    independently searchable namespaces."""
+    if path:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    else:
+        data = GOLDEN_QUERIES
     out = []
     for item in data:
         if isinstance(item, dict):
-            out.append((item["query"], item["expect_heading"]))
+            if family and item.get("family") != family:
+                continue
+            if item.get("expect_cite_id"):
+                out.append((item["query"], "cite_id", item["expect_cite_id"]))
+            else:
+                out.append((item["query"], "heading", item["expect_heading"]))
         else:
-            out.append((item[0], item[1]))
+            if family:
+                continue
+            out.append((item[0], "heading", item[1]))
     if not out:
-        sys.exit(f"ERROR: {path} contains no golden queries")
+        suffix = f" for family {family!r}" if family else ""
+        sys.exit(f"ERROR: {path or 'built-in set'} contains no golden queries{suffix}")
     return out
 
 
@@ -245,42 +259,80 @@ def golden_query_check(host: str, namespace: str, top_k: int = 30,
                        queries=None) -> int:
     """Returns the number of FAILED golden queries."""
     failures = 0
-    for text, expect_heading in (queries or GOLDEN_QUERIES):
+    normalized = []
+    for query in (queries or load_golden_queries(None)):
+        # Keep the public helper compatible with its historical list-of-pairs
+        # input while allowing cite-ID checks for the legal-notes corpus.
+        normalized.append(
+            query if len(query) == 3 else (query[0], "heading", query[1])
+        )
+    for text, expected_field, expected_value in normalized:
         body = _request(
             f"https://{host}/records/namespaces/{namespace}/search",
             method="POST",
             body=json.dumps({
                 "query": {"inputs": {"text": text}, "top_k": top_k},
-                "fields": ["code", "heading", "display_text"],
+                "fields": ["code", "heading", "cite_id", "display_text"],
             }).encode("utf-8"),
         )
         hits = body.get("result", {}).get("hits", [])
-        headings = {str(h.get("fields", {}).get("heading", "")) for h in hits}
-        ok = expect_heading in headings
-        top = hits[0].get("fields", {}).get("code", "?") if hits else "(none)"
-        print(f"  [{'ok  ' if ok else 'FAIL'}] {text[:46]:46} expect {expect_heading} top={top}")
+        values = {str(h.get("fields", {}).get(expected_field, "")) for h in hits}
+        ok = expected_value in values
+        top = hits[0].get("fields", {}).get(expected_field, "?") if hits else "(none)"
+        expected_label = (
+            str(expected_value)
+            if expected_field == "heading"
+            else f"{expected_field}={expected_value}"
+        )
+        print(f"  [{'ok  ' if ok else 'FAIL'}] {text[:46]:46} "
+              f"expect {expected_label} top={top}")
         if not ok:
             failures += 1
     return failures
 
 
 def cmd_list(args) -> None:
-    host = index_host()
+    host = index_host(getattr(args, "index", None))
     for name, count in sorted(list_namespaces(host).items()):
         print(f"{name}\t{count:,}")
 
 
 def cmd_upsert(args) -> None:
-    host = index_host()
+    host = index_host(getattr(args, "index", None))
     path = Path(args.jsonl)
-    manifest_path = path.with_name(path.stem + ".manifest.json")
+    manifest_path = (
+        Path(args.manifest)
+        if getattr(args, "manifest", None)
+        else path.with_name(path.stem + ".manifest.json")
+    )
 
     expected = None
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         expected = manifest.get("record_count")
-        print(f"[manifest] {manifest.get('jurisdiction')} {manifest.get('revision')} "
-              f"expects {expected:,} records (source sha256 {str(manifest.get('source_sha256'))[:12]}...)")
+        family = getattr(args, "family", None)
+        if expected is None and family:
+            by_kind = (manifest.get("counts") or {}).get("by_kind") or {}
+            expected = sum(int(by_kind.get(kind, 0)) for kind in {
+                "gri": ("gri", "add_us_rule", "compiler_note"),
+                "section": ("section_note",),
+                "chapter": ("chapter_note", "subheading_note", "add_us_note", "statistical_note"),
+            }[family])
+        if expected is not None:
+            if family:
+                print(
+                    f"[manifest] {manifest.get('jurisdiction')} "
+                    f"{manifest.get('revision')} expects {expected:,} records "
+                    f"in {family}"
+                )
+            else:
+                # Preserve the established line-corpus output exactly.
+                print(
+                    f"[manifest] {manifest.get('jurisdiction')} "
+                    f"{manifest.get('revision')} expects {expected:,} records "
+                    f"(source sha256 "
+                    f"{str(manifest.get('source_sha256'))[:12]}...)"
+                )
 
     existing = list_namespaces(host).get(args.namespace, 0)
     if existing and not args.force:
@@ -299,7 +351,7 @@ def cmd_upsert(args) -> None:
 
 
 def cmd_verify(args) -> None:
-    host = index_host()
+    host = index_host(getattr(args, "index", None))
     count = list_namespaces(host).get(args.namespace, 0)
     if count == 0:
         sys.exit(f"ERROR: namespace {args.namespace} is empty or does not exist")
@@ -311,15 +363,18 @@ def cmd_verify(args) -> None:
         # (enforced in refresh.do_publish).
         print("[verify] golden queries skipped (language variant)")
         return
-    queries = load_golden_queries(getattr(args, "golden_queries", None))
+    queries = load_golden_queries(
+        getattr(args, "golden_queries", None),
+        getattr(args, "family", None),
+    )
     failures = golden_query_check(host, args.namespace, queries=queries)
     if failures:
         sys.exit(f"ERROR: {failures}/{len(queries)} golden queries failed")
-    print(f"[verify] all {len(GOLDEN_QUERIES)} golden queries passed")
+    print(f"[verify] all {len(queries)} golden queries passed")
 
 
 def cmd_delete(args) -> None:
-    host = index_host()
+    host = index_host(getattr(args, "index", None))
     _request(f"https://{host}/namespaces/{args.namespace}", method="DELETE")
     print(f"deleted namespace {args.namespace}")
 
@@ -353,7 +408,7 @@ def _series_key(ns: str) -> str:
 
 
 def cmd_swap(args) -> None:
-    host = index_host()
+    host = index_host(getattr(args, "index", None))
     prefix = args.namespace.split("__", 1)[0] + "__"
     before = {k: v for k, v in list_namespaces(host).items() if k.startswith(prefix)}
     print(f"[swap] index host {host}")
@@ -383,15 +438,28 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Pinecone namespace sync helper")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sp = sub.add_parser("list"); sp.set_defaults(func=cmd_list)
+    def add_index_argument(parser) -> None:
+        parser.add_argument(
+            "--index",
+            default=None,
+            help="Pinecone index name (default: $PINECONE_INDEX_NAME or sail-tariff-dense)",
+        )
+
+    sp = sub.add_parser("list"); add_index_argument(sp); sp.set_defaults(func=cmd_list)
 
     sp = sub.add_parser("upsert")
+    add_index_argument(sp)
     sp.add_argument("--jsonl", required=True)
     sp.add_argument("--namespace", required=True)
+    sp.add_argument("--manifest", default=None,
+                    help="explicit manifest (notes family JSONLs do not use the line-corpus filename)")
+    sp.add_argument("--family", choices=("gri", "section", "chapter"), default=None,
+                    help="notes family used to derive the expected count from its manifest")
     sp.add_argument("--force", action="store_true")
     sp.set_defaults(func=cmd_upsert)
 
     sp = sub.add_parser("verify")
+    add_index_argument(sp)
     sp.add_argument("--namespace", required=True)
     sp.add_argument("--golden-queries", default=None,
                     help="JSON file of per-jurisdiction golden queries; "
@@ -399,15 +467,23 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--skip-golden", action="store_true",
                     help="language-variant namespaces: skip the English golden "
                          "probes (record-count parity gates these instead)")
+    sp.add_argument("--family", choices=("gri", "section", "chapter"), default=None,
+                    help="run only golden queries for this notes family")
     sp.set_defaults(func=cmd_verify)
 
     sp = sub.add_parser("delete")
+    add_index_argument(sp)
     sp.add_argument("--namespace", required=True)
     sp.set_defaults(func=cmd_delete)
 
     sp = sub.add_parser("swap")
+    add_index_argument(sp)
     sp.add_argument("--jsonl", required=True)
     sp.add_argument("--namespace", required=True)
+    sp.add_argument("--manifest", default=None,
+                    help="explicit manifest for record-count verification")
+    sp.add_argument("--family", choices=("gri", "section", "chapter"), default=None,
+                    help="notes family for manifest counts and golden-query selection")
     sp.add_argument("--golden-queries", default=None,
                     help="JSON file of per-jurisdiction golden queries")
     sp.add_argument("--skip-golden", action="store_true",

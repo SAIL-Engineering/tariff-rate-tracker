@@ -14,14 +14,16 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-VALID_STEPS = ("acquire", "build", "verify", "publish", "register", "ship",
-               "envvars", "smoke")
+VALID_STEPS = ("acquire", "build", "notes", "verify", "publish",
+               "publish_notes", "register", "ship", "envvars", "smoke")
 
 # Ordering constraints, enforced at load time rather than trusted to comments.
 # ship MUST precede envvars: the server asserts the dataset exists at boot, so
 # flipping the env var before the file lands fails the redeploy.
 MUST_PRECEDE = [("ship", "envvars"), ("build", "publish"), ("publish", "register"),
-                ("build", "verify"), ("verify", "publish"), ("acquire", "build")]
+                ("build", "verify"), ("verify", "publish"), ("acquire", "build"),
+                ("build", "notes"), ("notes", "publish_notes"),
+                ("publish", "publish_notes"), ("publish_notes", "ship")]
 
 REQUIRED_KEYS = ("code", "name", "tariff_schedule_name", "acquire",
                  "source_format", "chapters_file", "max_depth",
@@ -69,7 +71,8 @@ def validate_spec(spec: dict, path: Path | None = None) -> None:
             raise SpecError(f"step {a!r} must precede {b!r}{where}")
 
     for step in steps:
-        if step in ("verify", "publish", "register", "ship", "envvars", "smoke"):
+        if step in ("notes", "verify", "publish", "publish_notes", "register",
+                    "ship", "envvars", "smoke"):
             # per-step config blocks are optional except where a template is
             # structurally required
             pass
@@ -77,6 +80,14 @@ def validate_spec(spec: dict, path: Path | None = None) -> None:
         ship = spec.get("ship") or {}
         if not ship.get("dest_path") and not ship.get("also"):
             raise SpecError(f"ship step declared but ships nothing{where}")
+    if "notes" in steps or "publish_notes" in steps:
+        if code != "US":
+            raise SpecError(f"legal-notes steps are currently US-only{where}")
+        notes = spec.get("notes") or {}
+        if not notes.get("out_dir"):
+            raise SpecError(f"notes.out_dir is required{where}")
+        if "publish_notes" in steps and not notes.get("golden_queries"):
+            raise SpecError(f"notes.golden_queries is required{where}")
 
     chapters = Path(spec["chapters_file"])
     if not chapters.exists():

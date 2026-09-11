@@ -80,6 +80,20 @@ def build_ctx(spec: dict, res) -> RunCtx:
     ctx["manifest_json"] = f"{stem}.manifest.json"
     ctx["coverage_json"] = f"{stem}.coverage.json"
     ctx["diff_json"] = f"{stem}.diff.json"
+    notes_dir = render(
+        (spec.get("notes") or {}).get("out_dir", "data/hts_notes/{revision}"),
+        ctx,
+    )
+    notes_prefix = f"us_{ctx['revision']}.notes"
+    # Notes are currently US-only, but defining their logical artifacts for
+    # every context keeps the generic preflight/ship machinery declarative.
+    ctx["notes_dir"] = notes_dir
+    ctx["notes_json"] = str(Path(notes_dir) / f"{notes_prefix}.json")
+    ctx["notes_manifest"] = str(Path(notes_dir) / f"{notes_prefix}.manifest.json")
+    for family in ("gri", "section", "chapter"):
+        ctx[f"notes_{family}_jsonl"] = str(
+            Path(notes_dir) / f"{notes_prefix}.{family}.jsonl"
+        )
     # SPA HTS Explorer dataset (jurisdiction-prefixed; US ships the raw USITC
     # JSON as dataset_json instead)
     ctx["explorer_json"] = (f"{ctx['jur_lower']}_{res.year}_revision_{res.rev_num}.json"
@@ -315,6 +329,29 @@ def do_verify(spec: dict, ctx: RunCtx, args) -> None:
     run(cmd, REGISTRY["verify"].exit_code)
 
 
+def do_notes(spec: dict, ctx: RunCtx, args) -> None:
+    """Build and validate the legal-notes sidecar before any publication."""
+    notes = spec.get("notes") or {}
+    run([
+        sys.executable,
+        str(HERE / "build_hts_notes.py"),
+        "--revision", ctx["revision"],
+        "--out-dir", ctx["notes_dir"],
+    ], REGISTRY["notes"].exit_code)
+
+    cmd = [
+        sys.executable,
+        str(HERE / "validate_hts_notes.py"),
+        "--manifest", ctx["notes_manifest"],
+        "--sidecar", ctx["notes_json"],
+        "--max-removed-pct", str(notes.get("max_removed_pct", 5.0)),
+        "--max-added-pct", str(notes.get("max_added_pct", 10.0)),
+    ]
+    for chapter in notes.get("no_notes_chapters", [77]):
+        cmd += ["--no-notes-chapter", str(chapter)]
+    run(cmd, REGISTRY["notes"].exit_code)
+
+
 def do_publish(spec: dict, ctx: RunCtx, args) -> None:
     pub = spec.get("publish") or {}
     keep = str(args.keep if args.keep is not None else pub.get("keep", 3))
@@ -343,6 +380,31 @@ def do_publish(spec: dict, ctx: RunCtx, args) -> None:
                 "--namespace", f"{ctx['namespace']}_{_lang}",
                 "--keep", keep, "--skip-golden"]
         run(lcmd, REGISTRY["publish"].exit_code)
+
+
+def do_publish_notes(spec: dict, ctx: RunCtx, args) -> None:
+    """Publish three separately searchable legal-note families."""
+    notes = spec.get("notes") or {}
+    index = os.environ["PINECONE_NOTES_INDEX"]
+    keep = str(args.keep if args.keep is not None else notes.get("keep", 3))
+    goldens = notes.get("golden_queries")
+    if not goldens:
+        sys.exit("ERROR: notes.golden_queries is required for publish_notes")
+
+    for family in ("gri", "section", "chapter"):
+        cmd = [
+            sys.executable,
+            str(HERE / "pinecone_sync.py"),
+            "swap",
+            "--index", index,
+            "--jsonl", ctx[f"notes_{family}_jsonl"],
+            "--manifest", ctx["notes_manifest"],
+            "--family", family,
+            "--namespace", f"{ctx['namespace']}__{family}",
+            "--golden-queries", goldens,
+            "--keep", keep,
+        ]
+        run(cmd, REGISTRY["publish_notes"].exit_code)
 
 
 def do_register(spec: dict, ctx: RunCtx, args) -> None:
@@ -473,7 +535,8 @@ def do_smoke(spec: dict, ctx: RunCtx, args) -> None:
         sys.exit(REGISTRY["smoke"].exit_code)
 
 
-STEP_IMPL = {"build": do_build, "verify": do_verify, "publish": do_publish,
+STEP_IMPL = {"build": do_build, "notes": do_notes, "verify": do_verify,
+             "publish": do_publish, "publish_notes": do_publish_notes,
              "register": do_register, "ship": do_ship, "envvars": do_envvars,
              "smoke": do_smoke}
 

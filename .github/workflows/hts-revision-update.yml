@@ -75,6 +75,7 @@ jobs:
 
     env:
       PINECONE_API_KEY:        ${{ secrets.PINECONE_API_KEY }}
+      PINECONE_NOTES_INDEX:    ${{ vars.PINECONE_NOTES_INDEX }}
       SUPABASE_URL:            ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       RAILWAY_TOKEN:           ${{ secrets.RAILWAY_TOKEN }}
@@ -112,6 +113,12 @@ jobs:
         # ca.json system_requires: the CBSA .accdb export needs mdb-tables/mdb-export.
         run: sudo apt-get update && sudo apt-get install -y mdbtools
 
+      - name: Install Poppler
+        if: matrix.jurisdiction == 'US'
+        # build_hts_notes.py uses pdftotext -layout so legal-note boundaries
+        # retain the indentation needed for paragraph-level citation IDs.
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -136,6 +143,7 @@ jobs:
           [[ -z "${SUPABASE_SERVICE_ROLE_KEY}" ]] && missing+=("SUPABASE_SERVICE_ROLE_KEY (secrets)")
           [[ -z "${SAIL_GTX_REPO_PAT}" ]] && missing+=("SAIL_GTX_REPO_PAT (secrets)")
           if [[ "${{ matrix.jurisdiction }}" == "US" ]]; then
+            [[ -z "${PINECONE_NOTES_INDEX}" ]] && missing+=("PINECONE_NOTES_INDEX (vars)")
             [[ -z "${SAIL_GTX_HEALTHCHECK_URL}" ]] && missing+=("SAIL_GTX_HEALTHCHECK_URL (vars)")
             [[ -z "${SAIL_GTX_API_BASE}" ]] && missing+=("SAIL_GTX_API_BASE (vars)")
             [[ -z "${RAILWAY_TOKEN}" ]] && missing+=("RAILWAY_TOKEN (secrets)")
@@ -221,7 +229,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           case "${{ matrix.jurisdiction }}" in
-            US) git add config/revision_dates.csv ;;
+            US) git add config/revision_dates.csv data/hts_notes/*/*.notes.manifest.json ;;
             CA) git add config/jurisdictions/ca_revisions.csv data/ca_tariff_source/*.csv ;;
             EU) git add config/jurisdictions/eu_revisions.csv data/eu_tariff_source/*.csv ;;
             GB) git add config/jurisdictions/gb_revisions.csv data/gb_tariff_source/*.csv data/gb_tariff_source/state.json ;;

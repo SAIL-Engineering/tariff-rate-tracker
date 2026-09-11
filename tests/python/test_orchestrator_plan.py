@@ -24,8 +24,8 @@ def _plan(spec, **kw):
 
 def test_us_full_plan(monkeypatch):
     s = _load("us.json", monkeypatch)
-    assert _plan(s) == ["acquire", "build", "verify", "publish", "register",
-                        "ship", "envvars", "smoke"]
+    assert _plan(s) == ["acquire", "build", "notes", "verify", "publish",
+                        "publish_notes", "register", "ship", "envvars", "smoke"]
 
 
 def test_ca_full_plan(monkeypatch):
@@ -94,6 +94,7 @@ def test_preflight_flags_missing_artifacts(monkeypatch, tmp_path):
 def test_us_ship_consumes_dataset(monkeypatch):
     s = _load("us.json", monkeypatch)
     assert "dataset_json" in step_consumes(s, "ship")
+    assert "notes_json" in step_consumes(s, "ship")
     ca = _load("ca.json", monkeypatch)
     assert "dataset_json" not in step_consumes(ca, "ship")
 
@@ -124,6 +125,77 @@ def test_producer_map(monkeypatch):
     assert producer_of(s, "corpus_jsonl") == "build"
     assert producer_of(s, "source_csv") == "acquire"
     assert producer_of(s, "diff_json") == "verify"
+
+
+def test_us_notes_steps_are_additive_and_declared(monkeypatch):
+    from steps import step_produces
+    import refresh
+
+    s = _load("us.json", monkeypatch)
+    produced = set(step_produces(s, "notes"))
+    assert produced == {
+        "notes_json", "notes_manifest", "notes_gri_jsonl",
+        "notes_section_jsonl", "notes_chapter_jsonl",
+    }
+    assert set(step_consumes(s, "publish_notes")) == produced - {"notes_json"}
+    assert set(refresh.required_env(s, ["publish_notes"])) == {
+        "PINECONE_API_KEY", "PINECONE_NOTES_INDEX",
+    }
+
+
+def test_notes_step_builds_then_validates(monkeypatch):
+    import refresh
+
+    calls = []
+    monkeypatch.setattr(refresh, "run", lambda cmd, exit_code: calls.append((cmd, exit_code)))
+    spec = {
+        "notes": {
+            "max_removed_pct": 4,
+            "max_added_pct": 9,
+            "no_notes_chapters": [77],
+        },
+    }
+    ctx = {
+        "revision": "2026_rev_18",
+        "notes_dir": "data/hts_notes/2026_rev_18",
+        "notes_manifest": "notes.manifest.json",
+        "notes_json": "notes.json",
+    }
+
+    refresh.do_notes(spec, ctx, object())
+
+    assert len(calls) == 2
+    assert calls[0][0][-4:] == [
+        "--revision", "2026_rev_18", "--out-dir", "data/hts_notes/2026_rev_18",
+    ]
+    assert calls[1][0][-2:] == ["--no-notes-chapter", "77"]
+    assert "validate_hts_notes.py" in calls[1][0][1]
+
+
+def test_publish_notes_targets_explicit_index_and_three_family_namespaces(monkeypatch):
+    import refresh
+
+    calls = []
+    monkeypatch.setattr(refresh, "run", lambda cmd, exit_code: calls.append((cmd, exit_code)))
+    monkeypatch.setenv("PINECONE_NOTES_INDEX", "sail-hts-notes-dense")
+    spec = {"notes": {"keep": 3, "golden_queries": "notes-goldens.json"}}
+    ctx = {
+        "namespace": "us__2026_rev_18",
+        "notes_manifest": "notes.manifest.json",
+        "notes_gri_jsonl": "gri.jsonl",
+        "notes_section_jsonl": "section.jsonl",
+        "notes_chapter_jsonl": "chapter.jsonl",
+    }
+    args = type("Args", (), {"keep": None})()
+
+    refresh.do_publish_notes(spec, ctx, args)
+
+    assert len(calls) == 3
+    for family, (cmd, exit_code) in zip(("gri", "section", "chapter"), calls):
+        assert exit_code == 3
+        assert cmd[cmd.index("--index") + 1] == "sail-hts-notes-dense"
+        assert cmd[cmd.index("--family") + 1] == family
+        assert cmd[cmd.index("--namespace") + 1] == f"us__2026_rev_18__{family}"
 
 
 def test_language_artifacts_have_build_as_producer(monkeypatch):
