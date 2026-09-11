@@ -137,3 +137,12 @@ data/gb_tariff_source/.uk_download/
 data/ch_tariff_source/.ch_download/
 data/kr_tariff_source/.kr_download/
 data/tw_tariff_source/.tw_download/
+
+# USITC legal-notes cache and generated sidecars. The source-PDF checksums and
+# committed manifest make builds auditable; all other files are regenerated.
+data/hts_notes/**/*.pdf
+data/hts_notes/**/*.pdf.sha256
+data/hts_notes/**/*.txt
+data/hts_notes/**/*.jsonl
+data/hts_notes/**/*.notes.json
+data/hts_notes/**/*.part
