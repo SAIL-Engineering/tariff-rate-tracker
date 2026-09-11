@@ -736,8 +736,15 @@ def build_corpus(revision: str, release: str, out_dir: Path) -> dict[str, Any]:
     artifact_shas: dict[str, str] = {}
     for family, kinds in families.items():
         path = out_dir / f"{prefix}.{family}.jsonl"
+        # Pinecone metadata takes a string, number, boolean or list of strings —
+        # an explicit null is rejected outright ("Invalid type for field
+        # 'paragraph' … got 'null'"), so absent scope fields are omitted rather
+        # than written as None. The sidecar below keeps the full shape.
         payload = "".join(
-            json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            json.dumps(
+                {k: v for k, v in record.items() if v is not None},
+                ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+            )
             + "\n"
             for record in records
             if record["kind"] in kinds
