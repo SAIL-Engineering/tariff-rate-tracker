@@ -541,6 +541,15 @@ STEP_IMPL = {"build": do_build, "notes": do_notes, "verify": do_verify,
              "smoke": do_smoke}
 
 
+def execute_steps(spec: dict, ctx: RunCtx, args, scheduled: list[str]) -> None:
+    """Execute in declared order; any step failure aborts all later steps."""
+    for step in scheduled:
+        if step == "acquire":
+            continue  # already ran during resolution
+        log(f"step {step} ({spec['code']} {ctx['revision']})")
+        STEP_IMPL[step](spec, ctx, args)
+
+
 # ─── Nightly gate ────────────────────────────────────────────────────
 
 def gh_output(**kv) -> None:
@@ -737,11 +746,7 @@ def main() -> int:
             print(f"ERROR: {e}", file=sys.stderr)
         return 2
 
-    for s in scheduled:
-        if s == "acquire":
-            continue  # already ran with resolve above
-        log(f"step {s} ({spec['code']} {ctx['revision']})")
-        STEP_IMPL[s](spec, ctx, args)
+    execute_steps(spec, ctx, args, scheduled)
 
     log(f"DONE — {spec['code']} {ctx['revision']} "
         f"(effective {ctx['effective_date']}): {' -> '.join(scheduled)}")

@@ -33,7 +33,7 @@
   },
   "notes": {
     "out_dir": "data/hts_notes/{revision}",
-    "keep": 3,
+    "keep": 2,
     "golden_queries": "config/jurisdictions/us_notes_golden_queries.json",
     "no_notes_chapters": [77],
     "max_removed_pct": 5.0,
@@ -53,10 +53,6 @@
       {
         "from": "codes_json",
         "to": "server/data/hts/us_{year}_rev_{number}.codes.json"
-      },
-      {
-        "from": "notes_json",
-        "to": "server/data/hts/us_{year}_rev_{number}.notes.json"
       }
     ],
     "prune_keep": 3,

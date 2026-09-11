@@ -94,7 +94,8 @@ def test_preflight_flags_missing_artifacts(monkeypatch, tmp_path):
 def test_us_ship_consumes_dataset(monkeypatch):
     s = _load("us.json", monkeypatch)
     assert "dataset_json" in step_consumes(s, "ship")
-    assert "notes_json" in step_consumes(s, "ship")
+    assert "notes_json" not in step_consumes(s, "ship")
+    assert s["notes"]["keep"] == 2
     ca = _load("ca.json", monkeypatch)
     assert "dataset_json" not in step_consumes(ca, "ship")
 
@@ -196,6 +197,33 @@ def test_publish_notes_targets_explicit_index_and_three_family_namespaces(monkey
         assert cmd[cmd.index("--index") + 1] == "sail-hts-notes-dense"
         assert cmd[cmd.index("--family") + 1] == family
         assert cmd[cmd.index("--namespace") + 1] == f"us__2026_rev_18__{family}"
+
+
+def test_publish_notes_failure_stops_before_register(monkeypatch):
+    import refresh
+
+    seen = []
+
+    def fail_publish_notes(*_args):
+        seen.append("publish_notes")
+        raise RuntimeError("notes publish failed")
+
+    monkeypatch.setitem(refresh.STEP_IMPL, "publish_notes", fail_publish_notes)
+    monkeypatch.setitem(
+        refresh.STEP_IMPL,
+        "register",
+        lambda *_args: seen.append("register"),
+    )
+
+    with pytest.raises(RuntimeError, match="notes publish failed"):
+        refresh.execute_steps(
+            {"code": "US"},
+            {"revision": "2026_rev_18"},
+            object(),
+            ["publish_notes", "register"],
+        )
+
+    assert seen == ["publish_notes"]
 
 
 def test_language_artifacts_have_build_as_producer(monkeypatch):

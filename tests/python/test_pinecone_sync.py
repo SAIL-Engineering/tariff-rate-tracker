@@ -40,3 +40,35 @@ def test_index_host_uses_the_explicit_name(monkeypatch):
 
     assert pinecone_sync.index_host("sail-hts-notes-dense") == "notes.example"
     assert urls == ["https://api.pinecone.io/indexes/sail-hts-notes-dense"]
+
+
+def test_notes_swap_prunes_only_its_own_family(monkeypatch):
+    namespaces = {
+        "us__2026_rev_18": 100,
+        "us__2026_rev_18__section": 20,
+        "us__2026_rev_18__chapter": 200,
+        "us__2026_rev_16__gri": 16,
+        "us__2026_rev_17__gri": 17,
+        "us__2026_rev_18__gri": 18,
+    }
+    deleted = []
+    monkeypatch.setattr(pinecone_sync, "index_host", lambda _index: "notes.host")
+    monkeypatch.setattr(pinecone_sync, "list_namespaces", lambda _host: namespaces)
+    monkeypatch.setattr(pinecone_sync, "cmd_upsert", lambda _args: None)
+    monkeypatch.setattr(pinecone_sync, "cmd_verify", lambda _args: None)
+    monkeypatch.setattr(
+        pinecone_sync,
+        "_request",
+        lambda url, **kwargs: deleted.append((url, kwargs.get("method"))),
+    )
+    args = type("Args", (), {
+        "index": "sail-hts-notes-dense",
+        "namespace": "us__2026_rev_18__gri",
+        "keep": 2,
+    })()
+
+    pinecone_sync.cmd_swap(args)
+
+    assert deleted == [
+        ("https://notes.host/namespaces/us__2026_rev_16__gri", "DELETE"),
+    ]
