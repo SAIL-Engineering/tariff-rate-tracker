@@ -1678,6 +1678,1230 @@
           "90 FR 18899"
         ]
       }
+    },
+    "2026_rev_10": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "basic": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_1": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_10": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_11": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_12": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_13": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_14": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_15": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_16": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_17": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_18": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_19": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_2": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_20": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_21": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_22": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_23": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_24": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_25": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_26": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_27": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_28": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_29": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_3": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_30": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "90 FR 18899",
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_31": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "90 FR 18899",
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_32": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [
+          "Executive Order 14345",
+          "Executive Order 14323",
+          "Executive Order 14326"
+        ],
+        "fr": [
+          "90 FR 18899",
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_4": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_5": {
+      "9903.55": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      },
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      }
+    },
+    "rev_6": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_7": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_8": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "rev_9": {
+      "9903.85": {
+        "proclamations": [
+          "Proclamation 10522"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.89": {
+        "proclamations": [
+          "Proclamation 9223"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.94": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 54882"
+        ]
+      }
+    },
+    "2026_rev_11": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "2026_rev_12": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "2026_rev_13": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "2026_rev_14": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "2026_rev_15": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
+    },
+    "2026_rev_16": {
+      "9903.82": {
+        "proclamations": [
+          "Proclamation 10984"
+        ],
+        "executive_orders": [],
+        "fr": []
+      },
+      "9903.88": {
+        "proclamations": [],
+        "executive_orders": [],
+        "fr": [
+          "85 FR 16987"
+        ]
+      },
+      "9903.94": {
+        "proclamations": [
+          "Proclamation 10925"
+        ],
+        "executive_orders": [],
+        "fr": [
+          "90 FR 18899"
+        ]
+      }
     }
   },
   "reference": {
@@ -1730,6 +2954,40 @@
         "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
         "verification_scope": "authority metadata only",
         "status_note": "Important current-status modifier for full-customs-value treatment, derivative scope, and metal tariff stacking."
+      },
+      {
+        "id": "eo_14289_non_stacking",
+        "verified": true,
+        "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+        "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+        "federal_register": "90 FR 18907",
+        "fr_document_number": "2025-07835",
+        "signed_date": "2025-04-29",
+        "publication_date": "2025-05-02",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+        "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+        "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+      },
+      {
+        "id": "fr_2025_09066_eo14289_implementation",
+        "verified": true,
+        "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+        "federal_register": "90 FR 21487",
+        "fr_document_number": "2025-09066",
+        "publication_date": "2025-05-20",
+        "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+        "verification_scope": "authority metadata and HTS implementation"
+      },
+      {
+        "id": "cbp_csms_65054270_non_stacking",
+        "verified": true,
+        "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+        "publication_date": "2025-05-15",
+        "agency": "U.S. Customs and Border Protection",
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+        "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+        "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
       }
     ],
     "s232_steel_derivative": [
@@ -1844,6 +3102,40 @@
         "verified_against": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
         "verification_scope": "authority metadata only",
         "status_note": "Important current-status modifier for full-customs-value treatment, derivative scope, and metal tariff stacking."
+      },
+      {
+        "id": "eo_14289_non_stacking",
+        "verified": true,
+        "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+        "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+        "federal_register": "90 FR 18907",
+        "fr_document_number": "2025-07835",
+        "signed_date": "2025-04-29",
+        "publication_date": "2025-05-02",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+        "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+        "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+      },
+      {
+        "id": "fr_2025_09066_eo14289_implementation",
+        "verified": true,
+        "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+        "federal_register": "90 FR 21487",
+        "fr_document_number": "2025-09066",
+        "publication_date": "2025-05-20",
+        "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+        "verification_scope": "authority metadata and HTS implementation"
+      },
+      {
+        "id": "cbp_csms_65054270_non_stacking",
+        "verified": true,
+        "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+        "publication_date": "2025-05-15",
+        "agency": "U.S. Customs and Border Protection",
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+        "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+        "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
       }
     ],
     "s232_aluminum_derivative": [
@@ -1954,28 +3246,35 @@
       },
       {
         "id": "proc_10962_copper_2025",
-        "verified": false,
+        "verified": true,
         "citation": "Proclamation 10962 of July 30, 2025 — Adjusting Imports of Copper Into the United States",
         "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)",
+        "federal_register": "90 FR 37727",
+        "fr_document_number": "2025-14893",
         "signed_date": "2025-07-30",
         "publication_date": "2025-08-05",
         "effective_date": "2025-08-01",
         "hts_reference": "9903.78.01; HTSUS subchapter III U.S. Note 36",
-        "verified_against": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=proclamation+copper+section+232",
-        "verification_scope": "Federal Register volume/page and document number pending confirmation",
+        "verified_against": "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states",
+        "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10962, 90 FR 37727, doc 2025-14893)",
         "status_note": "Founding Section 232 copper action (50% on semi-finished copper and copper-intensive derivatives, effective 2025-08-01 under 9903.78.01 / Note 36). Extended by the April 2026 annex (Proc 11021) and the June 2026 derivative expansion (Proc 11032)."
       },
       {
         "id": "proc_11032_copper_derivatives_2026",
-        "verified": false,
-        "citation": "Proclamation 11032 of June 2026 — Expanding Section 232 Copper Derivative Coverage",
+        "verified": true,
+        "citation": "Proclamation 11032 of June 1, 2026 — Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
         "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483",
+        "federal_register": "91 FR 34085",
+        "fr_document_number": "2026-11314",
+        "signed_date": "2026-06-01",
+        "publication_date": "2026-06-04",
         "effective_date": "2026-06-08",
         "hts_reference": "9903.82.20 through 9903.82.26 (new copper-derivative annex headings)",
-        "verification_scope": "On public inspection at the Federal Register; citation, document number, and signing date pending publication",
-        "status_note": "PENDING Federal Register publication (public inspection). Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Metadata must be re-verified after publication.",
-        "source_status": "federal_register_public_inspection_pending_publication",
-        "requires_post_publication_recheck": true
+        "verified_against": "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states",
+        "verification_scope": "Citation identity retrieved from the Federal Register API 2026-07-30: proclamation_number 11032, signed 2026-06-01, published 2026-06-04, 91 FR 34085, document 2026-11314. The heading range and 2026-06-08 effective date come from the HTS revision, not from the notice text.\n",
+        "status_note": "Published 2026-06-04 at 91 FR 34085. Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Previously carried as public-inspection-pending; metadata re-verified against the Federal Register API on 2026-07-30 and the pending flags cleared.\n",
+        "source_status": "federal_register_published",
+        "requires_post_publication_recheck": false
       }
     ],
     "s232_copper_derivative": [
@@ -1994,28 +3293,112 @@
       },
       {
         "id": "proc_10962_copper_2025",
-        "verified": false,
+        "verified": true,
         "citation": "Proclamation 10962 of July 30, 2025 — Adjusting Imports of Copper Into the United States",
         "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)",
+        "federal_register": "90 FR 37727",
+        "fr_document_number": "2025-14893",
         "signed_date": "2025-07-30",
         "publication_date": "2025-08-05",
         "effective_date": "2025-08-01",
         "hts_reference": "9903.78.01; HTSUS subchapter III U.S. Note 36",
-        "verified_against": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=proclamation+copper+section+232",
-        "verification_scope": "Federal Register volume/page and document number pending confirmation",
+        "verified_against": "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states",
+        "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10962, 90 FR 37727, doc 2025-14893)",
         "status_note": "Founding Section 232 copper action (50% on semi-finished copper and copper-intensive derivatives, effective 2025-08-01 under 9903.78.01 / Note 36). Extended by the April 2026 annex (Proc 11021) and the June 2026 derivative expansion (Proc 11032)."
       },
       {
         "id": "proc_11032_copper_derivatives_2026",
-        "verified": false,
-        "citation": "Proclamation 11032 of June 2026 — Expanding Section 232 Copper Derivative Coverage",
+        "verified": true,
+        "citation": "Proclamation 11032 of June 1, 2026 — Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
         "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483",
+        "federal_register": "91 FR 34085",
+        "fr_document_number": "2026-11314",
+        "signed_date": "2026-06-01",
+        "publication_date": "2026-06-04",
         "effective_date": "2026-06-08",
         "hts_reference": "9903.82.20 through 9903.82.26 (new copper-derivative annex headings)",
-        "verification_scope": "On public inspection at the Federal Register; citation, document number, and signing date pending publication",
-        "status_note": "PENDING Federal Register publication (public inspection). Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Metadata must be re-verified after publication.",
-        "source_status": "federal_register_public_inspection_pending_publication",
-        "requires_post_publication_recheck": true
+        "verified_against": "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states",
+        "verification_scope": "Citation identity retrieved from the Federal Register API 2026-07-30: proclamation_number 11032, signed 2026-06-01, published 2026-06-04, 91 FR 34085, document 2026-11314. The heading range and 2026-06-08 effective date come from the HTS revision, not from the notice text.\n",
+        "status_note": "Published 2026-06-04 at 91 FR 34085. Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Previously carried as public-inspection-pending; metadata re-verified against the Federal Register API on 2026-07-30 and the pending flags cleared.\n",
+        "source_status": "federal_register_published",
+        "requires_post_publication_recheck": false
+      }
+    ],
+    "s232_auto": [
+      {
+        "id": "proc_10908_autos_2025",
+        "verified": true,
+        "citation": "Proclamation 10908 of March 26, 2025 — Adjusting Imports of Automobiles and Automobile Parts Into the United States",
+        "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)",
+        "federal_register": "90 FR 14705",
+        "fr_document_number": "2025-05930",
+        "signed_date": "2025-03-26",
+        "publication_date": "2025-04-03",
+        "hts_reference": "9903.94.01 et seq. (assembled vehicles); 9903.94.05-.09 (parts)",
+        "verified_against": "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states",
+        "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10908, 90 FR 14705, doc 2025-05930)",
+        "status_note": "This is the action named in EO 14289 sec. 2(a) — the highest-precedence step of the non-stacking order, which excludes IEEPA Canada, IEEPA Mexico, §232 aluminum and §232 steel. It was not previously registered even though the stacking model depends on it, so the auto action had no citable source. Also the source of the USMCA behaviour: a qualifying part owes 0% here and therefore is not \"subject to\" 2(a).\n"
+      },
+      {
+        "id": "eo_14289_non_stacking",
+        "verified": true,
+        "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+        "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+        "federal_register": "90 FR 18907",
+        "fr_document_number": "2025-07835",
+        "signed_date": "2025-04-29",
+        "publication_date": "2025-05-02",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+        "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+        "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+      },
+      {
+        "id": "fr_2025_09066_eo14289_implementation",
+        "verified": true,
+        "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+        "federal_register": "90 FR 21487",
+        "fr_document_number": "2025-09066",
+        "publication_date": "2025-05-20",
+        "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+        "verification_scope": "authority metadata and HTS implementation"
+      },
+      {
+        "id": "cbp_csms_65054270_non_stacking",
+        "verified": true,
+        "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+        "publication_date": "2025-05-15",
+        "agency": "U.S. Customs and Border Protection",
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+        "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+        "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
+      }
+    ],
+    "s338": [
+      {
+        "id": "proc_11047_s338_canada",
+        "verified": true,
+        "citation": "Proclamation 11047 of July 20, 2026 — Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States",
+        "statute": "19 U.S.C. 1338 (Tariff Act of 1930, Section 338)",
+        "federal_register": "91 FR 46653",
+        "fr_document_number": "2026-14992",
+        "signed_date": "2026-07-20",
+        "publication_date": "2026-07-23",
+        "effective_date": "2026-08-19",
+        "verified_against": "https://www.federalregister.gov/documents/2026/07/23/2026-14992/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united",
+        "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 11047, 91 FR 46653, doc 2026-14992)",
+        "status_note": "Section 338 duties on Canadian goods, effective for entries on or after 2026-08-19. Para. 2 states the duty is \"in addition to any other duties\", but it does NOT apply to articles subject to §232, nor to WTO civil-aircraft articles (excluding unmanned aircraft) — both are full per-article exclusions implemented in compute_s338_rates().\n"
+      }
+    ],
+    "section_201": [
+      {
+        "id": "s201_safeguards",
+        "verified": false,
+        "citation": "Section 201 safeguard actions (Trade Act of 1974) — solar cells and modules, large residential washers, and earlier safeguard proclamations",
+        "statute": "19 U.S.C. 2251 et seq. (Trade Act of 1974, Section 201)",
+        "hts_reference": "9903.40.x, 9903.41.x, 9903.45.x",
+        "verified_against": "https://ustr.gov/issue-areas/enforcement/section-201-investigations",
+        "verification_scope": "Registered so the §201 rate column has a citable authority; the individual safeguard proclamations are not yet enumerated. Related: output/quality/unresolved_s201.csv records the 18 of 20 headings whose country scope does not parse, 7 of which carry a suspected mis-parsed rate of 100%.\n"
       }
     ],
     "s301_active": [
@@ -2395,6 +3778,40 @@
         "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
         "verification_scope": "CBP CAPE refund-process guidance",
         "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
+      },
+      {
+        "id": "eo_14289_non_stacking",
+        "verified": true,
+        "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+        "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+        "federal_register": "90 FR 18907",
+        "fr_document_number": "2025-07835",
+        "signed_date": "2025-04-29",
+        "publication_date": "2025-05-02",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+        "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+        "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+      },
+      {
+        "id": "fr_2025_09066_eo14289_implementation",
+        "verified": true,
+        "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+        "federal_register": "90 FR 21487",
+        "fr_document_number": "2025-09066",
+        "publication_date": "2025-05-20",
+        "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+        "verification_scope": "authority metadata and HTS implementation"
+      },
+      {
+        "id": "cbp_csms_65054270_non_stacking",
+        "verified": true,
+        "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+        "publication_date": "2025-05-15",
+        "agency": "U.S. Customs and Border Protection",
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+        "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+        "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
       }
     ],
     "ieepa_fent_mexico": [
@@ -2443,6 +3860,40 @@
         "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/412cc7f",
         "verification_scope": "CBP CAPE refund-process guidance",
         "status_note": "CBP created CAPE in ACE to consolidate IEEPA duty refunds and interest for importers of record who paid them. A CAPE declaration may be filed by the importer of record or the broker that filed the entry summaries (a CSV of up to 9,999 entry numbers); CBP removes the IEEPA Chapter 99 lines, recalculates duties as if IEEPA were never owed, and computes interest under 19 CFR 24.36. Refunds are not automatic and are not guaranteed."
+      },
+      {
+        "id": "eo_14289_non_stacking",
+        "verified": true,
+        "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+        "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+        "federal_register": "90 FR 18907",
+        "fr_document_number": "2025-07835",
+        "signed_date": "2025-04-29",
+        "publication_date": "2025-05-02",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+        "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+        "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+      },
+      {
+        "id": "fr_2025_09066_eo14289_implementation",
+        "verified": true,
+        "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+        "federal_register": "90 FR 21487",
+        "fr_document_number": "2025-09066",
+        "publication_date": "2025-05-20",
+        "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+        "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+        "verification_scope": "authority metadata and HTS implementation"
+      },
+      {
+        "id": "cbp_csms_65054270_non_stacking",
+        "verified": true,
+        "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+        "publication_date": "2025-05-15",
+        "agency": "U.S. Customs and Border Protection",
+        "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+        "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+        "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
       }
     ],
     "s122_active": [
@@ -2475,6 +3926,28 @@
         "agency": "U.S. Customs and Border Protection",
         "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b",
         "verification_scope": "CBP operational implementation/status message"
+      }
+    ],
+    "base_col2": [
+      {
+        "id": "pl_117_110_suspending_ntr_russia_belarus",
+        "verified": true,
+        "citation": "Public Law 117-110 — Suspending Normal Trade Relations with Russia and Belarus Act (Apr. 8, 2022)",
+        "statute": "Pub. L. 117-110, 136 Stat. 1163",
+        "signed_date": "2022-04-08",
+        "effective_date": "2022-04-09",
+        "verified_against": "https://www.govinfo.gov/app/details/PLAW-117publ110",
+        "verification_scope": "Statutory identity confirmed 2026-07-30. Date used as the gate on Column 2 applicability for Russia (census 4621) and Belarus (4622); see NON_NTR_EFFECTIVE_FROM in src/helpers.R.\n",
+        "status_note": "Withdrew permanent normal trade relations from Russia and Belarus, making their products dutiable at Column 2 for entries on or after 2022-04-09. Load-bearing because resources/gn3_column2_countries.csv back-fills historical revisions from a later General Note (304 of 544 rows carry fallback_from = 2026_rev_9), and so reports both origins as non-NTR as far back as 2019. Without this gate Column 2 would be applied retroactively and overstate duty on 2019-2021 Russian and Belarusian lines. Related: Proclamation 10420 (87 FR 38875) later increased duties on certain Russian articles; it is a separate action from the PNTR withdrawal itself.\n"
+      },
+      {
+        "id": "gn3_column2_non_ntr",
+        "verified": true,
+        "citation": "HTSUS General Note 3(b) — Rate of duty column 2 (products of countries not entitled to normal trade relations)",
+        "statute": "Harmonized Tariff Schedule of the United States, General Note 3(b)",
+        "verified_against": "https://hts.usitc.gov/reststop/file?filename=General%20Note%203&release=currentRelease",
+        "verification_scope": "parsed per revision into resources/gn3_column2_countries.csv by src/parse_general_note_3.R",
+        "status_note": "Column 2 REPLACES Column 1-General for non-NTR origins; it is not an additional duty. Current origins: Cuba, North Korea, Russia, Belarus (Russia and Belarus lost PNTR in April 2022). Chapter 99 additional duties then stack on top of the replaced base.\n"
       }
     ]
   },
@@ -2589,30 +4062,74 @@
       "verification_scope": "authority metadata only",
       "status_note": "Important current-status modifier for full-customs-value treatment, derivative scope, and metal tariff stacking."
     },
+    "proc_10908_autos_2025": {
+      "id": "proc_10908_autos_2025",
+      "verified": true,
+      "citation": "Proclamation 10908 of March 26, 2025 — Adjusting Imports of Automobiles and Automobile Parts Into the United States",
+      "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)",
+      "federal_register": "90 FR 14705",
+      "fr_document_number": "2025-05930",
+      "signed_date": "2025-03-26",
+      "publication_date": "2025-04-03",
+      "hts_reference": "9903.94.01 et seq. (assembled vehicles); 9903.94.05-.09 (parts)",
+      "verified_against": "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states",
+      "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10908, 90 FR 14705, doc 2025-05930)",
+      "status_note": "This is the action named in EO 14289 sec. 2(a) — the highest-precedence step of the non-stacking order, which excludes IEEPA Canada, IEEPA Mexico, §232 aluminum and §232 steel. It was not previously registered even though the stacking model depends on it, so the auto action had no citable source. Also the source of the USMCA behaviour: a qualifying part owes 0% here and therefore is not \"subject to\" 2(a).\n"
+    },
+    "proc_11047_s338_canada": {
+      "id": "proc_11047_s338_canada",
+      "verified": true,
+      "citation": "Proclamation 11047 of July 20, 2026 — Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States",
+      "statute": "19 U.S.C. 1338 (Tariff Act of 1930, Section 338)",
+      "federal_register": "91 FR 46653",
+      "fr_document_number": "2026-14992",
+      "signed_date": "2026-07-20",
+      "publication_date": "2026-07-23",
+      "effective_date": "2026-08-19",
+      "verified_against": "https://www.federalregister.gov/documents/2026/07/23/2026-14992/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united",
+      "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 11047, 91 FR 46653, doc 2026-14992)",
+      "status_note": "Section 338 duties on Canadian goods, effective for entries on or after 2026-08-19. Para. 2 states the duty is \"in addition to any other duties\", but it does NOT apply to articles subject to §232, nor to WTO civil-aircraft articles (excluding unmanned aircraft) — both are full per-article exclusions implemented in compute_s338_rates().\n"
+    },
+    "s201_safeguards": {
+      "id": "s201_safeguards",
+      "verified": false,
+      "citation": "Section 201 safeguard actions (Trade Act of 1974) — solar cells and modules, large residential washers, and earlier safeguard proclamations",
+      "statute": "19 U.S.C. 2251 et seq. (Trade Act of 1974, Section 201)",
+      "hts_reference": "9903.40.x, 9903.41.x, 9903.45.x",
+      "verified_against": "https://ustr.gov/issue-areas/enforcement/section-201-investigations",
+      "verification_scope": "Registered so the §201 rate column has a citable authority; the individual safeguard proclamations are not yet enumerated. Related: output/quality/unresolved_s201.csv records the 18 of 20 headings whose country scope does not parse, 7 of which carry a suspected mis-parsed rate of 100%.\n"
+    },
     "proc_10962_copper_2025": {
       "id": "proc_10962_copper_2025",
-      "verified": false,
+      "verified": true,
       "citation": "Proclamation 10962 of July 30, 2025 — Adjusting Imports of Copper Into the United States",
       "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232)",
+      "federal_register": "90 FR 37727",
+      "fr_document_number": "2025-14893",
       "signed_date": "2025-07-30",
       "publication_date": "2025-08-05",
       "effective_date": "2025-08-01",
       "hts_reference": "9903.78.01; HTSUS subchapter III U.S. Note 36",
-      "verified_against": "https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=proclamation+copper+section+232",
-      "verification_scope": "Federal Register volume/page and document number pending confirmation",
+      "verified_against": "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states",
+      "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (proclamation 10962, 90 FR 37727, doc 2025-14893)",
       "status_note": "Founding Section 232 copper action (50% on semi-finished copper and copper-intensive derivatives, effective 2025-08-01 under 9903.78.01 / Note 36). Extended by the April 2026 annex (Proc 11021) and the June 2026 derivative expansion (Proc 11032)."
     },
     "proc_11032_copper_derivatives_2026": {
       "id": "proc_11032_copper_derivatives_2026",
-      "verified": false,
-      "citation": "Proclamation 11032 of June 2026 — Expanding Section 232 Copper Derivative Coverage",
+      "verified": true,
+      "citation": "Proclamation 11032 of June 1, 2026 — Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States",
       "statute": "19 U.S.C. 1862 (Trade Expansion Act of 1962, Section 232); 19 U.S.C. 2483",
+      "federal_register": "91 FR 34085",
+      "fr_document_number": "2026-11314",
+      "signed_date": "2026-06-01",
+      "publication_date": "2026-06-04",
       "effective_date": "2026-06-08",
       "hts_reference": "9903.82.20 through 9903.82.26 (new copper-derivative annex headings)",
-      "verification_scope": "On public inspection at the Federal Register; citation, document number, and signing date pending publication",
-      "status_note": "PENDING Federal Register publication (public inspection). Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Metadata must be re-verified after publication.",
-      "source_status": "federal_register_public_inspection_pending_publication",
-      "requires_post_publication_recheck": true
+      "verified_against": "https://www.federalregister.gov/documents/2026/06/04/2026-11314/further-adjusting-the-tariff-regimes-for-imports-of-aluminum-steel-and-copper-into-the-united-states",
+      "verification_scope": "Citation identity retrieved from the Federal Register API 2026-07-30: proclamation_number 11032, signed 2026-06-01, published 2026-06-04, 91 FR 34085, document 2026-11314. The heading range and 2026-06-08 effective date come from the HTS revision, not from the notice text.\n",
+      "status_note": "Published 2026-06-04 at 91 FR 34085. Effective for entries on or after 2026-06-08; creates copper-derivative annex headings 9903.82.20–9903.82.26. Previously carried as public-inspection-pending; metadata re-verified against the Federal Register API on 2026-07-30 and the pending flags cleared.\n",
+      "source_status": "federal_register_published",
+      "requires_post_publication_recheck": false
     },
     "s301_china_actions": {
       "id": "s301_china_actions",
@@ -2784,48 +4301,67 @@
     },
     "eo_14245_venezuelan_oil": {
       "id": "eo_14245_venezuelan_oil",
-      "verified": false,
+      "verified": true,
       "citation": "Executive Order 14245 of March 24, 2025 — Imposing Tariffs on Countries Importing Venezuelan Oil",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)",
+      "federal_register": "90 FR 13829",
+      "fr_document_number": "2025-05440",
       "signed_date": "2025-03-24",
-      "verified_against": "https://www.federalregister.gov/presidential-documents/executive-orders",
-      "verification_scope": "Federal Register citation and current scope pending confirmation",
+      "publication_date": "2025-03-27",
+      "verified_against": "https://www.federalregister.gov/documents/2025/03/27/2025-05440/imposing-tariffs-on-countries-importing-venezuelan-oil",
+      "verification_scope": "Citation identity confirmed via Federal Register API 2026-07-30 (EO 14245, 90 FR 13829, doc 2025-05440). Scope/current status not independently re-checked.",
       "status_note": "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
     },
     "eo_14323_brazil": {
       "id": "eo_14323_brazil",
-      "verified": false,
-      "citation": "Executive Order 14323 of 2025 — IEEPA tariff action concerning Brazil",
+      "verified": true,
+      "citation": "Executive Order 14323 of July 30, 2025 — Addressing Threats to the United States by the Government of Brazil",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)",
-      "verified_against": "https://www.federalregister.gov/presidential-documents/executive-orders",
-      "verification_scope": "Executive Order number, title, and Federal Register citation pending confirmation",
+      "federal_register": "90 FR 37739",
+      "fr_document_number": "2025-14896",
+      "signed_date": "2025-07-30",
+      "publication_date": "2025-08-05",
+      "verified_against": "https://www.federalregister.gov/documents/2025/08/05/2025-14896/addressing-threats-to-the-united-states-by-the-government-of-brazil",
+      "verification_scope": "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14323, 90 FR 37739, doc 2025-14896)",
       "status_note": "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
     },
     "eo_14329_russia": {
       "id": "eo_14329_russia",
-      "verified": false,
-      "citation": "Executive Order 14329 of 2025 — IEEPA tariff action concerning Russia",
+      "verified": true,
+      "citation": "Executive Order 14329 of August 6, 2025 — Addressing Threats to the United States by the Government of the Russian Federation",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)",
-      "verified_against": "https://www.federalregister.gov/presidential-documents/executive-orders",
-      "verification_scope": "Executive Order number, title, and Federal Register citation pending confirmation",
+      "federal_register": "90 FR 38701",
+      "fr_document_number": "2025-15267",
+      "signed_date": "2025-08-06",
+      "publication_date": "2025-08-11",
+      "verified_against": "https://www.federalregister.gov/documents/2025/08/11/2025-15267/addressing-threats-to-the-united-states-by-the-government-of-the-russian-federation",
+      "verification_scope": "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14329, 90 FR 38701, doc 2025-15267)",
       "status_note": "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
     },
     "eo_14380_cuba": {
       "id": "eo_14380_cuba",
-      "verified": false,
-      "citation": "Executive Order 14380 of 2025 — IEEPA tariff action concerning Cuba",
+      "verified": true,
+      "citation": "Executive Order 14380 of January 29, 2026 — Addressing Threats to the United States by the Government of Cuba",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)",
-      "verified_against": "https://www.federalregister.gov/presidential-documents/executive-orders",
-      "verification_scope": "Executive Order number, title, and Federal Register citation pending confirmation",
+      "federal_register": "91 FR 5085",
+      "fr_document_number": "2026-02250",
+      "signed_date": "2026-01-29",
+      "publication_date": "2026-02-03",
+      "verified_against": "https://www.federalregister.gov/documents/2026/02/03/2026-02250/addressing-threats-to-the-united-states-by-the-government-of-cuba",
+      "verification_scope": "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14380, 91 FR 5085, doc 2026-02250). Was previously labelled \"of 2025\" — it is a 2026 order.\n",
       "status_note": "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
     },
     "eo_14382_iran": {
       "id": "eo_14382_iran",
-      "verified": false,
-      "citation": "Executive Order 14382 of 2025 — IEEPA tariff action concerning Iran",
+      "verified": true,
+      "citation": "Executive Order 14382 of February 6, 2026 — Addressing Threats to the United States by the Government of Iran",
       "statute": "50 U.S.C. 1701 et seq. (IEEPA); 50 U.S.C. 1601 et seq. (NEA)",
-      "verified_against": "https://www.federalregister.gov/presidential-documents/executive-orders",
-      "verification_scope": "Executive Order number, title, and Federal Register citation pending confirmation",
+      "federal_register": "91 FR 6493",
+      "fr_document_number": "2026-02813",
+      "signed_date": "2026-02-06",
+      "publication_date": "2026-02-11",
+      "verified_against": "https://www.federalregister.gov/documents/2026/02/11/2026-02813/addressing-threats-to-the-united-states-by-the-government-of-iran",
+      "verification_scope": "Number, title, date and citation confirmed via Federal Register API 2026-07-30 (EO 14382, 91 FR 6493, doc 2026-02813). Was previously labelled \"of 2025\" — it is a 2026 order.\n",
       "status_note": "IEEPA-based country tariff action. Subject to the IEEPA tariff-authority litigation; refund treatment, if collection ended, follows the ieepa_refund layer."
     },
     "s122_balance_of_payments": {
@@ -2857,6 +4393,60 @@
       "agency": "U.S. Customs and Border Protection",
       "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b",
       "verification_scope": "CBP operational implementation/status message"
+    },
+    "eo_14289_non_stacking": {
+      "id": "eo_14289_non_stacking",
+      "verified": true,
+      "citation": "Executive Order 14289 of April 29, 2025 — Addressing Certain Tariffs on Imported Articles",
+      "statute": "3 U.S.C. 301; 19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+      "federal_register": "90 FR 18907",
+      "fr_document_number": "2025-07835",
+      "signed_date": "2025-04-29",
+      "publication_date": "2025-05-02",
+      "verified_against": "https://www.federalregister.gov/documents/2025/05/02/2025-07835/addressing-certain-tariffs-on-imported-articles",
+      "verification_scope": "full operative text retrieved and quoted in docs/stacking_legal_model.md",
+      "status_note": "Sec. 3(a) sets the non-stacking precedence: (i) an article subject to Proc 10908 (autos) is not subject to IEEPA Canada/Mexico or §232 aluminum/steel; (ii) an article subject to IEEPA Canada/Mexico is not subject to §232 aluminum/steel; (iii) §232 aluminum and steel EXPLICITLY stack with each other. Sec. 3(b): exclusion suppresses the rate, not the classification. Sec. 3(c)/4(b): Column 1 HTSUS, §301, EO 14195 fentanyl and AD/CVD remain cumulative. EO 14257 (IEEPA reciprocal) is absent from sec. 2 and is therefore outside the order.\n"
+    },
+    "fr_2025_09066_eo14289_implementation": {
+      "id": "fr_2025_09066_eo14289_implementation",
+      "verified": true,
+      "citation": "Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President's Executive Order 14289",
+      "federal_register": "90 FR 21487",
+      "fr_document_number": "2025-09066",
+      "publication_date": "2025-05-20",
+      "agency": "U.S. Customs and Border Protection / Department of Homeland Security",
+      "verified_against": "https://www.federalregister.gov/documents/2025/05/20/2025-09066/notice-of-implementation-of-addressing-certain-tariffs-on-imported-articles-pursuant-to-the",
+      "verification_scope": "authority metadata and HTS implementation"
+    },
+    "cbp_csms_65054270_non_stacking": {
+      "id": "cbp_csms_65054270_non_stacking",
+      "verified": true,
+      "citation": "CBP CSMS #65054270 — Guidance on tariff prioritization for articles subject to more than one action under Executive Order 14289",
+      "publication_date": "2025-05-15",
+      "agency": "U.S. Customs and Border Protection",
+      "verified_against": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+      "verification_scope": "Bulletin retrieved directly from CBP GovDelivery 2026-07-30. All four load-bearing claims confirmed verbatim against the primary source, not via trade-counsel summaries.\n",
+      "status_note": "The >0% definition is the threshold that drives the whole order, and the reason USMCA-qualifying auto parts (0% under Proc 10908) fall through to the §232 steel/aluminum step without a special rule. Note CBP states the USMCA carve-out as a direct exemption from steps 1 and 2; our model reaches the same result from the >0% definition alone, so the two readings agree on outcome and we do not encode a separate USMCA branch.\n"
+    },
+    "pl_117_110_suspending_ntr_russia_belarus": {
+      "id": "pl_117_110_suspending_ntr_russia_belarus",
+      "verified": true,
+      "citation": "Public Law 117-110 — Suspending Normal Trade Relations with Russia and Belarus Act (Apr. 8, 2022)",
+      "statute": "Pub. L. 117-110, 136 Stat. 1163",
+      "signed_date": "2022-04-08",
+      "effective_date": "2022-04-09",
+      "verified_against": "https://www.govinfo.gov/app/details/PLAW-117publ110",
+      "verification_scope": "Statutory identity confirmed 2026-07-30. Date used as the gate on Column 2 applicability for Russia (census 4621) and Belarus (4622); see NON_NTR_EFFECTIVE_FROM in src/helpers.R.\n",
+      "status_note": "Withdrew permanent normal trade relations from Russia and Belarus, making their products dutiable at Column 2 for entries on or after 2022-04-09. Load-bearing because resources/gn3_column2_countries.csv back-fills historical revisions from a later General Note (304 of 544 rows carry fallback_from = 2026_rev_9), and so reports both origins as non-NTR as far back as 2019. Without this gate Column 2 would be applied retroactively and overstate duty on 2019-2021 Russian and Belarusian lines. Related: Proclamation 10420 (87 FR 38875) later increased duties on certain Russian articles; it is a separate action from the PNTR withdrawal itself.\n"
+    },
+    "gn3_column2_non_ntr": {
+      "id": "gn3_column2_non_ntr",
+      "verified": true,
+      "citation": "HTSUS General Note 3(b) — Rate of duty column 2 (products of countries not entitled to normal trade relations)",
+      "statute": "Harmonized Tariff Schedule of the United States, General Note 3(b)",
+      "verified_against": "https://hts.usitc.gov/reststop/file?filename=General%20Note%203&release=currentRelease",
+      "verification_scope": "parsed per revision into resources/gn3_column2_countries.csv by src/parse_general_note_3.R",
+      "status_note": "Column 2 REPLACES Column 1-General for non-NTR origins; it is not an additional duty. Current origins: Cuba, North Korea, Russia, Belarus (Russia and Belarus lost PNTR in April 2022). Chapter 99 additional duties then stack on top of the replaced base.\n"
     },
     "wto_civil_aircraft": {
       "id": "wto_civil_aircraft",
