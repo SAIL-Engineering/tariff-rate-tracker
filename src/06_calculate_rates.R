@@ -727,7 +727,7 @@ calculate_rates_for_revision <- function(
   # alphabetically (auto PARTS -> 9903.94.01, the vehicles heading; every §201
   # row -> 9903.41.05, a Japanese-leather heading).
   for (.c in c('ch99_src_232', 'ch99_src_s201', 'ch99_src_ieepa_recip',
-               'ch99_src_301')) {
+               'ch99_src_301', 'ch99_src_s338')) {
     if (!.c %in% names(rates)) rates[[.c]] <- NA_character_
   }
 
@@ -3486,6 +3486,29 @@ calculate_rates_for_revision <- function(
       rates$statutory_rate_s338 <- compute_s338_rates(
         rates, s338_cfg, effective_date = .s338_eff_date, statutory = TRUE)
       n_338 <- sum(rates$rate_s338 > 0)
+
+      # FORWARD attribution: U.S. note 51(b) splits the covered products across
+      # three headings (9903.03.12 alcohol / .13 dairy / .14 the broad list),
+      # so the heading is a per-PRODUCT fact, not a per-country one. Stamp it
+      # from the same list the duty was computed from; the resolver prefers
+      # this over its country-scoped fallback (which can only name one heading
+      # for Canada).
+      .s338_map <- tryCatch({
+        .pf <- s338_cfg$products_file
+        .pf <- if (file.exists(.pf)) .pf else here(.pf)
+        .m <- read_csv(.pf, col_types = cols(.default = col_character()))
+        if (all(c('hts8', 'ch99_heading') %in% names(.m))) {
+          .m %>% distinct(hts8, .keep_all = TRUE) %>%
+            transmute(.hts8 = substr(hts8, 1, 8), .s338_code = ch99_heading)
+        } else NULL
+      }, error = function(e) NULL)
+      if (!is.null(.s338_map) && nrow(.s338_map) > 0) {
+        .idx <- match(substr(rates$hts10, 1, 8), .s338_map$.hts8)
+        rates$ch99_src_s338 <- if_else(
+          rates$country == s338_cty & !is.na(.idx) &
+            (rates$rate_s338 > 0 | rates$statutory_rate_s338 > 0),
+          .s338_map$.s338_code[.idx], rates$ch99_src_s338)
+      }
 
       # This revision's interval may START before the duty does. rev_13 is
       # effective 2026-07-24 while §338 begins 2026-08-19, and the interval is

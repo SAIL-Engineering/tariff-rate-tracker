@@ -4389,14 +4389,24 @@ resolve_ch99_codes <- function(rates, ch99_data,
         # anomaly; min() keeps the pick deterministic if it ever happens.
         dplyr::summarise(.code = min(ch99_code), .groups = 'drop')
     }
-    .apply_country_map <- function(rates, rate_col, code_col, codes_regex) {
+    .apply_country_map <- function(rates, rate_col, code_col, codes_regex,
+                                   src_col = NULL) {
       if (!rate_col %in% names(rates)) return(rates)
       map <- .country_heading_map(codes_regex)
       if (is.null(map)) return(rates)
       idx <- match(rates$country, map$country)
+      rated <- !is.na(rates[[rate_col]]) & rates[[rate_col]] > 0
+      # Forward source first (a per-product heading recorded at application,
+      # e.g. ch99_src_s338 for note 51(b)'s three product lists); the
+      # origin-scoped map is the fallback for rows without one.
+      fwd <- if (!is.null(src_col) && src_col %in% names(rates)) {
+        .s <- rates[[src_col]]
+        .s[!is.na(.s) & !grepl(codes_regex, .s)] <- NA_character_
+        .s
+      } else rep(NA_character_, nrow(rates))
       rates[[code_col]] <- dplyr::if_else(
-        !is.na(rates[[rate_col]]) & rates[[rate_col]] > 0 & !is.na(idx),
-        map$.code[idx], NA_character_)
+        rated, dplyr::coalesce(fwd, ifelse(is.na(idx), NA_character_, map$.code[idx])),
+        NA_character_)
       n_rated <- sum(rates[[rate_col]] > 0, na.rm = TRUE)
       n_attr  <- sum(!is.na(rates[[code_col]]))
       if (n_rated > 0) {
@@ -4410,7 +4420,7 @@ resolve_ch99_codes <- function(rates, ch99_data,
     rates <- .apply_country_map(rates, 'rate_s301br', 'ch99_code_s301br',
                                 '^9903\\.05\\.01$')
     rates <- .apply_country_map(rates, 'rate_s338', 'ch99_code_s338',
-                                '^9903\\.03\\.1[2-9]$')
+                                '^9903\\.03\\.1[2-9]$', src_col = 'ch99_src_s338')
   }
 
   rates

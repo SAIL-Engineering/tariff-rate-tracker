@@ -296,15 +296,13 @@ Where a product's MFN rate already meets or exceeds the cap, the additional duty
 
 ---
 
-## 18. Section 338 Canada: Predicted Headings and the Unmanned-Aircraft Exception
+## 18. Section 338 Canada: Headings Confirmed in 2026 Rev 17; the Unmanned-Aircraft Exception
 
-**Status: DORMANT.** Three proclamations of 2026-07-20, published 2026-07-23 (91 FR 46653 et seq.), impose 50% under Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338) on Canadian dairy (Proclamation 11047, 52 hts8), motor vehicles (439 hts8) and alcoholic beverages (63 hts8), all effective 12:01 a.m. ET **2026-08-19**. No published HTS revision carries them — rev 13 published 2026-07-28, three weeks early — so nothing in the current series changes.
+**Status: ACTIVE from 2026_rev_17** (published 2026-08-24). Three proclamations of 2026-07-20, published 2026-07-23 (91 FR 46653 et seq.), impose 50% under Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338) on Canadian alcoholic beverages, dairy and a broad motor-vehicle-led list, all effective 12:01 a.m. ET **2026-08-19**. Revisions 13–16 predate the headings; the duty is date-gated so it appears only from 2026-08-19.
 
-**Assumption 1 — the Chapter 99 headings are PREDICTED.** `resources/s338_products.csv` maps the three programs to `9903.03.12`, `.13` and `.14`. That is an inference, not a citation: §122's `9903.03.01`–`.11` expired at the close of 2026-07-23 (91 Fed. Reg. 9339), leaving the range free, and USITC commonly continues a subchapter.
+**Headings — no longer predicted.** 2026 Rev 17 publishes U.S. note 51 and headings `9903.03.12`–`9903.03.16`. The lists in `resources/s338_products.csv` and `s338_gn6_exempt_products.csv` were diffed programmatically against the note text on 2026-08-24 and match it exactly: note 51(b)(1) → `9903.03.12` (63 lines, alcohol), (b)(2) → `9903.03.13` (52, dairy), (b)(3) → `9903.03.14` (439, motor vehicles and other goods), (d) → `9903.03.16` civil-aircraft carve-out (554 GN 6 lines). `9903.03.15` carries the (c) carve-out. Each rated row records its per-product heading in `ch99_src_s338` → `ch99_code_s338`.
 
-Two guards make a wrong guess loud rather than silent:
-- `classify_authority()` maps `9903.03.12+` to `section_338`, so a §338 heading is never attributed to the expired §122. Without this the `middle == 3` branch would have booked these duties as Section 122 — an authority that no longer exists.
-- If USITC assigns different headings, they arrive unclassified and the Chapter 99 completeness gate fails the build, at which point both the config and that branch get corrected. The rate application itself is config-driven and does not depend on the heading, so the duties are correct either way.
+**Note 51(c) enumerates eight carve-out classes** (§232 metals under 9903.82; passenger vehicles and parts under 9903.94; wood 9903.76; MHD vehicles/parts 9903.74; semiconductors 9903.79.01; patented pharmaceuticals 9903.04.60–.66). The implementation excludes rows via `s232_scope_mask()` (any row carrying a §232 rate or annex tier). Patented pharma is not modeled as a §232 program here, but no chapter-30 line appears in any (b) list, so the gap has no product overlap today. Not modeled: the accompanied-baggage exception and the chapter 98 treatment in note 51(a) (duty on repair/assembly value for 9802.00.40–.80).
 
 **Assumption 2 — the unmanned-aircraft exception is currently EMPTY.** Proclamation 11047 para. 2 excludes "articles, **excluding unmanned aircraft**, subject to the WTO Agreement on Trade in Civil Aircraft." The exclusion is implemented from the GN 6 civil-aircraft list (554 hts8), but GN 6 does not itself distinguish unmanned aircraft, so `unmanned_aircraft_hts8` is an empty list.
 
@@ -314,7 +312,7 @@ Two guards make a wrong guess loud rather than silent:
 
 **Source:** Proclamation 11047 of July 20, 2026, FR Doc 2026-14992, 91 FR 46653 (dairy); FR Doc 2026-14997 (motor vehicles); FR Doc 2026-14991 (alcoholic beverages).
 
-**Implementation:** `config/policy_params.yaml` (`section_338`), `src/helpers.R:compute_s338_rates()` and `s232_scope_mask()`, `src/06_calculate_rates.R` step 6b0c. Exposure is date-gated by `collect_activation_adjustments()`, so the duty appears only from 2026-08-19 onward even though it is computed for the enclosing revision.
+**Implementation:** `config/policy_params.yaml` (`section_338`), `src/helpers.R:compute_s338_rates()` and `s232_scope_mask()`, `src/06_calculate_rates.R` step 7d (rate, statutory rate, per-product `ch99_src_s338`, ledger step `s338_canada`). Exposure is date-gated by `collect_activation_adjustments()`, so the duty appears only from 2026-08-19 onward even though it is computed for the enclosing revision.
 
 ---
 
