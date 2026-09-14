@@ -216,15 +216,13 @@ export const STATUTORY_KEY_MAP: Record<AuthorityKey, StatutoryKey> = {
   rate_other: 'statutory_rate_other',
 };
 
-// NB: the 2026 authorities (rate_s301fl / rate_s301br / rate_s338) are
-// deliberately NOT in AuthorityKey or STATUTORY_KEY_MAP. Those two exist to
-// compare an effective rate against its statutory pre-scaling baseline, and the
-// pipeline emits no statutory_rate_* counterpart for the new programs. Adding
-// them would make hasStatutoryDelta() silently return false rather than error —
-// misleading. If statutory-delta display is wanted for these programs, the
-// pipeline needs to emit the statutory_* columns first (they would be meaningful:
-// the Annex I/II exemption share-scaling does reduce the effective rate below
-// statutory).
+// NB: the 2026 authorities (rate_s301fl / rate_s301br / rate_s338) are not yet
+// in this prototype's AuthorityKey / STATUTORY_KEY_MAP. The pipeline DOES emit
+// their statutory_rate_* counterparts (pre-exclusion tier/cap, since the
+// 2026-08 rebuild) and their per-product ch99_code_* headings, and the API
+// projection serves all of them — the sailgtx frontend consumes them as
+// first-class authorities. Port that here if this prototype's stack view is
+// kept in sync.
 /** Returns true if the statutory rate differs from the effective rate for a given authority */
 export function hasStatutoryDelta(rate: ProductRate, key: AuthorityKey): boolean {
   const statutoryKey = STATUTORY_KEY_MAP[key];

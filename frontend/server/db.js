@@ -64,6 +64,11 @@ export const RATES_COLUMNS = [
   'statutory_rate_ieepa_fent',
   'statutory_rate_s122',
   'statutory_rate_section_201',
+  // Pre-exclusion statutory baselines for the 2026 authorities (emitted by the
+  // pipeline since the 2026-08 rebuild).
+  'statutory_rate_s301fl',
+  'statutory_rate_s301br',
+  'statutory_rate_s338',
   'statutory_rate_other',
   'ch99_code_232',
   'ch99_code_301',
@@ -71,6 +76,11 @@ export const RATES_COLUMNS = [
   'ch99_code_ieepa_fent',
   'ch99_code_s122',
   'ch99_code_s201',
+  // Per-product headings for the 2026 authorities (note 52 per-economy lines,
+  // note 50 Brazil, note 51(b) §338 product lists).
+  'ch99_code_s301fl',
+  'ch99_code_s301br',
+  'ch99_code_s338',
   'metal_share',
   'steel_share',
   'aluminum_share',
@@ -100,6 +110,9 @@ export const RATES_COLUMNS = [
   'calc_status',
   'duty_provenance_json',
   'ch99_rules_json',
+  // Set when a duty is computed onto a snapshot whose interval starts before
+  // the duty activates (§338 on 2026 Rev 13-16 before 2026-08-19).
+  'pending_activation_json',
 ];
 
 // Live binding: re-resolved at startup against the actual rates schema so
