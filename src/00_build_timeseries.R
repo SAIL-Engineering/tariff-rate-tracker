@@ -168,42 +168,6 @@ build_full_timeseries <- function(
 
   message('Revisions to process: ', length(revisions_to_process))
 
-  # ---- Per-revision resource staleness preflight ----
-  # Much of "which duty programs apply per HTS+COO+date" is extracted from the
-  # chapter 99 note PDFs and General Note PDFs into per-revision resource CSVs.
-  # A revision built before its rows land silently computes on carried-forward
-  # or global data (Column 2 was OFF for 2026_rev_14-16 this way). Report the
-  # gap loudly up front; the extraction commands are in the message.
-  {
-    stale_checks <- c(
-      'resources/gn3_column2_countries.csv'  = 'Rscript -e \'source(here::here("src","parse_general_note_3.R")); emit_gn3()\'',
-      'resources/ch99_provision_status.csv'  = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
-      'resources/ch99_staged_rates.csv'      = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
-      'resources/ch99_legal_refs.csv'        = 'emit_legal_refs_incremental() (src/extract_legal_refs.R)'
-    )
-    for (res_path in names(stale_checks)) {
-      f <- here(res_path)
-      if (!file.exists(f)) next
-      covered <- tryCatch(unique(suppressMessages(readr::read_csv(
-        f, col_types = readr::cols(.default = readr::col_character())))$revision),
-        error = function(e) NULL)
-      if (is.null(covered)) next
-      missing_revs <- setdiff(revisions_to_process, covered)
-      # Pre-2022 revisions predate the reststop PDF coverage — only report
-      # gaps for revisions the extractors can actually serve.
-      missing_revs <- missing_revs[substr(missing_revs, 1, 4) >= '2022']
-      if (length(missing_revs) > 0) {
-        message('  [staleness] ', basename(res_path), ' missing ',
-                length(missing_revs), ' revision(s): ',
-                paste(utils::head(missing_revs, 6), collapse = ', '),
-                if (length(missing_revs) > 6) ' ...' else '',
-                ' — refresh via: ', stale_checks[[res_path]])
-        log_warn('Stale resource ', basename(res_path), ': ',
-                 length(missing_revs), ' target revision(s) not extracted')
-      }
-    }
-  }
-
   # ---- Handle incremental mode ----
   prev_ch99 <- NULL
   prev_products <- NULL
@@ -238,6 +202,51 @@ build_full_timeseries <- function(
     message('Incremental: processing ', length(revisions_to_process),
             ' revisions after ', start_from)
   }
+
+  # ---- Per-revision resource staleness preflight ----
+  # (Runs AFTER the incremental/subset slicing so it inspects only the
+  #  revisions this run will actually calculate.)
+  # Much of "which duty programs apply per HTS+COO+date" is extracted from the
+  # chapter 99 note PDFs and General Note PDFs into per-revision resource CSVs.
+  # A revision built before its rows land silently computes on carried-forward
+  # or global data (Column 2 was OFF for 2026_rev_14-16 this way). Report the
+  # gap loudly up front; the extraction commands are in the message.
+  {
+    stale_checks <- c(
+      'resources/gn3_column2_countries.csv'  = 'Rscript -e \'source(here::here("src","parse_general_note_3.R")); emit_gn3()\'',
+      'resources/ch99_provision_status.csv'  = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
+      'resources/ch99_staged_rates.csv'      = 'Rscript scripts/extract_note_rules.R --revisions <missing>',
+      'resources/ch99_legal_refs.csv'        = 'emit_legal_refs_incremental() (src/extract_legal_refs.R)'
+    )
+    for (res_path in names(stale_checks)) {
+      f <- here(res_path)
+      if (!file.exists(f)) next
+      covered <- tryCatch(unique(suppressMessages(readr::read_csv(
+        f, col_types = readr::cols(.default = readr::col_character())))$revision),
+        error = function(e) NULL)
+      if (is.null(covered)) next
+      missing_revs <- setdiff(revisions_to_process, covered)
+      # Only report gaps the extractors can actually serve: the note-derived
+      # CSVs need that revision's chapter 99 PDF on disk (data/us_notes/), and
+      # GN3 comes from reststop, which serves ~2022 onward.
+      if (grepl('^resources/gn3_', res_path)) {
+        missing_revs <- missing_revs[substr(missing_revs, 1, 4) >= '2022']
+      } else {
+        missing_revs <- missing_revs[file.exists(here('data', 'us_notes',
+          paste0('chapter99_', missing_revs, '.pdf')))]
+      }
+      if (length(missing_revs) > 0) {
+        message('  [staleness] ', basename(res_path), ' missing ',
+                length(missing_revs), ' revision(s): ',
+                paste(utils::head(missing_revs, 6), collapse = ', '),
+                if (length(missing_revs) > 6) ' ...' else '',
+                ' — refresh via: ', stale_checks[[res_path]])
+        log_warn('Stale resource ', basename(res_path), ': ',
+                 length(missing_revs), ' target revision(s) not extracted')
+      }
+    }
+  }
+
 
   # ---- Per-revision processing function ----
   #
