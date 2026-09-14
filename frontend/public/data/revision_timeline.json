@@ -832,5 +832,17 @@
     "effectiveDate": "2026-08-14",
     "policyEffectiveDate": "2026-08-14",
     "policyEvent": "To Facilitate Positive Adjustment to Competition from Imports of Quartz Surface Products (91 Fed. Reg. 50645). Changes approved by the Committee for Statistical Annotation of Tariff Schedules (formulated pursuant to section 484(f), Tariff Act of 1930, as amended) (484(f))"
+  },
+  {
+    "revision": "2026_rev_17",
+    "effectiveDate": "2026-08-24",
+    "policyEffectiveDate": null,
+    "policyEvent": "[REVIEW] added 2026-09-03 — effective_date is publication date, not policy date"
+  },
+  {
+    "revision": "2026_rev_18",
+    "effectiveDate": "2026-09-02",
+    "policyEffectiveDate": null,
+    "policyEvent": "[REVIEW] added 2026-09-03 — effective_date is publication date, not policy date"
   }
 ]
