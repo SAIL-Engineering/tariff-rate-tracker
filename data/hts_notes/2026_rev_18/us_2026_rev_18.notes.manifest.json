@@ -1,9 +1,9 @@
 {
   "artifact_sha256": {
-    "us_2026_rev_18.notes.chapter.jsonl": "0536ca76102d03176b9d0bbab1ed8583e9e2a00e732366a5dc81e0dc57b8d407",
-    "us_2026_rev_18.notes.gri.jsonl": "86e71b9b33b0c54f5adc797a4e1ac72f07e1f6bad99bd8b32115705dadf6c1c1",
+    "us_2026_rev_18.notes.chapter.jsonl": "c721ad8efceb705b3898be1370850641c0fd9ab52ffcc2ee58f0a5d28ef95716",
+    "us_2026_rev_18.notes.gri.jsonl": "192f36e52059b47e8d0799473e58ea859e5c32e59943bd512a2988bfe63a0449",
     "us_2026_rev_18.notes.json": "086eb33c62da03c0be722feb8d78804b46f0dee9a45d8e7bee8199bd15e97070",
-    "us_2026_rev_18.notes.section.jsonl": "33aef9234987f10e8befb03fabc16f56c5bcab5de32bd8311df7915d476f5a53"
+    "us_2026_rev_18.notes.section.jsonl": "85498bc5629c6fd2177e5c43534adb180048d51ce0ce53751d7976c58e93171a"
   },
   "counts": {
     "by_chapter": {
