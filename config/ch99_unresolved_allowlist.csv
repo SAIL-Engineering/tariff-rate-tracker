@@ -13,3 +13,4 @@ ch99_code,reviewed_by,note
 9903.45.02,claude-2026-06-11,Washers safeguard (Proc 9694) over-quota tier; safeguard terminated 2023-02-07.
 9903.45.05,claude-2026-06-11,Washers safeguard (Proc 9694) parts in-quota tier; safeguard terminated 2023-02-07.
 9903.45.06,claude-2026-06-11,Washers safeguard (Proc 9694) parts over-quota tier; safeguard terminated 2023-02-07.
+9903.41.10,claude-2026-08-24,Legacy 1980s-era Section 201 safeguard residue (leather footwear; 40%). Expired; heading text persists in HTS. Parses all_except via parent-line inheritance so it is unclaimed by any modelling path — the only sibling missing from this list.
