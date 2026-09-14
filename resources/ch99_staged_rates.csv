@@ -2992,3 +2992,34 @@ ch99_codes,effective_from,effective_to,rate,note_ref,verbatim,revision
 9903.45.25,2023-02-07,2024-02-06,0.145,NA,"If entered during the period from February 7, 2023 through February 6, 2024....................................................14.5%",rev_9
 9903.45.25,2024-02-07,2025-02-06,0.1425,NA,"If entered during the period from February 7, 2024 through February 6, 2025....................................................14.25%",rev_9
 9903.45.25,2025-02-07,2026-02-06,0.14,NA,"If entered during the period from February 7, 2025 through February 6, 2026....................................................14%",rev_9
+9903.45.01,2018-02-07,2019-02-06,0.2,NA,"If entered during the period from February 7, 2018 through February 6, 2019....................................................20%",2026_rev_17
+9903.45.01,2019-02-07,2020-02-06,0.18,NA,"If entered during the period from February 7, 2019 through February 6, 2020 ...................................................18%",2026_rev_17
+9903.45.01,2020-02-07,2021-02-07,0.16,NA,"If entered during the period from February 7, 2020 through February 7, 2021....................................................16%",2026_rev_17
+9903.45.01,2021-02-08,2022-02-07,0.15,NA,"If entered during the period from February 8, 2021 through February 7, 2022 ................................................................................15%",2026_rev_17
+9903.45.01,2022-02-08,2023-02-07,0.14,NA,"If entered during the period from February 8, 2022 through February 7, 2023 ................................................................................14%",2026_rev_17
+9903.45.02,2018-02-07,2019-02-06,0.5,NA,"If entered during the period from February 7, 2018 through February 6, 2019....................................................50%",2026_rev_17
+9903.45.02,2019-02-07,2020-02-06,0.45,NA,"If entered during the period from February 7, 2019 through February 6, 2020....................................................45%",2026_rev_17
+9903.45.02,2020-02-07,2021-02-07,0.4,NA,"If entered during the period from February 7, 2020 through February 7, 2021....................................................40%",2026_rev_17
+9903.45.02,2021-02-08,2022-02-07,0.35,NA,"If entered during the period from February 8, 2021 through February 7, 2022 ................................................................................35%",2026_rev_17
+9903.45.02,2022-02-08,2023-02-07,0.3,NA,"If entered during the period from February 8, 2022 through February 7, 2023 ................................................................................30%",2026_rev_17
+9903.45.06,2018-02-07,2019-02-06,0.5,NA,"If entered during the period from February 7, 2018 through February 6, 2019....................................................50%",2026_rev_17
+9903.45.06,2019-02-07,2020-02-06,0.45,NA,"If entered during the period from February 7, 2019 through February 6, 2020....................................................45%",2026_rev_17
+9903.45.06,2020-02-07,2021-02-07,0.4,NA,"If entered during the period from February 7, 2020 through February 7, 2021....................................................40%",2026_rev_17
+9903.45.06,2021-02-08,2022-02-07,0.35,NA,"If entered during the period from February 8, 2021 through February 7, 2022 ................................................................................35%",2026_rev_17
+9903.45.06,2022-02-08,2023-02-07,0.3,NA,"If entered during the period from February 8, 2022 through February 7, 2023 ................................................................................30%",2026_rev_17
+9903.45.22,2018-02-07,2019-02-06,0.3,NA,"If entered during the period from February 7, 2018 through February 6, 2019....................................................30%",2026_rev_17
+9903.45.22,2019-02-07,2020-02-06,0.25,NA,"If entered during the period from February 7, 2019 through February 6, 2020....................................................25%",2026_rev_17
+9903.45.22,2020-02-07,2021-02-06,0.2,NA,"If entered during the period from February 7, 2020 through February 6, 2021 ...................................................20%",2026_rev_17
+9903.45.22,2021-02-07,2022-02-06,0.18,NA,"If entered during the period from February 7, 2021 through February 6, 2022 ...................................................18%",2026_rev_17
+9903.45.22,2022-02-07,2023-02-06,0.1475,NA,"If entered during the period from February 7, 2022 through February 6, 2023 ...................................................14.75%",2026_rev_17
+9903.45.22,2023-02-07,2024-02-06,0.145,NA,"If entered during the period from February 7, 2023 through February 6, 2024 ...................................................14.5%",2026_rev_17
+9903.45.22,2024-02-07,2025-02-06,0.1425,NA,"If entered during the period from February 7, 2024 through February 6, 2025 ...................................................14.25%",2026_rev_17
+9903.45.22,2025-02-07,2026-02-06,0.14,NA,"If entered during the period from February 7, 2025 through February 6, 2026 ...................................................14%",2026_rev_17
+9903.45.25,2018-02-07,2019-02-06,0.3,NA,"If entered during the period from February 7, 2018 through February 6, 2019....................................................30%",2026_rev_17
+9903.45.25,2019-02-07,2020-02-06,0.25,NA,"If entered during the period from February 7, 2019 through February 6, 2020....................................................25%",2026_rev_17
+9903.45.25,2020-02-07,2021-02-06,0.2,NA,"If entered during the period from February 7, 2020 through February 6, 2021 ...................................................20%",2026_rev_17
+9903.45.25,2021-02-07,2022-02-06,0.18,NA,"If entered during the period from February 7, 2021 through February 6, 2022 ...................................................18%",2026_rev_17
+9903.45.25,2022-02-07,2023-02-06,0.1475,NA,"If entered during the period from February 7, 2022 through February 6, 2023....................................................14.75%",2026_rev_17
+9903.45.25,2023-02-07,2024-02-06,0.145,NA,"If entered during the period from February 7, 2023 through February 6, 2024....................................................14.5%",2026_rev_17
+9903.45.25,2024-02-07,2025-02-06,0.1425,NA,"If entered during the period from February 7, 2024 through February 6, 2025....................................................14.25%",2026_rev_17
+9903.45.25,2025-02-07,2026-02-06,0.14,NA,"If entered during the period from February 7, 2025 through February 6, 2026....................................................14%",2026_rev_17
