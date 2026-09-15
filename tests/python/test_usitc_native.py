@@ -3,6 +3,7 @@ also verified live against the R originals (byte-identical outputs)."""
 from __future__ import annotations
 
 import datetime as dt
+import io
 import sys
 from pathlib import Path
 
@@ -45,7 +46,68 @@ def test_api_name_to_revision(name, expected):
     ("rev_3", "csv", f"{u.BASE_URL}/hts_2025_revision_3_csv.csv"),
 ])
 def test_build_download_url(rev, fmt, url):
-    assert u.build_download_url(rev, fmt) == url
+    assert u.build_download_url(rev, fmt, overrides={}) == url
+    assert u.convention_download_url(rev, fmt) == url
+
+
+def test_build_download_url_prefers_archive_override(tmp_path):
+    p = tmp_path / "hts_archive_file_urls.csv"
+    p.write_text(
+        "revision,format,url,note\n"
+        "2021_rev_1,csv,https://www.usitc.gov/sites/default/files/tata/hts/"
+        "hts_2021_revision_basic_1_csv.csv,NA\n")
+    overrides = u.load_file_url_overrides(p)
+    assert u.build_download_url("2021_rev_1", "csv", overrides).endswith(
+        "/hts_2021_revision_basic_1_csv.csv")
+    # Other formats and revisions keep the convention.
+    assert (u.build_download_url("2021_rev_1", "json", overrides)
+            == f"{u.BASE_URL}/hts_2021_revision_1_json.json")
+    assert (u.build_download_url("2026_rev_19", "csv", overrides)
+            == f"{u.BASE_URL}/hts_2026_revision_19_csv.csv")
+
+
+def test_load_file_url_overrides_missing_file_is_empty(tmp_path):
+    assert u.load_file_url_overrides(tmp_path / "absent.csv") == {}
+
+
+class _FakeResponse(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
+
+def _serve(monkeypatch, body: bytes) -> None:
+    monkeypatch.setattr(u.urllib.request, "urlopen",
+                        lambda url, timeout=300: _FakeResponse(body))
+
+
+def test_download_deletes_a_file_that_fails_validation(tmp_path, monkeypatch):
+    # Left on disk, download_missing() would count it as present forever.
+    dest = tmp_path / "hts_2026_rev_99.csv"
+    _serve(monkeypatch, b"<html>not a csv</html>")
+    assert u.download_hts_file("https://example.invalid/x.csv", dest, "csv",
+                               min_size_mb=0) is False
+    assert not dest.exists()
+
+
+def test_download_deletes_a_suspiciously_small_file(tmp_path, monkeypatch):
+    dest = tmp_path / "hts_2026_rev_99.json"
+    _serve(monkeypatch, b"{}")
+    assert u.download_hts_file("https://example.invalid/x.json", dest, "json",
+                               min_size_mb=1) is False
+    assert not dest.exists()
+
+
+def test_download_accepts_quoted_header_with_bom(tmp_path, monkeypatch):
+    # 2019-2022 editions: UTF-8 BOM and every header cell quoted.
+    dest = tmp_path / "hts_2019_rev_3.csv"
+    _serve(monkeypatch, b'\xef\xbb\xbf"HTS Number","Indent","Description"\n'
+                        b'"0101",0,"Live horses"\n')
+    assert u.download_hts_file("https://example.invalid/x.csv", dest, "csv",
+                               min_size_mb=0) is True
+    assert dest.exists()
 
 
 # ─── CSV merge + rewrite fidelity ────────────────────────────────────

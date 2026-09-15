@@ -48,10 +48,34 @@ hts_format_archive_dir <- function(format) {
 }
 
 
+#' Archive-listed URL for an edition USITC published under a one-off filename,
+#' or NA when the naming convention applies.
+#'
+#' Several 2019-2022 editions carry names like `htsdata_3.csv` or
+#' `hts_2021_revision_basic_1_csv.csv`, so the convention in
+#' build_download_url() 404s for them. config/hts_archive_file_urls.csv lists
+#' the real URLs; regenerate it with `python3 scripts/sync_usitc_archive.py file-urls`.
+#'
+#' @param revision_id Year-prefixed revision id (e.g. '2021_rev_1')
+#' @param format 'json' or 'csv'
+#' @return Character URL or NA
+hts_archive_url_override <- function(revision_id, format) {
+  path <- here::here('config', 'hts_archive_file_urls.csv')
+  if (!file.exists(path)) return(NA_character_)
+  overrides <- readr::read_csv(path, col_types = readr::cols(.default = 'c'),
+                               show_col_types = FALSE)
+  hit <- overrides$url[overrides$revision == revision_id &
+                         overrides$format == tolower(format)]
+  if (length(hit) == 0) NA_character_ else hit[[1]]
+}
+
+
 #' Build USITC download URL for an HTS revision in a given format.
 #'
 #' Uses the static file host at www.usitc.gov/sites/default/files/tata/hts/
 #' (the legacy hts.usitc.gov/reststop/getJSON endpoint was deprecated early 2026).
+#' An entry in config/hts_archive_file_urls.csv takes precedence over the
+#' filename convention (see hts_archive_url_override()).
 #'
 #' @param revision Revision identifier (e.g., 'basic', 'rev_1', '2026_rev_3')
 #' @param year Default year used when the revision is plain (no `YYYY_` prefix)
@@ -63,6 +87,9 @@ build_download_url <- function(revision, year = 2025, format = 'json') {
   yr <- parsed$year
   rev <- parsed$rev
   suffix <- hts_format_suffix(format)
+
+  override <- hts_archive_url_override(paste0(yr, '_', rev), format)
+  if (!is.na(override)) return(override)
 
   if (rev == 'basic') {
     # USITC's basic-edition filename convention changed over time (verified
@@ -135,6 +162,8 @@ validate_csv_columns <- function(path) {
   header <- sub('^\xef\xbb\xbf', '', header[1])
   # Simple split is OK — CSV headers very rarely contain quoted commas.
   cols <- str_trim(strsplit(header, ',', fixed = TRUE)[[1]])
+  # 2019-2022 editions quote every header cell ("HTS Number","Indent",...).
+  cols <- gsub('^"|"$', '', cols)
   all(required %in% cols)
 }
 
@@ -161,9 +190,12 @@ download_hts_file <- function(url, dest_path, format = 'json', min_size_mb = 1) 
     file_size_mb <- file.info(dest_path)$size / (1024 * 1024)
     message('  File size: ', round(file_size_mb, 1), ' MB')
 
+    # A rejected file must not stay on disk: inventory_for_format() counts
+    # any file present as downloaded, so it would never be fetched again.
     if (file_size_mb < min_size_mb) {
       warning('Downloaded file is suspiciously small (', round(file_size_mb, 2),
               ' MB < ', min_size_mb, ' MB). May be an error page.')
+      file.remove(dest_path)
       return(FALSE)
     }
 
@@ -176,6 +208,7 @@ download_hts_file <- function(url, dest_path, format = 'json', min_size_mb = 1) 
 
     if (!isTRUE(ok)) {
       warning('Structural validation failed for ', dest_path)
+      file.remove(dest_path)
       return(FALSE)
     }
 

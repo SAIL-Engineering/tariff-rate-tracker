@@ -35,6 +35,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO_ROOT = HERE.parents[1]
 CSV_PATH = REPO_ROOT / "config" / "revision_dates.csv"
+FILE_URLS_PATH = REPO_ROOT / "config" / "hts_archive_file_urls.csv"
 API_URL = "https://hts.usitc.gov/reststop/releaseList"
 BASE_URL = "https://www.usitc.gov/sites/default/files/tata/hts"
 UA = {"User-Agent": "tariff-rate-tracker hts-automation (python)"}
@@ -258,7 +259,8 @@ def latest_revision(csv_path: Path, override: str | None = None) -> dict:
 
 # ─── download (02_download_hts.R) ────────────────────────────────────
 
-def build_download_url(revision: str, fmt: str = "json") -> str:
+def convention_download_url(revision: str, fmt: str = "json") -> str:
+    """The filename convention USITC uses for 2023+ and most earlier editions."""
     year, rev = parse_revision_id(revision)
     suffix = "_json.json" if fmt == "json" else "_csv.csv"
     if rev == "basic":
@@ -267,6 +269,27 @@ def build_download_url(revision: str, fmt: str = "json") -> str:
     if rev.startswith("rev_"):
         return f"{BASE_URL}/hts_{year}_revision_{rev[4:]}{suffix}"
     sys.exit(f"Unknown revision format: {revision}")
+
+
+def load_file_url_overrides(path: Path | None = None) -> dict[tuple[str, str], str]:
+    """(revision, format) -> URL for editions USITC published under one-off
+    filenames (2019-2022). Generated from the archive listing by
+    scripts/sync_usitc_archive.py file-urls."""
+    path = FILE_URLS_PATH if path is None else path
+    if not path.is_file():
+        return {}
+    return {(r["revision"], r["format"]): r["url"] for r in _read_rows(path)}
+
+
+def build_download_url(revision: str, fmt: str = "json",
+                       overrides: dict[tuple[str, str], str] | None = None) -> str:
+    """The archive-listed URL when USITC used a one-off filename, else the
+    convention (which 404s for those editions)."""
+    year, rev = parse_revision_id(revision)
+    if overrides is None:
+        overrides = load_file_url_overrides()
+    return (overrides.get((f"{year}_{rev}", fmt))
+            or convention_download_url(revision, fmt))
 
 
 def build_local_path(revision: str, fmt: str = "json") -> Path:
@@ -305,12 +328,16 @@ def download_hts_file(url: str, dest: Path, fmt: str,
         return False
     size_mb = dest.stat().st_size / (1024 * 1024)
     print(f"  File size: {size_mb:.1f} MB")
+    # A rejected file must not stay on disk: download_missing() treats any
+    # file present as downloaded, so it would never be fetched again.
     if size_mb < min_size_mb:
         print(f"  WARNING: suspiciously small ({size_mb:.2f} MB < "
               f"{min_size_mb} MB). May be an error page.")
+        dest.unlink(missing_ok=True)
         return False
     if not _validate(dest, fmt):
         print(f"  WARNING: structural validation failed for {dest}")
+        dest.unlink(missing_ok=True)
         return False
     print("  Success!")
     return True
@@ -327,6 +354,7 @@ def download_missing(formats=("json", "csv"), year: int | None = None,
             print(f"No revisions for year {year} in revision_dates.csv.")
             return []
     results = []
+    overrides = load_file_url_overrides()
     for fmt in formats:
         missing = [r for r in expected if not build_local_path(r, fmt).is_file()]
         print(f"\n[{fmt.upper()}] expected: {len(expected)}  missing: {len(missing)}")
@@ -337,7 +365,7 @@ def download_missing(formats=("json", "csv"), year: int | None = None,
                 results.append((rev, fmt, "missing"))
                 continue
             print(f"\n[{fmt.upper()} {i + 1}/{len(missing)}] Downloading {rev}...")
-            ok = download_hts_file(build_download_url(rev, fmt),
+            ok = download_hts_file(build_download_url(rev, fmt, overrides),
                                    build_local_path(rev, fmt), fmt)
             results.append((rev, fmt, "downloaded" if ok else "failed"))
             if i < len(missing) - 1:
