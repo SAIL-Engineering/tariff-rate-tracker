@@ -819,13 +819,13 @@
     "revision": "2026_rev_14",
     "effectiveDate": "2026-07-31",
     "policyEffectiveDate": "2026-07-31",
-    "policyEvent": "Notice of Actions in Section 301 Investigations of Acts, Policies, and Practices of Various Economies Related to the Failure of Each Economy To Impose and Effectively Enforce a Prohibition on the Importation of Goods Produced With Forced Labor (91 Fed. Reg. 47318) Notice of Action: Brazils Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; & Illegal Deforestation (91 Fed. Reg. 45516) Adjusting Imports of Pharmaceuticals and Pharmaceutical Ingredients Into the United States (91 Fed. Reg. 18183"
+    "policyEvent": "Notice of Actions in Section 301 Investigations of Acts, Policies, and Practices of Various Economies Related to the Failure of Each Economy To Impose and Effectively Enforce a Prohibition on the Importation of Goods Produced With Forced Labor (91 Fed. Reg. 47318) Notice of Action: Brazil's Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; & Illegal Deforestation (91 Fed. Reg. 45516) Adjusting Imports of Pharmaceuticals and Pharmaceutical Ingredients Into the United States (91 Fed. Reg. 18183)"
   },
   {
     "revision": "2026_rev_15",
     "effectiveDate": "2026-08-03",
     "policyEffectiveDate": "2026-08-03",
-    "policyEvent": "Notice of Reduction of Tariffs on Patented Pharmaceuticals and Pharmaceutical Ingredients for Products of the United Kingdom Implemented by Presidential Proclamation 11020 (91 Fed. Reg. 49406"
+    "policyEvent": "Notice of Reduction of Tariffs on Patented Pharmaceuticals and Pharmaceutical Ingredients for Products of the United Kingdom Implemented by Presidential Proclamation 11020 (91 Fed. Reg. 49406)"
   },
   {
     "revision": "2026_rev_16",
@@ -836,13 +836,19 @@
   {
     "revision": "2026_rev_17",
     "effectiveDate": "2026-08-24",
-    "policyEffectiveDate": null,
-    "policyEvent": "[REVIEW] added 2026-09-03 — effective_date is publication date, not policy date"
+    "policyEffectiveDate": "2026-08-24",
+    "policyEvent": "Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Alcoholic Beverages (91 Fed. Reg. 46639). Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Dairy (91 Fed. Reg. 46653). Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Motor Vehicles (91 Fed. Reg. 46663). Temporary Suspension of Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Alcoholic Beverages, Dairy, and Motor Vehicles (91 Fed. Reg. 54789)."
   },
   {
     "revision": "2026_rev_18",
     "effectiveDate": "2026-09-02",
-    "policyEffectiveDate": null,
-    "policyEvent": "[REVIEW] added 2026-09-03 — effective_date is publication date, not policy date"
+    "policyEffectiveDate": "2026-09-02",
+    "policyEvent": "Adjusting Imports of Unmanned Aircraft Systems and Unmanned Aircraft Systems Components Into the United States (91 Fed. Reg. 53699). Further Ensuring Affordable Beef for the American Consumer (91 Fed. Reg . 55989). Notice of Conforming Amendments to Product Exclusions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation (91 Fed. Reg. 56538)."
+  },
+  {
+    "revision": "2026_rev_19",
+    "effectiveDate": "2026-09-15",
+    "policyEffectiveDate": "2026-09-15",
+    "policyEvent": "Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed to Offset Canadian Discrimination Against the Commerce of the United States with Respect to Alcoholic Beverages (91 Fed. Reg. 58331). Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Motor Vehicles (91 Fed. Reg. 58339)"
   }
 ]
