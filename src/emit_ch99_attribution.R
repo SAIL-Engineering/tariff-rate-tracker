@@ -62,17 +62,23 @@ suppressPackageStartupMessages({
 #' @param parquet_root Partitioned rate timeseries root
 #' @param ch99_dir Directory holding ch99_<revision>.rds (for published rates
 #'   and heading descriptions)
+#' @param revisions Optional character vector: report only these revisions
+#'   (default NULL = every partition)
 #' @return tibble, invisibly
 emit_ch99_attribution <- function(
     output_dir   = here::here('output', 'quality'),
     parquet_root = here::here('data', 'timeseries', 'rate_timeseries_parquet'),
-    ch99_dir     = here::here('data', 'timeseries')) {
+    ch99_dir     = here::here('data', 'timeseries'),
+    revisions    = NULL) {
 
   dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
   if (!requireNamespace('arrow', quietly = TRUE)) {
     message('  [ch99-attrib] arrow unavailable — skipped'); return(invisible(NULL))
   }
   parts <- list.files(parquet_root, pattern = '^revision=', full.names = TRUE)
+  if (!is.null(revisions)) {
+    parts <- parts[sub('^revision=', '', basename(parts)) %in% revisions]
+  }
   if (length(parts) == 0) {
     message('  [ch99-attrib] no parquet partitions'); return(invisible(NULL))
   }
@@ -84,9 +90,18 @@ emit_ch99_attribution <- function(
 
   out <- list()
 
+  # Collect only the columns this report reads. A partition is ~4.9M rows x 94
+  # columns; collecting all of it, for all 142 revisions, inside the build's R
+  # process drove it to 27.6 GB and the kernel OOM-killed it on 2026-09-15
+  # (taking VS Code, whose cgroup the build ran in, down with it).
+  keep_cols <- unique(c('hts10', .CH99_AUTHORITY_PAIRS$rate_col,
+                        .CH99_AUTHORITY_PAIRS$code_col))
+
   for (p in parts) {
     rev <- sub('^revision=', '', basename(p))
-    tb <- tryCatch(arrow::open_dataset(p) %>% collect(), error = function(e) NULL)
+    tb <- tryCatch(
+      arrow::open_dataset(p) %>% select(any_of(keep_cols)) %>% collect(),
+      error = function(e) NULL)
     if (is.null(tb) || nrow(tb) == 0) next
 
     ch99 <- tryCatch(
@@ -160,6 +175,8 @@ emit_ch99_attribution <- function(
         distinct_headings = dplyr::n_distinct(code[!is.na(code)])
       )
     }
+    rm(tb, rated)
+    gc(verbose = FALSE)
   }
 
   res <- if (length(out)) bind_rows(out) else tibble()

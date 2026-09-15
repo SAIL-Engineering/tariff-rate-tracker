@@ -16,6 +16,10 @@
 #   Rscript src/00_build_timeseries.R --reemit-normalized --force      # Re-emit all cached (even those with complete normalized dirs)
 #   Rscript src/00_build_timeseries.R --reemit-normalized --only-stale # Re-emit only the stale tail from prior runs
 #   Rscript src/00_build_timeseries.R --build-only  # Skip downstream (daily/ETR/quality)
+#   Rscript src/00_build_timeseries.R --start-from 2026_rev_19 --motherduck-only
+#       # Only what the MotherDuck push needs: snapshots + combined parquet. Implies
+#       # --build-only and also skips the normalized emit and the post-build reports
+#       # (quality metrics, rate validation, Ch99 attribution, legal refs).
 #   Rscript src/00_build_timeseries.R --core-only  # Build + downstream, but skip weighted outputs
 #   Rscript src/00_build_timeseries.R --with-alternatives  # Also run rebuild alternatives
 #   Rscript src/00_build_timeseries.R --refresh-usmca     # Re-download USMCA shares from DataWeb API
@@ -1218,6 +1222,18 @@ if (sys.nframe() == 0) {
   resume <- '--resume' %in% args
   build_only <- '--build-only' %in% args
   skip_combine <- '--no-combine' %in% args
+  # --motherduck-only: build exactly what frontend/scripts/push-to-motherduck.mjs
+  # reads (rate snapshots + the combined parquet). Implies --build-only, turns
+  # off the Phase 2 normalized emit, and skips the post-build reports (see the
+  # end of this block).
+  motherduck_only <- '--motherduck-only' %in% args
+  if (motherduck_only) {
+    if (skip_combine) {
+      stop('--motherduck-only needs the combined parquet; drop --no-combine.', call. = FALSE)
+    }
+    build_only <- TRUE
+    Sys.setenv(SAIL_EMIT_NORMALIZED = '0')
+  }
   core_only <- '--core-only' %in% args
   with_alternatives <- '--with-alternatives' %in% args
   refresh_usmca <- '--refresh-usmca' %in% args
@@ -1495,42 +1511,55 @@ if (sys.nframe() == 0) {
     }
   }
 
-  # Quality metrics — regenerate on EVERY build mode (full, resume, scoped,
-  # build-only), unconditionally, so output/quality/ never goes stale. Pure
-  # read/derive from on-disk ch99 caches; wrapped so it can never abort a build.
-  tryCatch(emit_quality_metrics(),
-           error = function(e) message('Quality metrics emit failed: ', conditionMessage(e)))
+  # Post-build reports. None of them feed the parquet that
+  # frontend/scripts/push-to-motherduck.mjs reads, so --motherduck-only skips
+  # them all.
+  if (!motherduck_only) {
+    # Quality metrics — regenerate on every build mode (full, resume, scoped,
+    # build-only) except --motherduck-only, so output/quality/ never goes stale. Pure
+    # read/derive from on-disk ch99 caches; wrapped so it can never abort a build.
+    tryCatch(emit_quality_metrics(),
+             error = function(e) message('Quality metrics emit failed: ', conditionMessage(e)))
 
-  # Base-rate reconciliation harness — per-revision invariants over the rate
-  # parquet + the generated General-Note reference data, so the data-driven rate
-  # universe (Phase 0) can't silently drift. Report-only by default; abort on a
-  # correctness violation only under SAIL_VALIDATE_RATES=strict. Mirrors the
-  # quality-metrics contract (never aborts a normal build).
-  tryCatch(emit_rate_validation(),
-           error = function(e) {
-             if (identical(Sys.getenv('SAIL_VALIDATE_RATES', ''), 'strict')) stop(e)
-             message('Rate validation emit failed: ', conditionMessage(e))
-           })
+    # Base-rate reconciliation harness — per-revision invariants over the rate
+    # parquet + the generated General-Note reference data, so the data-driven rate
+    # universe (Phase 0) can't silently drift. Report-only by default; abort on a
+    # correctness violation only under SAIL_VALIDATE_RATES=strict. Mirrors the
+    # quality-metrics contract (never aborts a normal build).
+    tryCatch(emit_rate_validation(),
+             error = function(e) {
+               if (identical(Sys.getenv('SAIL_VALIDATE_RATES', ''), 'strict')) stop(e)
+               message('Rate validation emit failed: ', conditionMessage(e))
+             })
 
-  # Chapter 99 attribution coverage: does every applied duty name the provision
-  # that carries it, and does that provision agree with the duty? Report-only,
-  # so the whole residual is visible in one pass rather than one failure per
-  # rebuild. See src/emit_ch99_attribution.R for why inference was replaced.
-  tryCatch({
-    source(here::here('src', 'emit_ch99_attribution.R'), local = TRUE)
-    emit_ch99_attribution()
-  }, error = function(e) {
-    message('Chapter 99 attribution emit failed: ', conditionMessage(e))
-  })
+    # Chapter 99 attribution coverage: does every applied duty name the provision
+    # that carries it, and does that provision agree with the duty? Report-only,
+    # so the whole residual is visible in one pass rather than one failure per
+    # rebuild. See src/emit_ch99_attribution.R for why inference was replaced.
+    tryCatch({
+      source(here::here('src', 'emit_ch99_attribution.R'), local = TRUE)
+      emit_ch99_attribution()
+    }, error = function(e) {
+      message('Chapter 99 attribution emit failed: ', conditionMessage(e))
+    })
 
-  # Legal-authority extraction — machine-source the proclamations/EOs each ch99
-  # authority cites, per revision, from that release's Chapter 99 PDF. INCREMENTAL:
-  # only revisions not already in resources/ch99_legal_refs.csv are fetched, so a
-  # new revision is covered automatically with no re-downloads. Network/PDF op —
-  # wrapped so it can never abort a build; opt out with SAIL_EMIT_LEGAL_REFS=0.
-  if (!identical(Sys.getenv('SAIL_EMIT_LEGAL_REFS', '1'), '0')) {
-    tryCatch(emit_legal_refs_incremental(),
-             error = function(e) message('Legal-refs emit failed: ', conditionMessage(e)))
+    # Legal-authority extraction — machine-source the proclamations/EOs each ch99
+    # authority cites, per revision, from that release's Chapter 99 PDF. INCREMENTAL:
+    # only revisions not already in resources/ch99_legal_refs.csv are fetched, so a
+    # new revision is covered automatically with no re-downloads. Network/PDF op —
+    # wrapped so it can never abort a build; opt out with SAIL_EMIT_LEGAL_REFS=0.
+    if (!identical(Sys.getenv('SAIL_EMIT_LEGAL_REFS', '1'), '0')) {
+      tryCatch(emit_legal_refs_incremental(),
+               error = function(e) message('Legal-refs emit failed: ', conditionMessage(e)))
+    }
+  } else {
+    message('\n', strrep('=', 70))
+    message('--motherduck-only: skipped normalized statics, downstream scripts, quality')
+    message('metrics, rate validation, Chapter 99 attribution and legal refs.')
+    message('Push every revision whose rows OR valid_from/valid_until changed. Adding a')
+    message('revision shortens the previous one\'s valid_until, so push that one too:')
+    message('  cd frontend && node scripts/push-to-motherduck.mjs --only-revisions <prev>,<new>')
+    message(strrep('=', 70))
   }
 
   # (General Note 3 refresh moved to Step B1b, BEFORE the build — Column 2
