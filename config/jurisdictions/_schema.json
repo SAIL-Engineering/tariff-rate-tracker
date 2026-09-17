@@ -17,6 +17,7 @@
         "adapter": {"enum": ["usitc", "cbsa", "eu_taric", "uk_tariff", "ch_tares", "kr_kcs", "manual"]},
         "options": {"type": "object"},
         "system_requires": {"type": "array", "items": {"type": "string"}},
+        "python_requires": {"type": "array", "items": {"type": "string"}},
         "manual_dir": {"type": "string"},
         "manual_prefix": {"type": "string"}
       }

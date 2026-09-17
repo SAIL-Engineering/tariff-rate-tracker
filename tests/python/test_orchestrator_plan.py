@@ -250,3 +250,21 @@ def test_rates_only_ship_consumes_only_duty_artifacts(monkeypatch):
     assert "explorer_json_de" not in reduced
     assert "explorer_json" not in reduced
     assert {"rates_dir", "rates_index", "treatments_json"} <= reduced
+
+
+def test_python_requires_preflight_only_for_acquire_and_build(monkeypatch):
+    """Taiwan reads its legacy BIFF .xls with xlrd in acquire AND build. A
+    missing module must stop refresh.py before any download, not after."""
+    import importlib.util
+    import refresh
+    s = _load("tw.json", monkeypatch)
+    assert s["acquire"]["python_requires"] == ["xlrd"]
+    monkeypatch.setattr(importlib.util, "find_spec", lambda name: None)
+    assert refresh.missing_python_modules(s, ["acquire", "build"]) == ["xlrd"]
+    assert refresh.missing_python_modules(s, ["build"]) == ["xlrd"]
+    assert refresh.missing_python_modules(s, ["publish", "register"]) == []
+    monkeypatch.setattr(importlib.util, "find_spec", lambda name: object())
+    assert refresh.missing_python_modules(s, ["acquire", "build"]) == []
+    # Specs that declare nothing are never blocked.
+    monkeypatch.setattr(importlib.util, "find_spec", lambda name: None)
+    assert refresh.missing_python_modules(_load("ca.json", monkeypatch), ["acquire"]) == []

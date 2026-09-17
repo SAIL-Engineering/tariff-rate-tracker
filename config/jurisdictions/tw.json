@@ -13,7 +13,8 @@
       "dest": "data/tw_tariff_source/tw_tariff_{year}_rev_{number}.csv"
     },
     "manual_dir": "data/tw_tariff_source",
-    "manual_prefix": "tw_tariff"
+    "manual_prefix": "tw_tariff",
+    "python_requires": ["xlrd"]
   },
   "source_format": "tw",
   "chapters_file": "scripts/hts_automation/chapters_tw.json",

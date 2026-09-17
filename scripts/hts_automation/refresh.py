@@ -24,6 +24,7 @@ Exit codes: 0 ok · 1 config/args · 2 build/verify · 3 publish · 4 register �
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import shutil
@@ -159,6 +160,19 @@ def required_env(spec: dict, scheduled: list[str]) -> list[str]:
             if var not in need:
                 need.append(var)
     return need
+
+
+def missing_python_modules(spec: dict, scheduled: list[str]) -> list[str]:
+    """Modules in the spec's acquire.python_requires that this interpreter
+    cannot import. Only acquire and build use them (Taiwan's legacy BIFF .xls
+    is read with xlrd in both). Checked before any network call: those imports
+    are deferred, so a missing module used to surface only after every source
+    file had downloaded — typically because `python3` on PATH was a venv
+    without the requirements installed."""
+    if not {"acquire", "build"} & set(scheduled):
+        return []
+    return [m for m in (spec.get("acquire") or {}).get("python_requires", [])
+            if importlib.util.find_spec(m) is None]
 
 
 def preflight_artifacts(spec: dict, scheduled: list[str], ctx: RunCtx,
@@ -697,6 +711,16 @@ def main() -> int:
                          f"  macOS:         brew install mdbtools\n"
                          f"Or export the table elsewhere and re-run with "
                          f"--acquire-adapter manual --source <csv>.")
+
+    missing_mods = missing_python_modules(spec, scheduled)
+    if missing_mods:
+        sys.exit(f"ERROR: Python module(s) {', '.join(missing_mods)} cannot be "
+                 f"imported by {sys.executable}, and the {spec['code']} acquire/"
+                 f"build steps need them.\n"
+                 f"  Install them into this interpreter:\n"
+                 f"    {sys.executable} -m pip install -r "
+                 f"scripts/hts_automation/requirements.txt\n"
+                 f"  or run refresh.py with a Python that already has them.")
 
     load_env_file()
     need = required_env(spec, scheduled)
