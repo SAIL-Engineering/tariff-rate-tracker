@@ -1,3 +1,4 @@
 revision,effective_date,effective_date_label,source_url,source_sha256,acquired_at,notes
 2026_rev_1613,2026-09-27,"September 27, 2026",https://data.api.trade.gov.uk/v1/datasets/uk-tariff-2021-01-01/versions/v4.0.1613/metadata?format=html,59371475d0fa36a165e9682ba7d6e884c83c956a54faf38d3798d36ec7900eb7,2026-09-28T06:28:12+00:00,
 2026_rev_1622,2026-10-07,"October 7, 2026",https://data.api.trade.gov.uk/v1/datasets/uk-tariff-2021-01-01/versions/v4.0.1622/metadata?format=html,11c652a00b2cde47c619c39234b710334349a7edaebad470d1cb6dc685bc554f,2026-10-08T06:24:28+00:00,
+2026_rev_1625,2026-10-11,"October 11, 2026",https://data.api.trade.gov.uk/v1/datasets/uk-tariff-2021-01-01/versions/v4.0.1625/metadata?format=html,4e267646440358c9151762deec173c39a02d92f9f88f80452d4fef776339d1a0,2026-10-12T06:56:06+00:00,
