@@ -207,6 +207,25 @@ def cmd_sources(archive: dict[str, dict], dry_run: bool) -> None:
         new["needs_review"] = "NA"
         by_id[r["revision"]] = new
         appended.append(r["revision"])
+    # A row curated in revision_dates.csv AFTER the map picked it up (dates,
+    # policy_family, event text) would otherwise never reach the map — and the
+    # map is what emit_revision_sources.R reads. Fill blanks only; a curated
+    # map cell always wins.
+    refreshed = []
+    carry = {"policy_effective_date": "policy_effective_date",
+             "tpc_policy_revision": "policy_family",
+             "policy_event": "policy_event",
+             "source_commentary": "source_commentary"}
+    for r in rows:
+        mapped = by_id.get(r["revision"])
+        if not mapped:
+            continue
+        for map_col, reg_col in carry.items():
+            if _na(mapped.get(map_col)) and not _na(r.get(reg_col)):
+                mapped[map_col] = r[reg_col]
+                if r["revision"] not in refreshed:
+                    refreshed.append(r["revision"])
+
     registry_order = [r["revision"] for r in rows]
     merged = ([by_id[rid] for rid in registry_order if rid in by_id]
               + [r for r in map_rows if r["revision"] not in set(registry_order)])
@@ -216,6 +235,8 @@ def cmd_sources(archive: dict[str, dict], dry_run: bool) -> None:
     if unlisted:
         print(f"  no archive Modification Sources for: {', '.join(unlisted)}")
     print(f"source map: appended {len(appended)} revision(s): {', '.join(appended) or '-'}")
+    print(f"source map: filled blank cells from the registry for "
+          f"{len(refreshed)} revision(s): {', '.join(refreshed) or '-'}")
     no_family = [r["revision"] for r in rows
                  if r["revision"] in appended and _na(r.get("policy_family"))]
     if no_family:
@@ -226,7 +247,7 @@ def cmd_sources(archive: dict[str, dict], dry_run: bool) -> None:
         return
     if filled:
         u._write_rows(REV_DATES, rows)
-    if appended:
+    if appended or refreshed:
         _write_csv(SOURCE_MAP, map_fields, merged)
 
 

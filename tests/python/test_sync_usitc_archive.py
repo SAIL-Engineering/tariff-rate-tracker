@@ -206,3 +206,48 @@ def test_cmd_sources_dry_run_writes_nothing(tmp_path, monkeypatch):
     s.cmd_sources({"2026_rev_19": {"page_url": s.ARCHIVE_URL, "sources": [
         {"title": "A", "citation": "", "url": "https://fr/a"}]}}, dry_run=True)
     assert (rev_dates.read_bytes(), source_map.read_bytes()) == before
+
+
+def test_cmd_sources_backfills_blank_map_cells_from_the_registry(tmp_path, monkeypatch):
+    """A revision curated in revision_dates.csv AFTER the map picked it up must
+    reach the map — emit_revision_sources.R reads the map, so 2026_rev_21
+    shipped with no policy_family or policy date until this ran. Curated map
+    cells are never overwritten."""
+    rev_dates = tmp_path / "revision_dates.csv"
+    _write(rev_dates, u.FIELDS, [
+        {"revision": "2026_rev_21", "effective_date": "2026-10-09",
+         "policy_effective_date": "2026-10-09", "policy_event": "curated event",
+         "policy_family": "other_hts_policy_and_section_301_china_or_dst",
+         "modification_source_titles": "T", "source_commentary": "curated note"},
+        {"revision": "2026_rev_20", "effective_date": "2026-09-28",
+         "policy_effective_date": "2026-09-29", "policy_family": "section_232_pharmaceuticals",
+         "modification_source_titles": "T20"},
+    ])
+    source_map = tmp_path / "map.csv"
+    map_fields = ["revision", "effective_date", "policy_effective_date", "tpc_date",
+                  "policy_event", "tpc_policy_revision", "needs_review",
+                  "usitc_archive_page_url", "modification_source_titles",
+                  "modification_source_citations",
+                  "federal_register_or_source_links", "source_commentary"]
+    _write(source_map, map_fields, [
+        {"revision": "2026_rev_21", "effective_date": "2026-10-09",
+         "modification_source_titles": "T"},                       # blanks to fill
+        {"revision": "2026_rev_20", "effective_date": "2026-09-28",
+         "policy_effective_date": "2026-09-29",
+         "tpc_policy_revision": "section_232_pharmaceuticals",
+         "policy_event": "already curated in the map",
+         "modification_source_titles": "T20"},
+    ])
+    monkeypatch.setattr(s, "REV_DATES", rev_dates)
+    monkeypatch.setattr(s, "SOURCE_MAP", source_map)
+
+    s.cmd_sources({}, dry_run=False)
+
+    with source_map.open(newline="", encoding="utf-8") as fh:
+        mapped = {r["revision"]: r for r in csv.DictReader(fh)}
+    assert mapped["2026_rev_21"]["policy_effective_date"] == "2026-10-09"
+    assert mapped["2026_rev_21"]["tpc_policy_revision"] == "other_hts_policy_and_section_301_china_or_dst"
+    assert mapped["2026_rev_21"]["policy_event"] == "curated event"
+    assert mapped["2026_rev_21"]["source_commentary"] == "curated note"
+    # existing map text wins over the registry's
+    assert mapped["2026_rev_20"]["policy_event"] == "already curated in the map"
