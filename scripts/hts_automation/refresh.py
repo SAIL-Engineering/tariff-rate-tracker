@@ -175,6 +175,39 @@ def missing_python_modules(spec: dict, scheduled: list[str]) -> list[str]:
             if importlib.util.find_spec(m) is None]
 
 
+def python_module_hint(missing: list[str]) -> str:
+    """What to actually DO about missing modules, for THIS machine.
+
+    `python3` on PATH is often a virtualenv for some other tool: the one here
+    has neither the requirements nor pip, so telling the user to pip install
+    into it ("No module named pip") wastes a round trip. Name an interpreter
+    that can already import them, and only suggest pip where pip exists."""
+    lines = []
+    for candidate in dict.fromkeys(
+            [shutil.which("python3"), "/usr/bin/python3", sys.executable]):
+        # Compare the paths AS GIVEN: a virtualenv's python3 is usually a
+        # symlink to the system one, so resolve() would call two different
+        # environments (different site-packages) the same interpreter.
+        if not candidate or os.path.normpath(candidate) == os.path.normpath(sys.executable):
+            continue
+        probe = subprocess.run(
+            [candidate, "-c", "import " + ", ".join(missing)],
+            capture_output=True)
+        if probe.returncode == 0:
+            lines.append(f"  Run it with an interpreter that has them:\n"
+                         f"    {candidate} scripts/hts_automation/refresh.py "
+                         f"{' '.join(sys.argv[1:])}")
+            break
+    if importlib.util.find_spec("pip") is not None:
+        lines.append(f"  Or install them here:\n"
+                     f"    {sys.executable} -m pip install -r "
+                     f"scripts/hts_automation/requirements.txt")
+    else:
+        lines.append(f"  ({sys.executable} has no pip, so it cannot install them "
+                     f"itself.)")
+    return "\n".join(lines)
+
+
 def preflight_artifacts(spec: dict, scheduled: list[str], ctx: RunCtx,
                         rates_only: bool = False) -> list[str]:
     """For every scheduled step, every consumed artifact whose producer is NOT
@@ -717,10 +750,7 @@ def main() -> int:
         sys.exit(f"ERROR: Python module(s) {', '.join(missing_mods)} cannot be "
                  f"imported by {sys.executable}, and the {spec['code']} acquire/"
                  f"build steps need them.\n"
-                 f"  Install them into this interpreter:\n"
-                 f"    {sys.executable} -m pip install -r "
-                 f"scripts/hts_automation/requirements.txt\n"
-                 f"  or run refresh.py with a Python that already has them.")
+                 + python_module_hint(missing_mods))
 
     load_env_file()
     need = required_env(spec, scheduled)

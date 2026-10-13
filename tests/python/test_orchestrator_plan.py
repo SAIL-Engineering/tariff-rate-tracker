@@ -268,3 +268,31 @@ def test_python_requires_preflight_only_for_acquire_and_build(monkeypatch):
     # Specs that declare nothing are never blocked.
     monkeypatch.setattr(importlib.util, "find_spec", lambda name: None)
     assert refresh.missing_python_modules(_load("ca.json", monkeypatch), ["acquire"]) == []
+
+
+def test_python_module_hint_names_an_interpreter_that_works(monkeypatch, tmp_path):
+    """The venv on PATH may have neither the requirements nor pip, so "pip
+    install into this interpreter" is a dead end (observed: "No module named
+    pip"). Name one that can import them instead."""
+    import subprocess
+    import refresh
+    good = str(tmp_path / "good-python")
+    monkeypatch.setattr(refresh.shutil, "which", lambda name: good)
+    monkeypatch.setattr(refresh.subprocess, "run",
+                        lambda cmd, **kw: subprocess.CompletedProcess(
+                            cmd, 0 if cmd[0] == good else 1))
+    monkeypatch.setattr(refresh.importlib.util, "find_spec", lambda name: None)
+    hint = refresh.python_module_hint(["xlrd"])
+    assert good in hint and "refresh.py" in hint
+    assert "has no pip" in hint          # no pip here -> say so, don't suggest it
+
+
+def test_python_module_hint_suggests_pip_when_available(monkeypatch):
+    import subprocess
+    import refresh
+    monkeypatch.setattr(refresh.shutil, "which", lambda name: None)
+    monkeypatch.setattr(refresh.subprocess, "run",
+                        lambda cmd, **kw: subprocess.CompletedProcess(cmd, 1))
+    monkeypatch.setattr(refresh.importlib.util, "find_spec", lambda name: object())
+    hint = refresh.python_module_hint(["xlrd"])
+    assert "pip install -r" in hint
