@@ -43,7 +43,7 @@ def test_fetch_parses_pointer_and_manifest(tmp_path, monkeypatch):
     }))
 
     monkeypatch.setattr(eu_taric, "convert",
-                        lambda nom, dec, dest, check_lang=None:
+                        lambda nom, dec, dest, check_lang=None, as_of=None:
                         dest.parent.mkdir(parents=True, exist_ok=True)
                         or dest.write_text("GOODS_CODE\n"))
     import acquire.vendor.eu_taric_downloader as vendor
@@ -78,3 +78,90 @@ def test_fetch_fails_without_exclusions(tmp_path, monkeypatch):
     monkeypatch.setattr(vendor, "main", lambda argv: 0)
     with pytest.raises(SystemExit, match="Measure exclusions"):
         eu_taric.fetch({"acquire": {"options": {}}}, _Args())
+
+
+# ─── end dates: future vs past ───────────────────────────────────────
+
+import csv as _csv                                           # noqa: E402
+import datetime as _dt                                       # noqa: E402
+
+
+def _write(path, rows):
+    with path.open("w", newline="", encoding="utf-8") as fh:
+        _csv.writer(fh).writerows(rows)
+    return path
+
+
+def _sources(tmp_path, nom_end, dec_end):
+    """One chapter + one heading + one 10-digit line, with the end dates under
+    test on the 10-digit line (Nomenclature uses DD-MM-YYYY, Declarable DDMMYYYY)."""
+    nom = _write(tmp_path / "nom.csv", [
+        ["Goods code", "Start date", "End date", "Language", "Hier. Pos.",
+         "Indent", "Description", "Descr. start date"],
+        ["0100000000 80", "01-01-1972", "", "EN", "", "", "LIVE ANIMALS", ""],
+        ["0201000000 80", "01-01-1972", "", "EN", "", "-", "Meat of bovine animals", ""],
+        ["0201300031 80", "01-01-2022", nom_end, "EN", "", "--", "Thick flank", ""],
+    ])
+    dec = _write(tmp_path / "dec.csv", [
+        ["Goods code", "Start date", "Decl. start date", "IS_LEAF", "End date"],
+        # Every nomenclature line has a declarable row (the real files are
+        # row-for-row); only leaves carry IS_LEAF=1.
+        ["0100000000 80", "01-01-1972", "01-01-1972", "0", ""],
+        ["0201000000 80", "01-01-1972", "01-01-1972", "0", ""],
+        ["0201300031 80", "01-01-2022", "01-01-2022", "1", dec_end],
+    ])
+    return nom, dec
+
+
+def _rows(path):
+    with path.open(newline="", encoding="utf-8") as fh:
+        return list(_csv.DictReader(fh))
+
+
+def test_future_end_date_keeps_the_code_and_its_leaf_flag(tmp_path):
+    """TARIC's 2026-10 release end-dated 80 nomenclature lines and 83
+    declarable rows at 31-12-2026. They are declarable until then: dropping
+    them lost 71 live codes and broke the join for 3 (EU/XI failed from
+    2026-10-02)."""
+    nom, dec = _sources(tmp_path, "31-12-2026", "31122026")
+    out = tmp_path / "out.csv"
+    stats = eu_taric.convert(nom, dec, out, as_of=_dt.date(2026, 10, 1))
+    assert stats["end_dated_dropped"] == 0 and stats["unjoined"] == 0
+    rows = _rows(out)
+    assert [r["GOODS_CODE"] for r in rows] == ["0100000000", "0201000000", "0201300031"]
+    assert rows[-1]["IS_LEAF"] == "1"
+
+
+def test_past_end_date_drops_the_code(tmp_path):
+    nom, dec = _sources(tmp_path, "31-12-2026", "31122026")
+    out = tmp_path / "out.csv"
+    stats = eu_taric.convert(nom, dec, out, as_of=_dt.date(2027, 1, 1))
+    assert stats["end_dated_dropped"] == 1
+    assert [r["GOODS_CODE"] for r in _rows(out)] == ["0100000000", "0201000000"]
+
+
+def test_missing_declarable_entry_still_fails_loudly(tmp_path):
+    nom, dec = _sources(tmp_path, "", "")
+    _write(dec, [  # the 10-digit line's row is gone
+        ["Goods code", "Start date", "Decl. start date", "IS_LEAF", "End date"],
+        ["0100000000 80", "01-01-1972", "01-01-1972", "0", ""],
+        ["0201000000 80", "01-01-1972", "01-01-1972", "0", ""],
+    ])
+    with pytest.raises(SystemExit, match="no entry in"):
+        eu_taric.convert(nom, dec, tmp_path / "out.csv", as_of=_dt.date(2026, 10, 1))
+
+
+def test_unparseable_date_fails_loudly(tmp_path):
+    nom, dec = _sources(tmp_path, "2026/12/31", "31122026")
+    with pytest.raises(SystemExit, match="unparseable TARIC date"):
+        eu_taric.convert(nom, dec, tmp_path / "out.csv", as_of=_dt.date(2026, 10, 1))
+
+
+@pytest.mark.parametrize("raw,expected", [
+    ("31-12-2026", _dt.date(2026, 12, 31)),
+    ("31122026", _dt.date(2026, 12, 31)),
+    ("", None),
+    (None, None),
+])
+def test_parse_eu_date(raw, expected):
+    assert eu_taric._parse_eu_date(raw) == expected

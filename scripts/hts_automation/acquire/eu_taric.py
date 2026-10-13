@@ -70,22 +70,52 @@ def _read_rows(path: Path) -> list[dict[str, str]]:
                 for row in csv.reader(fh)]
 
 
+def _parse_eu_date(value: str | None) -> _dt.date | None:
+    """TARIC date -> date. The exports use two spellings for the same thing:
+    'DD-MM-YYYY' (Nomenclature) and 'DDMMYYYY' (Declarable codes). Blank means
+    open-ended. Anything else is a schema change we must not guess at."""
+    raw = (value or "").strip()
+    if not raw:
+        return None
+    for fmt in ("%d-%m-%Y", "%d%m%Y"):
+        try:
+            return _dt.datetime.strptime(raw, fmt).date()
+        except ValueError:
+            continue
+    raise SystemExit(f"ERROR: unparseable TARIC date {raw!r} — the export's "
+                     f"date format changed; the end-date filter cannot be "
+                     f"trusted until this is understood.")
+
+
 def convert(nomenclature: Path, declarable: Path, out_csv: Path,
-            check_lang: Path | None = None, lang: str = "en") -> dict:
+            check_lang: Path | None = None, lang: str = "en",
+            as_of: _dt.date | None = None) -> dict:
     """Join the nomenclature and the official leaf flags into the canonical CSV.
 
-    Returns summary stats. Fails loudly on: unparseable codes, duplicate
-    active suffix-80 codes, or nomenclature codes missing from the declarable
-    file (the leaf flag is load-bearing — a partial join would silently
-    disable the IS_LEAF completeness check downstream)."""
+    A row is dropped only once its end date has PASSED (`as_of`, default the
+    run date; fetch() passes the release month). TARIC publishes codes with a
+    future end date — the 2026-10 release carried 80 such nomenclature lines
+    and 83 declarable rows, all ending 31-12-2026 — and those codes are still
+    declarable until then. Treating any end date as dead dropped 71 live
+    10-digit codes and broke the join for 3 of them, which is what failed every
+    EU and XI run from 2026-10-02.
+
+    Returns summary stats. Fails loudly on: unparseable codes or dates,
+    duplicate active suffix-80 codes, or nomenclature codes missing from the
+    declarable file (the leaf flag is load-bearing — a partial join would
+    silently disable the IS_LEAF completeness check downstream)."""
     nom = _read_rows(nomenclature)
     dec = _read_rows(declarable)
+    as_of = as_of or _dt.date.today()
 
     # Declarable codes: A=Goods code, D=IS_LEAF, E=End date
     leaf: dict[str, str] = {}
     for r in dec[1:]:
         m = _CODE_RE.match(r.get("A", ""))
-        if not m or (r.get("E") or "").strip():
+        if not m:
+            continue
+        end = _parse_eu_date(r.get("E"))
+        if end and end < as_of:
             continue
         leaf[m.group(1) + m.group(2)] = (r.get("D") or "").strip()
 
@@ -102,7 +132,8 @@ def convert(nomenclature: Path, declarable: Path, out_csv: Path,
                                  f"{nomenclature.name}")
             continue
         digits, suffix = m.groups()
-        if (r.get("C") or "").strip():
+        end = _parse_eu_date(r.get("C"))
+        if end and end < as_of:
             stats["end_dated_dropped"] += 1
             continue
         dashes = (r.get("F") or "").count("-")
@@ -145,10 +176,12 @@ def convert(nomenclature: Path, declarable: Path, out_csv: Path,
                          f"flag would be incomplete")
 
     if check_lang and check_lang.exists():
+        # Same end-date rule as the main loop, or the canary cries every month
+        # a code carries a future end date (2026-10: 71 EN-only "differences").
         other = {m.group(1) for r in _read_rows(check_lang)[1:]
                  if (m := _CODE_RE.match(r.get("A", "")))
                  and m.group(2) == "80"
-                 and not (r.get("C") or "").strip()}
+                 and not ((e := _parse_eu_date(r.get("C"))) and e < as_of)}
         ours = set(seen80)
         if other and ours != other:
             print(f"WARNING: EN vs {check_lang.name} code sets differ "
@@ -256,7 +289,8 @@ def fetch(spec: dict, args) -> AcquireResult:
                 f"measure applies to).")
 
     dest = Path(dest_template.format(year=year, number=month))
-    convert(nom, dec, dest, check_lang=files.get("nomenclature_fr"))
+    d = _dt.date.fromisoformat(effective)
+    convert(nom, dec, dest, check_lang=files.get("nomenclature_fr"), as_of=d)
     # Language-variant canonical CSVs (same structure, native descriptions):
     # they feed the per-language corpus + Explorer datasets. Missing language
     # workbooks fail loudly — a jurisdiction that declares languages must
@@ -268,7 +302,7 @@ def fetch(spec: dict, args) -> AcquireResult:
                              f"{_lang.upper()} but spec declares language "
                              f"{_lang!r}")
         convert(lang_nom, dec, Path(f"{dest.with_suffix('')}.{_lang}.csv"),
-                lang=_lang)
+                lang=_lang, as_of=d)
     extras = {
         "eu_duties_xlsx": str(files["duties_import"]),
         "eu_geo_xlsx": str(files["geo_composition"]),
@@ -285,7 +319,6 @@ def fetch(spec: dict, args) -> AcquireResult:
         print("[acquire:eu_taric] WARNING: Additional codes descriptions "
               "absent — AD/CVD rows will show bare add codes", file=sys.stderr)
 
-    d = _dt.date.fromisoformat(effective)
     return AcquireResult(
         rev_id=f"{year}_rev_{month}", year=year, rev_num=month,
         effective_date=effective,
