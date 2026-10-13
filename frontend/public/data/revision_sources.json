@@ -3011,6 +3011,44 @@
       ],
       "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
       "needs_review": false
+    },
+    "2026_rev_20": {
+      "effective_date": "2026-09-28",
+      "policy_effective_date": "2026-09-29",
+      "policy_family": "section_232_pharmaceuticals",
+      "usitc_archive_url": null,
+      "sources": [
+        {
+          "title": "Guidance and Procedures for Implementing Tariff Adjustments for Specialty Pharmaceuticals and Associated Pharmaceutical Ingredients and Technical Corrections to the Harmonized Tariff Schedule of the United States for Duties Imposed Under Proclamation 11020",
+          "citation": "91 Fed. Reg. 60360",
+          "url": "https://www.federalregister.gov/documents/2026/09/23/2026-19498/guidance-and-procedures-for-implementing-tariff-adjustments-for-specialty-pharmaceuticals-and",
+          "url_type": "fr_document"
+        }
+      ],
+      "commentary": "USITC had not yet listed 2026 HTS Revision 20 on the HTS archive and the change-record endpoint returned HTTP 503 (checked 2026-09-29), so the source was identified from the Federal Register notice itself and confirmed against the live reststop export of the current release: the only line-level change vs 2026_rev_19 is the new heading 9903.04.70. effective_date 2026-09-28 is the USITC release date; policy_effective_date 2026-09-29 is the Annex I effective date in 91 FR 60360. Re-run scripts/sync_usitc_archive.py sources once the archive lists this revision.",
+      "needs_review": false
+    },
+    "2026_rev_21": {
+      "effective_date": "2026-10-09",
+      "policy_effective_date": "2026-10-09",
+      "policy_family": "other_hts_policy_and_section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "To Modify the Harmonized Tariff Schedule of the United States and for Other Purposes",
+          "citation": "86 Fed. Reg. 73593",
+          "url": "https://www.federalregister.gov/d/2021-28334",
+          "url_type": "fr_document"
+        },
+        {
+          "title": "Notice of Conforming Amendment to Product Exclusion: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "91 Fed. Reg. 64211",
+          "url": "https://www.federalregister.gov/d/2026-20511",
+          "url_type": "fr_document"
+        }
+      ],
+      "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
+      "needs_review": false
     }
   }
 }
