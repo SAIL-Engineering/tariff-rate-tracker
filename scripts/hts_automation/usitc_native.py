@@ -38,6 +38,12 @@ CSV_PATH = REPO_ROOT / "config" / "revision_dates.csv"
 FILE_URLS_PATH = REPO_ROOT / "config" / "hts_archive_file_urls.csv"
 API_URL = "https://hts.usitc.gov/reststop/releaseList"
 BASE_URL = "https://www.usitc.gov/sites/default/files/tata/hts"
+# Live export of the CURRENT release. USITC publishes the static archive files
+# days after flipping a release to current (2026_rev_20 went current
+# 2026-09-28 with every static format 404), and this endpoint serves the
+# identical JSON schema.
+CURRENT_EXPORT_URL = ("https://hts.usitc.gov/reststop/exportList"
+                      "?from=0100&to=9999&format=JSON&styles=false")
 UA = {"User-Agent": "tariff-rate-tracker hts-automation (python)"}
 
 FIELDS = ["revision", "effective_date", "policy_effective_date", "tpc_date",
@@ -292,6 +298,30 @@ def build_download_url(revision: str, fmt: str = "json",
             or convention_download_url(revision, fmt))
 
 
+def release_name(revision: str) -> str:
+    """'2026_rev_20' -> '2026HTSRev20'; '2026_basic' -> '2026HTSBasic'."""
+    year, rev = parse_revision_id(revision)
+    if rev == "basic":
+        return f"{year}HTSBasic"
+    return f"{year}HTSRev{rev[4:]}"
+
+
+def release_is_current(revision: str, releases: list[dict] | None = None) -> bool:
+    """True when releaseList marks this revision the CURRENT release. Network
+    call unless `releases` is supplied; False on any failure, so the caller
+    just reports the original download error."""
+    if releases is None:
+        try:
+            req = urllib.request.Request(API_URL, headers=UA)
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                releases = json.load(resp)
+        except Exception:                               # noqa: BLE001
+            return False
+    name = release_name(revision)
+    return any(r.get("name") == name and r.get("status") == "current"
+               for r in releases or [])
+
+
 def build_local_path(revision: str, fmt: str = "json") -> Path:
     year, rev = parse_revision_id(revision)
     sub = "hts_archives" if fmt == "json" else "hts_archives_csv"
@@ -367,6 +397,11 @@ def download_missing(formats=("json", "csv"), year: int | None = None,
             print(f"\n[{fmt.upper()} {i + 1}/{len(missing)}] Downloading {rev}...")
             ok = download_hts_file(build_download_url(rev, fmt, overrides),
                                    build_local_path(rev, fmt), fmt)
+            if not ok and fmt == "json" and release_is_current(rev):
+                print("  static archive file not published yet - falling back "
+                      "to the live reststop export of the current release")
+                ok = download_hts_file(CURRENT_EXPORT_URL,
+                                       build_local_path(rev, fmt), fmt)
             results.append((rev, fmt, "downloaded" if ok else "failed"))
             if i < len(missing) - 1:
                 time.sleep(2)

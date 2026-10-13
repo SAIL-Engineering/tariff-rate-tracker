@@ -230,3 +230,25 @@ def test_latest_basic_revision_paths(tmp_path):
     kv = u.latest_revision(p)
     assert kv["REV_NUM"] == "basic"
     assert kv["JSON_PATH"].endswith("hts_2026_basic.json")
+
+
+@pytest.mark.parametrize("rev,name", [
+    ("2026_rev_20", "2026HTSRev20"),
+    ("2026_basic", "2026HTSBasic"),
+    ("rev_32", "2025HTSRev32"),
+])
+def test_release_name(rev, name):
+    assert u.release_name(rev) == name
+
+
+def test_release_is_current_matches_only_the_current_release():
+    releases = [{"name": "2026HTSRev20", "status": "current"},
+                {"name": "2026HTSRev19", "status": "archive"}]
+    assert u.release_is_current("2026_rev_20", releases)
+    assert not u.release_is_current("2026_rev_19", releases)
+    assert not u.release_is_current("2026_rev_20", [])
+
+
+def test_current_export_url_is_the_whole_schedule_as_json():
+    assert u.CURRENT_EXPORT_URL.startswith("https://hts.usitc.gov/reststop/exportList")
+    assert "format=JSON" in u.CURRENT_EXPORT_URL

@@ -70,6 +70,38 @@ hts_archive_url_override <- function(revision_id, format) {
 }
 
 
+#' Tracker revision id -> USITC release name ('2026_rev_20' -> '2026HTSRev20').
+hts_release_name <- function(revision) {
+  parsed <- parse_revision_id(revision)
+  if (parsed$rev == 'basic') return(paste0(parsed$year, 'HTSBasic'))
+  paste0(parsed$year, 'HTSRev', sub('^rev_', '', parsed$rev))
+}
+
+
+#' TRUE when the USITC release list marks this revision the CURRENT release.
+#' Network call; FALSE on any failure, so the caller just reports the original
+#' download error.
+hts_release_is_current <- function(revision) {
+  releases <- tryCatch(
+    jsonlite::fromJSON('https://hts.usitc.gov/reststop/releaseList',
+                       simplifyDataFrame = TRUE),
+    error = function(e) NULL)
+  if (is.null(releases) || !all(c('name', 'status') %in% names(releases))) {
+    return(FALSE)
+  }
+  any(releases$name == hts_release_name(revision) &
+        releases$status == 'current')
+}
+
+
+#' Live export of the CURRENT release. Same JSON schema as the static archive
+#' file (verified field-for-field against 2026_rev_19 on 2026-09-29).
+hts_current_release_url <- function() {
+  paste0('https://hts.usitc.gov/reststop/exportList',
+         '?from=0100&to=9999&format=JSON&styles=false')
+}
+
+
 #' Build USITC download URL for an HTS revision in a given format.
 #'
 #' Uses the static file host at www.usitc.gov/sites/default/files/tata/hts/
@@ -328,6 +360,19 @@ download_missing_revisions <- function(
       url <- build_download_url(rev, format = fmt)
       dest <- build_local_path(rev, format = fmt)
       success <- download_hts_file(url, dest, format = fmt)
+
+      # USITC publishes the static archive files DAYS after it flips a release
+      # to current: 2026_rev_20 went current on 2026-09-28 with all three
+      # formats 404 while the live reststop export already served it. Fall back
+      # to that export rather than failing the build. Guarded on the release
+      # being current, so an archived revision never gets the wrong edition's
+      # data (the current release is re-checked immediately before the fetch).
+      if (!success && tolower(fmt) == 'json' && hts_release_is_current(rev)) {
+        message('  Static archive file not published yet - falling back to the ',
+                'live reststop export of the current release.')
+        success <- download_hts_file(hts_current_release_url(), dest, format = fmt)
+      }
+
       results <- bind_rows(results, tibble(
         revision = rev, format = fmt,
         status = if (success) 'downloaded' else 'failed'
