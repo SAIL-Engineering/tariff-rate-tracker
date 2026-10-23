@@ -1,0 +1,76 @@
+{
+  "qualification": "local_checkpoint_only",
+  "audit_cutoff": "2026-10-22",
+  "integration_merges": {
+    "tariff-rate-tracker": "82d337a811fb1b4a7b7ed61b126ff3ee5f655d7f",
+    "sail-trade-intel-data": "eeb29da3c327a6c5509ca6557f69e95e1481f460",
+    "sail-gtx-prerelease": "a6654a2067b1172bd288f6f3c68ca8d47cf5edd9"
+  },
+  "logs": [
+    {
+      "name": "duty-evidence-integrated-final-tests.log",
+      "sha256": "d6dc7d657393c11bb78211f4ad3c39f62398899a280554dd05c0805342473b4b",
+      "bytes": 246886
+    },
+    {
+      "name": "duty-release-final-checkpoint.log",
+      "sha256": "c2f3e2a449a1e8d22f8c65fb3367d24ee2bfc0c0fd8c0872edbcd80dbad3f006",
+      "bytes": 7407
+    },
+    {
+      "name": "duty-r-all-durable.log",
+      "sha256": "464140373bf01597b6deaced10ad72d500f41b58207742a53ec2c3398f1d122e",
+      "bytes": 3833
+    },
+    {
+      "name": "duty-r-conformance-durable.log",
+      "sha256": "13066cccf988ff98778adec664b859b2ce6a735e277315ded0fa41865bf3cc72",
+      "bytes": 42
+    },
+    {
+      "name": "duty-ui-all-durable-deps.log",
+      "sha256": "c111a566f438426874175f27099f7e6620dd1be1b922e786940f451b5b44b42d",
+      "bytes": 1604226
+    },
+    {
+      "name": "duty-ui-missing-fixtures-rerun.log",
+      "sha256": "2113256e5eef43f94917a7a7ed32662d1aaee6d42d0a2da217f515691db3241e",
+      "bytes": 16242
+    },
+    {
+      "name": "duty-ui-typecheck-hardened.log",
+      "sha256": "03eec9f60b00a73d960a380b789b898161a76e20f0b7fef4bfa17d4f6397b3e7",
+      "bytes": 1626
+    },
+    {
+      "name": "duty-ui-typecheck-crash-test.log",
+      "sha256": "9097002cc799439608dd8b066fb0e8163cd57e2b007a4a44993c72df70b56e95",
+      "bytes": 120
+    },
+    {
+      "name": "duty-ui-typecheck-fix-regressions.log",
+      "sha256": "205b25b5696554a7182d5aefc07c82ca8f9eb732966ff42dfca1d94a0e5411e6",
+      "bytes": 139616
+    },
+    {
+      "name": "duty-ui-build-durable.log",
+      "sha256": "90a1332c71081b7fa015b244b147c55d7978e9c92c303f760e2e02998c11ac4e",
+      "bytes": 13247
+    },
+    {
+      "name": "duty-tracker-build-durable.log",
+      "sha256": "a751e187d9f3f179e5efdbead3bc8648d0dbce5768b4f95f180bc57e14279bca",
+      "bytes": 999
+    },
+    {
+      "name": "duty-ui-lint-durable.log",
+      "sha256": "e3cbcc2617ee876ab9e97db7c7385f7d0a3392e34aafac766c7b4bef1694d259",
+      "bytes": 150618
+    },
+    {
+      "name": "duty-ui-changed-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}
