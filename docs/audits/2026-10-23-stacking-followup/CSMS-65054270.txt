@@ -1,0 +1,38 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 65054270 - UPDATED GUIDANCE – Executive Order 14289 Addressing Certain Tariffs on Imported Articles
+U.S. Customs and Border Protection sent this bulletin at 05/15/2025 06:17 PM EDT
+Cargo Systems Messaging Service
+CSMS # 65054270 - UPDATED GUIDANCE – Executive Order 14289 Addressing Certain Tariffs on Imported Articles
+This message provides further guidance following CSMS# 64916414 issued May 1, 2025.
+The Federal Register Notice, “Notice of Implementation of Addressing Certain Tariffs on Imported Articles Pursuant to the President’s Executive Order 14289”, was posted for public inspection on May 15, 2025.
+Executive Order (EO) 14289 (90 FR 18907) sets out the procedure for determining which of multiple tariffs will apply to an article when that article is subject to more than one of the tariff actions identified in the EO. Specifically, the EO pertains to the application of tariffs imposed by the following five presidential actions:
+a)   232 Auto/Auto Parts - Proclamation 10908 of March 26, 2025 (Adjusting Imports of Automobiles and Automobile Parts into the United States), as amended;
+b)  International Emergency Economic Powers Act (IEEPA) Canada - Executive Order 14193 of February 1, 2025 (Imposing Duties to Address the Flow of Illicit Drugs Across Our Northern Border), as amended;
+c)   IEEPA Mexico - Executive Order 14194 of February 1, 2025 (Imposing Duties to Address the Situation at Our Southern Border), as amended;
+d)   232 Aluminum - Proclamation 9704 of March 8, 2018 (Adjusting Imports of Aluminum into the United States), as amended, and
+e)   232 Steel - Proclamation 9705 of March 8, 2018 (Adjusting Imports of Steel into the United States), as amended.
+GUIDANCEFor articles subject to more than one of the five tariff actions addressed in EO 14289, filers will pay duty in accordance with the prioritization below.  “Subject to” means that duty more than 0% is owed under the tariff action. Filers should calculate duties in the following order, with the understanding that 232 Steel and 232 Aluminum may apply to the same article.
+1. First, filers should determine if an article is subject to the 232 Auto/Auto Parts tariff.  If so, then the article IS NOT subject to the IEEPA Canada, IEEPA Mexico, 232 Aluminum, or 232 Steel tariffs.  For articles not subject to the 232 Auto/Auto Parts tariff, proceed to #2 below.
+o   NOTE:  Parts of passenger vehicles and light trucks that qualify for preferential treatment under United States-Mexico-Canada Agreement (USMCA), ARE NOT subject to the 232 Auto/Auto Parts tariff or the IEEPA Canada or IEEPA Mexico tariff.  For auto parts that qualify for USMCA, proceed to #3 below.
+2. Next, filers should determine if an article is subject to the IEEPA Canada or IEEPA Mexico tariff.  If so, then the article IS NOT subject to the 232 Aluminum or 232 Steel tariffs.  For articles not subject to the IEEPA Canada or IEEPA Mexico tariff, proceed to #3 below.
+o   NOTE:  Articles that qualify for preferential tariff treatment under USMCA, ARE NOT subject to the IEEPA Canada or IEEPA Mexico tariffs.  For such articles, proceed to #3 below.
+3. Next, filers should determine if an article is subject to the 232 Aluminum and/or 232 Steel tariff.  For derivative products subject to both the 232 Aluminum and 232 Steel tariffs, duties will be owed on both the value of the aluminum and steel content of that product.
+o   NOTE:  Aluminum and aluminum derivative products from Russia, and imports of such aluminum products from any country containing aluminum smelt or cast in Russia, ARE subject to the corresponding Section 232 duty rate of 200 percent.
+An article subject to the tariff actions identified in this guidance is still subject to other applicable duties, taxes, fees, exactions, and charges, such as, but not limited to, those set forth in column 1 or 2 of the Harmonized Tariff Schedule of the United States (HTSUS); duties imposed pursuant to Section 301 of the Trade Act of 1974, as amended; duties imposed pursuant to EO 14195, “Imposing Duties To Address the Synthetic Opioid Supply Chain in the People's Republic of China”, as amended; antidumping and countervailing duties; etc.
+REPORTING For purposes of the five tariff measures included in EO 14289, filers are to report the appropriate Chapter 99 number(s) (a) that corresponds to the additional duties due and (b) that corresponds to the USMCA exemption, if applicable.  For example:
+Steel from Canada that does not qualify for preferential treatment under USMCA – Report 9903.01.10 / 25 percent (IEEPA Canada).
+Steel from Canada that does qualify for preferential treatment under USMCA – Report 9903.81.87 / 25 percent (232 Steel) and 9903.01.14 (IEEPA Canada exemption for products that qualify for USMCA).
+Reporting requirements for tariffs outside of EO 14289 are not changed.
+EFFECTIVE DATEEO 14289 and this supporting guidance apply retroactively to entries of merchandise subject to the five applicable tariff measures and entered for consumption or withdrawn from warehouse for consumption on or after March 4, 2025.
+REFUNDS OF PREVIOUS DUTY PAYMENTSThese provisions are retroactive for covered articles entered for consumption, or withdrawn from warehouse for consumption, on or after March 4, 2025.  For covered articles that were entered for consumption, or withdrawn from warehouse for consumption, on or after March 4, 2025, and for which the accompanying duty payment included multiple tariff actions listed in EO 14289, importers may request a refund of the duties no longer due pursuant to EO 14289.
+Requests for refunds, following the prioritization above, may be filed starting May 16, 2025, by filing a post summary correction for unliquidated entries or filing a protest under 19 U.S.C. 1514 for entries that have liquidated but where the protest period has not expired.
+Refunds outside of the scope of EO 14289 are not authorized. For example, no refunds pursuant to EO 14289 are authorized for 232 Autos/Auto Parts since this tariff measure is at the top of the stacking order.
+CBP will provide additional guidance to the trade community through CSMS messages as appropriate.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Questions regarding this message should be directed to Trade Remedy at traderemedy@cbp.dhs.gov.
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

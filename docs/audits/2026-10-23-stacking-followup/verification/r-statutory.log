@@ -1,0 +1,36 @@
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+
+--- The weighting difference these columns exist to expose ---
+  PASS: a USMCA-weighted IEEPA rate is restored to its categorical statutory value
+  PASS: summing statutory columns naively would double-count; EO 14289 does not
+  PASS: a non-USMCA origin stacks the base rate and IEEPA reciprocal additively
+  PASS: IEEPA on a §232 line is split by metal content, not suppressed
+
+--- Era gating ---
+  PASS: disabling non-stacking retains the legacy aggregate content approximation
+
+--- The USMCA fork on CA/MX lines ---
+  PASS: a CA metals line carries both branches and states the missing fact
+  PASS: a non-CA/MX line has no fork and no alternatives JSON
+  PASS: a CA/MX line whose branches agree is not flagged as forked
+
+--- Invariants ---
+  PASS: a weighted total FAR below the statutory one is normal, not an error
+  PASS: a CA/MX row whose weighted total sits above the unclaimed branch is fine
+  PASS: a weighted total ABOVE the higher statutory branch is warned about
+  PASS: an empty frame yields the columns, not an error
+
+--- Schema wiring ---
+  PASS: the new columns are in RATE_SCHEMA and survive enforce_rate_schema
+  PASS: an uncomputed statutory total defaults to NA, never to 0
+  PASS: statutory 232 action columns are derived from the weighted list
+
+==================================================
+Tests: 15 passed, 0 failed
+==================================================
