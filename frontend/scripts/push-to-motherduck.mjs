@@ -16,7 +16,7 @@
 //
 // Env (loaded from ../.env by dotenv):
 //   MOTHERDUCK_TOKEN      required
-//   MOTHERDUCK_DATABASE   defaults to `tariff_rates`
+//   MOTHERDUCK_DATABASE   defaults to `duty_calculator` (shared runtime config)
 //
 // Logs NDJSON to stdout so R can parse with jsonlite::stream_in(). Exits
 // non-zero on any failure.
@@ -28,6 +28,7 @@ import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
 import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
+import { getMotherDuckDatabase } from '../server/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -491,7 +492,7 @@ async function main() {
   if (!token) fail('MOTHERDUCK_TOKEN is required. Set it in .env.');
   process.env.motherduck_token = token;
 
-  const database = values.database || process.env.MOTHERDUCK_DATABASE || 'duty_calculator';
+  const database = getMotherDuckDatabase(values.database);
   const dryRun = !!values['dry-run'];
   const confirmDrop = !!values['confirm-drop'];
   const postOnly = !!values['post-only'];

@@ -21,10 +21,18 @@ function parseOrigins(raw) {
     .filter(Boolean);
 }
 
+export function getMotherDuckDatabase(override) {
+  const name = override || process.env.MOTHERDUCK_DATABASE || 'duty_calculator';
+  if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name)) {
+    throw new Error('MOTHERDUCK_DATABASE must be a simple catalog identifier');
+  }
+  return name;
+}
+
 export function getConfig() {
   const target = normalizeTarget(process.env.DATABASE_TARGET);
   const motherduckToken = process.env.MOTHERDUCK_TOKEN || '';
-  const motherduckDb = process.env.MOTHERDUCK_DATABASE || 'duty_calculator';
+  const motherduckDb = getMotherDuckDatabase();
   const corsAllowedOrigins = parseOrigins(process.env.CORS_ALLOWED_ORIGINS);
 
   if (target === 'motherduck' && !motherduckToken) {

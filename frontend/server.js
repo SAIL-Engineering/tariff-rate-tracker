@@ -31,6 +31,7 @@ import {
   loadKnownRatesCountries,
 } from './server/db.js';
 import { getConfig } from './server/config.js';
+import { registerShipmentRoutes } from './server/shipment-routes.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load .env from repo root (one level up from frontend/). No-op in Railway
@@ -466,6 +467,8 @@ function requireSupabaseAuth(req, res, next) {
   req.userId = result.userId;
   return next();
 }
+
+registerShipmentRoutes(app, { connection: pickConn, requireAuth: requireSupabaseAuth });
 
 // --- Rate lookup endpoint ---
 // Returns all revision periods for an HTS code + country pair.
