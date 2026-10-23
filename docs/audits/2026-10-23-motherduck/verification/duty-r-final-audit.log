@@ -1,0 +1,105 @@
+======================================================================== 
+Running 21 test suites
+======================================================================== 
+
+--- run_tests_daily_series.R 
+    [OK] 72 passed, 0 failed
+
+--- test_adcvd_layer.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_adcvd_notice.R 
+    [OK] 11 passed, 0 failed
+
+--- test_ch99_attribution.R 
+    [OK] 19 passed, 0 failed
+
+--- test_ch99_rules.R 
+    [OK] 28 passed, 0 failed
+
+--- test_citations.R 
+    [OK] 14 passed, 0 failed
+
+--- test_country_scope.R 
+    [OK] 18 passed, 0 failed
+
+--- test_normalized_parity.R 
+    [FAIL]  resolve_rate_from_normalized errored for 8708503110/4330/2026_rev_3: products_base.parquet missing for revision 2026_rev_3
+    [FAIL]  resolve_rate_from_normalized errored for 8708917000/4330/2026_rev_3: products_base.parquet missing for revision 2026_rev_3
+    [FAIL]  resolve_rate_from_normalized errored for 8703400070/1220/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    [FAIL]  resolve_rate_from_normalized errored for 8703240160/2010/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    [FAIL]  resolve_rate_from_normalized errored for 8708996805/2010/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    [FAIL]  resolve_rate_from_normalized errored for 8708103020/4351/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    [FAIL]  resolve_rate_from_normalized errored for 8703400020/4759/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    [FAIL]  resolve_rate_from_normalized errored for 8706000540/4759/2026_rev_5: products_base.parquet missing for revision 2026_rev_5
+    
+    === Summary ===
+    Stage 1 emitter smoke: PASS
+    Stage 2 parity:        FAIL (2008/2008 cases) 
+    [ERROR] (exit 2, no test count reported)
+
+--- test_note_scope.R 
+    [OK] 13 passed, 0 failed
+
+--- test_product_inheritance.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_product_scope.R 
+    [OK] 11 passed, 0 failed
+
+--- test_rate_calculation.R 
+    [OK] 151 passed, 0 failed
+
+--- test_s122_conditions.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_s201_quartz.R 
+    [OK] 14 passed, 0 failed
+
+--- test_s232_attribution.R 
+    [OK] 11 passed, 0 failed
+
+--- test_s338_amendments.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_shipment_duty_expression.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_shipment_rules.R 
+    [OK] (exit 0, no test count reported)
+
+--- test_staged_rates.R 
+    [OK] 12 passed, 0 failed
+
+--- test_statutory_totals.R 
+    [OK] 15 passed, 0 failed
+
+--- test_tpc_comparison.R 
+    [SKIP] (exit 1, no test count reported)
+
+======================================================================== 
+  run_tests_daily_series.R         OK     72/72
+  test_adcvd_layer.R               OK     
+  test_adcvd_notice.R              OK     11/11
+  test_ch99_attribution.R          OK     19/19
+  test_ch99_rules.R                OK     28/28
+  test_citations.R                 OK     14/14
+  test_country_scope.R             OK     18/18
+  test_normalized_parity.R         ERROR  
+  test_note_scope.R                OK     13/13
+  test_product_inheritance.R       OK     
+  test_product_scope.R             OK     11/11
+  test_rate_calculation.R          OK     151/151
+  test_s122_conditions.R           OK     
+  test_s201_quartz.R               OK     14/14
+  test_s232_attribution.R          OK     11/11
+  test_s338_amendments.R           OK     
+  test_shipment_duty_expression.R  OK     
+  test_shipment_rules.R            OK     
+  test_staged_rates.R              OK     12/12
+  test_statutory_totals.R          OK     15/15
+  test_tpc_comparison.R            SKIP   
+------------------------------------------------------------------------ 
+  TOTAL: 389 passed, 0 failed
+  SKIPPED (needs built data): test_tpc_comparison.R
+======================================================================== 
