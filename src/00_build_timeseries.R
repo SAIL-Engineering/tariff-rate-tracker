@@ -28,6 +28,7 @@
 # Env knobs:
 #   SAIL_RESUME_WINDOW_HOURS  mtime window for "fresh run" detection (default 12)
 #   SAIL_EMIT_NORMALIZED=0    disable Phase 2 normalized emission (default 1)
+#   SAIL_REQUIRE_NORMALIZED=1 fail required rebuilds on missing inputs/emission
 #
 # Storage layout:
 #   data/timeseries/
@@ -168,6 +169,16 @@ build_full_timeseries <- function(
     }
     message('Subset build (--only-revisions): ',
             paste(revisions_to_process, collapse = ', '))
+  }
+
+  if (identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1')) {
+    if (identical(Sys.getenv('SAIL_EMIT_NORMALIZED', '1'), '0'))
+      stop('SAIL_REQUIRE_NORMALIZED=1 conflicts with disabled normalized emission')
+    requested <- all_revisions
+    if (length(only_revisions)) requested <- requested[vapply(requested, function(r)
+      any(r == only_revisions | startsWith(r, paste0(only_revisions, '_'))), logical(1))]
+    missing_requested <- setdiff(requested, available)
+    if (length(missing_requested)) stop('Required revision archives missing: ', paste(missing_requested, collapse = ', '))
   }
 
   message('Revisions to process: ', length(revisions_to_process))
@@ -553,6 +564,11 @@ build_full_timeseries <- function(
                               paste0('snapshot_', revisions_to_process, '.rds'))
   snapshot_paths <- snapshot_paths[file.exists(snapshot_paths)]
 
+  # Required shipment rebuilds may not combine stale snapshots for failed
+  # revisions with successful new revisions and report a successful release.
+  if (length(failed_revisions) > 0 && identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1'))
+    stop('Required revision rebuild failed: ', paste(failed_revisions, collapse = ', '))
+
   # Report failures
   if (length(failed_revisions) > 0) {
     log_warn('Failed revisions (', length(failed_revisions), '): ',
@@ -570,6 +586,8 @@ build_full_timeseries <- function(
     tryCatch({
       emit_src <- here('src', '07_emit_normalized.R')
       if (file.exists(emit_src)) source(emit_src, local = FALSE)
+      if (!exists('emit_normalized_statics', mode = 'function') &&
+          identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1')) stop('Required normalized static emitter is unavailable')
       if (exists('emit_normalized_statics', mode = 'function')) {
         # Build a revisions tibble from config/revision_dates.csv. valid_from/
         # valid_until come from each revision's effective_date paired against
@@ -599,10 +617,12 @@ build_full_timeseries <- function(
         tryCatch({
           source(here('src', 'emit_authority_contract.R'))
         }, error = function(e) {
+          if (identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1')) stop(e)
           log_warn('Authority contract not emitted: ', conditionMessage(e))
         })
       }
     }, error = function(e) {
+      if (identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1')) stop(e)
       message('[phase2 emit_normalized_statics skipped: ', conditionMessage(e), ']')
     })
   }

@@ -115,9 +115,18 @@
   for (authority in unlist(bundle$coverage_requirements)) {
     matches <- Filter(function(c) identical(c$authority, authority) &&
                         .shipment_scope(c$scope, hts10, country, at), bundle$coverage)
-    if (!length(matches) || any(!vapply(matches, function(c)
-        identical(c$status, 'verified') && length(c$source_ids) > 0 &&
-          all(vapply(c$source_ids, valid_source, logical(1))), logical(1))))
+    applicable <- Filter(function(r) identical(r$authority, authority) &&
+      .shipment_scope(r$scope, hts10, country, at), rules)
+    valid_coverage <- function(c) {
+      if (!identical(c$status, 'verified') || !length(c$source_ids) ||
+          !all(vapply(c$source_ids, valid_source, logical(1))) || is.null(c$rule_ids)) return(FALSE)
+      if (!all(vapply(c$rule_ids, function(id) !is.null(rules[[id]]) &&
+          identical(rules[[id]]$authority, authority), logical(1)))) return(FALSE)
+      if (identical(c$determination, 'rules')) return(length(c$rule_ids) > 0)
+      identical(c$determination, 'no_applicable_rules') && !length(c$rule_ids) && !length(applicable)
+    }
+    if (!length(matches) || !all(vapply(matches, valid_coverage, logical(1))) ||
+        any(!names(applicable) %in% unlist(lapply(matches, `[[`, 'rule_ids'))))
       result$source_errors <- c(result$source_errors, paste0('coverage_unverified:', authority))
   }
   val <- function(value = NULL, missing = character(), errors = character())
@@ -197,6 +206,16 @@
     finish <- function(value) { assign(id, value, envir = cache); value }
     if (!.shipment_scope(r$scope, hts10, country, at)) {
       blank$amount <- 0; blank$state <- 'not_applicable'; return(finish(blank))
+    }
+    # Claims must be reviewed for every matched action, including actions a
+    # claim revives and unchanged liabilities. Unknown effects are not zero.
+    unpriced <- Filter(function(claim) {
+      definition <- Filter(function(c) identical(c$id, claim), bundle$claim_definitions)[[1]]
+      !id %in% unlist(definition$rule_ids)
+    }, as.list(facts$claims))
+    if (length(unpriced)) {
+      blank$errors <- paste0('claim_not_priced:', unlist(unpriced), ':', id)
+      return(finish(blank))
     }
     if (!identical(r$verification, 'verified') || !length(r$source_ids) || !all(vapply(r$source_ids, valid_source, logical(1))) ||
         is.null(r$action_id) || is.null(r$authority)) {

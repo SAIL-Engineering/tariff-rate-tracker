@@ -1,0 +1,307 @@
+{
+  "interval_issues": [
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_20"
+      ],
+      "from": "2026-09-29",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "mx-auto",
+      "hts10": "8703230190",
+      "country": "2010",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "de-auto",
+      "hts10": "8703230190",
+      "country": "4280",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-beer",
+      "hts10": "2203000030",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "sv-textile",
+      "hts10": "5205111000",
+      "country": "2110",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "kr-beef",
+      "hts10": "0201105010",
+      "country": "5800",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "cn-aircraft-tube",
+      "hts10": "3917330000",
+      "country": "5700",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-controls-removed",
+      "hts10": "8537109120",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-controls-retained",
+      "hts10": "8537109130",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-whisky-removed",
+      "hts10": "2208306085",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-whisky-retained",
+      "hts10": "2208306075",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-fishing-removed",
+      "hts10": "9507100080",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-fishing-retained",
+      "hts10": "9507100040",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "matched_revisions": [
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "lookup_status": "ambiguous_interval",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "cn-civil-aircraft-unclaimed-122",
+      "hts10": "3917330000",
+      "country": "5700",
+      "entry_date": "2026-03-10",
+      "matched_revisions": [
+        "2026_rev_4"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "mx-auto-2025",
+      "hts10": "8703230190",
+      "country": "2010",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "cn-auto-2025",
+      "hts10": "8703230190",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-steel-2025",
+      "hts10": "7208101500",
+      "country": "1220",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "ca-aluminum-2025",
+      "hts10": "7606123091",
+      "country": "1220",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "cn-electronics-2025",
+      "hts10": "8504409580",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "jp-watch-compound",
+      "hts10": "9102111000",
+      "country": "5880",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "mx-ch98",
+      "hts10": "9802008065",
+      "country": "2010",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [],
+      "lookup_status": "missing_row",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "cn-solar",
+      "hts10": "8541420010",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "matched_revisions": [
+        "2025_rev_14"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [],
+      "legal_stack_status": "not_certified_by_component_checks"
+    }
+  ]
+}

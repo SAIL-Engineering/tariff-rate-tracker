@@ -675,6 +675,9 @@ calculate_rates_for_revision <- function(
   # before they become legally collectible (e.g., 9903.94.01 added at rev_6,
   # 2025-03-12, with description specifying entries on or after 2025-04-03).
   # See upstream eval s232_auto_effective_date_2026-04-28.
+  # Legal candidate windows are independent of revision publication. Proc. 11051
+  # starts during rev_16; filtering first would lose its scope until rev_17.
+  s201_quartz <- build_s201_quartz_candidates(ch99_data, effective_date)
   ch99_data <- filter_active_ch99(ch99_data, as.Date(effective_date))
 
   # If s232_rates was extracted upstream from unfiltered ch99_data
@@ -695,7 +698,7 @@ calculate_rates_for_revision <- function(
   # §201 quartz TRQ (9903.45.30/.31, U.S. note 41): determination only — both
   # tiers emitted in ch99_rules_json; rate_section_201 is NEVER set for quartz
   # (the owed rate depends on quota standing, a fact we do not hold).
-  s201_quartz <- build_s201_quartz_candidates(ch99_data)
+  # Candidates were extracted above before revision-date filtering.
 
   pp <- policy_params %||% load_policy_params()
   cc <- get_country_constants(pp)
@@ -2888,13 +2891,18 @@ calculate_rates_for_revision <- function(
 
     # Load product exemptions (Annex II)
     s122_exempt_path <- here('resources', 's122_exempt_products.csv')
-    s122_exempt_hts8 <- if (file.exists(s122_exempt_path)) {
-      read_csv(s122_exempt_path, col_types = cols(hts8 = col_character()))$hts8
-    } else {
-      message('  WARNING: s122_exempt_products.csv not found — no exemptions applied')
-      character(0)
-    }
+    if (!file.exists(s122_exempt_path)) stop('Section 122 exemption source missing')
+    s122_exemptions <- read_csv(s122_exempt_path, col_types = cols(.default = col_character()))
+    # CSMS 67844987: subdivision (iii) is description/use-limited; (iv) is
+    # GN6-conditional. Preserve these predicates in normalized output. The
+    # legacy model's shares are separate from shipment exemption eligibility.
+    s122_exempt_hts8 <- s122_exemptions$hts8
     denorm_state_s122$exempt_hts8 <- s122_exempt_hts8
+    denorm_state_s122$exemptions <- s122_exemptions
+    denorm_state_s122$modeled_exemptions <- tibble(
+      hts10 = products$hts10,
+      exemption_share = s122_exempt_share(products$hts10)
+    ) %>% filter(substr(hts10, 1, 8) %in% s122_exempt_hts8)
     if (length(s122_exempt_hts8) > 0) {
       message('  Section 122 exempt products: ', length(s122_exempt_hts8), ' HTS8 codes')
     }
@@ -3774,6 +3782,9 @@ calculate_rates_for_revision <- function(
           file.exists(contract_src)) {
         source(contract_src, local = FALSE)
       }
+      if (!exists('emit_normalized_revision', mode = 'function') &&
+          identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1'))
+        stop('Required normalized emitter is unavailable')
       if (exists('emit_normalized_revision', mode = 'function')) {
         # Bundle every intermediate the denorm pipeline already computed
         # so the emitter can serialize the answer instead of re-deriving
@@ -3838,8 +3849,11 @@ calculate_rates_for_revision <- function(
         )
       }
     }, error = function(e) {
-      # Dual-write is best-effort during Phase 2 bring-up. Log and continue —
-      # do not let an emitter bug kill the main pipeline.
+      # A shipment release cannot mix refreshed wide rows with missing/stale
+      # normalized tables. Preserve opt-in legacy aggregate builds, but make
+      # the required manual shipment rebuild fail before snapshot publication.
+      if (identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1'))
+        stop('Required normalized emission failed: ', conditionMessage(e), call. = FALSE)
       message('  [phase2 emit_normalized_revision skipped: ', conditionMessage(e), ']')
     })
   }

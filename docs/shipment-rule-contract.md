@@ -21,6 +21,22 @@ mean all. Empty arrays mean none. Bundles also carry the complete revision's
 Missing products, unverified sources and unverified authority coverage cannot
 produce a complete total.
 
+Every coverage attestation requires `determination` (`rules` or
+`no_applicable_rules`) and an explicit `rule_ids` array. All referenced actions
+must exist, belong to the attested authority, and account for every rule matched
+by product/origin/entry window. Verified absence is an empty rule inventory plus
+`no_applicable_rules`; it cannot coexist with a matched action. Older attestations
+without an inventory are incomplete, even if their source status says verified.
+
+Each claim definition's `rule_ids` records the actions whose claim effect has
+been reviewed, including actions unchanged by the claim. Every scope-matched
+action must be included for a requested claim. The evaluator performs this check
+before predicates/suppression, so a claim that might revive a suppressed action
+cannot disappear from the calculation. Missing claim effects yield
+`claim_not_priced:<claim>:<rule>` and keep `complete_total` null. Synthetic shared
+conformance fixtures exercise these failure states; they are not legal oracles.
+
+
 Expressions are JSON objects with exactly one discriminator:
 
 - `{ "value": number | boolean | string }`

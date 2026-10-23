@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: 562538b894699436694e32a5082113e2649cd87914f095c77bdf89984d3b4977
+// Source SHA256: 20e8450353fe6876ee2c75930e2911342ffbd23eb322f35b17412e1cc2ce1177
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -94,7 +94,12 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     const result = { ...fail(''), status: 'complete', source_errors: [], complete_total: 0 };
     for (const authority of bundle.coverage_requirements) {
         const coverage = (bundle.coverage ?? []).filter(c => c.authority === authority && matches(c.scope, hts10, country, at));
-        if (!coverage.length || coverage.some(c => c.status !== 'verified' || !c.source_ids?.length || !c.source_ids.every(validSource)))
+        const applicable = [...rules.values()].filter(r => r.authority === authority && matches(r.scope, hts10, country, at));
+        if (!coverage.length || coverage.some(c => c.status !== 'verified' || !c.source_ids?.length || !c.source_ids.every(validSource)
+            || !Array.isArray(c.rule_ids) || !c.rule_ids.every(id => rules.get(id)?.authority === authority)
+            || (c.determination === 'rules' ? !c.rule_ids.length
+                : c.determination !== 'no_applicable_rules' || c.rule_ids.length > 0 || applicable.length > 0))
+            || applicable.some(r => !coverage.some(c => c.rule_ids?.includes(r.id))))
             result.source_errors.push(`coverage_unverified:${authority}`);
     }
     const cache = new Map();
@@ -221,6 +226,12 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         const finish = (value) => { visiting.delete(id); cache.set(id, value); return value; };
         if (!matches(r.scope, hts10, country, at))
             return finish({ ...blank, amount: 0, state: 'not_applicable' });
+        // A claim must have reviewed effects (including unchanged treatment) for
+        // every potentially applicable action. Test before predicates: a claim may
+        // revive an action suppressed on the unclaimed path.
+        const unpriced = (facts.claims ?? []).filter(claim => !bundle.claim_definitions?.find(c => c.id === claim)?.rule_ids.includes(id));
+        if (unpriced.length)
+            return finish({ ...blank, errors: unpriced.map(claim => `claim_not_priced:${claim}:${id}`) });
         if (r.verification !== 'verified' || !r.source_ids?.length || !r.source_ids.every(validSource) || !r.action_id || !r.authority)
             return finish({ ...blank, errors: [`rule_source_unverified:${id}`] });
         const condition = r.when ? expr(r.when) : val(true);

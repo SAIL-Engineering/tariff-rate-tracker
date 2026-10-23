@@ -398,3 +398,37 @@ rather than silently emitting incomplete layers.
 |---|---|---|---|
 | `mfn_exemption_shares.parquet` | `emit_normalized_statics` | Resolver `base_rate` reduction | Per-`(hs2, cty_code)` FTA/GSP preference erosion shares. Mirrors `load_mfn_exemption_shares()` from `helpers.R`. Populated only when `pp$MFN_EXEMPTION$method == 'hs2'`; CA/MX rows filtered out when `exclude_usmca_countries = TRUE` (the default) so layer-4 USMCA shares own the CA/MX reduction. |
 
+
+
+## Shipment-correctness extension, 2026-10-23 (not activated)
+
+The Phase 2 aggregate tables are not themselves verified executable shipment
+rules. Their historical precedence/scaling fields retain aggregate semantics.
+Shipment consumers require `sail.shipment-rules/v1` and explicit source/coverage
+status; see [shipment-rule-contract.md](shipment-rule-contract.md).
+
+Section 122 `authority_exemptions` rows now preserve exact HTS10 modeled shares
+as `exemption_type = s122_modeled_exemption`. Additive fields are:
+
+| Field | Meaning |
+| --- | --- |
+| `shipment_condition` | `none`, `article_description`, `gn6_civil_aircraft`, `chapter98_adjusted_value`, or `chapter98_claim` from the source |
+| `shipment_condition_text` | Named-article or use predicate; never a broad HTS8 exemption |
+| `statutory_exemption_share` | 1 only for an unconditional exemption; null for a conditional determination |
+| `shipment_valuation_basis` | Customs value, or the legally adjusted Chapter 98 value; no guessed amount |
+| `source_ref`, `source_url` | Authority locator and primary guidance |
+
+`exemption_share` remains a modeling input, including a measured GN6 usage share
+or a disclosed fallback. It is never a shipment eligibility fact. Previously the
+normalized emitter assigned 1 to every exemption-listed HTS8, losing the GN6 share;
+that emitter defect is corrected without redefining the aggregate model. Wide
+aggregate Section 122 values are unchanged by this correction; parity must be
+checked after the manual rebuild. New fields are null for unrelated authorities.
+
+Quartz `ch99_rules_json` candidates carry `operative_from`, `operative_until`,
+source URL/hash, `scope_note`, `valuation_basis`, and required product/quota/entry
+facts. These are determination metadata, not executable approval or a zero-duty
+attestation. Both tiers survive extraction before revision-date gating. A consumer
+must evaluate the operative window and scope before quota treatment; a missing
+candidate source/tier cannot silently disappear. The legacy numeric 201 column
+retains its aggregate methodology and cannot establish a complete shipment total.

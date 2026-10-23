@@ -8,8 +8,8 @@
 #
 #   Rscript scripts/emit_duty_citations.R
 #
-# Writes to the local prototype (frontend/public/data) AND, if present, the
-# production frontend module. Keeping the YAML authoritative + regenerating the
+# Writes to the local prototype (frontend/public/data). Use --sail-dir PATH
+# to explicitly select a SAIL checkout for the shared production module. Keeping the YAML authoritative + regenerating the
 # JSON is the maintainable pattern (one edit point; no hand-synced duplicate).
 # =============================================================================
 suppressWarnings(suppressMessages({ library(yaml); library(jsonlite); library(here) }))
@@ -19,11 +19,15 @@ if (!file.exists(src)) stop('Missing registry: ', src)
 reg <- yaml::read_yaml(src)
 json <- jsonlite::toJSON(reg, auto_unbox = TRUE, pretty = TRUE, null = 'null', na = 'null')
 
-targets <- c(
-  here('frontend', 'public', 'data', 'duty_citations.json'),
-  file.path('/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_sail-gtx-prerelease',
-            'sail-gtx-prerelease/src/modules/tariff-rates/constants/dutyCitations.json')
-)
+args <- commandArgs(trailingOnly = TRUE)
+targets <- here('frontend', 'public', 'data', 'duty_citations.json')
+if (length(args)) {
+  if (length(args) != 2 || args[1] != '--sail-dir') stop('Usage: emit_duty_citations.R [--sail-dir PATH]')
+  sail_dir <- normalizePath(args[2], mustWork = TRUE)
+  shared <- file.path(sail_dir, 'server', 'src', 'shared', 'duty', 'constants')
+  if (!dir.exists(shared)) stop('SAIL shared duty module not found: ', shared)
+  targets <- c(targets, file.path(shared, 'dutyCitations.json'))
+}
 
 for (t in targets) {
   d <- dirname(t)

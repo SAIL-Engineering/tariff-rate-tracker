@@ -1,0 +1,86 @@
+{
+  "qualification": "in_progress_local_checkpoint_not_complete_legal_release",
+  "audit_cutoff": "2026-10-22",
+  "original_bases": {
+    "tariff-rate-tracker": "fca8db2c88fa11370b6dd1c291f36b03dc3bd17a",
+    "sail-trade-intel-data": "bb6a17f23494de60206d8cf39d8752eb9725fadc",
+    "sail-gtx-prerelease": "2260f0787259253f810a8c5d3462ba02c9c5eb72"
+  },
+  "checkpoint_bases": {
+    "tracker": "00f201860f2515db869b3853491c8b24b005a7b6",
+    "evidence": "766334b6b41dd5f45cfd3df583b7c5d53447ae1a",
+    "ui": "d413dfd3d741b3306b4fb6c17a9fef0e99aa049a"
+  },
+  "preserved_concurrent_ui_base": "04b71480bfba812431150ccc9889419379aad157",
+  "tests": {
+    "node_api": {
+      "passed": 54
+    },
+    "sail_affected": {
+      "passed": 48
+    },
+    "r": {
+      "suites_ok": 19,
+      "suites_error": 1,
+      "suites_skipped": 1,
+      "counted_assertions_passed": 389,
+      "normalized_parity": "2008 of 2008 cases failed: missing rebuilt normalized artifacts",
+      "tpc": "missing built inputs; skipped"
+    },
+    "sail_typecheck": "passed existing ratchet; server zero errors; app 229 baseline errors",
+    "changed_sail_lint": "passed",
+    "sail_build": "passed with prerender and vendor-neutral guard",
+    "tracker_build": "passed",
+    "browser_acceptance": "pending approved environment and consumer migration"
+  },
+  "timeseries_rebuild_performed": false,
+  "motherduck_writes": false,
+  "pushed": false,
+  "logs": [
+    {
+      "path": "verification/duty-r-final-audit.log",
+      "sha256": "1a8e4350cbdf6acbdcdada6316bfc4128d4d4bd21d5b424e3a6519c31ff7fd39",
+      "bytes": 3947
+    },
+    {
+      "path": "verification/duty-s122-final-tests.log",
+      "sha256": "4eebafe2e14848ae729b7462d3240926bfa8502eef234ede1457ada1431f7966",
+      "bytes": 363
+    },
+    {
+      "path": "verification/duty-quartz-tests.log",
+      "sha256": "96878eaf43d7783625245af05579139a4ef05dcec1ec81821b977fdde6072ff8",
+      "bytes": 2962
+    },
+    {
+      "path": "verification/duty-node-final-audit.log",
+      "sha256": "895d638281f420a5e6ea04ea780cadd313802347cbf63158454dd36905e9e94a",
+      "bytes": 10005
+    },
+    {
+      "path": "verification/duty-ui-integrated-audit-tests.log",
+      "sha256": "b5b29975457d436cc913686ad5dc25b0d93b9fe2629605f1a20987f0eca59cba",
+      "bytes": 457
+    },
+    {
+      "path": "verification/duty-ui-integrated-audit-lint.log",
+      "sha256": "4708f0a4518016d172d45421d68b33734faf4420be7f318d932a526a2c3723fc",
+      "bytes": 52
+    },
+    {
+      "path": "verification/duty-ui-integrated-audit-typecheck.log",
+      "sha256": "cb9b57abca62ce8517c4a6d0c5848be7e55a384749f2dd81aed5168f9d83c447",
+      "bytes": 1719
+    },
+    {
+      "path": "verification/duty-ui-integrated-audit-build.log",
+      "sha256": "d80b5c425012be81ab7790fd5e50b9b585dbf915e3a5deed66815ada0fd91477",
+      "bytes": 15197
+    },
+    {
+      "path": "verification/duty-tracker-audit-build.log",
+      "sha256": "8c7d6a869ef50359f0010a98cc9fc0522c8429e4b8f6f077da468c1abb152fce",
+      "bytes": 998
+    }
+  ]
+}
