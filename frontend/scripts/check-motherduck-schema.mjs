@@ -7,13 +7,13 @@
 //
 // Usage:
 //   node scripts/check-motherduck-schema.mjs           # report + print ALTERs
-//   node scripts/check-motherduck-schema.mjs --apply   # also run the ALTERs
+//   This command is read-only. Review and apply migrations separately.
 //
 // Env (loaded from ../.env by dotenv):
 //   MOTHERDUCK_TOKEN      required
-//   MOTHERDUCK_DATABASE   defaults to `tariff_rates`
+//   MOTHERDUCK_DATABASE   defaults to `duty_calculator` (shared runtime config)
 //
-// Exit codes: 0 = schemas compatible (or made compatible with --apply),
+// Exit codes: 0 = schemas compatible,
 // 1 = missing cloud columns reported but not applied, 2 = hard failure.
 
 import path from 'path';
@@ -21,19 +21,23 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { PARQUET_PATH } from '../server/db.js';
+import { getMotherDuckDatabase } from '../server/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
-const apply = process.argv.includes('--apply');
-const database = process.env.MOTHERDUCK_DATABASE || 'tariff_rates';
+if (process.argv.includes('--apply')) {
+  console.error('Schema preflight is read-only; use a separately reviewed migration.');
+  process.exit(2);
+}
+const database = getMotherDuckDatabase();
 
 if (!process.env.MOTHERDUCK_TOKEN) {
   console.error('MOTHERDUCK_TOKEN not set (expected in repo-root .env)');
   process.exit(2);
 }
 
-const instance = await DuckDBInstance.create(`md:${database}`);
+const instance = await DuckDBInstance.create(`md:${database}`, { access_mode: 'READ_ONLY' });
 const conn = await instance.connect();
 
 // Union schema across every local partition. LIMIT 0 + DESCRIBE reads parquet
@@ -50,6 +54,7 @@ const local = new Map(
 const cloudReader = await conn.runAndReadAll(`
   SELECT column_name, data_type FROM information_schema.columns
   WHERE table_name = 'rates' AND table_schema = 'main'
+    AND table_catalog = '${database}'
 `);
 const cloud = new Map(
   cloudReader.getRowObjects().map((r) => [r.column_name, r.data_type]),
@@ -74,8 +79,13 @@ for (const [name, type] of typeMismatch) {
   console.log(`TYPE MISMATCH (insert will cast or fail): ${name} local=${type} cloud=${cloud.get(name)}`);
 }
 
+if (typeMismatch.length > 0) {
+  console.error('Incompatible types require an explicit migration; preflight failed.');
+  process.exit(2);
+}
+
 if (missingInCloud.length === 0) {
-  console.log('OK: every local column exists in the cloud table — push is safe.');
+  console.log('OK: column names and types are compatible. Release coverage and source validation are separate gates.');
   process.exit(0);
 }
 
@@ -85,13 +95,5 @@ const alters = missingInCloud.map(
 );
 for (const stmt of alters) console.log('  ' + stmt);
 
-if (!apply) {
-  console.log('\nRe-run with --apply to execute these, then push.');
-  process.exit(1);
-}
-
-for (const stmt of alters) {
-  console.log('applying: ' + stmt);
-  await conn.run(stmt);
-}
-console.log('done — cloud schema now matches; safe to push.');
+console.log('\nReview these statements as an explicit migration; preflight made no changes.');
+process.exit(1);

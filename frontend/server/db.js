@@ -11,6 +11,7 @@ import { DuckDBInstance } from '@duckdb/node-api';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getConfig } from './config.js';
+import { activeShipmentRelease } from './shipment-store.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -272,8 +273,40 @@ export async function initDatabase() {
   const db =
     config.target === 'motherduck'
       ? await initMotherDuck(config)
-      : await initLocal();
+      : process.env.SHIPMENT_RELEASE_DB
+        ? await initShipmentReleaseDatabase(process.env.SHIPMENT_RELEASE_DB)
+        : await initLocal();
   // Schema is identical across pool members; resolve once off member 0.
   await resolveRatesProjection(db.connections[0]);
   return db; // { connections: DuckDBConnection[], stats }
+}
+
+/** Serve a prepared-and-validated local release through the real API pool.
+ * Opening this database cannot prepare, migrate or activate a release.
+ */
+export async function initShipmentReleaseDatabase(databasePath) {
+  if (/^md:/i.test(databasePath)) throw new Error('SHIPMENT_RELEASE_DB must be a local database file');
+  const instance = await DuckDBInstance.create(databasePath, { access_mode: 'READ_ONLY' });
+  const connections = [];
+  const close = () => {
+    for (const connection of connections) connection.closeSync();
+    instance.closeSync();
+  };
+  try {
+    for (let i = 0; i < POOL_SIZE; i++) {
+      const connection = await instance.connect();
+      connections.push(connection);
+      const release = await activeShipmentRelease(connection);
+      if (!release) throw new Error('No validated active shipment release in local database');
+      // Legacy aggregate routes get the rates/product-base partitions from this
+      // same release. Shipment routes pin the immutable schema per request.
+      await connection.run(`CREATE TEMP VIEW rates AS SELECT * FROM "${release.schema_name}".rates`);
+      await connection.run(`CREATE TEMP VIEW product_base_rates AS SELECT * FROM "${release.schema_name}".products_base`);
+    }
+    const reader = await connections[0].runAndReadAll(STATS_SQL);
+    return { connections, stats: reader.getRowObjects()[0], close };
+  } catch (error) {
+    close();
+    throw error;
+  }
 }
