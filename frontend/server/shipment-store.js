@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { evaluateShipmentBundle, unavailableShipment } from './generated/shipmentRules.js';
 
 export const SHIPMENT_CONTRACT = 'sail.shipment-result/v1';
@@ -33,11 +34,14 @@ export async function resolveStoredShipment(conn, release, request) {
   if (typeof at !== 'string' || !/T.*(?:Z|[+-]\d\d:\d\d)$/.test(at) || !Number.isFinite(Date.parse(at)))
     return unavailableShipment('invalid_shipment_identity_or_entry_timestamp', release);
   const reader = await conn.runAndReadAll(`
-    SELECT bundle_json FROM "${release.schema_name}".rule_bundles
+    SELECT bundle_json, bundle_sha256 FROM "${release.schema_name}".rule_bundles
     WHERE valid_from <= CAST(? AS TIMESTAMPTZ) AND valid_until > CAST(? AS TIMESTAMPTZ)
   `, [at, at]);
   const rows = reader.getRowObjects();
   if (rows.length !== 1) return unavailableShipment(rows.length ? 'overlapping_rule_intervals' : 'missing_rule_interval', release);
+  if (!/^[a-f0-9]{64}$/.test(rows[0].bundle_sha256 ?? '')
+    || crypto.createHash('sha256').update(rows[0].bundle_json).digest('hex') !== rows[0].bundle_sha256)
+    return unavailableShipment('stored_rule_bundle_hash_mismatch', release);
   let bundle;
   try { bundle = JSON.parse(rows[0].bundle_json); }
   catch { return unavailableShipment('invalid_shipment_rule_bundle', release); }

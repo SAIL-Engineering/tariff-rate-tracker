@@ -6159,5 +6159,965 @@
       "complete_total": null,
       "known_subtotal": 15
     }
+  },
+  {
+    "name": "applicability suppression survives zero valuation",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-a",
+          "action_id": "action-a",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.1
+              }
+            ]
+          },
+          "suppressed_when": {
+            "claim": "PREFERENCE"
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-b",
+          "action_id": "action-b",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "metal_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "suppressed_when": {
+            "rule_applies": "action-a"
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ],
+          "determination": "rules"
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {
+      "customs_value": 0
+    },
+    "expected": {
+      "status": "complete",
+      "complete_total": 0,
+      "known_subtotal": 0,
+      "missing_inputs": [],
+      "suppressed_rules": [
+        "action-b"
+      ]
+    }
+  },
+  {
+    "name": "applicability suppression does not require valuation",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-a",
+          "action_id": "action-a",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.1
+              }
+            ]
+          },
+          "suppressed_when": {
+            "claim": "PREFERENCE"
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-b",
+          "action_id": "action-b",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "metal_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "suppressed_when": {
+            "rule_applies": "action-a"
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ],
+          "determination": "rules"
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "needs_inputs",
+      "complete_total": null,
+      "known_subtotal": 0,
+      "missing_inputs": [
+        "customs_value"
+      ],
+      "suppressed_rules": [
+        "action-b"
+      ]
+    }
+  },
+  {
+    "name": "claim reevaluates applicability and revives action",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-a",
+          "action_id": "action-a",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.1
+              }
+            ]
+          },
+          "suppressed_when": {
+            "claim": "PREFERENCE"
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-b",
+          "action_id": "action-b",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "metal_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "suppressed_when": {
+            "rule_applies": "action-a"
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ],
+          "determination": "rules"
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {
+      "customs_value": 100,
+      "claims": [
+        "PREFERENCE"
+      ]
+    },
+    "expected": {
+      "status": "needs_inputs",
+      "complete_total": null,
+      "known_subtotal": 0,
+      "missing_inputs": [
+        "metal_value"
+      ],
+      "suppressed_rules": [
+        "action-a"
+      ]
+    }
+  },
+  {
+    "name": "applicability dependency cycle is unresolved",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-a",
+          "action_id": "action-a",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.1
+              }
+            ]
+          },
+          "suppressed_when": {
+            "rule_applies": "action-b"
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "action-b",
+          "action_id": "action-b",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "metal_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "suppressed_when": {
+            "rule_applies": "action-a"
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ],
+          "determination": "rules"
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {
+      "customs_value": 100
+    },
+    "expected": {
+      "status": "unresolved_source",
+      "complete_total": null,
+      "known_subtotal": 5
+    }
+  },
+  {
+    "name": "known suppression does not ask irrelevant product-use facts",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "a",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified",
+          "when": {
+            "fact": "product_use"
+          },
+          "suppressed_when": {
+            "value": true
+          }
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "a"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        },
+        "product_use": {
+          "type": "boolean"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 0,
+      "complete_total": 0,
+      "missing_inputs": [],
+      "suppressed_rules": [
+        "a"
+      ]
+    }
+  },
+  {
+    "name": "false product condition does not ask irrelevant suppression facts",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "a",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "op": "if",
+                "args": [
+                  {
+                    "claim": "PREFERENCE"
+                  },
+                  {
+                    "value": 0
+                  },
+                  {
+                    "value": 0.05
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified",
+          "when": {
+            "value": false
+          },
+          "suppressed_when": {
+            "fact": "product_use"
+          }
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "a"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "metal_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD"
+        },
+        "quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "kg"
+        },
+        "product_use": {
+          "type": "boolean"
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": [
+        {
+          "id": "PREFERENCE",
+          "label": "PREFERENCE",
+          "source_ids": [
+            "synthetic"
+          ],
+          "rule_ids": [
+            "action-a",
+            "action-b",
+            "base"
+          ]
+        }
+      ]
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 0,
+      "complete_total": 0,
+      "missing_inputs": [],
+      "applied_rules": [],
+      "suppressed_rules": []
+    }
   }
 ]

@@ -45,6 +45,10 @@ Expressions are JSON objects with exactly one discriminator:
 - `{ "claim": "USMCA" }`: membership in the explicit `facts.claims` array;
   omitted claims means no claims. A claim's eligibility remains a separate fact.
 - `{ "rule_amount": "rule-id" }`: evaluated amount, including suppression.
+- `{ "rule_applies": "rule-id" }`: actual applicability after scope, source,
+  claims and suppression, independent of valuation/amount. Use for exclusions
+  conditioned on liability; zero/missing customs value cannot revive an action.
+  Cycles in applicability or amount dependencies remain unresolved.
 - `{ "op": ..., "args": [...] }`: `add`, `subtract`, `multiply`, `divide`,
   `min`, `max`, `eq`, `lt`, `lte`, `gt`, `gte`, `and`, `or`, `not`, `if`.
   `if` evaluates only its selected branch. False `and` and true `or` do not
@@ -67,3 +71,29 @@ final liquidation is outside this contract.
 
 Duplicate identical rules are idempotent. Conflicting definitions of the same
 rule identifier invalidate the bundle. Rule order has no legal significance.
+
+
+## Decision provenance and conditional action fragments
+
+Results also require `required_facts`, `rule_decisions` and `coverage_decisions`.
+Fact definitions carry type, range/enum, unit, label, description and source IDs;
+only currently missing, relevant definitions appear in `required_facts`.
+Every scope-matched rule records its predicates, outcome, sources/citations and
+missing inputs, including a false/not-applicable outcome. Authority coverage
+records matched rule IDs and the source-backed attestations used to establish
+coverage or verified absence. This supplies provenance for zero as well as duty.
+JSON and batch preserve these objects; Arrow uses the corresponding `_json`
+columns. Older responses missing required fields are unsupported, not aggregate
+fallbacks. The active version is rediscovered for each explicit calculation.
+
+`scripts/compile_shipment_rules.R BASE_BUNDLE OUTPUT_BUNDLE FRAGMENT...` composes
+reviewed `sail.shipment-rule-fragment/v1` files, verifies source artifact SHA256,
+rejects conflicting identifiers/fact semantics and applies explicit suppression
+or required-predicate relations by reporting code. Adding an action does not
+attest complete authority coverage. These fragments do not replace the complete
+source chronology or production bundle compiler.
+
+The release artifact hash covers the original rule file. Stored `bundle_sha256`
+covers the exact serialized `bundle_json` bytes and is checked on every read.
+Reformatting/corrupting stored rules without a new release cannot silently change
+the evaluation. Preparation never switches the active release.

@@ -1,0 +1,80 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 67400472 - GUIDANCE: Section 232 Import Duties on Semiconductors and their Derivative Products
+U.S. Customs and Border Protection sent this bulletin at 01/14/2026 05:33 PM EST
+Cargo Systems Messaging Service
+CSMS # 67400472 - GUIDANCE: Section 232 Import Duties on Semiconductors and their Derivative Products
+The purpose of this message is to provide guidance on the implementation of the January 14, 2026, Proclamation, “Adjusting Imports of Semiconductors, Semiconductor Manufacturing Equipment, and Their Derivative Products into the United States.”
+BACKGROUND
+The January 14, 2026, Proclamation, issued pursuant to Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862), imposes 25 percent ad valorem duties on certain imports of semiconductors and their derivative products.
+ENTRY FILING GUIDANCE
+This message provides guidance for importers, brokers, and filers on submitting entries to U.S. Customs and Border Protection (CBP) covering certain imported semiconductors and their derivative products from all countries, as provided in the below headings of the Harmonized Tariff Schedule of the United States (HTSUS), entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern time on January 15, 2026.
+9903.79.01: Semiconductor articles meeting certain technical parameters, as provided in U.S. note 39(b) to subchapter III of chapter 99 of the HTSUS, and that are classifiable in the following HTSUS provisions:
+8471.50
+8471.80
+8473.30
+The imported products must be a logic integrated circuit, or an article that contains a logic integrated circuit, that meets the technical parameters of having:
+(1) a total processing performance (TPP) greater than 14,000 and less than 17,500, and a total DRAM bandwidth greater than 4,500 GB/s and less than 5,000 GB/s; or
+(2) a TPP greater than 20,800 and less than 21,100, and total DRAM bandwidth greater than 5,800 GB/s and less than 6,200 GB/s.
+25% additional ad valorem duty
+9903.79.02: Semiconductor articles that are classifiable under provisions of the HTSUS subject to HTSUS 9903.79.01 but that do not meet the required technical parameters.
+0% additional ad valorem duty
+9903.79.03: Semiconductor articles that are for use in U.S. data centers. A “U.S. data center” refers to a facility that requires greater than 100 megawatts (MW) of new load dedicated to AI inference, training, simulation, or synthetic data generation.
+0% additional ad valorem duty
+9903.79.04: Semiconductor articles that are for repairs or replacement in the United States.
+0% additional ad valorem duty
+9903.79.05: Semiconductor articles that are for research and development in the United States. “Research and development” is defined as any activity that is (a) a systematic, intensive study directed toward greater knowledge or understanding of the subject studied; (b) a systematic study directed specifically toward applying new knowledge to meet a recognized need; or (c) a systematic application of knowledge toward the production of useful materials, devices, services or methods, and includes design, development and improvement of prototypes and new processes to meet specific requirements.
+0% additional ad valorem duty
+9903.79.06: Semiconductor articles, that are for use by startups in the United States. A “startup” is an “emerging growth company,” as defined at 15 U.S.C. § 77b(a)(19).
+0% additional ad valorem duty
+9903.79.07: Semiconductor articles that are for use in non-data center consumer electronics applications in the United States, including gaming, personal computing, professional visualization, workstation applications, and automotive applications.
+0% additional ad valorem duty
+9903.79.08: Semiconductor articles that are for use in non-data center civil industrial applications in the United States, including factory robotics and industrial machinery.
+0% additional ad valorem duty
+9903.79.09: Semiconductor articles that are for use in United States public sector applications.
+0% additional ad valorem duty
+For complete definitions of semiconductor articles subject to 9903.79.01–9903.79.09, please refer to the Annex.
+Not Subject to Certain Additional Duties
+Merchandise properly filed under HTSUS 9903.79.01 is not subject to the additional duties imposed on:
+entries of passenger vehicles and light trucks under headings 9903.94.01, 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;
+entries of parts for passenger vehicles and light trucks under headings 9903.94.05, 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64 and 9903.94.65;
+entries of medium- and heavy-duty vehicles under headings 9903.74.01, 9903.74.02 and 9903.74.03;
+entries of parts of medium- and heavy-duty vehicles under headings 9903.74.08 and 9903.74.09;
+entries of semi-finished copper products and copper-intensive derivative products under heading 9903.78.01;
+entries of products of aluminum under headings 9903.85.02 and 9903.85.12;
+entries of derivative aluminum products under headings 9903.85.04, 9903.85.07, 9903.85.08, 9903.85.13, 9903.85.14 and 9903.85.15;
+entries of iron or steel products under headings 9903.81.87, 9903.81.88, 9903.81.94 and 9903.81.95;
+entries of derivative iron or steel products under headings 9903.81.89, 9903.81.90, 9903.81.91, 9903.81.93, 9903.81.96, 9903.81.97, 9903.81.98 and 9903.81.99;
+entries of articles the product of Canada under heading 9903.01.10;
+entries of articles the product of Mexico under heading 9903.01.01; and
+entries of articles under headings 9903.01.24–9903.01.76 and 9903.02.01–9903.02.71.
+Merchandise that is properly subject to duties under heading 9903.79.01 is not subject to the additional duties provided for in headings 9903.01.25, 9903.01.35, 9903.01.39, 9903.01.63, 9903.02.01–9903.02.73, 9903.02.80, 9903.02.83, and 9903.02.88 (reciprocal tariffs imposed by Executive Order 14257, as amended), 9903.01.77 (tariff on products of Brazil imposed by Executive Order 14323, as amended) or 9903.01.84 (tariff on products of India imposed by Executive Order 14329). Filers should use headings 9903.01.33, 9903.01.83, or 9903.01.87, to declare the exemptions from the reciprocal, Brazil, or India tariffs, respectively, for merchandise that is properly subject to duties under heading 9903.79.01.
+For goods that are properly classified in subheading 8473.30 and properly subject to duties under heading 9903.79.01, filers should use heading 9903.01.33 (for products subject to section 232 duties), rather than heading 9903.01.32 (for products covered by Annex II of Executive Order 14257, as amended) to declare the exemption from reciprocal tariffs. For merchandise properly classified in subheading 8473.30, but which is not properly subject to duties under heading 9903.79.01, because it is covered an exclusion as provided in headings 9903.79.02-9903.79.09, heading 9903.01.32 may be used.
+Drawback
+No drawback shall be available with respect to the duties imposed by the January 14, 2026, Proclamation.
+Foreign Trade Zone (FTZ)
+Any product described in clause (3) of the January 14, 2026 Proclamation, except those eligible for admission as “domestic status” as described in 19 CFR 146.43, that is subject to a duty imposed by the January 14, 2026 Proclamation and that is admitted into a United States foreign trade zone on or after the effective date of the January 14, 2026 Proclamation must be admitted as “privileged foreign” status as described in 19 CFR 146.41, and will be subject upon entry for consumption to any ad valorem rates of duty related to the classification under the applicable HTSUS subheading.
+Chapter 98 and Chapter 99 Provisions
+Goods for which entry is claimed under a provision of chapter 98 and that are subject to the additional duties prescribed by the January 14, 2026, Proclamation are eligible for and subject to the terms of such provision and applicable CBP regulations, except that duties under subheading 9802.00.60 will be assessed based upon the full value of the imported article. However, for any such products that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the HTSUS, the duties provided in heading 9903.79.01 will be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading. No claim for entry or for any duty exemption or reduction will be allowed for semiconductor articles enumerated in subdivision (b) of U.S. note 39 to subchapter III of chapter 99 under a provision of chapter 99 that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP, but any additional duty prescribed in any provision of subchapter III or subchapter IV of chapter 99 will be imposed in addition to the duties in heading 9903.79.01.
+HTSUS Sequence and Duty Reporting
+For entry summary lines that include multiple HTSUS numbers, CBP requires that the duty be appropriately associated to the correct HTSUS number. Duties across several required HTSUS numbers on a given entry summary line must not be combined and cannot be reported on only one HTSUS number within the entry summary line.
+For entry summary lines including multiple HTSUS secondary classifications (in addition to the Chapter 1-97 primary classification), the following sequence must be followed.
+Chapter 98 classification (if applicable)
+Chapter 99 classification(s) for additional duties (if applicable)
+For trade remedies, if applicable
+First report the Chapter 99 classification for Section 301,
+Followed by the Chapter 99 classification for IEEPA Fentanyl,
+Followed by the Chapter 99 classification for IEEPA Reciprocal,
+Followed by the Chapter 99 classification for Section 232 or 201 duties,
+Followed by the Chapter 99 classification for Section 201 or 232 quota.
+Chapter 99 classification(s) for REPLACEMENT duty or other use. Please note that replacement duty for the purposes of IEEPA or Section 232 are to be included in #3 above.
+Chapter 99 classification for other quota (not covered by #3) (if applicable)
+Chapter 1 to 97 primary classification for the commodity tariff
+The entered value of the commodity covered by the entry summary line should be reported on the Chapter 1-97 subheading, except if Chapter 98 reporting provisions require the entered value to be reported differently.
+For questions regarding Section 232 entry filing, contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

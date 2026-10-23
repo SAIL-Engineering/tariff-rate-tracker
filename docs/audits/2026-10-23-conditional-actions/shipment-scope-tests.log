@@ -1,0 +1,12 @@
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Section 232 exact scopes, missing-source and candidate-persistence safeguards passed
+Conditional automobile-parts columns cannot produce a complete statutory total

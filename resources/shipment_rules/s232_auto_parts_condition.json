@@ -1,0 +1,51 @@
+{
+  "contract_version": "sail.shipment-rule-fragment/v1",
+  "id": "s232_auto_parts_use_condition",
+  "sources": [
+    {
+      "id": "FR-2025-05930-annex",
+      "status": "verified",
+      "sha256": "84c26c9856d6bf258712481168f7ce0064833868b9403b7078c3b6e26c0b8973",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+      "citation": "Proclamation 10908, Annex I, U.S. note 33(g), (h)(ii), 90 FR 14712-14713. HTS association alone does not establish automobile-parts use."
+    }
+  ],
+  "source_artifacts": [
+    {
+      "source_id": "FR-2025-05930-annex",
+      "path": "../legal_evidence/2025-05930/proclamation.pdf",
+      "sha256": "84c26c9856d6bf258712481168f7ce0064833868b9403b7078c3b6e26c0b8973"
+    }
+  ],
+  "rules": [],
+  "coverage": [],
+  "fact_definitions": {
+    "is_part_for_passenger_vehicle_or_light_truck": {
+      "type": "boolean",
+      "label": "Part for a passenger vehicle or light truck",
+      "description": "Apply note 33(g): passenger vehicles include sedans, SUVs, crossover utility vehicles, minivans and cargo vans. A listed machine/computer provision alone does not establish automotive use. This fact does not establish USMCA eligibility.",
+      "source_ids": [
+        "FR-2025-05930-annex"
+      ]
+    }
+  },
+  "relations": [
+    {
+      "id": "note33g_auto_parts_use",
+      "effect": "require_predicate",
+      "predicate": {
+        "fact": "is_part_for_passenger_vehicle_or_light_truck"
+      },
+      "target_reporting_codes": [
+        "9903.94.05"
+      ],
+      "source_ids": [
+        "FR-2025-05930-annex"
+      ]
+    }
+  ],
+  "limitations": [
+    "Constrains the ordinary automobile-parts action; supplies no rate, product scope, date or country-deal assertion.",
+    "Other reporting headings, USMCA, knock-down kits, Chapter 98 and additional parts amendments require separate reviewed rules."
+  ]
+}
