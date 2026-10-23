@@ -142,3 +142,30 @@ are retained in the repository. Release preparation is now contract v2; the
 R/TypeScript rule/result contract is unchanged. No new SAIL consumer code or
 Trade Intelligence publication was included in this pass. The original manual
 rebuild and production-approval boundaries remain in force.
+
+## Exclusion chronology integration, 2026-10-23
+
+- Tracker implementation: `5bda089cc842331b7aab5200dff1b7316c3f64a7`, committed
+  directly on `wjr_dev` from `b53e1f2aa844fa5673e8fcb9be437a5d1c139328`.
+- SAIL implementation: `2e2720b84c78b0fbc2199d614ae83c7912581806`, tested in the
+  existing dedicated worktree and fast-forwarded into the original `pinecone-hts`
+  from `5d8e5b430a43c67c6b2f3522e1f20d5a95be6cc7`. Both preexisting untracked
+  entries in the original checkout are preserved.
+- Trade Intelligence unchanged: `main` at
+  `766334b6b41dd5f45cfd3df583b7c5d53447ae1a`.
+
+[Audit and verification](audits/2026-10-23-section301-exclusions/README.md): all
+55 source revisions parsed, 152 missing exclusion-candidate attributions found
+in 8,063 read-only MotherDuck rows, 19 Python tests, 117 tracker Node tests and
+20,708 configured SAIL tests passed. SAIL typecheck/affected lint/build and the
+tracker build passed. R passed 25/27 suites with 402 counted assertions passing;
+normalized parity failed on 208 missing artifacts and TPC skipped for absent
+built data. These are unresolved data/release gates, not waived checks.
+
+Release v3 adds validated claim-effect partitions. The UI offers source-derived,
+scoped claims and preserves incomplete totals. Broader authority review, other
+claims/investigations, full bundle compilation and remaining financial consumers
+are still unfinished. Timeseries rebuilding remains WJR's manual task. There
+were no pushes, deployments, publications, workflow dispatches or production
+MotherDuck writes. The implementation commits are in their requested destination
+branches, not stranded in temporary worktrees.
