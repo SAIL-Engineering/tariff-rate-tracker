@@ -1,0 +1,44 @@
+[
+  {
+    "path": "FR-2025-10524.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2025-06-09/html/2025-10524.htm",
+    "locator": "Proclamation 10947 clauses (1), (5), (6)",
+    "sha256": "a4aa1ca6cd3fac60e8ce6f4a583bfdb5f9077221eff39c810de4a46709765d61"
+  },
+  {
+    "path": "FR-2025-14893.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-05/html/2025-14893.htm",
+    "locator": "Proclamation 10962 clauses (1), (4), (5)",
+    "sha256": "079b4ba6d20cc0964d5918aa8cf95e539ba3beb6e5c71bb2a12caa7b6b68f0f4"
+  },
+  {
+    "path": "CSMS-65054270.txt",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e",
+    "locator": "Original action precedence; cumulative EO 14195 duties",
+    "sha256": "4a22a43516597c31cb2b50c86fdd4b2d702a4479f326ff68dc92107c7d5e4514"
+  },
+  {
+    "path": "CSMS-65236645.txt",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e36ea5",
+    "locator": "Actual bulletin number 65236645: both entry lines retain other applicable duties",
+    "sha256": "7fece5fb8aab3cf5792d59cf4dbcb1280b0648bcf3ca079cb63376fcfa2620be"
+  },
+  {
+    "path": "CSMS-67834313.txt",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b11c9",
+    "locator": "IEEPA collection ends February 24, 2026 at 00:00 Eastern",
+    "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+  },
+  {
+    "path": "FR-2026-03832.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/html/2026-03832.htm",
+    "locator": "EO 14389, authority termination and collection implementation distinguished",
+    "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+  },
+  {
+    "path": "CSMS-67400472.txt",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318",
+    "locator": "CSMS 67400472: technical scope, end uses, and action-specific exclusions",
+    "sha256": "9227047bb3737c38ebc4269a1d78659e19b303424a0e6e7294811fda00e6bca4"
+  }
+]

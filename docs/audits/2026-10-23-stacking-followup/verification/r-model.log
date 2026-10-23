@@ -1,0 +1,11 @@
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Semiconductor modeling invariance and missing-statute regressions passed

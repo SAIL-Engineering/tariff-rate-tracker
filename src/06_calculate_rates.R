@@ -1631,21 +1631,12 @@ calculate_rates_for_revision <- function(
             ))
           ) %>% select(hts10, qualifying_share)
         } else {
-          message('  WARNING: semi qualifying_shares_file not found: ', qs_full,
-                  ' — defaulting all shares to 1.0')
+          stop('Configured semiconductor qualifying-share source missing: ', qs_full)
         }
       }
 
-      heading_product_rate <- heading_product_rate %>%
-        left_join(qs_data, by = 'hts10', relationship = 'many-to-one') %>%
-        mutate(
-          heading_232_rate = if_else(
-            hts10 %in% semi_products,
-            heading_232_rate * coalesce(qualifying_share, 1.0) * (1 - end_use_share),
-            heading_232_rate
-          )
-        ) %>%
-        select(-qualifying_share)
+      heading_product_rate <- model_s232_semiconductors(
+        heading_product_rate, semi_products, qs_data, end_use_share)
 
       message('  Semi scaling: ', nrow(qs_data), ' per-HTS10 shares loaded; ',
               'end_use_exemption_share = ', end_use_share)
@@ -3344,25 +3335,10 @@ calculate_rates_for_revision <- function(
   # off the derivative path so nonmetal_share = 0 (IEEPA zeroed, Note 2(v)(xvi)).
   if (exists('semi_products') && length(semi_products) > 0 &&
       exists('heading_product_rate') && nrow(heading_product_rate) > 0) {
-    semi_override <- heading_product_rate %>%
-      filter(hts10 %in% semi_products) %>%
-      select(hts10, .semi_heading_rate = heading_232_rate)
-    if (nrow(semi_override) > 0) {
-      rates <- rates %>%
-        left_join(semi_override, by = 'hts10', relationship = 'many-to-one') %>%
-        mutate(
-          rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate, rate_232),
-          deriv_type = if_else(!is.na(.semi_heading_rate), NA_character_, deriv_type),
-          deriv_ch99_code = if_else(!is.na(.semi_heading_rate), NA_character_,
-                                    deriv_ch99_code),
-          deriv_content_scaled = if_else(!is.na(.semi_heading_rate), FALSE,
-                                         coalesce(deriv_content_scaled, FALSE)),
-          statutory_rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate,
-                                       statutory_rate_232)
-        ) %>%
-        select(-.semi_heading_rate)
-      message('  Semi: restored heading rate on ', nrow(semi_override), ' HTS10s')
-    }
+    rates <- restore_s232_semiconductor_model(rates, heading_product_rate,
+      semi_products, s232_headings$semiconductors)
+    message('  Semi: aggregate restored; technical scope/end use required on ',
+      length(semi_products), ' HTS10s before a shipment total can be stated')
   }
 
   # 6b0. Apply Section 301 forced labor (60 economies; 91 FR 47318 / 91 FR 47717,
@@ -3565,14 +3541,15 @@ calculate_rates_for_revision <- function(
   #     EO 14289, which decides precedence by reading those very columns.
   rates <- attribute_s232_residual(rates)
 
+  rates$stacking_model_version <- as.integer(load_stacking_rules()$version)
+  rates$stacking_era_id <- resolve_stacking_era(effective_date)$id
+  .pre_stacking_actions <- rates %>% select(all_of(S232_ACTION_RATE_COLS))
   .era <- resolve_stacking_era(effective_date)
   .eo_applies <- !is.null(.era) && length(.era$non_stacking %||% list()) > 0
   .thr <- if (.eo_applies) .era$subject_to_threshold %||% 0 else 0
   if (.eo_applies) {
     .before <- sum(rates$rate_232, na.rm = TRUE)
-    rates <- apply_eo14289_precedence(rates, threshold = .thr,
-                                      cty_canada = CTY_CANADA,
-                                      cty_mexico = CTY_MEXICO)
+    rates <- apply_stacking_precedence(rates, era = .era, threshold = .thr)
     .n_supp <- sum(!is.na(rates$s232_suppressed_json))
     message('  EO 14289 (', .era$id, '): ', .n_supp,
             ' row(s) had a lower-precedence action suppressed; ',
@@ -3592,7 +3569,9 @@ calculate_rates_for_revision <- function(
                                     stacking_method = stacking_method,
                                     apply_eo = .eo_applies, threshold = .thr,
                                     cty_canada = CTY_CANADA,
-                                    cty_mexico = CTY_MEXICO)
+                                    cty_mexico = CTY_MEXICO,
+                                    stacking_era = .era,
+                                    action_inputs = .pre_stacking_actions)
   message('  Statutory totals: mean statutory_total_rate ',
           sprintf('%.4f', mean(rates$statutory_total_rate, na.rm = TRUE)),
           ' vs trade-weighted total_rate ',

@@ -92,3 +92,13 @@ candidates lost when their legal start falls inside a revision. Local fixes and
 regressions are recorded in that report. No timeseries rebuild or cloud write was
 performed during this audit. Full rule compilation and consumer migration remain
 open; a manual rebuild alone does not clear the release gates.
+
+### IEEPA/232 follow-up
+
+[The next read-only audit](audits/2026-10-23-stacking-followup/README.md) fixes
+dated action precedence and inheritance, Hong Kong fentanyl valuation, and
+semiconductor statutory/model separation. It records 57,628 priority-pattern
+candidates and 77,541 Hong Kong overlap rows for further legal review. Missing
+statutory components now leave totals unavailable. Aggregate historical
+corrections are stacking-model version 2; the manual rebuild and serving-path
+qualification remain pending.

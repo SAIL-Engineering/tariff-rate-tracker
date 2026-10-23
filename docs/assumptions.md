@@ -14,6 +14,16 @@ This document is an appendix to [methodology.md](methodology.md). It catalogs me
 
 **Evidence:** Running `tests/test_tpc_comparison.R --tpc-stacking` (additive mode) is a sensitivity analysis toggle, not a TPC-matching switch. Enhanced 232 sub-category diagnostics in `src/diagnostics.R` decompose the gap by product type (pure metal, copper, derivative, auto, other).
 
+**Verified corrections, stacking model v2 (2026-10-23):** The original IEEPA
+Canada/Mexico precedence ends June 4, 2025 at 00:01 Eastern under Proc. 10947
+clause (5). The auto/copper exclusion starts August 1 under Proc. 10962 clause
+(5). EO 14195 remains cumulative for China **and Hong Kong**; previously Hong
+Kong's component was incorrectly multiplied by the modeled non-metal share.
+These corrections change historical aggregates and are explicitly versioned;
+trade-share methodology is otherwise preserved. Remaining CA/MX content
+approximations and unidentified action attribution are not shipment rules.
+See [the audit](audits/2026-10-23-stacking-followup/README.md).
+
 **Implementation:** `src/helpers.R:apply_stacking_rules()`, `stacking_method` parameter (default `'mutual_exclusion'`).
 
 ---

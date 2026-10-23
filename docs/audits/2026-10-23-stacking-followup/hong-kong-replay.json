@@ -1,0 +1,74 @@
+[
+  {
+    "hts10": "2203000030",
+    "live_modeled_total": 0.31044075850618269,
+    "corrected_modeled_total": 0.32088151701236528,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "2203000060",
+    "live_modeled_total": 0.31044075850618269,
+    "corrected_modeled_total": 0.32088151701236528,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "2203000090",
+    "live_modeled_total": 0.31044075850618269,
+    "corrected_modeled_total": 0.32088151701236528,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4009120020",
+    "live_modeled_total": 0.27408543946465458,
+    "corrected_modeled_total": 0.47408543946465465,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4009220020",
+    "live_modeled_total": 0.27408543946465458,
+    "corrected_modeled_total": 0.47408543946465465,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4009320020",
+    "live_modeled_total": 0.27408543946465458,
+    "corrected_modeled_total": 0.47408543946465465,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4009420020",
+    "live_modeled_total": 0.27408543946465458,
+    "corrected_modeled_total": 0.47408543946465465,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4011101010",
+    "live_modeled_total": 0.27616170314344735,
+    "corrected_modeled_total": 0.47616170314344741,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4011101020",
+    "live_modeled_total": 0.27616170314344735,
+    "corrected_modeled_total": 0.47616170314344741,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4011101030",
+    "live_modeled_total": 0.27616170314344735,
+    "corrected_modeled_total": 0.47616170314344741,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4011101040",
+    "live_modeled_total": 0.27616170314344735,
+    "corrected_modeled_total": 0.47616170314344741,
+    "fentanyl_component": 0.20000000000000001
+  },
+  {
+    "hts10": "4011101050",
+    "live_modeled_total": 0.27616170314344735,
+    "corrected_modeled_total": 0.47616170314344741,
+    "fentanyl_component": 0.20000000000000001
+  }
+]

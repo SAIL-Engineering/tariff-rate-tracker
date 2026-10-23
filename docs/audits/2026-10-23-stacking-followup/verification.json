@@ -1,0 +1,42 @@
+{
+  "scope": "Local existing fixtures; no timeseries rebuild or live deployment qualification",
+  "sequence": "Full R suite before final input-hardening and schema-null edits; affected temporal/model/statutory/rate suites rerun after their changes.",
+  "checks": [
+    {
+      "path": "verification/r-full.log",
+      "command": "Rscript tests/run_all_tests.R",
+      "result": "21 of 23 suites OK; normalized parity ERROR for absent rebuilt data; TPC SKIP; 401 counted assertions passed",
+      "sha256": "ecfec1ea549aaffb4b268c691df7c52b5849aace854bb1791254044b71f552f0"
+    },
+    {
+      "path": "verification/r-temporal.log",
+      "command": "Rscript tests/test_stacking_temporal.R",
+      "result": "13 passed after final boundary and origin-scope validation",
+      "sha256": "ecddff14e23fac9a3634fb44aed8dabb2887eca7126023b084a8388d2599de7d"
+    },
+    {
+      "path": "verification/r-model.log",
+      "command": "Rscript tests/test_s232_model_separation.R",
+      "result": "Passed final model-invariance, actual helper and schema-null regressions",
+      "sha256": "7183e25f23edb9f0813ded3c777c8fa3bfde7f798971f82e6fa4e121cf164612"
+    },
+    {
+      "path": "verification/r-statutory.log",
+      "command": "Rscript tests/test_statutory_totals.R",
+      "result": "15 passed",
+      "sha256": "2980462861ec8f648bde0c109304d1ed987f77f83ff45abbd9feacca269d66c2"
+    },
+    {
+      "path": "verification/r-rates.log",
+      "command": "Rscript tests/test_rate_calculation.R",
+      "result": "151 passed",
+      "sha256": "5bacdc5117a96d0cfc54a0825b83c9f76ea461a73f79175cdaab81ecccf05ced"
+    },
+    {
+      "path": "verification/node.log",
+      "command": "node --test frontend/tests/*.test.mjs",
+      "result": "54 passed",
+      "sha256": "e4ed1e0942f3f4ace70d44b6c7fbeb5f0721535f62b9e79f9a86033aeac9ffc6"
+    }
+  ]
+}

@@ -16,7 +16,7 @@
 # the steel/aluminum step without needing a special case.
 # =============================================================================
 
-version: 1
+version: 2
 
 # --- Authority keys -----------------------------------------------------------
 # Maps a stacking-model authority to the rate column that carries it. §232 is
@@ -41,6 +41,12 @@ authorities:
   s338:             rate_s338
   adcvd:            rate_adcvd
   other:            rate_other
+
+# Origin predicates distinguish actions sharing one legacy numeric column.
+authority_countries:
+  ieepa_canada: ['1220']
+  ieepa_mexico: ['2010']
+  ieepa_fentanyl: ['5700', '5820']  # EO 14195 / HTS note 2(u), China and Hong Kong
 
 # --- Base-rate replacement ----------------------------------------------------
 # These REPLACE the Column 1 General base rate rather than adding to it.
@@ -89,12 +95,14 @@ eras:
       # sec. 3(a)(i)
       - precedence: 1
         action: s232_auto
+        rule_id: eo14289_3a_i_auto
         excludes: [ieepa_canada, ieepa_mexico, s232_aluminum, s232_steel]
         citation_key: eo_14289_non_stacking
         cite_locator: 'sec. 3(a)(i)'
       # sec. 3(a)(ii)
       - precedence: 2
         action: [ieepa_canada, ieepa_mexico]
+        rule_id: eo14289_3a_ii_ieepa_camx
         excludes: [s232_aluminum, s232_steel]
         citation_key: eo_14289_non_stacking
         cite_locator: 'sec. 3(a)(ii)'
@@ -113,10 +121,57 @@ eras:
     # suppressed action stays visible in provenance at 0 with a reason.
     suppressed_rows_retain_provenance: true
 
-  - id: post_ieepa
-    from: '2026-02-20'
-    label: 'IEEPA invalidated (SCOTUS) — reciprocal and fentanyl cease'
+  - id: proc10947
+    from: '2025-06-04'
+    effective_at: '2025-06-04T00:01:00-04:00'
+    label: 'Proc. 10947 clause (5): metals precede IEEPA Canada/Mexico'
     inherits: eo14289
+    citation_keys: [eo_14289_non_stacking, proc_10947_stacking_amendment]
+    non_stacking:
+      - precedence: 1
+        action: s232_auto
+        rule_id: eo14289_3a_i_auto
+        excludes: [ieepa_canada, ieepa_mexico, s232_aluminum, s232_steel]
+        citation_key: eo_14289_non_stacking
+        cite_locator: 'sec. 3(a)(i)'
+      - precedence: 2
+        action: [s232_aluminum, s232_steel]
+        rule_id: proc10947_5_metals
+        excludes: [ieepa_canada, ieepa_mexico]
+        citation_key: proc_10947_stacking_amendment
+        cite_locator: 'clause (5), amended EO 14289 sec. 3(a)(ii)'
+
+  - id: proc10962
+    from: '2025-08-01'
+    effective_at: '2025-08-01T00:01:00-04:00'
+    label: 'Proc. 10962 clause (5): auto action also excludes copper'
+    inherits: proc10947
+    always_cumulative: [s301, ieepa_fentanyl, ieepa_reciprocal, adcvd, s201, s232_other, other]
+    non_stacking:
+      - precedence: 1
+        action: s232_auto
+        rule_id: eo14289_3a_i_auto
+        excludes: [ieepa_canada, ieepa_mexico, s232_aluminum, s232_steel]
+        citation_key: eo_14289_non_stacking
+        cite_locator: 'sec. 3(a)(i)'
+      - precedence: 2
+        action: s232_auto
+        rule_id: proc10962_5_auto
+        excludes: [s232_copper]
+        citation_key: proc_10962_copper_stacking
+        cite_locator: 'clause (5)'
+      - precedence: 3
+        action: [s232_aluminum, s232_steel]
+        rule_id: proc10947_5_metals
+        excludes: [ieepa_canada, ieepa_mexico]
+        citation_key: proc_10947_stacking_amendment
+        cite_locator: 'clause (5), amended EO 14289 sec. 3(a)(ii)'
+
+  - id: post_ieepa
+    from: '2026-02-24'
+    effective_at: '2026-02-24T00:00:00-05:00'
+    label: 'IEEPA collection ends under CBP CSMS 67834313'
+    inherits: proc10962
     # With ieepa_* at 0 they are no longer "subject to" anything, so steps 1 and 2
     # of the order stop firing on their account automatically.
     zeroed: [ieepa_reciprocal, ieepa_fentanyl, ieepa_canada, ieepa_mexico]
@@ -124,8 +179,10 @@ eras:
 
   - id: s122
     from: '2026-02-24'
+    effective_at: '2026-02-24T00:01:00-05:00'
     label: 'Section 122 balance-of-payments surcharge window'
     inherits: post_ieepa
+    operative_until: '2026-07-24T00:01:00-04:00'
     window_closes: '2026-07-23'    # 150-day statutory limit
     citation_keys: [s122_balance_of_payments, proc_11012_s122_surcharge,
                     cbp_csms_67844987_s122_implementation]
@@ -133,6 +190,7 @@ eras:
 
   - id: s232_annex
     from: '2026-04-06'
+    effective_at: '2026-04-06T00:01:00-04:00'
     label: 'Section 232 annex regime — duty on full customs value'
     inherits: s122
     # The April 2026 proclamation applies §232 to the full customs value,
@@ -150,8 +208,9 @@ eras:
     # under note 50 plus 12.5% under note 52).
 
   - id: s338
-    from: '2026-08-19'
-    label: 'Section 338 Canada'
+    from: '2026-08-22'
+    effective_at: '2026-08-22T00:01:00-04:00'
+    label: 'Section 338 Canada, following Proc. 11056 postponement'
     inherits: s301_2026
     always_cumulative_add: [s338]
     # Proclamation 11047 para. 2: "in addition to any other duties" — but does

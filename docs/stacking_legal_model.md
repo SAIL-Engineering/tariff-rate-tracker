@@ -77,6 +77,29 @@ Step 3   s232_aluminum  ⇄  s232_steel   — these two STACK with each other
 collapsed every §232 action into a single `rate_232` scalar. A derivative
 containing both steel and aluminum owes duty on **both** contents.
 
+### Amendment from June 4, 2025
+
+Proclamation 10947, [90 FR 24199](https://www.govinfo.gov/content/pkg/FR-2025-06-09/html/2025-10524.htm), clause (5), reverses **only** section 3(a)(ii) from
+2025-06-04 at 00:01 Eastern: steel/aluminum now exclude IEEPA Canada/Mexico.
+Auto priority and the cumulative treatment of unrelated actions remain. The
+original priority above is historical, through 00:00:59 on June 4; applying it
+after the amendment incorrectly removes metal duties. Clause (6) separately
+addresses non-metal value and reciprocal duty; it does not create a blanket
+non-metal discount on every IEEPA action. EO 14195 remains cumulative under
+EO 14289 section 4(b), including where that action covers Hong Kong goods.
+
+Proclamation 10962, [90 FR 37727](https://www.govinfo.gov/content/pkg/FR-2025-08-05/html/2025-14893.htm), clause (5), separately excludes the copper action
+when the automobile action is owed, from August 1 at 00:01 Eastern. This is an
+explicit later exception to the original order's cumulative treatment of actions
+outside section 2. It must be a dated edge, not an assumption that all Section
+232 actions either stack or exclude one another.
+
+Rules are evaluated from the selected era's ordered action/exclusion edges.
+Inheritance must resolve before evaluation: a later era that only adds another
+authority must not silently erase the existing action precedence. Exact entry
+timestamps respect the 00:01 boundary. A date-only revision is a daily model
+snapshot, not evidence about the first minute of an entry day.
+
 ### The definition that makes it work
 
 CSMS #65054270, verbatim:
@@ -168,11 +191,13 @@ revision effective date in `config/stacking_rules.yaml`.
 |---|---|---|
 | — | `legacy` | §232 steel/alu + §301 + §201; no non-stacking order |
 | 2025-03-04 | `eo14289` | EO 14289 non-stacking order applies to entries on/after this date |
-| 2026-02-20 | `post_ieepa` | IEEPA invalidated — reciprocal and fentanyl cease |
-| 2026-02-24 | `s122` | §122 surcharge window opens (closes 2026-07-23) |
+| 2025-06-04 00:01 Eastern | `proc10947` | Steel/aluminum take priority over Canada/Mexico IEEPA; auto priority retained |
+| 2025-08-01 00:01 Eastern | `proc10962` | Auto action excludes copper under clause (5) |
+| 2026-02-24 00:00 Eastern | `post_ieepa` | CBP IEEPA collection ends; legal invalidation/refund status is separate |
+| 2026-02-24 00:01 Eastern | `s122` | §122 surcharge window opens (closes 2026-07-23) |
 | 2026-04-06 | `s232_annex` | §232 annex regime — duty on full customs value, metal-content scaling retired |
 | 2026-07-22 | `s301_2026` | §301 Brazil (note 50); then forced labor 60 economies (note 52) from 07-24 |
-| 2026-08-19 | `s338` | §338 Canada |
+| 2026-08-22 00:01 Eastern | `s338` | §338 Canada |
 
 Note the `eo14289` era begins at the **entry** date CBP applies it from
 (2025-03-04), which precedes both the EO's signature and its HTS implementation —
@@ -200,3 +225,19 @@ the guidance is explicitly retroactive.
 - CBP **CSMS #65054270** — [primary bulletin](https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e0a63e) (retrieved 2026-07-30; all quotes above taken from it directly). Corroborating summaries: [International Trade Insights](https://www.internationaltradeinsights.com/2025/05/cbp-issues-guidance-on-prioritization-of-articles-subject-to-more-than-one-tariff-under-eo-14289/), [C.H. Robinson](https://www.chrobinson.com/en-us/resources/insights-and-advisories/client-advisories/2025q2/05-21-2025-client-advisory-cbp-issues-guidance-on-tariff-prioritization-under-executive-order-14289/)
 - [Global Trade Alert — US Tariff Stacking, Explained](https://globaltradealert.org/blog/US-Tariff-Stacking-Explained)
 - HTSUS General Note 3(b); `resources/gn3_column2_countries.csv` (parsed from GN 3 per revision)
+
+## 2026-10-23 follow-up and qualification limits
+
+The [read-only live audit](audits/2026-10-23-stacking-followup/README.md)
+confirms the June amendment was missing from the production calculation. Era
+inheritance now resolves and the calculation evaluates the configured action
+edges rather than merely using the era as a boolean switch for the original
+order. This does not make the aggregate adapter a shipment evaluator. Content
+modeling and unresolved action attribution still require the authoritative rule
+bundle; the full shipment release is not qualified.
+
+CBP CSMS 67400472 requires semiconductor technical parameters and actual end use.
+A modeled qualifying fraction cannot decide liability for a shipment. The
+published conditional rate and modeling inputs are retained separately, with
+statutory rate/total unavailable until those facts are evaluated. Missing
+statutory components cannot silently produce a zero or numeric total.

@@ -112,7 +112,7 @@ run_test('IEEPA on a §232 line is split by metal content, not suppressed', {
 
 message('\n--- Era gating ---')
 
-run_test('a pre-2025 era does not get the non-stacking order applied', {
+run_test('disabling non-stacking retains the legacy aggregate content approximation', {
   # Applying EO 14289 to a 2019 revision would make the statutory total differ
   # from the weighted one for a reason unrelated to weighting. metal_share is
   # deliberately < 1 so the suppression is visible: at metal_share = 1 the
@@ -124,7 +124,8 @@ run_test('a pre-2025 era does not get the non-stacking order applied', {
           metal_share = 0.5)
   off <- compute_statutory_totals(r, apply_eo = FALSE)
   on  <- compute_statutory_totals(r, apply_eo = TRUE)
-  # OFF: 0.25 + 0.25*0.5 = 0.375. ON: sec. 3(a)(i) drops IEEPA Mexico -> 0.25.
+  # Legacy model isolation, not a legal oracle: OFF retains .25*.5 IEEPA.
+  # ON: sec. 3(a)(i) excludes IEEPA Mexico.
   stopifnot(abs(off$statutory_total_rate - 0.375) < 1e-9)
   stopifnot(abs(on$statutory_total_rate - 0.25) < 1e-9)
   stopifnot(off$statutory_total_rate > on$statutory_total_rate)
