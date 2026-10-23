@@ -997,7 +997,7 @@ load_policy_params <- function(yaml_path = here('config', 'policy_params.yaml'),
   }
 
   # Section 338 Canada (19 U.S.C. 1338; 91 FR 46653 et seq.). Dormant until
-  # 2026-08-19; presence of this block arms the activation gate for that date.
+  # 2026-08-22 per Proclamation 11056; this block arms the activation gate.
   if (!is.null(params$section_338)) {
     params$SECTION_338 <- params$section_338
     params$SECTION_338$effective_date <- as.Date(params$section_338$effective_date)
@@ -4735,9 +4735,8 @@ s301fl_country_tiers <- function(countries, fl_cfg) {
   # A country in two tiers is a config defect — the notice assigns exactly one.
   dup <- tiers$country[duplicated(tiers$country)]
   if (length(dup) > 0) {
-    warning('s301fl_country_tiers: country in multiple tiers (config defect): ',
-            paste(unique(dup), collapse = ', '))
-    tiers <- tiers %>% distinct(country, .keep_all = TRUE)
+    stop('s301fl_country_tiers: conflicting country tiers: ',
+         paste(unique(dup), collapse = ', '))
   }
 
   tiers %>% filter(country %in% countries)
@@ -4766,12 +4765,10 @@ load_s301fl_exemptions <- function(fl_cfg) {
     if (file.exists(cpath)) {
       out$common <- read_csv(cpath, col_types = cols(.default = col_character())) %>%
         transmute(hts8 = hts_code,
-                  # 'ex' (an ex-line carve-out) is treated as a full exemption,
-                  # matching the annex builder.
-                  condition = if_else(condition == 'ex', 'full', condition)) %>%
+                  condition = condition) %>%
         distinct()
     } else {
-      message('  WARNING: s301fl common exemptions not found: ', cpath)
+      stop('s301fl common exemption source missing: ', cpath)
     }
   }
 
@@ -4783,10 +4780,10 @@ load_s301fl_exemptions <- function(fl_cfg) {
         mutate(country = strsplit(countries, ';')) %>%
         tidyr::unnest(country) %>%
         transmute(country = trimws(country), hts8 = hts_code,
-                  condition = if_else(condition == 'ex', 'full', condition)) %>%
+                  condition = condition) %>%
         distinct()
     } else {
-      message('  WARNING: s301fl country exemptions not found: ', kpath)
+      stop('s301fl country exemption source missing: ', kpath)
     }
   }
 
@@ -4819,7 +4816,8 @@ load_s301fl_exemptions <- function(fl_cfg) {
 #' @return Numeric vector of exempt shares in [0, 1]; 0 = not exempt at all
 s122_exempt_share <- function(hts10,
                               exempt_path = here('resources', 's122_exempt_products.csv'),
-                              util_path = here('resources', 's122_aircraft_utilization.csv')) {
+                              util_path = here('resources', 's122_aircraft_utilization.csv'),
+                              statutory = FALSE) {
   n <- length(hts10)
   if (n == 0) return(numeric(0))
   if (!file.exists(exempt_path)) return(rep(0, n))
@@ -4836,6 +4834,10 @@ s122_exempt_share <- function(hts10,
 
   share <- rep(0, n)
   share[hts8 %in% uncond] <- 1
+
+  # CSMS 67844987 / note 2(aa)(iv): the use condition must be established for
+  # a shipment. Only the model consumes measured or fallback utilization.
+  if (statutory) return(share)
 
   is_gn6 <- hts8 %in% gn6 & share == 0
   if (any(is_gn6)) {
@@ -4931,88 +4933,96 @@ s232_scope_mask <- function(rates) {
 }
 
 
-#' Compute per-product-country Section 338 Canada rates
-#'
-#' Section 338 of the Tariff Act of 1930 (19 U.S.C. 1338) lets the President
-#' impose duties to offset a foreign country's discrimination against U.S.
-#' commerce, capped at 50% ad valorem and effective no earlier than 30 days after
-#' the proclamation. Three proclamations of 2026-07-20, published 2026-07-23
-#' (91 FR 46653 et seq.), each impose 50% on an Annex II product list, all
-#' effective 12:01 a.m. ET 2026-08-19:
-#'   Proclamation 11047  dairy               (52 hts8)
-#'   (sibling)           motor vehicles      (439 hts8)
-#'   (sibling)           alcoholic beverages (63 hts8)
-#'
-#' Carve-outs, from Proclamation 11047 para. 2:
-#'   "The duties imposed in this proclamation shall not apply to articles subject
-#'    to duties pursuant to section 232 ... or articles, EXCLUDING UNMANNED
-#'    AIRCRAFT, subject to the WTO Agreement on Trade in Civil Aircraft."
-#' Both are FULL per-article exclusions. Otherwise the duty is "in addition to any
-#' other duties, taxes, fees, exactions, and charges" — it stacks.
-#'
-#' The unmanned-aircraft exception to the civil-aircraft carve-out means a GN 6
-#' line that IS an unmanned aircraft still pays. Those are enumerated separately
-#' because GN 6 itself does not distinguish them.
-#'
-#' @param rates Rates frame (needs hts10, country; uses the §232 columns)
-#' @param cfg policy_params$SECTION_338
-#' @param effective_date Revision effective date
-#' @return Numeric vector, length nrow(rates)
-compute_s338_rates <- function(rates, cfg, effective_date, statutory = FALSE) {
+#' Load action-specific Section 338 coverage and apply dated annex amendments.
+#' HTS8 provisions remain prefixes; HTS10 provisions remain exact. A deletion
+#' must reconcile with the previous version, or the build stops for review.
+load_s338_actions <- function(cfg, effective_date) {
+  read_source <- function(path) {
+    if (is.null(path)) stop('section_338 source path missing')
+    path <- if (file.exists(path)) path else here(path)
+    if (!file.exists(path)) stop('section_338 source missing: ', path)
+    read_csv(path, col_types = cols(.default = col_character()), show_col_types = FALSE)
+  }
+  rows <- read_source(cfg$products_file)
+  col <- intersect(c('hts_code', 'hts8'), names(rows))[1]
+  if (is.na(col) || !all(c('program', 'ch99_heading') %in% names(rows)) || !nrow(rows))
+    stop('section_338 coverage source has incomplete fields')
+  rows <- rows %>% transmute(hts_code = .data[[col]], program, ch99_heading,
+                            s232_exempt = TRUE)
+  if (any(!grepl('^([0-9]{8}|[0-9]{10})$', rows$hts_code)))
+    stop('section_338 invalid product precision')
+  if (!is.null(cfg$amendments_file)) {
+    path <- cfg$amendments_file
+    path <- if (file.exists(path)) path else here(path)
+    if (!file.exists(path)) stop('section_338 amendment source missing')
+    amendments <- jsonlite::fromJSON(path, simplifyVector = FALSE)
+    dates <- vapply(amendments, function(a) a$effective_at, character(1))
+    for (a in amendments[order(dates)]) {
+      if (as.Date(substr(a$effective_at, 1, 10)) > as.Date(effective_date)) next
+      scope <- rows$program == a$program
+      remove <- unlist(a$delete)
+      if (!all(remove %in% rows$hts_code[scope]))
+        stop('section_338 amendment does not reconcile: ', a$id)
+      heading <- unique(rows$ch99_heading[scope])
+      if (length(heading) != 1) stop('section_338 ambiguous action heading: ', a$id)
+      rows <- rows[!(scope & rows$hts_code %in% remove), ]
+      rows <- bind_rows(rows, tibble(hts_code = unlist(a$insert),
+        program = a$program, ch99_heading = heading, s232_exempt = a$s232_exempt))
+      rows$s232_exempt[rows$program == a$program] <- a$s232_exempt
+    }
+  }
+  distinct(rows)
+}
+
+#' Action-level calculation for aggregate snapshots. Shipment interpretation of
+#' use/content conditions belongs to the declarative evaluator. This adapter
+#' preserves the existing aggregate GN6 assumption and exposes the unclaimed
+#' statutory branch separately. Sources: Proclamations 11046-11048; 11056
+#' (2026-17294) para. 1; 2026-18838/18839 para. 1 and Annex II.
+compute_s338_components <- function(rates, cfg, effective_date, statutory = FALSE) {
   n <- nrow(rates)
-  if (n == 0 || is.null(cfg)) return(rep(0, n))
-
-  eff <- as.Date(effective_date)
-  if (!is.null(cfg$effective_date) && eff < as.Date(cfg$effective_date)) {
-    return(rep(0, n))
+  empty <- list(rate = rep(0, n), reporting_codes = rep(NA_character_, n), actions = list())
+  if (!n || is.null(cfg) || as.Date(effective_date) < as.Date(cfg$effective_date)) return(empty)
+  rate <- as.numeric(cfg$rate)
+  if (length(rate) != 1 || is.na(rate) || rate <= 0 || rate > 0.50 + 1e-9)
+    stop('section_338 invalid action rate (19 U.S.C. 1338 ceiling)')
+  rows <- load_s338_actions(cfg, effective_date)
+  match_products <- function(codes) {
+    substr(rates$hts10, 1, 8) %in% codes[nchar(codes) == 8] |
+      rates$hts10 %in% codes[nchar(codes) == 10]
   }
-
-  cty <- as.character(cfg$country %||% '1220')
-  rate <- as.numeric(cfg$rate %||% 0)
-  # §338 caps the President's authority at 50% ad valorem; a config above that
-  # would be ultra vires, so clamp and warn rather than emit an illegal rate.
-  if (rate > 0.50 + 1e-9) {
-    warning('section_338 rate ', rate, ' exceeds the 19 U.S.C. 1338 statutory ',
-            'ceiling of 0.50 — clamping')
-    rate <- 0.50
-  }
-  if (rate <= 0) return(rep(0, n))
-
-  read_hts8 <- function(p, col_pref = c('hts8', 'hts_code', 'hts_prefix')) {
-    if (is.null(p)) return(NULL)
-    p <- if (file.exists(p)) p else here(p)
-    if (!file.exists(p)) return(NULL)
-    suppressWarnings(read_csv(p, col_types = cols(.default = col_character())))
-  }
-
-  prods <- read_hts8(cfg$products_file)
-  if (is.null(prods) || nrow(prods) == 0) {
-    message('  WARNING: section_338 products file missing/empty — no duty applied')
-    return(rep(0, n))
-  }
-  pcol <- intersect(c('hts8', 'hts_code', 'hts_prefix'), names(prods))[1]
-  covered <- unique(substr(prods[[pcol]], 1, 8))
-
-  gn6 <- read_hts8(cfg$gn6_exempt_products)
-  gn6_hts8 <- if (!is.null(gn6)) {
-    gcol <- intersect(c('hts8', 'hts_code', 'hts_prefix'), names(gn6))[1]
-    unique(substr(gn6[[gcol]], 1, 8))
-  } else character(0)
-  # The proclamation's unmanned-aircraft exception to the civil-aircraft carve-out.
-  uav_hts8 <- as.character(cfg$unmanned_aircraft_hts8 %||% character(0))
-  gn6_hts8 <- setdiff(gn6_hts8, substr(uav_hts8, 1, 8))
-
-  hts8 <- substr(rates$hts10, 1, 8)
-  out <- rep(0, n)
-  applies <- rates$country == cty & hts8 %in% covered
-  out[applies] <- rate
-
-  # Full exclusions. `statutory = TRUE` yields the pre-exclusion 50%.
+  gn6 <- rep(FALSE, n)
   if (!statutory) {
-    out[hts8 %in% gn6_hts8] <- 0               # WTO civil aircraft (minus UAVs)
-    out[s232_scope_mask(rates)] <- 0           # articles subject to §232
+    path <- cfg$gn6_exempt_products
+    if (is.null(path)) stop('section_338 GN6 source missing')
+    path <- if (file.exists(path)) path else here(path)
+    if (!file.exists(path)) stop('section_338 GN6 source missing')
+    products <- read_csv(path, col_types = cols(.default = col_character()), show_col_types = FALSE)
+    col <- intersect(c('hts_code', 'hts8', 'hts_prefix'), names(products))[1]
+    if (is.na(col)) stop('section_338 GN6 source has no product codes')
+    gn6 <- match_products(setdiff(products[[col]], unlist(cfg$unmanned_aircraft_hts8)))
+  }
+  section232 <- s232_scope_mask(rates)
+  out <- empty
+  for (action in sort(unique(rows$program))) {
+    products <- rows[rows$program == action, ]
+    excluded <- unique(products$s232_exempt)
+    heading <- unique(products$ch99_heading)
+    if (length(excluded) != 1 || length(heading) != 1)
+      stop('section_338 conflicting action metadata: ', action)
+    applies <- rates$country == as.character(cfg$country) & match_products(products$hts_code) &
+      !gn6 & !(excluded & section232)
+    amount <- ifelse(applies, rate, 0)
+    out$actions[[action]] <- amount
+    out$rate <- out$rate + amount
+    out$reporting_codes[applies] <- ifelse(is.na(out$reporting_codes[applies]), heading,
+      paste(out$reporting_codes[applies], heading, sep = ';'))
   }
   out
+}
+
+compute_s338_rates <- function(rates, cfg, effective_date, statutory = FALSE) {
+  compute_s338_components(rates, cfg, effective_date, statutory)$rate
 }
 
 
@@ -5073,7 +5083,10 @@ compute_s301br_rates <- function(rates, br_cfg, effective_date, hts_rate = NULL,
   air_share   <- as.numeric(br_cfg$aircraft_exempt_share %||% 0)
   pharm_share <- as.numeric(br_cfg$pharma_exempt_share %||% 0)
 
-  exempt_share <- rep(0, n)
+  # Note 50(a)(ii)/(iii)/(vi), FR 2026-14542: unconditional product and
+  # Section 232 exclusions precede modeling and do not require a claim.
+  exempt_share <- pmax(if_else(hts8 %in% flat, 1, 0),
+                      if_else(s232_scope_mask(rates), 1, 0))
   if (!statutory) {
     # `statutory = TRUE` yields the pre-exemption 25% the notice imposes, before
     # the note-50(a)(ii)-(vi) exclusions reduce it.
@@ -5186,13 +5199,16 @@ compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NUL
 
   # Unconditional / conditional exemption shares, keyed by hts8.
   common_share <- ex$common %>%
-    mutate(share = case_when(condition == 'full'     ~ 1,
-                             condition == 'aircraft' ~ air_share,
-                             condition == 'pharma'   ~ pharma_share,
+    mutate(share = case_when(condition == 'full' ~ 1,
+                             # Ex-line membership is conditional. Preserve the
+                             # existing aggregate assumption, never statutory.
+                             condition == 'ex' & !statutory ~ 1,
+                             condition == 'aircraft' & !statutory ~ air_share,
+                             condition == 'pharma' & !statutory ~ pharma_share,
                              TRUE ~ 0)) %>%
     group_by(hts8) %>% summarise(common_share = max(share), .groups = 'drop')
 
-  country_full <- ex$country %>% filter(condition == 'full') %>%
+  country_full <- ex$country %>% filter(condition == 'full' | (condition == 'ex' & !statutory)) %>%
     distinct(country, hts8) %>% mutate(country_share = 1)
   country_fta <- ex$country %>% filter(condition == 'fta') %>% distinct(country, hts8)
 
@@ -5242,16 +5258,18 @@ compute_s301fl_rates <- function(rates, fl_cfg, effective_date, mfn_shares = NUL
   scored <- out %>%
     mutate(
       pat_share = if_else(hts8 %in% pat_hts8, 1, 0),
-      # `statutory = TRUE` yields the pre-exemption rate: the tier (or cap)
-      # the notice imposes before any Annex I/II product exclusion, §232
-      # carve-out or USMCA claim reduces it. That is the statutory_rate_*
-      # baseline the frontend compares the effective rate against.
-      exempt_share = if (statutory) 0 else
+      # U.S. note 52(b)-(h), FR 2026-15181: full exclusions apply to every
+      # covered entry; a use/preference share is not a shipment claim.
+      exempt_share = if (statutory)
+        pmin(1, pmax(coalesce(common_share, 0), coalesce(country_share, 0),
+                     pat_share, s232_share)) else
         pmin(1, pmax(coalesce(common_share, 0),
                      coalesce(country_share, 0),
                      fta_share, pat_share,
                      s232_share, usmca_ex_share)),
-      cap_base = if_else(country %in% post_pref, base_eff, base_stat),
+      # FR 2026-15181: a modeled preference share is not a claim by this
+      # shipment. A real claim is reevaluated by the shipment rule interpreter.
+      cap_base = if_else(!statutory & country %in% post_pref, base_eff, base_stat),
       applicable = if_else(fl_is_cap, pmax(0, fl_rate - cap_base), fl_rate),
       value = applicable * (1 - exempt_share)
     )

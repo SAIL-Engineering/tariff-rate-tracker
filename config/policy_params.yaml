@@ -748,18 +748,17 @@ section_122:
 # Otherwise the duty is "in addition to any other duties, taxes, fees, exactions,
 # and charges" — it stacks.
 #
-# NO PUBLISHED HTS REVISION CARRIES THIS YET (rev_13 published 2026-07-28, three
-# weeks before it takes effect). The ch99_heading values in
-# resources/s338_products.csv (9903.03.12-.14) are a PREDICTION: §122's
-# 9903.03.01-.11 expired 2026-07-23, freeing that range. classify_authority()
-# maps 9903.03.12+ to section_338 so a §338 heading is never misattributed to the
-# expired §122; if USITC assigns different headings, the completeness gate will
-# surface them and both the config and that branch get corrected.
+# Published headings are in note 51(b). Proclamation 11056 (2026-17294)
+# delayed all three actions to August 22. September amendments (2026-18838/18839)
+# alter coverage at HTS8/HTS10 precision and remove the Section 232 exclusion
+# for the alcohol and motor-vehicle actions only.
 section_338:
-  effective_date: '2026-08-19'
-  rate: 0.50                                        # 19 U.S.C. 1338 ceiling
-  country: '1220'                                   # Canada census code
+  effective_date: '2026-08-22'
+  effective_at: '2026-08-22T00:01:00-04:00'
+  rate: 0.50
+  country: '1220'
   products_file: 'resources/s338_products.csv'
+  amendments_file: 'resources/s338_amendments.json'
   gn6_exempt_products: 'resources/s338_gn6_exempt_products.csv'
   # HTS8 lines that are unmanned aircraft, i.e. the proclamation's exception to
   # the civil-aircraft carve-out — these still pay. Empty until the GN 6 list is

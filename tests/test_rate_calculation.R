@@ -1895,11 +1895,11 @@ run_test('dormant before 2026-08-19', {
   unlink(f$files)
 })
 
-run_test('clamps to the 19 U.S.C. 1338 statutory ceiling of 50%', {
+run_test('rejects rates above the Section 338 statutory ceiling', {
   f <- s338_fixture()
-  r <- suppressWarnings(compute_s338_rates(f$rows[1, ],
-                        modifyList(f$cfg, list(rate = 0.75)), as.Date('2026-08-19')))
-  stopifnot(abs(r - 0.50) < 1e-12)
+  err <- tryCatch({ compute_s338_rates(f$rows[1, ],
+    modifyList(f$cfg, list(rate = 0.75)), as.Date('2026-08-19')); NULL }, error = identity)
+  stopifnot(inherits(err, 'error'))
   unlink(f$files)
 })
 

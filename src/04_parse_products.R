@@ -124,6 +124,21 @@ parse_products <- function(json_path) {
     special_raw <- item$special %||% ''
     other_raw <- item$other %||% ''
     indent <- as.integer(item$indent %||% 0)
+    if (length(indent) != 1 || is.na(indent) || indent < 0)
+      stop('Invalid HTS hierarchy indent at ', htsno)
+    # A sibling is never an ancestor, including when its replacement has an
+    # empty rate cell. Prune on EVERY row, before pushing nonempty cells.
+    # Pruning only on a new rate leaked the previous sibling's rate/special/
+    # Column 2/units through empty intervening headings.
+    ancestors <- function(stack) stack[as.integer(names(stack)) < indent]
+    rate_stack <<- ancestors(rate_stack)
+    htsno_stack <<- ancestors(htsno_stack)
+    general_hts_stack <<- ancestors(general_hts_stack)
+    general_raw_stack <<- ancestors(general_raw_stack)
+    special_stack <<- ancestors(special_stack)
+    other_stack <<- ancestors(other_stack)
+    unit1_stack <<- ancestors(unit1_stack)
+    unit2_stack <<- ancestors(unit2_stack)
     # Statistical reporting units (nonlegal per USITC preface).
     # The HTS JSON 'units' array contains reporting units required on entry
     # documents. These do NOT by themselves drive duty calculation.
@@ -420,6 +435,7 @@ parse_products <- function(json_path) {
       description = description,
       base_rate = base_rate,
       base_rate_raw = general,
+      duty_expression_raw = general_for_type,
       base_rate_source = base_rate_source,
       rate_special = rate_special,
       rate_special_raw = special_raw,
