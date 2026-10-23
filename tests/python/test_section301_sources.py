@@ -30,10 +30,11 @@ class SourceTests(unittest.TestCase):
         cls.old = fixture('2025_basic')
         cls.new = fixture('2026_rev_21')
         cls.maritime = fixture('2025_rev_27')
+        cls.retroactive = fixture('2026_rev_11')
         if os.environ.get('S301_TEST_OUTPUT'):
             path = Path(os.environ['S301_TEST_OUTPUT'])
             path.mkdir(parents=True,exist_ok=True)
-            for text,data,result in [cls.old,cls.new,cls.maritime]:
+            for text,data,result in [cls.old,cls.new,cls.maritime,cls.retroactive]:
                 (path/(result['revision']+'.json')).write_text(json.dumps(dict(extraction=result,products=data['products'])))
 
     def action(self,code,new=True):
@@ -122,6 +123,62 @@ class SourceTests(unittest.TestCase):
         a=next(r for r in self.maritime[2]['actions'] if r['reporting_code']=='9903.91.14')
         self.assertEqual(a['start_time_conflict']['written_start'],'2025-11-09T00:01:00-04:00')
         self.assertEqual(a['valid_from'],'2025-11-09T00:01:00-05:00')
+
+    def test_exclusions_preserve_exact_target_and_description(self):
+        x=self.new[2]['exclusions'];self.assertEqual(len(x['records']),180)
+        record=next(r for r in x['records'] if r['locator']=='U.S. note 20(vvv)(i)(1)')
+        self.assertEqual(record['target_reporting_codes'],['9903.88.01'])
+        self.assertEqual(record['bindings'][0]['codes'],['8483509040'])
+        self.assertIsNone(record['condition_text'])
+        pump=next(r for r in x['records'] if r['locator']=='U.S. note 20(vvv)(i)(4)')
+        self.assertEqual(pump['condition_text'],'Pump casings and bodies')
+        self.assertEqual(pump['bindings'][-1]['valid_from'],'2026-07-01T00:00:00-04:00')
+        self.assertEqual(pump['bindings'][-2]['valid_until'],'2026-07-01T00:00:00-04:00')
+
+    def test_direct_exclusions_keep_contract_certification_and_exact_expiry(self):
+        records={r['reporting_code']:r for r in self.maritime[2]['exclusions']['records']}
+        crane=records['9903.91.09']; syringe=records['9903.91.10']
+        self.assertEqual(crane['target_reporting_codes'],['9903.91.14','9903.92.10'])
+        self.assertEqual(crane['bindings'][0]['codes'],['84261900'])
+        self.assertIn('has not been modified',crane['condition_text'])
+        self.assertEqual(syringe['target_reporting_codes'],['9903.91.03'])
+        self.assertEqual(syringe['bindings'][0]['codes'],['9018310080'])
+        windows=self.maritime[2]['exclusions']['windows']
+        self.assertEqual(windows['9903.91.09'][0]['valid_until'],'2026-05-14T00:00:00-04:00')
+        self.assertEqual(windows['9903.91.10'][0]['valid_until'],'2026-01-01T00:00:00-05:00')
+
+    def test_comma_separated_historical_references_do_not_erase_lcd_exclusion(self):
+        record=next(r for r in self.new[2]['exclusions']['records'] if r['locator']=='U.S. note 20(vvv)(iv)(20)')
+        self.assertEqual([b['codes'] for b in record['bindings']],[['9013809000'],['8524119000']])
+        self.assertEqual(record['bindings'][0]['valid_until'],record['bindings'][1]['valid_from'])
+        self.assertIsNone(record['bindings'][1]['valid_until'])
+        with self.assertRaisesRegex(ValueError,'Empty/reversed'):
+            module.exclusion_bindings('8524.11.9000 effective January 27, 2022 prior to January 27, 2022','fixture')
+
+    def test_retroactive_amendments_apply_to_old_sources_idempotently(self):
+        for locator in ['U.S. note 20(vvv)(i)(4)','U.S. note 20(vvv)(i)(5)','U.S. note 20(vvv)(i)(6)',
+                        'U.S. note 20(vvv)(i)(20)','U.S. note 20(vvv)(iv)(4)']:
+            old=next(r for r in self.old[2]['exclusions']['records'] if r['locator']==locator)
+            new=next(r for r in self.new[2]['exclusions']['records'] if r['locator']==locator)
+            self.assertEqual(old['bindings'],new['bindings'])
+            self.assertEqual(old['amended_text'],new['amended_text'])
+            self.assertNotEqual(old['source_text_sha256'],new['source_text_sha256'])
+
+    def test_code_dates_do_not_create_an_extra_product_condition(self):
+        description,bindings=module.exclusion_bindings('5603.92.0090 prior to July 1, 2022; 5603.92.0070 or 5603.92.0095 effective July 1, 2022','fixture')
+        self.assertIsNone(description)
+        self.assertEqual(bindings[0]['valid_until'],bindings[1]['valid_from'])
+        with self.assertRaisesRegex(ValueError,'qualifier'):
+            module.exclusion_bindings('5603.92.0090 except unparsed restriction','fixture')
+
+    def test_exclusion_extensions_keep_primary_time_discrepancies(self):
+        x=self.new[2]['exclusions']['windows']
+        self.assertEqual(len(x['9903.88.69']),4)
+        initial,summer,autumn,last=x['9903.88.69']
+        self.assertEqual(initial['valid_until'],'2025-05-31T23:59:00-04:00')
+        self.assertEqual(summer['valid_from'],'2025-06-01T00:01:00-05:00')
+        self.assertEqual(summer['possible_from'],'2025-06-01T00:00:00-04:00')
+        self.assertEqual(last['possible_until'],'2026-11-10T00:00:00-05:00')
 
 
 if __name__=='__main__':

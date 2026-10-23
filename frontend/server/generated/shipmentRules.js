@@ -1,10 +1,10 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: a57d64d9ecf259d6710761e52409aca6f140549ee3d60b0b5af0648171524ab8
+// Source SHA256: 81a51675707440f5e3303962a242e18e1d3fce933f017c2223eb00e31947f957
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
         status: 'unresolved_source', components: [], rule_decisions: [], coverage_decisions: [], applied_rules: [], suppressed_rules: [],
-        missing_inputs: [], required_facts: {}, source_errors: [reason], known_subtotal: 0, complete_total: null };
+        missing_inputs: [], required_facts: {}, claim_options: [], source_errors: [reason], known_subtotal: 0, complete_total: null };
 }
 function timestamp(value) {
     if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/.test(value))
@@ -92,6 +92,15 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
             return fail(`claim_not_priced:${claim}`);
     }
     const result = { ...fail(''), status: 'complete', source_errors: [], complete_total: 0 };
+    result.claim_options = (bundle.claim_definitions ?? []).flatMap(claim => {
+        const candidates = claim.candidate_rule_ids ?? [];
+        if (!candidates.length || !candidates.every(id => rules.has(id))
+            || !claim.source_ids.length || !claim.source_ids.every(validSource))
+            return [];
+        const matched = candidates.filter(id => matches(rules.get(id).scope, hts10, country, at));
+        return matched.length ? [{ id: claim.id, label: claim.label, candidate_rule_ids: matched,
+                citations: claim.source_ids.map(id => sources.get(id)) }] : [];
+    });
     for (const authority of bundle.coverage_requirements) {
         const coverage = (bundle.coverage ?? []).filter(c => c.authority === authority && matches(c.scope, hts10, country, at));
         const applicable = [...rules.values()].filter(r => r.authority === authority && matches(r.scope, hts10, country, at));
@@ -112,9 +121,12 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     function expr(x) {
         if (!x || typeof x !== 'object')
             return val(null, [], ['invalid_expression']);
-        const keys = ['value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'op'].filter(k => k in x);
+        const keys = ['value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'unresolved_source', 'op'].filter(k => k in x);
         if (keys.length !== 1)
             return val(null, [], ['invalid_expression']);
+        if ('unresolved_source' in x)
+            return typeof x.unresolved_source === 'string' && x.unresolved_source.length
+                ? val(null, [], [`source_discrepancy:${x.unresolved_source}`]) : val(null, [], ['invalid_source_discrepancy']);
         if ('value' in x)
             return ['number', 'boolean', 'string'].includes(typeof x.value)
                 && (typeof x.value !== 'number' || Number.isFinite(x.value)) ? val(x.value) : val(null, [], ['invalid_literal']);

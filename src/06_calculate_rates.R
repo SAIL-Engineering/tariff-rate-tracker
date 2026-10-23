@@ -2679,6 +2679,8 @@ calculate_rates_for_revision <- function(
   if (grepl('^202[56]_', revision_id)) {
     source(here('src','section301_revision.R'))
     s301_source <- load_s301_revision_source(revision_id)
+    s301_exclusions <- s301_exclusion_candidates(s301_source,products$hts10,
+      paste0(as.Date(effective_date),'T23:59:59Z'))
     s301_source_matches <- s301_revision_matches(s301_source, products$hts10,
       paste0(as.Date(effective_date),'T23:59:59Z'))
     s301_lookup <- s301_revision_lookup(s301_source_matches %>% filter(program=='china_technology_transfer'))

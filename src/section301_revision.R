@@ -2,6 +2,8 @@
 # supply scope; the same revision's HTS heading supplies the rate expression.
 # Never use a global HTS8 list or choose a maximum to resolve legal conflicts.
 
+if (!exists('.shipment_time', mode='function')) source(here::here('src/resolve_shipment_duties.R'))
+
 load_s301_revision_source <- function(revision_id, root = here::here(), download = TRUE) {
   if (!grepl('^202[56]_(basic|rev_[0-9]+)$', revision_id))
     stop('Section 301 source extraction requires an identified 2025/2026 revision')
@@ -23,7 +25,8 @@ load_s301_revision_source <- function(revision_id, root = here::here(), download
   valid <- function(x) identical(x$contract_version,'sail.section301-extraction/v1') &&
     identical(x$revision,revision_id) && identical(x$extractor_sha256,hash(script)) &&
     identical(x$sources[[1]]$sha256,hash(pdf)) && identical(x$sources[[2]]$sha256,hash(hts)) &&
-    all(vapply(x$additional_sources,function(s) file.exists(s$path) && identical(s$sha256,hash(s$path)),logical(1)))
+    all(vapply(x$additional_sources,function(s) file.exists(s$path) && identical(s$sha256,hash(s$path)) &&
+      (is.null(s$metadata_path) || (file.exists(s$metadata_path) && identical(s$metadata_sha256,hash(s$metadata_path)))),logical(1)))
   x <- if(file.exists(cache)) tryCatch(jsonlite::fromJSON(cache,simplifyVector=FALSE),error=function(e) NULL) else NULL
   if(is.null(x) || !valid(x)) {
     temp <- tempfile(fileext='.json')
@@ -155,9 +158,176 @@ compile_s301_revision_fragment <- function(extraction, products) {
       }
     }
   }
+  exclusions <- compile_s301_exclusion_rules(extraction,products,source_ids[1:2])
+  rules <- c(rules,exclusions$rules)
+  facts <- c(facts,exclusions$fact_definitions)
+  # The note names the charges removed; other compiled Section 301 actions are
+  # retained. Other authorities need their own explicit reviewed claim effects.
+  claim_definitions <- lapply(exclusions$claim_definitions,function(c) {
+    c$rule_ids <- lapply(rules,`[[`,'id'); c
+  })
   list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('s301_china_',revision),
     supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
     sources=sources,source_artifacts=artifacts,
-    rules=rules,fact_definitions=facts,coverage=list(),relations=list(),
+    rules=rules,fact_definitions=facts,claim_definitions=claim_definitions,
+    coverage=list(),relations=exclusions$relations,
     limitations=extraction$limitations)
+}
+
+# Compile named exclusion effects from independently extracted product-code and
+# grant windows. No aggregate rate or utilization share enters these rules.
+compile_s301_exclusion_rules <- function(extraction, products, revision_source_ids) {
+  if(is.null(extraction$exclusions)) stop('Missing source-backed Section 301 exclusion chronology')
+  rules<-list();facts<-list();relations<-list();claims<-list()
+  canonical_json <- function(x) as.character(jsonlite::toJSON(.shipment_canonical(x),auto_unbox=TRUE,null='null',digits=NA))
+  instant <- function(x, fallback) if(is.null(x)) .shipment_time(fallback) else .shipment_time(x)
+  iso <- function(t) format(as.POSIXct(t,origin='1970-01-01',tz='UTC'),'%Y-%m-%dT%H:%M:%SZ',tz='UTC')
+  for(record in extraction$exclusions$records) {
+    claim <- paste0('section301:',record$reporting_code)
+    stem <- paste0('s301_exclusion_',gsub('[^a-z0-9]','_',tolower(record$locator)))
+    predicate <- list(claim=claim)
+    src <- sort(unique(c(revision_source_ids,unlist(record$source_ids),unlist(lapply(record$amendments,`[[`,'source_id')))))
+    if(!is.null(record$condition_text)) {
+      name <- paste0('matches_',stem)
+      facts[[name]] <- list(type='boolean',label=paste0('Meets ',record$locator,' product description'),
+        description=record$condition_text,source_ids=as.list(src))
+      predicate <- list(op='and',args=list(predicate,list(fact=name)))
+    }
+    for(b in seq_along(record$bindings)) {
+      binding <- record$bindings[[b]]
+      matched <- sort(unique(unlist(lapply(binding$codes,function(code) {
+        if(!nchar(code) %in% c(8L,10L)) stop('Invalid exclusion scope grain')
+        products[startsWith(products,code)]
+      }))))
+      if(!length(matched)) next
+      for(w in seq_along(extraction$exclusions$windows[[record$reporting_code]])) {
+        window <- extraction$exclusions$windows[[record$reporting_code]][[w]]
+        start <- max(instant(binding$valid_from,'2025-01-01T00:00:00-05:00'),
+          .shipment_time(window$possible_from),.shipment_time('2025-01-01T00:00:00-05:00'))
+        end <- min(instant(binding$valid_until,'2026-10-23T00:00:00-04:00'),
+          .shipment_time(window$possible_until),.shipment_time('2026-10-23T00:00:00-04:00'))
+        if(start>=end) next
+        known_start <- max(start,.shipment_time(window$valid_from))
+        known_end <- min(end,.shipment_time(window$valid_until))
+        for(amendment in record$amendments) {
+          if(!is.null(binding$valid_from) && .shipment_time(binding$valid_from)>=.shipment_time(amendment$effective_day))
+            known_start <- max(known_start,.shipment_time(amendment$entry_window$valid_from))
+        }
+        # Boundaries preserve both the published minute/offset and the heading's
+        # calendar-day wording. A requested claim remains unresolved there.
+        cuts <- sort(unique(pmax(start,pmin(end,c(start,known_start,known_end,end)))))
+        ranges <- lapply(seq_len(length(cuts)-1L),function(k)
+          c(cuts[k],cuts[k+1L],as.numeric(cuts[k]>=known_start && cuts[k+1L]<=known_end)))
+        for(k in seq_along(ranges)) {
+          range<-ranges[[k]];if(range[1]>=range[2]) next
+          id<-paste0(stem,'_b',b,'_w',w,'_',k)
+          when<-predicate
+          if(range[3]==0) when<-list(op='and',args=list(predicate,
+            list(unresolved_source=paste0('exclusion_entry_boundary:',record$locator))))
+          sources<-as.list(sort(unique(c(src,window$source_id))))
+          rules[[length(rules)+1L]]<-list(id=id,action_id=stem,authority='section_301',kind='duty',
+            verification='verified',scope=list(hts_exact=as.list(matched),countries=list('5700'),
+              from=iso(range[1]),until=iso(range[2])),when=when,formula=list(value=0),
+            reporting_codes=list(record$reporting_code),source_ids=sources,
+            legal_locator=record$locator,role='exclusion',claim_id=claim,
+            target_reporting_codes=record$target_reporting_codes,source_text_sha256=record$source_text_sha256)
+          relations[[length(relations)+1L]]<-list(id=paste0(id,'_effect'),effect='suppress',
+            when_rule_applies=id,target_reporting_codes=record$target_reporting_codes,source_ids=sources)
+          old<-claims[[claim]]
+          claims[[claim]]<-list(id=claim,label=paste0('Section 301 exclusion ',record$reporting_code),
+            source_ids=as.list(sort(unique(c(unlist(old$source_ids),unlist(sources))))),
+            candidate_rule_ids=c(old$candidate_rule_ids,list(id)),rule_ids=list())
+        }
+      }
+    }
+  }
+  # Several descriptions may be alternatives for one code. Evaluate their OR
+  # once: one established exclusion must not demand facts for every alternative.
+  grouped <- list()
+  for(i in seq_along(rules)) for(hts in unlist(rules[[i]]$scope$hts_exact)) {
+    key<-paste(hts,rules[[i]]$reporting_codes[[1]],paste(unlist(relations[[i]]$target_reporting_codes),collapse=','),sep='|')
+    grouped[[key]]<-c(grouped[[key]],i)
+  }
+  merged<-list();edges<-list();claims<-list()
+  for(key in sort(names(grouped))) {
+    idx<-grouped[[key]];rs<-rules[idx]
+    starts<-vapply(rs,function(r) .shipment_time(r$scope$from),numeric(1))
+    ends<-vapply(rs,function(r) .shipment_time(r$scope$until),numeric(1))
+    cuts<-sort(unique(c(starts,ends)))
+    for(k in seq_len(length(cuts)-1L)) {
+      active<-which(starts<=cuts[k] & ends>=cuts[k+1L]);if(!length(active)) next
+      selected<-rs[active];first<-selected[[1]]
+      predicates<-lapply(selected,`[[`,'when')
+      signatures<-vapply(predicates,canonical_json,character(1))
+      predicates<-predicates[match(sort(unique(signatures)),signatures)]
+      sources<-as.list(sort(unique(unlist(lapply(selected,`[[`,'source_ids')))))
+      records<-lapply(selected,function(r) list(locator=r$legal_locator,sha256=r$source_text_sha256))
+      signatures<-vapply(records,canonical_json,character(1))
+      records<-records[match(sort(unique(signatures)),signatures)]
+      id<-paste0('s301_exclusion_',digest::digest(paste(key,cuts[k],cuts[k+1L]),algo='sha256',serialize=FALSE))
+      first$id<-id;first$action_id<-paste0('s301_exclusion_',gsub('[.]','',first$reporting_codes[[1]]))
+      first$scope$hts_exact<-list(strsplit(key,'|',fixed=TRUE)[[1]][1])
+      first$scope$from<-iso(cuts[k]);first$scope$until<-iso(cuts[k+1L])
+      first$when<-if(length(predicates)==1) predicates[[1]] else list(op='or',args=predicates)
+      first$source_ids<-sources;first$legal_locator<-paste(sort(unique(unlist(lapply(records,`[[`,'locator')))),collapse='; ')
+      first$source_scope_records<-records;first$source_text_sha256<-NULL
+      first$source_scope_sha256<-digest::digest(canonical_json(records),algo='sha256',serialize=FALSE)
+      merged[[length(merged)+1L]]<-first
+      edge<-relations[[idx[active[1]]]];edge$id<-paste0(id,'_effect');edge$when_rule_applies<-id;edge$source_ids<-sources
+      edges[[length(edges)+1L]]<-edge
+      claim<-paste0('section301:',first$reporting_codes[[1]]);old<-claims[[claim]]
+      claims[[claim]]<-list(id=claim,label=paste0('Section 301 exclusion ',first$reporting_codes[[1]]),
+        source_ids=as.list(sort(unique(c(unlist(old$source_ids),unlist(sources))))),
+        candidate_rule_ids=c(old$candidate_rule_ids,list(id)),rule_ids=list())
+    }
+  }
+  list(rules=merged,fact_definitions=facts,relations=edges,claim_definitions=unname(claims))
+}
+
+s301_exclusion_candidates <- function(extraction, products, entry_at) {
+  at <- .shipment_time(entry_at)
+  if(is.na(at) || is.null(extraction$exclusions)) stop('Missing exclusion chronology or entry time')
+  rows<-list()
+  charges<-s301_revision_matches(extraction,products,entry_at)
+  for(record in extraction$exclusions$records) {
+    windows<-extraction$exclusions$windows[[record$reporting_code]]
+    in_window<-any(vapply(windows,function(w) at>=.shipment_time(w$possible_from) && at<.shipment_time(w$possible_until),logical(1)))
+    if(!in_window) next
+    for(binding in record$bindings) {
+      if(!is.null(binding$valid_from) && at<.shipment_time(binding$valid_from)) next
+      if(!is.null(binding$valid_until) && at>=.shipment_time(binding$valid_until)) next
+      charged<-charges$hts10[charges$ch99_code %in% unlist(record$target_reporting_codes)]
+      matched<-unique(unlist(lapply(binding$codes,function(code) charged[startsWith(charged,code)])))
+      if(!length(matched)) next
+      rows[[length(rows)+1L]]<-data.frame(hts10=matched,ch99_code=record$reporting_code,
+        source_locator=record$locator,source_text_sha256=record$source_text_sha256,
+        condition_text=if(is.null(record$condition_text)) NA_character_ else record$condition_text)
+    }
+  }
+  if(!length(rows)) return(data.frame(hts10=character(),ch99_code=character(),source_locator=character(),
+    source_text_sha256=character(),condition_text=character()))
+  unique(do.call(rbind,rows))
+}
+
+# Normalized claim effects retain the executable condition and exactly which
+# charge headings it suppresses, independently of aggregate exemption shares.
+s301_claim_effects_table <- function(fragment, revision) {
+  rows<-list()
+  rules<-setNames(fragment$rules,vapply(fragment$rules,`[[`,character(1),'id'))
+  for(edge in fragment$relations) {
+    rule<-rules[[edge$when_rule_applies]]
+    if(is.null(rule)) stop('Unknown exclusion relation rule')
+    for(code in unlist(edge$target_reporting_codes)) rows[[length(rows)+1L]]<-data.frame(
+      revision=revision,claim_id=paste0('section301:',rule$reporting_codes[[1]]),
+      rule_id=rule$id,authority=rule$authority,effect=edge$effect,target_reporting_code=code,
+      hts10=unlist(rule$scope$hts_exact),country='5700',valid_from=rule$scope$from,valid_until=rule$scope$until,
+      source_ids_json=as.character(jsonlite::toJSON(rule$source_ids,auto_unbox=FALSE)),
+      condition_json=as.character(jsonlite::toJSON(rule$when,auto_unbox=TRUE,null='null')),
+      source_locator=rule$legal_locator,source_scope_sha256=rule$source_scope_sha256)
+  }
+  if(!length(rows)) return(data.frame(revision=character(),claim_id=character(),rule_id=character(),
+    authority=character(),effect=character(),target_reporting_code=character(),hts10=character(),country=character(),
+    valid_from=character(),valid_until=character(),source_ids_json=character(),condition_json=character(),
+    source_locator=character(),source_scope_sha256=character()))
+  do.call(rbind,rows)
 }

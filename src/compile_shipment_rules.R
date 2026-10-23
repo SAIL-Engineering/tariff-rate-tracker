@@ -41,6 +41,17 @@ compose_shipment_rules <- function(bundle, fragments) {
   }
   bundle$sources <- merge_by_id(c(bundle$sources, unlist(lapply(fragments, `[[`, 'sources'), recursive = FALSE)), 'source')
   bundle$rules <- merge_by_id(c(bundle$rules, unlist(lapply(fragments, `[[`, 'rules'), recursive = FALSE)), 'rule')
+  claims <- list()
+  for (claim in c(bundle$claim_definitions,unlist(lapply(fragments,`[[`,'claim_definitions'),recursive=FALSE))) {
+    if (is.null(claim$id) || !nzchar(claim$id) || !length(claim$source_ids) || !length(claim$rule_ids))
+      stop('Missing reviewed claim definition')
+    old <- claims[[claim$id]]
+    if (!is.null(old) && !identical(old$label,claim$label)) stop('Conflicting claim label: ',claim$id)
+    for (key in c('source_ids','rule_ids','candidate_rule_ids'))
+      claim[[key]] <- as.list(sort(unique(c(unlist(old[[key]]),unlist(claim[[key]])))))
+    claims[[claim$id]] <- claim
+  }
+  bundle$claim_definitions <- unname(claims)
   for (fragment in fragments) for (key in names(fragment$fact_definitions)) {
     definition <- fragment$fact_definitions[[key]]
     old <- bundle$fact_definitions[[key]]
@@ -54,6 +65,9 @@ compose_shipment_rules <- function(bundle, fragments) {
   relations <- merge_by_id(unlist(lapply(fragments, `[[`, 'relations'), recursive = FALSE), 'relation')
   ids <- vapply(bundle$rules, `[[`, character(1), 'id')
   source_ids <- vapply(bundle$sources, `[[`, character(1), 'id')
+  targets <- list()
+  for (i in seq_along(bundle$rules)) for (code in unlist(bundle$rules[[i]]$reporting_codes))
+    targets[[code]] <- c(targets[[code]], i)
   decisions <- list()
   for (edge in relations) {
     if (!edge$effect %in% c('suppress','require_predicate') ||
@@ -61,7 +75,7 @@ compose_shipment_rules <- function(bundle, fragments) {
         (edge$effect == 'require_predicate' && is.null(edge$predicate)) ||
         !length(edge$source_ids) || !all(unlist(edge$source_ids) %in% source_ids) ||
         !length(edge$target_reporting_codes)) stop('Invalid action relation: ', edge$id)
-    for (i in seq_along(bundle$rules)) {
+    for (i in sort(unique(unlist(targets[unlist(edge$target_reporting_codes)])))) {
       target <- bundle$rules[[i]]
       matches <- intersect(unlist(target$reporting_codes), unlist(edge$target_reporting_codes))
       if (!length(matches)) next
@@ -71,11 +85,11 @@ compose_shipment_rules <- function(bundle, fragments) {
       if (edge$effect == 'suppress') {
         condition <- list(rule_applies = edge$when_rule_applies)
         old <- target$suppressed_when
-        if (!is.null(old)) condition <- list(op = 'or', args = list(old, condition))
+        if (!is.null(old)) condition <- list(op = 'or', args = if(identical(old$op,'or')) c(old$args,list(condition)) else list(old,condition))
         target$suppressed_when <- condition
       } else {
         condition <- edge$predicate
-        if (!is.null(target$when)) condition <- list(op='and',args=list(target$when,condition))
+        if (!is.null(target$when)) condition <- list(op='and',args=if(identical(target$when$op,'and')) c(target$when$args,list(condition)) else list(target$when,condition))
         target$when <- condition
       }
       target$source_ids <- as.list(sort(unique(c(unlist(target$source_ids), unlist(edge$source_ids)))))

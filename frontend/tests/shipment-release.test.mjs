@@ -40,6 +40,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
     authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
     section301_scope_decisions: "SELECT 'test'::VARCHAR revision, 'section_301'::VARCHAR authority, 'china_technology_transfer'::VARCHAR AS \"program\", '5700'::VARCHAR country_scope, '1234567890'::VARCHAR hts10, '9903.88.01'::VARCHAR ch99_code, 0.25::DOUBLE rate, NULL::VARCHAR condition_text, 'fixture'::VARCHAR source_locator, repeat('0',64)::VARCHAR source_text_sha256, repeat('0',64)::VARCHAR pdf_sha256, repeat('0',64)::VARCHAR hts_sha256, NULL::VARCHAR valid_from, NULL::VARCHAR valid_until WHERE FALSE",
+    claim_effects: "SELECT ''::VARCHAR revision,''::VARCHAR claim_id,''::VARCHAR rule_id,''::VARCHAR authority,''::VARCHAR effect,''::VARCHAR target_reporting_code,''::VARCHAR hts10,''::VARCHAR country,''::VARCHAR valid_from,''::VARCHAR valid_until,''::VARCHAR source_ids_json,''::VARCHAR condition_json,''::VARCHAR source_locator,''::VARCHAR source_scope_sha256 WHERE FALSE",
     authority_exemptions: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority",
   };
   const hashFile = async name => ({ path: name, sha256: crypto.createHash('sha256').update(await fs.readFile(path.join(root, name))).digest('hex') });
@@ -51,7 +52,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   const rules = `${version}-rules.json`;
   await fs.writeFile(path.join(root, rules), JSON.stringify(bundle));
   revision.rules = await hashFile(rules);
-  const manifest = { contract_version: 'sail.tariff-release/v2', dataset_version: version,
+  const manifest = { contract_version: 'sail.tariff-release/v3', dataset_version: version,
     evidence_snapshot_id: bundle.evidence_snapshot_id, required_revisions: ['test'], revisions: [revision] };
   const file = path.join(root, `${version}-manifest.json`);
   await fs.writeFile(file, JSON.stringify(manifest));
@@ -88,12 +89,12 @@ test('local Parquet release prepares atomically, validates target and preserves 
   await assert.rejects(prepareRelease(conn, prepared, catalog), /immutable/);
 }));
 
-test('release v2 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
+test('release v3 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
   const {file,manifest}=await manifestFixture(conn,root);
   manifest.contract_version='sail.tariff-release/v1';
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Unsupported release/);
-  manifest.contract_version='sail.tariff-release/v2';
+  manifest.contract_version='sail.tariff-release/v3';
   delete manifest.revisions[0].section301_scope_decisions;
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Missing section301_scope_decisions/);
@@ -241,4 +242,45 @@ test('candidate provenance preflight rejects missing scope and cross-product mem
     await assert.rejects(preflightRelease(conn, await readReleaseManifest(file), catalog), /Invalid candidate scope/);
     assert.equal(await activeShipmentRelease(conn), null);
   }
+}));
+
+test('release v3 requires claim chronology and validates every executable effect before preparation', () => withDatabase(async (conn,root)=>{
+  const {file,manifest,bundle}=await manifestFixture(conn,root);
+  const artifact=manifest.revisions[0].claim_effects;
+  delete manifest.revisions[0].claim_effects;
+  await fs.writeFile(file,JSON.stringify(manifest));
+  await assert.rejects(readReleaseManifest(file),/Missing claim_effects partition/);
+  manifest.revisions[0].claim_effects=artifact;
+  const source=bundle.sources[0];
+  const rule={id:'test-exclusion',action_id:'test-exclusion',authority:'synthetic',kind:'duty',verification:'verified',
+    role:'exclusion',claim_id:'test-claim',target_reporting_codes:['9999.00.01'],reporting_codes:['9999.00.02'],
+    scope:{hts_exact:['1234567890'],countries:['TEST'],from:bundle.valid_from,until:bundle.valid_until},
+    when:{claim:'test-claim'},formula:{value:0},source_ids:[source.id],legal_locator:'Synthetic test source',source_scope_sha256:'0'.repeat(64)};
+  bundle.rules.push(rule);
+  bundle.claim_definitions=[{id:'test-claim',label:'Synthetic claim',source_ids:[source.id],rule_ids:bundle.rules.map(r=>r.id),candidate_rule_ids:[rule.id]}];
+  const rulesFile=path.join(root,manifest.revisions[0].rules.path);
+  await fs.writeFile(rulesFile,JSON.stringify(bundle));
+  manifest.revisions[0].rules.sha256=crypto.createHash('sha256').update(await fs.readFile(rulesFile)).digest('hex');
+  const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  await fs.writeFile(file,JSON.stringify(manifest));
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Claim effect inventory/);
+  const rows=[{revision:'test',claim_id:rule.claim_id,rule_id:rule.id,authority:rule.authority,effect:'suppress',
+    target_reporting_code:rule.target_reporting_codes[0],hts10:'1234567890',country:'TEST',valid_from:rule.scope.from,valid_until:rule.scope.until,
+    source_ids_json:JSON.stringify(rule.source_ids),condition_json:JSON.stringify(rule.when),source_locator:rule.legal_locator,source_scope_sha256:rule.source_scope_sha256}];
+  const json=path.join(root,'claims.json'),parquet=path.join(root,'claims.parquet');
+  const rewrite=async value=>{
+    await fs.writeFile(json,JSON.stringify(value));await fs.rm(parquet,{force:true});
+    const columns=Object.fromEntries(Object.keys(rows[0]).map(k=>[k,'VARCHAR']));
+    await conn.run(`COPY (SELECT * FROM read_json('${json}', columns=${JSON.stringify(columns)})) TO '${parquet}' (FORMAT PARQUET)`);
+    artifact[0]={path:path.basename(parquet),sha256:crypto.createHash('sha256').update(await fs.readFile(parquet)).digest('hex')};
+    await fs.writeFile(file,JSON.stringify(manifest));
+    return readReleaseManifest(file);
+  };
+  await preflightRelease(conn,await rewrite(rows),catalog);
+  for(const change of [{target_reporting_code:'9999.00.99'},{country:'other'},
+    {condition_json:'{"value":true}'},{source_ids_json:'["unknown"]'},{valid_until:rule.scope.from},
+    {source_scope_sha256:'1'.repeat(64)}])
+    await assert.rejects(preflightRelease(conn,await rewrite([{...rows[0],...change}]),catalog),/Claim effect\/bundle/);
+  await assert.rejects(preflightRelease(conn,await rewrite([rows[0],rows[0]]),catalog),/Claim effect inventory/);
+  assert.equal(await activeShipmentRelease(conn),null);
 }));

@@ -1,0 +1,46 @@
+{
+  "audit_cutoff": "2026-10-22",
+  "source_revisions_parsed": 55,
+  "rate_revisions_rebuilt": 0,
+  "python_source_tests": {
+    "passed": 19
+  },
+  "tracker_node_tests": {
+    "passed": 117
+  },
+  "r_suites": {
+    "passed": 25,
+    "total": 27,
+    "legacy_assertions_passed": 402,
+    "legacy_assertions_failed": 0,
+    "data_gate": "normalized parity blocked by 208 missing artifacts in existing outputs",
+    "skipped": "TPC requires built data"
+  },
+  "sail_focused_tests": {
+    "passed": 108
+  },
+  "sail_full_tests": {
+    "passed": 20708,
+    "skipped": 45,
+    "files_passed": 1218,
+    "files_skipped": 8,
+    "environment": "Dummy localhost Supabase URL/key; no production credentials. Initial run lacked configuration and failed; configured run passed."
+  },
+  "sail_typecheck": {
+    "gate": "passed",
+    "server_errors": 0,
+    "app_errors": 229,
+    "app_baseline_files": 57,
+    "baseline_modified": false
+  },
+  "sail_affected_lint": "passed",
+  "sail_build_prerender_vendor_guard": "passed",
+  "tracker_build": "passed",
+  "browser": "gstack actual-panel source-derived fixture; claim/fact flow and known subtotal verified; no console errors",
+  "browser_limits": "Isolated unstyled fixture, not authenticated-page or live release smoke testing",
+  "tracker_base": "b53e1f2aa844fa5673e8fcb9be437a5d1c139328",
+  "sail_base": "5d8e5b430a43c67c6b2f3522e1f20d5a95be6cc7",
+  "sail_commit": "2e2720b84c78b0fbc2199d614ae83c7912581806",
+  "no_production_writes_or_pushes": true,
+  "plan_complete": false
+}

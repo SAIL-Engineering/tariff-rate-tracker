@@ -1,0 +1,32 @@
+Already up to date
+Done in 241ms using pnpm v11.5.2
+$ node scripts/ops/typecheck-ratchet.mjs
+Typechecking server…
+  server: 0 errors
+
+Typechecking app…
+  app: 229 errors across 57 files
+
+18 file(s) improved on the baseline:
+  src/api/productLibraryClassifications.ts: 13 now, baseline allows 21
+  src/components/documents/DocumentApprovalWorkflow.tsx: 0 now, baseline allows 1
+  src/components/documents/DocumentCollaboration.tsx: 0 now, baseline allows 1
+  src/components/documents/ModernDocumentGrid.tsx: 0 now, baseline allows 2
+  src/components/documents/ProductBasedUpload.tsx: 0 now, baseline allows 1
+  src/components/documents/SmartDocumentClassifier.tsx: 0 now, baseline allows 1
+  src/components/documents/TeamWorkspace.tsx: 0 now, baseline allows 2
+  src/components/products/EnhancedProductDocumentPanel.tsx: 0 now, baseline allows 8
+  src/hooks/useDocumentStore.ts: 0 now, baseline allows 1
+  src/hooks/useDocumentSync.ts: 0 now, baseline allows 1
+  src/modules/export-controls/components/classify/ui/ClassificationWalkthrough.tsx: 2 now, baseline allows 4
+  src/modules/export-controls/components/classify/ui/copilot/__tests__/copilotReducer.test.ts: 0 now, baseline allows 1
+  src/modules/export-controls/components/classify/ui/TradeCodeDispositionPanel.tsx: 0 now, baseline allows 1
+  src/pages/Products.tsx: 0 now, baseline allows 1
+  src/pages/WorkspaceProductLibrary.tsx: 0 now, baseline allows 2
+  src/services/enhancedDocumentService.ts: 0 now, baseline allows 47
+  src/tests/e2e/ClassificationBackgroundProcessing.e2e.test.ts: 1 now, baseline allows 2
+  src/tests/server/documents/formats.test.ts: 0 now, baseline allows 1
+
+Run with --update to lock the gains in.
+
+PASS — no new type errors.

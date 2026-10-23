@@ -19,6 +19,7 @@ const TABLES = {
   authority_product_applicability: ['revision', 'authority', 'program', 'hts10', 'hts_prefix'],
   authority_exemptions: ['revision', 'authority'],
   authority_product_candidates: ['revision', 'authority', 'program', 'hts10', 'scope_code', 'scope_grain', 'source_path', 'source_sha256', 'status'],
+  claim_effects: ['revision', 'claim_id', 'rule_id', 'authority', 'effect', 'target_reporting_code', 'hts10', 'country', 'valid_from', 'valid_until', 'source_ids_json', 'condition_json', 'source_locator', 'source_scope_sha256'],
   section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
 };
 
@@ -79,6 +80,8 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       const columns = (await conn.runAndReadAll(`DESCRIBE SELECT * FROM ${from}`)).getRowObjects();
       const have = new Map(columns.map(c => [c.column_name, c.column_type]));
       if (TABLES[table].some(k => !have.has(k))) throw new Error(`Missing required ${table} fields`);
+      if (table === 'claim_effects' && TABLES[table].some(k => have.get(k) !== 'VARCHAR'))
+        throw new Error('Invalid claim_effects field types');
       const signature = JSON.stringify([...have].sort(([a], [b]) => a.localeCompare(b)));
       if (types.has(table) && types.get(table) !== signature) throw new Error(`Inconsistent ${table} partition types`);
       types.set(table, signature);
@@ -140,6 +143,39 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
         OR (d.hts10 IS NOT NULL AND (r.rate_s301_maritime IS NULL OR abs(r.rate_s301_maritime-d.rate)>0.000000001
           OR r.statutory_rate_s301_maritime IS NOT NULL))`)).getRowObjects()[0].n;
     if(Number(maritimeMismatch)) throw new Error('Maritime Section 301 normalized/wide completeness mismatch');
+
+    const claimFiles = `read_parquet([${revision.files.claim_effects.map(literal).join(',')}], hive_partitioning=false)`;
+    const claimRows = (await conn.runAndReadAll(`SELECT * FROM ${claimFiles}`)).getRowObjects();
+    const expectedClaims = new Map();
+    const canonical = value => JSON.stringify((function sort(x) {
+      return Array.isArray(x) ? x.map(sort) : x && typeof x === 'object'
+        ? Object.fromEntries(Object.keys(x).sort().map(k => [k, sort(x[k])])) : x;
+    })(value));
+    for (const rule of revision.bundle.rules.filter(r => r.role === 'exclusion')) {
+      const definition = revision.bundle.claim_definitions?.find(c => c.id === rule.claim_id);
+      if (!definition?.candidate_rule_ids?.includes(rule.id) || !rule.target_reporting_codes?.length
+        || !rule.scope?.hts_exact?.length || !rule.scope?.countries?.length
+        || !/^[a-f0-9]{64}$/.test(rule.source_scope_sha256 ?? '')) throw new Error('Incomplete executable claim provenance');
+      for (const hts10 of rule.scope.hts_exact) for (const country of rule.scope.countries)
+        for (const target of rule.target_reporting_codes) {
+          const key = [rule.id, hts10, country, target].join('|');
+          expectedClaims.set(key, { rule, hts10, country, target });
+        }
+    }
+    if (claimRows.length !== expectedClaims.size) throw new Error('Claim effect inventory mismatch');
+    for (const row of claimRows) {
+      const key = [row.rule_id, row.hts10, row.country, row.target_reporting_code].join('|');
+      const expected = expectedClaims.get(key), rule = expected?.rule;
+      if (!rule || row.claim_id !== rule.claim_id || row.authority !== rule.authority || row.effect !== 'suppress'
+        || row.valid_from !== rule.scope.from || row.valid_until !== rule.scope.until
+        || row.source_locator !== rule.legal_locator || row.source_scope_sha256 !== rule.source_scope_sha256
+        || !revision.bundle.products.includes(row.hts10)
+        || canonical(JSON.parse(row.source_ids_json)) !== canonical(rule.source_ids)
+        || canonical(JSON.parse(row.condition_json)) !== canonical(rule.when)
+        || !rule.source_ids.every(id => revision.bundle.sources.some(s => s.id === id)))
+        throw new Error('Claim effect/bundle relationship mismatch');
+      expectedClaims.delete(key);
+    }
 
     const invalid = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
       LEFT JOIN ${products} p ON r.hts10=p.hts10 AND r.revision=p.revision WHERE p.hts10 IS NULL`)).getRowObjects()[0].n;

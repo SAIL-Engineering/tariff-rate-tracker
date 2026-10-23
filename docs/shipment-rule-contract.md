@@ -126,3 +126,28 @@ corrected data and cache entries. v1 release rollback requires compatible code.
 This preparation contract is not the separate legal coverage/validation gate:
 source-backed exclusion history, all-authority compilation and exhaustive parity
 must still pass before a prepared release can be marked validated or activated.
+
+## Exclusion chronology extension (release v3)
+
+`sail.tariff-release/v3` additionally requires `claim_effects.parquet` for every
+2025/2026 revision. Rows retain claim/rule identity, HTS10/origin, named charge
+heading, suppression effect, exact entry interval, condition JSON, source IDs,
+locator and composite scope hash. Preflight requires VARCHAR columns and exact
+agreement with executable exclusion rules, including their `claim_id`,
+`target_reporting_codes` and `source_scope_sha256` provenance. An empty partition
+is valid only when the bundle has no exclusion effects. No missing partition is
+interpreted as no exclusions. Old release versions require their matching reader.
+
+Rule/result contracts retain v1 with two additive capabilities. The expression
+`{"unresolved_source":"reason"}` returns a source error only when relevant to
+evaluation. It permits an optional claim's conflicting operative boundary to
+remain unresolved without contaminating the unclaimed path. Older interpreters
+reject an unsupported expression rather than turning it into zero.
+
+Claim definitions may include `candidate_rule_ids`. The result's optional
+`claim_options` contains only in-scope candidates: ID, label, matching rule IDs
+and citations. These are potential claims, not eligibility findings or promises
+of complete pricing. Existing explicit `rule_ids` still identify every action
+whose claim treatment has been reviewed. Other actions remain `claim_not_priced`.
+Arrow carries the additive `claim_options_json` column. Historical saved v1 results
+without choices remain valid; they are not silently recalculated.

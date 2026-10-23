@@ -41,7 +41,7 @@ export function registerShipmentRoutes(app, { connection, requireAuth }) {
         const strings = ['hts10', 'country', 'entry_at', 'contract_version', 'dataset_version', 'revision', 'evidence_snapshot_id', 'status'];
         const columns = Object.fromEntries(strings.map(k => [k, vectorFromArray(data.map(r => r[k]), new Utf8())]));
         for (const k of ['known_subtotal', 'complete_total']) columns[k] = vectorFromArray(data.map(r => r[k]), new Float64());
-        for (const k of ['components', 'rule_decisions', 'coverage_decisions', 'applied_rules', 'suppressed_rules', 'missing_inputs', 'required_facts', 'source_errors'])
+        for (const k of ['components', 'rule_decisions', 'coverage_decisions', 'applied_rules', 'suppressed_rules', 'missing_inputs', 'required_facts', 'claim_options', 'source_errors'])
           columns[`${k}_json`] = vectorFromArray(data.map(r => JSON.stringify(r[k])), new Utf8());
         return res.type('application/vnd.apache.arrow.stream').send(Buffer.from(tableToIPC(new Table(columns), 'stream')));
       }

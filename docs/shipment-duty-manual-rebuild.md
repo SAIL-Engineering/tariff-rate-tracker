@@ -126,7 +126,8 @@ Each normalized revision now emits:
 
 - `section301_scope_decisions.parquet`: exact products, program/origin scope,
   reporting heading, rate, required description, entry window and source hashes.
-- `section301_source.json`: extracted actions, charge inventory and source versions.
+- `section301_source.json`: extracted actions, exclusion histories, charge inventory and source versions.
+- `claim_effects.parquet`: source-backed claim conditions, exact scope/windows and named charge targets.
 - `section301_rules.json`: executable fragment for the shared R/TypeScript runtime.
 
 The wide rows retain aggregate scope shares separately from nullable statutory
@@ -137,13 +138,20 @@ control production behavior. See the retained [audit and limits](audits/2026-10-
 
 Compose the emitted `section301_rules.json` for each revision into that revision's
 reviewed base bundle using the composer command above. It grants no complete
-Section 301 coverage: exclusions, retroactive amendments and the other investigations
-still need reconciliation. Do not substitute a test bundle. Source hash artifacts
+Section 301 coverage: the implemented note 20 and direct-heading exclusions do not
+complete the other investigations, claims and Chapter 98 interactions. Do not substitute a test bundle. Source hash artifacts
 must exist during composition; serving subsequently uses the stored bundle.
 
-Release manifests now require `sail.tariff-release/v2`, the new decision partition,
+Release manifests now require `sail.tariff-release/v3`, the decision and claim-effect partitions,
 and the new rate fields. Preparation validates their relationships locally and
-does not activate anything. The rule/result API contract remains v1. An old v1
+does not activate anything. The rule/result API contract remains v1. An old v1/v2
 release is not accepted by the new reader: rollback across this boundary requires
 the compatible previous code and release, not only an active-ID change. Within
-v2, retain the previous validated release for the existing atomic rollback path.
+v3, retain the previous validated release for the existing atomic rollback path.
+
+
+The source-backed exclusions and five retroactive amendments are part of this
+same ordinary rebuild. Original-grant PDFs/text, extension notices and amendment
+metadata are versioned in `resources/legal_evidence/`; altered or absent hashes
+fail extraction. Read the [exclusion audit](audits/2026-10-23-section301-exclusions/README.md)
+for verified scope, unresolved source boundaries and remaining legal gates.

@@ -34,7 +34,7 @@ test('source-derived Section 301 survives stored JSON/Arrow/batch serving',async
     const routes=new Map();
     registerShipmentRoutes({get:(p,...handlers)=>routes.set(p,handlers.at(-1)),post:(p,...handlers)=>routes.set(p,handlers.at(-1))},
       {connection:()=>c,requireAuth:(_q,_s,next)=>next()});
-    const cases=fixture.cases.filter(c=>['China crane cumulative investigations','Taiwan crane qualifying Chinese components or ownership','semiconductor heading rate','neighboring non-mask remains List 4A'].includes(c.name));
+    const cases=fixture.cases.filter(c=>['China crane cumulative investigations','Taiwan crane qualifying Chinese components or ownership','semiconductor heading rate','neighboring non-mask remains List 4A','retroactive pump code and alternative descriptions','claimed amendment boundary remains unresolved','crane contract exclusion removes both named investigations'].includes(c.name));
     const shipments=cases.map(c=>({...c,dataset_version:b.dataset_version}));
     const request=async format=>{
       let body,status=200;
@@ -49,6 +49,7 @@ test('source-derived Section 301 survives stored JSON/Arrow/batch serving',async
     for(let i=0;i<cases.length;i++) {
       assert.equal(arrow.getChild('known_subtotal').get(i),cases[i].expected.known_subtotal);
       assert.equal(arrow.getChild('complete_total').get(i),null);
+      assert.deepEqual(JSON.parse(arrow.getChild('claim_options_json').get(i)),json.data[i].claim_options);
       assert.deepEqual(JSON.parse(arrow.getChild('rule_decisions_json').get(i)),JSON.parse(JSON.stringify(json.data[i].rule_decisions)));
     }
   } finally {c.closeSync();db.closeSync();}

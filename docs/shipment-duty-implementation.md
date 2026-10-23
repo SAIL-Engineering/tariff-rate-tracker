@@ -150,3 +150,20 @@ No timeseries rebuild or live data change occurred. All-authority legal coverage
 full IEEPA/232/122/338 validation, production rule compilation and remaining SAIL
 consumer migration still need completion. A manual rebuild applies the implemented
 logic across revisions; it does not by itself clear these release gates.
+
+
+## Section 301 exclusion and serving checkpoint, 2026-10-23
+
+The [exclusion audit](audits/2026-10-23-section301-exclusions/README.md) now records
+180 source-derived descriptions/direct headings across all 55 revision source
+pairs, five retroactive code amendments, named-charge suppression, alternative
+conditions, and 152 missing candidate attributions in 8,063 read-only MotherDuck
+rows. The normal build emits claim effects, and release v3 validates/stores them.
+The shared runtime and existing Duty Workspace now expose scoped claim choices;
+JSON/Arrow/batch retain the same result. This supersedes the earlier statement
+that all exclusion reconstruction remained open; the unimplemented investigations,
+other claim interactions and all-authority coverage still remain open.
+
+The user's manual rebuild, full release reconciliation, other financial consumers
+and live approval/smoke test remain required. See this audit's verification and
+rollback sections rather than treating source parsing as full legal qualification.

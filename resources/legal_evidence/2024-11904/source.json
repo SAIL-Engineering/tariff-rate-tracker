@@ -1,0 +1,21 @@
+{
+  "source_id": "FR-2024-11904",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2024-05-30/html/2024-11904.htm",
+  "publication_date": "2024-05-30",
+  "artifact": "notice.txt",
+  "sha256": "431cff08590f605958629d417c7e8c34daba29c876968e12bdeefe66cb763931",
+  "artifact_kind": "browser_extracted_primary_source_text",
+  "status": "verified_primary_source_pending_rule_validation",
+  "artifacts": [
+    {
+      "path": "notice.pdf",
+      "sha256": "8c566cd59a2b8c129027123640593c3534e3a0f83bc4834537d26724a0b73602",
+      "kind": "official_pdf"
+    },
+    {
+      "path": "notice-layout.txt",
+      "sha256": "7981268084e01dd93b43a0fde81b6cd89ec89f1597bddeb36df78898b04b97b9",
+      "kind": "pdftotext_layout"
+    }
+  ]
+}

@@ -1256,7 +1256,10 @@ emit_normalized_revision <- function(
       file.path(output_dir,revision_id,'section301_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
     source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section301_revision.R') else 'src/section301_revision.R')
-    jsonlite::write_json(compile_s301_revision_fragment(denorm_state$s301_source,products$hts10),
+    fragment <- compile_s301_revision_fragment(denorm_state$s301_source,products$hts10)
+    .write_parquet_safe(s301_claim_effects_table(fragment,revision_id),
+      file.path(output_dir,revision_id,'claim_effects.parquet'))
+    jsonlite::write_json(fragment,
       file.path(output_dir,revision_id,'section301_rules.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
   }

@@ -7,7 +7,7 @@
        evidence_snapshot_id = bundle$evidence_snapshot_id,
        status = if (length(errors)) 'unresolved_source' else 'complete',
        components = list(), rule_decisions = list(), coverage_decisions = list(), applied_rules = character(), suppressed_rules = character(),
-       missing_inputs = character(), required_facts = list(), source_errors = errors,
+       missing_inputs = character(), required_facts = list(), claim_options = list(), source_errors = errors,
        known_subtotal = 0, complete_total = if (length(errors)) NULL else 0)
 }
 
@@ -112,6 +112,15 @@
       return(fail(paste0('claim_not_priced:', claim)))
   }
   result <- .shipment_result(bundle)
+  for (claim in bundle$claim_definitions) {
+    candidates <- unlist(claim$candidate_rule_ids)
+    if (!length(candidates) || !all(candidates %in% names(rules)) ||
+        !length(claim$source_ids) || !all(vapply(claim$source_ids, valid_source, logical(1)))) next
+    matched <- Filter(function(id) .shipment_scope(rules[[id]]$scope, hts10, country, at), as.list(candidates))
+    if (length(matched)) result$claim_options[[length(result$claim_options)+1L]] <- list(
+      id=claim$id, label=claim$label, candidate_rule_ids=matched,
+      citations=unname(sources[unlist(claim$source_ids)]))
+  }
   for (authority in unlist(bundle$coverage_requirements)) {
     matches <- Filter(function(c) identical(c$authority, authority) &&
                         .shipment_scope(c$scope, hts10, country, at), bundle$coverage)
@@ -141,8 +150,13 @@
   cache <- new.env(parent = emptyenv()); visiting <- character()
   expr <- function(x) {
     if (!is.list(x)) return(val(errors = 'invalid_expression'))
-    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'op'))
+    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'unresolved_source', 'op'))
     if (length(keys) != 1) return(val(errors = 'invalid_expression'))
+    if (keys == 'unresolved_source') {
+      if (!is.character(x$unresolved_source) || length(x$unresolved_source)!=1 || !nzchar(x$unresolved_source))
+        return(val(errors='invalid_source_discrepancy'))
+      return(val(errors=paste0('source_discrepancy:',x$unresolved_source)))
+    }
     if (keys == 'value') {
       if (length(x$value) != 1 || !(is.character(x$value) || is.logical(x$value) || is.numeric(x$value)) ||
           is.na(x$value) || (is.numeric(x$value) && !is.finite(x$value))) return(val(errors = 'invalid_literal'))
