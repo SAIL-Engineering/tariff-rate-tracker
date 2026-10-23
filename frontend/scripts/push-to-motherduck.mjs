@@ -29,6 +29,7 @@ import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
 import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
 import { getMotherDuckDatabase } from '../server/config.js';
+import { preflightPartitionIntervals } from '../server/revision-intervals.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -241,6 +242,8 @@ async function fullRebuildBatched(conn, opts) {
     );
   }
 
+  await preflightPartitionIntervals(conn, revisions, revisionGlob, {full:true});
+
   if (dryRun) {
     log('dry_run.skip', { op: 'full_rebuild', would_process: revisions });
     return;
@@ -355,6 +358,8 @@ async function incrementalReplace(conn, revision, { dryRun }) {
   const before = await count(conn, `WHERE revision = '${revision}'`);
   log('plan.incremental', { revision, rows_before: before });
 
+  await preflightPartitionIntervals(conn, [revision], revisionGlob);
+
   if (dryRun) {
     log('dry_run.skip', { op: 'incremental', revision });
     return;
@@ -420,6 +425,8 @@ async function incrementalReplaceMany(conn, revisions, { dryRun }) {
     last: revisions[revisions.length - 1],
     revisions,
   });
+
+  await preflightPartitionIntervals(conn, revisions, revisionGlob);
 
   if (dryRun) {
     log('dry_run.skip', { op: 'incremental_many', would_replace: revisions });
@@ -528,12 +535,15 @@ async function main() {
   });
 
   // Connect to the default MD instance first so we can create the DB if needed.
-  const bootstrap = await DuckDBInstance.create('md:');
-  const bootConn = await bootstrap.connect();
-  await bootConn.run(`CREATE DATABASE IF NOT EXISTS ${database}`);
+  if (!dryRun) {
+    const bootstrap = await DuckDBInstance.create('md:');
+    const bootConn = await bootstrap.connect();
+    try { await bootConn.run(`CREATE DATABASE IF NOT EXISTS ${database}`); }
+    finally { bootConn.closeSync(); bootstrap.closeSync(); }
+  }
 
   // Reconnect scoped to the target database.
-  const instance = await DuckDBInstance.create(`md:${database}`);
+  const instance = await DuckDBInstance.create(`md:${database}`, dryRun ? {access_mode:'READ_ONLY'} : {});
   const conn = await instance.connect();
 
   // Memory-safety knobs so parquet reads don't OOM the laptop:

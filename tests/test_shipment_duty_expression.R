@@ -6,6 +6,7 @@ check <- function(text, facts, expected = NULL, status = 'complete') {
   stopifnot(parsed$status == 'parsed')
   bundle <- template$bundle
   bundle$rules <- bundle$rules[1]
+  bundle$coverage[[1]]$rule_ids <- list(bundle$rules[[1]]$id)
   bundle$rules[[1]]$formula <- parsed$formula
   bundle$rules[[1]]$input_constraints <- parsed$input_constraints
   bundle$fact_definitions <- parsed$fact_definitions

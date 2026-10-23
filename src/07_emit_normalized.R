@@ -1088,33 +1088,35 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
     }
   }
 
-  # ---- Section 122 HTS8 exemptions ----
-  #
-  # SOURCE OF TRUTH: denorm_state$s122$exempt_hts8.
-  #
-  # When S122 is in force, the denorm pipeline excludes specific HTS8
-  # codes from the blanket rate (resources/s122_exempt_products.csv).
-  # We mirror this as full layer-4 exemptions (share = 1.0) keyed by
-  # hts_prefix so any product whose hts8 matches receives a 100%
-  # exemption from section_122 in the resolver.
-  if (!is.null(denorm_state) && !is.null(denorm_state$s122) &&
-      isTRUE(denorm_state$s122$in_force) &&
+  # ---- Section 122 product exemptions and modeled shares ----
+  # CBP CSMS 67844987 / note 2(aa)(ii)-(iv). This is the aggregate
+  # resolver's projection plus explicit shipment conditions; a measured share
+  # is never an unconditional claim effect. Exact HTS10 shares preserve GN6
+  # measurements instead of applying 100% to every HTS8 in the source list.
+  if (!is.null(denorm_state$s122) && isTRUE(denorm_state$s122$in_force) &&
       length(denorm_state$s122$exempt_hts8 %||% character(0)) > 0) {
-    rows[['s122_exempt']] <- tibble(
-      revision        = revision_id,
-      authority       = 'section_122',
-      program         = NA_character_,
-      hts10           = NA_character_,
-      hts_prefix      = as.character(denorm_state$s122$exempt_hts8),
-      country         = NA_character_,
-      country_group   = NA_character_,
-      exemption_type  = 's122_exempt_hts8',
-      exemption_share = 1.0,
-      rate_override   = NA_real_,
-      source          = 's122_exempt_products.csv',
-      valid_from      = vf,
-      valid_until     = vu
-    )
+    ex <- denorm_state$s122$exemptions
+    modeled <- denorm_state$s122$modeled_exemptions
+    if (is.null(ex) || is.null(modeled) ||
+        !all(c('hts8', 'condition', 'condition_text', 'valuation_basis', 'source_ref', 'source_url') %in% names(ex)))
+      stop('Section 122 normalized output requires explicit exemption conditions and modeled shares')
+    if (anyDuplicated(ex$hts8) || anyDuplicated(modeled$hts10) ||
+        anyNA(modeled$exemption_share) || any(modeled$exemption_share < 0 | modeled$exemption_share > 1))
+      stop('Section 122 exemption projection has invalid identities or shares')
+    rows[['s122_exempt']] <- modeled %>%
+      mutate(hts8 = substr(hts10, 1, 8)) %>%
+      left_join(ex, by = 'hts8', relationship = 'many-to-one') %>%
+      transmute(
+        revision = revision_id, authority = 'section_122', program = NA_character_,
+        hts10, hts_prefix = NA_character_, country = NA_character_, country_group = NA_character_,
+        exemption_type = 's122_modeled_exemption', exemption_share,
+        rate_override = NA_real_, source = 's122_exempt_products.csv',
+        shipment_condition = condition, shipment_condition_text = condition_text,
+        shipment_valuation_basis = valuation_basis,
+        statutory_exemption_share = if_else(condition == 'none', 1, NA_real_),
+        source_ref, source_url, valid_from = vf, valid_until = vu
+      )
+    if (anyNA(rows[['s122_exempt']]$shipment_condition)) stop('Section 122 exemption source join incomplete')
   }
 
   # NOTE: the Section 232 auto assembly rebate is now baked directly into
@@ -1130,6 +1132,10 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
   # specific so it lives at layer 4.
 
   df <- bind_rows(rows)
+  extra <- list(shipment_condition = NA_character_, shipment_condition_text = NA_character_,
+                shipment_valuation_basis = NA_character_,
+                statutory_exemption_share = NA_real_, source_ref = NA_character_, source_url = NA_character_)
+  for (key in names(extra)) if (!key %in% names(df)) df[[key]] <- rep(extra[[key]], nrow(df))
   .write_parquet_safe(
     df,
     file.path(output_dir, revision_id, 'authority_exemptions.parquet')

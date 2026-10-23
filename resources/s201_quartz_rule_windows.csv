@@ -1,0 +1,3 @@
+ch99_code,tier,expected_rate,operative_from,operative_until,source_ref,source_url,source_sha256
+9903.45.30,in_quota,0.25,2026-08-15T00:01:00-04:00,2027-08-15T00:01:00-04:00,"Proc. 11051 annex A note 41(a)-(e) and annex B; 91 FR 50652-50656",https://www.govinfo.gov/content/pkg/FR-2026-08-05/pdf/2026-15975.pdf,c674958a630fb3fcf4695e2919e9437caf29f10a0d76be90d9352a977239a9f0
+9903.45.31,over_quota,0.5,2026-08-15T00:01:00-04:00,2027-08-15T00:01:00-04:00,"Proc. 11051 annex A note 41(a)-(e) and annex B; 91 FR 50652-50656",https://www.govinfo.gov/content/pkg/FR-2026-08-05/pdf/2026-15975.pdf,c674958a630fb3fcf4695e2919e9437caf29f10a0d76be90d9352a977239a9f0

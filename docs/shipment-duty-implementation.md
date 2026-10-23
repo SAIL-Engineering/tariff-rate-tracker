@@ -64,9 +64,11 @@ publication schedules have not been changed.
 5. Migrate Duty Workspace, Tariff Schedule, comparisons, scenarios, bulk/export,
    Product DNA, saved results and Post-Entry Audit without aggregate fallbacks.
    Preserve authentication, tenancy, saved dataset versions and explicit recalc.
-6. Rebuild all 55 configured revisions, including normalized revisions 20 and 21,
-   and any further verified release within the cutoff. The exploratory revision 21
-   build predates later fixes and is not a final release artifact.
+6. WJR will manually rebuild the 55 configured revisions, including normalized
+   revisions 20 and 21, and any additional verified release within the cutoff.
+   Do not run timeseries rebuilds on WJR's behalf. Exact commands and the pinned
+   55-revision list are in [shipment-duty-manual-rebuild.md](shipment-duty-manual-rebuild.md).
+   The exploratory revision 21 build predates later fixes and is not final.
 7. Complete action-attribution/temporal/parity/property sweeps, aggregate difference
    review, required R/Python/UI gates and browser checks. Local fixtures cannot
    establish legal completeness or replace the later approved live smoke test.
@@ -77,3 +79,16 @@ publication schedules have not been changed.
 Known subtotal is never labeled complete when facts or source coverage are missing.
 HTS associations are discovery aids, not AD/CVD scope determinations. Final
 liquidation, refund filing and brokerage/logistics charges remain outside scope.
+
+
+## Read-only production audit checkpoint
+
+[MotherDuck audit](audits/2026-10-23-motherduck/README.md): 267,714,240 live rows,
+55 revisions, 240 origins and 97 represented chapters. Structural diagnostics are
+not legal validation of every row. Primary-source comparisons found overlapping
+revision windows, statutory/model leakage, conditional Section 122 exemptions
+broadened to whole codes, stale exact-code Section 338 coverage, and quartz
+candidates lost when their legal start falls inside a revision. Local fixes and
+regressions are recorded in that report. No timeseries rebuild or cloud write was
+performed during this audit. Full rule compilation and consumer migration remain
+open; a manual rebuild alone does not clear the release gates.

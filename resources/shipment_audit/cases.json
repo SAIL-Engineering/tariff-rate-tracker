@@ -1,0 +1,427 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "FR-2026-06960",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/html/2026-06960.htm",
+      "sha256": "80e2f01f891af6d707efcae42a6d5c71cc7d16f05f0ff83f1d32c498449d196e",
+      "format": "browser_rendered_text",
+      "path": "docs/audits/2026-10-23-motherduck/FR-2026-06960.txt",
+      "locator": "Clauses 1-9; Annex II page 18243 visually checked against PDF page 43",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-05930",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/html/2025-05930.htm",
+      "sha256": "4925d501cc66e4dc4801976ccfe19a9290a2d50ca81bd001b09626eddb00137a",
+      "format": "browser_rendered_text",
+      "path": "docs/audits/2026-10-23-motherduck/FR-2025-05930.txt",
+      "locator": "Clause 1, automobile 25 percent duty",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-15181",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-28/html/2026-15181.htm",
+      "sha256": "d3f85a757eca6f7ea331fb2cb38aa02ef9c7c0a2db132e00d23b2c66790e7942",
+      "format": "browser_rendered_text",
+      "path": "docs/audits/2026-10-23-motherduck/FR-2026-15181.txt",
+      "locator": "U.S. note 52(a), (f), (g), (h), (i)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-18838",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-14/html/2026-18838.htm",
+      "sha256": "e92211053ed3040f55518fa84fd6a8558f2b23cb202aa468db56e4d594edb49a",
+      "format": "browser_rendered_text",
+      "path": "docs/audits/2026-10-23-motherduck/FR-2026-18838.txt",
+      "locator": "Clause 1; Annex II exact product deletion/insertion table (committed PDF)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "CSMS-67844987",
+      "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/40b3b7b",
+      "sha256": "043bff6b9d835693e3449077d21209772d9e79ce466e0c835f20c9f15ebf1736",
+      "format": "browser_rendered_text",
+      "path": "docs/audits/2026-10-23-motherduck/CSMS-67844987.txt",
+      "locator": "Headings 9903.03.01, .04, .05; named articles and GN6 use condition",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-18839",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-14/pdf/2026-18839.pdf",
+      "sha256": "137f6b30ef4b597cf514212e1a5f64bf9c9076a67b3f69f769d869d13826921d",
+      "format": "pdf",
+      "path": "resources/legal_evidence/section338/2026-18839.pdf",
+      "locator": "Annex II page 8",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-14991",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-23/pdf/2026-14991.pdf",
+      "sha256": "f8e536b4131993736fd315128209d8828078644856cd2566c4fb011efa0a5775",
+      "format": "pdf",
+      "path": "resources/legal_evidence/section338/2026-14991.pdf",
+      "locator": "Annex II page 46646 (PDF page 8), note 51(b)(1); clause 1 rate",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-06960-annex",
+      "path": "resources/legal_evidence/section232/2026-06960.pdf",
+      "sha256": "a4cb2a59457ad6d73210025b5b80614ccb9d7a851a9d882c4c4820bacc8ea2ff",
+      "locator": "Annex II page 18243, PDF page 43",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
+      "format": "pdf",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2026-15975",
+      "path": "resources/legal_evidence/section201/2026-15975.pdf",
+      "sha256": "c674958a630fb3fcf4695e2919e9437caf29f10a0d76be90d9352a977239a9f0",
+      "locator": "Annex A, U.S. note 41(a)-(e), pages 50652-50656; clause 9",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-08-05/pdf/2026-15975.pdf",
+      "format": "pdf",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "mx-auto",
+      "hts10": "8703230190",
+      "country": "2010",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": 0.25,
+          "source_ids": [
+            "FR-2025-05930"
+          ],
+          "verification": "primary_source_verified"
+        },
+        {
+          "field": "statutory_rate_s301fl",
+          "value": 0,
+          "source_ids": [
+            "FR-2026-15181"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "de-auto",
+      "hts10": "8703230190",
+      "country": "4280",
+      "entry_date": "2026-10-09",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-beer",
+      "hts10": "2203000030",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": 0,
+          "source_ids": [
+            "FR-2026-06960",
+            "FR-2026-06960-annex"
+          ],
+          "verification": "primary_source_verified"
+        },
+        {
+          "field": "statutory_rate_s338",
+          "value": 0.5,
+          "source_ids": [
+            "FR-2026-18838",
+            "FR-2026-14991"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "sv-textile",
+      "hts10": "5205111000",
+      "country": "2110",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s301fl",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2026-15181"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "kr-beef",
+      "hts10": "0201105010",
+      "country": "5800",
+      "entry_date": "2026-10-09",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "cn-aircraft-tube",
+      "hts10": "3917330000",
+      "country": "5700",
+      "entry_date": "2026-10-09",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-controls-removed",
+      "hts10": "8537109120",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0,
+          "source_ids": [
+            "FR-2026-18839"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-controls-retained",
+      "hts10": "8537109130",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0.5,
+          "source_ids": [
+            "FR-2026-18839"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-whisky-removed",
+      "hts10": "2208306085",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0,
+          "source_ids": [
+            "FR-2026-18838"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-whisky-retained",
+      "hts10": "2208306075",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0.5,
+          "source_ids": [
+            "FR-2026-18838"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-fishing-removed",
+      "hts10": "9507100080",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0,
+          "source_ids": [
+            "FR-2026-18839"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-fishing-retained",
+      "hts10": "9507100040",
+      "country": "1220",
+      "entry_date": "2026-10-09",
+      "expectations": [
+        {
+          "field": "statutory_rate_s338",
+          "value": 0.5,
+          "source_ids": [
+            "FR-2026-18839"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "cn-civil-aircraft-unclaimed-122",
+      "hts10": "3917330000",
+      "country": "5700",
+      "entry_date": "2026-03-10",
+      "expectations": [
+        {
+          "field": "statutory_rate_s122",
+          "value": 0.1,
+          "source_ids": [
+            "CSMS-67844987"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "mx-auto-2025",
+      "hts10": "8703230190",
+      "country": "2010",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "cn-auto-2025",
+      "hts10": "8703230190",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-steel-2025",
+      "hts10": "7208101500",
+      "country": "1220",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "ca-aluminum-2025",
+      "hts10": "7606123091",
+      "country": "1220",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "cn-electronics-2025",
+      "hts10": "8504409580",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "jp-watch-compound",
+      "hts10": "9102111000",
+      "country": "5880",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "mx-ch98",
+      "hts10": "9802008065",
+      "country": "2010",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    },
+    {
+      "id": "cn-solar",
+      "hts10": "8541420010",
+      "country": "5700",
+      "entry_date": "2025-06-10",
+      "expectations": [],
+      "facts": {
+        "claims": [],
+        "use_condition": "none_claimed"
+      }
+    }
+  ]
+}

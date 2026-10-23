@@ -6,17 +6,15 @@
 # Source of record: U.S. note 2(aa) to subchapter III, chapter 99
 # (data/us_notes/chapter99_<rev>.txt). The note's three product exemptions:
 #   (aa)(ii)  / 9903.03.03 — unconditional product list      -> condition 'none'
-#   (aa)(iii) / 9903.03.04 — particular articles             -> condition 'none'
+#   (aa)(iii) / 9903.03.04 — particular articles             -> condition 'article_description'
 #   (aa)(iv)  / 9903.03.05 — civil aircraft "that otherwise
 #              meet the criteria of general note 6"          -> condition
 #              'gn6_civil_aircraft' (USE-conditional: only GN6-certified
 #              entries are exempt; see docs/s122_aircraft_exemption_audit.md)
 #
-# Rows on the (aa)(iv) list get 'gn6_civil_aircraft' UNLESS they are also on
-# the unconditional (aa)(ii)/(iii) lists (unconditional wins) or are ch98
-# lines (handled by the ch98 value-basis machinery — left unconditional, see
-# audit §5). The known-benign residual 9031.49.70 (provenance audit
-# 2026-06-15) is aircraft-list-adjacent and gets 'gn6_civil_aircraft'.
+# Only the (aa)(ii) list is unconditional. Subdivision (iii)'s article/use
+# descriptions remain conditions, per CBP CSMS 67844987. Untraceable codes
+# fail extraction rather than being assigned a neighboring line's treatment.
 #
 # The utilization file is the audit's measurement
 # (output/diagnostics/s122_aircraft_line_utilization.csv — IMDB Mar–May 2026
@@ -49,7 +47,8 @@ s4 <- grep('As provided in heading 9903\\.03\\.05', txt)[1]
 s5 <- grep('^\\s*\\(v\\)', txt); s5 <- s5[s5 > s4][1]
 if (any(is.na(c(s2, s3, s4, s5)))) stop('Could not locate note 2(aa)(ii)-(v) anchors in ', notes_path)
 
-aa_uncond <- union(extract_codes(txt[s2:(s3 - 1)]), extract_codes(txt[s3:(s4 - 1)]))
+aa_uncond <- extract_codes(txt[s2:(s3 - 1)])
+aa_articles <- extract_codes(txt[s3:(s4 - 1)])
 aa_gn6    <- extract_codes(txt[s4:(s5 - 1)])
 message('Parsed note 2(aa): ', length(aa_uncond), ' unconditional + ',
         length(aa_gn6), ' GN6-conditional codes')
@@ -59,15 +58,23 @@ csv_path <- here('resources', 's122_exempt_products.csv')
 ex <- read_csv(csv_path, col_types = cols(hts8 = col_character(), .default = col_character()))
 ex$condition <- case_when(
   ex$hts8 %in% aa_uncond            ~ 'none',            # unconditional wins on overlap
-  substr(ex$hts8, 1, 2) == '98'     ~ 'none',            # ch98 machinery governs
+  ex$hts8 %in% aa_articles          ~ 'article_description',
+  substr(ex$hts8, 1, 2) == '98' & ex$condition %in%
+    c('chapter98_adjusted_value', 'chapter98_claim') ~ ex$condition,
   ex$hts8 %in% aa_gn6               ~ 'gn6_civil_aircraft',
-  ex$hts8 == '90314970'             ~ 'gn6_civil_aircraft',  # known aircraft-instrument residual
   TRUE                              ~ 'UNTRACEABLE'
 )
 if (any(ex$condition == 'UNTRACEABLE')) {
   stop('Untraceable rows (fix before writing): ',
        paste(ex$hts8[ex$condition == 'UNTRACEABLE'], collapse = ', '))
 }
+# Source fields move with the classified condition, never from a prior stamp.
+ex$source_ref <- if_else(substr(ex$hts8, 1, 2) == '98', ex$source_ref, paste0('U.S. note 2(aa)(', case_when(
+  ex$condition == 'none' ~ 'ii', ex$condition == 'article_description' ~ 'iii',
+  ex$condition == 'gn6_civil_aircraft' ~ 'iv'), ')'))
+if (any(ex$condition == 'article_description' &
+        (is.na(ex$condition_text) | !nzchar(ex$condition_text))))
+  stop('Named-article exemption is missing its legal description')
 write_csv(ex, csv_path)
 message('Wrote ', csv_path, ': ', sum(ex$condition == 'none'), ' none + ',
         sum(ex$condition == 'gn6_civil_aircraft'), ' gn6_civil_aircraft')

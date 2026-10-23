@@ -86,3 +86,18 @@ from the table with `git revert -m 1 <integration-merge>`. Do not reset or delet
 other worktrees. The previous release remains the rollback target when a future
 approved activation is eventually performed; that activation is not part of this
 checkpoint.
+
+
+## Additional MotherDuck audit checkpoint, 2026-10-23
+
+The follow-up audit and corrections are documented in
+[audits/2026-10-23-motherduck/README.md](audits/2026-10-23-motherduck/README.md),
+with the raw read-only snapshot, primary evidence, reconciliation and verification
+logs committed alongside it. The new schema fields and strengthened rule inventory
+are documented in `normalized-schema.md` and `shipment-rule-contract.md`.
+Timeseries rebuilds are WJR's manual task; see
+[shipment-duty-manual-rebuild.md](shipment-duty-manual-rebuild.md).
+
+The original integration SHAs above remain historical checkpoints. Follow-up
+commits preserve those bases and the concurrent SAIL commit `04b71480b`; inspect
+the local branch log for the later audit integration. No active release changed.

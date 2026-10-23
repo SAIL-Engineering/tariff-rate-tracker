@@ -1,0 +1,24 @@
+{
+  "query": {
+    "sql": "SELECT revision, substr(hts10,1,2) chapter, country,\n      count(*)::DOUBLE row_count,\n      count(*) FILTER (WHERE valid_from > valid_until)::DOUBLE invalid_intervals,\n      count(*) FILTER (WHERE statutory_base_rate IS NULL)::DOUBLE missing_statutory_base,\n      count(*) FILTER (WHERE statutory_total_rate IS NULL)::DOUBLE missing_statutory_total,\n      count(*) FILTER (WHERE rate_232 > 0 AND ch99_code_232 IS NULL)::DOUBLE section232_without_heading,\n      count(*) FILTER (WHERE abs(rate_232 - (rate_232_auto + rate_232_steel + rate_232_aluminum + rate_232_copper + rate_232_other)) > 1e-9)::DOUBLE section232_action_sum_mismatch,\n      count(*) FILTER (WHERE abs(statutory_rate_232 - (statutory_rate_232_auto + statutory_rate_232_steel + statutory_rate_232_aluminum + statutory_rate_232_copper + statutory_rate_232_other)) > 1e-9)::DOUBLE statutory232_action_sum_mismatch,\n      count(*) FILTER (WHERE statutory_rate_232_other > 0)::DOUBLE statutory232_unidentified_action,\n      count(*) FILTER (WHERE statutory_rate_s122 > 0 AND statutory_rate_s122 < 0.1 - 1e-9)::DOUBLE fractional_statutory122_review,\n      count(*) FILTER (WHERE rate_basis IN ('specific','compound') AND statutory_total_rate IS NOT NULL)::DOUBLE quantity_duty_presented_as_rate,\n      count(*) FILTER (WHERE rate_adcvd = 0 AND adcvd_candidates_json IS NOT NULL AND adcvd_candidates_json NOT IN ('[]','null',''))::DOUBLE zero_adcvd_with_candidates,\n      count(*) FILTER (WHERE statutory_total_rate < 0 OR statutory_rate_232 < 0)::DOUBLE negative_duty\n      FROM \"duty_calculator\".main.rates WHERE valid_from <= CAST(? AS DATE) AND valid_until >= CAST(? AS DATE) GROUP BY revision,chapter,country ORDER BY revision,chapter,country",
+    "params": [
+      "2026-10-22",
+      "2025-01-01"
+    ]
+  },
+  "groups": 1280400,
+  "totals": {
+    "row_count": 267714240,
+    "invalid_intervals": 0,
+    "missing_statutory_base": 0,
+    "missing_statutory_total": 0,
+    "section232_without_heading": 0,
+    "section232_action_sum_mismatch": 2278,
+    "statutory232_action_sum_mismatch": 7375798,
+    "statutory232_unidentified_action": 4874301,
+    "fractional_statutory122_review": 1689840,
+    "quantity_duty_presented_as_rate": 25074240,
+    "zero_adcvd_with_candidates": 0,
+    "negative_duty": 0
+  }
+}

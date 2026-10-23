@@ -186,6 +186,34 @@ run_test('rules json stays valid JSON on all rows', {
   for (i in seq_len(nrow(out))) fromJSON(out$ch99_rules_json[i])
 })
 
+run_test('mid-revision start survives and preserves exact entry boundary', {
+  q <- build_s201_quartz_candidates(quartz_ch99, as.Date('2026-08-14'))
+  out <- attach_duty_provenance(prov_fixture, s201_quartz = q)
+  rules <- Filter(function(x) identical(x$program, 's201_quartz_trq'),
+    fromJSON(out$ch99_rules_json[1], simplifyDataFrame = FALSE))
+  stopifnot(length(rules) == 2,
+    all(vapply(rules, function(x) identical(x$operative_from, '2026-08-15T00:01:00-04:00'), logical(1))),
+    all(vapply(rules, function(x) 'quartz_product_scope' %in% x$missing_facts, logical(1))),
+    all(vapply(rules, function(x) identical(x$valuation_basis, 'covered_quartz_customs_value'), logical(1))))
+})
+
+run_test('missing evidence or a tier cannot silently remove the safeguard', {
+  expect_error <- function(expr) stopifnot(inherits(tryCatch({force(expr); NULL}, error = identity), 'error'))
+  expect_error(build_s201_quartz_candidates(quartz_ch99, resource_dir = tempfile()))
+  expect_error(build_s201_quartz_candidates(quartz_ch99[1, ]))
+  missing <- quartz_ch99; missing$rate[1] <- NA_real_
+  expect_error(build_s201_quartz_candidates(missing))
+  changed <- quartz_ch99; changed$rate[1] <- 0.24
+  expect_error(build_s201_quartz_candidates(changed))
+  expect_error(build_s201_quartz_candidates(quartz_ch99, as.Date('2027-08-15')))
+})
+
+run_test('source duplication and order leave candidates unchanged', {
+  a <- build_s201_quartz_candidates(quartz_ch99)
+  b <- build_s201_quartz_candidates(bind_rows(quartz_ch99[2:1, ], quartz_ch99))
+  stopifnot(identical(a, b))
+})
+
 message('\n', strrep('=', 50))
 message('Tests: ', pass_count, ' passed, ', fail_count, ' failed')
 message(strrep('=', 50))

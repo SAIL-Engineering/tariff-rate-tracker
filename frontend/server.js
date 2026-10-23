@@ -1,3 +1,4 @@
+import { encodeRateRows } from './server/rate-arrow.js';
 // =============================================================================
 // Tariff Rate API Server
 // =============================================================================
@@ -774,9 +775,6 @@ app.get('/api/rates/arrow', async (req, res) => {
       rows = filledAll;
     }
 
-    // Build Arrow IPC buffer using apache-arrow
-    const arrow = await import('apache-arrow');
-
     if (rows.length === 0) {
       const empty = Buffer.alloc(0);
       ratesCacheSet(arrowCacheKey, empty);
@@ -786,23 +784,9 @@ app.get('/api/rates/arrow', async (req, res) => {
       return;
     }
 
-    // Build column arrays keyed by name — tableFromArrays infers types
-    const columnData = {};
-    const keys = Object.keys(rows[0]);
-    for (const k of keys) {
-      const vals = rows.map(r => r[k]);
-      const sample = rows[0][k];
-      if (typeof sample === 'number') {
-        columnData[k] = new Float64Array(vals.map(v => v == null ? 0 : Number(v)));
-      } else if (typeof sample === 'boolean') {
-        columnData[k] = vals.map(v => Boolean(v));
-      } else {
-        columnData[k] = vals.map(v => v == null ? '' : String(v));
-      }
-    }
-
-    const table = arrow.tableFromArrays(columnData);
-    const ipcBytes = arrow.tableToIPC(table, 'stream');
+    // JSON and Arrow must agree on absence. Never convert unknown duty to zero
+    // or drop fields present only on later rows.
+    const ipcBytes = encodeRateRows(rows);
 
     const outBuf = Buffer.from(ipcBytes);
     ratesCacheSet(arrowCacheKey, outBuf);
@@ -924,8 +908,6 @@ app.post('/api/rates/batch', requireSupabaseAuth, async (req, res) => {
       syntheticsAdded += 1;
     }
 
-    const arrow = await import('apache-arrow');
-
     if (rows.length === 0) {
       res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
       res.setHeader('X-SAIL-Found', '0');
@@ -933,31 +915,7 @@ app.post('/api/rates/batch', requireSupabaseAuth, async (req, res) => {
       return res.send(Buffer.alloc(0));
     }
 
-    const columnData = {};
-    // Column set = the UNION of every row's keys, not just rows[0]'s. A
-    // synthesized fallback row (synthesizeBaseMfnRow) omits some columns —
-    // notably duty_provenance_json — so keying off rows[0] alone DROPS those
-    // columns for the ENTIRE batch whenever the first row is synthesized,
-    // which surfaces as "duty provenance is not available" even though the
-    // matched rows carry it. Infer each column's type from its first NON-NULL
-    // sample so an early null/'' doesn't misclassify it.
-    const keysSet = [...new Set(rows.flatMap((r) => Object.keys(r)))];
-    for (const k of keysSet) {
-      const vals = rows.map((r) => r[k]);
-      const sample = vals.find((v) => v != null);
-      if (typeof sample === 'number') {
-        columnData[k] = new Float64Array(
-          vals.map((v) => (v == null ? 0 : Number(v))),
-        );
-      } else if (typeof sample === 'boolean') {
-        columnData[k] = vals.map((v) => Boolean(v));
-      } else {
-        columnData[k] = vals.map((v) => (v == null ? '' : String(v)));
-      }
-    }
-
-    const table = arrow.tableFromArrays(columnData);
-    const ipcBytes = arrow.tableToIPC(table, 'stream');
+    const ipcBytes = encodeRateRows(rows);
 
     res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
     res.setHeader('Content-Length', ipcBytes.byteLength);
