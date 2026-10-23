@@ -1,0 +1,928 @@
+TAP version 13
+# Subtest: Arrow preserves numeric zero separately from unknown and absent fields
+ok 1 - Arrow preserves numeric zero separately from unknown and absent fields
+  ---
+  duration_ms: 8.790772
+  type: 'test'
+  ...
+# Subtest: all-null fields stay null after IPC and do not depend on row order
+ok 2 - all-null fields stay null after IPC and do not depend on row order
+  ---
+  duration_ms: 1.721148
+  type: 'test'
+  ...
+# Subtest: one revision can contain multiple contiguous legal entry states
+ok 3 - one revision can contain multiple contiguous legal entry states
+  ---
+  duration_ms: 7.119651
+  type: 'test'
+  ...
+# Subtest: latest-only replacement cannot leave the previous revision open-ended
+ok 4 - latest-only replacement cannot leave the previous revision open-ended
+  ---
+  duration_ms: 0.768809
+  type: 'test'
+  ...
+# Subtest: preflight reads parquet and target without changing either
+ok 5 - preflight reads parquet and target without changing either
+  ---
+  duration_ms: 43.763119
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: neighboring non-mask remains List 4A
+ok 6 - source-derived Section 301: neighboring non-mask remains List 4A
+  ---
+  duration_ms: 2.343397
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: exact mask description established
+ok 7 - source-derived Section 301: exact mask description established
+  ---
+  duration_ms: 0.4576
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: semiconductor heading rate
+ok 8 - source-derived Section 301: semiconductor heading rate
+  ---
+  duration_ms: 0.40858
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: technology-transfer origin does not broaden
+ok 9 - source-derived Section 301: technology-transfer origin does not broaden
+  ---
+  duration_ms: 0.210753
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: China crane cumulative investigations
+ok 10 - source-derived Section 301: China crane cumulative investigations
+  ---
+  duration_ms: 0.454014
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: Taiwan crane qualifying Chinese components or ownership
+ok 11 - source-derived Section 301: Taiwan crane qualifying Chinese components or ownership
+  ---
+  duration_ms: 0.173077
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: suspension retains earlier China investigation
+ok 12 - source-derived Section 301: suspension retains earlier China investigation
+  ---
+  duration_ms: 0.188147
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: suspension ends cross-origin maritime charge
+ok 13 - source-derived Section 301: suspension ends cross-origin maritime charge
+  ---
+  duration_ms: 0.131072
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: ambiguous EDT wording does not inflate known subtotal
+ok 14 - source-derived Section 301: ambiguous EDT wording does not inflate known subtotal
+  ---
+  duration_ms: 0.360567
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: whole statistical line exclusion only when claimed
+ok 15 - source-derived Section 301: whole statistical line exclusion only when claimed
+  ---
+  duration_ms: 1.854238
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: unclaimed charge remains statutory
+ok 16 - source-derived Section 301: unclaimed charge remains statutory
+  ---
+  duration_ms: 0.572775
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: retroactive pump code and alternative descriptions
+ok 17 - source-derived Section 301: retroactive pump code and alternative descriptions
+  ---
+  duration_ms: 0.379598
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: retroactive shredder code before publication
+ok 18 - source-derived Section 301: retroactive shredder code before publication
+  ---
+  duration_ms: 0.314923
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: claimed amendment boundary remains unresolved
+ok 19 - source-derived Section 301: claimed amendment boundary remains unresolved
+  ---
+  duration_ms: 0.416806
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: crane contract exclusion removes both named investigations
+ok 20 - source-derived Section 301: crane contract exclusion removes both named investigations
+  ---
+  duration_ms: 0.151619
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301 survives stored JSON/Arrow/batch serving
+ok 21 - source-derived Section 301 survives stored JSON/Arrow/batch serving
+  ---
+  duration_ms: 68.205889
+  type: 'test'
+  ...
+# Subtest: audit uses bound values and rejects identifier, origin and product injection
+ok 22 - audit uses bound values and rejects identifier, origin and product injection
+  ---
+  duration_ms: 1.509807
+  type: 'test'
+  ...
+# Subtest: overlap includes all overlapping revisions, not only consecutive pairs
+ok 23 - overlap includes all overlapping revisions, not only consecutive pairs
+  ---
+  duration_ms: 5.706556
+  type: 'test'
+  ...
+# Subtest: missing rows, ambiguous windows and missing values never pass as zero
+ok 24 - missing rows, ambiguous windows and missing values never pass as zero
+  ---
+  duration_ms: 0.368156
+  type: 'test'
+  ...
+# Subtest: read-only query shapes execute in DuckDB and preserve exact adjacent HTS10 scope
+ok 25 - read-only query shapes execute in DuckDB and preserve exact adjacent HTS10 scope
+  ---
+  duration_ms: 31.963075
+  type: 'test'
+  ...
+# Subtest: unregistered source flags cannot masquerade as primary evidence
+ok 26 - unregistered source flags cannot masquerade as primary evidence
+  ---
+  duration_ms: 0.192768
+  type: 'test'
+  ...
+# Subtest: reviewed evidence must retain its source bytes and hash
+ok 27 - reviewed evidence must retain its source bytes and hash
+  ---
+  duration_ms: 11.679617
+  type: 'test'
+  ...
+# Subtest: conditional action: qualifying IC suppresses only listed actions
+ok 28 - conditional action: qualifying IC suppresses only listed actions
+  ---
+  duration_ms: 3.71665
+  type: 'test'
+  ...
+# Subtest: conditional action: country 5700
+ok 29 - conditional action: country 5700
+  ---
+  duration_ms: 1.064683
+  type: 'test'
+  ...
+# Subtest: conditional action: country 5820
+ok 30 - conditional action: country 5820
+  ---
+  duration_ms: 1.662857
+  type: 'test'
+  ...
+# Subtest: conditional action: country 1220
+ok 31 - conditional action: country 1220
+  ---
+  duration_ms: 0.502028
+  type: 'test'
+  ...
+# Subtest: conditional action: country 2010
+ok 32 - conditional action: country 2010
+  ---
+  duration_ms: 0.578373
+  type: 'test'
+  ...
+# Subtest: conditional action: country 4280
+ok 33 - conditional action: country 4280
+  ---
+  duration_ms: 0.611653
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8471500150
+ok 34 - conditional action: legal prefix 8471500150
+  ---
+  duration_ms: 0.471408
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8471801000
+ok 35 - conditional action: legal prefix 8471801000
+  ---
+  duration_ms: 0.495451
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8473301180
+ok 36 - conditional action: legal prefix 8473301180
+  ---
+  duration_ms: 1.370846
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 14000
+ok 37 - conditional action: strict TPP boundary 14000
+  ---
+  duration_ms: 0.668321
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 17500
+ok 38 - conditional action: strict TPP boundary 17500
+  ---
+  duration_ms: 0.424233
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 20800
+ok 39 - conditional action: strict TPP boundary 20800
+  ---
+  duration_ms: 0.409418
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 21100
+ok 40 - conditional action: strict TPP boundary 21100
+  ---
+  duration_ms: 0.370209
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 4500
+ok 41 - conditional action: strict DRAM boundary 4500
+  ---
+  duration_ms: 0.422556
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 5000
+ok 42 - conditional action: strict DRAM boundary 5000
+  ---
+  duration_ms: 0.360925
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 5800
+ok 43 - conditional action: strict DRAM boundary 5800
+  ---
+  duration_ms: 0.339986
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 6200
+ok 44 - conditional action: strict DRAM boundary 6200
+  ---
+  duration_ms: 0.347321
+  type: 'test'
+  ...
+# Subtest: conditional action: second technical window
+ok 45 - conditional action: second technical window
+  ---
+  duration_ms: 0.367375
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_data_center
+ok 46 - conditional action: end use us_data_center
+  ---
+  duration_ms: 1.050532
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_repair_replacement
+ok 47 - conditional action: end use us_repair_replacement
+  ---
+  duration_ms: 0.403212
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_research_development
+ok 48 - conditional action: end use us_research_development
+  ---
+  duration_ms: 0.359792
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_startup
+ok 49 - conditional action: end use us_startup
+  ---
+  duration_ms: 0.370619
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_consumer_electronics
+ok 50 - conditional action: end use us_consumer_electronics
+  ---
+  duration_ms: 0.367616
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_civil_industrial
+ok 51 - conditional action: end use us_civil_industrial
+  ---
+  duration_ms: 0.37205
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_public_sector
+ok 52 - conditional action: end use us_public_sector
+  ---
+  duration_ms: 0.359154
+  type: 'test'
+  ...
+# Subtest: conditional action: 100 MW does not meet greater-than threshold
+ok 53 - conditional action: 100 MW does not meet greater-than threshold
+  ---
+  duration_ms: 0.405189
+  type: 'test'
+  ...
+# Subtest: conditional action: data center requires its statutory load
+ok 54 - conditional action: data center requires its statutory load
+  ---
+  duration_ms: 0.456272
+  type: 'test'
+  ...
+# Subtest: conditional action: zero value still suppresses other actions
+ok 55 - conditional action: zero value still suppresses other actions
+  ---
+  duration_ms: 0.396484
+  type: 'test'
+  ...
+# Subtest: conditional action: missing value cannot revive excluded actions
+ok 56 - conditional action: missing value cannot revive excluded actions
+  ---
+  duration_ms: 0.510208
+  type: 'test'
+  ...
+# Subtest: conditional action: no logic IC requires no technical or end-use inputs
+ok 57 - conditional action: no logic IC requires no technical or end-use inputs
+  ---
+  duration_ms: 0.216178
+  type: 'test'
+  ...
+# Subtest: conditional action: unresolved technical scope cannot price dependent actions
+ok 58 - conditional action: unresolved technical scope cannot price dependent actions
+  ---
+  duration_ms: 0.244069
+  type: 'test'
+  ...
+# Subtest: conditional action: unreviewed IC inventory cannot establish exclusion
+ok 59 - conditional action: unreviewed IC inventory cannot establish exclusion
+  ---
+  duration_ms: 0.22742
+  type: 'test'
+  ...
+# Subtest: conditional action: adjacent uncovered prefix retains other actions
+ok 60 - conditional action: adjacent uncovered prefix retains other actions
+  ---
+  duration_ms: 0.133888
+  type: 'test'
+  ...
+# Subtest: conditional action: first legal minute boundary
+ok 61 - conditional action: first legal minute boundary
+  ---
+  duration_ms: 0.194812
+  type: 'test'
+  ...
+# Subtest: conditional action: modeled shares cannot change shipment liability
+ok 62 - conditional action: modeled shares cannot change shipment liability
+  ---
+  duration_ms: 0.57993
+  type: 'test'
+  ...
+# Subtest: stored action rules survive JSON/Arrow/batch with decisions, relevant facts and hashes
+ok 63 - stored action rules survive JSON/Arrow/batch with decisions, relevant facts and hashes
+  ---
+  duration_ms: 48.134458
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: ordinary steel exact source heading
+ok 64 - note 16 R/TypeScript conformance: ordinary steel exact source heading
+  ---
+  duration_ms: 4.598071
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: country-specific Russian steel heading
+ok 65 - note 16 R/TypeScript conformance: country-specific Russian steel heading
+  ---
+  duration_ms: 1.181545
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: US-origin derivative concession boundary
+ok 66 - note 16 R/TypeScript conformance: US-origin derivative concession boundary
+  ---
+  duration_ms: 2.130214
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: Russian derivative with qualifying US steel
+ok 67 - note 16 R/TypeScript conformance: Russian derivative with qualifying US steel
+  ---
+  duration_ms: 1.122908
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: UK steel and clarified qualifying production
+ok 68 - note 16 R/TypeScript conformance: UK steel and clarified qualifying production
+  ---
+  duration_ms: 1.641081
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: UK threshold is not rounded
+ok 69 - note 16 R/TypeScript conformance: UK threshold is not rounded
+  ---
+  duration_ms: 1.163857
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: metal-free reporting is affirmative zero
+ok 70 - note 16 R/TypeScript conformance: metal-free reporting is affirmative zero
+  ---
+  duration_ms: 1.919463
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: underweight derivative needs no use or origin facts
+ok 71 - note 16 R/TypeScript conformance: underweight derivative needs no use or origin facts
+  ---
+  duration_ms: 1.690197
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: weight boundary enters ordinary derivative tier
+ok 72 - note 16 R/TypeScript conformance: weight boundary enters ordinary derivative tier
+  ---
+  duration_ms: 2.06514
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: motorcycle use selects source zero heading
+ok 73 - note 16 R/TypeScript conformance: motorcycle use selects source zero heading
+  ---
+  duration_ms: 2.575339
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: equipment use selects the legal floor
+ok 74 - note 16 R/TypeScript conformance: equipment use selects the legal floor
+  ---
+  duration_ms: 1.295043
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: equipment floor satisfied selects no-change code
+ok 75 - note 16 R/TypeScript conformance: equipment floor satisfied selects no-change code
+  ---
+  duration_ms: 1.209857
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: equipment domestic threshold has own floor
+ok 76 - note 16 R/TypeScript conformance: equipment domestic threshold has own floor
+  ---
+  duration_ms: 1.448815
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: mixed-metal requirements cumulative
+ok 77 - note 16 R/TypeScript conformance: mixed-metal requirements cumulative
+  ---
+  duration_ms: 1.301319
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: one nonqualifying metal selects ordinary floor
+ok 78 - note 16 R/TypeScript conformance: one nonqualifying metal selects ordinary floor
+  ---
+  duration_ms: 1.115074
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: missing actual origin is a shipment input
+ok 79 - note 16 R/TypeScript conformance: missing actual origin is a shipment input
+  ---
+  duration_ms: 4.942734
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: non-NTR exact alternative, no floor
+ok 80 - note 16 R/TypeScript conformance: non-NTR exact alternative, no floor
+  ---
+  duration_ms: 1.649173
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: Russian exact alternative, no floor
+ok 81 - note 16 R/TypeScript conformance: Russian exact alternative, no floor
+  ---
+  duration_ms: 1.543348
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: primary aluminum source-derived heading
+ok 82 - note 16 R/TypeScript conformance: primary aluminum source-derived heading
+  ---
+  duration_ms: 5.239344
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: Russian smelt survives non-Russian origin
+ok 83 - note 16 R/TypeScript conformance: Russian smelt survives non-Russian origin
+  ---
+  duration_ms: 1.484168
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: Russian derivative exception is full value
+ok 84 - note 16 R/TypeScript conformance: Russian derivative exception is full value
+  ---
+  duration_ms: 1.79023
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: mobile-equipment partner floor
+ok 85 - note 16 R/TypeScript conformance: mobile-equipment partner floor
+  ---
+  duration_ms: 1.637921
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: mobile-equipment nonpartner ordinary tier
+ok 86 - note 16 R/TypeScript conformance: mobile-equipment nonpartner ordinary tier
+  ---
+  duration_ms: 1.937471
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: USMCA content capped with two reporting lines
+ok 87 - note 16 R/TypeScript conformance: USMCA content capped with two reporting lines
+  ---
+  duration_ms: 1.92475
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: USMCA actual non-US content
+ok 88 - note 16 R/TypeScript conformance: USMCA actual non-US content
+  ---
+  duration_ms: 1.014598
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: zero exempt content does not invent second line
+ok 89 - note 16 R/TypeScript conformance: zero exempt content does not invent second line
+  ---
+  duration_ms: 1.161724
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: conflicting US parts value requests corrected inputs
+ok 90 - note 16 R/TypeScript conformance: conflicting US parts value requests corrected inputs
+  ---
+  duration_ms: 1.02115
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: known heading retains unresolved formula evidence
+ok 91 - note 16 R/TypeScript conformance: known heading retains unresolved formula evidence
+  ---
+  duration_ms: 1.165645
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: adjacent statistical suffix not broadened
+ok 92 - note 16 R/TypeScript conformance: adjacent statistical suffix not broadened
+  ---
+  duration_ms: 0.879603
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: electronics outside note16 stays outside this fragment
+ok 93 - note 16 R/TypeScript conformance: electronics outside note16 stays outside this fragment
+  ---
+  duration_ms: 0.61279
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: aggregate inputs cannot change heading
+ok 94 - note 16 R/TypeScript conformance: aggregate inputs cannot change heading
+  ---
+  duration_ms: 0.689319
+  type: 'test'
+  ...
+# Subtest: note 16 R/TypeScript conformance: conflicting weight totals request corrected inputs
+ok 95 - note 16 R/TypeScript conformance: conflicting weight totals request corrected inputs
+  ---
+  duration_ms: 0.750252
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unclaimed suppression does not ask for metal content
+ok 96 - R/TS/API runtime: unclaimed suppression does not ask for metal content
+  ---
+  duration_ms: 2.682453
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates formerly suppressed action
+ok 97 - R/TS/API runtime: claim reevaluates formerly suppressed action
+  ---
+  duration_ms: 0.47867
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim needs relevant content
+ok 98 - R/TS/API runtime: claim needs relevant content
+  ---
+  duration_ms: 0.284466
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid negative value
+ok 99 - R/TS/API runtime: invalid negative value
+  ---
+  duration_ms: 0.402825
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: source coverage is mandatory
+ok 100 - R/TS/API runtime: source coverage is mandatory
+  ---
+  duration_ms: 0.252748
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: identical duplicated rules are idempotent
+ok 101 - R/TS/API runtime: identical duplicated rules are idempotent
+  ---
+  duration_ms: 5.540491
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: conflicting duplicates are unresolved
+ok 102 - R/TS/API runtime: conflicting duplicates are unresolved
+  ---
+  duration_ms: 0.236974
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cumulative actions under one authority
+ok 103 - R/TS/API runtime: cumulative actions under one authority
+  ---
+  duration_ms: 0.129963
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific compound with exact quantity units
+ok 104 - R/TS/API runtime: specific compound with exact quantity units
+  ---
+  duration_ms: 0.31318
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific duty missing unit quantity is not zero
+ok 105 - R/TS/API runtime: specific duty missing unit quantity is not zero
+  ---
+  duration_ms: 0.327025
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: floor recomputes after claim
+ok 106 - R/TS/API runtime: floor recomputes after claim
+  ---
+  duration_ms: 0.197814
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: missing source reference
+ok 107 - R/TS/API runtime: missing source reference
+  ---
+  duration_ms: 0.087162
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cycles are unresolved
+ok 108 - R/TS/API runtime: cycles are unresolved
+  ---
+  duration_ms: 0.082824
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unknown operator is unresolved
+ok 109 - R/TS/API runtime: unknown operator is unresolved
+  ---
+  duration_ms: 0.05232
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: zero denominator is unresolved
+ok 110 - R/TS/API runtime: zero denominator is unresolved
+  ---
+  duration_ms: 0.050683
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: model shares never affect shipment
+ok 111 - R/TS/API runtime: model shares never affect shipment
+  ---
+  duration_ms: 0.076401
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+ok 112 - R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+  ---
+  duration_ms: 0.143863
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deposit distinguished from duty
+ok 113 - R/TS/API runtime: deposit distinguished from duty
+  ---
+  duration_ms: 0.070746
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant before start
+ok 114 - R/TS/API runtime: instant before start
+  ---
+  duration_ms: 0.040737
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at start
+ok 115 - R/TS/API runtime: instant at start
+  ---
+  duration_ms: 0.090579
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at exclusive end
+ok 116 - R/TS/API runtime: instant at exclusive end
+  ---
+  duration_ms: 0.04264
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: date-only is ambiguous
+ok 117 - R/TS/API runtime: date-only is ambiguous
+  ---
+  duration_ms: 0.032444
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed scope must not silently suppress duty
+ok 118 - R/TS/API runtime: malformed scope must not silently suppress duty
+  ---
+  duration_ms: 0.045744
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+ok 119 - R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+  ---
+  duration_ms: 0.062473
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified source does not qualify an unverified interpretation
+ok 120 - R/TS/API runtime: verified source does not qualify an unverified interpretation
+  ---
+  duration_ms: 0.06336
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: inconsistent content values require corrected shipment facts
+ok 121 - R/TS/API runtime: inconsistent content values require corrected shipment facts
+  ---
+  duration_ms: 0.182141
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed persisted rule data is unavailable
+ok 122 - R/TS/API runtime: malformed persisted rule data is unavailable
+  ---
+  duration_ms: 0.470096
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: duplicate source and rule property order has no effect
+ok 123 - R/TS/API runtime: duplicate source and rule property order has no effect
+  ---
+  duration_ms: 0.222172
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+ok 124 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+  ---
+  duration_ms: 0.044063
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+ok 125 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+  ---
+  duration_ms: 0.032665
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+ok 126 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+  ---
+  duration_ms: 0.030918
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+ok 127 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+  ---
+  duration_ms: 0.031338
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deleted action cannot be certified by a coverage statement
+ok 128 - R/TS/API runtime: deleted action cannot be certified by a coverage statement
+  ---
+  duration_ms: 0.081334
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: legacy coverage without an inventory is incomplete
+ok 129 - R/TS/API runtime: legacy coverage without an inventory is incomplete
+  ---
+  duration_ms: 0.119338
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: added rule without coverage review is incomplete
+ok 130 - R/TS/API runtime: added rule without coverage review is incomplete
+  ---
+  duration_ms: 0.195345
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim with partial effect coverage preserves only known components
+ok 131 - R/TS/API runtime: claim with partial effect coverage preserves only known components
+  ---
+  duration_ms: 0.178555
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified absence requires an explicit negative coverage determination
+ok 132 - R/TS/API runtime: verified absence requires an explicit negative coverage determination
+  ---
+  duration_ms: 0.063004
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: negative coverage cannot hide an applicable action
+ok 133 - R/TS/API runtime: negative coverage cannot hide an applicable action
+  ---
+  duration_ms: 0.068649
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression survives zero valuation
+ok 134 - R/TS/API runtime: applicability suppression survives zero valuation
+  ---
+  duration_ms: 0.088226
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression does not require valuation
+ok 135 - R/TS/API runtime: applicability suppression does not require valuation
+  ---
+  duration_ms: 0.115957
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates applicability and revives action
+ok 136 - R/TS/API runtime: claim reevaluates applicability and revives action
+  ---
+  duration_ms: 0.262892
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability dependency cycle is unresolved
+ok 137 - R/TS/API runtime: applicability dependency cycle is unresolved
+  ---
+  duration_ms: 0.197532
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+ok 138 - R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+  ---
+  duration_ms: 0.174061
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+ok 139 - R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+  ---
+  duration_ms: 0.126199
+  type: 'test'
+  ...
+# Subtest: local Parquet release prepares atomically, validates target and preserves active rollback
+ok 140 - local Parquet release prepares atomically, validates target and preserves active rollback
+  ---
+  duration_ms: 330.642424
+  type: 'test'
+  ...
+# Subtest: release v5 rejects old manifests and missing Section 301 evidence
+ok 141 - release v5 rejects old manifests and missing Section 301 evidence
+  ---
+  duration_ms: 26.854282
+  type: 'test'
+  ...
+# Subtest: release preflight rejects unattributed Section 301 wide rates
+ok 142 - release preflight rejects unattributed Section 301 wide rates
+  ---
+  duration_ms: 51.897255
+  type: 'test'
+  ...
+# Subtest: release v5 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates
+ok 143 - release v5 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates
+  ---
+  duration_ms: 195.00074
+  type: 'test'
+  ...
+# Subtest: changed artifacts and missing revisions cannot prepare a release
+ok 144 - changed artifacts and missing revisions cannot prepare a release
+  ---
+  duration_ms: 27.134903
+  type: 'test'
+  ...
+# Subtest: release preflight never treats missing Section 301 values as zero or broadens origin
+ok 145 - release preflight never treats missing Section 301 values as zero or broadens origin
+  ---
+  duration_ms: 224.382966
+  type: 'test'
+  ...
+# Subtest: JSON, Arrow and batch keep missing contracts incomplete
+ok 146 - JSON, Arrow and batch keep missing contracts incomplete
+  ---
+  duration_ms: 18.9663
+  type: 'test'
+  ...
+# Subtest: database name uses one validated configuration
+ok 147 - database name uses one validated configuration
+  ---
+  duration_ms: 0.196338
+  type: 'test'
+  ...
+# Subtest: API pool reopens an immutable database release read-only without local rule files
+ok 148 - API pool reopens an immutable database release read-only without local rule files
+  ---
+  duration_ms: 206.340799
+  type: 'test'
+  ...
+# Subtest: API pool rejects a local database without a validated active release
+ok 149 - API pool rejects a local database without a validated active release
+  ---
+  duration_ms: 34.853015
+  type: 'test'
+  ...
+# Subtest: candidate provenance preflight rejects missing scope and cross-product membership before loading
+ok 150 - candidate provenance preflight rejects missing scope and cross-product membership before loading
+  ---
+  duration_ms: 151.234292
+  type: 'test'
+  ...
+# Subtest: release v5 requires claim chronology and validates every executable effect before preparation
+ok 151 - release v5 requires claim chronology and validates every executable effect before preparation
+  ---
+  duration_ms: 531.0178
+  type: 'test'
+  ...
+# Subtest: release v5 persists IEEPA note provenance and legal-state intervals
+ok 152 - release v5 persists IEEPA note provenance and legal-state intervals
+  ---
+  duration_ms: 550.071647
+  type: 'test'
+  ...
+# Subtest: release compares Section 301 at each legal state and rejects missing or overlapping state grids
+ok 153 - release compares Section 301 at each legal state and rejects missing or overlapping state grids
+  ---
+  duration_ms: 209.886797
+  type: 'test'
+  ...
+1..153
+# tests 153
+# suites 0
+# pass 153
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2760.653712

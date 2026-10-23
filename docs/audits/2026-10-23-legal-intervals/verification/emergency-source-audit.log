@@ -1,0 +1,74 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+2025_basic : 0 active parameter candidates; 1 daily legal states
+2025_rev_1 : 2 active parameter candidates; 1 daily legal states
+2025_rev_2 : 2 active parameter candidates; 1 daily legal states
+2025_rev_3 : 5 active parameter candidates; 1 daily legal states
+2025_rev_4 : 7 active parameter candidates; 2 daily legal states
+2025_rev_5 : 7 active parameter candidates; 1 daily legal states
+2025_rev_6 : 7 active parameter candidates; 1 daily legal states
+2025_rev_7 : 7 active parameter candidates; 1 daily legal states
+2025_rev_8 : 7 active parameter candidates; 1 daily legal states
+2025_rev_9 : 7 active parameter candidates; 1 daily legal states
+2025_rev_10 : 7 active parameter candidates; 1 daily legal states
+2025_rev_11 : 7 active parameter candidates; 1 daily legal states
+2025_rev_12 : 7 active parameter candidates; 1 daily legal states
+2025_rev_13 : 7 active parameter candidates; 3 daily legal states
+2025_rev_14 : 7 active parameter candidates; 1 daily legal states
+2025_rev_15 : 7 active parameter candidates; 1 daily legal states
+2025_rev_16 : 7 active parameter candidates; 1 daily legal states
+2025_rev_17 : 8 active parameter candidates; 1 daily legal states
+2025_rev_18 : 8 active parameter candidates; 1 daily legal states
+2025_rev_19 : 8 active parameter candidates; 1 daily legal states
+2025_rev_20 : 8 active parameter candidates; 3 daily legal states
+2025_rev_21 : 8 active parameter candidates; 1 daily legal states
+2025_rev_22 : 8 active parameter candidates; 1 daily legal states
+2025_rev_23 : 8 active parameter candidates; 1 daily legal states
+2025_rev_24 : 8 active parameter candidates; 1 daily legal states
+2025_rev_25 : 8 active parameter candidates; 1 daily legal states
+2025_rev_26 : 8 active parameter candidates; 1 daily legal states
+2025_rev_27 : 8 active parameter candidates; 1 daily legal states
+2025_rev_28 : 8 active parameter candidates; 1 daily legal states
+2025_rev_29 : 8 active parameter candidates; 2 daily legal states
+2025_rev_30 : 8 active parameter candidates; 2 daily legal states
+2025_rev_31 : 8 active parameter candidates; 1 daily legal states
+2025_rev_32 : 8 active parameter candidates; 1 daily legal states
+2026_basic : 8 active parameter candidates; 1 daily legal states
+2026_rev_1 : 8 active parameter candidates; 1 daily legal states
+2026_rev_2 : 8 active parameter candidates; 1 daily legal states
+2026_rev_3 : 8 active parameter candidates; 1 daily legal states
+2026_rev_4 : 8 active parameter candidates; 1 daily legal states
+2026_rev_5 : 8 active parameter candidates; 1 daily legal states
+2026_rev_6 : 8 active parameter candidates; 1 daily legal states
+2026_rev_7 : 8 active parameter candidates; 1 daily legal states
+2026_rev_9 : 8 active parameter candidates; 2 daily legal states
+2026_rev_8 : 8 active parameter candidates; 1 daily legal states
+2026_rev_10 : 8 active parameter candidates; 1 daily legal states
+2026_rev_11 : 8 active parameter candidates; 1 daily legal states
+2026_rev_12 : 8 active parameter candidates; 2 daily legal states
+2026_rev_13 : 8 active parameter candidates; 1 daily legal states
+2026_rev_14 : 8 active parameter candidates; 1 daily legal states
+2026_rev_15 : 8 active parameter candidates; 1 daily legal states
+2026_rev_16 : 8 active parameter candidates; 2 daily legal states
+2026_rev_17 : 8 active parameter candidates; 1 daily legal states
+2026_rev_18 : 8 active parameter candidates; 1 daily legal states
+2026_rev_19 : 8 active parameter candidates; 1 daily legal states
+2026_rev_20 : 8 active parameter candidates; 1 daily legal states
+2026_rev_21 : 8 active parameter candidates; 1 daily legal states
+PASS: 55 revision sources. No timeseries or database writes.

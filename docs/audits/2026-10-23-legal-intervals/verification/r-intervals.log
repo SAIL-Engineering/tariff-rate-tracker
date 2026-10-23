@@ -1,0 +1,22 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Building daily aggregates for 2025-11-13 to 2025-11-20
+  Revisions: 2
+  Daily overall rows: 8
+  Daily by-country rows: 8
+  Daily by-authority rows: 8
+Legal interval splitting, daily/point parity and atomic normalized preparation passed
+Partial product-country grids and partially missing intervals fail closed
+Shared builder recalculates each legal state and assembles normalized intervals
