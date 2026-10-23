@@ -1,0 +1,7 @@
+{
+  "pdf_sha256": "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad",
+  "hts_sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09",
+  "text_sha256": "b54f49e10031a1562909c002700dd81274387341ef78c6cfa133df8837d2135c",
+  "extraction": "pdftotext -layout, complete note 20 through end note 31, plus the next note boundary",
+  "revision": "2026_rev_21"
+}

@@ -284,7 +284,7 @@ reasons:
     authority_key: "301"
     status: active
     short_label: "Section 301 (China)"
-    legal_authority: "USTR Section 301 action; HTSUS 9903.88.xx"
+    legal_authority: "USTR China technology-transfer action; HTSUS notes 20/31 and headings 9903.88, 9903.91, 9903.92.10"
     statute: "19 U.S.C. 2411"
     mechanism: flat
     narrative: "Section 301 China duty {applied_pct} on {hts10} ({program_ch99}), per the USTR action lists."
@@ -296,7 +296,23 @@ reasons:
     legal_authority: "USTR Section 301 exclusion/expired list"
     statute: "19 U.S.C. 2411"
     mechanism: flat
-    narrative: "{hts10} is outside the active Section 301 lists for {country_name} (excluded or never listed) in {revision}, so no Section 301 duty applies. A {counterfactual_pct} charge would reflect a 301 line that does not cover this code."
+    narrative: "The China technology-transfer charge is not applied to {hts10} from {country_name} in {revision}. Consult the source decision for the scope or exclusion basis; other Section 301 investigations require their own determination."
+
+  s301_scope_pending:
+    status: conditional
+    short_label: "Section 301 product facts required"
+    legal_authority: "Revision-specific HTSUS notes 20/31 and heading description"
+    statute: "19 U.S.C. 2411"
+    mechanism: flat
+    narrative: "Potential China technology-transfer duty on {hts10} ({program_ch99}); the preserved legal product description must be established before a shipment amount is known."
+
+  s301_maritime:
+    status: conditional
+    short_label: "Section 301 maritime equipment"
+    legal_authority: "USTR maritime action, note 31(k)-(l); FR 2025-19568 and suspension FR 2025-19873"
+    statute: "19 U.S.C. 2411; 19 U.S.C. 2417"
+    mechanism: flat
+    narrative: "Potential maritime equipment duty on {hts10} ({program_ch99}); product description, Chinese origin/components/ownership, applicable claim and entry time require determination."
 
   # ---------------------------------------------------------------------------
   # SECTION 301 (2026 actions: forced labor, Brazil) + SECTION 338

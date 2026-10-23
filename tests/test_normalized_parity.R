@@ -19,7 +19,7 @@
 # Run:
 #   Rscript tests/test_normalized_parity.R
 #   Rscript tests/test_normalized_parity.R --revision 2025_rev_7
-#   Rscript tests/test_normalized_parity.R --full      # full sweep
+#   --full is rejected until exhaustive all-authority traversal is implemented.
 #
 # Exit codes:
 #   0 — all assertions passed
@@ -101,7 +101,17 @@ REQUIRED_LAYERS <- c(
 
 for (rd in revision_dirs) {
   rev_id <- basename(rd)
-  for (layer in REQUIRED_LAYERS) {
+  layers <- REQUIRED_LAYERS
+  if(grepl('^202[56]_',rev_id)) {
+    layers <- c(layers,'section301_scope_decisions.parquet')
+    for(file in c('section301_source.json','section301_rules.json')) {
+      if(!file.exists(file.path(rd,file))) {
+        log_fail(paste0(rev_id,'/',file,' missing; corrected Section 301 rebuild required'))
+        fail_count <- fail_count+1L
+      }
+    }
+  }
+  for (layer in layers) {
     p <- file.path(rd, layer)
     if (!file.exists(p)) {
       log_fail(paste0(rev_id, '/', layer, ' missing'))
@@ -134,6 +144,13 @@ if (fail_count > 0) {
   cat('\nStage 1 FAILED with ', fail_count, ' errors. Stopping before parity.\n',
       sep = '')
   quit(status = 1)
+}
+
+# This flag historically ran exactly the same 2,008-row sample, despite its
+# documented claim of exhaustive coverage. Never certify a sample as a sweep.
+if(full_mode) {
+  log_fail('--full all-authority traversal is not implemented; the default checks a sample only')
+  quit(status=2)
 }
 
 # ---------------------------------------------------------------------------

@@ -23,7 +23,7 @@ test('stored action rules survive JSON/Arrow/batch with decisions, relevant fact
   await c.run('CREATE TABLE tariff_active_release (singleton INTEGER,release_id VARCHAR)');
   await c.run('CREATE TABLE tariff_releases (release_id VARCHAR,schema_name VARCHAR,contract_version VARCHAR,evidence_snapshot_id VARCHAR,dataset_version VARCHAR,status VARCHAR)');
   await c.run('INSERT INTO tariff_active_release VALUES(1,?)',['test']);
-  await c.run('INSERT INTO tariff_releases VALUES(?,?,?,?,?,?)',['test',schema,'sail.tariff-release/v1',bundle.evidence_snapshot_id,bundle.dataset_version,'validated']);
+  await c.run('INSERT INTO tariff_releases VALUES(?,?,?,?,?,?)',['test',schema,'sail.tariff-release/v2',bundle.evidence_snapshot_id,bundle.dataset_version,'validated']);
   await c.run(`CREATE SCHEMA ${schema}`);
   await c.run(`CREATE TABLE ${schema}.rule_bundles(valid_from TIMESTAMPTZ,valid_until TIMESTAMPTZ,bundle_json VARCHAR,bundle_sha256 VARCHAR)`);
   await c.run(`INSERT INTO ${schema}.rule_bundles VALUES(?,?,?,?)`,[bundle.valid_from,bundle.valid_until,json,sha]);

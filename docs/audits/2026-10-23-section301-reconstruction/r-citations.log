@@ -1,0 +1,30 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+--- Citation registry invariants ---
+  PASS: registry parses and is non-trivial
+  PASS: every authority is linkable — a URL or an FR document number
+  PASS: no authority is still flagged pending publication or recheck
+  PASS: an index-only link carries a written justification
+  PASS: a Federal Register citation is paired with its document number
+
+--- Rules resolve to registered citations ---
+  PASS: every citation_key in stacking_rules.yaml is registered
+  PASS: the EO 14289 stacking model cites its primary sources
+  PASS: the Column 2 PNTR gate is backed by a registered statute
+
+--- Frontend authority contract ---
+  PASS: every authority rate column is described in the contract
+  PASS: §232 actions carry DISTINCT citations, not one shared proclamation
+  PASS: every citation_key in the contract resolves to a registered authority
+  PASS: the EO 14289 named actions are all citable
+
+--- Validator behaviour ---
+  PASS: a duplicate YAML key fails loud instead of dropping a definition
+  PASS: validate_citations.R runs clean on the current registry
+
+==================================================
+Tests: 14 passed, 0 failed
+==================================================

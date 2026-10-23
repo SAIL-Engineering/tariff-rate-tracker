@@ -1,0 +1,800 @@
+{
+  "bundles": {
+    "current": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "test-source-reconstruction",
+      "evidence_snapshot_id": "source-test",
+      "revision": "2026_rev_21",
+      "valid_from": "2026-01-01T00:00:00-05:00",
+      "valid_until": "2026-10-23T00:00:00-04:00",
+      "products": [
+        "6307909891",
+        "6307909870",
+        "8542310015"
+      ],
+      "countries": [
+        "5700",
+        "1220"
+      ],
+      "coverage_requirements": [
+        "section_301"
+      ],
+      "rules": [
+        {
+          "id": "s301_99038815_unconditional",
+          "action_id": "s301_99038815",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "6307909891"
+            ],
+            "countries": [
+              "5700"
+            ]
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.075
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.88.15"
+          ],
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ],
+          "legal_locator": "U.S. note 20(s)",
+          "source_scope_locators": [
+            "U.S. note 20(s)(i) table",
+            "U.S. note 20(s)(ii) item 1",
+            "U.S. note 20(s)(ii) item 2",
+            "U.S. note 20(s)(ii) item 3",
+            "U.S. note 20(s)(ii) item 4",
+            "U.S. note 20(s)(ii) item 5"
+          ]
+        },
+        {
+          "id": "s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd",
+          "action_id": "s301_99039104",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "6307909870"
+            ],
+            "countries": [
+              "5700"
+            ],
+            "from": "2025-01-01T00:01:00-05:00",
+            "until": "2026-01-01T00:00:00-05:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.91.04"
+          ],
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ],
+          "legal_locator": "U.S. note 31(e)",
+          "source_scope_locators": [
+            "U.S. note 31(e)"
+          ],
+          "when": {
+            "fact": "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd"
+          }
+        },
+        {
+          "id": "s301_99039105_unconditional",
+          "action_id": "s301_99039105",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "8542310015"
+            ],
+            "countries": [
+              "5700"
+            ],
+            "from": "2025-01-01T00:01:00-05:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.5
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.91.05"
+          ],
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ],
+          "legal_locator": "U.S. note 31(f)",
+          "source_scope_locators": [
+            "U.S. note 31(f)(1)",
+            "U.S. note 31(f)(2)",
+            "U.S. note 31(f)(4)",
+            "U.S. note 31(f)(5)",
+            "U.S. note 31(f)(6)",
+            "U.S. note 31(f)(7)",
+            "U.S. note 31(f)(8)",
+            "U.S. note 31(f)(9)",
+            "U.S. note 31(f)(10)",
+            "U.S. note 31(f)(11)",
+            "U.S. note 31(f)(12)",
+            "U.S. note 31(f)(13)",
+            "U.S. note 31(f)(14)",
+            "U.S. note 31(f)(15)",
+            "U.S. note 31(f)(16)",
+            "U.S. note 31(f)(17)",
+            "U.S. note 31(f)(18)",
+            "U.S. note 31(f)(19)"
+          ]
+        },
+        {
+          "id": "s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996",
+          "action_id": "s301_99039107",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "6307909870"
+            ],
+            "countries": [
+              "5700"
+            ],
+            "from": "2026-01-01T00:01:00-05:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.5
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.91.07"
+          ],
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ],
+          "legal_locator": "U.S. note 31(h)",
+          "source_scope_locators": [
+            "U.S. note 31(h)(3)"
+          ],
+          "when": {
+            "fact": "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "id": "USITC-2026_rev_21-chapter99",
+          "status": "verified",
+          "sha256": "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev21&filename=Chapter%2099",
+          "citation": "USITC 2026_rev_21: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description."
+        },
+        {
+          "id": "USITC-2026_rev_21-hts",
+          "status": "verified",
+          "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev21&exportFormat=JSON",
+          "citation": "USITC 2026_rev_21: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description."
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD",
+          "label": "Customs value (USD)",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        },
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.04 description",
+          "description": "(e) Heading 9903.91.04 applies to facemasks of textiles, disposable, of China, described in statistical reporting number 6307.90.9870, effective with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern standard time on January 1, 2025, and before January 1, 2026.",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        },
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "Respirators of textiles, other than N95 respirators, described in statistical reporting number 6307.90.9850",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        },
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "N95 respirators of textiles, described in statistical reporting numbers 6307.90.9842 or 6307.90.9844",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        },
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "Face masks of textiles, described in statistical reporting numbers 6307.90.9870 or 6307.90.9875",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        },
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": {
+          "type": "boolean",
+          "label": "Product meets 9903.92.10 description",
+          "description": "Effective with respect to entries, on or after September 27, 2024, of overhead traveling cranes, transporter cranes, gantry cranes, bridge cranes and mobile lifting frames, other than overhead traveling cranes on fixed support and other than mobile lifting frames on tires, articles the product of China (provided for in subheading 8426.19.00): Except as provided in heading 9903.91.09, ship-to-shore gantry cranes, configured as a high- or low-profile steel superstructure and designed to unload intermodal containers from vessels with coupling devices for containers, including spreaders or twist-locks (provided for in subheading 8426.19.00)",
+          "source_ids": [
+            "USITC-2026_rev_21-chapter99",
+            "USITC-2026_rev_21-hts"
+          ]
+        }
+      },
+      "coverage": []
+    },
+    "maritime": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "test-source-reconstruction",
+      "evidence_snapshot_id": "source-test",
+      "revision": "2025_rev_27",
+      "valid_from": "2025-11-08T00:00:00-05:00",
+      "valid_until": "2025-11-11T00:00:00-05:00",
+      "products": [
+        "8426190000"
+      ],
+      "countries": [
+        "5700",
+        "5830",
+        "1220"
+      ],
+      "coverage_requirements": [
+        "section_301"
+      ],
+      "rules": [
+        {
+          "id": "s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f",
+          "action_id": "s301_99039210",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "8426190000"
+            ],
+            "countries": [
+              "5700"
+            ],
+            "from": "2024-09-27T00:01:00-04:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 0.25
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.92.10"
+          ],
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ],
+          "legal_locator": "Heading 9903.92 and subheading 9903.92.10; note 31(a)",
+          "source_scope_locators": [
+            "Heading 9903.92.10"
+          ],
+          "when": {
+            "fact": "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f"
+          }
+        },
+        {
+          "id": "s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c",
+          "action_id": "s301_99039114",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "verified",
+          "scope": {
+            "hts_exact": [
+              "8426190000"
+            ],
+            "from": "2025-11-09T00:01:00-05:00",
+            "until": "2025-11-10T00:01:00-05:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 1
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.91.14"
+          ],
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ],
+          "legal_locator": "U.S. note 31(l); FR 2025-19568 Annex V.A; FR 2025-19873 suspension",
+          "source_scope_locators": [
+            "U.S. note 31(l)"
+          ],
+          "when": {
+            "fact": "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c"
+          }
+        },
+        {
+          "id": "s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c_unresolved_time_zone",
+          "action_id": "s301_99039114",
+          "authority": "section_301",
+          "kind": "duty",
+          "verification": "unresolved_source",
+          "scope": {
+            "hts_exact": [
+              "8426190000"
+            ],
+            "from": "2025-11-09T00:01:00-04:00",
+            "until": "2025-11-09T00:01:00-05:00"
+          },
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "fact": "customs_value"
+              },
+              {
+                "value": 1
+              }
+            ]
+          },
+          "reporting_codes": [
+            "9903.91.14"
+          ],
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ],
+          "legal_locator": "U.S. note 31(l); FR 2025-19568 Annex V.A; FR 2025-19873 suspension",
+          "source_scope_locators": [
+            "U.S. note 31(l)"
+          ],
+          "when": {
+            "fact": "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c"
+          },
+          "source_discrepancy": {
+            "written_start": "2025-11-09T00:01:00-04:00",
+            "calendar_start": "2025-11-09T00:01:00-05:00",
+            "unresolved_from": "2025-11-09T00:01:00-04:00",
+            "unresolved_until": "2025-11-09T00:01:00-05:00"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "id": "USITC-2025_rev_27-chapter99",
+          "status": "verified",
+          "sha256": "563bbc156ca19a27570d9bb4c8be81987de7d7c71b69ce027c544ccdb05ddb10",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev27&filename=Chapter%2099",
+          "citation": "USITC 2025_rev_27: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description."
+        },
+        {
+          "id": "USITC-2025_rev_27-hts",
+          "status": "verified",
+          "sha256": "29b8eba1b5a1bfeeb421e2b99cf880f6c0748abf6265986ac299c524579488c9",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev27&exportFormat=JSON",
+          "citation": "USITC 2025_rev_27: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description."
+        },
+        {
+          "id": "FR-2025-19568",
+          "status": "verified",
+          "sha256": "1ee863a77a20243eced249bb2a196e574cbab9b58eab4b70177035c6e17b4c2b",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-16/html/2025-19568.htm",
+          "citation": "Federal Register 2025-19568: maritime action and suspension; retained operative text."
+        },
+        {
+          "id": "FR-2025-19873",
+          "status": "verified",
+          "sha256": "c4ea13a276099701d6dbb51ee11ec9fbdc25c01ab0bc3fcc8cc1052aec37ae50",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2025-11-13/html/2025-19873.htm",
+          "citation": "Federal Register 2025-19873: maritime action and suspension; retained operative text."
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0,
+          "unit": "USD",
+          "label": "Customs value (USD)",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.01 description",
+          "description": "Respirators of textiles, other than N95 respirators, described in statistical reporting number 6307.90.9850",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.01 description",
+          "description": "Face masks of textiles, other than disposable, described in statistical reporting number 6307.90.9875",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.01 description",
+          "description": "N95 respirators of textiles, described in statistical reporting numbers 6307.90.9842 or 6307.90.9844",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.01 description",
+          "description": "Lithium-ion batteries of a kind used as the primary source of electrical power for electrically powered vehicles of subheadings 8703.40, 8703.50, 8703.60, 8703.70 or 8703.80, described in statistical reporting number 8507.60.0010",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.04 description",
+          "description": "(e) Heading 9903.91.04 applies to facemasks of textiles, disposable, of China, described in statistical reporting number 6307.90.9870, effective with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern standard time on January 1, 2025, and before January 1, 2026.",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "Respirators of textiles, other than N95 respirators, described in statistical reporting number 6307.90.9850",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "N95 respirators of textiles, described in statistical reporting numbers 6307.90.9842 or 6307.90.9844",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.07 description",
+          "description": "Face masks of textiles, described in statistical reporting numbers 6307.90.9870 or 6307.90.9875",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": {
+          "type": "boolean",
+          "label": "Product meets 9903.92.10 description",
+          "description": "Effective with respect to entries, on or after September 27, 2024, of overhead traveling cranes, transporter cranes, gantry cranes, bridge cranes and mobile lifting frames, other than overhead traveling cranes on fixed support and other than mobile lifting frames on tires, articles the product of China (provided for in subheading 8426.19.00): Except as provided in heading 9903.91.09, ship-to-shore gantry cranes, configured as a high- or low-profile steel superstructure and designed to unload intermodal containers from vessels with coupling devices for containers, including spreaders or twist-locks (provided for in subheading 8426.19.00)",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.12 description",
+          "description": "(k) (i) Heading 9903.91.12 applies to intermodal chassis, subassemblies thereof, and parts thereof, of China, provided for in statistical reporting number 8716.39.0090 or in subheadings 8716.90.30 or 8716.90.50. For purposes of heading 9903.91.12, intermodal chassis, subassemblies thereof, and parts thereof are described as follows: The articles consist of chassis and subassemblies thereof, whether finished or unfinished, whether assembled or unassembled, whether coated or uncoated, regardless of the number of axles, for carriage of containers, or other payloads (including self-supporting payloads) for road, marine and/or rail transport. Chassis are typically, but are not limited to, rectangular framed trailers with a suspension and axle system, wheels and tires, brakes, a lighting and electrical system, a coupling for towing behind a truck tractor, and a locking system or systems to secure the shipping container or containers to the chassis using twist-locks, slide pins or similar attachment devices to engage the corner fittings on the container or other payload. The articles include, but are not limited to, the following subassemblies: (a) Chassis frames, or sections of chassis frames, including kingpin assemblies, bolsters consisting of transverse beams with locking or support mechanisms, goosenecks, drop assemblies, extension mechanisms and/ or rear impact guards; (b) Running gear assemblies or axle assemblies for connection to the chassis frame, whether fixed in nature or capable of sliding fore and aft or lifting up and lowering down, which may or may not include suspension(s) (mechanical or pneumatic), wheel end components, slack adjusters, axles, brake chambers, locking pins, and tires and wheels; (c) Landing gear assemblies, for connection to the chassis frame, capable of supporting the chassis when it is not engaged to a tractor; and (d) Assemblies that connect to the chassis frame or a section of the chassis frame, such as, but not limited to, pintle hooks or B-trains (which include a fifth wheel), which are capable of connecting a chassis to a converter dolly or another chassis. Importation of any of these subassemblies, whether assembled or unassembled, constitutes an unfinished chassis for purposes of this note. The articles also include chassis, whether finished or unfinished, entered with or for further assembly with components such as, but not limited to: Hub and drum assemblies, brake assemblies (either drum or disc), axles, brake chambers, suspensions and suspension components, wheel end components, landing gear legs, spoke or disc wheels, tires, brake control systems, electrical harnesses and lighting systems.",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        },
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": {
+          "type": "boolean",
+          "label": "Product meets 9903.91.14 description",
+          "description": "(l) (i) Heading 9903.91.14 applies to ship-to-shore gantry cranes, configured as a high- or low-profile steel superstructure and designed to unload intermodal containers from vessels with coupling devices for containers, including spreaders or twist-locks, provided for in subheading 8426.19.00, that are: (1) products of China; (2) products of countries other than China that contain components, assemblies or subassemblies, of China, as specified in subdivision (l)(ii) of this note; or (3) products that are manufactured by a company or other entity that is owned or controlled by a Chinese person or legal entity.",
+          "source_ids": [
+            "USITC-2025_rev_27-chapter99",
+            "USITC-2025_rev_27-hts",
+            "FR-2025-19568",
+            "FR-2025-19873"
+          ]
+        }
+      },
+      "coverage": []
+    }
+  },
+  "cases": [
+    {
+      "name": "neighboring non-mask remains List 4A",
+      "bundle": "current",
+      "hts10": "6307909891",
+      "country": "5700",
+      "entry_at": "2026-10-22T12:00:00-04:00",
+      "facts": {
+        "customs_value": 100
+      },
+      "expected": {
+        "known_subtotal": 7.5,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "exact mask description established",
+      "bundle": "current",
+      "hts10": "6307909870",
+      "country": "5700",
+      "entry_at": "2026-10-22T12:00:00-04:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true
+      },
+      "expected": {
+        "known_subtotal": 50,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "semiconductor heading rate",
+      "bundle": "current",
+      "hts10": "8542310015",
+      "country": "5700",
+      "entry_at": "2026-10-22T12:00:00-04:00",
+      "facts": {
+        "customs_value": 100
+      },
+      "expected": {
+        "known_subtotal": 50,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "technology-transfer origin does not broaden",
+      "bundle": "current",
+      "hts10": "6307909891",
+      "country": "1220",
+      "entry_at": "2026-10-22T12:00:00-04:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true
+      },
+      "expected": {
+        "known_subtotal": 0,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "China crane cumulative investigations",
+      "bundle": "maritime",
+      "hts10": "8426190000",
+      "country": "5700",
+      "entry_at": "2025-11-09T12:00:00-05:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": true,
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": true,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true,
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": true,
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": true
+      },
+      "expected": {
+        "known_subtotal": 125,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "Taiwan crane qualifying Chinese components or ownership",
+      "bundle": "maritime",
+      "hts10": "8426190000",
+      "country": "5830",
+      "entry_at": "2025-11-09T12:00:00-05:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": true,
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": true,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true,
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": true,
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": true
+      },
+      "expected": {
+        "known_subtotal": 100,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "suspension retains earlier China investigation",
+      "bundle": "maritime",
+      "hts10": "8426190000",
+      "country": "5700",
+      "entry_at": "2025-11-10T00:01:00-05:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": true,
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": true,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true,
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": true,
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": true
+      },
+      "expected": {
+        "known_subtotal": 25,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "suspension ends cross-origin maritime charge",
+      "bundle": "maritime",
+      "hts10": "8426190000",
+      "country": "5830",
+      "entry_at": "2025-11-10T00:01:00-05:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": true,
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": true,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true,
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": true,
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": true
+      },
+      "expected": {
+        "known_subtotal": 0,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    },
+    {
+      "name": "ambiguous EDT wording does not inflate known subtotal",
+      "bundle": "maritime",
+      "hts10": "8426190000",
+      "country": "5700",
+      "entry_at": "2025-11-09T00:30:00-04:00",
+      "facts": {
+        "customs_value": 100,
+        "matches_s301_99039101_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039101_905225e52799e157ee910d68a59b2957cc8542626b8adc26ae5acd50df70f773": true,
+        "matches_s301_99039101_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039101_c094fab9ca9334aad763f9480ae4b45ee4aab117fbabfb63234af02a025b505c": true,
+        "matches_s301_99039104_1d9dc1e4fc431c5bf053e5d625577d2c9f9e28483ad291bdc535be1a05f5fadd": true,
+        "matches_s301_99039107_7bc41a5add41bef36ada1a5eaeede129e5056e78d627e871e6bf99ba4f062266": true,
+        "matches_s301_99039107_97819b909eb56ed8e958d2705967577bd2a9a87eb5c1c15bb559f4a97b3fddd8": true,
+        "matches_s301_99039107_a407ad4675fd677a3b6023132dd6a744899ee2dff64936d2b5f2b29f3e6f9996": true,
+        "matches_s301_99039210_c96d9dd059c090e7dc8fd62d830f90c56d8d98a775b511f21e1a9daae6bb5a0f": true,
+        "matches_s301_99039112_0d325d9f1c94e74f045ea537c24aa306cde51ff27fb0b3de83c53b89b47266d4": true,
+        "matches_s301_99039114_c52a93d365641f6d9560180f2830c7e82a6ab69212c0bfe81bee54631be7750c": true
+      },
+      "expected": {
+        "known_subtotal": 25,
+        "complete_total": null,
+        "status": "unresolved_source"
+      }
+    }
+  ]
+}

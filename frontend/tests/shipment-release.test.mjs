@@ -34,11 +34,12 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   bundle.dataset_version = version; bundle.evidence_snapshot_id = '0'.repeat(64);
   const revision = { revision: 'test' };
   const statements = {
-    rates: "SELECT '1234567890'::VARCHAR hts10, 'TEST'::VARCHAR country, 'test'::VARCHAR revision, 0.05::DOUBLE statutory_base_rate, 0.25::DOUBLE statutory_rate_232",
+    rates: "SELECT '1234567890'::VARCHAR hts10, 'TEST'::VARCHAR country, 'test'::VARCHAR revision, 0.05::DOUBLE statutory_base_rate, 0.25::DOUBLE statutory_rate_232, 0::DOUBLE rate_301, 0::DOUBLE statutory_rate_301, 0::DOUBLE rate_s301_maritime, 0::DOUBLE statutory_rate_s301_maritime",
     products_base: "SELECT '1234567890'::VARCHAR hts10, 'test'::VARCHAR revision, '5%'::VARCHAR duty_expression_raw, '10%'::VARCHAR rate_column2_raw",
     authority_country_rates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", 'TEST'::VARCHAR country",
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
     authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
+    section301_scope_decisions: "SELECT 'test'::VARCHAR revision, 'section_301'::VARCHAR authority, 'china_technology_transfer'::VARCHAR AS \"program\", '5700'::VARCHAR country_scope, '1234567890'::VARCHAR hts10, '9903.88.01'::VARCHAR ch99_code, 0.25::DOUBLE rate, NULL::VARCHAR condition_text, 'fixture'::VARCHAR source_locator, repeat('0',64)::VARCHAR source_text_sha256, repeat('0',64)::VARCHAR pdf_sha256, repeat('0',64)::VARCHAR hts_sha256, NULL::VARCHAR valid_from, NULL::VARCHAR valid_until WHERE FALSE",
     authority_exemptions: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority",
   };
   const hashFile = async name => ({ path: name, sha256: crypto.createHash('sha256').update(await fs.readFile(path.join(root, name))).digest('hex') });
@@ -50,7 +51,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   const rules = `${version}-rules.json`;
   await fs.writeFile(path.join(root, rules), JSON.stringify(bundle));
   revision.rules = await hashFile(rules);
-  const manifest = { contract_version: 'sail.tariff-release/v1', dataset_version: version,
+  const manifest = { contract_version: 'sail.tariff-release/v2', dataset_version: version,
     evidence_snapshot_id: bundle.evidence_snapshot_id, required_revisions: ['test'], revisions: [revision] };
   const file = path.join(root, `${version}-manifest.json`);
   await fs.writeFile(file, JSON.stringify(manifest));
@@ -87,6 +88,29 @@ test('local Parquet release prepares atomically, validates target and preserves 
   await assert.rejects(prepareRelease(conn, prepared, catalog), /immutable/);
 }));
 
+test('release v2 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
+  const {file,manifest}=await manifestFixture(conn,root);
+  manifest.contract_version='sail.tariff-release/v1';
+  await fs.writeFile(file,JSON.stringify(manifest));
+  await assert.rejects(readReleaseManifest(file),/Unsupported release/);
+  manifest.contract_version='sail.tariff-release/v2';
+  delete manifest.revisions[0].section301_scope_decisions;
+  await fs.writeFile(file,JSON.stringify(manifest));
+  await assert.rejects(readReleaseManifest(file),/Missing section301_scope_decisions/);
+  assert.equal(await activeShipmentRelease(conn),null);
+}));
+
+test('release preflight rejects unattributed Section 301 wide rates', () => withDatabase(async (conn,root)=>{
+  const {file,manifest}=await manifestFixture(conn,root);
+  const a=manifest.revisions[0].rates[0], original=path.join(root,a.path), changed=path.join(root,'unattributed.parquet');
+  await conn.run(`COPY (SELECT * REPLACE ('5700' AS country,0.5 AS rate_301,0.5 AS statutory_rate_301) FROM read_parquet('${original}')) TO '${changed}' (FORMAT PARQUET)`);
+  a.path=path.basename(changed);a.sha256=crypto.createHash('sha256').update(await fs.readFile(changed)).digest('hex');
+  await fs.writeFile(file,JSON.stringify(manifest));
+  const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Section 301 normalized\/wide/);
+  assert.equal(await activeShipmentRelease(conn),null);
+}));
+
 test('changed artifacts and missing revisions cannot prepare a release', () => withDatabase(async (conn, root) => {
   const { file, manifest } = await manifestFixture(conn, root);
   manifest.required_revisions.push('missing');
@@ -97,6 +121,24 @@ test('changed artifacts and missing revisions cannot prepare a release', () => w
   await fs.appendFile(path.join(root, manifest.revisions[0].rules.path), ' ');
   await assert.rejects(readReleaseManifest(file), /hash mismatch/);
   assert.equal(await activeShipmentRelease(conn), null);
+}));
+
+test('release preflight never treats missing Section 301 values as zero or broadens origin', () => withDatabase(async (conn,root)=>{
+  const {file,manifest}=await manifestFixture(conn,root);
+  const artifact=manifest.revisions[0].rates[0], original=path.join(root,artifact.path);
+  const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  for(const [country,column,value] of [
+    ['5700','rate_301','NULL::DOUBLE'],['5700','statutory_rate_301','NULL::DOUBLE'],
+    ['TEST','rate_301','0.25::DOUBLE'],['TEST','statutory_rate_301','NULL::DOUBLE'],
+    ['TEST','rate_s301_maritime','NULL::DOUBLE'],['TEST','statutory_rate_s301_maritime','NULL::DOUBLE'],
+  ]) {
+    const changed=path.join(root,`invalid-301-${country}-${column}.parquet`);
+    await conn.run(`COPY (SELECT * REPLACE ('${country}' AS country,${value} AS ${column}) FROM read_parquet('${original}')) TO '${changed}' (FORMAT PARQUET)`);
+    artifact.path=path.basename(changed);artifact.sha256=crypto.createHash('sha256').update(await fs.readFile(changed)).digest('hex');
+    await fs.writeFile(file,JSON.stringify(manifest));
+    await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Section 301.*mismatch/);
+    assert.equal(await activeShipmentRelease(conn),null);
+  }
 }));
 
 test('JSON, Arrow and batch keep missing contracts incomplete', () => withDatabase(async conn => {

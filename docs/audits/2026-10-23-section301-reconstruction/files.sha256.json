@@ -1,0 +1,13 @@
+{
+  "README.md": "fd8ec9bed923d21c20fd730ff2bea646a194da95d363d99758bd08830e9ef3dd",
+  "comparison.json": "e1de81cdec659b34e5ca22876a8372fbbceef1eee8154b33cca1d2e9cef1aa32",
+  "differences.json.gz": "671f51350e7143ddcdc34a84c646ffd2540e05241dfc71fe655f9c50507c9827",
+  "motherduck-china.json.gz": "cafb5e56c69ce073d872eb6ce5508723c6f64fd2a49ccd61b9c2e65eb823395b",
+  "motherduck-maritime.json.gz": "3bcb560c8e24242c823cc5813ca3134693195fc7537f1f9a0a647d94f00387c3",
+  "node-tests.log": "dd41fd2ad384441d3990939add7208d00a72087b990c8506f97ae191aeaeb79f",
+  "r-citations.log": "b95a55346cb1b6f6727b976530b98a5529c671cdc4d98d8c2cb52a5bbb5e45e7",
+  "r-full-suite.log": "c3de1e1e94fed3f81063a1b6324e8bddf5ecc250dcea66b85a24e2b8907a2203",
+  "r-section301.log": "44074480b0afa757a8e6b516417a3c1756247c55857259742267ed76e8c075c6",
+  "snapshots.json": "6d443cb6dfab0421776c29aa4734ae64d1c96cfd79bb2be522984d79d7a637d1",
+  "tracker-build.log": "22ab340224cb782ec50df9897334aa896250ebe10277686f33fb78c54b739b27"
+}

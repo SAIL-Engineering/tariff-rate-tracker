@@ -1,0 +1,10 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.481s
+
+OK
+Section 301 source reconstruction, full revision scope, temporal and shipment checks passed

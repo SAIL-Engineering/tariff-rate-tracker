@@ -338,7 +338,15 @@ emit_authority_country_rates <- function(ieepa_rates, fentanyl_rates, s232_rates
   # S301 is unique: the rate varies per-ch99_code (List 1 25% vs List 4a 7.5%
   # etc.), but scoping is always China-only. Emit one layer-2 row per active
   # ch99 code — layer-3 provides the product list.
-  if (!is.null(pp) && !is.null(pp$SECTION_301_RATES) && !is.null(ch99_data)) {
+  if (!is.null(denorm_state$s301_matches)) {
+    sr <- denorm_state$s301_matches %>% distinct(ch99_code,rate,program,country_scope) %>%
+      transmute(revision=revision_id,authority='section_301',program,
+        country=if_else(country_scope=='all',NA_character_,country_scope),ch99_code,
+        statutory_rate=rate,rate_type='surcharge',phase=NA_character_,valid_from=vf,valid_until=vu)
+    rows[['s301']] <- sr
+  } else if (grepl('^202[56]_', revision_id)) {
+    stop('Missing revision-specific Section 301 extraction in normalized emitter')
+  } else if (!is.null(pp) && !is.null(pp$SECTION_301_RATES) && !is.null(ch99_data)) {
     active_s301 <- pp$SECTION_301_RATES %>%
       filter(ch99_pattern %in% unique(ch99_data$ch99_code))
     if (nrow(active_s301) > 0) {
@@ -674,7 +682,26 @@ emit_authority_product_applicability <- function(products, ch99_data,
 
   # ---- Section 301 buckets (per HS8, from resources/s301_product_lists.csv) ----
   s301_products_path <- here_fn('resources', 's301_product_lists.csv')
-  if (file.exists(s301_products_path) && !is.null(pp) &&
+  if (!is.null(denorm_state$s301_matches)) {
+    source(here_fn('src','section301_revision.R'))
+    lookup <- s301_revision_lookup(denorm_state$s301_matches %>% filter(program=='china_technology_transfer'))
+    rows[['s301']] <- lookup %>% transmute(revision=revision_id,authority='section_301',
+      program='s301_revision_china',hts10,hts_prefix=NA_character_,
+      country_scope=pp$country_codes$CTY_CHINA %||% '5700',ch99_code=src_301,
+      statutory_rate=if_else(s301_scope_requires_inputs,NA_real_,blanket_301),
+      modeled_scope_rate=blanket_301,modeled_scope_share=modeled_s301_scope_share,
+      scope_status=if_else(s301_scope_requires_inputs,'needs_inputs','verified_scope'),
+      rate_kind='ad_valorem_full',scaling_dimension='none',deriv_type=NA_character_,
+      precedence=1L,usmca_exempt=FALSE,valid_from=vf,valid_until=vu)
+    rows[['s301_maritime']] <- denorm_state$s301_matches %>% filter(program=='maritime') %>%
+      transmute(revision=revision_id,authority='section_301',program='s301_maritime',hts10,
+        hts_prefix=NA_character_,country_scope=if_else(country_scope=='all',NA_character_,country_scope),
+        ch99_code,statutory_rate=NA_real_,modeled_scope_rate=rate,modeled_scope_share=1,
+        scope_status='needs_inputs',rate_kind='ad_valorem_full',scaling_dimension='none',
+        deriv_type=NA_character_,precedence=1L,usmca_exempt=FALSE,valid_from=vf,valid_until=vu)
+  } else if (grepl('^202[56]_',revision_id)) {
+    stop('Missing revision-specific Section 301 extraction in normalized emitter')
+  } else if (file.exists(s301_products_path) && !is.null(pp) &&
       !is.null(pp$SECTION_301_RATES) && !is.null(ch99_data)) {
     s301_products <- tryCatch(
       readr::read_csv(s301_products_path, col_types = readr::cols(
@@ -1219,6 +1246,20 @@ emit_normalized_revision <- function(
 
   emit_authority_product_candidates(denorm_state$heading_candidates %||% list(),
     revision_id, output_dir)
+  if (!is.null(denorm_state$s301_source)) {
+    # Preserve each legal alternative, including required descriptions and
+    # exact source hashes, alongside the wide/aggregate projection.
+    .write_parquet_safe(denorm_state$s301_matches %>% mutate(revision=revision_id,
+      authority='section_301'),
+      file.path(output_dir,revision_id,'section301_scope_decisions.parquet'))
+    jsonlite::write_json(denorm_state$s301_source,
+      file.path(output_dir,revision_id,'section301_source.json'),
+      auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section301_revision.R') else 'src/section301_revision.R')
+    jsonlite::write_json(compile_s301_revision_fragment(denorm_state$s301_source,products$hts10),
+      file.path(output_dir,revision_id,'section301_rules.json'),
+      auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+  }
 
   # product_metal_content is revision-independent but this is the only path
   # where we have a list of valid hts10s to pass to load_metal_content().

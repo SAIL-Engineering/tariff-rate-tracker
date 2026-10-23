@@ -114,12 +114,15 @@ suppressPackageStartupMessages({
       ),
       .rate_for_sort = coalesce(as.numeric(statutory_rate), 0)
     ) %>%
-    group_by(authority) %>%
+    # The maritime investigation is cumulative with technology-transfer duties.
+    # Retain both actions; source reconstruction has already rejected ambiguous
+    # overlapping headings within each investigation.
+    group_by(authority,.action_group=if_else(program=='s301_maritime',program,authority)) %>%
     arrange(desc(precedence), desc(.specificity), desc(.rate_for_sort),
             .by_group = TRUE) %>%
     slice_head(n = 1) %>%
     ungroup() %>%
-    select(-.specificity, -.rate_for_sort)
+    select(-.specificity, -.rate_for_sort,-.action_group)
 }
 
 
@@ -170,6 +173,17 @@ suppressPackageStartupMessages({
   # scope has already been validated.
   stat <- winner$statutory_rate
   ch99_code <- winner$ch99_code
+  # This function reproduces aggregate projections, not shipment liability.
+  # Conditional Section 301 scope has its own emitted modeling input; a null
+  # statutory rate must never select an unrelated maximum country rate.
+  if (auth == 'section_301' && 'modeled_scope_rate' %in% names(winner) &&
+      !is.na(winner$modeled_scope_rate)) {
+    share <- winner$modeled_scope_share
+    if(length(share)!=1 || !is.finite(share) || share<0 || share>1) stop('Invalid modeled Section 301 scope share')
+    stat <- winner$modeled_scope_rate * share
+  }
+  if (auth == 'section_301' && is.na(stat)) return(list(rate=NA_real_,
+    ch99_code=ch99_code,deriv_type=winner$deriv_type))
   rate_type_winner <- if ('rate_type' %in% names(winner)) winner$rate_type else NA_character_
 
   # Authorities whose per-country rate is the source of truth.
@@ -239,8 +253,18 @@ suppressPackageStartupMessages({
 # a (product, country, authority), returns the cumulative exemption share in
 # [0, 1] where 0 means "no exemption" and 1 means "full exemption". Compound
 # rule: share = 1 - prod(1 - share_i).
-.compound_exemption_share <- function(exemptions, auth, hts10, country) {
+.compound_exemption_share <- function(exemptions, auth, hts10, country, program = NULL) {
   if (is.null(exemptions) || nrow(exemptions) == 0) return(0)
+  # An exclusion from one Section 301 investigation does not remove another
+  # investigation's duty. Maritime exclusions require explicit program scope.
+  if (identical(program, 's301_maritime')) {
+    if (!'program' %in% names(exemptions)) return(0)
+    exemptions <- exemptions[!is.na(exemptions$program) & exemptions$program == program, , drop=FALSE]
+    if (!nrow(exemptions)) return(0)
+  } else if (auth == 'section_301' && !is.null(program) && !is.na(program) && 'program' %in% names(exemptions)) {
+    exemptions <- exemptions[is.na(exemptions$program) | exemptions$program == program, , drop=FALSE]
+  }
+  if (!nrow(exemptions)) return(0)
   mask <- (is.na(exemptions$authority) | exemptions$authority == auth) &
     (is.na(exemptions$hts10)     | exemptions$hts10 == hts10) &
     (is.na(exemptions$country)   | exemptions$country == country) &
@@ -370,6 +394,7 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
   # ---- Compose per-authority effective rates ----
   # Initialize all authorities to 0. Fill in from layer-3 winners.
   effective <- list(
+    section_301_maritime = 0,
     section_232       = 0,
     section_301       = 0,
     ieepa_reciprocal  = 0,
@@ -379,6 +404,7 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
     other             = 0
   )
   ch99_codes <- list(
+    section_301_maritime = NA_character_,
     section_232       = NA_character_,
     section_301       = NA_character_,
     ieepa_reciprocal  = NA_character_,
@@ -398,10 +424,11 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
       auth <- w$authority
 
       # Apply layer-4 exemptions
-      ex_share <- .compound_exemption_share(ae, auth, hts10, country)
+      ex_share <- .compound_exemption_share(ae, auth, hts10, country, w$program)
       if (ex_share >= 1 - 1e-12) next
-      effective[[auth]] <- result$rate * (1 - ex_share)
-      ch99_codes[[auth]] <- result$ch99_code
+      key <- if(w$program=='s301_maritime') 'section_301_maritime' else auth
+      effective[[key]] <- result$rate * (1 - ex_share)
+      ch99_codes[[key]] <- result$ch99_code
       if (auth == 'section_232' && !is.na(result$deriv_type)) {
         deriv_type <- result$deriv_type
       }
@@ -438,6 +465,7 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
     statutory_base_rate = statutory_base_rate,
     rate_232           = as.numeric(effective$section_232),
     rate_301           = as.numeric(effective$section_301),
+    rate_s301_maritime  = as.numeric(effective$section_301_maritime),
     rate_ieepa_recip   = as.numeric(effective$ieepa_reciprocal),
     rate_ieepa_fent    = as.numeric(effective$ieepa_fentanyl),
     rate_s122          = as.numeric(effective$section_122),
@@ -463,6 +491,7 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
     mutate(
       ch99_code_232            = ch99_codes$section_232,
       ch99_code_301            = ch99_codes$section_301,
+      ch99_code_s301_maritime  = ch99_codes$section_301_maritime,
       ch99_code_ieepa_recip    = ch99_codes$ieepa_reciprocal,
       ch99_code_ieepa_fent     = ch99_codes$ieepa_fentanyl,
       ch99_code_s122           = ch99_codes$section_122,

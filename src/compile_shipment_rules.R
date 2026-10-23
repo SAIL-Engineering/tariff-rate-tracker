@@ -11,7 +11,7 @@ read_shipment_rule_fragment <- function(path) {
     artifacts <- Filter(function(a) identical(a$source_id, s$id), fragment$source_artifacts)
     if (!identical(s$status, 'verified') || !length(artifacts)) stop('Unverified fragment source: ', s$id)
     for (a in artifacts) {
-      file <- file.path(dirname(path), a$path)
+      file <- if(grepl('^/',a$path)) a$path else file.path(dirname(path), a$path)
       if (!file.exists(file) || !identical(a$sha256, s$sha256) ||
           !identical(digest::digest(file = file, algo = 'sha256'), a$sha256))
         stop('Fragment evidence hash mismatch: ', s$id)
@@ -22,6 +22,13 @@ read_shipment_rule_fragment <- function(path) {
 
 compose_shipment_rules <- function(bundle, fragments) {
   if (!identical(bundle$contract_version, 'sail.shipment-rules/v1')) stop('Unsupported base rule contract')
+  for (fragment in fragments) {
+    if ((!is.null(fragment$supported_from) && (is.na(.shipment_time(bundle$valid_from)) ||
+        .shipment_time(bundle$valid_from)<.shipment_time(fragment$supported_from))) ||
+        (!is.null(fragment$supported_until) && (is.na(.shipment_time(bundle$valid_until)) ||
+        .shipment_time(bundle$valid_until)>.shipment_time(fragment$supported_until))))
+      stop('Bundle exceeds verified fragment horizon: ',fragment$id)
+  }
   merge_by_id <- function(items, label) {
     out <- list()
     for (item in items) {

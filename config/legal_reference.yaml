@@ -247,6 +247,16 @@ authorities:
     verification_scope: "parent program/source-directory metadata only; not a complete list-level legal authority"
     status_note: "Use list-specific Federal Register notices for production-grade audit trails."
 
+  s301_maritime_2025:
+    citation: "90 FR 48320-48328, Annex V.A; suspension at 90 FR 50947-50948"
+    fr_document_number: "2025-19568"
+    statute: "19 U.S.C. 2411; 19 U.S.C. 2417"
+    applies_to: [s301_maritime]
+    verified_against: "https://www.govinfo.gov/content/pkg/FR-2025-10-16/html/2025-19568.htm"
+    verified: true
+    verification_scope: "Maritime equipment action, note 31(k)-(l), cumulative China crane duty and cross-origin component/ownership scope."
+    status_note: "Suspension: https://www.govinfo.gov/content/pkg/FR-2025-11-13/html/2025-19873.htm. The source's EDT wording conflicts with calendar Eastern time at commencement; the executable rules retain an unresolved interval. Product/claim facts remain required."
+
   s301_china_list_1:
     citation: "Notice of Action and Request for Public Comment Concerning Proposed Determination of Action Pursuant to Section 301: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation"
     federal_register: "83 FR 28710"

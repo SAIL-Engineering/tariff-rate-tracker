@@ -97,3 +97,32 @@ The release artifact hash covers the original rule file. Stored `bundle_sha256`
 covers the exact serialized `bundle_json` bytes and is checked on every read.
 Reformatting/corrupting stored rules without a new release cannot silently change
 the evaluation. Preparation never switches the active release.
+
+## Revision extraction and release contract v2
+
+`sail.section301-extraction/v1` preserves each revision's Chapter 99/HTS hashes,
+bounded legal note subdivisions, exact HTS8 or HTS10 scope, set differences,
+description predicates and charge inventory. The normal build compiles its
+`section301_rules.json` fragment; legal rates come from the revision's headings.
+Technology-transfer and maritime investigations remain distinct cumulative actions.
+An unresolved legal time-zone conflict emits an unverified rule only for the
+ambiguous interval; it cannot inflate the known subtotal.
+
+Fragments may declare `supported_from`/`supported_until`. Composition refuses
+a base interval outside those bounds. Current reconstructed fragments are bounded
+to the audit period and do not attest complete authority or claim coverage.
+Source artifacts may be absolute local paths during compilation; production
+evaluation reads stored rules and source metadata, without those local files.
+
+`sail.tariff-release/v2` adds `section301_scope_decisions` to each immutable release
+schema. Preflight requires that partition, checks source/product/program/origin
+relationships and reconciles it with wide modeled/statutory fields. Missing rates
+cannot stand for zero, and conditional scope cannot carry a known statutory rate.
+PDF/HTS hashes must occur in the composed bundle. The rule/result contracts remain
+v1 because the interpreter schema is unchanged. The release version participates
+in stored-release compatibility checks; dataset versions continue to identify
+corrected data and cache entries. v1 release rollback requires compatible code.
+
+This preparation contract is not the separate legal coverage/validation gate:
+source-backed exclusion history, all-authority compilation and exhaustive parity
+must still pass before a prepared release can be marked validated or activated.

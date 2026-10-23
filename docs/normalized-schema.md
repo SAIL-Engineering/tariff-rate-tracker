@@ -1,5 +1,30 @@
 # Normalized rate schema (Phase 2)
 
+## Section 301 revision decisions (release v2)
+
+The 2025/2026 normal build requires and emits `section301_scope_decisions.parquet`
+alongside the tables below. Its columns are `revision`, `authority` (`section_301`),
+`program` (`china_technology_transfer` or `maritime`), `country_scope` (`5700` or
+`all`), `hts10`, `ch99_code`, `rate`, nullable `condition_text`, `source_locator`,
+`source_text_sha256`, `pdf_sha256`, `hts_sha256`, `valid_from`, and `valid_until`.
+One row records an exact product/action/scope alternative, not an authority total.
+The JSON source extraction and executable fragment accompany the Parquet artifact.
+The scope decisions describe the revision-day aggregate projection; the executable
+rules preserve intraday validity and unresolved time-zone intervals.
+
+Applicability rows retain `modeled_scope_rate`, `modeled_scope_share`, and
+`scope_status`. Conditional scope has a null `statutory_rate`. Wide rows expose
+`s301_scope_requires_inputs`, `modeled_s301_scope_share`, and separate
+`rate_s301_maritime`, `statutory_rate_s301_maritime`,
+`modeled_s301_maritime_scope_share`, and `ch99_code_s301_maritime` fields.
+Maritime is cumulative with technology-transfer, can reach other origins when
+source-defined facts are established, and uses its own exclusion scope. Aggregate
+modeling currently assumes qualifying descriptions (share 1, explicitly emitted);
+shipment evaluation requires the corresponding facts and never reads that share.
+
+Missing new tables/fields fail corrected-release preflight. These source decisions
+do not establish full Section 301 exclusion history or all-authority legal coverage.
+
 ## Purpose
 
 The production parquet dataset at `data/timeseries/rate_timeseries_parquet/` is a

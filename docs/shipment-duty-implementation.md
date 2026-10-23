@@ -127,3 +127,26 @@ passing suites; data-dependent normalized parity and TPC remain unqualified.
 The final auto-parts model/total guards passed focused R checks. gstack checks used
 an isolated component fixture, not an authenticated production page or live MD.
 Timeseries rebuilds remain WJR's manual task. No production activation occurred.
+
+## Revision-bound Section 301 checkpoint, 2026-10-23
+
+The [reconstruction audit](audits/2026-10-23-section301-reconstruction/README.md)
+compares 1,115,476 stored China rows across all 55 configured revisions with each
+revision's official sources. It identifies 7,051 modeled charge differences and
+7,216 statutory-rate/completeness differences. This supersedes the preceding
+checkpoint's statement that the China charge MAX-rate replacement is still open:
+the 2025/2026 normal build now uses exact revision-bound extraction and emits
+executable rules, source decisions and explicit modeling shares. Maritime actions
+are separate, cumulative and origin-aware. No per-example production corrections
+were added. The remaining Section 301 exclusion and amendment chronology is open.
+
+Release v2 preparation now requires these decision partitions and reconciles them
+with modeled/statutory columns. 110 Node tests, 13 source Python tests and focused
+R checks pass. The R full-data gate remains red on stale normalized artifacts and
+missing TPC data; exhaustive parity is still unimplemented. The old `--full` flag
+is rejected rather than misreporting a sample as exhaustive. Tracker build passes.
+
+No timeseries rebuild or live data change occurred. All-authority legal coverage,
+full IEEPA/232/122/338 validation, production rule compilation and remaining SAIL
+consumer migration still need completion. A manual rebuild applies the implemented
+logic across revisions; it does not by itself clear these release gates.

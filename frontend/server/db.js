@@ -57,6 +57,7 @@ export const RATES_COLUMNS = [
   // are safe to declare before the rebuild that populates them.
   'rate_s301fl',
   'rate_s301br',
+  'rate_s301_maritime',
   'rate_s338',
   'rate_other',
   'statutory_rate_232',
@@ -69,6 +70,7 @@ export const RATES_COLUMNS = [
   // pipeline since the 2026-08 rebuild).
   'statutory_rate_s301fl',
   'statutory_rate_s301br',
+  'statutory_rate_s301_maritime',
   'statutory_rate_s338',
   'statutory_rate_other',
   'ch99_code_232',
@@ -81,6 +83,10 @@ export const RATES_COLUMNS = [
   // note 50 Brazil, note 51(b) §338 product lists).
   'ch99_code_s301fl',
   'ch99_code_s301br',
+  'ch99_code_s301_maritime',
+  's301_scope_requires_inputs',
+  'modeled_s301_scope_share',
+  'modeled_s301_maritime_scope_share',
   'ch99_code_s338',
   'metal_share',
   'steel_share',

@@ -1,0 +1,20 @@
+[
+  {
+    "path": "motherduck-china.json.gz",
+    "uncompressed_sha256": "0367a9ef10a328429bff085231bf87d990601456b51579d13a6093233584167f",
+    "rows": 1115476,
+    "database": "duty_calculator",
+    "access_mode": "READ_ONLY",
+    "started_at": "2026-10-23T16:51:29.778Z",
+    "finished_at": "2026-10-23T16:51:50.526Z"
+  },
+  {
+    "path": "motherduck-maritime.json.gz",
+    "uncompressed_sha256": "eb66cb39e3ac8c4f6f6a1c3bdbcd245fde18626ab7315f18adf05e59fde01946",
+    "rows": 7920,
+    "database": "duty_calculator",
+    "access_mode": "READ_ONLY",
+    "started_at": "2026-10-23T17:28:52.270Z",
+    "finished_at": "2026-10-23T17:28:55.437Z"
+  }
+]

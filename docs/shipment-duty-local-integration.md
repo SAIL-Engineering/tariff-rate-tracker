@@ -128,3 +128,17 @@ applicable integration merge in the table. Coordinate the R/TypeScript/result
 contract rollback across both repos. No live rollback is needed: no production
 release, MotherDuck table, deployment or published object changed. Do not activate
 partial fragments or bypass the remaining all-authority/consumer/rebuild gates.
+
+## Section 301 source reconstruction, 2026-10-23
+
+This follow-up is committed directly in the original tracker `wjr_dev`, based on
+`aae4c08f840da6730499f29bc45a5b67d388c702`; it is not confined to a temporary branch
+or worktree. SAIL remains at `5d8e5b430a43c67c6b2f3522e1f20d5a95be6cc7` on
+`pinecone-hts`, and Trade Intelligence remains at
+`766334b6b41dd5f45cfd3df583b7c5d53447ae1a` on `main` for this checkpoint.
+
+The [audit, source versions, checks and remaining gates](audits/2026-10-23-section301-reconstruction/README.md)
+are retained in the repository. Release preparation is now contract v2; the
+R/TypeScript rule/result contract is unchanged. No new SAIL consumer code or
+Trade Intelligence publication was included in this pass. The original manual
+rebuild and production-approval boundaries remain in force.

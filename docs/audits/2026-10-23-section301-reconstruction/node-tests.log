@@ -1,0 +1,670 @@
+TAP version 13
+# Subtest: Arrow preserves numeric zero separately from unknown and absent fields
+ok 1 - Arrow preserves numeric zero separately from unknown and absent fields
+  ---
+  duration_ms: 13.80776
+  type: 'test'
+  ...
+# Subtest: all-null fields stay null after IPC and do not depend on row order
+ok 2 - all-null fields stay null after IPC and do not depend on row order
+  ---
+  duration_ms: 2.73843
+  type: 'test'
+  ...
+# Subtest: latest-only replacement cannot leave the previous revision open-ended
+ok 3 - latest-only replacement cannot leave the previous revision open-ended
+  ---
+  duration_ms: 7.248946
+  type: 'test'
+  ...
+# Subtest: preflight reads parquet and target without changing either
+ok 4 - preflight reads parquet and target without changing either
+  ---
+  duration_ms: 43.389476
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: neighboring non-mask remains List 4A
+ok 5 - source-derived Section 301: neighboring non-mask remains List 4A
+  ---
+  duration_ms: 1.956576
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: exact mask description established
+ok 6 - source-derived Section 301: exact mask description established
+  ---
+  duration_ms: 0.284371
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: semiconductor heading rate
+ok 7 - source-derived Section 301: semiconductor heading rate
+  ---
+  duration_ms: 0.22149
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: technology-transfer origin does not broaden
+ok 8 - source-derived Section 301: technology-transfer origin does not broaden
+  ---
+  duration_ms: 0.234871
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: China crane cumulative investigations
+ok 9 - source-derived Section 301: China crane cumulative investigations
+  ---
+  duration_ms: 0.321741
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: Taiwan crane qualifying Chinese components or ownership
+ok 10 - source-derived Section 301: Taiwan crane qualifying Chinese components or ownership
+  ---
+  duration_ms: 0.237451
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: suspension retains earlier China investigation
+ok 11 - source-derived Section 301: suspension retains earlier China investigation
+  ---
+  duration_ms: 0.163067
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: suspension ends cross-origin maritime charge
+ok 12 - source-derived Section 301: suspension ends cross-origin maritime charge
+  ---
+  duration_ms: 0.115673
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301: ambiguous EDT wording does not inflate known subtotal
+ok 13 - source-derived Section 301: ambiguous EDT wording does not inflate known subtotal
+  ---
+  duration_ms: 0.431822
+  type: 'test'
+  ...
+# Subtest: source-derived Section 301 survives stored JSON/Arrow/batch serving
+ok 14 - source-derived Section 301 survives stored JSON/Arrow/batch serving
+  ---
+  duration_ms: 58.513078
+  type: 'test'
+  ...
+# Subtest: audit uses bound values and rejects identifier, origin and product injection
+ok 15 - audit uses bound values and rejects identifier, origin and product injection
+  ---
+  duration_ms: 1.376692
+  type: 'test'
+  ...
+# Subtest: overlap includes all overlapping revisions, not only consecutive pairs
+ok 16 - overlap includes all overlapping revisions, not only consecutive pairs
+  ---
+  duration_ms: 5.181707
+  type: 'test'
+  ...
+# Subtest: missing rows, ambiguous windows and missing values never pass as zero
+ok 17 - missing rows, ambiguous windows and missing values never pass as zero
+  ---
+  duration_ms: 0.368219
+  type: 'test'
+  ...
+# Subtest: read-only query shapes execute in DuckDB and preserve exact adjacent HTS10 scope
+ok 18 - read-only query shapes execute in DuckDB and preserve exact adjacent HTS10 scope
+  ---
+  duration_ms: 41.039461
+  type: 'test'
+  ...
+# Subtest: unregistered source flags cannot masquerade as primary evidence
+ok 19 - unregistered source flags cannot masquerade as primary evidence
+  ---
+  duration_ms: 0.330495
+  type: 'test'
+  ...
+# Subtest: reviewed evidence must retain its source bytes and hash
+ok 20 - reviewed evidence must retain its source bytes and hash
+  ---
+  duration_ms: 18.178879
+  type: 'test'
+  ...
+# Subtest: conditional action: qualifying IC suppresses only listed actions
+ok 21 - conditional action: qualifying IC suppresses only listed actions
+  ---
+  duration_ms: 3.191803
+  type: 'test'
+  ...
+# Subtest: conditional action: country 5700
+ok 22 - conditional action: country 5700
+  ---
+  duration_ms: 1.142034
+  type: 'test'
+  ...
+# Subtest: conditional action: country 5820
+ok 23 - conditional action: country 5820
+  ---
+  duration_ms: 1.284605
+  type: 'test'
+  ...
+# Subtest: conditional action: country 1220
+ok 24 - conditional action: country 1220
+  ---
+  duration_ms: 0.428685
+  type: 'test'
+  ...
+# Subtest: conditional action: country 2010
+ok 25 - conditional action: country 2010
+  ---
+  duration_ms: 0.490882
+  type: 'test'
+  ...
+# Subtest: conditional action: country 4280
+ok 26 - conditional action: country 4280
+  ---
+  duration_ms: 0.451465
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8471500150
+ok 27 - conditional action: legal prefix 8471500150
+  ---
+  duration_ms: 0.399263
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8471801000
+ok 28 - conditional action: legal prefix 8471801000
+  ---
+  duration_ms: 0.49032
+  type: 'test'
+  ...
+# Subtest: conditional action: legal prefix 8473301180
+ok 29 - conditional action: legal prefix 8473301180
+  ---
+  duration_ms: 1.599351
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 14000
+ok 30 - conditional action: strict TPP boundary 14000
+  ---
+  duration_ms: 0.577317
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 17500
+ok 31 - conditional action: strict TPP boundary 17500
+  ---
+  duration_ms: 0.423418
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 20800
+ok 32 - conditional action: strict TPP boundary 20800
+  ---
+  duration_ms: 0.602256
+  type: 'test'
+  ...
+# Subtest: conditional action: strict TPP boundary 21100
+ok 33 - conditional action: strict TPP boundary 21100
+  ---
+  duration_ms: 0.437284
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 4500
+ok 34 - conditional action: strict DRAM boundary 4500
+  ---
+  duration_ms: 0.507337
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 5000
+ok 35 - conditional action: strict DRAM boundary 5000
+  ---
+  duration_ms: 0.512109
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 5800
+ok 36 - conditional action: strict DRAM boundary 5800
+  ---
+  duration_ms: 0.593155
+  type: 'test'
+  ...
+# Subtest: conditional action: strict DRAM boundary 6200
+ok 37 - conditional action: strict DRAM boundary 6200
+  ---
+  duration_ms: 0.585864
+  type: 'test'
+  ...
+# Subtest: conditional action: second technical window
+ok 38 - conditional action: second technical window
+  ---
+  duration_ms: 0.714897
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_data_center
+ok 39 - conditional action: end use us_data_center
+  ---
+  duration_ms: 1.604513
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_repair_replacement
+ok 40 - conditional action: end use us_repair_replacement
+  ---
+  duration_ms: 0.659892
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_research_development
+ok 41 - conditional action: end use us_research_development
+  ---
+  duration_ms: 0.640418
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_startup
+ok 42 - conditional action: end use us_startup
+  ---
+  duration_ms: 0.616103
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_consumer_electronics
+ok 43 - conditional action: end use us_consumer_electronics
+  ---
+  duration_ms: 0.709183
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_civil_industrial
+ok 44 - conditional action: end use us_civil_industrial
+  ---
+  duration_ms: 0.639997
+  type: 'test'
+  ...
+# Subtest: conditional action: end use us_public_sector
+ok 45 - conditional action: end use us_public_sector
+  ---
+  duration_ms: 0.639382
+  type: 'test'
+  ...
+# Subtest: conditional action: 100 MW does not meet greater-than threshold
+ok 46 - conditional action: 100 MW does not meet greater-than threshold
+  ---
+  duration_ms: 0.659473
+  type: 'test'
+  ...
+# Subtest: conditional action: data center requires its statutory load
+ok 47 - conditional action: data center requires its statutory load
+  ---
+  duration_ms: 0.789903
+  type: 'test'
+  ...
+# Subtest: conditional action: zero value still suppresses other actions
+ok 48 - conditional action: zero value still suppresses other actions
+  ---
+  duration_ms: 0.657639
+  type: 'test'
+  ...
+# Subtest: conditional action: missing value cannot revive excluded actions
+ok 49 - conditional action: missing value cannot revive excluded actions
+  ---
+  duration_ms: 0.864803
+  type: 'test'
+  ...
+# Subtest: conditional action: no logic IC requires no technical or end-use inputs
+ok 50 - conditional action: no logic IC requires no technical or end-use inputs
+  ---
+  duration_ms: 0.671185
+  type: 'test'
+  ...
+# Subtest: conditional action: unresolved technical scope cannot price dependent actions
+ok 51 - conditional action: unresolved technical scope cannot price dependent actions
+  ---
+  duration_ms: 0.489192
+  type: 'test'
+  ...
+# Subtest: conditional action: unreviewed IC inventory cannot establish exclusion
+ok 52 - conditional action: unreviewed IC inventory cannot establish exclusion
+  ---
+  duration_ms: 0.558631
+  type: 'test'
+  ...
+# Subtest: conditional action: adjacent uncovered prefix retains other actions
+ok 53 - conditional action: adjacent uncovered prefix retains other actions
+  ---
+  duration_ms: 0.284173
+  type: 'test'
+  ...
+# Subtest: conditional action: first legal minute boundary
+ok 54 - conditional action: first legal minute boundary
+  ---
+  duration_ms: 0.384301
+  type: 'test'
+  ...
+# Subtest: conditional action: modeled shares cannot change shipment liability
+ok 55 - conditional action: modeled shares cannot change shipment liability
+  ---
+  duration_ms: 0.932973
+  type: 'test'
+  ...
+# Subtest: stored action rules survive JSON/Arrow/batch with decisions, relevant facts and hashes
+ok 56 - stored action rules survive JSON/Arrow/batch with decisions, relevant facts and hashes
+  ---
+  duration_ms: 71.93783
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unclaimed suppression does not ask for metal content
+ok 57 - R/TS/API runtime: unclaimed suppression does not ask for metal content
+  ---
+  duration_ms: 2.606706
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates formerly suppressed action
+ok 58 - R/TS/API runtime: claim reevaluates formerly suppressed action
+  ---
+  duration_ms: 0.453238
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim needs relevant content
+ok 59 - R/TS/API runtime: claim needs relevant content
+  ---
+  duration_ms: 0.385463
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid negative value
+ok 60 - R/TS/API runtime: invalid negative value
+  ---
+  duration_ms: 0.492809
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: source coverage is mandatory
+ok 61 - R/TS/API runtime: source coverage is mandatory
+  ---
+  duration_ms: 0.242496
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: identical duplicated rules are idempotent
+ok 62 - R/TS/API runtime: identical duplicated rules are idempotent
+  ---
+  duration_ms: 5.699382
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: conflicting duplicates are unresolved
+ok 63 - R/TS/API runtime: conflicting duplicates are unresolved
+  ---
+  duration_ms: 0.179566
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cumulative actions under one authority
+ok 64 - R/TS/API runtime: cumulative actions under one authority
+  ---
+  duration_ms: 0.138162
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific compound with exact quantity units
+ok 65 - R/TS/API runtime: specific compound with exact quantity units
+  ---
+  duration_ms: 1.252349
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific duty missing unit quantity is not zero
+ok 66 - R/TS/API runtime: specific duty missing unit quantity is not zero
+  ---
+  duration_ms: 0.345885
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: floor recomputes after claim
+ok 67 - R/TS/API runtime: floor recomputes after claim
+  ---
+  duration_ms: 0.175146
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: missing source reference
+ok 68 - R/TS/API runtime: missing source reference
+  ---
+  duration_ms: 0.094512
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cycles are unresolved
+ok 69 - R/TS/API runtime: cycles are unresolved
+  ---
+  duration_ms: 0.057729
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unknown operator is unresolved
+ok 70 - R/TS/API runtime: unknown operator is unresolved
+  ---
+  duration_ms: 0.044394
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: zero denominator is unresolved
+ok 71 - R/TS/API runtime: zero denominator is unresolved
+  ---
+  duration_ms: 0.041803
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: model shares never affect shipment
+ok 72 - R/TS/API runtime: model shares never affect shipment
+  ---
+  duration_ms: 0.060916
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+ok 73 - R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+  ---
+  duration_ms: 0.103382
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deposit distinguished from duty
+ok 74 - R/TS/API runtime: deposit distinguished from duty
+  ---
+  duration_ms: 0.054902
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant before start
+ok 75 - R/TS/API runtime: instant before start
+  ---
+  duration_ms: 0.032713
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at start
+ok 76 - R/TS/API runtime: instant at start
+  ---
+  duration_ms: 0.055801
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at exclusive end
+ok 77 - R/TS/API runtime: instant at exclusive end
+  ---
+  duration_ms: 0.032578
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: date-only is ambiguous
+ok 78 - R/TS/API runtime: date-only is ambiguous
+  ---
+  duration_ms: 0.025703
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed scope must not silently suppress duty
+ok 79 - R/TS/API runtime: malformed scope must not silently suppress duty
+  ---
+  duration_ms: 0.036945
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+ok 80 - R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+  ---
+  duration_ms: 0.040293
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified source does not qualify an unverified interpretation
+ok 81 - R/TS/API runtime: verified source does not qualify an unverified interpretation
+  ---
+  duration_ms: 0.053381
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: inconsistent content values require corrected shipment facts
+ok 82 - R/TS/API runtime: inconsistent content values require corrected shipment facts
+  ---
+  duration_ms: 0.181347
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed persisted rule data is unavailable
+ok 83 - R/TS/API runtime: malformed persisted rule data is unavailable
+  ---
+  duration_ms: 0.369368
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: duplicate source and rule property order has no effect
+ok 84 - R/TS/API runtime: duplicate source and rule property order has no effect
+  ---
+  duration_ms: 0.171525
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+ok 85 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+  ---
+  duration_ms: 0.038554
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+ok 86 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+  ---
+  duration_ms: 0.031444
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+ok 87 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+  ---
+  duration_ms: 0.028633
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+ok 88 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+  ---
+  duration_ms: 0.027585
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deleted action cannot be certified by a coverage statement
+ok 89 - R/TS/API runtime: deleted action cannot be certified by a coverage statement
+  ---
+  duration_ms: 0.068644
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: legacy coverage without an inventory is incomplete
+ok 90 - R/TS/API runtime: legacy coverage without an inventory is incomplete
+  ---
+  duration_ms: 0.064923
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: added rule without coverage review is incomplete
+ok 91 - R/TS/API runtime: added rule without coverage review is incomplete
+  ---
+  duration_ms: 0.131779
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim with partial effect coverage preserves only known components
+ok 92 - R/TS/API runtime: claim with partial effect coverage preserves only known components
+  ---
+  duration_ms: 0.11992
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified absence requires an explicit negative coverage determination
+ok 93 - R/TS/API runtime: verified absence requires an explicit negative coverage determination
+  ---
+  duration_ms: 0.054711
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: negative coverage cannot hide an applicable action
+ok 94 - R/TS/API runtime: negative coverage cannot hide an applicable action
+  ---
+  duration_ms: 0.056883
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression survives zero valuation
+ok 95 - R/TS/API runtime: applicability suppression survives zero valuation
+  ---
+  duration_ms: 0.061242
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression does not require valuation
+ok 96 - R/TS/API runtime: applicability suppression does not require valuation
+  ---
+  duration_ms: 0.057147
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates applicability and revives action
+ok 97 - R/TS/API runtime: claim reevaluates applicability and revives action
+  ---
+  duration_ms: 0.060532
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability dependency cycle is unresolved
+ok 98 - R/TS/API runtime: applicability dependency cycle is unresolved
+  ---
+  duration_ms: 0.058415
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+ok 99 - R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+  ---
+  duration_ms: 0.053829
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+ok 100 - R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+  ---
+  duration_ms: 0.044646
+  type: 'test'
+  ...
+# Subtest: local Parquet release prepares atomically, validates target and preserves active rollback
+ok 101 - local Parquet release prepares atomically, validates target and preserves active rollback
+  ---
+  duration_ms: 175.676609
+  type: 'test'
+  ...
+# Subtest: release v2 rejects old manifests and missing Section 301 evidence
+ok 102 - release v2 rejects old manifests and missing Section 301 evidence
+  ---
+  duration_ms: 30.166799
+  type: 'test'
+  ...
+# Subtest: release preflight rejects unattributed Section 301 wide rates
+ok 103 - release preflight rejects unattributed Section 301 wide rates
+  ---
+  duration_ms: 47.189648
+  type: 'test'
+  ...
+# Subtest: changed artifacts and missing revisions cannot prepare a release
+ok 104 - changed artifacts and missing revisions cannot prepare a release
+  ---
+  duration_ms: 16.653291
+  type: 'test'
+  ...
+# Subtest: release preflight never treats missing Section 301 values as zero or broadens origin
+ok 105 - release preflight never treats missing Section 301 values as zero or broadens origin
+  ---
+  duration_ms: 150.986966
+  type: 'test'
+  ...
+# Subtest: JSON, Arrow and batch keep missing contracts incomplete
+ok 106 - JSON, Arrow and batch keep missing contracts incomplete
+  ---
+  duration_ms: 21.226027
+  type: 'test'
+  ...
+# Subtest: database name uses one validated configuration
+ok 107 - database name uses one validated configuration
+  ---
+  duration_ms: 0.204813
+  type: 'test'
+  ...
+# Subtest: API pool reopens an immutable database release read-only without local rule files
+ok 108 - API pool reopens an immutable database release read-only without local rule files
+  ---
+  duration_ms: 2668.177422
+  type: 'test'
+  ...
+# Subtest: API pool rejects a local database without a validated active release
+ok 109 - API pool rejects a local database without a validated active release
+  ---
+  duration_ms: 133.464803
+  type: 'test'
+  ...
+# Subtest: candidate provenance preflight rejects missing scope and cross-product membership before loading
+ok 110 - candidate provenance preflight rejects missing scope and cross-product membership before loading
+  ---
+  duration_ms: 82.291385
+  type: 'test'
+  ...
+1..110
+# tests 110
+# suites 0
+# pass 110
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3517.560089

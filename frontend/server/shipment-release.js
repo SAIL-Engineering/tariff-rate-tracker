@@ -13,12 +13,13 @@ const literal = value => `'${String(value).replaceAll("'", "''")}'`;
 export const RELEASE_MIGRATION = await fs.readFile(new URL('../migrations/001_shipment_releases.sql', import.meta.url), 'utf8');
 
 const TABLES = {
-  rates: ['hts10', 'country', 'revision', 'statutory_base_rate', 'statutory_rate_232'],
+  rates: ['hts10', 'country', 'revision', 'statutory_base_rate', 'statutory_rate_232', 'rate_301', 'statutory_rate_301', 'rate_s301_maritime', 'statutory_rate_s301_maritime'],
   products_base: ['hts10', 'revision', 'duty_expression_raw', 'rate_column2_raw'],
   authority_country_rates: ['revision', 'authority', 'program', 'country'],
   authority_product_applicability: ['revision', 'authority', 'program', 'hts10', 'hts_prefix'],
   authority_exemptions: ['revision', 'authority'],
   authority_product_candidates: ['revision', 'authority', 'program', 'hts10', 'scope_code', 'scope_grain', 'source_path', 'source_sha256', 'status'],
+  section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
 };
 
 export async function readReleaseManifest(manifestPath) {
@@ -99,6 +100,46 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
         OR (c.scope_grain='exact_hts10' AND c.hts10<>c.scope_code)
         OR coalesce(c.scope_grain,'') NOT IN ('exact_hts10','prefix')`)).getRowObjects()[0].n;
     if (Number(badCandidates)) throw new Error('Invalid candidate scope/source relationship');
+
+    const decisions = `read_parquet([${revision.files.section301_scope_decisions.map(literal).join(',')}], hive_partitioning=false)`;
+    const bad301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${decisions} d
+      LEFT JOIN ${products} p ON d.hts10=p.hts10 AND d.revision=p.revision
+      WHERE p.hts10 IS NULL OR coalesce(d.authority,'')<>'section_301'
+        OR coalesce(d.country_scope,'') NOT IN ('5700','all') OR d.rate IS NULL OR NOT isfinite(d.rate) OR d.rate<0
+        OR coalesce(d."program",'') NOT IN ('china_technology_transfer','maritime')
+        OR (d."program"='china_technology_transfer' AND d.country_scope<>'5700')
+        OR coalesce(d.source_locator,'')=''
+        OR NOT regexp_full_match(coalesce(d.ch99_code,''),'9903[.](88|91|92)[.][0-9]{2}')
+        OR NOT regexp_full_match(coalesce(d.source_text_sha256,''),'[a-f0-9]{64}')
+        OR NOT regexp_full_match(coalesce(d.pdf_sha256,''),'[a-f0-9]{64}')
+        OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')`)).getRowObjects()[0].n;
+    if (Number(bad301)) throw new Error('Invalid Section 301 source decision');
+    const hashes = (await conn.runAndReadAll(`SELECT DISTINCT pdf_sha256,hts_sha256 FROM ${decisions}`)).getRowObjects();
+    const bundleHashes = new Set(revision.bundle.sources.map(s => s.sha256));
+    if(hashes.some(r => !bundleHashes.has(r.pdf_sha256) || !bundleHashes.has(r.hts_sha256)))
+      throw new Error('Section 301 decisions are absent from bundle sources');
+    const mismatch301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN (
+      SELECT hts10,revision,min(rate) expected,min(rate)=max(rate) consistent,
+        count(DISTINCT ch99_code) headings,bool_and(condition_text IS NOT NULL) needs_inputs
+      FROM ${decisions} WHERE "program"='china_technology_transfer' GROUP BY hts10,revision
+    ) d ON d.hts10=r.hts10 AND d.revision=r.revision WHERE r.country='5700' AND (
+      (d.hts10 IS NULL AND (r.rate_301 IS DISTINCT FROM 0 OR r.statutory_rate_301 IS DISTINCT FROM 0)) OR
+      (d.hts10 IS NOT NULL AND (NOT d.consistent OR d.headings<>1
+        OR r.rate_301 IS NULL OR abs(r.rate_301-d.expected)>0.000000001
+        OR (d.needs_inputs AND r.statutory_rate_301 IS NOT NULL)
+        OR (NOT d.needs_inputs AND (r.statutory_rate_301 IS NULL OR abs(r.statutory_rate_301-d.expected)>0.000000001))))
+    )`)).getRowObjects()[0].n;
+    if(Number(mismatch301)) throw new Error('Section 301 normalized/wide completeness mismatch');
+    const foreign301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates}
+      WHERE country<>'5700' AND (rate_301 IS DISTINCT FROM 0 OR statutory_rate_301 IS DISTINCT FROM 0)`)).getRowObjects()[0].n;
+    if(Number(foreign301)) throw new Error('Section 301 technology-transfer origin/completeness mismatch');
+    const maritimeMismatch = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN
+      (SELECT DISTINCT hts10,revision,country_scope,rate FROM ${decisions} WHERE "program"='maritime') d
+      ON d.hts10=r.hts10 AND d.revision=r.revision AND (d.country_scope='all' OR d.country_scope=r.country)
+      WHERE (d.hts10 IS NULL AND (r.rate_s301_maritime IS DISTINCT FROM 0 OR r.statutory_rate_s301_maritime IS DISTINCT FROM 0))
+        OR (d.hts10 IS NOT NULL AND (r.rate_s301_maritime IS NULL OR abs(r.rate_s301_maritime-d.rate)>0.000000001
+          OR r.statutory_rate_s301_maritime IS NOT NULL))`)).getRowObjects()[0].n;
+    if(Number(maritimeMismatch)) throw new Error('Maritime Section 301 normalized/wide completeness mismatch');
 
     const invalid = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
       LEFT JOIN ${products} p ON r.hts10=p.hts10 AND r.revision=p.revision WHERE p.hts10 IS NULL`)).getRowObjects()[0].n;

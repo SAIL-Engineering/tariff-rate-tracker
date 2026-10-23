@@ -49,12 +49,14 @@ Rscript scripts/run_daily_from_parquet.R > output/manual-shipment-rebuild/daily.
 Rscript src/08_weighted_etr.R > output/manual-shipment-rebuild/weighted-etr.log 2>&1
 Rscript scripts/prepare_frontend_data.R > output/manual-shipment-rebuild/frontend-data.log 2>&1
 Rscript tests/run_all_tests.R --require-data > output/manual-shipment-rebuild/r-tests.log 2>&1
-Rscript tests/test_normalized_parity.R --full > output/manual-shipment-rebuild/parity-full.log 2>&1
+Rscript tests/test_normalized_parity.R > output/manual-shipment-rebuild/parity-sample.log 2>&1
 node --test frontend/tests/*.test.mjs
 ```
 
-The existing normalized parity suite checks aggregate reconstruction, not complete
-shipment legal coverage. Review emitted shares/credits and explain any aggregate
+The existing normalized parity suite checks a sample of aggregate reconstruction,
+not an exhaustive sweep or complete shipment legal coverage. Its former `--full`
+flag ran the same sample; it now fails explicitly until exhaustive traversal is
+implemented. That missing sweep remains a release blocker. Review emitted shares/credits and explain any aggregate
 difference. The full-data suite also needs its older fixtures/TPC inputs; a skip
 is not release qualification. Missing source evidence must remain unresolved.
 
@@ -105,5 +107,43 @@ Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json NEW_COMPOSED_BUNDLE.js
 
 This is not the full rule compiler and does not grant coverage or publication
 approval. Do not use the synthetic test bundle as the base of a real release.
-The audit and uncompleted Section 301 reconstruction are recorded in
+The earlier conditional-action audit is recorded in
 `docs/audits/2026-10-23-conditional-actions/README.md`.
+
+## Revision-bound Section 301 reconstruction
+
+The command above automatically runs `src/section301_sources.py` through
+`src/section301_revision.R` for each requested 2025/2026 revision. Install Python 3
+with zoneinfo/tzdata and Poppler's `pdftotext`; both are required build inputs.
+The extractor uses that revision's full Chapter 99 PDF and HTS JSON, checks the
+PDF revision header, and caches by source/extractor hashes. Missing PDF archives
+are downloaded from USITC. Missing sources, unknown potentially operative charge
+headings, unsupported table grammar and conflicting actions fail the build.
+The local cache includes the verified revision 20/21 PDFs, but is not a production
+data store. A clean checkout retrieves them through the same build path.
+
+Each normalized revision now emits:
+
+- `section301_scope_decisions.parquet`: exact products, program/origin scope,
+  reporting heading, rate, required description, entry window and source hashes.
+- `section301_source.json`: extracted actions, charge inventory and source versions.
+- `section301_rules.json`: executable fragment for the shared R/TypeScript runtime.
+
+The wide rows retain aggregate scope shares separately from nullable statutory
+fields. Maritime duties have their own cumulative columns; they cannot inherit
+China technology-transfer exclusions or a China-only origin gate.
+These changes are source-derived across revisions; test HTS examples do not
+control production behavior. See the retained [audit and limits](audits/2026-10-23-section301-reconstruction/README.md).
+
+Compose the emitted `section301_rules.json` for each revision into that revision's
+reviewed base bundle using the composer command above. It grants no complete
+Section 301 coverage: exclusions, retroactive amendments and the other investigations
+still need reconciliation. Do not substitute a test bundle. Source hash artifacts
+must exist during composition; serving subsequently uses the stored bundle.
+
+Release manifests now require `sail.tariff-release/v2`, the new decision partition,
+and the new rate fields. Preparation validates their relationships locally and
+does not activate anything. The rule/result API contract remains v1. An old v1
+release is not accepted by the new reader: rollback across this boundary requires
+the compatible previous code and release, not only an active-ID change. Within
+v2, retain the previous validated release for the existing atomic rollback path.

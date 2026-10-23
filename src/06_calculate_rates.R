@@ -2671,6 +2671,41 @@ calculate_rates_for_revision <- function(
     ) %>%
     mutate(annex_rate_232 = if_else(is.na(s232_annex), NA_real_, annex_rate_232))
 
+  # 6. Revision-specific China Section 301. Official note tables, exact-code
+  # exceptions and entry windows replace the undated list/MAX path for the
+  # audited 2025-2026 horizon. Missing or conflicting extraction stops a build.
+  s301_source <- NULL
+  s301_source_matches <- NULL
+  if (grepl('^202[56]_', revision_id)) {
+    source(here('src','section301_revision.R'))
+    s301_source <- load_s301_revision_source(revision_id)
+    s301_source_matches <- s301_revision_matches(s301_source, products$hts10,
+      paste0(as.Date(effective_date),'T23:59:59Z'))
+    s301_lookup <- s301_revision_lookup(s301_source_matches %>% filter(program=='china_technology_transfer'))
+    # Aggregate modeling assumes the described product condition is met. Emit
+    # that assumption. A shipment result must establish the condition instead.
+    existing_china <- rates$hts10[rates$country == CTY_CHINA]
+    new_301_products <- setdiff(s301_lookup$hts10,existing_china)
+    if(length(new_301_products)) {
+      rates <- bind_rows(rates,products %>% filter(hts10 %in% new_301_products) %>%
+        select(hts10,base_rate) %>% mutate(country=CTY_CHINA,
+          rate_232=0,rate_301=0,rate_ieepa_recip=0,rate_ieepa_fent=0,
+          rate_s122=0,rate_section_201=0,rate_other=0))
+    }
+    if(!'ch99_src_301' %in% names(rates)) rates$ch99_src_301 <- NA_character_
+    rates <- rates %>% select(-any_of(c('s301_scope_requires_inputs','modeled_s301_scope_share'))) %>%
+      left_join(s301_lookup,by='hts10',relationship='many-to-one') %>%
+      mutate(rate_301=if_else(country==CTY_CHINA,coalesce(blanket_301,0),rate_301),
+        ch99_src_301=if_else(country==CTY_CHINA,src_301,ch99_src_301),
+        s301_scope_requires_inputs=country==CTY_CHINA & coalesce(s301_scope_requires_inputs,FALSE),
+        modeled_s301_scope_share=if_else(country==CTY_CHINA & !is.na(blanket_301),modeled_s301_scope_share,NA_real_)) %>%
+      select(-blanket_301,-src_301)
+    rates <- record_duty(rates,'6a','s301','rate_301','s301_revision_note_scopes',
+      citation_key='s301_active',ch99_code_col='ch99_src_301')
+    message('  Section 301: ',nrow(s301_lookup),' exact products from ',revision_id,
+      '; ',sum(s301_lookup$s301_scope_requires_inputs),' require product facts')
+  } else {
+  # Historical fixture path before the audited 2025-2026 horizon.
   # 6. Apply Section 301 as blanket tariff for China
   #     301 products are defined by US Note 20/21/31 product lists (Federal Register).
   #     Like 232, these are NOT referenced via product footnotes for most products.
@@ -2813,6 +2848,8 @@ calculate_rates_for_revision <- function(
                              ch99_code_col = 'ch99_src_301')
       }
     }
+  }
+
   }
 
   # 6b. Apply Section 122 blanket tariff (non-discriminatory, all countries)
@@ -3049,6 +3086,30 @@ calculate_rates_for_revision <- function(
       statutory_rate_section_201 = rate_section_201,
       statutory_rate_other       = rate_other
     )
+  if ('s301_scope_requires_inputs' %in% names(rates)) {
+    rates$s301_scope_requires_inputs <- coalesce(rates$s301_scope_requires_inputs,FALSE)
+    rates$statutory_rate_301[rates$s301_scope_requires_inputs] <- NA_real_
+  }
+  # Maritime is independent of the China technology-transfer investigation.
+  # Note 31(l)(i) expressly preserves 9903.92.10; 31(l)(ii)/(iii) can reach
+  # other origins through Chinese components/ownership. The model assumes
+  # product qualification; shipment statutory amounts remain unresolved.
+  rates$rate_s301_maritime <- 0
+  rates$statutory_rate_s301_maritime <- 0
+  rates$modeled_s301_maritime_scope_share <- NA_real_
+  rates$ch99_code_s301_maritime <- NA_character_
+  if (!is.null(s301_source_matches)) {
+    maritime <- s301_source_matches %>% filter(program=='maritime')
+    for(code in unique(maritime$ch99_code)) {
+      scope <- maritime %>% filter(ch99_code==code)
+      applies <- rates$hts10 %in% scope$hts10 &
+        (scope$country_scope[1]=='all' | rates$country==scope$country_scope[1])
+      rates$rate_s301_maritime[applies] <- scope$rate[1]
+      rates$statutory_rate_s301_maritime[applies] <- NA_real_
+      rates$modeled_s301_maritime_scope_share[applies] <- 1
+      rates$ch99_code_s301_maritime[applies] <- code
+    }
+  }
 
   # 6c. Apply MFN exemption shares (FTA/GSP preference adjustment)
   # Reduces statutory base_rate using HS2 x country exemption shares from Census
@@ -3745,6 +3806,8 @@ calculate_rates_for_revision <- function(
         # any future change to the rate-construction logic flows through
         # the variables captured here without touching the emitter.
         denorm_state <- list(
+          s301_source = s301_source,
+          s301_matches = s301_source_matches,
           heading_candidates = if (exists('heading_candidate_lists', inherits=FALSE)) heading_candidate_lists else list(),
           country_ieepa = if (exists('denorm_state_country_ieepa', inherits = FALSE))
                             denorm_state_country_ieepa else NULL,

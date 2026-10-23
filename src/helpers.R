@@ -1422,7 +1422,7 @@ S232_ACTION_RATE_COLS <- c(
 
 AUTHORITY_RATE_COLS <- c(
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s301_maritime', 'rate_s338', 'rate_other',
   'rate_adcvd',
   S232_ACTION_RATE_COLS
 )
@@ -1454,6 +1454,7 @@ STATUTORY_RATE_COL_MAP <- c(
   rate_other       = 'statutory_rate_other',
   rate_s301fl      = 'statutory_rate_s301fl',
   rate_s301br      = 'statutory_rate_s301br',
+  rate_s301_maritime = 'statutory_rate_s301_maritime',
   rate_s338        = 'statutory_rate_s338'
 )
 
@@ -2022,22 +2023,23 @@ zero_fill_authority_rates <- function(df, cols = AUTHORITY_RATE_COLS) {
 RATE_SCHEMA <- c(
   'hts10', 'country', 'base_rate', 'statutory_base_rate',
   'rate_232', 'rate_301', 'rate_ieepa_recip', 'rate_ieepa_fent',
-  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s338', 'rate_other',
+  'rate_s122', 'rate_section_201', 'rate_s301fl', 'rate_s301br', 'rate_s301_maritime', 'rate_s338', 'rate_other',
   'rate_adcvd', 'adcvd_candidates_json',
   S232_ACTION_RATE_COLS,
   STATUTORY_S232_ACTION_RATE_COLS,
-  'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s338',
+  'statutory_rate_s301fl', 'statutory_rate_s301br', 'statutory_rate_s301_maritime', 'statutory_rate_s338',
   'statutory_total_additional', 'statutory_total_rate',
   'statutory_alternatives_json',
   'ch99_code_232', 'ch99_code_301', 'ch99_code_ieepa_recip',
   'ch99_code_ieepa_fent', 'ch99_code_s122', 'ch99_code_s201',
-  'ch99_code_s301fl', 'ch99_code_s301br', 'ch99_code_s338',
+  'ch99_code_s301fl', 'ch99_code_s301br', 'ch99_code_s301_maritime', 'ch99_code_s338',
   'metal_share', 's232_annex', 's232_metal', 'duty_basis_232',
   'total_additional', 'total_rate',
   'usmca_eligible',
   'rate_special', 'rate_special_raw', 'special_programs_json',
   'rate_column2', 'rate_column2_raw', 'column2_status', 's232_suppressed_json',
   'pending_activation_json',
+  's301_scope_requires_inputs', 'modeled_s301_scope_share', 'modeled_s301_maritime_scope_share',
   'rate_basis', 'specific_amount', 'specific_rate_unit',
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
@@ -2060,13 +2062,13 @@ enforce_rate_schema <- function(df) {
     hts10 = NA_character_, country = NA_character_,
     base_rate = 0, statutory_base_rate = 0, rate_232 = 0, rate_301 = 0,
     rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
-    rate_s301fl = 0, rate_s301br = 0, rate_s338 = 0, rate_other = 0,
+    rate_s301fl = 0, rate_s301br = 0, rate_s301_maritime = 0, rate_s338 = 0, rate_other = 0,
     rate_adcvd = 0, adcvd_candidates_json = NA_character_,
-    statutory_rate_s301fl = 0, statutory_rate_s301br = 0, statutory_rate_s338 = 0,
+    statutory_rate_s301fl = 0, statutory_rate_s301br = 0, statutory_rate_s301_maritime = 0, statutory_rate_s338 = 0,
     ch99_code_232 = NA_character_, ch99_code_301 = NA_character_,
     ch99_code_ieepa_recip = NA_character_, ch99_code_ieepa_fent = NA_character_,
     ch99_code_s122 = NA_character_, ch99_code_s201 = NA_character_,
-    ch99_code_s301fl = NA_character_, ch99_code_s301br = NA_character_,
+    ch99_code_s301fl = NA_character_, ch99_code_s301br = NA_character_, ch99_code_s301_maritime = NA_character_,
     ch99_code_s338 = NA_character_,
     metal_share = 1.0, s232_annex = NA_character_, s232_metal = NA_character_,
     duty_basis_232 = NA_character_,
@@ -2077,6 +2079,8 @@ enforce_rate_schema <- function(df) {
     rate_column2 = NA_real_, rate_column2_raw = NA_character_,
     column2_status = NA_character_, s232_suppressed_json = NA_character_,
     pending_activation_json = NA_character_,
+    s301_scope_requires_inputs = FALSE, modeled_s301_scope_share = NA_real_,
+    modeled_s301_maritime_scope_share = NA_real_,
     rate_basis = 'ad_valorem',
     specific_amount = NA_real_, specific_rate_unit = NA_character_,
     reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,
@@ -2600,11 +2604,23 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     keep = r232 > EPS & !is.na(s232_reason)
   )
 
+  conditional301 <- if ('s301_scope_requires_inputs' %in% names(rates))
+    dplyr::coalesce(rates$s301_scope_requires_inputs,FALSE) else rep(FALSE,n)
   r301_rule <- rule_frag(
-    c301, 'section_301', dplyr::coalesce(s301_reason, 's301_active'), 'applied',
-    statutory = pmax(stat301, r301),
+    c301, 'section_301', ifelse(conditional301,'s301_scope_pending',dplyr::coalesce(s301_reason, 's301_active')),
+    ifelse(conditional301,'potentially_applicable_requires_more_facts','applied'),
+    statutory = ifelse(conditional301,NA_real_,stat301),
+    req_inputs = ifelse(conditional301,'"section301_product_description_match"',''),
     rate_type = 'surcharge', stacking_class = 'additive',
     keep = r301 > EPS
+  )
+  maritime301 <- num('rate_s301_maritime')
+  r301_maritime_rule <- rule_frag(
+    chr('ch99_code_s301_maritime'),'section_301','s301_maritime',
+    'potentially_applicable_requires_more_facts',statutory=NA_real_,
+    rate_type='surcharge',stacking_class='additive',
+    req_inputs='"section301_maritime_product_origin_components_ownership"',
+    keep=maritime301>EPS
   )
 
   rrec_rule <- rule_frag(
@@ -2765,7 +2781,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     }
   }
 
-  rules_all <- paste0(r232_rule, r301_rule, excl_frag, rrec_rule,
+  rules_all <- paste0(r232_rule, r301_rule, r301_maritime_rule, excl_frag, rrec_rule,
                       rrec_exempt_rule, rfent_rule, rs122_rule, r201_rule,
                       quartz_frag, other_frag)
   rules_all <- sub('^,', '', rules_all)
@@ -3188,7 +3204,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       df %>%
         mutate(
           total_additional = rate_232 + rate_ieepa_recip + rate_ieepa_fent +
-            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
+            rate_301 + rate_s122 + rate_section_201 + rate_s301fl + rate_s301br + rate_s301_maritime + rate_s338 + rate_other + rate_adcvd,
           total_rate = base_rate + total_additional
         )
     )
@@ -3255,12 +3271,12 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         # China with 232: 232 + recip*nonmetal + fentanyl + 301 + s122*nonmetal + s201 + other
         country == cty_china & rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent + rate_301 +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s301_maritime + rate_s338 + rate_other + rate_adcvd,
 
         # China without 232: reciprocal + fentanyl + 301 + s122 + s201 + other
         country == cty_china ~
           rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
+          rate_s301fl + rate_s301br + rate_s301_maritime + rate_s338 + rate_other + rate_adcvd,
 
         # Others with 232: 232 + recip*nonmetal + fentanyl + s122*nonmetal + s201 + other
         # EO 14195 (including Hong Kong) is cumulative: EO 14289 sec. 4(b).
@@ -3269,11 +3285,11 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
         rate_232 > 0 ~
           rate_232 + rate_ieepa_recip * nonmetal_share +
           rate_ieepa_fent * if_else(fentanyl_full_value, 1, nonmetal_share) +
-          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
+          rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s301_maritime + rate_s338 + rate_other + rate_adcvd,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
         TRUE ~ rate_ieepa_recip + rate_ieepa_fent + rate_s122 + rate_section_201 +
-          rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd
+          rate_s301fl + rate_s301br + rate_s301_maritime + rate_s338 + rate_other + rate_adcvd
       ),
       total_rate = base_rate + total_additional
     ) %>%
@@ -3476,7 +3492,7 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
           # The two 2026 §301 actions roll up into the §301 line so the ETR
           # decomposition keeps one consistent Section 301 series; their own rate
           # columns preserve the per-program detail.
-          net_301 = rate_301 + rate_s301fl + rate_s301br,
+          net_301 = rate_301 + rate_s301fl + rate_s301br + rate_s301_maritime,
           net_s122 = rate_s122,
           net_section_201 = rate_section_201,
           net_s338 = rate_s338,
@@ -3530,7 +3546,7 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
       # (note 52) — so they are added unconditionally and must not inherit that
       # gate. All three roll up into one Section 301 line; the separate rate
       # columns keep the programs distinguishable downstream.
-      net_301 = if_else(country == cty_china, rate_301, 0) + rate_s301fl + rate_s301br,
+      net_301 = if_else(country == cty_china, rate_301, 0) + rate_s301fl + rate_s301br + rate_s301_maritime,
       net_s122 = if_else(rate_232 > 0, rate_s122 * nonmetal_share, rate_s122),
       net_section_201 = rate_section_201,
       # §338 is a distinct statute (Tariff Act of 1930), so it gets its own line

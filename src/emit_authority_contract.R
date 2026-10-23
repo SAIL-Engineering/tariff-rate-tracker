@@ -52,6 +52,7 @@ AUTHORITY_CONTRACT <- tribble(
   'section_301',       'rate_301',            'section_301','Section 301 — China',                   '§301',
   's301_forced_labor', 'rate_s301fl',         'section_301','Section 301 — Forced Labor (60 economies)', '§301 FL',
   's301_brazil',       'rate_s301br',         'section_301','Section 301 — Brazil',                  '§301 Brazil',
+  's301_maritime',     'rate_s301_maritime',  'section_301','Section 301 — Maritime equipment',      '§301 Maritime',
   'ieepa_reciprocal',  'rate_ieepa_recip',    'ieepa',      'IEEPA — Reciprocal',                    'IEEPA Recip',
   'ieepa_fentanyl',    'rate_ieepa_fent',     'ieepa',      'IEEPA — Border / Fentanyl',             'IEEPA Fent',
   'section_122',       'rate_s122',           'section_122','Section 122 — Balance of Payments',     '§122',
@@ -99,6 +100,7 @@ AUTHORITY_CITATION <- c(
   section_301       = 's301_china_actions',
   s301_forced_labor = NA_character_,
   s301_brazil       = NA_character_,
+  s301_maritime     = 's301_maritime_2025',
   ieepa_reciprocal  = 'eo_14257_reciprocal',
   ieepa_fentanyl    = NA_character_,      # EO 14193/14194/14195, country-specific
   section_122       = 's122_balance_of_payments',
