@@ -6338,3 +6338,60 @@ restore_s232_semiconductor_model <- function(rates, heading_rates, semi_products
       shipment_232_scope_source = if_else(!is.na(.semi_heading_rate), cfg$scope_source, NA_character_)
     ) %>% select(-.semi_heading_rate)
 }
+
+# A configured product list is authoritative for extraction. An empty revision
+# match is not permission to widen to fallback prefixes, and a missing source
+# must not become an empty program or an invented blanket scope.
+match_s232_heading_products <- function(products, cfg, root = here::here()) {
+  product_codes <- if (is.data.frame(products)) products$hts10 else products
+  if (anyNA(product_codes) || any(!grepl('^[0-9]{10}$', product_codes))) stop('Invalid revision product inventory')
+  source_path <- NULL
+  if (!is.null(cfg$products_file)) {
+    source_path <- file.path(root, cfg$products_file)
+    if (!file.exists(source_path)) stop('Configured Section 232 product source missing: ', cfg$products_file)
+    source <- readr::read_csv(source_path, col_types = readr::cols(.default = readr::col_character()), show_col_types=FALSE)
+    if (!'hts10' %in% names(source)) stop('Section 232 product source requires scope codes in hts10')
+    codes <- source$hts10
+  } else {
+    codes <- unlist(cfg[['prefixes']])
+    if (!is.null(cfg$prefixes_file)) {
+      if (length(codes)) stop('Ambiguous Section 232 scope: use one explicit source, not inline plus file prefixes')
+      source_path <- file.path(root, cfg$prefixes_file)
+      if (!file.exists(source_path)) stop('Configured Section 232 prefix source missing: ', cfg$prefixes_file)
+      codes <- c(codes, trimws(readLines(source_path, warn=FALSE)))
+    }
+  }
+  codes <- unique(codes)
+  if (!length(codes) || anyNA(codes) || any(!grepl('^([0-9]{2}|[0-9]{4}|[0-9]{6}|[0-9]{8}|[0-9]{10})$',codes)))
+    stop('Empty or invalid Section 232 legal scope')
+  matches <- lapply(codes,function(code) {
+    hits <- product_codes[startsWith(product_codes,code)]
+    data.frame(hts10=hits,scope_code=rep(code,length(hits)),scope_grain=rep(if(nchar(code)==10)'exact_hts10' else 'prefix',length(hits)))
+  })
+  matches <- do.call(rbind,matches)
+  list(products=sort(unique(matches$hts10)),matches=matches,
+    source_path=if(is.null(source_path)) 'config/policy_params.yaml' else if(!is.null(cfg$products_file)) cfg$products_file else cfg$prefixes_file,
+    source_sha256=if(is.null(source_path)) digest::digest(file=file.path(root,'config/policy_params.yaml'),algo='sha256') else digest::digest(file=source_path,algo='sha256'))
+}
+
+
+# Proclamation 10908 Annex I, note 33(g)/(h)(ii): listed HTS provisions
+# remain conditional on passenger-vehicle/light-truck parts use. Preserve the
+# aggregate projection, but do not publish it as a shipment's statutory duty.
+mark_s232_auto_parts_scope <- function(rates, parts_candidates, cfg) {
+  if(!length(parts_candidates)) return(rates)
+  if(!length(cfg$required_shipment_facts) || is.null(cfg$scope_source))
+    stop('Missing automobile-parts scope evidence')
+  rows <- rates$hts10 %in% parts_candidates
+  for (column in c('shipment_232_scope_status','shipment_232_required_facts_json','shipment_232_scope_source'))
+    if(!column %in% names(rates)) rates[[column]] <- NA_character_
+  # A previously recorded conditional semiconductor action is evaluated first;
+  # both candidates survive in authority_product_candidates for reevaluation.
+  fresh <- rows & is.na(rates$shipment_232_scope_status)
+  rates$shipment_232_scope_status[fresh] <- 'needs_inputs'
+  rates$shipment_232_required_facts_json[fresh] <- as.character(jsonlite::toJSON(unname(unlist(cfg$required_shipment_facts))))
+  rates$shipment_232_scope_source[fresh] <- cfg$scope_source
+  rates$statutory_rate_232[rows] <- NA_real_
+  if('statutory_rate_232_auto' %in% names(rates)) rates$statutory_rate_232_auto[rows] <- NA_real_
+  rates
+}

@@ -1,10 +1,10 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: 20e8450353fe6876ee2c75930e2911342ffbd23eb322f35b17412e1cc2ce1177
+// Source SHA256: a57d64d9ecf259d6710761e52409aca6f140549ee3d60b0b5af0648171524ab8
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
-        status: 'unresolved_source', components: [], applied_rules: [], suppressed_rules: [],
-        missing_inputs: [], source_errors: [reason], known_subtotal: 0, complete_total: null };
+        status: 'unresolved_source', components: [], rule_decisions: [], coverage_decisions: [], applied_rules: [], suppressed_rules: [],
+        missing_inputs: [], required_facts: {}, source_errors: [reason], known_subtotal: 0, complete_total: null };
 }
 function timestamp(value) {
     if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/.test(value))
@@ -95,19 +95,24 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     for (const authority of bundle.coverage_requirements) {
         const coverage = (bundle.coverage ?? []).filter(c => c.authority === authority && matches(c.scope, hts10, country, at));
         const applicable = [...rules.values()].filter(r => r.authority === authority && matches(r.scope, hts10, country, at));
-        if (!coverage.length || coverage.some(c => c.status !== 'verified' || !c.source_ids?.length || !c.source_ids.every(validSource)
+        const unverified = !coverage.length || coverage.some(c => c.status !== 'verified' || !c.source_ids?.length || !c.source_ids.every(validSource)
             || !Array.isArray(c.rule_ids) || !c.rule_ids.every(id => rules.get(id)?.authority === authority)
             || (c.determination === 'rules' ? !c.rule_ids.length
                 : c.determination !== 'no_applicable_rules' || c.rule_ids.length > 0 || applicable.length > 0))
-            || applicable.some(r => !coverage.some(c => c.rule_ids?.includes(r.id))))
+            || applicable.some(r => !coverage.some(c => c.rule_ids?.includes(r.id)));
+        if (unverified)
             result.source_errors.push(`coverage_unverified:${authority}`);
+        result.coverage_decisions.push({ authority, status: unverified ? 'unresolved_source' : 'verified',
+            matched_rule_ids: applicable.map(r => r.id).sort(), attestations: coverage.map(c => ({ ...c,
+                citations: (c.source_ids ?? []).map(id => sources.get(id)).filter((v) => Boolean(v)),
+            })) });
     }
     const cache = new Map();
     const visiting = new Set();
     function expr(x) {
         if (!x || typeof x !== 'object')
             return val(null, [], ['invalid_expression']);
-        const keys = ['value', 'fact', 'claim', 'rule_amount', 'op'].filter(k => k in x);
+        const keys = ['value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'op'].filter(k => k in x);
         if (keys.length !== 1)
             return val(null, [], ['invalid_expression']);
         if ('value' in x)
@@ -127,6 +132,10 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
                 && (d.maximum == null || typeof value === 'number' && value <= d.maximum)
                 && (d.enum == null || d.enum.includes(value));
             return okay ? val(value) : val(null, [x.fact]);
+        }
+        if ('rule_applies' in x) {
+            const r = resolve(x.rule_applies, true);
+            return val(r.state === 'unresolved' ? null : r.state === 'applied', r.missing, r.errors);
         }
         if ('rule_amount' in x) {
             const r = resolve(x.rule_amount);
@@ -212,18 +221,19 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         }
         return typeof answer === 'number' && !Number.isFinite(answer) ? val(null, [], ['non_finite_result']) : val(answer);
     }
-    function resolve(id) {
-        const old = cache.get(id);
+    function resolve(id, applicabilityOnly = false) {
+        const cacheKey = `${applicabilityOnly ? 'applies' : 'amount'}:${id}`;
+        const old = cache.get(cacheKey);
         if (old)
             return old;
         const r = rules.get(id);
         const blank = { amount: null, missing: [], errors: [], state: 'unresolved' };
         if (!r)
             return { ...blank, errors: [`unknown_rule:${id}`] };
-        if (visiting.has(id))
+        if (visiting.has(cacheKey))
             return { ...blank, errors: [`dependency_cycle:${id}`] };
-        visiting.add(id);
-        const finish = (value) => { visiting.delete(id); cache.set(id, value); return value; };
+        visiting.add(cacheKey);
+        const finish = (value) => { visiting.delete(cacheKey); cache.set(cacheKey, value); return value; };
         if (!matches(r.scope, hts10, country, at))
             return finish({ ...blank, amount: 0, state: 'not_applicable' });
         // A claim must have reviewed effects (including unchanged treatment) for
@@ -237,15 +247,19 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         const condition = r.when ? expr(r.when) : val(true);
         if (condition.value === false)
             return finish({ ...blank, amount: 0, state: 'not_applicable' });
-        if (condition.value !== true)
-            return finish({ ...blank, missing: condition.missing,
-                errors: [...condition.errors, ...(condition.value != null ? ['non_boolean_condition'] : [])] });
         const suppress = r.suppressed_when ? expr(r.suppressed_when) : val(false);
         if (suppress.value === true)
             return finish({ ...blank, amount: 0, state: 'suppressed' });
-        if (suppress.value !== false)
-            return finish({ ...blank, missing: suppress.missing,
-                errors: [...suppress.errors, ...(suppress.value != null ? ['non_boolean_condition'] : [])] });
+        if (condition.value !== true || suppress.value !== false)
+            return finish({ ...blank,
+                missing: unique([...condition.missing, ...suppress.missing]),
+                errors: unique([...condition.errors, ...suppress.errors,
+                    ...(condition.value != null && typeof condition.value !== 'boolean' ? ['non_boolean_condition'] : []),
+                    ...(suppress.value != null && typeof suppress.value !== 'boolean' ? ['non_boolean_condition'] : [])]),
+            });
+        // A zero entered value or missing valuation cannot revive an excluded action.
+        if (applicabilityOnly)
+            return finish({ ...blank, amount: 0, state: 'applied' });
         for (const constraint of r.input_constraints ?? []) {
             const tested = expr(constraint.test);
             if (tested.value !== true)
@@ -261,6 +275,14 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     }
     for (const id of [...rules.keys()].sort()) {
         const r = rules.get(id), resolved = resolve(id);
+        if (matches(r.scope, hts10, country, at))
+            result.rule_decisions.push({
+                rule_id: id, action_id: r.action_id, authority: r.authority, outcome: resolved.state,
+                scope: r.scope, when: r.when, suppressed_when: r.suppressed_when,
+                reporting_codes: r.reporting_codes, source_ids: r.source_ids,
+                citations: r.source_ids.map(s => sources.get(s)).filter((s) => Boolean(s)),
+                missing_inputs: resolved.missing, source_errors: resolved.errors,
+            });
         if (resolved.state === 'not_applicable')
             continue;
         result.components.push({ rule_id: id, action_id: r.action_id, authority: r.authority, kind: r.kind,
@@ -277,6 +299,8 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
             result.known_subtotal += resolved.amount;
     }
     result.missing_inputs = unique(result.missing_inputs);
+    result.required_facts = Object.fromEntries(result.missing_inputs
+        .filter(key => bundle.fact_definitions[key]).map(key => [key, bundle.fact_definitions[key]]));
     result.source_errors = unique(result.source_errors);
     result.status = result.source_errors.length ? 'unresolved_source' : result.missing_inputs.length ? 'needs_inputs' : 'complete';
     result.complete_total = result.status === 'complete' ? result.known_subtotal : null;

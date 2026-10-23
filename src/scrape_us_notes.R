@@ -34,8 +34,8 @@
 #
 # Write safety:
 #   All three parsers validate extraction before writing resource files.
-#   - Section 301: refuses to write if anchor coverage <80%, or on first-time
-#     bootstrap with any missing anchors.
+#   - Section 301: refuses replacement with any missing anchors or lossy HTS8
+#     coercion. Exact/conditional scope requires the structured source extractor.
 #   - Floor exemptions: refuses to write if anchor coverage <80%, or to
 #     overwrite an existing CSV when any anchors are missing.
 #   - Copper: refuses to overwrite if fewer than 60 codes are extracted
@@ -237,13 +237,14 @@ find_product_list_anchors <- function(pages) {
 #' @param text Character string to search
 #' @return Character vector of HTS codes
 extract_hts_codes <- function(text) {
-  codes <- str_extract_all(text, '[0-9]{4}\\.[0-9]{2}(?:\\.[0-9]{2,4})?')[[1]]
+  codes <- str_extract_all(text, '(?<![0-9.])[0-9]{4}\\.[0-9]{2}(?:\\.[0-9]{2}(?:\\.?[0-9]{2})?)?(?![0-9.])')[[1]]
   codes <- unique(codes)
 
   # Filter out ch99 self-references
-  codes <- codes[!grepl('^99(01|02|03|04)\\.', codes)]
+  codes <- codes[!grepl('^(98|99)', codes)]
   # Filter out date-like patterns (year.month)
-  codes <- codes[!grepl('^(19|20)[0-9]{2}\\.', codes)]
+  # Chapters 19 and 20 are valid tariff chapters, not years. Product validity
+  # must be checked against the revision inventory, not a year-like prefix.
   # Filter out page/section numbers that look like codes
   codes <- codes[nchar(gsub('\\.', '', codes)) >= 6]
 
@@ -290,16 +291,16 @@ extract_product_list <- function(pages, start_page, start_pos, end_page, end_pos
 
 #' Normalize parsed HTS codes to 8-digit format
 #'
-#' Codes from PDF may be 6-digit (heading level) or 8-10 digit (subheading).
-#' For consistency with s301_product_lists.csv, normalize to 8 digits.
+#' This legacy output accepts only genuine HTS8 scope. Narrower or broader
+#' legal scope requires the exact/prefix extractor; it cannot be coerced.
 #'
 #' @param codes Character vector of HTS codes with dots
 #' @return Character vector of 8-digit HTS codes (no dots)
 normalize_to_hts8 <- function(codes) {
   clean <- gsub('\\.', '', codes)
-  clean <- str_pad(clean, 8, side = 'right', pad = '0')
-  clean <- substr(clean, 1, 8)
-  return(clean)
+  if (anyNA(clean) || any(!grepl('^[0-9]{8}$', clean)))
+    stop('Lossy HTS8 normalization refused: preserve exact HTS10 / prefix scope with extract_numbered_product_scope')
+  clean
 }
 
 
@@ -313,7 +314,7 @@ normalize_to_hts8 <- function(codes) {
 #' @param existing_csv Path to current s301_product_lists.csv
 #' @param output_csv Path to write updated CSV (NULL = same as existing)
 #' @param dry_run Report without writing
-#' @return Tibble of all products (existing + new)
+#' @return Replacement revision snapshot, only if extraction is lossless/complete
 parse_us_note_products <- function(
   pdf_path = NULL,
   existing_csv = 'resources/s301_product_lists.csv',
@@ -466,8 +467,10 @@ parse_us_note_products <- function(
       semi_join(existing, by = c('hts8', 'ch99_code'))
     message('  Already in existing CSV: ', nrow(overlap))
 
-    # Merge: existing + new
-    combined <- bind_rows(existing, new_entries) %>%
+    # A revision is a snapshot. Unioning old scope silently resurrects deleted
+    # provisions. Partial extraction must not overwrite a complete snapshot.
+    if (length(missing_301)) stop('Incomplete note extraction; cannot replace scope snapshot')
+    combined <- all_parsed %>%
       distinct(hts8, ch99_code, .keep_all = TRUE) %>%
       arrange(hts8, ch99_code)
 
@@ -490,13 +493,11 @@ parse_us_note_products <- function(
   message('  Lists represented: ', paste(sort(unique(combined$list)), collapse = ', '))
 
   # ---- Write output ----
-  if (!dry_run && nrow(new_entries) > 0) {
+  if (!dry_run) {
     write_csv(combined, output_csv)
     message('\nWrote updated CSV: ', output_csv)
-  } else if (dry_run) {
-    message('\n[DRY RUN] Would write ', nrow(combined), ' entries to ', output_csv)
   } else {
-    message('\nNo new entries found. CSV unchanged.')
+    message('\n[DRY RUN] Would write ', nrow(combined), ' entries to ', output_csv)
   }
 
   return(invisible(combined))
@@ -561,13 +562,14 @@ extract_inline_hts_codes <- function(text) {
   segments <- str_split(text, ';')[[1]]
   codes <- character()
   for (seg in segments) {
-    seg_codes <- str_extract_all(seg, '[0-9]{4}\\.[0-9]{2}(?:\\.[0-9]{2,4})?')[[1]]
+    seg_codes <- str_extract_all(seg, '(?<![0-9.])[0-9]{4}\\.[0-9]{2}(?:\\.[0-9]{2}(?:\\.?[0-9]{2})?)?(?![0-9.])')[[1]]
     codes <- c(codes, seg_codes)
   }
   codes <- unique(codes)
   # Apply same filters as extract_hts_codes
-  codes <- codes[!grepl('^99(01|02|03|04)\\.', codes)]
-  codes <- codes[!grepl('^(19|20)[0-9]{2}\\.', codes)]
+  codes <- codes[!grepl('^(98|99)', codes)]
+  # Chapters 19 and 20 are valid tariff chapters, not years. Product validity
+  # must be checked against the revision inventory, not a year-like prefix.
   codes <- codes[nchar(gsub('\\.', '', codes)) >= 6]
   return(codes)
 }

@@ -432,3 +432,27 @@ attestation. Both tiers survive extraction before revision-date gating. A consum
 must evaluate the operative window and scope before quota treatment; a missing
 candidate source/tier cannot silently disappear. The legacy numeric 201 column
 retains its aggregate methodology and cannot establish a complete shipment total.
+
+
+## Conditional Section 232 discovery candidates (2026-10-23)
+
+Each revision additionally emits `authority_product_candidates.parquet` before
+aggregate product suppression/maximum selection. It retains both semiconductor
+and automobile-parts candidates when both list the product. Fields are `revision`,
+`authority`, `program`, `hts10`, `scope_code`, `scope_grain` (`exact_hts10` or
+`prefix`), repo-relative `source_path`, `source_sha256`, and `status` (always
+`candidate_requires_legal_predicates`). Empty revisions have a typed empty table.
+These rows prove extraction lineage to configured scope inputs, not complete
+legal applicability. Primary legal citations/predicates live in reviewed rules.
+
+The versioned release manifest requires these partitions along with rates,
+products_base and other normalized tables. Preflight checks product references,
+scope grain/membership and source metadata before preparing immutable tables.
+Old prepared sets without candidates must be rebuilt, not silently upgraded.
+
+Conditional automobile-parts rows now leave `statutory_rate_232` and complete
+statutory totals unavailable pending actual parts-use facts, just as conditional
+semiconductor rows do. The aggregate rates retain their modeling methodology.
+Existing `shipment_232_*` fields identify the unresolved scope; they are not an
+exhaustive evaluated fact request when actions overlap. Use the rule evaluator's
+`required_facts` and action decisions for actual shipment requests.

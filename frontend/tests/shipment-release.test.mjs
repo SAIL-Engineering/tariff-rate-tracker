@@ -38,6 +38,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
     products_base: "SELECT '1234567890'::VARCHAR hts10, 'test'::VARCHAR revision, '5%'::VARCHAR duty_expression_raw, '10%'::VARCHAR rate_column2_raw",
     authority_country_rates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", 'TEST'::VARCHAR country",
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
+    authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
     authority_exemptions: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority",
   };
   const hashFile = async name => ({ path: name, sha256: crypto.createHash('sha256').update(await fs.readFile(path.join(root, name))).digest('hex') });
@@ -180,3 +181,22 @@ test('API pool rejects a local database without a validated active release', asy
     await assert.rejects(initShipmentReleaseDatabase('md:production'), /local database file/);
   } finally { await fs.rm(root, { recursive: true }); }
 });
+
+
+test('candidate provenance preflight rejects missing scope and cross-product membership before loading', () => withDatabase(async (conn, root) => {
+  const { file, manifest } = await manifestFixture(conn, root);
+  const catalog = (await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  const artifact = manifest.revisions[0].authority_product_candidates[0];
+  const original = path.join(root, artifact.path);
+  for (const [column, value] of [['scope_code', 'NULL::VARCHAR'], ['source_sha256', "'invalid'"],
+    ['hts10', "'9999999999'"], ['scope_grain', "'prefix'"], ['source_path', "''"]]) {
+    const changed = path.join(root, 'candidate-invalid.parquet');
+    await fs.rm(changed, { force: true });
+    await conn.run(`COPY (SELECT * REPLACE (${value} AS ${column}) FROM read_parquet('${original}')) TO '${changed}' (FORMAT PARQUET)`);
+    artifact.path = path.basename(changed);
+    artifact.sha256 = crypto.createHash('sha256').update(await fs.readFile(changed)).digest('hex');
+    await fs.writeFile(file, JSON.stringify(manifest));
+    await assert.rejects(preflightRelease(conn, await readReleaseManifest(file), catalog), /Invalid candidate scope/);
+    assert.equal(await activeShipmentRelease(conn), null);
+  }
+}));

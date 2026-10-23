@@ -1217,6 +1217,9 @@ emit_normalized_revision <- function(
     denorm_state = denorm_state
   )
 
+  emit_authority_product_candidates(denorm_state$heading_candidates %||% list(),
+    revision_id, output_dir)
+
   # product_metal_content is revision-independent but this is the only path
   # where we have a list of valid hts10s to pass to load_metal_content().
   # Overwrite on each call — cheap, idempotent.
@@ -1390,4 +1393,21 @@ emit_normalized_statics <- function(revisions_df, pp, output_dir = NULL) {
   }
 
   invisible(TRUE)
+}
+
+# Discovery scope is retained before model-specific suppression/collapse. These
+# rows are candidates, not a legal assertion that a particular shipment owes duty.
+emit_authority_product_candidates <- function(candidates, revision_id, output_dir) {
+  out <- tibble(revision=character(),authority=character(),program=character(),
+    hts10=character(),scope_code=character(),scope_grain=character(),
+    source_path=character(),source_sha256=character(),status=character())
+  for (program in names(candidates)) {
+    x <- candidates[[program]]
+    if (is.null(x$scope_matches) || !nrow(x$scope_matches)) next
+    out <- bind_rows(out, as_tibble(x$scope_matches) %>% mutate(
+      revision=revision_id, authority='section_232', program=program,
+      source_path=x$scope_source,source_sha256=x$scope_sha256,status='candidate_requires_legal_predicates'))
+  }
+  .write_parquet_safe(out, file.path(output_dir,revision_id,'authority_product_candidates.parquet'))
+  invisible(out)
 }

@@ -1460,49 +1460,14 @@ calculate_rates_for_revision <- function(
 
         cfg <- s232_headings[[tariff_name]]
 
-        # Product matching: prefer products_file (HTS8 prefixes, matched via startswith)
-        # over prefixes_file (text file of prefixes) over inline prefixes.
-        matched <- character(0)
-
-        if (!is.null(cfg$products_file)) {
-          pf_path <- here(cfg$products_file)
-          if (file.exists(pf_path)) {
-            pf_data <- read_csv(pf_path, col_types = cols(.default = col_character()))
-            # Treat HTS10 codes as prefixes (matches statistical suffixes)
-            pf_codes <- pf_data$hts10
-            pf_pattern <- paste0('^(', paste(pf_codes, collapse = '|'), ')')
-            matched <- products %>%
-              filter(grepl(pf_pattern, hts10)) %>%
-              pull(hts10)
-            message('  232 heading "', tariff_name, '": ', length(matched),
-                    ' products from ', basename(pf_path), ' (', length(pf_codes), ' codes)')
-          } else {
-            message('  WARNING: products_file not found: ', pf_path, ' — falling back to prefixes')
-          }
-        }
-
-        if (length(matched) == 0) {
-          # Fallback: inline prefixes + prefixes_file
-          prefixes <- unlist(cfg$prefixes)
-          if (!is.null(cfg$prefixes_file)) {
-            pf_path <- here(cfg$prefixes_file)
-            if (file.exists(pf_path)) {
-              prefixes <- c(prefixes, trimws(readLines(pf_path)))
-              prefixes <- prefixes[nchar(prefixes) > 0]
-            } else {
-              message('  WARNING: prefixes_file not found: ', pf_path)
-            }
-          }
-          if (length(prefixes) > 0) {
-            pattern <- paste0('^(', paste(prefixes, collapse = '|'), ')')
-            matched <- products %>%
-              filter(grepl(pattern, hts10)) %>%
-              pull(hts10)
-          }
-        }
+        scope_evidence <- match_s232_heading_products(products, cfg, here())
+        matched <- scope_evidence$products
 
         heading_product_lists[[tariff_name]] <- list(
           products = matched,
+          scope_matches = scope_evidence$matches,
+          scope_source = scope_evidence$source_path,
+          scope_sha256 = scope_evidence$source_sha256,
           rate = cfg$default_rate %||% s232_rates$auto_rate,
           usmca_exempt = cfg$usmca_exempt %||% FALSE
         )
@@ -1525,6 +1490,9 @@ calculate_rates_for_revision <- function(
     wood_products <- unique(wood_products)
     mhd_products <- unique(mhd_products)
     semi_products <- unique(semi_products)
+
+    # Preserve extraction candidates before aggregate assumptions suppress them.
+    heading_candidate_lists <- heading_product_lists
 
     # Note 39(a)(1)-(9) excludes semi articles from stacking with 232 autos,
     # auto parts, MHD, MHD parts, copper, aluminum, and steel. The auto_parts
@@ -3565,6 +3533,12 @@ calculate_rates_for_revision <- function(
   #     share). Both are wanted: the weighted total drives the effective-rate
   #     series, the statutory total answers "what do I owe on this shipment".
   #     Gated by the same era so the two differ only in weighting.
+  # Note 33(g)/(h)(ii) requires actual parts use, not just the listed HTS.
+  # Read candidates captured before semiconductor/model suppression.
+  if (exists('heading_candidate_lists', inherits=FALSE)) {
+    rates <- mark_s232_auto_parts_scope(rates,
+      heading_candidate_lists$auto_parts$products %||% character(), s232_headings$auto_parts)
+  }
   rates <- compute_statutory_totals(rates, cty_china = CTY_CHINA,
                                     stacking_method = stacking_method,
                                     apply_eo = .eo_applies, threshold = .thr,
@@ -3771,6 +3745,7 @@ calculate_rates_for_revision <- function(
         # any future change to the rate-construction logic flows through
         # the variables captured here without touching the emitter.
         denorm_state <- list(
+          heading_candidates = if (exists('heading_candidate_lists', inherits=FALSE)) heading_candidate_lists else list(),
           country_ieepa = if (exists('denorm_state_country_ieepa', inherits = FALSE))
                             denorm_state_country_ieepa else NULL,
           s232_deals    = if (exists('denorm_state_s232_deals', inherits = FALSE))
