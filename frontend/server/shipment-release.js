@@ -15,12 +15,14 @@ export const RELEASE_MIGRATION = await fs.readFile(new URL('../migrations/001_sh
 const TABLES = {
   rates: ['hts10', 'country', 'revision', 'statutory_base_rate', 'statutory_rate_232', 'rate_301', 'statutory_rate_301', 'rate_s301_maritime', 'statutory_rate_s301_maritime'],
   products_base: ['hts10', 'revision', 'duty_expression_raw', 'rate_column2_raw'],
-  authority_country_rates: ['revision', 'authority', 'program', 'country'],
+  authority_country_rates: ['revision', 'authority', 'program', 'country','reciprocal_parameter','reciprocal_ch99','country_eo_parameter','country_eo_ch99'],
   authority_product_applicability: ['revision', 'authority', 'program', 'hts10', 'hts_prefix'],
   authority_exemptions: ['revision', 'authority'],
   authority_product_candidates: ['revision', 'authority', 'program', 'hts10', 'scope_code', 'scope_grain', 'source_path', 'source_sha256', 'status'],
   claim_effects: ['revision', 'claim_id', 'rule_id', 'authority', 'effect', 'target_reporting_code', 'hts10', 'country', 'valid_from', 'valid_until', 'source_ids_json', 'condition_json', 'source_locator', 'source_scope_sha256'],
   section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
+  ieepa_action_decisions: ['revision','authority','country','ch99_code','rate','rate_type','phase','terminated','decision','source_description','duty_expression','source_heading_sha256','hts_sha256','amendment_source_id','amendment_source_sha256','amendment_effective_from'],
+  section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256'],
 };
 
 export async function readReleaseManifest(manifestPath) {
@@ -82,6 +84,8 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       if (TABLES[table].some(k => !have.has(k))) throw new Error(`Missing required ${table} fields`);
       if (table === 'claim_effects' && TABLES[table].some(k => have.get(k) !== 'VARCHAR'))
         throw new Error('Invalid claim_effects field types');
+      if(table==='ieepa_action_decisions' && TABLES[table].some(k=>have.get(k)!==
+        (k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':'VARCHAR'))) throw new Error('Invalid IEEPA action field types');
       const signature = JSON.stringify([...have].sort(([a], [b]) => a.localeCompare(b)));
       if (types.has(table) && types.get(table) !== signature) throw new Error(`Inconsistent ${table} partition types`);
       types.set(table, signature);
@@ -121,6 +125,62 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
     const bundleHashes = new Set(revision.bundle.sources.map(s => s.sha256));
     if(hashes.some(r => !bundleHashes.has(r.pdf_sha256) || !bundleHashes.has(r.hts_sha256)))
       throw new Error('Section 301 decisions are absent from bundle sources');
+    const countryActions = `read_parquet([${revision.files.authority_country_rates.map(literal).join(',')}], hive_partitioning=false)`;
+    const invalidParameters = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${countryActions}
+      WHERE authority='ieepa_reciprocal' AND (reciprocal_parameter IS NULL OR country_eo_parameter IS NULL
+        OR NOT isfinite(reciprocal_parameter) OR NOT isfinite(country_eo_parameter)
+        OR reciprocal_parameter<0 OR country_eo_parameter<0
+        OR (reciprocal_parameter>0 AND NOT regexp_full_match(coalesce(reciprocal_ch99,''),'9903[.](01|02)[.][0-9]{2}'))
+        OR (country_eo_parameter>0 AND NOT regexp_full_match(coalesce(country_eo_ch99,''),'9903[.]01[.][0-9]{2}')))`)).getRowObjects()[0].n;
+    if(Number(invalidParameters)) throw new Error('Incomplete IEEPA action parameters');
+    const ieepa = `read_parquet([${revision.files.ieepa_action_decisions.map(literal).join(',')}], hive_partitioning=false)`;
+    const invalidIEEPA = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${ieepa} d WHERE
+      coalesce(d.authority,'')<>'ieepa_reciprocal' OR coalesce(d.country,'')=''
+      OR NOT regexp_full_match(coalesce(d.ch99_code,''),'9903[.](01|02)[.][0-9]{2}')
+      OR coalesce(d.rate_type,'') NOT IN ('floor','surcharge','passthrough')
+      OR (d.rate_type<>'passthrough' AND (d.rate IS NULL OR NOT isfinite(d.rate) OR d.rate<0))
+      OR coalesce(d.decision,'') NOT IN ('retired_heading','ordinary_action_selected','published_candidate')
+      OR d.terminated IS NULL OR (d.terminated AND d.decision<>'retired_heading')
+      OR coalesce(d.source_description,'')=''
+      OR (coalesce(trim(d.duty_expression),'')='' AND NOT
+        coalesce(d.phase='country_exclusion' AND d.rate_type='passthrough' AND d.rate=0,FALSE))
+      OR NOT regexp_full_match(coalesce(d.source_heading_sha256,''),'[a-f0-9]{64}')
+      OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')
+      OR (d.amendment_source_id IS NOT NULL AND (d.amendment_effective_from IS NULL
+        OR NOT regexp_full_match(coalesce(d.amendment_source_sha256,''),'[a-f0-9]{64}')))`)).getRowObjects()[0].n;
+    if(Number(invalidIEEPA)) throw new Error('Invalid IEEPA action decision');
+    const ieepaHashes = (await conn.runAndReadAll(`SELECT DISTINCT hts_sha256,amendment_source_sha256 FROM ${ieepa}`)).getRowObjects();
+    if(ieepaHashes.some(r=>!bundleHashes.has(r.hts_sha256)||(r.amendment_source_sha256&&!bundleHashes.has(r.amendment_source_sha256))))
+      throw new Error('IEEPA decisions are absent from bundle sources');
+    const metals = `read_parquet([${revision.files.section232_scope_decisions.map(literal).join(',')}], hive_partitioning=false)`;
+    const bad232 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${metals} d
+      LEFT JOIN ${products} p ON d.hts10=p.hts10 AND d.revision=p.revision
+      WHERE p.hts10 IS NULL OR coalesce(d.authority,'')<>'section_232'
+        OR NOT regexp_full_match(coalesce(d.scope_code,''),'([0-9]{4}|[0-9]{6}|[0-9]{8}|[0-9]{10})')
+        OR d.scope_grain IS DISTINCT FROM length(d.scope_code) OR NOT starts_with(d.hts10,d.scope_code)
+        OR coalesce(d.list_id,'') NOT IN ('i','ii','iii','iv','v','vi','vii','viii','ix','x','xi')
+        OR coalesce(d.metal,'') NOT IN ('aluminum','steel','copper') OR d.derivative IS NULL
+        OR d.source_locator IS DISTINCT FROM ('U.S. note 16(c)('||d.list_id||')')
+        OR NOT regexp_full_match(coalesce(d.source_text_sha256,''),'[a-f0-9]{64}')
+        OR NOT regexp_full_match(coalesce(d.pdf_sha256,''),'[a-f0-9]{64}')
+        OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')`)).getRowObjects()[0].n;
+    if(Number(bad232)) throw new Error('Invalid Section 232 source decision');
+    const metalHashes = (await conn.runAndReadAll(`SELECT DISTINCT pdf_sha256,hts_sha256 FROM ${metals}`)).getRowObjects();
+    if(metalHashes.some(r=>!bundleHashes.has(r.pdf_sha256)||!bundleHashes.has(r.hts_sha256)))
+      throw new Error('Section 232 decisions are absent from bundle sources');
+    const missingMetalCandidate = (await conn.runAndReadAll(`SELECT count(*) AS n FROM (
+      SELECT d.hts10,d.scope_code,d.pdf_sha256,'note16_c_'||d.list_id AS program_key FROM ${metals} d
+      EXCEPT SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_')
+    )`)).getRowObjects()[0].n;
+    const extraMetalCandidate = (await conn.runAndReadAll(`SELECT count(*) AS n FROM (
+      SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_')
+      EXCEPT SELECT d.hts10,d.scope_code,d.pdf_sha256,'note16_c_'||d.list_id AS program_key FROM ${metals} d
+    )`)).getRowObjects()[0].n;
+    if(Number(missingMetalCandidate)||Number(extraMetalCandidate)) throw new Error('Section 232 candidate inventory mismatch');
+    const metalTotal = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
+      JOIN (SELECT DISTINCT hts10,revision FROM ${metals}) d USING(hts10,revision)
+      WHERE r.statutory_rate_232 IS NOT NULL`)).getRowObjects()[0].n;
+    if(Number(metalTotal)) throw new Error('Section 232 conditional scope escaped as a statutory rate');
     const mismatch301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN (
       SELECT hts10,revision,min(rate) expected,min(rate)=max(rate) consistent,
         count(DISTINCT ch99_code) headings,bool_and(condition_text IS NOT NULL) needs_inputs

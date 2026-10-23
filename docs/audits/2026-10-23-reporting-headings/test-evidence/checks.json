@@ -1,0 +1,38 @@
+{
+  "tracker_base_sha": "58c067fc5f645cd6b72dab2649dd839973cc3c98",
+  "timeseries_rebuilt": false,
+  "motherduck_written": false,
+  "node": {
+    "passed": 151,
+    "failed": 0
+  },
+  "python": {
+    "passed": 34,
+    "failed": 0
+  },
+  "note16_r": {
+    "cases": 35,
+    "passed": true
+  },
+  "full_r": {
+    "ok_suites": 28,
+    "error_suites": 1,
+    "skip_suites": 1,
+    "not_release_qualified": true
+  },
+  "source_hashes": {
+    "src/ieepa_actions.R": "35ba5bcbca05ce205be532709fb645aaee51c9f3cb48b6b63c20e7f2dc5b751d",
+    "src/section232_note16_rules.py": "087013fac81cd03a7a8c198b8beb47c25ed2d3cea64d21ba944e339c157a26ec",
+    "src/section232_sources.py": "7039bd3234a2c38373f726f8128c13fbe65c52a99c96a35b5fac9936b1a4bc03",
+    "frontend/server/shipment-release.js": "7a0582dd06d0fc5ed7a45c12b27cdf7acec2cae9dea365a4e29b65e59f565d90"
+  },
+  "log_hashes": {
+    "note16-r.log": "46b3777663f891cd26a6d88c9a3bfa432df94b3f1acedd20de70e16a0439d608",
+    "node-suites.log": "78a34fb3ad27819fa02df063957aab1fb2b60c2f9914574cb1b8c4ef3779feb7",
+    "ieepa-r.log": "dc062758fad3ce297cb60e53df7d61220cb14d72fcf8e349b37a40ebea497c83",
+    "python-suites.log": "4e0b375f76acc4c4ca2701c36ddc67eab48f871ef8774a4bdec6b70caf91f60b",
+    "r-suites.log": "bfe7ba39b66c897218c938d03a235e4429b390dfd90c20aaef75df55f1d63803",
+    "release-contract.log": "8b92293d936d947f98784493c5b1b3b6cccb7b10cbc0ab01865440d6a25b213d",
+    "tracker-build.log": "e314663f85448cfa7824ca62634f0f057d424857bed9d954dffc8858116ebebd"
+  }
+}

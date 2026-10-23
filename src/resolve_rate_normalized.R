@@ -249,12 +249,36 @@ suppressPackageStartupMessages({
 }
 
 
+# Reproduce the emitted model parameters action by action. The ordinary
+# reciprocal exemption does not remove an independent emergency surcharge.
+.compute_ieepa_projection <- function(acr,exemptions,hts10,country,base_rate) {
+  required <- c('reciprocal_parameter','reciprocal_ch99','country_eo_parameter','country_eo_ch99')
+  if(!all(required %in% names(acr))) stop('Unsupported IEEPA action projection contract')
+  x <- unique(acr[acr$authority=='ieepa_reciprocal' & acr$country==country,])
+  if(!nrow(x)) stop('Missing IEEPA action parameters for origin: ',country)
+  if(nrow(x)!=1 || anyNA(x[c('reciprocal_parameter','country_eo_parameter','rate_type')]))
+    stop('Conflicting or incomplete IEEPA action parameters')
+  rec_exempt <- .compound_exemption_share(exemptions,'ieepa_reciprocal',hts10,country,'ieepa_reciprocal_action')
+  rec <- if(rec_exempt==1) 0 else
+    .apply_rate_type(x$reciprocal_parameter,x$rate_type,base_rate) * (1-rec_exempt)
+  eo <- x$country_eo_parameter * (1-.compound_exemption_share(exemptions,'ieepa_reciprocal',hts10,country,x$country_eo_ch99))
+  if(anyNA(c(rec,eo))) stop('Incomplete inputs for IEEPA action projection')
+  codes <- c(if(!is.na(rec)&&rec>0) x$reciprocal_ch99, if(eo>0) x$country_eo_ch99)
+  list(rate=rec+eo,ch99_code=if(length(codes)==1) codes else NA_character_,
+    reporting_codes=codes,deriv_type=NA_character_)
+}
+
 # Layer 4 exemption compounding. Given a set of exemption rows that apply to
 # a (product, country, authority), returns the cumulative exemption share in
 # [0, 1] where 0 means "no exemption" and 1 means "full exemption". Compound
 # rule: share = 1 - prod(1 - share_i).
 .compound_exemption_share <- function(exemptions, auth, hts10, country, program = NULL) {
   if (is.null(exemptions) || nrow(exemptions) == 0) return(0)
+  if(identical(auth,'ieepa_reciprocal')) {
+    if(!'program' %in% names(exemptions)) stop('Missing IEEPA action exemption scope')
+    exemptions <- exemptions[is.na(exemptions$program) | (!is.na(program) & exemptions$program==program),,drop=FALSE]
+    if(!nrow(exemptions)) return(0)
+  }
   # An exclusion from one Section 301 investigation does not remove another
   # investigation's duty. Maritime exclusions require explicit program scope.
   if (identical(program, 's301_maritime')) {
@@ -418,13 +442,13 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
   if (nrow(winners) > 0) {
     for (i in seq_len(nrow(winners))) {
       w <- winners[i, ]
-      result <- .compute_authority_rate(w, acr, pmc_row, country,
-                                        base_rate = base_rate)
+      result <- if(w$authority=='ieepa_reciprocal') .compute_ieepa_projection(acr,ae,hts10,country,base_rate) else
+        .compute_authority_rate(w,acr,pmc_row,country,base_rate=base_rate)
       if (is.na(result$rate) || result$rate <= 0) next
       auth <- w$authority
 
       # Apply layer-4 exemptions
-      ex_share <- .compound_exemption_share(ae, auth, hts10, country, w$program)
+      ex_share <- if(auth=='ieepa_reciprocal') 0 else .compound_exemption_share(ae,auth,hts10,country,w$program)
       if (ex_share >= 1 - 1e-12) next
       key <- if(w$program=='s301_maritime') 'section_301_maritime' else auth
       effective[[key]] <- result$rate * (1 - ex_share)

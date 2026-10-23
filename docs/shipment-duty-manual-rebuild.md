@@ -142,12 +142,12 @@ Section 301 coverage: the implemented note 20 and direct-heading exclusions do n
 complete the other investigations, claims and Chapter 98 interactions. Do not substitute a test bundle. Source hash artifacts
 must exist during composition; serving subsequently uses the stored bundle.
 
-Release manifests now require `sail.tariff-release/v3`, the decision and claim-effect partitions,
+Release manifests now require `sail.tariff-release/v4`, the decision and claim-effect partitions,
 and the new rate fields. Preparation validates their relationships locally and
-does not activate anything. The rule/result API contract remains v1. An old v1/v2
+does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3
 release is not accepted by the new reader: rollback across this boundary requires
 the compatible previous code and release, not only an active-ID change. Within
-v3, retain the previous validated release for the existing atomic rollback path.
+v4, retain the previous validated release for the existing atomic rollback path.
 
 
 The source-backed exclusions and five retroactive amendments are part of this
@@ -155,3 +155,32 @@ same ordinary rebuild. Original-grant PDFs/text, extension notices and amendment
 metadata are versioned in `resources/legal_evidence/`; altered or absent hashes
 fail extraction. Read the [exclusion audit](audits/2026-10-23-section301-exclusions/README.md)
 for verified scope, unresolved source boundaries and remaining legal gates.
+
+## Metals headings and independent IEEPA actions (release v4)
+
+The normal build also emits `section232_scope_decisions.parquet`,
+`ieepa_action_decisions.parquet`, and separate reciprocal/independent-EO
+parameters in `authority_country_rates.parquet`. Every revision needs typed
+partitions, including an empty partition when that particular regime is absent.
+Release preparation checks product/candidate/source relationships and rejects
+missing artifacts or mixed versions. It does not certify legal completeness.
+
+Post-April metals revisions additionally emit `section232_note16_rules.json`;
+IEEPA source extraction emits `ieepa_evidence_sources.json`. Compose the relevant
+fragments into the same revision's reviewed base bundle, alongside its Section
+301 and other action fragments. The note 16 fragment requires exact snapshot
+intervals and carries conditional source discrepancies. It grants no complete
+Section 232 coverage. Its column-1 duty amount must be the actual resolved
+shipment duty, including specific/compound quantities and any verified preference.
+Do not substitute a modeled base or aggregate AVE.
+
+Read the [reporting-heading findings and remaining tasks](audits/2026-10-23-reporting-headings/README.md)
+and [IEEPA interval limitation](audits/2026-10-23-ieepa-actions/README.md) before
+interpreting a rebuild as complete historical correction. In particular, exact
+November 14 legal-event splitting and the remaining authorities/consumers still
+need implementation. New tables and a successful rebuild alone do not close them.
+
+Existing production data was only read. Rollback of this local source change is
+a local revert on `wjr_dev`; no active MotherDuck identifier needs restoring.
+After a later approved deployment, retain both the preceding validated release
+and its compatible reader. Never activate partly regenerated partitions.

@@ -1,0 +1,124 @@
+[Federal Register Volume 91, Number 82 (Wednesday, April 29, 2026)]
+[Notices]
+[Pages 23056-23057]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2026-08297]
+=======================================================================
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+Bureau of Industry and Security
+[Docket No. 260424-0111]
+XRIN 0694-XC158
+Notice of Technical Corrections to the Harmonized Tariff Schedule
+of the United States for Duties Imposed by Presidential Proclamation
+11021
+AGENCY: Bureau of Industry and Security, Office of Strategic Industries
+and Economic Security, U.S. Department of Commerce.
+ACTION: Notice.
+-----------------------------------------------------------------------
+SUMMARY: The President issued Proclamation 11021 ``Strengthening
+Actions Taken to Adjust Imports of Aluminum, Steel, and Copper Into the
+United States,'' (Presidential Proclamation) on April 2, 2026, to
+adjust imports of metal products to address more effectively threats to
+the national security. In the Presidential Proclamation, the President
+authorized the Secretary of Commerce (the Secretary) to publish
+modifications to the Harmonized Tariff Schedule of the United States
+(HTSUS) to effectuate or implement the Presidential Proclamation. The
+Secretary also is authorized to make any technical corrections to any
+Annex of the Presidential Proclamation. This notice issues two
+technical corrections to Annex IV of the Proclamation and a
+clarification.
+DATES: These technical corrections and clarification are effective with
+respect to certain products that are entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+Eastern Time on April 6, 2026.
+SUPPLEMENTARY INFORMATION:
+Background
+On April 2, 2026, the President issued the Presidential
+Proclamation ``Strengthening Actions Taken to Adjust Imports of
+Aluminum, Steel, and Copper into the United States'' (Proclamation
+11021 of April 2, 2026) (91 FR 18201).
+The Presidential Proclamation instructed the Secretary and the U.S.
+Trade Representative, in consultation with the Chair of the U.S.
+International Trade Commission, the Commissioner of U.S. Customs and
+Border Protection (CBP), and the heads of other relevant executive
+departments and agencies, to determine whether any modifications to the
+HTSUS are necessary to effectuate or implement this proclamation or any
+actions taken pursuant to the Proclamation. The Presidential
+Proclamation also authorized the Secretary and the Trade Representative
+to make any technical corrections to any Annex to that Proclamation.
+This notice provides for two technical corrections to Annex IV of
+the Presidential Proclamation and issues a clarification. Both
+corrections are contained in Annex I to this notice, which amends Annex
+IV of the Presidential Proclamation. The first correction is to include
+a new subheading in Chapter 99 of the HTSUS. The Presidential
+Proclamation imposes duties only on imported goods that are aluminum,
+steel, or copper articles or their derivatives. Filers should use this
+new subheading for goods that are imported under an HTSUS heading,
+subheading, or statistical reporting number listed in subparts (c)(i)-
+(x) of U.S. Note 16 in subchapter III of Chapter 99 of the HTSUS (Note
+16) that do not contain any aluminum, steel, or copper because it is
+not an aluminum, steel or copper article or one of their derivatives,
+and therefore, the duties imposed do not apply.
+The second technical correction is to correct an inconsistency in
+part (e) of Note 16. This part was intended to capture subdivisions
+(c)(ii), (iv), and (vi)-(viii) of Note 16. The first paragraph of part
+(e) and the article description in part 2 already include subdivisions
+(c)(ii), (iv), and (vi)-(viii) with respect to Heading 9903.82.06. This
+technical correction is made by striking the second paragraph of
+subpart (e) to Note 16.
+In June of last year, the President finalized the EPD, and in
+Proclamation 10947 of June 3, 2025 (Adjusting Imports of Aluminum and
+Steel Into the United States), the President provided for a lower 25
+percent tariff rate on U.K.-origin steel as part of the EPD. Since last
+June, U.K.-origin steel made by Tata Steel UK that contained steel for
+which the reported country of melt and pour was the Netherlands has
+qualified for the lower section 232 steel tariff rate on U.K.-origin
+steel. This notice clarifies that U.K.-origin steel articles made by
+Tata Steel UK for which the reported country of melt and pour is the
+Netherlands can continue to be imported under the lower section 232
+steel tariff rate for U.K.-origin steel and may be declared under
+Heading 9903.82.04 until January 1, 2028. Additionally, U.K.-origin
+steel articles made by Tata Steel UK for which the reported country of
+melt and pour is the Netherlands may also count toward the 95 percent
+of steel melted and poured under note 16(d) of the HTSUS (with respect
+to products under Headings
+[[Page 23057]]
+9903.82.04 and 9903.82.05) until January 1, 2028.
+Annex 1
+A. Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern time on April 6, 2026, subchapter III of chapter 99 of the
+Harmonized Tariff Schedule of the United States (HTSUS) is modified as
+follows:
+1. U.S. note 16 is modified:
+a. by deleting ``headings 9903.85.67'' in subdivision (a) and
+inserting ``headings 9903.82.01, 9903.85.67,'' in lieu thereof and
+b. by deleting ``Heading 9903.82.06 applies to articles
+classifiable in the provisions provided for in subdivisions (c)(ii),
+(iv), (vi) and (vii) of this note.'' in subdivision (e).
+2. The following new heading is inserted in numerical sequence,
+with the material in each new heading inserted in the columns of the
+HTSUS labeled ``Heading/Subheading'', ``Article Description'', ``Rates
+of Duty 1--General'', ``Rates of Duty 1--Special'' and ``Rates of Duty
+2'', respectively:
+----------------------------------------------------------------------------------------------------------------
+Rates of duty
+-----------------------------------------------------------------
+Heading/ subheading     Article description                      1
+-------------------------------------------           2
+General              Special
+----------------------------------------------------------------------------------------------------------------
+``9903.82.01............  Articles provided     No change...........  No change..........  No change''.
+for in subdivision
+(c) of U.S. note 16
+to this subchapter
+that do not contain
+any aluminum,
+steel, or copper. .
+. .
+----------------------------------------------------------------------------------------------------------------
+Jessica Curyto,
+Deputy Assistant Secretary for Technology Security.
+[FR Doc. 2026-08297 Filed 4-27-26; 11:15 am]
+BILLING CODE 3510-33-P

@@ -410,12 +410,12 @@ floor_rates:
 
 # --- Swiss/Liechtenstein Framework (EO 14346) ---
 # 15% floor structure per FR 2025-23316 (90 FR 59281), effective Nov 14, 2025.
-# The surcharge -> floor override in 06_calculate_rates.R only applies within
-# this date window. If finalized is true, the override has no expiry.
-# Set finalized to true once the agreement is confirmed (removes expiry constraint).
+# FR 2025-23316 provides review/reconsideration after March 31, not automatic
+# expiry. Ordinary rates are extracted from the notice and revision headings.
 swiss_framework:
   effective_date: '2025-11-14'
-  expiry_date: '2026-03-31'
+  review_date: '2026-03-31'
+  expiry_date: null
   finalized: false
   countries: ['4419', '4411']   # Switzerland, Liechtenstein
 

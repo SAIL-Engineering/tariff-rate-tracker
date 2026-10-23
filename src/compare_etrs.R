@@ -114,8 +114,8 @@ for (d in comparison_dates) {
   ieepa_inv <- pp$IEEPA_INVALIDATION_DATE
   if (!is.null(ieepa_inv)) {
     ieepa_inv <- as.Date(ieepa_inv)
-    if (d >= ieepa_inv) {
-      cat('  IEEPA invalidated as of', as.character(ieepa_inv), '— zeroing reciprocal + fentanyl\n')
+    if (has_ieepa_collection_ended(d)) {
+      cat('  IEEPA collection ended by', as.character(d), '— zeroing reciprocal + fentanyl\n')
       if ('rate_ieepa_recip' %in% names(rates)) {
         rates$rate_ieepa_recip <- 0
         rates$rate_ieepa_fent <- 0

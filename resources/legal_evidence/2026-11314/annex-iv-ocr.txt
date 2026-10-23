@@ -1,0 +1,452 @@
+34134
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+Annex IV
+
+A. Effective with respect to goods entered for consumption, or withdrawn from warehouse for
+consumption, on or after 12:01 a.m. eastern daylight time on June 8, 2026, subchapter III of
+chapter 99 of the Harmonized Tariff Schedule of the United States (HTSUS) is modified as
+follows:
+
+1. Subdivision (c) of U.S. note 16 is modified by:
+a. inserting in subdivision (vi) the following subheading in numerical order:
+3701.30.00;
+b. deleting from subdivision (vi) the following subheading:
+8708.29.21;
+
+c. deleting the following provisions from subdivision (vi) and inserting the same
+provisions in subdivision (ix) in numerical order:
+
+8415.90.8010 8415.90.8020 8415.90.8045 8415.90.8085;
+d. inserting in subdivision (vii) the following subheadings in numerical order:
+9403.20.0075 9403.20.0082 9403.99.9040;
+
+e. deleting the following subheadings from subdivision (vii) and inserting the same
+subheadings in subdivision (x) in numerical order:
+
+8407.90.10 8415.10.60 8415.10.90 8415.81.01
+8415.82.01 8415.90.80 8419.81.50 8432.10.00
+8432.90.00 8433.20.00 8433.51.00 8433.59.00
+8433.90.50 8479.89.55 8479.89.65 8516.29.00
+8701.30.10 8701.91.10 8701.92.10 8701.93.10
+8701.94.10 8701.95.10 8703.21.01 8706.00.30
+8708.40.30 8708.40.60 8708.92.10 8708.92.60
+8708.93.15 8708.93.30 8708.99.23 8716.80.10
+8716.90.10
+
+f. deleting the following subheadings from subdivision (vii):
+
+8427.10.40 8427.10.80 8427.20.40 8427.20.80
+8427.90.00 8429.11.00 8429.19.00 8429.20.00
+8429.30.00 8429.40.00 8429.51.10 8429.51.50
+8429.52.10 8429.52.50 8429.59.10 8429.59.50
+
+8431.20.00 8431.42.00 8431.49.90 8701.10.01
+
+34135
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+8701.30.50 8701.91.50 8701.92.50 8701.93.50
+8701.94.50 8701.95.50 8705.10.00 8705.20.00
+8708.29.21;
+
+g. inserting in subdivision (ix) the following subheading in numerical order:
+8708.29.2130;
+h. inserting in subdivision (x) the following subheading in numerical order:
+
+8708.29.2120; and
+i. inserting new subdivision (xi) in numerical order:
+
+“(xi) Derivative steel articles:
+
+8427.10.40 8427.10.80 8427.20.40 8427.20.80
+8427.90.00 8429.11.00 8429.19.00 8429.20.00
+8429.30.00 8429.40.00 8429.51.10 8429.51.50
+8429.52.10 8429.52.50 8429.59.10 8429.59.50
+8431.20.00 8431.42.00 8431.49.90 8701.10.01
+8701.30.50 8701.91.50 8701.92.50 8701.93.50
+8701.94.50 8701.95.50 8705.10.00 8705.20.00”.
+
+Subdivision (e) of U.S. note 16 is modified by:
+
+a. deleting “95 percent” in each place it appears and inserting “85 percent” in lieu
+thereof;
+
+b. deleting “and 9903.82.15” and inserting “, 9903.82.15, 9903.82.23 and
+9903.82.24” in lieu thereof;
+
+c! deleting “in subdivisions (c)(iv), (vii) and (x)” and inserting “in subdivisions
+(c)(iv), (vii), (x) and (xi)” in lieu thereof; and
+
+d. deleting “For articles for which the applicable column 1 duty rate is less than 10
+percent, the sum of the column 1 duty rate and the additional ad valorem rate of
+duty pursuant to heading 9903.82.07 will be 10 percent. For articles for which the
+applicable column 1 duty rate is 10 percent or higher, heading 9903.82.08 applies
+and no additional duty is due pursuant to heading 9903.82.07.” and inserting
+“Headings 9903.82.23 and 9903.82.24 apply to articles meeting the requirements
+of subdivision (k) of this note. For articles for which the applicable column 1 duty
+rate is less than 10 percent, heading 9903.82.07 or 9903.82.23 applies and the sum
+of the column | duty rate and the additional ad valorem rate of duty will total 10
+
+34136
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+percent. For articles for which the applicable column 1 duty rate is 10 percent or
+higher, heading 9903.82.08 or 9903.82.24 applies.” in lieu thereof.
+
+3. Subdivision (f) of U.S. note 16 is modified by deleting the existing text and inserting the
+following in lieu thereof:
+
+“Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.10 and
+9903.82.11 apply to articles provided for in subdivisions (c)(ix)—(x) of this note that do not meet
+the requirements described in subdivision (e) of this note. Headings 9903.82.25 and 9903.82.26
+apply to articles that meet the requirements of subdivision (k) of this note but do not meet the
+requirements described in subdivision (e) of this note. For articles for which the applicable
+column | duty rate is less than 15 percent, heading 9903.82.10 or 9903.82.25 applies and the
+sum of the column 1| duty rate and the additional ad valorem rate of duty is 15 percent ad
+valorem. For articles for which the applicable column 1 duty rate is 15 percent or higher, heading
+9903.82.11 or 9903.82.26 applies.”
+
+4. New subdivision (j) to U.S. note 16 is inserted in alphabetical order:
+
+“G) Headings 9903.82.20 and 9903.82.21 apply to derivative steel articles provided for in
+subdivision (c)(xi) of this note that are eligible for special tariff treatment under the United
+States-Mexico-Canada Agreement. Heading 9903.82.20 applies to the non-U.S. content of such
+derivative steel articles and to U.S. content that exceeds 40 percent of the value of such
+derivative steel articles. Heading 9903.82.21 applies to the U.S. content that does not exceed 40
+percent of the value of such derivative steel articles. For the purposes of this note, U.S. content
+refers to the value of the article attributable to parts produced in the United States. Importers of
+such derivative steel articles shall identify the amount of U.S. content in each article imported
+into the United States. The non-U.S. content of the article shall be calculated by subtracting the
+value of the U.S. content in the article from the total value of the article.
+
+Any importer entering an article covered by this subdivision shall provide any information that
+may be required, and in such form, as is deemed necessary by CBP in order to permit the
+administration of this heading.”
+
+5. New subdivision (k) to U.S. note 16 is inserted in alphabetical order:
+
+“(k) Except as provided in heading 9903.85.68, headings 9903.82.23—-9903.82.26 apply to
+parts classifiable in the provisions of subdivision (c)(vi)-(viii) of this note that are in chapters 84,
+85, or 87 of the HTSUS that will be used exclusively in the manufacturing of agricultural
+equipment or fixed industrial equipment provided for in subdivision (c)(ix)—(x) of this note or
+mobile industrial equipment provided for in subdivision (c)(xi) of this note. Headings
+9903.82.23—9903.82.26 do not apply to products of any country identified in general note 3(b).”
+
+6. The following new headings are inserted in numerical sequence, with the material in each
+new heading inserted in the columns of the HTSUS labeled “Heading/Subheading”,
+“Article Description”, “Rates of Duty 1-General”, “Rates of Duty 1-Special” and “Rates
+of Duty 2”, respectively:
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+34137
+
+Heading /
+Subheading
+
+Article Description
+
+Rates of Duty
+
+1
+
+General
+
+Special
+
+“9903.82.20
+
+Derivative steel articles
+as provided in
+subdivision (j) of U.S.
+note 16 to this
+subchapter......
+
+The duty
+provided in
+the applicable
+subheading +
+a duty of 25%
+
+The duty
+provided in the
+applicable
+subheading + a
+duty of 25%
+
+No change
+
+9903.82.21
+
+Derivative steel articles
+as provided in
+subdivision (j) of U.S.
+note 16 to this
+subchapter......
+
+No change
+
+No change
+
+No change
+
+9903.82.22
+
+Derivative steel articles
+the product of
+Argentina, Ecuador,
+
+El Salvador,
+Guatemala, Japan, the
+Republic of Korea,
+Liechtenstein,
+Switzerland, Taiwan,
+the United Kingdom, or
+a member nation
+
+of the European Union,
+as provided for in
+subdivision (c)(x1) of
+U.S. note 16 to this
+subchapter......
+
+15%
+
+15%
+
+No change
+
+9903.82.23
+
+Articles of copper and
+derivative aluminum
+and steel articles with an
+ad valorem (or ad
+valorem equivalent) rate
+of duty under column 1
+less than 10 percent, as
+provided for in
+subdivisions (e) and (k)
+of U.S. note 16 to this
+subchapter......
+
+10%
+
+10%
+
+No change
+
+
+34138
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+9903.82.24 Articles of copper and No change No change No change
+derivative aluminum
+and steel articles with an
+ad valorem (or ad
+valorem equivalent) rate
+of duty under column 1
+equal to or greater than
+10 percent, as provided
+for in subdivisions (e)
+and (k) of U.S. note 16
+to this subchapter......
+
+9903.82.25 Articles of copper and 15% 15% No change
+derivative aluminum
+and steel articles with an
+ad valorem (or ad
+valorem equivalent) rate
+of duty under column 1
+less than 15 percent, as
+provided for in
+
+subdivisions (f) and (k)
+of U.S. note 16 to this
+subchapter......
+9903.82.26 Articles of copper and No change No change No
+derivative aluminum change”
+
+and steel articles with an
+ad valorem (or ad
+valorem equivalent) rate
+of duty under column 1
+equal to or greater than
+15 percent, as provided
+for in subdivisions (f)
+and (k) of U.S. note 16
+to this subchapter......
+
+7. Subdivision (aa)(v)(1) of U.S. note 2 is modified by deleting “9903.82.04—9903.82.19”
+
+and inserting “9903.82.04—-9903.82.26” in lieu thereof.
+
+8. U.S. note 16 is modified:
+
+a. in subdivision (a), by deleting “9903.82.02—9903.82.19” and inserting
+“9903.82.02-9903.82.26” in lieu thereof;
+
+b. in subdivision (b), by deleting “9903.82.02—9903.82.19” and inserting
+“9903.82.02-9903.82.26” in lieu thereof;
+
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents 34139
+
+10.
+
+11.
+
+12.
+
+c. in subdivision (c):
+
+1. by deleting “9903.82.02—9903.82.19” and inserting “9903.82.02—9903.82.26”
+in lieu thereof;
+
+2. by deleting “9903.82.02 and 9903.82.04-9903.82.17” and inserting
+“9903.82.02, 9903.82.04—-9903.82.17 and 9903.82.20—9903.82.26” in lieu
+thereof; and
+
+d. in subdivision (g), by deleting “(c)(vi)-(viii)” and inserting “(c)(vi)-(viii) and
+(xi)” in lieu thereof.
+
+U.S. note 33 is modified by deleting “9903.82.04—9903.82.19” in each place it appears
+and inserting “9903.82.04—9903.82.26” in lieu thereof.
+
+USS. note 38 is modified by deleting “9903.82.04—-9903.82.19” in each place it appears
+and inserting “9903.82.04-9903.82.26” in lieu thereof.
+
+Subdivision (a)(5) of U.S. note 39 is modified by deleting “9903.82.04—9903.82.19” and
+inserting “9903.82.04—9903.82.26” in lieu thereof.
+
+Heading 9903.82.06 is modified by deleting “(viii) and (e)” from the article description
+and inserting “(viii), (xi) and (e)” in lieu thereof.
+
+. Heading 9903.82.09 is modified by deleting the article description and inserting the
+
+following in lieu thereof:
+
+“Except as provided for in headings 9903.82.16, 9903.82.20—9903.82.26 and 9903.85.68, articles
+of copper and derivative aluminum and steel articles, as provided for in subdivisions (c)(vi)—
+(viii) and (xi) of U.S. note 16 to this subchapter”.
+
+14.
+
+15.
+
+Heading 9903.82.15 is modified by deleting “(viii)” from the article description and
+inserting “(viii), (xi)” in lieu thereof.
+
+Heading 9903.82.16 is modified by deleting “(viii)” from the article description and
+inserting “(viii) and (xi)” in lieu thereof.
+
+B. Effective with respect to goods entered for consumption, or withdrawn from warehouse for
+consumption, on or after 12:01 a.m. eastern time on January 1, 2028, subchapter III of
+chapter 99 of the Harmonized Tariff Schedule of the United States (HTSUS) is modified as
+follows:
+
+1.
+
+2.
+
+Subdivision (aa)(v)(1) of U.S. note 2 is modified by deleting “9903.82.04-9903.82.26”
+and inserting “9903.82.04—9903.82.19” in lieu thereof.
+
+U.S. note 16 is modified:
+
+34140 Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+a. in subdivision (a), by deleting “9903.82.02—9903.82.26” and inserting
+9903.82.02—-9903.82.19” in lieu thereof;
+
+b. in subdivision (b), by deleting “9903.82.02—9903.82.26” and inserting
+9903.82.02—-9903.82.19” in lieu thereof;
+
+c. in subdivision (c):
+
+1. by deleting “9903.82.02-9903.82.26” and inserting “9903.82.02-9903.82.19”
+in lieu thereof; and
+
+2. by deleting “9903.82.02, 9903.82.04-9903.82.17 and 9903.82.20-9903.82.26”
+and inserting “9903.82.02 and 9903.82.04—9903.82.17” in lieu thereof;
+
+d. by inserting in numerical order the provisions enumerated in subdivision (c)(xi)
+into the list of provisions of subdivision (c)(vii);
+
+e. by deleting subdivision (c)(x1);
+
+f. in subdivision (e), by deleting “For derivative articles provided for in subdivisions
+(c)(ii), (vi), and (ix), at least 85 percent of the aluminum content of the article
+must be composed of aluminum that was smelted and cast in the United States.
+For derivative articles provided for in subdivisions (c)(iv), (vii), (x) and (xi)” and
+inserting “For derivative articles provided for in subdivisions (c)(ii) and (vi), at
+least 85 percent of the aluminum content of the article must be composed of
+aluminum that was smelted and cast in the United States. For derivative articles
+provided for in subdivisions (c)(iv) and (vii)” in lieu thereof;
+
+g. in subdivision (e), by deleting “Headings 9903.82.23 and 9903.82.24 apply to
+articles meeting the requirements of subdivision (k). For articles for which the
+applicable column 1 duty rate is less than 10 percent, heading 9903.82.07 or
+9903.82.23 applies and the sum of the column 1 duty rate and the additional ad
+valorem rate of duty will be 10 percent. For articles for which the applicable
+column 1 duty rate is 10 percent or higher, heading 9903.82.08 or 9903.82.24
+applies.” and inserting “For articles for which the applicable column 1 duty rate is
+less than 10 percent, the sum of the column 1 duty rate and the additional ad
+valorem rate of duty pursuant to heading 9903.82.07 will be 10 percent. For
+articles for which the applicable column 1 duty rate is 10 percent or higher,
+heading 9903.82.08 applies and no additional duty is due pursuant to heading
+9903.82.07.” in lieu thereof;
+
+h. in subdivision (f), by deleting the existing text and inserting the following in lieu
+thereof:
+
+Federal Register / Vol. 91, No. 107/Thursday, June 4, 2026/ Presidential Documents
+
+34141
+
+“Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.10 and
+9903.82.11 apply to articles provided for in subdivisions (c)(ix)—(x) of this note that do not meet
+the requirements described in subdivision (e) of this note. For articles for which the applicable
+column 1 duty rate is less than 15 percent, the sum of the column 1 duty rate and the additional
+ad valorem rate of duty pursuant to heading 9903.82.10 will total 15 percent ad valorem. For
+
+articles for which the applicable column 1 duty rate is 15 percent or higher, heading 9903.82.11
+
+applies and no additional duty is due pursuant to heading 9903.82.10.”
+
+8.
+
+9.
+
+i. in subdivision (g), by deleting “ and (x1)”;
+j. deleting subdivision (j); and
+k. deleting subdivision (k).
+
+U.S. note 33 is modified by deleting “9903.82.04—9903.82.26” in each place it appears
+and inserting “9903.82.04—9903.82.19” in lieu thereof.
+
+U.S. note 38 is modified by deleting “9903.82.04—9903.82.26” in each place it appears
+and inserting “9903.82.04—9903.82.19” in lieu thereof.
+
+Subdivision (a) of U.S. note 39 is modified by deleting “9903.82.04—9903.82.26” and
+inserting “9903.82.04—-9903.82.19” in lieu thereof.
+
+Heading 9903.82.06 is modified by deleting “(viii), (xi) and (e)” from the article
+description and inserting “(viii) and (e)” in lieu thereof.
+
+Heading 9903.82.09 is modified by deleting “, 9903.82.20—9903.82.26” and “ and (xi)”
+from the article description.
+
+Heading 9903.82.15 is modified by deleting “, (x1)”.
+
+Heading 9903.82.16 is modified by deleting “ and (xi)”.
+
+10. Headings 9903.82.20—9903.82.26 are terminated and deleted from the HTSUS.
+
+[FR Doc. 2026-11314
+Filed 6-3-26; 11:15 am]
+Billing code 7020-02-C

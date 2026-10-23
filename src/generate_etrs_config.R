@@ -714,9 +714,8 @@ generate_ieepa_reciprocal_yaml <- function(snapshot, date, policy_params, output
   date <- as.Date(date)
 
   # Check if IEEPA has been invalidated by this date
-  invalidation_date <- policy_params$IEEPA_INVALIDATION_DATE
-  if (!is.null(invalidation_date) && date >= invalidation_date) {
-    message('  IEEPA invalidated as of this date, skipping ieepa_reciprocal.yaml')
+  if (has_ieepa_collection_ended(date)) {
+    message('  IEEPA collection ended by this date, skipping ieepa_reciprocal.yaml')
     return(invisible(NULL))
   }
 
@@ -883,9 +882,8 @@ generate_ieepa_fentanyl_yaml <- function(snapshot, date, policy_params, output_d
   date <- as.Date(date)
 
   # Check IEEPA invalidation
-  invalidation_date <- policy_params$IEEPA_INVALIDATION_DATE
-  if (!is.null(invalidation_date) && date >= invalidation_date) {
-    message('  IEEPA invalidated, skipping ieepa_fentanyl.yaml')
+  if (has_ieepa_collection_ended(date)) {
+    message('  IEEPA collection ended, skipping ieepa_fentanyl.yaml')
     return(invisible(NULL))
   }
 

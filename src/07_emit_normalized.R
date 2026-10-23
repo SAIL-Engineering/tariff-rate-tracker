@@ -234,24 +234,14 @@ emit_authority_country_rates <- function(ieepa_rates, fentanyl_rates, s232_rates
   #
   # SOURCE OF TRUTH: denorm_state$country_ieepa.
   #
-  # The denormalized pipeline (calculate_rates_for_revision in
-  # src/06_calculate_rates.R) builds country_ieepa via a multi-step
-  # aggregation: per-phase max + cross-phase sum + floor-country override
-  # + universal-baseline fill. That logic is order-sensitive and the only
-  # place in the codebase that knows the rules. We deliberately do NOT
-  # replicate it here — instead we receive the post-aggregation tibble
-  # via denorm_state and serialize it as layer 2 directly. This keeps the
-  # normalized output strictly downstream of denorm so any future regulatory
-  # change (new phase, new floor mechanism, new baseline) flows through one
-  # code path and propagates to the normalized output for free.
-  #
-  # If denorm_state is missing (a bare-emitter caller), we have nothing to
-  # write — better to skip than to risk drift. The reemit-from-cache path
-  # in 00_build_timeseries.R must persist denorm_state alongside the parse
-  # caches; see Phase 4 cleanup notes.
+  # The build selects live source actions without modifying their printed
+  # rates. Retain separate reciprocal and country-EO parameters/headings; the
+  # legacy combined field remains an aggregate adapter, not a shipment rule.
   if (!is.null(denorm_state) && !is.null(denorm_state$country_ieepa) &&
       nrow(denorm_state$country_ieepa) > 0) {
     ci <- denorm_state$country_ieepa
+    # Combined legacy aggregate projection; independent action columns below
+    # carry the legal formulas and their own exemption scopes.
     # country_ieepa may not carry a ch99_code column (the denorm pipeline
     # currently aggregates by census_code without retaining one). Default
     # to NA so the parquet schema is stable across revisions.
@@ -265,6 +255,10 @@ emit_authority_country_rates <- function(ieepa_rates, fentanyl_rates, s232_rates
         country        = as.character(census_code),
         ch99_code      = as.character(ch99_code),
         statutory_rate = as.numeric(ieepa_country_rate),
+        reciprocal_parameter = as.numeric(ieepa_country_rate-country_eo_rate),
+        reciprocal_ch99 = as.character(ieepa_recip_ch99),
+        country_eo_parameter = as.numeric(country_eo_rate),
+        country_eo_ch99 = as.character(country_eo_ch99),
         rate_type      = as.character(ieepa_type),
         phase          = NA_character_,
         valid_from     = vf,
@@ -399,6 +393,8 @@ emit_authority_country_rates <- function(ieepa_rates, fentanyl_rates, s232_rates
   }
 
   df <- bind_rows(rows)
+  for(col in c('reciprocal_parameter','country_eo_parameter')) if(!col %in% names(df)) df[[col]] <- rep(NA_real_,nrow(df))
+  for(col in c('reciprocal_ch99','country_eo_ch99')) if(!col %in% names(df)) df[[col]] <- rep(NA_character_,nrow(df))
   .write_parquet_safe(
     df,
     file.path(output_dir, revision_id, 'authority_country_rates.parquet')
@@ -991,7 +987,7 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
     rows[['annex_a']] <- tibble(
       revision        = revision_id,
       authority       = 'ieepa_reciprocal',
-      program         = NA_character_,
+      program         = 'ieepa_reciprocal_action',
       hts10           = as.character(ieepa_exempt_products),
       hts_prefix      = NA_character_,
       country         = NA_character_,
@@ -1011,7 +1007,7 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
       transmute(
         revision        = revision_id,
         authority       = 'ieepa_reciprocal',
-        program         = NA_character_,
+        program         = 'ieepa_reciprocal_action',
         hts10           = NA_character_,
         hts_prefix      = as.character(hts8),
         country         = NA_character_,
@@ -1023,6 +1019,17 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
         valid_from      = vf,
         valid_until     = vu
       )
+  }
+
+  if(!is.null(denorm_state$country_eo_exemptions)&&nrow(denorm_state$country_eo_exemptions)>0 &&
+      !is.null(denorm_state$country_ieepa)) {
+    origins <- denorm_state$country_ieepa %>% filter(!is.na(country_eo_ch99)) %>%
+      select(country=census_code,ch99_code=country_eo_ch99)
+    rows[['country_eo']] <- denorm_state$country_eo_exemptions %>% inner_join(origins,by='ch99_code') %>%
+      transmute(revision=revision_id,authority='ieepa_reciprocal',program=ch99_code,
+        hts10=NA_character_,hts_prefix=hts8_prefix,country,country_group=NA_character_,
+        exemption_type='country_eo',exemption_share=1,rate_override=NA_real_,
+        source='country_eo_exempt_products.csv',valid_from=vf,valid_until=vu)
   }
 
   # ---- USMCA per-product utilization shares ----
@@ -1244,8 +1251,36 @@ emit_normalized_revision <- function(
     denorm_state = denorm_state
   )
 
-  emit_authority_product_candidates(denorm_state$heading_candidates %||% list(),
-    revision_id, output_dir)
+  source(if(requireNamespace('here',quietly=TRUE)) here::here('src/ieepa_actions.R') else 'src/ieepa_actions.R')
+  ieepa_evidence <- denorm_state$ieepa_evidence
+  .write_parquet_safe(ieepa_action_decisions(ieepa_evidence,denorm_state$country_ieepa,revision_id),
+    file.path(output_dir,revision_id,'ieepa_action_decisions.parquet'))
+  if(!is.null(ieepa_evidence)&&(nrow(ieepa_evidence)>0 || !is.null(attr(ieepa_evidence,'universal_baseline')))) jsonlite::write_json(
+    ieepa_evidence_fragment(ieepa_evidence,revision_id),file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
+    auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+
+  candidates <- denorm_state$heading_candidates %||% list()
+  source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')
+  memberships <- s232_note16_matches(list(lists=list()),character())
+  if (!is.null(denorm_state$s232_note16_source)) {
+    evidence <- denorm_state$s232_note16_source
+    memberships <- denorm_state$s232_note16_matches
+    for(id in unique(memberships$list_id)) {
+      members <- memberships %>% filter(list_id==id)
+      candidates[[paste0('note16_c_',id)]] <- list(
+        scope_matches=members %>% transmute(hts10,scope_code,
+          scope_grain=if_else(nchar(scope_code)==10L,'exact_hts10','prefix')),
+        scope_source=evidence$sources[[1]]$path,scope_sha256=evidence$sources[[1]]$sha256)
+    }
+    jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_source.json'),
+      auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    fragment232 <- compile_s232_note16_fragment(evidence,products$hts10)
+    jsonlite::write_json(fragment232,file.path(output_dir,revision_id,'section232_note16_rules.json'),
+      auto_unbox=TRUE,null='null',digits=NA)
+  }
+  .write_parquet_safe(memberships %>% mutate(revision=revision_id,authority='section_232'),
+    file.path(output_dir,revision_id,'section232_scope_decisions.parquet'))
+  emit_authority_product_candidates(candidates,revision_id,output_dir)
   if (!is.null(denorm_state$s301_source)) {
     # Preserve each legal alternative, including required descriptions and
     # exact source hashes, alongside the wide/aggregate projection.
@@ -1329,11 +1364,12 @@ emit_normalized_statics <- function(revisions_df, pp, output_dir = NULL) {
         valid_until      = as.Date(valid_until),
         policy_event     = if ('policy_event' %in% names(.)) as.character(policy_event)
                            else NA_character_,
+        ieepa_collection_ended = vapply(as.character(effective_date),has_ieepa_collection_ended,logical(1)),
         ieepa_invalidated = if ('ieepa_invalidated' %in% names(.)) as.logical(ieepa_invalidated)
                             else FALSE
       ) %>%
       select(revision, effective_date, valid_from, valid_until,
-             policy_event, ieepa_invalidated)
+             policy_event, ieepa_invalidated, ieepa_collection_ended)
     .write_parquet_safe(rev_out, file.path(output_dir, 'revisions.parquet'))
   }
 

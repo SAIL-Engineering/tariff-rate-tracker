@@ -602,6 +602,7 @@ build_full_timeseries <- function(
                                       default = as.Date('2099-12-31')),
             policy_event = if ('policy_event' %in% names(.)) policy_event
                            else NA_character_,
+            ieepa_collection_ended = vapply(as.character(effective_date), has_ieepa_collection_ended, logical(1)),
             ieepa_invalidated = if (!is.null(pp_build$IEEPA_INVALIDATION_DATE))
                                   as.Date(effective_date) >= as.Date(pp_build$IEEPA_INVALIDATION_DATE)
                                 else FALSE
@@ -1213,7 +1214,8 @@ reemit_normalized_for_cached <- function(
                                    default = as.Date('2099-12-31')),
         policy_event = if ('policy_event' %in% names(.)) policy_event
                        else NA_character_,
-        ieepa_invalidated = if (!is.null(pp_build$IEEPA_INVALIDATION_DATE))
+        ieepa_collection_ended = vapply(as.character(effective_date), has_ieepa_collection_ended, logical(1)),
+            ieepa_invalidated = if (!is.null(pp_build$IEEPA_INVALIDATION_DATE))
                               as.Date(effective_date) >= as.Date(pp_build$IEEPA_INVALIDATION_DATE)
                             else FALSE
       )

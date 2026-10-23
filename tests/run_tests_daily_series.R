@@ -1051,7 +1051,7 @@ make_mode_test_ieepa <- function() {
   ieepa
 }
 
-run_test('calculator zeroes IEEPA on 2026-02-20 while Section 122 remains HTS-dated', {
+run_test('calculator preserves IEEPA collection before February 24 independent of ruling metadata', {
   products <- make_mode_test_products()
   ch99_data <- make_mode_test_ch99()
   ieepa_rates <- make_mode_test_ieepa()
@@ -1086,11 +1086,8 @@ run_test('calculator zeroes IEEPA on 2026-02-20 while Section 122 remains HTS-da
     policy_params = pp_hts
   )
 
-  # Split timing: on 2026-02-20, IEEPA is already invalidated in policy-date mode
-  # (SCOTUS ruling shifted to 2026-02-20), but Section 122 stays on the HTS/CBP
-  # implementation date (2026-02-24) in both modes — so rate_s122 is still 0
-  # for a 2026-02-20 effective date under either mode.
-  stopifnot(all(rates_policy$rate_ieepa_recip == 0))
+  # CBP CSMS 67834313: collection continues until February 24 00:00 ET.
+  stopifnot(any(rates_policy$rate_ieepa_recip > 0))
   stopifnot(all(rates_policy$rate_s122 == 0))
 
   stopifnot(any(rates_hts$rate_ieepa_recip > 0))

@@ -14,6 +14,7 @@
 
 library(tidyverse)
 library(jsonlite)
+source(here::here("src","ieepa_actions.R"))
 
 # =============================================================================
 # Constants (loaded from YAML)
@@ -235,8 +236,8 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
   # Filter to IEEPA entries
   ieepa_items <- Filter(function(x) {
     htsno <- x$htsno %||% ''
-    # Phase 1: 9903.01.43-75 (Liberation Day)
-    # Country-specific EOs: 9903.01.76-89 (Brazil EO 14323, India, etc.)
+    # Phase 1: 9903.01.43-76 (reciprocal, including Lesotho)
+    # Country-specific EOs: note 2(x)/(z), identified from description
     # Phase 2: 9903.02.02-81 (August 7 reinstatement)
     # Swiss/Liechtenstein framework: 9903.02.82-91 (EO 14346, 15% floor)
     grepl('^9903\\.01\\.(4[3-9]|[5-8][0-9])$', htsno) ||
@@ -265,14 +266,13 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
 
   message('  IEEPA tier entries found: ', length(ieepa_items))
 
-  # Early return if no IEEPA entries (e.g., basic revision)
   if (length(ieepa_items) == 0) {
-    message('  No IEEPA entries — returning empty tibble')
-    return(tibble(
-      ch99_code = character(), rate = numeric(), rate_type = character(),
-      phase = character(), terminated = logical(),
-      country_name = character(), census_code = character()
-    ))
+    empty <- tibble(ch99_code=character(),rate=numeric(),rate_type=character(),
+      phase=character(),terminated=logical(),country_name=character(),census_code=character(),
+      source_description=character(),duty_expression=character(),source_heading_sha256=character())
+    attr(empty,'universal_baseline') <- ieepa_universal_baseline(hts_raw)
+    attr(empty,'country_exclusions') <- ieepa_reciprocal_country_exclusions(hts_raw,country_lookup)
+    return(empty)
   }
 
   # Parse each entry
@@ -303,49 +303,14 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
       }
     }
 
-    # Check if terminated/suspended.
-    # Normalize whitespace and encoding artifacts before matching to handle
-    # non-breaking spaces, smart quotes, and other USITC PDF rendering issues.
-    desc_normalized <- gsub('[\\s\\x{00A0}]+', ' ', description, perl = TRUE)
-    terminated <- grepl('provision terminated|provision suspended|temporarily suspended',
-                        desc_normalized, ignore.case = TRUE)
-
-    # Secondary check: compiler's note format (various punctuation/encoding)
-    if (!terminated) {
-      terminated <- grepl('\\[Compiler.*suspend', desc_normalized, ignore.case = TRUE)
-    }
-
-    # Tertiary check: rate set to "Free" or "$0" (indicates effective suspension)
-    if (!terminated && !is.na(rate) && rate == 0) {
-      terminated <- grepl('free|\\$0', general, ignore.case = TRUE)
-    }
-
-    # Determine phase
-    # 9903.01.43-75: Phase 1 (Liberation Day, Apr 9)
-    # 9903.01.76-89: Country-specific EOs (e.g., Brazil EO 14323, India) — stack with Phase 2
-    # 9903.02.xx: Phase 2 (Aug 7 reinstatement)
-    is_country_eo <- grepl('^9903\\.01\\.(7[6-9]|8[0-9])$', ch99_code) & !terminated
-    phase <- if (grepl('^9903\\.02\\.', ch99_code)) {
-      'phase2_aug7'
-    } else if (is_country_eo) {
-      'country_eo'
-    } else {
-      'phase1_apr9'
-    }
-
-    # Diagnostic: log China entry's suspension status.
-    # 9903.01.63 was suspended starting at rev_17 (Geneva de-escalation).
-    # If the entry exists but is not detected as suspended, warn loudly —
-    # this likely means the text matching needs updating for a new format.
-    if (ch99_code == '9903.01.63') {
-      message('  [Diagnostic] 9903.01.63 (China): terminated=', terminated,
-              ', description tail: "...', substr(description, max(1, nchar(description) - 60), nchar(description)), '"')
-      if (!terminated && !is.na(rate) && rate > 0) {
-        warning('9903.01.63 (China +34% reciprocal) has rate=', rate,
-                ' but suspension NOT detected — check footnote text for new suspension language.',
-                '\nDescription: ', substr(description, 1, 200))
-      }
-    }
+    # EO 14266 sec. 3(d), followed by the revision's amendment/status text.
+    terminated <- ieepa_heading_terminated(description,effective_date)
+    # Note 2(v) is reciprocal; (x)/(z) are separate emergency actions.
+    # Lesotho's 9903.01.76 is in (v), not a country-specific emergency.
+    is_country_eo <- grepl('subdivision\\s*\\((x|z)\\)',description,perl=TRUE)
+    phase <- if(is_country_eo) 'country_eo' else if(grepl('^9903\\.02\\.',ch99_code))
+      'phase2_aug7' else 'phase1_apr9'
+    source_hash <- digest::digest(jsonlite::toJSON(item,auto_unbox=TRUE,null='null'),algo='sha256',serialize=FALSE)
 
     # Extract countries
     country_names <- extract_countries_from_description(description)
@@ -354,7 +319,8 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
       return(tibble(
         ch99_code = ch99_code, rate = rate, rate_type = rate_type,
         phase = phase, terminated = terminated,
-        country_name = NA_character_, census_code = NA_character_
+        country_name = NA_character_, census_code = NA_character_,
+        source_description=description,duty_expression=general,source_heading_sha256=source_hash
       ))
     }
 
@@ -368,9 +334,12 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
       phase = phase,
       terminated = terminated,
       country_name = matched$country_name,
-      census_code = matched$census_code
+      census_code = matched$census_code,
+      source_description=description,duty_expression=general,source_heading_sha256=source_hash
     )
   })
+
+  if(any(!results$terminated & is.na(results$rate_type))) stop('Unresolved active IEEPA rate expression')
 
   # Drop rows with no country extracted (catch-all entries, unparseable
   # descriptions). Name them, and say whether they carried a RATE: a dropped
@@ -380,13 +349,13 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
   n_no_country <- sum(is.na(results$country_name))
   if (n_no_country > 0) {
     lost <- results %>% filter(is.na(country_name))
-    rated <- lost %>% filter(!is.na(rate), rate > 0)
+    rated <- lost %>% filter(!terminated,!is.na(rate), rate > 0)
     message('  Dropping ', n_no_country, ' entries with no country extracted: ',
             paste(utils::head(lost$ch99_code, 12), collapse = ', '),
             if (n_no_country > 12) ' ...' else '')
     if (nrow(rated) > 0) {
-      warning(nrow(rated), ' IEEPA heading(s) carry a RATE but no extractable ',
-              'country, so their duty is dropped entirely: ',
+      stop(nrow(rated), ' active IEEPA heading(s) carry a RATE but no extractable ',
+              'country; refusing to omit duty: ',
               paste(sprintf('%s @ %.1f%%', rated$ch99_code, 100 * rated$rate),
                     collapse = ', '),
               call. = FALSE)
@@ -425,72 +394,16 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
     message('  Unmatched names: ', paste(unmatched, collapse = ', '))
   }
 
-  # ---- Detect universal IEEPA baseline (9903.01.25) ----
-  # During the 90-day pause (Apr 9 – Jul 8, 2025), the country-specific
-  # rates from 9903.01.43-76 were suspended. Only the universal 10% baseline
-  # (9903.01.25) remained in effect for non-China countries. The HTS JSON
-  # retains the suspended entries at their original rates, so we detect the
-  # baseline and cap Phase 1 rates accordingly.
-  #
-  # 9903.01.63 (China/HK/Macau): In early revisions, was NOT paused — its
-  # rate was modified (125% → 34%) rather than suspended, so it's exempt
-  # from capping. Post-Geneva (rev_17+), 9903.01.63 is marked as suspended
-  # in the HTS JSON ("[Compiler's note: provision suspended.]"). When
-  # suspended, China falls back to the universal baseline (10%).
-  baseline_item <- Filter(function(x) {
-    (x$htsno %||% '') == '9903.01.25'
-  }, hts_raw)
+  if(any(!results$terminated & !is.na(results$rate) & is.na(results$census_code)))
+    stop('Active IEEPA rate has an unresolved country identifier')
 
-  universal_baseline <- NULL
-  if (length(baseline_item) > 0) {
-    bl_general <- baseline_item[[1]]$general %||% ''
-    bl_match <- str_match(bl_general, '\\+\\s*([0-9.]+)%')
-    if (!is.na(bl_match[1, 2])) {
-      universal_baseline <- as.numeric(bl_match[1, 2]) / 100
-      message('  Universal IEEPA baseline (9903.01.25): ',
-              round(universal_baseline * 100), '%')
+  # Keep the published rate unchanged. A suspension switches applicability
+  # to the separately published baseline; it is not a cap on a live action.
+  universal_baseline <- ieepa_universal_baseline(hts_raw)
 
-      # Cap Phase 1 country-specific entries at baseline, except China entry
-      # 9903.01.63 is China/HK/Macau — exempt from the 90-day pause UNLESS
-      # it has been suspended (post-Geneva trade deal, May 2025). When
-      # suspended, China falls back to the universal baseline like everyone else.
-      china_entry <- '9903.01.63'
-      china_suspended <- any(
-        results$ch99_code == china_entry & results$terminated
-      )
-      # The cap models the EO 14266 90-day PAUSE, during which country-specific
-      # Phase 1 rates were suspended in favour of the universal baseline. It was
-      # applied on every revision, so it kept firing long after the pause ended:
-      # measured on the full build, it capped 85-86 entries on all 40 revisions
-      # carrying IEEPA, including 2026_rev_13 — roughly a year past the pause and
-      # months after IEEPA was invalidated entirely.
-      #
-      # The gate is taken from the DATA rather than a hardcoded date: once the
-      # Phase 2 reinstatement headings (9903.02.xx) are present and live, the
-      # pause is over by construction and Phase 1 is superseded. That stays
-      # correct if the reinstatement date moves, which a literal date would not.
-      phase2_live <- any(results$phase == 'phase2_aug7' & !results$terminated,
-                         na.rm = TRUE)
-
-      phase1_cappable <- !phase2_live &
-        results$phase == 'phase1_apr9' &
-        (results$ch99_code != china_entry | china_suspended) &
-        !is.na(results$rate) &
-        results$rate > universal_baseline
-
-      n_capped <- sum(phase1_cappable)
-      if (phase2_live) {
-        message('  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is ',
-                'live, so the EO 14266 pause no longer governs')
-      } else if (n_capped > 0) {
-        results$rate[phase1_cappable] <- universal_baseline
-        message('  Capped ', n_capped, ' Phase 1 entries to baseline ',
-                round(universal_baseline * 100), '%')
-      }
-    }
-  }
-
+  results <- apply_ieepa_country_amendments(results,country_lookup,effective_date)
   attr(results, 'universal_baseline') <- universal_baseline
+  attr(results,'country_exclusions') <- ieepa_reciprocal_country_exclusions(hts_raw,country_lookup)
   return(results)
 }
 

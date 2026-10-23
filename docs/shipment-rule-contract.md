@@ -151,3 +151,28 @@ of complete pricing. Existing explicit `rule_ids` still identify every action
 whose claim treatment has been reviewed. Other actions remain `claim_not_priced`.
 Arrow carries the additive `claim_options_json` column. Historical saved v1 results
 without choices remain valid; they are not silently recalculated.
+
+## Source decision partitions (release v4)
+
+`sail.tariff-release/v4` additionally requires `section232_scope_decisions` and
+`ieepa_action_decisions`. Note 16 decisions retain every exact-grain list/metal
+membership and source hash; they must agree with the candidate inventory and
+cannot be paired with a falsely unconditional wide statutory metal rate.
+IEEPA decisions retain retired/selected/candidate state, actual expression,
+origin, amendment identity/hash and operative timestamp. Country-rate partitions
+retain independent reciprocal and country-EO parameters and reporting identities.
+An excluded reciprocal origin has an explicit zero parameter and its published
+exclusion heading. A missing country parameter is an unsupported projection,
+not a zero. Evidence may retain a blank source duty cell only for an explicit
+zero passthrough country exclusion; charged actions require their expression.
+Preflight rejects missing fields, inconsistent revisions/types and source hashes
+absent from the bundle. These are release-integrity checks, not legal-coverage
+attestations. Source fragments must be composed before preparing the release.
+
+The source-generated note 16 fragment uses the existing expression vocabulary.
+Known reporting identities can coexist with a narrowly scoped unresolved formula.
+A split-content treatment emits separate reporting components rather than a
+guessed scalar heading. Predicate compilation distinguishes shipment inputs from
+source discrepancies and rejects unknown legal condition grammar. The fragment's
+limited revision horizon and absent authority attestation prevent its being
+misrepresented as complete Section 232 chronology or all-action coverage.

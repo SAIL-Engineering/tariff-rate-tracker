@@ -150,12 +150,7 @@ rates_fixture <- tibble(
   rate_s122 = 0.1, rate_section_201 = 0,
   deriv_type = c('aluminum', 'aluminum', 'aluminum', 'steel', NA),
   deriv_ch99_code = c('9903.85.08', '9903.85.04', '9903.85.07', NA, NA),
-  # Per-action columns: the resolver attributes by the ACTION carrying the
-  # duty (rate-matching within that action's heading pool) — a row without any
-  # action column is deliberately left NA rather than guessed. Production rows
-  # always carry these (step 4 writes them; attribute_s232_residual() backfills
-  # by chapter), so the fixture mirrors that: ch76 primary = aluminum action,
-  # 7326 = steel action.
+  # Action subtotals do not prove product-specific reporting headings.
   rate_232_auto = 0,
   rate_232_steel = c(0, 0, 0, 0.5, 0),
   rate_232_aluminum = c(0.09, 0.5, 0.5, 0, 0.5),
@@ -170,23 +165,21 @@ run_test('product-level subdivision codes win (the 8536.90.8585 bug)', {
   stopifnot(out$ch99_code_232[out$hts10 == '7616995190'] == '9903.85.07')
 })
 
-run_test('derivative fallback = broadest active heading, never sort()[1]', {
+run_test('a missing derivative reporting source remains unresolved', {
   out <- resolve_ch99_codes(rates_fixture, ch99_fixture, deriv_products = deriv_csv)
-  # steel derivative with no product-level code -> 9903.81.91 (Note 16(t),
-  # the broad list), NOT the alphabetically-first active 232 code
-  stopifnot(out$ch99_code_232[out$hts10 == '7326908688'] == '9903.81.91')
+  stopifnot(is.na(out$ch99_code_232[out$hts10 == '7326908688']))
 })
 
-run_test('ch76 primary product gets a base heading, not a derivative heading', {
+run_test('a metal chapter and matching rate do not prove a base reporting heading', {
   out <- resolve_ch99_codes(rates_fixture, ch99_fixture, deriv_products = deriv_csv)
-  stopifnot(out$ch99_code_232[out$hts10 == '7601103000'] == '9903.85.02')
+  stopifnot(is.na(out$ch99_code_232[out$hts10 == '7601103000']))
 })
 
-run_test('pre-derivative-era revision (no .08 active) falls back cleanly', {
+run_test('a withdrawn derivative heading cannot be replaced by another equal-rate heading', {
   ch99_old <- ch99_fixture %>% filter(ch99_code != '9903.85.08')
   out <- resolve_ch99_codes(rates_fixture, ch99_old, deriv_products = deriv_csv)
   code <- out$ch99_code_232[out$hts10 == '8536908585']
-  stopifnot(code %in% c('9903.85.04', '9903.85.07'))  # active-code gate respected
+  stopifnot(is.na(code))
 })
 
 message('\n=== ch99_rules_json emit ===')

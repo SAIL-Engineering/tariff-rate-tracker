@@ -16,7 +16,7 @@
 #
 # Pipeline steps inside calculate_rates_for_revision():
 #   1. Footnote-based rates (301, fentanyl, other via Ch99 refs)
-#   1b. IEEPA invalidation check (SCOTUS ruling cutoff)
+#   1b. IEEPA collection-end check (CBP entry boundary)
 #   2. IEEPA reciprocal (blanket, country-level)
 #   2b. Post-IEEPA grid expansion (stabilize product-country grid when invalidated)
 #   3. IEEPA fentanyl (blanket, CA/MX/CN)
@@ -783,13 +783,12 @@ calculate_rates_for_revision <- function(
     }
   }
 
-  # 1b. Check IEEPA invalidation (SCOTUS ruling in Learning Resources v. Trump)
-  #     If this revision's effective_date is on or after the invalidation date,
-  #     IEEPA tariff authority is void — zero out reciprocal and fentanyl.
-  ieepa_invalidation <- pp$IEEPA_INVALIDATION_DATE
-  if (!is.null(ieepa_invalidation) && as.Date(effective_date) >= ieepa_invalidation) {
-    message('  IEEPA invalidated as of ', ieepa_invalidation,
-            ' — zeroing reciprocal and fentanyl for ', revision_id)
+  # 1b. At-entry collection follows CBP CSMS 67834313, not the earlier
+  # ruling date. Preserve source actions even after collection ceases.
+  denorm_ieepa_evidence <- ieepa_rates
+  ieepa_was_invalidated <- has_ieepa_collection_ended(effective_date)
+  if(ieepa_was_invalidated) {
+    message('  IEEPA collection ended at this entry date: ',revision_id)
     ieepa_rates <- NULL
     fentanyl_rates <- NULL
   }
@@ -802,7 +801,8 @@ calculate_rates_for_revision <- function(
   #    Product-level exemptions (Annex A / US Note 2 subdivision (v)(iii)):
   #    ~1,087 products are exempt from IEEPA reciprocal. These are defined by
   #    executive order, not by HTS footnotes, so we load from a resource file.
-  has_active_ieepa <- !is.null(ieepa_rates) && nrow(ieepa_rates) > 0
+  has_active_ieepa <- !is.null(ieepa_rates) &&
+    (nrow(ieepa_rates)>0 || !is.null(attr(ieepa_rates,'universal_baseline')))
 
   # Duty-free treatment: 'all' (default) applies IEEPA to all products;
   # 'nonzero_base_only' skips products with 0% MFN base rate (matches TPC).
@@ -833,7 +833,7 @@ calculate_rates_for_revision <- function(
   ieepa_exempt_tbl <- if (file.exists(ieepa_exempt_path)) {
     read_csv(ieepa_exempt_path, col_types = cols(.default = col_character()))
   } else {
-    warning('ieepa_exempt_products.csv not found — all products subject to IEEPA')
+    if(has_active_ieepa) stop('Missing IEEPA reciprocal exemption source; refusing blanket taxation')
     tibble(hts10 = character(0))
   }
   n_exempt_before <- nrow(ieepa_exempt_tbl)
@@ -877,6 +877,8 @@ calculate_rates_for_revision <- function(
       mutate(hts8_prefix = substr(gsub('\\.', '', hts10), 1, 8)) %>%
       distinct(ch99_code, hts8_prefix)
   } else {
+    if(has_active_ieepa && any(ieepa_rates$phase=='country_eo' & !ieepa_rates$terminated))
+      stop('Missing country EO exemption source')
     tibble(ch99_code = character(), hts8_prefix = character())
   }
   if (nrow(country_eo_exempt) > 0) {
@@ -905,155 +907,20 @@ calculate_rates_for_revision <- function(
   }
 
   if (has_active_ieepa) {
-    # Do NOT filter on 'terminated' — for a given revision, all IEEPA entries
-    # present in the JSON were effective as of that revision. The "provision
-    # terminated" text was added in later revisions.
-    active_ieepa <- ieepa_rates %>%
-      filter(!is.na(census_code), !is.na(rate))
-
-    if (nrow(active_ieepa) > 0) {
-      # Phase 2 and country_eo entries stack ACROSS phases but NOT within a phase.
-      # Within a phase, the country-specific entry supersedes group entries.
-      # E.g., Brazil: +10% (Phase 2, 9903.02.09) + 40% (country_eo, 9903.01.77) = 50%
-      #       India:  +25% (Phase 2, 9903.02.26) + 25% (country_eo, 9903.01.84) = 50%
-      #       Tunisia: max(+15%, +25%) = 25% (both Phase 2, take highest)
-      country_ieepa <- active_ieepa %>%
-        mutate(
-          active_rank = if_else(phase %in% c('phase2_aug7', 'country_eo'), 1L, 2L),
-          type_priority = case_when(
-            rate_type == 'floor' ~ 1L,
-            rate_type == 'surcharge' ~ 2L,
-            rate_type == 'passthrough' ~ 3L,
-            TRUE ~ 4L
-          )
-        ) %>%
-        group_by(census_code) %>%
-        filter(active_rank == min(active_rank)) %>%
-        ungroup() %>%
-        # Within each phase: pick the best entry (prefer floor, then highest rate)
-        group_by(census_code, phase) %>%
-        arrange(type_priority, desc(rate)) %>%
-        summarise(
-          phase_rate = first(rate),
-          phase_type = first(rate_type),
-          phase_ch99_code = first(ch99_code),
-          .groups = 'drop'
-        ) %>%
-        # Across phases: keep both the merged total AND the country-EO
-        # contribution separately. The latter lets us bypass the universal
-        # Annex A check for country-specific surcharges (Brazil 9903.01.77 etc.)
-        # while still applying their own per-EO exempt list.
-        group_by(census_code) %>%
-        summarise(
-          ieepa_country_rate = sum(phase_rate),
-          country_eo_rate = sum(phase_rate[phase == 'country_eo']),
-          country_eo_ch99 = {
-            ce <- phase_ch99_code[phase == 'country_eo']
-            if (length(ce) > 0) ce[1] else NA_character_
-          },
-          # The non-country-EO reciprocal heading (floor or surcharge) that
-          # WOULD apply to this origin. Retained so duty provenance can cite
-          # the would-apply program code (e.g. 9903.02.20) on rows that are
-          # exempted to 0 — where resolve_ch99_codes leaves the code unset.
-          ieepa_recip_ch99 = {
-            pc <- phase_ch99_code[phase != 'country_eo']
-            if (length(pc) > 0) pc[1] else NA_character_
-          },
-          ieepa_type = first(phase_type),
-          is_universal_baseline_country = FALSE,
-          .groups = 'drop'
-        )
-
-      # Apply universal baseline to countries not in any IEEPA entry.
-      # 9903.01.25 (10%) applies to all countries; country-specific entries
-      # provide higher rates for listed countries.
-      # Exclude CA/MX: they have a separate fentanyl-only IEEPA regime and
-      # are explicitly excluded from reciprocal tariffs by executive order.
-      universal_baseline <- attr(ieepa_rates, 'universal_baseline')
-      # Build country -> country_group mapping for floor exemption lookup
-      has_floor_exempts <- nrow(floor_exempt_products) > 0
-      if (has_floor_exempts) {
+    source(here('src','ieepa_actions.R'))
+    # EO 14266 secs. 2-3 and note 2(v): select operative headings, preserve
+    # independent country EOs, and do not choose an arbitrary maximum/floor.
+    # Heading 9903.01.29 excludes the revision's GN 3(b) origins.
+    recip_exempt <- c(pp$country_codes$CTY_CANADA,pp$country_codes$CTY_MEXICO,non_ntr)
+    country_ieepa <- select_ieepa_country_actions(ieepa_rates,countries,recip_exempt)
+    if (nrow(country_ieepa)>0) {
+      has_floor_exempts <- nrow(floor_exempt_products)>0
+      if(has_floor_exempts) {
         floor_country_group_map <- bind_rows(
-          tibble(country = pp$EU27_CODES, country_group = 'eu'),
-          tibble(country = pp$country_codes$CTY_JAPAN, country_group = 'japan'),
-          tibble(country = pp$country_codes$CTY_SKOREA, country_group = 'korea'),
-          tibble(country = c(pp$country_codes$CTY_SWITZERLAND,
-                             pp$country_codes$CTY_LIECHTENSTEIN), country_group = 'swiss')
-        )
-        message('  Floor country group map: ', nrow(floor_country_group_map), ' countries across ',
-                n_distinct(floor_country_group_map$country_group), ' groups')
-      }
-
-      # Override surcharge -> floor for countries in floor_countries config,
-      # but ONLY when the surcharge rate exceeds the floor rate. This avoids
-      # overriding countries at baseline (10%) in pre-Phase-2 revisions.
-      #
-      # For Switzerland/Liechtenstein (EO 14346): the override is date-bounded
-      # to the framework window. If the extraction already found native floor
-      # entries (from expanded 9903.02.82-91 range), those win rate selection
-      # and the override is a no-op (checks ieepa_type == 'surcharge').
-      #
-      # Date logic for Swiss framework:
-      #   - Before effective_date (Nov 14, 2025): no override (surcharge applies)
-      #   - Between effective and expiry: override applies (surcharge -> floor)
-      #   - After expiry (March 31, 2026): no override UNLESS finalized = true
-      #   - If finalized: override always applies (no expiry constraint)
-      floor_country_codes <- pp$FLOOR_COUNTRIES
-      floor_rate <- pp$FLOOR_RATE
-      swiss_fw <- pp$SWISS_FRAMEWORK
-      rev_date <- as.Date(effective_date)
-
-      # Determine which floor countries are eligible for override at this date.
-      # Non-Swiss floor countries (EU, Japan, Korea) always get the override.
-      # Swiss countries are date-bounded by the framework agreement.
-      swiss_override_active <- FALSE
-      if (!is.null(swiss_fw)) {
-        # Note: <= for expiry_date is intentional — override is active through
-        # the expiry date inclusive ("effective through March 31"). Compare with
-        # s122 in get_rates_at_date() which uses > (zeroed after expiry day).
-        swiss_override_active <- rev_date >= swiss_fw$effective_date &&
-          (swiss_fw$finalized || rev_date <= swiss_fw$expiry_date)
-        if (!swiss_override_active) {
-          message('  Swiss framework override NOT active for ', effective_date,
-                  ' (window: ', swiss_fw$effective_date, ' to ',
-                  if (swiss_fw$finalized) 'permanent' else swiss_fw$expiry_date, ')')
-        }
-      }
-
-      if (length(floor_country_codes) > 0 && !is.null(floor_rate)) {
-        # Exclude Swiss countries from override if outside framework window
-        eligible_floor_codes <- if (swiss_override_active) {
-          floor_country_codes
-        } else {
-          setdiff(floor_country_codes, swiss_fw$countries)
-        }
-
-        override_mask <- country_ieepa$census_code %in% eligible_floor_codes &
-                         country_ieepa$ieepa_type == 'surcharge' &
-                         country_ieepa$ieepa_country_rate >= floor_rate
-        if (any(override_mask)) {
-          country_ieepa$ieepa_country_rate[override_mask] <- floor_rate
-          country_ieepa$ieepa_type[override_mask] <- 'floor'
-          message('  Floor override applied to ', sum(override_mask),
-                  ' countries: ', paste(country_ieepa$census_code[override_mask], collapse = ', '))
-        }
-      }
-      recip_exempt <- c(pp$country_codes$CTY_CANADA, pp$country_codes$CTY_MEXICO)
-      if (!is.null(universal_baseline) && universal_baseline > 0) {
-        unlisted_countries <- setdiff(countries, c(country_ieepa$census_code, recip_exempt))
-        if (length(unlisted_countries) > 0) {
-          baseline_entries <- tibble(
-            census_code = unlisted_countries,
-            ieepa_country_rate = universal_baseline,
-            country_eo_rate = 0,
-            country_eo_ch99 = NA_character_,
-            ieepa_type = 'surcharge',
-            is_universal_baseline_country = TRUE
-          )
-          country_ieepa <- bind_rows(country_ieepa, baseline_entries)
-          message('  Applied universal baseline (', round(universal_baseline * 100),
-                  '%) to ', length(unlisted_countries), ' unlisted countries')
-        }
+          tibble(country=pp$EU27_CODES,country_group='eu'),
+          tibble(country=pp$country_codes$CTY_JAPAN,country_group='japan'),
+          tibble(country=pp$country_codes$CTY_SKOREA,country_group='korea'),
+          tibble(country=c(pp$country_codes$CTY_SWITZERLAND,pp$country_codes$CTY_LIECHTENSTEIN),country_group='swiss'))
       }
 
       # ---- Capture for Phase 2 normalized emit ----
@@ -1080,6 +947,7 @@ calculate_rates_for_revision <- function(
       }
 
       rates <- rates %>%
+        select(-any_of(setdiff(names(country_ieepa),'census_code'))) %>%
         left_join(
           country_ieepa %>% rename(country = census_code),
           by = 'country',
@@ -1123,18 +991,17 @@ calculate_rates_for_revision <- function(
             (ieepa_exempt_scope == 'baseline_only' &
              coalesce(is_universal_baseline_country, FALSE))
           ),
-          rate_ieepa_recip = case_when(
-            duty_free_treatment == 'nonzero_base_only' & base_rate < 0.001 ~ 0,  # duty-free exemption
-            floor_exempt ~ 0,                             # floor country product exemption
-            is.na(ieepa_country_rate) ~ 0,               # country not in IEEPA list
-            ieepa_type == 'surcharge' ~
-              if_else(exempt_active, 0, ieepa_country_rate - country_eo_rate) +
-              if_else(is_country_eo_exempt, 0, country_eo_rate),
-            ieepa_type == 'floor' & exempt_active ~ 0,
-            ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
-            ieepa_type == 'passthrough' ~ 0,
-            TRUE ~ 0
-          ),
+          modeled_ieepa_reciprocal_parameter = ieepa_country_rate-country_eo_rate,
+          modeled_ieepa_reciprocal_exempt = floor_exempt | exempt_active,
+          modeled_ieepa_duty_free = duty_free_treatment=='nonzero_base_only' &
+            !is.na(base_rate) & base_rate<0.001,
+          modeled_ieepa_reciprocal_rate = ieepa_reciprocal_increment(
+            modeled_ieepa_reciprocal_parameter,ieepa_type,base_rate,
+            modeled_ieepa_reciprocal_exempt | modeled_ieepa_duty_free),
+          modeled_ieepa_country_eo_rate = if_else(is_country_eo_exempt | modeled_ieepa_duty_free,
+            0,country_eo_rate),
+          rate_ieepa_recip = modeled_ieepa_reciprocal_rate+modeled_ieepa_country_eo_rate,
+          ch99_src_ieepa_country_eo = country_eo_ch99,
           # FORWARD attribution. Both candidate headings are already resolved
           # per origin above; previously they were dropped here and the code was
           # reconstructed downstream by taking the HIGHEST-rate heading for the
@@ -1160,7 +1027,7 @@ calculate_rates_for_revision <- function(
         ) %>%
         select(-ieepa_country_rate, -country_eo_rate, -country_eo_ch99,
                -is_universally_exempt, -is_country_eo_exempt, -floor_exempt,
-               -is_universal_baseline_country, -exempt_active)
+               -is_universal_baseline_country, -is_reciprocal_country_excluded, -exempt_active)
 
       # Also add IEEPA rows for products NOT currently in rates
       # (products with no other Ch99 duties but still subject to IEEPA)
@@ -1171,11 +1038,7 @@ calculate_rates_for_revision <- function(
         filter(country %in% ieepa_countries_in_scope) %>%
         select(hts10, country)
 
-      all_products_base <- products %>%
-        filter(!hts10 %in% ieepa_exempt_products) %>%   # exclude exempt products
-        { if (duty_free_treatment == 'nonzero_base_only') filter(., base_rate > 0.001) else . } %>%
-        select(hts10, base_rate) %>%
-        mutate(base_rate = coalesce(base_rate, 0))
+      all_products_base <- products %>% select(hts10, base_rate)
 
       new_pairs <- all_products_base %>%
         tidyr::expand_grid(country = ieepa_countries_in_scope) %>%
@@ -1211,15 +1074,17 @@ calculate_rates_for_revision <- function(
             (ieepa_exempt_scope == 'baseline_only' &
              coalesce(is_universal_baseline_country, FALSE))
           ),
-          rate_ieepa_recip = case_when(
-            floor_exempt ~ 0,                             # floor country product exemption
-            ieepa_type == 'surcharge' ~
-              if_else(exempt_active, 0, ieepa_country_rate - country_eo_rate) +
-              if_else(is_country_eo_exempt, 0, country_eo_rate),
-            ieepa_type == 'floor' & exempt_active ~ 0,
-            ieepa_type == 'floor' ~ pmax(0, ieepa_country_rate - base_rate),
-            TRUE ~ 0
-          ),
+          modeled_ieepa_reciprocal_parameter = ieepa_country_rate-country_eo_rate,
+          modeled_ieepa_reciprocal_exempt = floor_exempt | exempt_active,
+          modeled_ieepa_duty_free = duty_free_treatment=='nonzero_base_only' &
+            !is.na(base_rate) & base_rate<0.001,
+          modeled_ieepa_reciprocal_rate = ieepa_reciprocal_increment(
+            modeled_ieepa_reciprocal_parameter,ieepa_type,base_rate,
+            modeled_ieepa_reciprocal_exempt | modeled_ieepa_duty_free),
+          modeled_ieepa_country_eo_rate = if_else(is_country_eo_exempt | modeled_ieepa_duty_free,
+            0,country_eo_rate),
+          rate_ieepa_recip = modeled_ieepa_reciprocal_rate+modeled_ieepa_country_eo_rate,
+          ch99_src_ieepa_country_eo = country_eo_ch99,
           # Same forward attribution as the existing-rows branch above (rows
           # here are filtered to rate > 0 below, so no momentary-rate gate is
           # needed either).
@@ -1229,10 +1094,9 @@ calculate_rates_for_revision <- function(
             TRUE ~ ieepa_recip_ch99
           )
         ) %>%
-        filter(rate_ieepa_recip > 0) %>%
         select(-ieepa_country_rate, -country_eo_rate, -country_eo_ch99,
                -is_universally_exempt, -is_country_eo_exempt, -floor_exempt,
-               -is_universal_baseline_country, -exempt_active)
+               -is_universal_baseline_country, -is_reciprocal_country_excluded, -exempt_active)
 
       if (nrow(new_pairs) > 0) {
         message('  Adding ', nrow(new_pairs), ' product-country pairs for IEEPA-only duties')
@@ -1370,8 +1234,6 @@ calculate_rates_for_revision <- function(
   #     Fix: expand the grid to all products x all countries with zero
   #     additional rates. Downstream blanket tariffs (232, 301, s122) then
   #     fill in their rates on this complete grid.
-  ieepa_was_invalidated <- !is.null(ieepa_invalidation) &&
-    as.Date(effective_date) >= ieepa_invalidation
 
   if (ieepa_was_invalidated) {
     existing_pairs <- rates %>% select(hts10, country)
@@ -2185,32 +2047,9 @@ calculate_rates_for_revision <- function(
       gate_val <- heading_gates[[nm]]
       if (!is.null(gate_val) && !gate_val) next
       cfg <- s232_headings[[nm]]
-      matched <- character(0)
-
-      # Prefer products_file (authoritative HTS8/10 codes)
-      if (!is.null(cfg$products_file)) {
-        pf <- here(cfg$products_file)
-        if (file.exists(pf)) {
-          prods <- read_csv(pf, show_col_types = FALSE,
-                            col_types = cols(.default = col_character()))
-          pf_pattern <- paste0('^(', paste(prods$hts10, collapse = '|'), ')')
-          matched <- products$hts10[grepl(pf_pattern, products$hts10)]
-        }
-      }
-
-      # Fallback to prefixes only if products_file didn't produce matches
-      if (length(matched) == 0) {
-        prefixes <- unlist(cfg$prefixes %||% character(0))
-        if (!is.null(cfg$prefixes_file)) {
-          pf <- here(cfg$prefixes_file)
-          if (file.exists(pf)) prefixes <- c(prefixes, trimws(readLines(pf, warn = FALSE)))
-        }
-        prefixes <- unique(prefixes[nchar(prefixes) > 0])
-        if (length(prefixes) > 0) {
-          pattern <- paste0('^(', paste(prefixes, collapse = '|'), ')')
-          matched <- products$hts10[grepl(pattern, products$hts10)]
-        }
-      }
+      # Reuse the same exact source resolver as the original heading pass.
+      # An empty exact-list match must not widen to configured prefixes here.
+      matched <- match_s232_heading_products(products, cfg, here())$products
 
       all_heading_hts10 <- c(all_heading_hts10, matched)
     }
@@ -2255,107 +2094,45 @@ calculate_rates_for_revision <- function(
   # 5c. Section 232 annex rate override (April 2026 proclamation)
   #     Date-gated: only applies to revisions on/after the annex effective date.
   #     Overrides single-rate 232 with per-annex rates after the old pipeline has
-  #     finished assigning rates. Annex classification comes from the static
-  #     resource file (resources/s232_annex_products.csv). Annex-era revisions
-  #     fail closed if the mapping is missing or empty — silently running past
-  #     an empty annex map would silently zero out post-annex 232 coverage.
+  #     finished assigning rates. Scope and tier rates come from the selected
+  #     revision PDF/JSON. Missing/unparsed source data stops this path.
+  s232_note16_source <- NULL
+  s232_note16_matches <- NULL
+  s232_note16_projection <- NULL
   annex_cfg <- if (!is.null(pp)) pp$S232_ANNEXES else NULL
   if (!is.null(annex_cfg) && as.Date(effective_date) >= annex_cfg$effective_date) {
-    # Resolve annex resource path. policy_params.yaml stores resource_file with
-    # a 'resources/' prefix already, so do NOT wrap it in here('resources', ...)
-    # again — that produces a double path (resources/resources/...). Accept both
-    # absolute paths and repo-relative paths.
-    annex_resource_file <- annex_cfg$resource_file %||% file.path('resources', 's232_annex_products.csv')
-    annex_resource_path <- if (grepl('^([A-Za-z]:|/|\\\\\\\\)', annex_resource_file)) {
-      annex_resource_file
-    } else {
-      here::here(annex_resource_file)
+    # Proc. 11021 clauses (2)-(5), implemented in note 16(c): use the
+    # selected revision's complete enumeration. Neither a whole-chapter guess
+    # nor an old derivative list can fill an absent membership.
+    source(here('src','section232_revision.R'))
+    s232_note16_source <- load_s232_note16_source(revision_id)
+    if (!isTRUE(s232_note16_source$active_regime)) stop('Annex-era note 16 headings missing')
+    s232_note16_matches <- s232_note16_matches(s232_note16_source,products$hts10)
+    s232_note16_projection <- s232_note16_projection(s232_note16_source,s232_note16_matches,products$hts10)
+    annex_map <- s232_note16_projection
+    message('  Revision note 16: ',nrow(s232_note16_matches),' list memberships; ',
+      sum(annex_map$s232_note16_status=='candidate_requires_legal_predicates'),' products')
+    # The source rates replace copied tier constants. Keep model parameters
+    # (utilization, content and credits) in their existing separate pathway.
+    for (tier in s232_note16_source$ordinary_tiers) {
+      label <- c('9903.82.02'='annex_1a','9903.82.09'='annex_1b','9903.82.10'='annex_3')[[tier$reporting_code]]
+      field <- if(tier$formula_kind=='column1_floor') 'floor_rate' else 'rate'
+      annex_cfg$annexes[[label]][[field]] <- tier$rate
     }
-    annex_map <- load_annex_products(effective_date, annex_resource_path)
-
-    if (nrow(annex_map) == 0) {
-      stop(
-        'Section 232 annex mapping is empty for annex-era revision ', revision_id,
-        ' (effective ', effective_date, '). Expected non-empty mapping at ',
-        annex_resource_path
-      )
-    }
-
-    message('  Annex products loaded: ', nrow(annex_map), ' from ', annex_resource_path)
-
-    if (nrow(annex_map) > 0) {
-      # Prefix-match annex classification to HTS10 codes.
-      # Sort longest-first so specific prefixes (e.g., 85030045 → annex_2) take
-      # priority over shorter catchalls (e.g., 850300 → annex_1b). Without this,
-      # the resource file's row order silently determines which annex wins, and
-      # exempt products can end up misclassified with the higher floor rate.
-      annex_pattern_map <- annex_map %>%
-        mutate(pattern = paste0('^', hts_prefix)) %>%
-        arrange(desc(nchar(hts_prefix)))
-      # Port of upstream 908293f0. Classify on the DISTINCT hts10 codes (~20K)
-      # and join back, instead of scanning all ~954 prefixes across the full
-      # product x country panel (~4.8M rows). Annex membership depends ONLY on
-      # hts10, so the panel scan repeated identical work once per country — ~240x
-      # redundant. Same loop, same longest-prefix-first first-match-wins order,
-      # so the result is provably identical; upstream measured ~9 min -> seconds
-      # on annex-era revisions.
-      annex_keys <- tibble(hts10 = unique(rates$hts10),
-                           s232_annex = NA_character_,
-                           s232_metal = NA_character_)
-      for (i in seq_len(nrow(annex_pattern_map))) {
-        newly <- grepl(annex_pattern_map$pattern[i], annex_keys$hts10) &
-          is.na(annex_keys$s232_annex)
-        annex_keys$s232_annex[newly] <- annex_pattern_map$s232_annex[i]
-        annex_keys$s232_metal[newly] <- annex_pattern_map$s232_metal[i]
-      }
-      .ki <- match(rates$hts10, annex_keys$hts10)
-      rates$s232_annex <- annex_keys$s232_annex[.ki]
-      rates$s232_metal <- annex_keys$s232_metal[.ki]   # covered metal, for provenance
+    if (nrow(annex_map)>0) {
+      # Include newly enumerated products even if every prior authority was
+      # absent. Seed no duty: the source tier below assigns it explicitly.
+      missing <- products %>% filter(hts10 %in% s232_note16_matches$hts10) %>%
+        select(hts10,base_rate) %>% tidyr::expand_grid(country=countries) %>%
+        anti_join(rates %>% select(hts10,country),by=c('hts10','country')) %>%
+        zero_fill_authority_rates()
+      if(nrow(missing)) rates <- bind_rows(rates,missing)
+      .ki <- match(rates$hts10,annex_map$hts10)
+      rates$s232_annex <- annex_map$s232_annex[.ki]
+      rates$s232_metal <- annex_map$s232_metal[.ki]
+      rates$s232_note16_lists_json <- annex_map$s232_note16_lists_json[.ki]
+      rates$s232_note16_metals_json <- annex_map$s232_note16_metals_json[.ki]
       rm(.ki)
-
-      # Infer annex for products not matched by the prefix CSV.
-      #
-      # Primary chapters (72/73/76/74) → annex_1a UNCONDITIONALLY: the
-      # proclamation covers all base metal products regardless of whether the
-      # old Ch99 entries (9903.80/81) still assign rate_232. Many of those
-      # entries were removed in the annex HTS revision, so gating on rate_232>0
-      # would silently drop primary-chapter 232 coverage post-annex.
-      #
-      # Unmatched derivatives → annex_1b: if a product is in
-      # s232_derivative_products but not in the annex CSV prefix list, it
-      # belongs in the downstream-derivative tier (annex_1b) rather than
-      # receiving no annex classification at all.
-      annex_1a_chapters <- annex_cfg$annexes$annex_1a$chapters %||% c('72', '73', '76', '74')
-      deriv_prefixes <- tryCatch(
-        load_232_derivative_products(effective_date = effective_date)$hts_prefix,
-        error = function(e) character(0)
-      )
-      # '^$' is an inert fallback — matches nothing — so the case_when branch
-      # is a no-op when the derivative products list is unavailable.
-      deriv_pattern <- if (length(deriv_prefixes) > 0) {
-        paste0('^(', paste(deriv_prefixes, collapse = '|'), ')')
-      } else '^$'
-
-      rates <- rates %>%
-        mutate(
-          # Name the covered metal for products not carried by the annex CSV.
-          # Primary metal chapters are unambiguous (72/73 steel, 76 aluminum,
-          # 74 copper); downstream derivatives keep whatever the CSV supplied
-          # (NA if absent) — their metal can't be inferred from the heading.
-          s232_metal = case_when(
-            !is.na(s232_metal) ~ s232_metal,
-            substr(hts10, 1, 2) %in% c('72', '73') ~ 'steel',
-            substr(hts10, 1, 2) == '76' ~ 'aluminum',
-            substr(hts10, 1, 2) == '74' ~ 'copper',
-            TRUE ~ NA_character_
-          ),
-          s232_annex = case_when(
-            !is.na(s232_annex) ~ s232_annex,
-            substr(hts10, 1, 2) %in% annex_1a_chapters ~ 'annex_1a',
-            grepl(deriv_pattern, hts10) ~ 'annex_1b',
-            TRUE ~ s232_annex
-          )
-        )
 
       # Override rate_232 by annex.
       #
@@ -2372,8 +2149,7 @@ calculate_rates_for_revision <- function(
       # an EU passenger car under 9903.94.51 should keep max(0.15 - base, 0),
       # not be zeroed by the annex_2 catch-all).
       heading_program_products <- unique(c(auto_products, mhd_products,
-                                           copper_products, wood_products,
-                                           semi_products))
+                                           wood_products, semi_products))
       rates <- rates %>%
         mutate(rate_232 = case_when(
           hts10 %in% heading_program_products ~ rate_232,
@@ -2407,42 +2183,18 @@ calculate_rates_for_revision <- function(
                 ', annexes=', paste(zmc_annexes, collapse = ','))
       }
 
-      # UK annex-aware deal (replaces old flat 25% override for post-annex revisions).
-      #
-      # Port of upstream a2c42659. US note 16(d) scopes the UK deal by METAL TYPE
-      # (steel and aluminum, not copper), which is exactly what the config's
-      # `uk_applies_to` declares — but the gate used to test the HTS CHAPTER
-      # (72/73/76) instead, and `uk_1a_chapters` was computed and then never read.
-      # A chapter gate misses every steel/aluminum annex product OUTSIDE those
-      # chapters — the downstream manufactured articles that are most of annex_1b —
-      # so the UK paid the full annex rate on them instead of its deal rate.
-      # Upstream measured UK annex_1b at +10pp too high.
-      #
-      # s232_metal carries the annex map's metal_type (classify_s232_annex reads it
-      # off the SAME winning prefix row as the tier). Where it is NA — a resource
-      # predating the metal_type column — fall back to the old chapter test so the
-      # UK deal still applies to core metals rather than vanishing.
+      # Note 16(d) scope comes from its heading references, including mixed
+      # metal list membership. The aggregate model retains its qualification
+      # assumption; a UK origin alone does not establish the smelt/pour test.
       uk_code <- get_country_constants()$CTY_UK %||% '4120'
-      uk_metals_1a <- annex_cfg$annexes$annex_1a$uk_applies_to %||% c('steel', 'aluminum')
-      uk_metals_1b <- annex_cfg$annexes$annex_1b$uk_applies_to %||% c('steel', 'aluminum')
-      uk_chapter_fallback <- c('72', '73', '76')   # steel/aluminum chapters, not copper (74)
-      has_metal <- 's232_metal' %in% names(rates)
-      if (!has_metal) rates$s232_metal <- NA_character_
-      rates <- rates %>%
-        mutate(
-          .uk_scope_1a = if_else(!is.na(s232_metal), s232_metal %in% uk_metals_1a,
-                                 substr(hts10, 1, 2) %in% uk_chapter_fallback),
-          .uk_scope_1b = if_else(!is.na(s232_metal), s232_metal %in% uk_metals_1b,
-                                 substr(hts10, 1, 2) %in% uk_chapter_fallback),
-          rate_232 = case_when(
-            country == uk_code & !is.na(s232_annex) & s232_annex == 'annex_1a' &
-              .uk_scope_1a ~ annex_cfg$annexes$annex_1a$uk_rate,
-            country == uk_code & !is.na(s232_annex) & s232_annex == 'annex_1b' &
-              .uk_scope_1b ~ annex_cfg$annexes$annex_1b$uk_rate,
-            TRUE ~ rate_232
-          )
-        ) %>%
-        select(-.uk_scope_1a, -.uk_scope_1b)
+      rates$modeled_s232_uk_metal_origin_qualification <- 0
+      for(code in c('9903.82.04','9903.82.05')) {
+        h <- Filter(function(h) h$code==code,s232_note16_source$headings)[[1]]
+        scope <- unique(s232_note16_matches$hts10[s232_note16_matches$list_id %in% unlist(h$list_ids)])
+        hit <- rates$country==uk_code & rates$hts10 %in% scope & !rates$hts10 %in% heading_program_products
+        rates$rate_232[hit] <- h$rate
+        rates$modeled_s232_uk_metal_origin_qualification[hit] <- 1
+      }
 
       # Country-specific 232 surcharges preserved under the annex regime.
       # Per the April 2026 proclamation, Russian aluminum remains subject to
@@ -2451,23 +2203,6 @@ calculate_rates_for_revision <- function(
       # Applied as pmax() so the surcharge wins over the annex tier rate.
       country_surcharges <- annex_cfg$country_surcharges %||% list()
       if (length(country_surcharges) > 0) {
-        # Derivative-product prefixes by metal type — needed to extend the
-        # country surcharge to derivative articles. Loaded here because the
-        # primary load lives in apply_232_derivatives() (a separate function
-        # scope), so `deriv_products` is not otherwise visible here. Fixes
-        # "object 'deriv_products' not found" on post-annex revisions
-        # (2026_rev_5+) that reach the country-surcharge block.
-        deriv_products <- load_232_derivative_products(effective_date = effective_date)
-        deriv_by_type <- if (!is.null(deriv_products) && nrow(deriv_products) > 0) {
-          split(deriv_products$hts_prefix, deriv_products$derivative_type)
-        } else list()
-
-        primary_chapters_by_type <- list(
-          steel    = c('72', '73'),
-          aluminum = '76',
-          copper   = '74'
-        )
-
         for (surcharge in country_surcharges) {
           countries_vec   <- as.character(surcharge$countries)
           applies_annexes <- surcharge$applies_to %||% c('annex_1a', 'annex_1b', 'annex_3')
@@ -2475,23 +2210,9 @@ calculate_rates_for_revision <- function(
           rate_s          <- surcharge$rate
           if (is.null(rate_s) || !is.finite(rate_s) || rate_s <= 0) next
 
-          # Build the set of HTS10s in scope for the requested metal types.
-          # Union of (primary chapters for that type) + (derivative prefixes
-          # tagged with that type in s232_derivative_products.csv).
-          type_hts10 <- character(0)
-          all_hts10 <- unique(rates$hts10)
-          for (mt in metal_types) {
-            prim <- primary_chapters_by_type[[mt]] %||% character(0)
-            if (length(prim) > 0) {
-              type_hts10 <- c(type_hts10, all_hts10[substr(all_hts10, 1, 2) %in% prim])
-            }
-            deriv_prefixes <- deriv_by_type[[mt]] %||% character(0)
-            if (length(deriv_prefixes) > 0) {
-              deriv_pattern <- paste0('^(', paste(deriv_prefixes, collapse = '|'), ')')
-              type_hts10 <- c(type_hts10, all_hts10[grepl(deriv_pattern, all_hts10)])
-            }
-          }
-          type_hts10 <- unique(type_hts10)
+          # Use every current list membership. Legacy derivative prefixes
+          # and whole chapters cannot expand a source-specific surcharge.
+          type_hts10 <- unique(s232_note16_matches$hts10[s232_note16_matches$metal %in% metal_types])
           if (length(type_hts10) == 0) next
 
           rates <- rates %>%
@@ -3157,27 +2878,22 @@ calculate_rates_for_revision <- function(
     # lower (after FTA/GSP preference in 6c), so the floor gap is wider.
     # Surcharge rows for floor countries (e.g. Swiss/LI outside framework window)
     # must NOT be recomputed — their rate is a flat surcharge, not a floor deduction.
-    floor_rate_val <- pp$FLOOR_RATE
-    if (!is.null(floor_rate_val) &&
-        'rate_ieepa_recip' %in% names(rates) &&
+    if ('modeled_ieepa_reciprocal_parameter' %in% names(rates) &&
         'ieepa_type' %in% names(rates)) {
-      floor_mask <- rates$ieepa_type == 'floor' &
-                    rates$rate_ieepa_recip > 0 &
-                    rates$base_rate < rates$statutory_base_rate
-      if (any(floor_mask)) {
-        old_recip <- rates$rate_ieepa_recip[floor_mask]
-        rates$rate_ieepa_recip[floor_mask] <- pmax(0, floor_rate_val - rates$base_rate[floor_mask])
-        n_floor_adjusted <- sum(rates$rate_ieepa_recip[floor_mask] != old_recip)
-        message('  Floor recomputation: updated rate_ieepa_recip for ', n_floor_adjusted,
-                ' floor-type pairs (against post-MFN base_rate)')
+      floor_mask <- coalesce(rates$ieepa_type=='floor',FALSE) &
+        !coalesce(rates$modeled_ieepa_reciprocal_exempt,TRUE) &
+        !coalesce(rates$modeled_ieepa_duty_free,TRUE) &
+        coalesce(rates$base_rate<rates$statutory_base_rate,FALSE)
+      if(any(floor_mask)) {
+        rates$modeled_ieepa_reciprocal_rate[floor_mask] <- pmax(0,
+          rates$modeled_ieepa_reciprocal_parameter[floor_mask]-rates$base_rate[floor_mask])
+        rates$rate_ieepa_recip[floor_mask] <- rates$modeled_ieepa_reciprocal_rate[floor_mask]+
+          rates$modeled_ieepa_country_eo_rate[floor_mask]
+        message('  Floor recomputation: ',sum(floor_mask),' model rows using emitted action parameters')
       }
-      # Recomputed against the TRADE-WEIGHTED base_rate, not statutory_base_rate.
-      # Same shape as the §232 auto-rebate defect: a value computed under one
-      # basis is reused under another. Recorded so the trace can show it.
       rates <- record_duty(rates, '6d', 'ieepa_recip', 'rate_ieepa_recip',
-                           'floor_recompute_vs_weighted_base',
-                           citation_key = 'eo_14257_reciprocal',
-                           ch99_code_col = 'ch99_code_ieepa_recip')
+        'floor_recompute_vs_weighted_base',citation_key='eo_14257_reciprocal',
+        ch99_code_col='ch99_code_ieepa_recip')
     }
 
     # 6e. Recompute Annex III floor against post-MFN base_rate (same logic as 6d).
@@ -3570,6 +3286,9 @@ calculate_rates_for_revision <- function(
   #     touching the action columns, leaving duty that no §232 action explains.
   #     Rate-neutral — it moves attribution, not money — but it must run BEFORE
   #     EO 14289, which decides precedence by reading those very columns.
+  if (!is.null(s232_note16_projection)) {
+    rates <- reconcile_s232_note16_model_actions(rates,s232_note16_projection,heading_program_products)
+  }
   rates <- attribute_s232_residual(rates)
 
   rates$stacking_model_version <- as.integer(load_stacking_rules()$version)
@@ -3601,6 +3320,9 @@ calculate_rates_for_revision <- function(
   if (exists('heading_candidate_lists', inherits=FALSE)) {
     rates <- mark_s232_auto_parts_scope(rates,
       heading_candidate_lists$auto_parts$products %||% character(), s232_headings$auto_parts)
+  }
+  if (!is.null(s232_note16_projection)) {
+    rates <- mark_s232_note16_scope(rates,s232_note16_projection)
   }
   rates <- compute_statutory_totals(rates, cty_china = CTY_CHINA,
                                     stacking_method = stacking_method,
@@ -3808,6 +3530,11 @@ calculate_rates_for_revision <- function(
         # any future change to the rate-construction logic flows through
         # the variables captured here without touching the emitter.
         denorm_state <- list(
+          ieepa_evidence = denorm_ieepa_evidence,
+          country_eo_exemptions = country_eo_exempt,
+          s232_note16_source = s232_note16_source,
+          s232_note16_matches = s232_note16_matches,
+          s232_note16_projection = s232_note16_projection,
           s301_source = s301_source,
           s301_matches = s301_source_matches,
           heading_candidates = if (exists('heading_candidate_lists', inherits=FALSE)) heading_candidate_lists else list(),

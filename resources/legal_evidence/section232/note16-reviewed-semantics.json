@@ -1,0 +1,968 @@
+{
+  "version": 1,
+  "reviewed_through": "2026-10-22",
+  "purpose": "Reviewed semantic grammar for the note16 compiler. Unknown amendments require investigation; rates and membership still come from the revision sources.",
+  "entries": [
+    {
+      "locator": "9903.82.01",
+      "sha256": "8e1d31f3484e9d08e27591b03ce61d0a6e7e75732ed11eff6bc709f089c30250",
+      "text": "Articles provided for in subdivision (c) of U.S. note 16 to this subchapter that do not contain any aluminum, steel, or copper",
+      "revisions": [
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.01",
+      "sha256": "9fa3d292febe7ae848d9d2577562a68c12447f24bb56ee7f8b848cb187b73c25",
+      "text": "Articles provided for in subdivision (c) of U.S. note 16 to this subchapter that do not contain any aluminum, steel, or copper.",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6"
+      ]
+    },
+    {
+      "locator": "9903.82.02",
+      "sha256": "6e3a9dfb008c2fc1ddf5082857db09b8dba95eef1fc190881132a84cbf815395",
+      "text": "Except as provided for in headings 9903.82.14, 9903.85.67 and 9903.85.68, articles of aluminum, of steel or of copper and derivative aluminum or steel articles, as provided for in subdivisions (c)(i)\u2013(v) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.03",
+      "sha256": "0d5ba032fce70fadb02b261097814f9d6d5e536bf037ff5909019605ca83ef16",
+      "text": "Except for articles classifiable in chapters 72, 73, 74 or 76, articles where the weight of the applicable metal is less than 15 percent of the weight of the imported article, as provided for in subdivision (c) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.04",
+      "sha256": "ba47c00a8032811f6d381b5ce3a5da8cfe7f0d0cb2d62e18e3bb054f788f9ee6",
+      "text": "Articles of aluminum or of steel and derivative aluminum or steel articles the product of the United Kingdom, as provided for in subdivisions (c)(i)\u2013(iv) and (d) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.05",
+      "sha256": "6f779ca0830027d8b035dd270fce9ce835b6d9072316bfc2d818babd7a9e7c0d",
+      "text": "Derivative aluminum or steel articles the product of the United Kingdom, as provided for in subdivisions (c)(vi)\u2013(vii) and (d) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.06",
+      "sha256": "6e4d15deff99007eaf07c282124134ec3b9d92a1bc50049127a67a5cb9fbcde0",
+      "text": "Except as provided for in headings 9903.82.15 and 9903.85.68, articles of copper and derivative aluminum and steel articles, as provided for in subdivisions (c)(ii), (iv), (vi)\u2013(viii), (xi) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.06",
+      "sha256": "c81d4188d035b3f35328a27d180f5b9c8acf19d17c47e3b5f11534dca233ab32",
+      "text": "Except as provided for in headings 9903.82.15 and 9903.85.68, articles of copper and derivative aluminum and steel articles, as provided for in subdivisions (c)(ii), (iv), (vi)\u2013(viii) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "9903.82.07",
+      "sha256": "0cecc57ee4a4d1a8f75454198d33d341f44845a24f8ac682a2f6e280305707ac",
+      "text": "Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 10 percent, as provided for in subdivisions (c)(ix)\u2013(x) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.08",
+      "sha256": "d8bce6c3b619d80a827c3d88ba8ec8d39a45b3ba8ae45166a6b9abfe4521f3cd",
+      "text": "Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 10 percent, as provided for in subdivisions (c)(ix)\u2013(x) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.09",
+      "sha256": "486d4abbd6ab1323b7d10ff909818185fcaf3e1451014c2ebc1eeda4547aa369",
+      "text": "Except as provided for in headings 9903.82.16, 9903.82.20\u20139903.82.26 and 9903.85.68, articles of copper and derivative aluminum and steel articles, as provided for in subdivisions (c)(vi)\u2013(viii) and (xi) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.09",
+      "sha256": "f9188fb813892374003586f1d5f2cfe8b9bbbc06661a90d31b51a1093de1de64",
+      "text": "Except as provided for in headings 9903.82.16 and 9903.85.68, articles of copper and derivative aluminum and steel articles, as provided for in subdivisions (c)(vi)\u2013(viii) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "9903.82.10",
+      "sha256": "598e2bc313c345b93eef8afea37981a7807256c5896c6bca0723a76b4d2b9fd9",
+      "text": "Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 15 percent, as provided for in subdivision (f) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.11",
+      "sha256": "d2b63274dfa0c55b9a290dd6c7759a1c589e662c653228200bd6a00da34364fb",
+      "text": "Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 15 percent, as provided for in subdivision (f) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.12",
+      "sha256": "fdc1a80d31e5a6d0b68a02908476d3ad90cdac2f62721cb2eccb9ed319c3cade",
+      "text": "Except as provided for in headings 9903.82.17 and 9903.85.68, derivative aluminum and steel articles the product of any country identified in general note 3(b), as provided for in subdivisions (c)(ix)\u2013(x) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.13",
+      "sha256": "3d70244051007acb1175c4c3956edac6817dc90886008eb943123abcf5f70740",
+      "text": "Motorcycle parts, as provided for in subdivision (g) of U.S. note 16 to the subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.14",
+      "sha256": "5e070947d8fcbcb313c025831d74fd17df6dc8430e80d67745409f89369905d8",
+      "text": "Articles of steel or of copper and derivative steel the product of the Russian Federation, as provided for in subdivisions (c)(iii)\u2013(v) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.15",
+      "sha256": "414a352c67961b2f00408962ff567a27c0cb270a4f2d4eed26ea99c6c03e27bf",
+      "text": "Articles of copper and derivative steel the product of the Russian Federation, as provided for in subdivisions (c)(iv), (vii), (viii) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "9903.82.15",
+      "sha256": "7510295608bbcc044b6a1ba71e5cc793712811a9ad134b858f990148cb65dd2f",
+      "text": "Articles of copper and derivative steel the product of the Russian Federation, as provided for in subdivisions (c)(iv), (vii), (viii), (xi) and (e) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.16",
+      "sha256": "1e30d41c32291a718314dafed8c3f7bbd95a3c73962a9d1d2b08cdfd23ae4eda",
+      "text": "Articles of copper and derivative steel the product of the Russian Federation, as provided for in subdivisions (c)(vii)\u2013(viii) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "9903.82.16",
+      "sha256": "e7b82c40b2e942f099f5c26f411684ebaf6dd6e5ba2fcfbf8538bb4af3427cbd",
+      "text": "Articles of copper and derivative steel the product of the Russian Federation, as provided for in subdivisions (c)(vii)\u2013(viii) and (xi) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.17",
+      "sha256": "d3006f0162d5fa76009604bb9e3621dd61412918735e58e50d0f727343f66ed5",
+      "text": "Derivative steel articles the product of the Russian Federation, as provided for in subdivision (c)(x) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.18",
+      "sha256": "67e2e582763ed42aac1087998964e5fefeb1c57ed204b004cdd3ea6174cb30ea",
+      "text": "Certain articles of steel, as provided for in subdivisions (c)(iii) and (h) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.19",
+      "sha256": "b93f8cbc0bc705d4f71527ad0205ccac1930909e417cecadad125bcb19e98620",
+      "text": "Certain articles of aluminum, as provided for in subdivision (c)(i) and subdivision (i) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.20",
+      "sha256": "038d06defe482132c924d8fe9bbe5d6f886654b796b1c41970115f96b096c1bc",
+      "text": "Derivative steel articles as provided in subdivision (j) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.21",
+      "sha256": "038d06defe482132c924d8fe9bbe5d6f886654b796b1c41970115f96b096c1bc",
+      "text": "Derivative steel articles as provided in subdivision (j) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.22",
+      "sha256": "31c8c205ada5c158f205f1badf4340b93c7c6c540bc157880784fed11a605a41",
+      "text": "Derivative steel articles the product of Argentina, Ecuador, El Salvador, Guatemala, Japan, the Republic of Korea, Liechtenstein, Switzerland, Taiwan, the United Kingdom, or a member nation of the European Union, as provided for in subdivision (c)(xi) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.23",
+      "sha256": "bead626083fb0fec5111577ded1457fc377e8f994f418d25079552f2da3c30a9",
+      "text": "Articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 10 percent, as provided for in subdivisions (e) and (k) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.24",
+      "sha256": "7b386520102fb3047a3370f9f6f2c58b80e32a998bedf5a3cfb63b84029d17eb",
+      "text": "Articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 10 percent, as provided for in subdivisions (e) and (k) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.25",
+      "sha256": "e02b434f098fce638d8571d5720a6da25d14a1df512f28850b599faaf3102964",
+      "text": "Articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 15 percent, as provided for in subdivisions (f) and (k) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.82.26",
+      "sha256": "d6b5bf62264f87a0bd9cf678f6c27a85a4798597a0a39bd36216f654f53eb9f0",
+      "text": "Articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 15 percent, as provided for in subdivisions (f) and (k) of U.S. note 16 to this subchapter",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.85.67",
+      "sha256": "37bd985bcb81f611dffa48997b2e8e94313537eb62c0f6b73dedaed6db3b639c",
+      "text": "Aluminum articles that are the product of Russia, or where any amount of primary aluminum used in the manufacture of the aluminum articles is smelted in Russia, or where the aluminum articles are cast in Russia, the foregoing under the terms of note 19(a)(vii)(A) to this subchapter, or note 19(m)(A) to this subchapter, as applicable per the date of entry for consumption or withdrawal from warehouse for consumption, except any exclusions that may be determined and announced by the Department of Commerce",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "9903.85.68",
+      "sha256": "0970cc7681055285da15bc9bfab6018ca46495e09a05b5fdc2551b4f1f8775b2",
+      "text": "Derivative aluminum articles that are products of Russia, or where any amount of primary aluminum used in the manufacture of the derivative articles is smelted in Russia, or where the derivative aluminum articles are cast in Russia, when such derivative articles are provided for in the headings or subheadings enumerated in note 19(a)(iii) to this subchapter, or notes 19(i), 19(j) or 19(k) to this subchapter, as applicable per the date of entry for consumption or withdrawal from warehouse for consumption, except any exclusions that may be determined and announced by the Department of Commerce",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(a)",
+      "sha256": "21a02f19f01580188c4961bf136d9a8d6aecd5c664504c8d10c4ca01ca326ece",
+      "text": "16. (a) Except as provided in headings 9903.85.67 and 9903.85.68, headings 9903.82.02\u20139903.82.17 provide the ordinary customs duty treatment of certain articles of aluminum, of steel, or of copper and certain derivative aluminum or steel articles as provided for in subdivision (c) of this note. These headings are mutually exclusive, such that an imported article will be subject to no more than one of these headings.",
+      "revisions": [
+        "2026_rev_5"
+      ]
+    },
+    {
+      "locator": "note16(a)",
+      "sha256": "75da3f65de6f12e16de87711f76278f6f19a30d67a5f0bc2f7148100ed31dd84",
+      "text": "16. (a) Except as provided in headings 9903.82.01, 9903.85.67, and 9903.85.68, headings 9903.82.02\u20139903.82.19 provide the ordinary customs duty treatment of certain articles of aluminum, of steel, or of copper and certain derivative aluminum or steel articles as provided for in subdivision (c) of this note. These headings are mutually exclusive, such that an imported article will be subject to no more than one of these headings.",
+      "revisions": [
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "note16(a)",
+      "sha256": "b8cdb54caf3a61e837329b36b0afe0915e377494cddb2927cae666c173b98614",
+      "text": "16. (a) Except as provided in headings 9903.82.01, 9903.85.67, and 9903.85.68, headings 9903.82.02\u20139903.82.26 provide the ordinary customs duty treatment of certain articles of aluminum, of steel, or of copper and certain derivative aluminum or steel articles as provided for in subdivision (c) of this note. These headings are mutually exclusive, such that an imported article will be subject to no more than one of these headings.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(a)",
+      "sha256": "fc3c88d9e652d7063fa432498866ee703673bed775daaadcdbf2de2bed8fddca",
+      "text": "16. (a) Except as provided in headings 9903.85.67 and 9903.85.68, headings 9903.82.02\u20139903.82.19 provide the ordinary customs duty treatment of certain articles of aluminum, of steel, or of copper and certain derivative aluminum or steel articles as provided for in subdivision (c) of this note. These headings are mutually exclusive, such that an imported article will be subject to no more than one of these headings.",
+      "revisions": [
+        "2026_rev_6"
+      ]
+    },
+    {
+      "locator": "note16(b)",
+      "sha256": "a60c3431a1a7bdccdfcc82c2dd307548852c963327058a5d1056b6002eb0f11b",
+      "text": "(b) For imported articles provided for in headings 9903.82.02\u20139903.82.26 that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duties provided in these headings shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading. Goods for which entry is claimed under a provision of chapter 98 to the HTSUS and that are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (CBP) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed under a provision of chapter 99 to the HTSUS that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP. All antidumping, countervailing or other duties and charges applicable to such goods shall continue to be imposed.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(b)",
+      "sha256": "c8e7e7b83892b1ddd4d23b4a9002928aae7d8bf7d041e57f4964d9930988fb73",
+      "text": "(b) For imported articles provided for in headings 9903.82.02\u20139903.82.19 that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duties provided in these headings shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading. Goods for which entry is claimed under a provision of chapter 98 to the HTSUS and that are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (CBP) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed under a provision of chapter 99 to the HTSUS that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP. All antidumping, countervailing or other duties and charges applicable to such goods shall continue to be imposed.",
+      "revisions": [
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "note16(b)",
+      "sha256": "dd8a270ec3c08a5f4f2d2685928081adec980c3ac68e27b1cb22ff9888be2edd",
+      "text": "(b) For imported articles provided for in headings 9903.82.02\u20139903.82.17 that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duties provided in these headings shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading. Goods for which entry is claimed under a provision of chapter 98 to the HTSUS and that are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (CBP) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed under a provision of chapter 99 to the HTSUS that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP. All antidumping, countervailing or other duties and charges applicable to such goods shall continue to be imposed.",
+      "revisions": [
+        "2026_rev_5"
+      ]
+    },
+    {
+      "locator": "note16(d)",
+      "sha256": "a9902db7d83dfb9044fee16fe036432d9e1e1a10a8e87cf0a3d911bb349bde84",
+      "text": "(d) Headings 9903.82.04 and 9903.82.05 apply to articles the product of the United Kingdom in which at least 95 percent of the aluminum was smelted or most recently cast in the United Kingdom, or in which at least 95 percent of the steel was melted and poured in the United Kingdom. Heading 9903.82.04 applies to such products classifiable in the provisions enumerated in subdivisions (c)(i)\u2013(iv) of this note. Heading 9903.82.05 applies to such products classifiable in the provisions enumerated in subdivisions (c)(vi)\u2013(vii) of this note.",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(e)",
+      "sha256": "54805a3182a254b4ff769d614b9a8c569d54a01fbaba2a998a1b85fff09faf97",
+      "text": "(e) Headings 9903.82.06, 9903.82.07, 9903.82.08, 9903.82.15, 9903.82.23 and 9903.82.24 apply to certain articles of copper and derivative aluminum and steel articles provided for in subdivision (c) of this note. For derivative articles provided for in subdivisions (c)(ii), (vi), and (ix), at least 85 percent of the aluminum content of the article must be composed of aluminum that was smelted and cast in the United States. For derivative articles provided for in subdivisions (c)(iv), (vii), (x) and (xi), at least 85 percent of the steel content of the article must be composed of steel that was melted and poured in the United States. For articles provided for in subdivision (c)(viii), at least 85 percent of the copper content of the article must be composed of copper that was smelt and cast in the United States. These requirements are cumulative such that a derivative article in more than one subdivision must satisfy each requirement. Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.07 and 9903.82.08 apply to derivative articles classifiable in the provisions provided for in subdivisions (c)(ix)\u2013(x) of this note. Headings 9903.82.23 and 9903.82.24 apply to articles meeting the requirements of subdivision (k) of this note. For articles for which the applicable column 1 duty rate is less than 10 percent, heading 9903.82.07 or 9903.82.23 applies and the sum of the column 1 duty rate and the additional ad valorem rate of duty will total 10 percent. For articles for which the applicable column 1 duty rate is 10 percent or higher, heading 9903.82.08 or 9903.82.24 applies.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(e)",
+      "sha256": "5df519eab16ebde979ce995757638a2df61c43ed4fc9d9dfcd8521ec19d6f774",
+      "text": "(e) Headings 9903.82.06, 9903.82.07, 9903.82.08 and 9903.82.15 apply to certain articles of copper and derivative aluminum and steel articles provided for in subdivision (c) of this note. For derivative articles provided for in subdivisions (c)(ii), (vi), and (ix), at least 95 percent of the aluminum content of the article must be composed of aluminum that was smelted and cast in the United States. For derivative articles provided for in subdivisions (c)(iv), (vii) and (x), at least 95 percent of the steel content of the article must be composed of steel that was melted and poured in the United States. For articles provided for in subdivision (c)(viii), at least 95 percent of the copper content of the article must be composed of copper that was smelt and cast in the United States. These requirements are cumulative such that a derivative article in more than one subdivision must satisfy each requirement. Heading 9903.82.06 applies to articles classifiable in the provisions provided for in subdivisions (c)(ii), (iv), (vi) and (vii) of this note. Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.07 and 9903.82.08 apply to derivative articles classifiable in the provisions provided for in subdivisions (c)(ix)\u2013(x) of this note. For articles for which the applicable column 1 duty rate is less than 10 percent, the sum of the column 1 duty rate and the additional ad valorem rate of duty pursuant to heading 9903.82.07 will be 10 percent. For articles for which the applicable column 1 duty rate is 10 percent or higher, heading 9903.82.08 applies and no additional duty is due pursuant to heading 9903.82.07.",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6"
+      ]
+    },
+    {
+      "locator": "note16(e)",
+      "sha256": "b5d8cbd37d44538c06d30164ac4e4d7323cb5538b5d75f8c0608cd7b5a401234",
+      "text": "(e) Headings 9903.82.06, 9903.82.07, 9903.82.08 and 9903.82.15 apply to certain articles of copper and derivative aluminum and steel articles provided for in subdivision (c) of this note. For derivative articles provided for in subdivisions (c)(ii), (vi), and (ix), at least 95 percent of the aluminum content of the article must be composed of aluminum that was smelted and cast in the United States. For derivative articles provided for in subdivisions (c)(iv), (vii) and (x), at least 95 percent of the steel content of the article must be composed of steel that was melted and poured in the United States. For articles provided for in subdivision (c)(viii), at least 95 percent of the copper content of the article must be composed of copper that was smelt and cast in the United States. These requirements are cumulative such that a derivative article in more than one subdivision must satisfy each requirement. Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.07 and 9903.82.08 apply to derivative articles classifiable in the provisions provided for in subdivisions (c)(ix)\u2013(x) of this note. For articles for which the applicable column 1 duty rate is less than 10 percent, the sum of the column 1 duty rate and the additional ad valorem rate of duty pursuant to heading 9903.82.07 will be 10 percent. For articles for which the applicable column 1 duty rate is 10 percent or higher, heading 9903.82.08 applies and no additional duty is due pursuant to heading 9903.82.07.",
+      "revisions": [
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "note16(f)",
+      "sha256": "26e98eb00a87601a17fea0932c4f1a73001b3a151108cf05469468e15564fa7f",
+      "text": "(f) Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.10 and 9903.82.11 apply to articles provided for in subdivisions (c)(ix)\u2013(x) of this note that do not meet the requirements described in subdivision (e) of this note. Headings 9903.82.25 and 9903.82.26 apply to articles that meet the requirements of subdivision (k) of this note but do not meet the requirements described in subdivision (e) of this note. For articles for which the applicable column 1 duty rate is less than 15 percent, heading 9903.82.10 or 9903.82.25 applies and the sum of the column 1 duty rate and the additional ad valorem rate of duty is 15 percent ad valorem. For articles for which the applicable column 1 duty rate is 15 percent or higher, heading 9903.82.11 or 9903.82.26 applies.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(f)",
+      "sha256": "72f9f540ed28be67999be144d8c715a3dfa5b98df34a3a526d70c04c760b6e67",
+      "text": "(f) Except as provided for in headings 9903.82.12 and 9903.82.17, headings 9903.82.10 and 9903.82.11 apply to articles provided for in subdivisions (c)(ix)\u2013(x) of this note that do not meet the requirements described in subdivision (e) of this note. For articles for which the applicable column 1 duty rate is less than 15 percent, the sum of the column 1 duty rate and the additional ad valorem rate of duty pursuant to heading 9903.82.10 will total 15 percent ad valorem. For articles for which the applicable column 1 duty rate is 15 percent or higher, heading 9903.82.11 applies and no additional duty is due pursuant to heading 9903.82.10.",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "note16(g)",
+      "sha256": "2454d55e7c277caddf2266a408e43231ed5fb69539a2a7e49254650a1c16d05a",
+      "text": "(g) Heading 9903.82.13 applies to articles that otherwise meet the criteria of subdivisions (c)(vi)\u2013(viii) that are motorcycle parts classifiable in chapter 84, 85 or 87 for use in the manufacturing of motorcycles in the United States.",
+      "revisions": [
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8"
+      ]
+    },
+    {
+      "locator": "note16(g)",
+      "sha256": "29a13cdf1767ca05cbcbd8fc278fcc1d4cba00a1a85d23006bcdeb5a6ed1dc4b",
+      "text": "(g) Heading 9903.82.13 applies to articles that otherwise meet the criteria of subdivisions (c)(vi)\u2013(viii) and (xi) that are motorcycle parts classifiable in chapter 84, 85 or 87 for use in the manufacturing of motorcycles in the United States.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(h)",
+      "sha256": "f6a61fc1887089c968592a516267e4f22bfa0deded7a62ec9dc79a19858bff65",
+      "text": "(h) Heading 9903.82.18 applies to limited quantities of articles of steel described in subdivision (c)(iii) of this note that: (1) were melted and poured in Canada or Mexico; (2) qualify for preferential treatment under the United States-Mexico-Canada Agreement, as provided in general note 11 of the HTSUS; and (3) are authorized by the Secretary of Commerce as eligible for a tariff reduction under this heading pursuant to clause 13 of Presidential Proclamation 10984 of October 17, 2025. Proclamation 10984 authorized the Secretary of Commerce to reduce the applicable rate of duty for limited quantities of articles of steel imported by steel producers that operate production facilities in Canada or Mexico and that supply steel to U.S. manufacturers of automobiles, medium- and heavy-duty vehicles, automobile parts, and medium- and heavy-duty vehicle parts. Any importer entering an article of steel covered by this note under heading 9903.82.18 shall provide any information that may be required, and in such form, as is deemed necessary by U.S. Customs and Border Protection in order to permit the administration of this heading.",
+      "revisions": [
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(i)",
+      "sha256": "c909b178ac6e136afd14671f6931d4f6c84f89bba6e99e508b774c94be6fea83",
+      "text": "(i) Heading 9903.82.19 applies to limited quantities of articles of aluminum described in subdivision (c)(i) of this note that: (1) were smelted and cast in Canada or Mexico; (2) qualify for preferential treatment under the United States-Mexico-Canada Agreement, as provided in general note 11 of the HTSUS; and (3) are authorized by the Secretary of Commerce as eligible for a tariff reduction under this heading pursuant to clause 13 of Presidential Proclamation 10984 or October 17, 2025. Proclamation 10984 authorized the Secretary of Commerce to reduce the applicable rate of duty for certain quantities of aluminum imported by aluminum producers that operate production facilities in Canada or Mexico and supply aluminum to U.S. manufacturers of automobiles, medium- and heavy-duty vehicles, automobile parts, and medium- and heavy-duty vehicle parts. Any importer entering an article of aluminum covered by this note under heading 9903.82.19 shall provide any information that may be required, and in such form, as is deemed necessary by U.S. Customs and Border Protection in order to permit the administration of this heading.",
+      "revisions": [
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_9",
+        "2026_rev_8",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(j)",
+      "sha256": "bf98cea588b613becd81766af07ef3f06b174ca0627bf0936abb28f8b989c25c",
+      "text": "(j) Headings 9903.82.20 and 9903.82.21 apply to derivative steel articles provided for in subdivision (c)(xi) of this note that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement. Heading 9903.82.20 applies to the non-U.S. content of such derivative steel articles and to U.S. content that exceeds 40 percent of the value of such derivative steel articles. Heading 9903.82.21 applies to the U.S. content that does not exceed 40 percent of the value of such derivative steel articles. For the purposes of this note, U.S. content refers to the value of the article attributable to parts produced in the United States. Importers of such derivative steel articles shall identify the amount of U.S. content in each article imported into the United States. The non-U.S. content of the article shall be calculated by subtracting the value of the U.S. content in the article from the total value of the article. Any importer entering an article covered by this subdivision shall provide any information that may be required, and in such form, as is deemed necessary by CBP in order to permit the administration of this heading.",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    },
+    {
+      "locator": "note16(k)",
+      "sha256": "1e27e5dba28c9981bda9bf0977fde77d1d1d84b15396b9d97750195bb4437f07",
+      "text": "(k) Except as provided in heading 9903.85.68, headings 9903.82.23\u20139903.82.26 apply to parts classifiable in the provisions of subdivision (c)(vi)\u2013(viii) of this note that are in chapters 84, 85, or 87 of the HTSUS that will be used exclusively in the manufacturing of agricultural equipment or fixed industrial equipment provided for in subdivision (c)(ix)\u2013(x) of this note or mobile industrial equipment provided for in subdivision (c)(xi) of this note. Headings 9903.82.23\u20139903.82.26 do not apply to products of any country identified in general note 3(b).",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21"
+      ]
+    }
+  ]
+}

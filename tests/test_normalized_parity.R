@@ -103,7 +103,7 @@ for (rd in revision_dirs) {
   rev_id <- basename(rd)
   layers <- REQUIRED_LAYERS
   if(grepl('^202[56]_',rev_id)) {
-    layers <- c(layers,'section301_scope_decisions.parquet','claim_effects.parquet')
+    layers <- c(layers,'section301_scope_decisions.parquet','section232_scope_decisions.parquet', 'ieepa_action_decisions.parquet','claim_effects.parquet')
     for(file in c('section301_source.json','section301_rules.json')) {
       if(!file.exists(file.path(rd,file))) {
         log_fail(paste0(rev_id,'/',file,' missing; corrected Section 301 rebuild required'))
