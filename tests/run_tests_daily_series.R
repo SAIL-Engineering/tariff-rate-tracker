@@ -19,6 +19,8 @@ library(tidyverse)
 library(here)
 source(here('src', 'helpers.R'))
 source(here('src', '09_daily_series.R'))
+# Fixtures must never replace a real revision's normalized artifacts.
+Sys.setenv(SAIL_EMIT_NORMALIZED='0')
 
 run_artifact_tests <- '--with-artifacts' %in% commandArgs(trailingOnly = TRUE)
 

@@ -93,6 +93,21 @@ or required-predicate relations by reporting code. Adding an action does not
 attest complete authority coverage. These fragments do not replace the complete
 source chronology or production bundle compiler.
 
+Relations can also bind `suppress_by_reporting_codes` to the assembled bundle's
+actual trigger actions. `trigger_test: "positive_duty"` tests each trigger's
+resolved amount after claims; the default `applicability` tests its applicability.
+Single-trigger `suppress` supports the same distinction. A zero-duty floor or
+relief is not a positive-duty trigger. Optional `target_rule_ids` restricts the
+reviewed reporting-code targets to particular temporal actions, preventing old
+and new precedence orders from creating a false cycle across an amendment.
+The composer rejects unknown IDs and mixed independent reporting headings.
+
+An `unchanged_claims` relation names a `claim_authority`, `target_rule_ids` and
+evidence `source_ids`. It extends only registered claims whose candidate rules
+all belong to that authority; a claim-name prefix is insufficient. This records
+reviewed unchanged liability without inventing a discount, supplying eligibility,
+or granting authority coverage. Dependent actions still reevaluate per shipment.
+
 The release artifact hash covers the original rule file. Stored `bundle_sha256`
 covers the exact serialized `bundle_json` bytes and is checked on every read.
 Reformatting/corrupting stored rules without a new release cannot silently change
@@ -176,3 +191,13 @@ guessed scalar heading. Predicate compilation distinguishes shipment inputs from
 source discrepancies and rejects unknown legal condition grammar. The fragment's
 limited revision horizon and absent authority attestation prevent its being
 misrepresented as complete Section 232 chronology or all-action coverage.
+
+The current release contract is **`sail.tariff-release/v6`**. It preserves v5's
+wide/normalized legal-state grid validation and adds DATE `state_valid_from` and
+`state_valid_until` to every `section232_scope_decisions` partition. Historical
+notes 16/19 and post-April note 16 share one column/type schema, including empty
+partitions. The extra historical conditions remain in their source and rule
+objects. Each decision must match a wide legal state, an exact-grain candidate,
+and the bundle's source hashes. Conditional metal scope cannot carry a numeric
+wide statutory Section 232 rate. A v5 release is unsupported; do not manufacture
+missing dates at read time. Preparing v6 is local and does not activate a release.

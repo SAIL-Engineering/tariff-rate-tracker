@@ -562,8 +562,9 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date
 #'
 #' @param ch99_data Parsed Chapter 99 data from parse_chapter99()
 #' @return List with per-tariff rates, exemptions, and has_232 flag
-extract_section232_rates <- function(ch99_data) {
+extract_section232_rates <- function(ch99_data,effective_date=NULL) {
   message('Extracting Section 232 blanket rates...')
+  if(!is.null(effective_date)) ch99_data <- filter_s232_metal_epoch(ch99_data,effective_date)
 
   # --- Steel and Aluminum (9903.80-85) ---
   s232_sa <- ch99_data %>%
@@ -577,6 +578,14 @@ extract_section232_rates <- function(ch99_data) {
 
   steel_entries <- s232_sa %>% filter(s232_type == 'steel')
   aluminum_entries <- s232_sa %>% filter(s232_type == 'aluminum')
+  # Proclamations 10895/10896, effective March 12 at 00:01 EDT. A source
+  # snapshot can print these headings before commencement. This interface is
+  # the daily model; the executable rules preserve the exact minute.
+  if(!is.null(effective_date) && as.Date(effective_date)<as.Date('2025-03-12')) {
+    steel_entries <- steel_entries %>% filter(!grepl('^9903\\.81\\.(8[7-9]|9[0-9])$',ch99_code))
+    aluminum_entries <- aluminum_entries %>% filter(!ch99_code %in%
+      c('9903.85.02','9903.85.04','9903.85.07','9903.85.08','9903.85.09','9903.85.12','9903.85.13','9903.85.14','9903.85.15'))
+  }
 
   # --- Single-country STEEL surtaxes routed by Ch99 code ---
   # A few 9903.80 entries target ONE country at a rate above the all-country
@@ -627,11 +636,12 @@ extract_section232_rates <- function(ch99_data) {
 
   # UK-specific steel entries (9903.81.94-99)
   steel_uk <- steel_entries %>%
-    filter(grepl('^9903\\.81\\.9[4-9]', ch99_code), !is.na(rate))
+    filter(ch99_code == '9903.81.94', !is.na(rate))
   steel_country_overrides <- list()
   steel_country_override_ch99 <- list()
   if (nrow(steel_uk) > 0) {
-    .i <- which.max(steel_uk$rate)
+    if(nrow(steel_uk)!=1L) stop('Conflicting UK primary steel heading')
+    .i <- 1L
     uk_rate <- steel_uk$rate[.i]
     steel_country_overrides[['4120']] <- uk_rate
     steel_country_override_ch99[['4120']] <- steel_uk$ch99_code[.i]
@@ -698,12 +708,13 @@ extract_section232_rates <- function(ch99_data) {
 
   # UK-specific aluminum entries (9903.85.12-15)
   alum_uk <- aluminum_entries %>%
-    filter(grepl('^9903\\.85\\.1[2-5]', ch99_code),
+    filter(ch99_code == '9903.85.12',
            grepl('United Kingdom', description, ignore.case = TRUE))
   aluminum_country_overrides <- list()
   aluminum_country_override_ch99 <- list()
   if (nrow(alum_uk) > 0) {
-    .i <- which.max(alum_uk$rate)
+    if(nrow(alum_uk)!=1L) stop('Conflicting UK primary aluminum heading')
+    .i <- 1L
     uk_alum_rate <- alum_uk$rate[.i]
     aluminum_country_overrides[['4120']] <- uk_alum_rate
     aluminum_country_override_ch99[['4120']] <- alum_uk$ch99_code[.i]
@@ -742,7 +753,9 @@ extract_section232_rates <- function(ch99_data) {
   # Extract derivative rate for use in 06_calculate_rates.R step 3a.
   alum_deriv <- aluminum_entries %>%
     filter(ch99_code %in% c('9903.85.04', '9903.85.07', '9903.85.08'))
-  aluminum_derivative_rate <- if (nrow(alum_deriv) > 0) max(alum_deriv$rate) else aluminum_rate
+  if(nrow(alum_deriv)>0 && (anyNA(alum_deriv$rate)||dplyr::n_distinct(alum_deriv$rate)!=1L))
+    stop('Distinct aluminum derivative rates require per-action model allocation')
+  aluminum_derivative_rate <- if (nrow(alum_deriv) > 0) unique(alum_deriv$rate) else aluminum_rate
   aluminum_derivative_exempt <- if (nrow(alum_deriv) > 0) {
     unique(unlist(alum_deriv$exempt_countries))
   } else {
@@ -765,7 +778,9 @@ extract_section232_rates <- function(ch99_data) {
   steel_deriv_codes <- c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93')
   steel_deriv <- steel_entries %>%
     filter(ch99_code %in% steel_deriv_codes, !is.na(rate), rate > 0)
-  steel_derivative_rate <- if (nrow(steel_deriv) > 0) max(steel_deriv$rate) else steel_rate
+  if(nrow(steel_deriv)>0 && dplyr::n_distinct(steel_deriv$rate)!=1L)
+    stop('Distinct steel derivative rates require per-action model allocation')
+  steel_derivative_rate <- if (nrow(steel_deriv) > 0) unique(steel_deriv$rate) else steel_rate
   steel_derivative_exempt <- if (nrow(steel_deriv) > 0) {
     unique(unlist(steel_deriv$exempt_countries))
   } else {

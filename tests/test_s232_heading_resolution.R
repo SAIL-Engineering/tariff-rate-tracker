@@ -126,3 +126,17 @@ stopifnot(is.null(evaluate_shipment_bundle(early_bundle,'7318158085','5700','202
 if('--emit' %in% commandArgs(trailingOnly=TRUE)) jsonlite::write_json(list(bundle=bundle,cases=cases),
   'tests/fixtures/shipment/note16-composition.json',auto_unbox=TRUE,null='null',digits=NA)
 cat(length(cases)+length(early_cases),'source-backed note 16 heading/amount/input cases passed; no all-authority attestation\n')
+# Note 16(b) preserves these duties when a different Chapter 99 program has a
+# lower rate. A registered Section 301 exclusion does not remove Section 232.
+claim_source<-list(id='synthetic-301-interaction',status='verified',sha256=paste(rep('0',64),collapse=''),
+ url='https://example.invalid/interaction',citation='Synthetic claim identity; not a legal scope fixture')
+interaction<-base;interaction$sources<-c(interaction$sources,list(claim_source))
+interaction$rules<-list(list(id='synthetic-exclusion',authority='section_301',action_id='synthetic-exclusion',kind='duty',
+ verification='verified',scope=list(hts_exact=list('7318158085'),countries=list('5700')),
+ when=list(claim='section301:test'),formula=list(value=0),reporting_codes=list('9903.88.69'),source_ids=list(claim_source$id)))
+interaction$claim_definitions<-list(list(id='section301:test',label='Synthetic exclusion',rule_ids=list('synthetic-exclusion'),
+ candidate_rule_ids=list('synthetic-exclusion'),source_ids=list(claim_source$id)))
+interaction<-compose_shipment_rules(interaction,list(fragment));q<-steel;q$claims<-list('section301:test')
+r<-evaluate_shipment_bundle(interaction,'7318158085','5700',cases[[1]]$entry_at,q)
+stopifnot(r$known_subtotal==50,!any(grepl('claim_not_priced',r$source_errors)))
+cat('Note 16 and registered Section 301 exclusion independence passed\n')

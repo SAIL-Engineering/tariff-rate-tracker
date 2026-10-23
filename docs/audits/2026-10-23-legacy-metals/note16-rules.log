@@ -1,0 +1,17 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+here() starts at /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+35 source-backed note 16 heading/amount/input cases passed; no all-authority attestation
+Note 16 and registered Section 301 exclusion independence passed

@@ -40,7 +40,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
     authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
     ieepa_action_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR country,''::VARCHAR ch99_code,0::DOUBLE rate,''::VARCHAR rate_type,''::VARCHAR phase,FALSE::BOOLEAN terminated,''::VARCHAR decision,''::VARCHAR source_description,''::VARCHAR duty_expression,''::VARCHAR source_heading_sha256,''::VARCHAR hts_sha256,NULL::VARCHAR amendment_source_id,NULL::VARCHAR amendment_source_sha256,NULL::VARCHAR amendment_effective_from,NULL::VARCHAR pdf_sha256,NULL::VARCHAR source_note_locator,NULL::VARCHAR source_note_sha256,NULL::VARCHAR source_note,NULL::VARCHAR entry_valid_from,NULL::VARCHAR entry_valid_until,NULL::DATE state_valid_from,NULL::DATE state_valid_until WHERE FALSE",
-    section232_scope_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR hts10,''::VARCHAR scope_code,0::INTEGER scope_grain,''::VARCHAR list_id,''::VARCHAR metal,FALSE::BOOLEAN derivative,''::VARCHAR source_locator,''::VARCHAR source_text_sha256,''::VARCHAR pdf_sha256,''::VARCHAR hts_sha256 WHERE FALSE",
+    section232_scope_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR hts10,''::VARCHAR scope_code,0::INTEGER scope_grain,''::VARCHAR list_id,''::VARCHAR metal,FALSE::BOOLEAN derivative,''::VARCHAR source_locator,''::VARCHAR source_text_sha256,''::VARCHAR pdf_sha256,''::VARCHAR hts_sha256,NULL::DATE state_valid_from,NULL::DATE state_valid_until WHERE FALSE",
     section301_scope_decisions: "SELECT 'test'::VARCHAR revision, 'section_301'::VARCHAR authority, 'china_technology_transfer'::VARCHAR AS \"program\", '5700'::VARCHAR country_scope, '1234567890'::VARCHAR hts10, '9903.88.01'::VARCHAR ch99_code, 0.25::DOUBLE rate, NULL::VARCHAR condition_text, 'fixture'::VARCHAR source_locator, repeat('0',64)::VARCHAR source_text_sha256, repeat('0',64)::VARCHAR pdf_sha256, repeat('0',64)::VARCHAR hts_sha256, NULL::VARCHAR valid_from, NULL::VARCHAR valid_until WHERE FALSE",
     claim_effects: "SELECT ''::VARCHAR revision,''::VARCHAR claim_id,''::VARCHAR rule_id,''::VARCHAR authority,''::VARCHAR effect,''::VARCHAR target_reporting_code,''::VARCHAR hts10,''::VARCHAR country,''::VARCHAR valid_from,''::VARCHAR valid_until,''::VARCHAR source_ids_json,''::VARCHAR condition_json,''::VARCHAR source_locator,''::VARCHAR source_scope_sha256 WHERE FALSE",
     authority_exemptions: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority",
@@ -56,7 +56,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   const rules = `${version}-rules.json`;
   await fs.writeFile(path.join(root, rules), JSON.stringify(bundle));
   revision.rules = await hashFile(rules);
-  const manifest = { contract_version: 'sail.tariff-release/v5', dataset_version: version,
+  const manifest = { contract_version: 'sail.tariff-release/v6', dataset_version: version,
     evidence_snapshot_id: bundle.evidence_snapshot_id, required_revisions: ['test'], revisions: [revision] };
   const file = path.join(root, `${version}-manifest.json`);
   await fs.writeFile(file, JSON.stringify(manifest));
@@ -93,12 +93,14 @@ test('local Parquet release prepares atomically, validates target and preserves 
   await assert.rejects(prepareRelease(conn, prepared, catalog), /immutable/);
 }));
 
-test('release v5 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
+test('release v6 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
   const {file,manifest}=await manifestFixture(conn,root);
-  manifest.contract_version='sail.tariff-release/v1';
-  await fs.writeFile(file,JSON.stringify(manifest));
-  await assert.rejects(readReleaseManifest(file),/Unsupported release/);
-  manifest.contract_version='sail.tariff-release/v5';
+  for(const version of ['v1','v5']) {
+    manifest.contract_version=`sail.tariff-release/${version}`;
+    await fs.writeFile(file,JSON.stringify(manifest));
+    await assert.rejects(readReleaseManifest(file),/Unsupported release/);
+  }
+  manifest.contract_version='sail.tariff-release/v6';
   delete manifest.revisions[0].section301_scope_decisions;
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Missing section301_scope_decisions/);
@@ -116,7 +118,7 @@ test('release preflight rejects unattributed Section 301 wide rates', () => with
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
-test('release v5 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates', () => withDatabase(async (conn,root)=>{
+test('release v6 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates', () => withDatabase(async (conn,root)=>{
   const {file,manifest}=await manifestFixture(conn,root);
   const revision=manifest.revisions[0];
   const replace=async(name,sql,suffix)=>{
@@ -133,7 +135,7 @@ test('release v5 retains all note 16 memberships and rejects incomplete inventor
   const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
   await replace('section232_scope_decisions',`SELECT 'test' revision,'section_232' authority,'1234567890' hts10,
     '12345678' scope_code,8::INTEGER scope_grain,v.list_id,v.metal,TRUE derivative,
-    'U.S. note 16(c)('||v.list_id||')' source_locator,repeat('0',64) source_text_sha256,repeat('0',64) pdf_sha256,repeat('0',64) hts_sha256
+    'U.S. note 16(c)('||v.list_id||')' source_locator,repeat('0',64) source_text_sha256,repeat('0',64) pdf_sha256,repeat('0',64) hts_sha256,DATE '2026-01-01' state_valid_from,DATE '2026-12-31' state_valid_until
     FROM (VALUES ('vi','aluminum'),('vii','steel')) v(list_id,metal)`,'two-metals');
   await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/candidate inventory/);
   await replace('authority_product_candidates',`SELECT 'test' revision,'section_232' authority,
@@ -147,6 +149,18 @@ test('release v5 retains all note 16 memberships and rejects incomplete inventor
   const prepared=await readReleaseManifest(file);
   await prepareRelease(conn,prepared,catalog);
   assert.equal(Number((await conn.runAndReadAll(`SELECT count(*) n FROM "${prepared.schema}".section232_scope_decisions`)).getRowObjects()[0].n),2);
+  const originalMetals=path.join(root,revision.section232_scope_decisions[0].path);
+  await replace('section232_scope_decisions',`SELECT * REPLACE ('n16_m_1' AS list_id,'steel' AS metal,
+    'U.S. note 16(m)_1' AS source_locator) FROM read_parquet('${originalMetals}') LIMIT 1`,'legacy');
+  await replace('authority_product_candidates',`SELECT 'test' revision,'section_232' authority,
+    'legacy_metals_n16_m_1' AS "program",'1234567890' hts10,'12345678' scope_code,'prefix' scope_grain,
+    'fixture' source_path,repeat('0',64) source_sha256,'candidate_requires_legal_predicates' status`,'legacy');
+  await preflightRelease(conn,await readReleaseManifest(file),catalog);
+  const legacyMetals=path.join(root,revision.section232_scope_decisions[0].path);
+  await replace('section232_scope_decisions',`SELECT * REPLACE (DATE '2026-01-02' AS state_valid_from)
+    FROM read_parquet('${legacyMetals}')`,'bad-state');
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/legal state mismatch/);
+
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
@@ -282,7 +296,7 @@ test('candidate provenance preflight rejects missing scope and cross-product mem
   }
 }));
 
-test('release v5 requires claim chronology and validates every executable effect before preparation', () => withDatabase(async (conn,root)=>{
+test('release v6 requires claim chronology and validates every executable effect before preparation', () => withDatabase(async (conn,root)=>{
   const {file,manifest,bundle}=await manifestFixture(conn,root);
   const artifact=manifest.revisions[0].claim_effects;
   delete manifest.revisions[0].claim_effects;
@@ -323,7 +337,7 @@ test('release v5 requires claim chronology and validates every executable effect
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
-test('release v5 persists IEEPA note provenance and legal-state intervals',()=>withDatabase(async(conn,root)=>{
+test('release v6 persists IEEPA note provenance and legal-state intervals',()=>withDatabase(async(conn,root)=>{
   const {file,manifest}=await manifestFixture(conn,root);
   const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
   const table='ieepa_action_decisions',artifact=manifest.revisions[0][table];

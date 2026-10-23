@@ -508,16 +508,19 @@ emit_authority_product_applicability <- function(products, ch99_data,
   if (!is.null(s232_rates) && isTRUE(s232_rates$has_232)) {
     steel_chapters <- pp$country_codes$STEEL_CHAPTERS %||% c('72', '73')
     alum_chapters  <- pp$country_codes$ALUM_CHAPTERS  %||% c('76')
+    legacy <- denorm_state$s232_legacy_memberships
+    primary_steel <- if(!is.null(legacy)) unique(legacy$hts10[!legacy$derivative & legacy$metal=='steel']) else NULL
+    primary_aluminum <- if(!is.null(legacy)) unique(legacy$hts10[!legacy$derivative & legacy$metal=='aluminum']) else NULL
 
     # Steel blanket — one row per chapter
-    if (!is.null(s232_rates$steel_rate) && s232_rates$steel_rate > 0) {
+    if (!is.null(s232_rates$steel_rate) && s232_rates$steel_rate > 0 && (is.null(legacy)||length(primary_steel)>0L)) {
       rows[['s232_steel']] <- tibble(
         revision          = revision_id,
         authority         = 'section_232',
         program           = 'steel_base',
-        hts10             = NA_character_,
-        hts_prefix        = steel_chapters,
-        ch99_code         = '9903.80.01',   # heuristic tag; layer-3 doesn't strictly need
+        hts10             = if(is.null(legacy)) NA_character_ else primary_steel,
+        hts_prefix        = if(is.null(legacy)) steel_chapters else NA_character_,
+        ch99_code         = s232_rates$steel_rate_ch99 %||% NA_character_,
         statutory_rate    = as.numeric(s232_rates$steel_rate),
         rate_kind         = 'ad_valorem_full',
         scaling_dimension = 'none',
@@ -530,14 +533,14 @@ emit_authority_product_applicability <- function(products, ch99_data,
     }
 
     # Aluminum blanket — one row per chapter
-    if (!is.null(s232_rates$aluminum_rate) && s232_rates$aluminum_rate > 0) {
+    if (!is.null(s232_rates$aluminum_rate) && s232_rates$aluminum_rate > 0 && (is.null(legacy)||length(primary_aluminum)>0L)) {
       rows[['s232_alum']] <- tibble(
         revision          = revision_id,
         authority         = 'section_232',
         program           = 'alum_base',
-        hts10             = NA_character_,
-        hts_prefix        = alum_chapters,
-        ch99_code         = '9903.85.01',
+        hts10             = if(is.null(legacy)) NA_character_ else primary_aluminum,
+        hts_prefix        = if(is.null(legacy)) alum_chapters else NA_character_,
+        ch99_code         = s232_rates$aluminum_rate_ch99 %||% NA_character_,
         statutory_rate    = as.numeric(s232_rates$aluminum_rate),
         rate_kind         = 'ad_valorem_full',
         scaling_dimension = 'none',
@@ -634,11 +637,16 @@ emit_authority_product_applicability <- function(products, ch99_data,
     # scaling_dimension='aluminum_share', steel derivatives use 'steel_share'.
     if (exists('load_232_derivative_products', mode = 'function')) {
       tryCatch({
-        deriv_prods <- load_232_derivative_products(effective_date = as.Date(effective_date))
+        deriv_prods <- if(!is.null(legacy)) s232_legacy_derivative_projection(legacy) else
+          load_232_derivative_products(effective_date = as.Date(effective_date))
         if (!is.null(deriv_prods) && nrow(deriv_prods) > 0) {
           active_ch99 <- unique(ch99_data$ch99_code)
           dp <- deriv_prods %>% filter(ch99_code %in% active_ch99)
           if (nrow(dp) > 0) {
+            if(!is.null(legacy)) for(metal in unique(dp$derivative_type)) {
+              value <- s232_rates[[paste0(metal,'_derivative_rate')]]
+              if(length(value)!=1L || is.na(value)) stop('Missing source-derived ',metal,' model parameter')
+            }
             # Derivative rates come from s232_rates — aluminum derivatives at
             # s232_rates$aluminum_derivative_rate, steel derivatives at
             # s232_rates$steel_derivative_rate. Fall back to 0 if missing.
@@ -671,6 +679,7 @@ emit_authority_product_applicability <- function(products, ch99_data,
           }
         }
       }, error = function(e) {
+        if(!is.null(legacy)) stop('Historical metal normalized scope failed: ',conditionMessage(e))
         message('  emit: s232 derivatives skipped: ', conditionMessage(e))
       })
     }
@@ -1276,6 +1285,24 @@ emit_normalized_revision <- function(
   candidates <- denorm_state$heading_candidates %||% list()
   source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')
   memberships <- s232_note16_matches(list(lists=list()),character())
+  membership_fields <- names(memberships)
+  if(!is.null(denorm_state$s232_legacy_source)) {
+    source(here::here('src/section232_legacy.R'))
+    evidence <- denorm_state$s232_legacy_source
+    memberships <- denorm_state$s232_legacy_memberships
+    for(id in unique(memberships$list_id)) {
+      members <- memberships %>% filter(list_id==id)
+      candidates[[paste0('legacy_metals_',id)]] <- list(
+        scope_matches=members %>% transmute(hts10,scope_code,
+          scope_grain=if_else(nchar(scope_code)==10L,'exact_hts10','prefix')),
+        scope_source=evidence$sources[[1]]$path,scope_sha256=evidence$sources[[1]]$sha256)
+    }
+    jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_legacy_source.json'),
+      auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    fragment232 <- compile_s232_legacy_fragment(evidence,products$hts10)
+    jsonlite::write_json(fragment232,file.path(output_dir,revision_id,'section232_legacy_rules.json'),
+      auto_unbox=TRUE,null='null',digits=NA)
+  }
   if (!is.null(denorm_state$s232_note16_source)) {
     evidence <- denorm_state$s232_note16_source
     memberships <- denorm_state$s232_note16_matches
@@ -1292,7 +1319,10 @@ emit_normalized_revision <- function(
     jsonlite::write_json(fragment232,file.path(output_dir,revision_id,'section232_note16_rules.json'),
       auto_unbox=TRUE,null='null',digits=NA)
   }
-  .write_parquet_safe(memberships %>% mutate(revision=revision_id,authority='section_232'),
+  # One stable Parquet schema across historical, revised and empty regimes.
+  # Additional historical predicates/headings stay in the source/rule objects.
+  .write_parquet_safe(memberships %>% select(all_of(membership_fields)) %>% mutate(revision=revision_id,authority='section_232',
+      state_valid_from=as.Date(valid_from %||% effective_date),state_valid_until=as.Date(valid_until %||% NA_character_)),
     file.path(output_dir,revision_id,'section232_scope_decisions.parquet'))
   emit_authority_product_candidates(candidates,revision_id,output_dir)
   if (!is.null(denorm_state$s301_source)) {

@@ -1,0 +1,358 @@
+TAP version 13
+# Subtest: R/TS/API runtime: unclaimed suppression does not ask for metal content
+ok 1 - R/TS/API runtime: unclaimed suppression does not ask for metal content
+  ---
+  duration_ms: 2.241037
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates formerly suppressed action
+ok 2 - R/TS/API runtime: claim reevaluates formerly suppressed action
+  ---
+  duration_ms: 0.390369
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim needs relevant content
+ok 3 - R/TS/API runtime: claim needs relevant content
+  ---
+  duration_ms: 0.251778
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid negative value
+ok 4 - R/TS/API runtime: invalid negative value
+  ---
+  duration_ms: 0.350061
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: source coverage is mandatory
+ok 5 - R/TS/API runtime: source coverage is mandatory
+  ---
+  duration_ms: 0.855337
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: identical duplicated rules are idempotent
+ok 6 - R/TS/API runtime: identical duplicated rules are idempotent
+  ---
+  duration_ms: 4.976055
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: conflicting duplicates are unresolved
+ok 7 - R/TS/API runtime: conflicting duplicates are unresolved
+  ---
+  duration_ms: 0.156282
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cumulative actions under one authority
+ok 8 - R/TS/API runtime: cumulative actions under one authority
+  ---
+  duration_ms: 0.103104
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific compound with exact quantity units
+ok 9 - R/TS/API runtime: specific compound with exact quantity units
+  ---
+  duration_ms: 0.238842
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: specific duty missing unit quantity is not zero
+ok 10 - R/TS/API runtime: specific duty missing unit quantity is not zero
+  ---
+  duration_ms: 0.25519
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: floor recomputes after claim
+ok 11 - R/TS/API runtime: floor recomputes after claim
+  ---
+  duration_ms: 0.140642
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: missing source reference
+ok 12 - R/TS/API runtime: missing source reference
+  ---
+  duration_ms: 0.077674
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: cycles are unresolved
+ok 13 - R/TS/API runtime: cycles are unresolved
+  ---
+  duration_ms: 0.055099
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unknown operator is unresolved
+ok 14 - R/TS/API runtime: unknown operator is unresolved
+  ---
+  duration_ms: 0.044269
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: zero denominator is unresolved
+ok 15 - R/TS/API runtime: zero denominator is unresolved
+  ---
+  duration_ms: 0.040208
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: model shares never affect shipment
+ok 16 - R/TS/API runtime: model shares never affect shipment
+  ---
+  duration_ms: 0.058126
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+ok 17 - R/TS/API runtime: uncovered neighbor does not match HTS8 as HTS10
+  ---
+  duration_ms: 0.094614
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deposit distinguished from duty
+ok 18 - R/TS/API runtime: deposit distinguished from duty
+  ---
+  duration_ms: 0.053579
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant before start
+ok 19 - R/TS/API runtime: instant before start
+  ---
+  duration_ms: 0.031549
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at start
+ok 20 - R/TS/API runtime: instant at start
+  ---
+  duration_ms: 0.05641
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: instant at exclusive end
+ok 21 - R/TS/API runtime: instant at exclusive end
+  ---
+  duration_ms: 0.029694
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: date-only is ambiguous
+ok 22 - R/TS/API runtime: date-only is ambiguous
+  ---
+  duration_ms: 0.024064
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed scope must not silently suppress duty
+ok 23 - R/TS/API runtime: malformed scope must not silently suppress duty
+  ---
+  duration_ms: 0.033996
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+ok 24 - R/TS/API runtime: unsupported claim cannot silently retain an unclaimed total
+  ---
+  duration_ms: 0.037955
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified source does not qualify an unverified interpretation
+ok 25 - R/TS/API runtime: verified source does not qualify an unverified interpretation
+  ---
+  duration_ms: 0.047242
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: inconsistent content values require corrected shipment facts
+ok 26 - R/TS/API runtime: inconsistent content values require corrected shipment facts
+  ---
+  duration_ms: 0.147643
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: malformed persisted rule data is unavailable
+ok 27 - R/TS/API runtime: malformed persisted rule data is unavailable
+  ---
+  duration_ms: 0.355003
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: duplicate source and rule property order has no effect
+ok 28 - R/TS/API runtime: duplicate source and rule property order has no effect
+  ---
+  duration_ms: 0.155411
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+ok 29 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-02-30T12:00:00Z
+  ---
+  duration_ms: 0.034375
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+ok 30 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T24:00:00Z
+  ---
+  duration_ms: 0.02829
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+ok 31 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:60Z
+  ---
+  duration_ms: 0.026274
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+ok 32 - R/TS/API runtime: invalid entry timestamp is never normalized: 2026-08-22T00:00:00+24:00
+  ---
+  duration_ms: 0.025715
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: deleted action cannot be certified by a coverage statement
+ok 33 - R/TS/API runtime: deleted action cannot be certified by a coverage statement
+  ---
+  duration_ms: 0.06553
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: legacy coverage without an inventory is incomplete
+ok 34 - R/TS/API runtime: legacy coverage without an inventory is incomplete
+  ---
+  duration_ms: 0.05902
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: added rule without coverage review is incomplete
+ok 35 - R/TS/API runtime: added rule without coverage review is incomplete
+  ---
+  duration_ms: 0.093008
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim with partial effect coverage preserves only known components
+ok 36 - R/TS/API runtime: claim with partial effect coverage preserves only known components
+  ---
+  duration_ms: 0.123469
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: verified absence requires an explicit negative coverage determination
+ok 37 - R/TS/API runtime: verified absence requires an explicit negative coverage determination
+  ---
+  duration_ms: 0.060309
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: negative coverage cannot hide an applicable action
+ok 38 - R/TS/API runtime: negative coverage cannot hide an applicable action
+  ---
+  duration_ms: 0.058826
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression survives zero valuation
+ok 39 - R/TS/API runtime: applicability suppression survives zero valuation
+  ---
+  duration_ms: 0.060215
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability suppression does not require valuation
+ok 40 - R/TS/API runtime: applicability suppression does not require valuation
+  ---
+  duration_ms: 0.054014
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: claim reevaluates applicability and revives action
+ok 41 - R/TS/API runtime: claim reevaluates applicability and revives action
+  ---
+  duration_ms: 0.056771
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: applicability dependency cycle is unresolved
+ok 42 - R/TS/API runtime: applicability dependency cycle is unresolved
+  ---
+  duration_ms: 0.058872
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+ok 43 - R/TS/API runtime: known suppression does not ask irrelevant product-use facts
+  ---
+  duration_ms: 0.052302
+  type: 'test'
+  ...
+# Subtest: R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+ok 44 - R/TS/API runtime: false product condition does not ask irrelevant suppression facts
+  ---
+  duration_ms: 0.046148
+  type: 'test'
+  ...
+# Subtest: local Parquet release prepares atomically, validates target and preserves active rollback
+ok 45 - local Parquet release prepares atomically, validates target and preserves active rollback
+  ---
+  duration_ms: 290.797055
+  type: 'test'
+  ...
+# Subtest: release v6 rejects old manifests and missing Section 301 evidence
+ok 46 - release v6 rejects old manifests and missing Section 301 evidence
+  ---
+  duration_ms: 41.600931
+  type: 'test'
+  ...
+# Subtest: release preflight rejects unattributed Section 301 wide rates
+ok 47 - release preflight rejects unattributed Section 301 wide rates
+  ---
+  duration_ms: 59.646167
+  type: 'test'
+  ...
+# Subtest: release v6 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates
+ok 48 - release v6 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates
+  ---
+  duration_ms: 293.374165
+  type: 'test'
+  ...
+# Subtest: changed artifacts and missing revisions cannot prepare a release
+ok 49 - changed artifacts and missing revisions cannot prepare a release
+  ---
+  duration_ms: 52.745533
+  type: 'test'
+  ...
+# Subtest: release preflight never treats missing Section 301 values as zero or broadens origin
+ok 50 - release preflight never treats missing Section 301 values as zero or broadens origin
+  ---
+  duration_ms: 259.953446
+  type: 'test'
+  ...
+# Subtest: JSON, Arrow and batch keep missing contracts incomplete
+ok 51 - JSON, Arrow and batch keep missing contracts incomplete
+  ---
+  duration_ms: 26.067449
+  type: 'test'
+  ...
+# Subtest: database name uses one validated configuration
+ok 52 - database name uses one validated configuration
+  ---
+  duration_ms: 0.34833
+  type: 'test'
+  ...
+# Subtest: API pool reopens an immutable database release read-only without local rule files
+ok 53 - API pool reopens an immutable database release read-only without local rule files
+  ---
+  duration_ms: 1962.980392
+  type: 'test'
+  ...
+# Subtest: API pool rejects a local database without a validated active release
+ok 54 - API pool rejects a local database without a validated active release
+  ---
+  duration_ms: 76.343029
+  type: 'test'
+  ...
+# Subtest: candidate provenance preflight rejects missing scope and cross-product membership before loading
+ok 55 - candidate provenance preflight rejects missing scope and cross-product membership before loading
+  ---
+  duration_ms: 106.408612
+  type: 'test'
+  ...
+# Subtest: release v6 requires claim chronology and validates every executable effect before preparation
+ok 56 - release v6 requires claim chronology and validates every executable effect before preparation
+  ---
+  duration_ms: 396.999923
+  type: 'test'
+  ...
+# Subtest: release v6 persists IEEPA note provenance and legal-state intervals
+ok 57 - release v6 persists IEEPA note provenance and legal-state intervals
+  ---
+  duration_ms: 604.370946
+  type: 'test'
+  ...
+# Subtest: release compares Section 301 at each legal state and rejects missing or overlapping state grids
+ok 58 - release compares Section 301 at each legal state and rejects missing or overlapping state grids
+  ---
+  duration_ms: 225.819894
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4540.479902

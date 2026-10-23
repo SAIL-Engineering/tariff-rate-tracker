@@ -82,7 +82,7 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
         if(file %in% temporal_tables) {
           x$valid_from <- rep(segments$valid_from[i],nrow(x))
           x$valid_until <- rep(segments$valid_until[i],nrow(x))
-        } else if(file=='ieepa_action_decisions.parquet') {
+        } else if(file %in% c('ieepa_action_decisions.parquet','section232_scope_decisions.parquet')) {
           x$state_valid_from <- rep(segments$valid_from[i],nrow(x))
           x$state_valid_until <- rep(segments$valid_until[i],nrow(x))
         }
@@ -163,6 +163,8 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
   if(grepl('^202[56]_',revision_id)) {
     if(!exists('load_s301_revision_source',mode='function')) source(here::here('src/section301_revision.R'))
     source_events$section301 <- load_s301_revision_source(revision_id,download=FALSE)
+    if(!exists('load_s232_legacy_source',mode='function')) source(here::here('src/section232_legacy.R'))
+    source_events$section232_legacy <- load_s232_legacy_source(revision_id)
   }
   segments <- revision_legal_segments(revision_id,revision_dates,policy_params,source_events)
   emit <- emit_normalized %||% !identical(Sys.getenv('SAIL_EMIT_NORMALIZED','1'),'0')
@@ -176,7 +178,7 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
     day <- segments$valid_from[i];roots[i] <- file.path(stage,as.character(day))
     states[[i]] <- calculate_rates_for_revision(products,ch99_data,
       extract_ieepa_rates(hts_raw,country_lookup,effective_date=day),usmca,countries,revision_id,day,
-      s232_rates=extract_section232_rates(ch99_data),
+      s232_rates=extract_section232_rates(ch99_data,effective_date=day),
       fentanyl_rates=extract_ieepa_fentanyl_rates(hts_raw,country_lookup,effective_date=day,revision_id=revision_id),
       stacking_method=stacking_method,policy_params=policy_params,ch99_other=ch99_other,
       s301_exclusions=build_s301_exclusion_candidates(ch99_data,day),

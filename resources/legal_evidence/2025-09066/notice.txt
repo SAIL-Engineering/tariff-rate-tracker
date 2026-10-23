@@ -1,0 +1,302 @@
+[Federal Register Volume 90, Number 96 (Tuesday, May 20, 2025)]
+[Notices]
+[Pages 21487-21489]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2025-09066]
+=======================================================================
+-----------------------------------------------------------------------
+DEPARTMENT OF HOMELAND SECURITY
+U.S. Customs and Border Protection
+Notice of Implementation of Addressing Certain Tariffs on
+Imported Articles Pursuant to the President's Executive Order 14289
+AGENCY: U.S. Customs and Border Protection, Department of Homeland
+Security.
+ACTION: Notice.
+-----------------------------------------------------------------------
+SUMMARY: In order to effectuate the President's Executive Order 14289,
+``Addressing Certain Tariffs on Imported Articles,'' which eliminates
+the compounding or ``stacking'' of certain overlapping tariffs that
+were imposed under various statutory authorities and Executive orders
+to protect national security and address unusual and extraordinary
+threats to the national security, foreign policy, and economy of the
+United States, the Secretary of Homeland Security has determined that
+appropriate action is needed to ensure collection of applicable duties
+as well as to modify the Harmonized Tariff Schedule of the United
+States (HTSUS) as set out in the Annex to this notice.
+DATES: The HTSUS is modified with respect to covered articles, as set
+out in the Annex to this document, at 12:01 a.m. eastern daylight time
+on May 16, 2025. The amendments shall apply to all covered articles
+that were entered for consumption, or withdrawn from warehouse for
+consumption, as specified in the Annex to this document. Requests for
+refunds may be filed on or after May 16, 2025.
+FOR FURTHER INFORMATION CONTACT: Brandon Lord, Executive Director,
+Trade Policy and Programs, Office of Trade, U.S. Customs and Border
+Protection, (202) 325-6432 or by email at traderemedy@cbp.dhs.gov. C.
+Shane Campbell, Acting Executive Director, Cargo and Conveyance
+Security, Office of Field Operations, U.S. Customs and Border
+Protection, (202) 344-3401 or by email at traderemedy@cbp.dhs.gov.
+SUPPLEMENTARY INFORMATION: The United States has imposed tariffs under
+various statutory authorities, including the International Emergency
+Economic Powers Act (50 U.S.C. 1701 et seq.) (IEEPA), the National
+Emergencies Act (50 U.S.C. 1601 et seq.), section 604 of the Trade Act
+of 1974, as amended (19 U.S.C. 2483), section 232 of the Trade
+Expansion Act of 1962, as amended (19 U.S.C. 1862), section 301 of
+title 3, United States Code, and Executive orders to protect national
+security, confront unusual and extraordinary threats to the national
+security, foreign policy, and economy of the United States, and promote
+the interests of American workers and industries. Although many of
+these actions, as listed below, serve separate and distinct policy
+purposes, on April 29, 2025, the President issued Executive Order
+14289, ``Addressing Certain Tariffs on Imported Articles'' (90 FR
+18907), in which the President determined that these tariffs should not
+all have a cumulative effect (or ``stack'' on top of one another).
+Therefore, to avoid the cumulative effect of overlapping tariffs on
+certain articles, Executive Order 14289 sets forth procedures for
+determining which tariffs should apply to an article when that article
+is subject to more than one of the actions listed in section 2 of
+Executive Order 14289, and set forth here:
+(a) Proclamation 10908 of March 26, 2025 (``Adjusting Imports of
+Automobiles and Automobile Parts Into the United States'');
+(b) Executive Order 14193 of February 1, 2025 (``Imposing Duties To
+Address the Flow of Illicit Drugs Across Our Northern Border''), as
+amended by Executive Order 14197 of February 3, 2025 (``Progress on the
+Situation at Our Northern Border''), Executive Order 14226 of March 2,
+2025 (``Amendment to Duties To Address the Flow of Illicit Drugs Across
+Our Northern Border''), and Executive Order 14231 of March 6, 2025
+(``Amendment to Duties to Address the Flow of Illicit Drugs Across Our
+Northern Border'');
+(c) Executive Order 14194 of February 1, 2025 (``Imposing Duties To
+Address the Situation at Our Southern Border''), as amended by
+Executive Order 14198 of February 3, 2025 (``Progress on the Situation
+at Our Southern Border''), Executive Order 14227 of March 2, 2025
+(``Amendment to Duties To Address the Situation at Our Southern
+Border''), and Executive Order 14232 of March 6, 2025 (``Amendment to
+Duties to Address the Flow of Illicit Drugs Across Our Southern
+Border'');
+(d) Proclamation 9704 of March 8, 2018 (``Adjusting Imports of
+Aluminum Into the United States''),\1\ as amended by Proclamation 9980
+of January 24, 2020 (``Adjusting Imports of Derivative Aluminum
+Articles and Derivative Steel Articles Into the United States''), and
+Proclamation 10895 of February 10, 2025 (``Adjusting Imports of
+Aluminum Into the United States'');
+---------------------------------------------------------------------------
+\1\ The reference to Proclamation 9704 of March 8, 2018,
+encompasses Proclamation 10522 of February 24, 2023 (Adjusting
+Imports of Aluminum Into the United States), which amended Clause 2
+of Proclamation 9704 to subject aluminum articles that are products
+of Russia or containing aluminum smelt or cast in Russia and
+aluminum derivative articles that are products of Russia or
+containing aluminum smelt or cast in Russia to a 200 percent ad
+valorem duty rate.
+---------------------------------------------------------------------------
+(e) Proclamation 9705 of March 8, 2018 (``Adjusting Imports of
+Steel Into the United States''), as amended by Proclamation 9980 of
+January 24, 2020 (``Adjusting Imports of Derivative Aluminum Articles
+and Derivative Steel Articles Into the United States''), and
+Proclamation 10896 of February 10, 2025 (``Adjusting Imports of Steel
+Into the United States'').
+Notwithstanding any provision of any action listed in section 2 of
+Executive Order 14289, where an imported article is subject to tariffs
+corresponding to more than one of the actions referenced in section 2
+of Executive Order 14289, that article shall be subject to the
+appropriate action(s) as prioritized in the order established in
+section 3(a) of Executive Order 14289. The order of priority shall be
+as follows:
+(1) If an article is subject to tariffs pursuant to the action
+listed in section 2(a) of Executive Order 14289, it will not be subject
+to additional tariffs listed in sections 2(b) through (e) of the order.
+(2) If an article is subject to tariffs pursuant to the actions
+listed in section 2(b) or 2(c) of Executive Order 14289, it will not be
+subject to additional tariffs listed in section 2(d) or 2(e) of the
+order.
+(3) If an article is subject to tariffs pursuant to the actions
+listed in section 2(d) of Executive Order 14289, it will be subject to
+any applicable additional tariffs listed in section 2(e) of the order,
+provided the article otherwise satisfies all conditions necessary for
+application of those additional tariffs. Likewise, if an article is
+subject to tariffs pursuant to the actions listed in section 2(e) of
+the order, it will be subject to any applicable additional tariffs
+listed in section 2(d) of the order, provided the article otherwise
+satisfies all conditions
+[[Page 21488]]
+necessary for application of those additional tariffs.
+In accordance with section 4 of Executive Order 14289, nothing in
+the order shall be interpreted to alter or limit the application of any
+duties, taxes, fees, or exactions other than those imposed pursuant to
+the actions listed in section 2 of Executive Oder 14289. Accordingly,
+an article that is subject to duties pursuant to an action listed in
+section 2 of Executive Order 14289 may still be subject to other
+applicable duties, taxes, fees, exactions, and charges, such as, but
+not limited to: those set forth in column 1 of the Harmonized Tariff
+Schedule of the United States (HTSUS); imposed pursuant to section 301
+of the Trade Act of 1974, as amended; imposed pursuant to Executive
+Order 14195 of February 1, 2025 (``Imposing Duties To Address the
+Synthetic Opioid Supply Chain in the People's Republic of China''), as
+amended; and antidumping and countervailing duties.
+Goods qualifying for preferential tariff treatment under the United
+States-Mexico-Canada Agreement (USMCA), will not be subject to
+additional tariffs on parts of passenger vehicles and light trucks
+listed in section 2(a) of Executive Order 14289; \2\ and goods
+qualifying for preferential tariff treatment under USMCA will not be
+subject to additional tariffs listed in section 2(b) or 2(c) of
+Executive Order 14289. Instead, such goods will be subject to
+additional tariffs listed in sections 2(d) and/or 2(e) of Executive
+Order 14289, as applicable, in addition to any other applicable tariff.
+---------------------------------------------------------------------------
+\2\ In accordance with Proclamation 10908 of March 26, 2025,
+goods that received preferential tariff treatment under USMCA will
+not be subject to additional tariffs for parts of passenger vehicles
+and light trucks listed in section 2(a) of Executive Order 14289
+until such time that the Secretary of Commerce, in consultation with
+CBP, establishes a process to apply the tariff exclusively to the
+value of the non-U.S. content of such automobile parts and publishes
+notice in the Federal Register.
+---------------------------------------------------------------------------
+For covered articles that were entered for consumption, or
+withdrawn from warehouse for consumption, as specified in this Annex,
+and for which the accompanying duty payment included tariffs that would
+not be required under Executive Order 14289, importers may request a
+refund by filing a post summary correction (PSC) \3\ for unliquidated
+entries or filing a protest under 19 U.S.C. 1514 for entries that have
+liquidated but where the protest period has not expired. The Secretary
+of Homeland Security has determined that appropriate action is needed
+to modify the HTSUS as set out in the Annex to this notice.
+---------------------------------------------------------------------------
+\3\ Post-Summary Corrections to Entry Summaries Filed in ACE
+Pursuant to the ESAR IV Test (Post-Summary Corrections Test), 76 FR
+37136 (June 24, 2011). CBP has modified and clarified various
+aspects of the Post-Summary Corrections Test through a series of
+subsequent Federal Register notices.
+Kristi Noem,
+Secretary.
+Annex
+To Modify Chapter 99 of the Harmonized Tariff Schedule of the United
+States
+``A. Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern time on April 3, 2025, subdivision (a) of note 33 to
+subchapter III of chapter 99 of the Harmonized Tariff Schedule of
+the United States (HTSUS) is modified by inserting the following
+clause at the end of the last sentence of the second paragraph after
+``heading 9903.94.01'':
+``, except that entries of passenger vehicles (sedans, sport
+utility vehicles, crossover utility vehicles, minivans, and cargo
+vans) and entries of light trucks shall not be subject to: (1) the
+additional duties imposed on entries of articles the product of
+Canada under heading 9903.01.10; (2) the additional duties imposed
+on entries of articles the product of Mexico under heading
+9903.01.01; (3) the additional duties imposed on entries of products
+of aluminum under heading 9903.85.02; (4) the additional duties
+imposed on entries of derivative aluminum products under headings
+9903.85.04, 9903.85.07 and 9903.85.08; (5) the additional duties
+imposed on entries of iron or steel products under headings
+9903.81.87 and 9903.81.88; and (6) the additional duties imposed on
+entries of derivative iron or steel products under headings
+9903.81.89, 9903.81.90, 9903.81.91 and 9903.81.93''.
+``B. Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern time on May 3, 2025, subdivision (f) of note 33 to
+subchapter III of chapter 99 of the HTSUS is modified by inserting
+the following clause at the end of the last sentence of the second
+paragraph after ``heading 9903.94.05'':
+``, except that entries of parts of passenger vehicles (sedans,
+sport utility vehicles, crossover utility vehicles, minivans, and
+cargo vans) and entries of parts of light trucks shall not be
+subject to: (1) the additional duties imposed on entries of articles
+the product of Canada under heading 9903.01.10; (2) the additional
+duties imposed on entries of articles the product of Mexico under
+heading 9903.01.01; (3) the additional duties imposed on entries of
+products of aluminum under heading 9903.85.02; (4) the additional
+duties imposed on entries of derivative aluminum products under
+headings 9903.85.04, 9903.85.07 and 9903.85.08; (5) the additional
+duties imposed on entries of iron or steel products under headings
+9903.81.87 and 9903.81.88; and (6) the additional duties imposed on
+entries of derivative iron or steel products under headings
+9903.81.89, 9903.81.90, 9903.81.91 and 9903.81.93''.
+``C. Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern time on March 4, 2025:
+1. subdivision (j) of note 2 to subchapter III of chapter 99 of
+the HTSUS is modified by inserting the following clause at the end
+of the fifth paragraph after ``and 9903.01.13'':
+``, except that entries of products of Canada shall not be
+subject to: (1) the additional duties imposed on entries of products
+of aluminum under heading 9903.85.02; (2) the additional duties
+imposed on entries of derivative aluminum products under headings
+9903.85.04, 9903.85.07 and 9903.85.08; (3) the additional duties
+imposed on entries of iron or steel products under headings
+9903.81.87 and 9903.81.88; and (4) the additional duties imposed on
+entries of derivative iron or steel products under headings
+9903.81.89, 9903.81.90, 9903.81.91 and 9903.81.93''; and
+2. subdivision (a) of note 2 to subchapter III of chapter 99 of
+the HTSUS is modified by inserting the following clause at the end
+of the fifth paragraph after ``by heading 9903.01.01'':
+``, except that entries of products of Mexico shall not be
+subject to: (1) the additional duties imposed on entries of products
+of aluminum under heading 9903.85.02; (2) the additional duties
+imposed on entries of derivative aluminum products under headings
+9903.85.04, 9903.85.07 and 9903.85.08; (3) the additional duties
+imposed on entries of iron or steel products under headings
+9903.81.87 and 9903.81.88; and (4) the additional duties imposed on
+entries of derivative iron or steel products under headings
+9903.81.89, 9903.81.90, 9903.81.91 and 9903.81.93''.
+``D. Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern time on March 7, 2025:
+1. subdivision (l) of note 2 to subchapter III of chapter 99 of
+the HTSUS is modified by inserting the following new fifth
+paragraph:
+``Products of Canada that are provided for in heading 9903.01.14
+shall continue to be subject to antidumping, countervailing, or
+other duties, taxes, fees, exactions and charges that apply to such
+products, and products of Canada that are provided for in heading
+9903.01.14 shall be subject to: (1) the additional duties imposed on
+entries of aluminum products under heading 9903.85.02; (2) the
+additional duties imposed on entries of derivative aluminum products
+under headings 9903.85.04, 9903.85.07 or 9903.85.08; (3) the
+additional duties imposed on entries of iron or steel products under
+headings 9903.81.87 or 9903.81.88; and (4) the additional duties
+imposed on entries of derivative iron or steel products under
+headings 9903.81.89, 9903.81.90, 9903.81.91 or 9903.81.93.''; and
+2. subdivision (c) of note 2 to subchapter III of chapter 99 of
+the HTSUS is modified by inserting the following new fifth
+paragraph:
+``Products of Mexico that are provided for in heading 9903.01.04
+shall continue to be subject to antidumping, countervailing, or
+other duties, taxes, fees, exactions and charges that apply to such
+products, and products of Mexico that are provided for in
+[[Page 21489]]
+heading 9903.01.04 shall be subject to: (1) the additional duties
+imposed on entries of aluminum products under heading 9903.85.02;
+(2) the additional duties imposed on entries of derivative aluminum
+products under headings 9903.85.04, 9903.85.07 or 9903.85.08; (3)
+the additional duties imposed on entries of iron or steel products
+under headings 9903.81.87 or 9903.81.88; and (4) the additional
+duties imposed on entries of derivative iron or steel products under
+headings 9903.81.89, 9903.81.90, 9903.81.91 or 9903.81.93.''.
+``E. Effective with respect to goods entered for consumption, or
+withdrawn for warehouse for consumption, on or after 12:01 eastern
+time on March 12, 2025, subdivision (h) of note 19 to subchapter III
+of chapter 99 of the HTSUS is modified by inserting the following
+new sentence at the end of the paragraph:
+``Entries of derivative aluminum products under headings
+9903.85.04, 9903.85.07 and 9903.85.08 shall also be subject to the
+additional duties imposed on entries of derivative iron and steel
+products by headings 9903.81.89, 9903.81.90, 9903.81.91 and
+9903.81.93, provided that the derivative aluminum products otherwise
+satisfy all conditions necessary for application of the additional
+duties on entries of derivative iron and steel products.''.
+``F. Effective with respect to goods entered for consumption, or
+withdrawn for warehouse for consumption, on or after 12:01 eastern
+time on March 12, 2025, subdivision (k) of note 16 to subchapter III
+of chapter 99 of the HTSUS is modified by inserting the following
+new sentence at the end of the paragraph:
+``Entries of derivative iron or steel products under headings
+9903.81.89, 9903.81.90, 9903.81.91 and 9903.81.93 shall also be
+subject to the additional duties imposed on entries of derivative
+aluminum products by headings 9903.85.04, 9903.85.07 and 9903.85.08,
+provided that the derivative iron or steel products otherwise
+satisfy all conditions necessary for application of the additional
+duties on entries of derivative aluminum products.''.
+[FR Doc. 2025-09066 Filed 5-15-25; 4:30 pm]
+BILLING CODE 9111-14-P

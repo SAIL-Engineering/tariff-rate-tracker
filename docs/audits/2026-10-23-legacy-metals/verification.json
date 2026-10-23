@@ -1,0 +1,69 @@
+{
+  "base_sha": "b334780655e9ed6d461c03ca799348c88996eb8c",
+  "branch": "wjr_dev",
+  "recorded_at": "2026-10-23T23:47:11.676862+00:00",
+  "checks": [
+    {
+      "command": "Rscript tests/run_all_tests.R",
+      "exit_code": 1,
+      "log": "r-all-tests.log",
+      "suite_results": {
+        "OK": 33,
+        "ERROR": 1,
+        "SKIP": 1,
+        "FAIL": 0
+      },
+      "limits": "Normalized parity stops on 312 old/missing artifacts; TPC data absent. Not a green full-data gate."
+    },
+    {
+      "command": "/usr/bin/python3 -m pytest tests/python -q",
+      "exit_code": 0,
+      "log": "python-tests.log",
+      "passed": 297
+    },
+    {
+      "command": "node --test frontend/tests/*.test.mjs (native Node v22.22.3)",
+      "exit_code": 0,
+      "log": "node-tests.log",
+      "passed": 184
+    },
+    {
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0,
+      "log": "legacy-rules.log",
+      "real_source_cases": 31
+    },
+    {
+      "command": "Rscript tests/test_s232_heading_resolution.R --emit",
+      "exit_code": 0,
+      "log": "note16-rules.log",
+      "real_source_cases": 35
+    },
+    {
+      "command": "Rscript tests/test_s232_legacy_pipeline.R",
+      "exit_code": 0,
+      "log": "pipeline-fixture.log",
+      "limits": "Three products, one origin, temporary normalized/ledger output; not a revision build."
+    },
+    {
+      "command": "native Node tsc --noEmit; native Node vite build --outDir /tmp/shipment-legacy-vite-build",
+      "exit_code": 0,
+      "log": "typecheck-build.log"
+    },
+    {
+      "command": "python3 scripts/audit_section232_legacy.py NEW_DIRECTORY --motherduck READ_ONLY_EXPORT.json",
+      "exit_code": 0,
+      "log": "source-audit.log",
+      "revisions": 55,
+      "limits": "Extraction and compilation only, no timeseries or exhaustive shipment evaluation."
+    },
+    {
+      "command": "node --test frontend/tests/shipment-release.test.mjs (native Node)",
+      "exit_code": 0,
+      "log": "release-compatibility.log"
+    }
+  ],
+  "fragment_reproduction": "2026_rev_4 hash agrees with retained all-revision source audit",
+  "live_motherduck_writes": false,
+  "timeseries_or_revision_rebuild": false
+}

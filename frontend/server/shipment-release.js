@@ -23,7 +23,7 @@ const TABLES = {
   claim_effects: ['revision', 'claim_id', 'rule_id', 'authority', 'effect', 'target_reporting_code', 'hts10', 'country', 'valid_from', 'valid_until', 'source_ids_json', 'condition_json', 'source_locator', 'source_scope_sha256'],
   section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
   ieepa_action_decisions: ['revision','authority','country','ch99_code','rate','rate_type','phase','terminated','decision','source_description','duty_expression','source_heading_sha256','hts_sha256','amendment_source_id','amendment_source_sha256','amendment_effective_from','pdf_sha256','source_note_locator','source_note_sha256','source_note','entry_valid_from','entry_valid_until','state_valid_from','state_valid_until'],
-  section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256'],
+  section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256','state_valid_from','state_valid_until'],
 };
 
 export async function readReleaseManifest(manifestPath) {
@@ -89,6 +89,8 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
         (k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':k.startsWith('state_valid_')?'DATE':'VARCHAR'))) throw new Error('Invalid IEEPA action field types');
       if(['rates','products_base','authority_country_rates','authority_product_applicability','authority_exemptions'].includes(table)
         && ['valid_from','valid_until'].some(k=>have.get(k)!=='DATE')) throw new Error(`Invalid ${table} legal-state date types`);
+      if(table==='section232_scope_decisions' && ['state_valid_from','state_valid_until'].some(k=>have.get(k)!=='DATE'))
+        throw new Error('Invalid Section 232 legal-state date types');
       const signature = JSON.stringify([...have].sort(([a], [b]) => a.localeCompare(b)));
       if (types.has(table) && types.get(table) !== signature) throw new Error(`Inconsistent ${table} partition types`);
       types.set(table, signature);
@@ -170,27 +172,36 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       WHERE p.hts10 IS NULL OR coalesce(d.authority,'')<>'section_232'
         OR NOT regexp_full_match(coalesce(d.scope_code,''),'([0-9]{4}|[0-9]{6}|[0-9]{8}|[0-9]{10})')
         OR d.scope_grain IS DISTINCT FROM length(d.scope_code) OR NOT starts_with(d.hts10,d.scope_code)
-        OR coalesce(d.list_id,'') NOT IN ('i','ii','iii','iv','v','vi','vii','viii','ix','x','xi')
+        OR (coalesce(d.list_id,'') NOT IN ('i','ii','iii','iv','v','vi','vii','viii','ix','x','xi')
+          AND NOT regexp_full_match(coalesce(d.list_id,''),'n16_(j|q|[ls]_[A-D]|[mntu]_[1-3])|n19_([go](_castings)?|[iq]_[A-F]|[jkrs]_[1-3])'))
         OR coalesce(d.metal,'') NOT IN ('aluminum','steel','copper') OR d.derivative IS NULL
-        OR d.source_locator IS DISTINCT FROM ('U.S. note 16(c)('||d.list_id||')')
+        OR (NOT starts_with(d.list_id,'n') AND d.source_locator IS DISTINCT FROM ('U.S. note 16(c)('||d.list_id||')'))
+        OR (starts_with(d.list_id,'n') AND d.source_locator IS DISTINCT FROM
+          ('U.S. note '||substr(d.list_id,2,2)||'('||substr(d.list_id,5,1)||')'||substr(d.list_id,6)))
+        OR d.state_valid_from IS NULL OR d.state_valid_until IS NULL OR d.state_valid_from>d.state_valid_until
         OR NOT regexp_full_match(coalesce(d.source_text_sha256,''),'[a-f0-9]{64}')
         OR NOT regexp_full_match(coalesce(d.pdf_sha256,''),'[a-f0-9]{64}')
         OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')`)).getRowObjects()[0].n;
     if(Number(bad232)) throw new Error('Invalid Section 232 source decision');
+    const invalidMetalWindow=(await conn.runAndReadAll(`SELECT count(*) n FROM ${metals} d
+      WHERE NOT EXISTS (SELECT 1 FROM ${rates} r WHERE r.revision=d.revision
+        AND r.valid_from=d.state_valid_from AND r.valid_until=d.state_valid_until)`)).getRowObjects()[0].n;
+    if(Number(invalidMetalWindow)) throw new Error('Section 232 decision legal state mismatch');
     const metalHashes = (await conn.runAndReadAll(`SELECT DISTINCT pdf_sha256,hts_sha256 FROM ${metals}`)).getRowObjects();
     if(metalHashes.some(r=>!bundleHashes.has(r.pdf_sha256)||!bundleHashes.has(r.hts_sha256)))
       throw new Error('Section 232 decisions are absent from bundle sources');
     const missingMetalCandidate = (await conn.runAndReadAll(`SELECT count(*) AS n FROM (
-      SELECT d.hts10,d.scope_code,d.pdf_sha256,'note16_c_'||d.list_id AS program_key FROM ${metals} d
-      EXCEPT SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_')
+      SELECT d.hts10,d.scope_code,d.pdf_sha256,(CASE WHEN starts_with(d.list_id,'n') THEN 'legacy_metals_' ELSE 'note16_c_' END)||d.list_id AS program_key FROM ${metals} d
+      EXCEPT SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_') OR starts_with("program",'legacy_metals_')
     )`)).getRowObjects()[0].n;
     const extraMetalCandidate = (await conn.runAndReadAll(`SELECT count(*) AS n FROM (
-      SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_')
-      EXCEPT SELECT d.hts10,d.scope_code,d.pdf_sha256,'note16_c_'||d.list_id AS program_key FROM ${metals} d
+      SELECT hts10,scope_code,source_sha256,"program" FROM ${candidates} WHERE starts_with("program",'note16_c_') OR starts_with("program",'legacy_metals_')
+      EXCEPT SELECT d.hts10,d.scope_code,d.pdf_sha256,(CASE WHEN starts_with(d.list_id,'n') THEN 'legacy_metals_' ELSE 'note16_c_' END)||d.list_id AS program_key FROM ${metals} d
     )`)).getRowObjects()[0].n;
     if(Number(missingMetalCandidate)||Number(extraMetalCandidate)) throw new Error('Section 232 candidate inventory mismatch');
     const metalTotal = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
-      JOIN (SELECT DISTINCT hts10,revision FROM ${metals}) d USING(hts10,revision)
+      JOIN (SELECT DISTINCT hts10,revision,state_valid_from,state_valid_until FROM ${metals}) d
+        ON r.hts10=d.hts10 AND r.revision=d.revision AND r.valid_from=d.state_valid_from AND r.valid_until=d.state_valid_until
       WHERE r.statutory_rate_232 IS NOT NULL`)).getRowObjects()[0].n;
     if(Number(metalTotal)) throw new Error('Section 232 conditional scope escaped as a statutory rate');
     // Wide tables represent daily legal states. Exact intraday boundaries

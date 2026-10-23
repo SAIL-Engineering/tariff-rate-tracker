@@ -142,12 +142,12 @@ Section 301 coverage: the implemented note 20 and direct-heading exclusions do n
 complete the other investigations, claims and Chapter 98 interactions. Do not substitute a test bundle. Source hash artifacts
 must exist during composition; serving subsequently uses the stored bundle.
 
-Release manifests now require `sail.tariff-release/v5`, the decision and claim-effect partitions,
+Release manifests now require `sail.tariff-release/v6`, the decision and claim-effect partitions,
 and the new rate fields. Preparation validates their relationships locally and
-does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3/v4
+does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3/v4/v5
 release is not accepted by the new reader: rollback across this boundary requires
 the compatible previous code and release, not only an active-ID change. Within
-v5, retain the previous validated release for the existing atomic rollback path.
+v6, retain the previous validated release for the existing atomic rollback path.
 
 
 The source-backed exclusions and five retroactive amendments are part of this
@@ -219,3 +219,51 @@ The first command uses a read-only MotherDuck connection. The other two use
 retained local sources. See the [findings, counts and remaining gates](audits/2026-10-23-legal-intervals/README.md).
 Do not deploy a v5 reader against a v4 release. Rollback across the contract
 boundary requires the previous compatible reader and release together.
+
+## Historical metal scopes, headings and claim ordering (release v6)
+
+The same manual rebuild now extracts March 12, 2025 through April 5, 2026 metal
+scope from each archived Chapter 99 PDF and matching HTS JSON. Primary metal
+scope is enumerated in the notes; chapter membership alone is insufficient.
+Derivative lists preserve exact statistical suffixes, exclusions, limited
+descriptions and UK alternatives. The old static derivative CSV is not the
+scope source for this period. Retired and pre-effective headings cannot seed
+the model through a product footnote.
+
+Each applicable revision emits `section232_legacy_source.json` and
+`section232_legacy_rules.json`. Compose the latter with the other reviewed action
+fragments and the identified base bundle. It prices declared material values,
+US-metal relief, Russian material/origin treatment and FTZ reporting distinctions;
+it does not attest complete Section 232 coverage. Conditional candidates retain
+null statutory rates and no synthesized scalar reporting code. Aggregate metal
+shares remain model inputs, separate from these shipment rules.
+
+The June 4 amendment changes rates, valuation and Canada/Mexico emergency
+precedence at 00:01 Eastern. Its new revision fragment includes the previous
+archived treatment for the first minute of the daily interval. Claim changes
+reevaluate dependent actions; zero duty does not trigger positive-duty priority.
+Registered Section 301 exclusions leave the reviewed metal actions unchanged.
+
+Release v6 requires `state_valid_from` and `state_valid_until` (both DATE) on
+`section232_scope_decisions.parquet`, including post-April note 16 decisions.
+Preflight checks the exact daily state, scope/candidate inventory and evidence
+hashes against the complete release. An older v5 partition is incompatible;
+regenerate it rather than filling dates or rates in the API. The result/rule
+contract remains v1, and browsers receive no MotherDuck credentials.
+
+For a fresh independent source comparison, use new paths:
+
+```sh
+node frontend/scripts/audit-legacy-metals-motherduck.mjs \
+  .env output/legacy-metals-read-only.json
+python3 scripts/audit_section232_legacy.py output/legacy-metals-source-audit \
+  --motherduck output/legacy-metals-read-only.json
+```
+
+These commands audit sources and read MotherDuck; they do not rebuild a timeseries
+or publish data. See the [retained findings and limitations](audits/2026-10-23-legacy-metals/README.md).
+Pre-March quotas/exclusions, the remaining cross-authority predicates, complete
+chronology, exhaustive parity and downstream consumers remain release gates.
+No live deployment or release activation has occurred. To undo the local code,
+revert its commit on `wjr_dev`; after an eventual deployment, rollback across v6
+requires both the compatible previous reader and its validated release.

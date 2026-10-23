@@ -245,10 +245,16 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
             if 'xi' in {s['id'] for s in x['lists']}:scope['from']='2026-06-08T00:01:00-04:00'
             walk(tree,val(True),f'{gi}_{ci}',scope)
     claim_ids=[r['id'] for r in rules]
+    # Note 16(b) preserves the .82 duties alongside lower Chapter 99 treatment.
+    # Do not extend that review to the separately retained Russian headings.
+    unchanged_301=[r['id'] for r in rules if
+        all(c.startswith('9903.82.') for c in r['reporting_codes'])]
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_note16_'+rev,
         semantic_review_sha256=sha(grammar.read_bytes()),
         sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,
         claim_definitions=[dict(id='USMCA',label='USMCA',rule_ids=claim_ids,source_ids=ids)],
+        unchanged_claims=[dict(id='note16_'+rev+'_section301_claims',claim_authority='section_301',
+            target_rule_ids=unchanged_301,source_ids=ids)] if unchanged_301 else [],
         coverage=[],relations=[],reporting_decisions=decisions,
         limitations=['Note 16 fragment only; no complete Section 232 coverage attestation.',
             'Other action precedence and civil-aircraft/Chapter 98 claims require separately verified composition.',

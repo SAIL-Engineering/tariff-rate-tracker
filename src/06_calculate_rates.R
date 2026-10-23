@@ -266,8 +266,8 @@ check_country_applies <- function(country, country_type, countries, exempt) {
 apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countries,
                                   heading_products = character(0),
                                   policy_params = NULL,
-                                  effective_date = NULL) {
-  deriv_products <- load_232_derivative_products(effective_date = effective_date)
+                                  effective_date = NULL, source_derivatives = NULL) {
+  deriv_products <- source_derivatives %||% load_232_derivative_products(effective_date = effective_date)
   deriv_matched <- character(0)
 
   # Per-action §232 rates. These carry the UNSCALED action rate at assignment
@@ -686,7 +686,7 @@ calculate_rates_for_revision <- function(
   # (00_build_timeseries.R and 09_daily_series.R both pre-extract), re-extract
   # so heading gates downstream see the gated state.
   if (!is.null(s232_rates)) {
-    s232_rates <- extract_section232_rates(ch99_data)
+    s232_rates <- extract_section232_rates(ch99_data,effective_date=effective_date)
   }
 
   # §301 exclusion-heading candidates (date-windowed per revision). Callers
@@ -711,10 +711,27 @@ calculate_rates_for_revision <- function(
   ALUM_CHAPTERS  <- cc$ALUM_CHAPTERS
   ISO_TO_CENSUS  <- cc$ISO_TO_CENSUS
 
+  s232_legacy_source <- NULL
+  s232_legacy_memberships <- NULL
+  if(grepl('^202[56]_',revision_id) && as.Date(effective_date)>=as.Date('2025-03-12') &&
+     as.Date(effective_date)<as.Date('2026-04-06')) {
+    source(here('src','section232_legacy.R'))
+    s232_legacy_source <- load_s232_legacy_source(revision_id)
+    if(!identical(s232_legacy_source$regime,'march_2025_metals'))
+      stop('Applicable historical metal notes unavailable in revision source')
+    s232_legacy_memberships <- s232_legacy_matches(s232_legacy_source,products$hts10)
+  }
+
   # 1. Get footnote-based rates from calculate_rates_fast()
   #    This captures 232, 301, fentanyl, other — but NOT IEEPA reciprocal,
   #    which is a blanket tariff not referenced via product footnotes.
-  rates <- calculate_rates_fast(products, ch99_data, countries, stacking_method = stacking_method)
+  footnote_ch99 <- ch99_data
+  if(!is.null(s232_legacy_source)) {
+    # Notes 16/19 determine metal membership independently below. A broad or
+    # stale chapter footnote cannot seed a rate that pmax would later retain.
+    footnote_ch99 <- ch99_data[!grepl('^9903\\.(80|81|85)\\.',ch99_data$ch99_code),,drop=FALSE]
+  }
+  rates <- calculate_rates_fast(products, footnote_ch99, countries, stacking_method = stacking_method)
 
   if (nrow(rates) == 0) {
     message('  No footnote-linked rates for ', revision_id, ' — blanket authorities will seed rows')
@@ -1275,7 +1292,7 @@ calculate_rates_for_revision <- function(
   #    Autos: heading 8703 + specific subheadings (US Note 25, 9903.94)
   #    Copper: specific headings in chapter 74
   if (is.null(s232_rates)) {
-    s232_rates <- extract_section232_rates(ch99_data)
+    s232_rates <- extract_section232_rates(ch99_data,effective_date=effective_date)
   }
 
   # Load heading-level 232 config from policy params
@@ -1300,6 +1317,13 @@ calculate_rates_for_revision <- function(
     aluminum_products <- products %>%
       filter(substr(hts10, 1, 2) %in% ALUM_CHAPTERS) %>%
       pull(hts10)
+    if(!is.null(s232_legacy_memberships)) {
+      # U.S. notes 16(j)/(q) and 19(g)/(o) enumerate the primary products.
+      # Being in chapter 72, 73 or 76 does not establish membership.
+      primary <- s232_legacy_memberships[!s232_legacy_memberships$derivative,]
+      steel_products <- unique(primary$hts10[primary$metal=='steel'])
+      aluminum_products <- unique(primary$hts10[primary$metal=='aluminum'])
+    }
 
     # Heading-level: autos, copper, etc.
     heading_product_lists <- list()
@@ -1630,8 +1654,8 @@ calculate_rates_for_revision <- function(
           TRUE ~ heading_232_rate
         ),
         blanket_232 = case_when(
-          chapter %in% STEEL_CHAPTERS ~ coalesce(steel_rate_232, 0),
-          chapter %in% ALUM_CHAPTERS ~ coalesce(alum_rate_232, 0),
+          hts10 %in% steel_products ~ coalesce(steel_rate_232, 0),
+          hts10 %in% aluminum_products ~ coalesce(alum_rate_232, 0),
           heading_rate_adj > 0 ~ heading_rate_adj,
           TRUE ~ 0
         ),
@@ -1642,8 +1666,8 @@ calculate_rates_for_revision <- function(
         # primary-chapter rows and EO 14289 precedence cannot be evaluated.
         .action_col = case_when(
           blanket_232 <= 0                ~ NA_character_,
-          chapter %in% STEEL_CHAPTERS     ~ 'rate_232_steel',
-          chapter %in% ALUM_CHAPTERS      ~ 'rate_232_aluminum',
+          hts10 %in% steel_products     ~ 'rate_232_steel',
+          hts10 %in% aluminum_products      ~ 'rate_232_aluminum',
           TRUE ~ unname(S232_HEADING_PROGRAM_ACTION[heading_program])
         ),
         rate_232_steel = if_else(!is.na(.action_col) & .action_col == 'rate_232_steel',
@@ -1658,14 +1682,14 @@ calculate_rates_for_revision <- function(
         # newly added §232 action is still carried and visibly attributed.
         rate_232_other = if_else(
           blanket_232 > 0 & (is.na(.action_col) | .action_col == 'rate_232_other') &
-            !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)),
+            !(hts10 %in% c(steel_products, aluminum_products)),
           pmax(rate_232_other, blanket_232), rate_232_other),
         # Track which products have USMCA-eligible 232 headings (for step 7).
         # Only when the heading rate is actually used — blanket chapter products
         # (steel/aluminum) get their rate from the blanket, not the heading,
         # so they should NOT inherit the heading's USMCA eligibility.
         s232_usmca_eligible = coalesce(heading_usmca_exempt, FALSE) & heading_rate_adj > 0 &
-          !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS))
+          !(hts10 %in% c(steel_products, aluminum_products))
       ) %>%
       # FORWARD Chapter 99 attribution. Record the heading that carries this
       # program's duty at the moment the duty is applied, while the program is
@@ -1682,8 +1706,8 @@ calculate_rates_for_revision <- function(
       mutate(
         ch99_src_232 = case_when(
           blanket_232 <= 0            ~ NA_character_,
-          chapter %in% STEEL_CHAPTERS ~ steel_ch99_232,
-          chapter %in% ALUM_CHAPTERS  ~ alum_ch99_232,
+          hts10 %in% steel_products ~ steel_ch99_232,
+          hts10 %in% aluminum_products  ~ alum_ch99_232,
           !is.na(heading_program) ~
             s232_heading_for(heading_program, country, .s232_program_headings),
           TRUE                        ~ NA_character_)
@@ -1740,19 +1764,19 @@ calculate_rates_for_revision <- function(
           TRUE ~ heading_232_rate
         ),
         rate_232 = case_when(
-          chapter %in% STEEL_CHAPTERS ~ coalesce(steel_rate_232, 0),
-          chapter %in% ALUM_CHAPTERS ~ coalesce(alum_rate_232, 0),
+          hts10 %in% steel_products ~ coalesce(steel_rate_232, 0),
+          hts10 %in% aluminum_products ~ coalesce(alum_rate_232, 0),
           heading_rate_adj > 0 ~ heading_rate_adj,
           TRUE ~ 0
         ),
         s232_usmca_eligible = coalesce(heading_usmca_exempt, FALSE) & heading_rate_adj > 0 &
-          !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)),
+          !(hts10 %in% c(steel_products, aluminum_products)),
         # Same action attribution as the existing-pairs branch above; these rows
         # are §232-only, so rate_232 IS the action rate.
         .action_col = case_when(
           rate_232 <= 0                   ~ NA_character_,
-          chapter %in% STEEL_CHAPTERS     ~ 'rate_232_steel',
-          chapter %in% ALUM_CHAPTERS      ~ 'rate_232_aluminum',
+          hts10 %in% steel_products     ~ 'rate_232_steel',
+          hts10 %in% aluminum_products      ~ 'rate_232_aluminum',
           TRUE ~ unname(S232_HEADING_PROGRAM_ACTION[heading_program])
         ),
         rate_232_steel    = if_else(!is.na(.action_col) & .action_col == 'rate_232_steel',    rate_232, 0),
@@ -1761,7 +1785,7 @@ calculate_rates_for_revision <- function(
         rate_232_copper   = if_else(!is.na(.action_col) & .action_col == 'rate_232_copper',   rate_232, 0),
         rate_232_other    = if_else(
           rate_232 > 0 & (is.na(.action_col) | .action_col == 'rate_232_other') &
-            !(chapter %in% c(STEEL_CHAPTERS, ALUM_CHAPTERS)), rate_232, 0),
+            !(hts10 %in% c(steel_products, aluminum_products)), rate_232, 0),
         rate_301 = 0, rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0,
         rate_section_201 = 0, rate_other = 0,
         # Same forward attribution as the existing-pairs branch. These rows are
@@ -1769,8 +1793,8 @@ calculate_rates_for_revision <- function(
         # same three sources: metal blanket, metal deal, or heading program.
         ch99_src_232 = case_when(
           rate_232 <= 0               ~ NA_character_,
-          chapter %in% STEEL_CHAPTERS ~ steel_ch99_232,
-          chapter %in% ALUM_CHAPTERS  ~ alum_ch99_232,
+          hts10 %in% steel_products ~ steel_ch99_232,
+          hts10 %in% aluminum_products  ~ alum_ch99_232,
           !is.na(heading_program) ~
             s232_heading_for(heading_program, country, .s232_program_headings),
           TRUE                        ~ NA_character_)
@@ -2069,7 +2093,9 @@ calculate_rates_for_revision <- function(
   result <- apply_232_derivatives(rates, products, ch99_data, s232_rates, countries,
                                    heading_products = all_heading_hts10,
                                    policy_params = pp,
-                                   effective_date = effective_date)
+                                   effective_date = effective_date,
+                                   source_derivatives = if(!is.null(s232_legacy_memberships))
+                                     s232_legacy_derivative_projection(s232_legacy_memberships) else NULL)
   rates <- result$rates
   deriv_matched <- result$deriv_matched
   # Captured for Phase 2 normalized emit. See apply_232_derivatives() for
@@ -3314,6 +3340,7 @@ calculate_rates_for_revision <- function(
   if (!is.null(s232_note16_projection)) {
     rates <- mark_s232_note16_scope(rates,s232_note16_projection)
   }
+  if(!is.null(s232_legacy_memberships)) rates <- mark_s232_legacy_scope(rates,s232_legacy_memberships)
   rates <- compute_statutory_totals(rates, cty_china = CTY_CHINA,
                                     stacking_method = stacking_method,
                                     apply_eo = .eo_applies, threshold = .thr,
@@ -3358,6 +3385,8 @@ calculate_rates_for_revision <- function(
       coalesce(deriv_content_scaled, FALSE) ~ 'metal_content_value',
       TRUE ~ 'full_value'
     ))
+  if(!is.null(s232_legacy_memberships))
+    rates$duty_basis_232[rates$hts10 %in% s232_legacy_memberships$hts10] <- NA_character_
 
   # 9a. Add revision metadata
   rates <- rates %>%
@@ -3524,6 +3553,8 @@ calculate_rates_for_revision <- function(
           fentanyl_evidence = denorm_fentanyl_evidence,
           country_eo_exemptions = country_eo_exempt,
           s232_note16_source = s232_note16_source,
+          s232_legacy_source = s232_legacy_source,
+          s232_legacy_memberships = s232_legacy_memberships,
           s232_note16_matches = s232_note16_matches,
           s232_note16_projection = s232_note16_projection,
           s301_source = s301_source,

@@ -2101,7 +2101,7 @@ enforce_rate_schema <- function(df) {
     'modeled_ieepa_reciprocal_parameter','modeled_ieepa_reciprocal_rate','modeled_ieepa_country_eo_rate'))
     defaults[[col]] <- NA_real_
   for(col in c('s232_action_attribution_status','modeled_s232_residual_action',
-    's232_note16_status','s232_note16_lists_json','s232_note16_metals_json',
+    's232_note16_status','s232_note16_lists_json','s232_note16_metals_json','s232_legacy_status',
     'ieepa_recip_ch99','ieepa_selected_actions_json','ch99_src_ieepa_country_eo','ch99_src_ieepa_fent')) defaults[[col]] <- NA_character_
   for(col in c('modeled_s232_note16_combined_metals','modeled_ieepa_reciprocal_exempt','modeled_ieepa_duty_free'))
     defaults[[col]] <- NA
@@ -3768,8 +3768,27 @@ extract_effective_date_offset <- function(description) {
 #' @param ch99_data Tibble from `parse_chapter99()` with `effective_date_offset`
 #' @param revision_effective_date Date (or coercible) of the revision's HTS effective date
 #' @return Filtered tibble; row count reported via message() when rows are dropped
+filter_s232_metal_epoch <- function(ch99_data,entry_day) {
+  if(is.null(ch99_data)||!nrow(ch99_data)||!'ch99_code'%in%names(ch99_data)) return(ch99_data)
+  code<-ch99_data$ch99_code
+  march_steel<-grepl('^9903\\.81\\.(8[7-9]|9[0-9])$',code)
+  march_aluminum<-code %in% c('9903.85.02','9903.85.04','9903.85.07','9903.85.08','9903.85.09',
+    '9903.85.12','9903.85.13','9903.85.14','9903.85.15')
+  # Proclamations 10895/10896, operative clauses and Annex: March 12,
+  # 2025 00:01 EDT; updated notes 16(i)-(o)/19(f)-(m). This is the daily
+  # aggregate adapter. Shipment fragments retain the exact instant.
+  if(as.Date(entry_day)<as.Date('2025-03-12')) return(ch99_data[!march_steel & !march_aluminum,,drop=FALSE])
+  if(as.Date(entry_day)>=as.Date('2026-04-06')) return(ch99_data)
+  retired<-rep(FALSE,length(code))
+  if(any(march_steel)) retired<-retired | grepl('^9903\\.80\\.|^9903\\.81\\.([0-7][0-9]|8[0-6])$',code)
+  if(any(march_aluminum)) retired<-retired | (grepl('^9903\\.85\\.',code) & !march_aluminum &
+    !code %in% c('9903.85.67','9903.85.68','9903.85.69','9903.85.70'))
+  ch99_data[!retired,,drop=FALSE]
+}
+
 filter_active_ch99 <- function(ch99_data, revision_effective_date) {
   if (is.null(ch99_data) || nrow(ch99_data) == 0) return(ch99_data)
+  ch99_data <- filter_s232_metal_epoch(ch99_data,revision_effective_date)
   if (!'effective_date_offset' %in% names(ch99_data)) {
     # Backwards-compatible no-op for any cached ch99_<revision>.rds file
     # produced before this column existed.
@@ -4115,6 +4134,7 @@ resolve_ch99_codes <- function(rates, ch99_data,
     conflict <- !is.na(src)&!is.na(deriv)&src!=deriv
     src <- coalesce(src,deriv);src[conflict] <- NA_character_
     if('s232_note16_status' %in% names(rates)) src[rates$s232_note16_status=='candidate_requires_legal_predicates'] <- NA_character_
+    if('s232_legacy_status' %in% names(rates)) src[rates$s232_legacy_status=='candidate_requires_legal_predicates'] <- NA_character_
     rates$ch99_code_232 <- if_else(rates$rate_232>0,src,NA_character_)
     message('  Section 232 reporting codes: ',sum(rates$rate_232>0 & is.na(src),na.rm=TRUE),
       ' unresolved; rate/chapter/broadest-heading inference is disabled')

@@ -70,20 +70,43 @@ compose_shipment_rules <- function(bundle, fragments) {
     targets[[code]] <- c(targets[[code]], i)
   decisions <- list()
   for (edge in relations) {
-    if (!edge$effect %in% c('suppress','require_predicate') ||
+    if (!edge$effect %in% c('suppress','require_predicate','suppress_by_reporting_codes') ||
         (edge$effect == 'suppress' && !edge$when_rule_applies %in% ids) ||
         (edge$effect == 'require_predicate' && is.null(edge$predicate)) ||
         !length(edge$source_ids) || !all(unlist(edge$source_ids) %in% source_ids) ||
-        !length(edge$target_reporting_codes)) stop('Invalid action relation: ', edge$id)
+        !length(edge$target_reporting_codes) ||
+        (!is.null(edge$target_rule_ids) && (!length(edge$target_rule_ids) || !all(unlist(edge$target_rule_ids)%in%ids))) ||
+        (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')) ||
+        (edge$effect=='suppress_by_reporting_codes' && (!length(edge$trigger_reporting_codes) ||
+          (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')))))
+      stop('Invalid action relation: ', edge$id)
+    trigger_ids <- character()
+    if(edge$effect=='suppress_by_reporting_codes') {
+      trigger_ix <- sort(unique(unlist(targets[unlist(edge$trigger_reporting_codes)])))
+      for(j in trigger_ix) {
+        if(length(setdiff(unlist(bundle$rules[[j]]$reporting_codes),unlist(edge$trigger_reporting_codes))))
+          stop('Mixed trigger reporting codes: ',bundle$rules[[j]]$id)
+        trigger_ids <- c(trigger_ids,bundle$rules[[j]]$id)
+      }
+    }
     for (i in sort(unique(unlist(targets[unlist(edge$target_reporting_codes)])))) {
       target <- bundle$rules[[i]]
+      if(!is.null(edge$target_rule_ids) && !target$id %in% unlist(edge$target_rule_ids)) next
       matches <- intersect(unlist(target$reporting_codes), unlist(edge$target_reporting_codes))
       if (!length(matches)) next
       # A rule mixing independent headings must first be split into actions.
       if (length(setdiff(unlist(target$reporting_codes), matches))) stop('Mixed action reporting codes: ', target$id)
       if (edge$effect == 'suppress' && identical(target$id, edge$when_rule_applies)) stop('Self-suppressing action: ', target$id)
-      if (edge$effect == 'suppress') {
-        condition <- list(rule_applies = edge$when_rule_applies)
+      if (edge$effect %in% c('suppress','suppress_by_reporting_codes')) {
+        if(edge$effect=='suppress') condition <- if(identical(edge$trigger_test,'positive_duty'))
+          list(op='gt',args=list(list(rule_amount=edge$when_rule_applies),list(value=0))) else list(rule_applies = edge$when_rule_applies)
+        else {
+          if(target$id %in% trigger_ids) stop('Self-suppressing reporting relation: ',edge$id)
+          if(!length(trigger_ids)) next # no invented trigger; coverage remains independently required
+          condition <- list(op='or',args=lapply(trigger_ids,function(id)
+            if(identical(edge$trigger_test,'positive_duty'))
+              list(op='gt',args=list(list(rule_amount=id),list(value=0))) else list(rule_applies=id)))
+        }
         old <- target$suppressed_when
         if (!is.null(old)) condition <- list(op = 'or', args = if(identical(old$op,'or')) c(old$args,list(condition)) else list(old,condition))
         target$suppressed_when <- condition
@@ -97,6 +120,26 @@ compose_shipment_rules <- function(bundle, fragments) {
       decisions[[length(decisions) + 1L]] <- list(relation_id = edge$id, rule_id = target$id,
         when_rule_applies = edge$when_rule_applies, effect = edge$effect,
         reporting_codes = as.list(matches), source_ids = edge$source_ids)
+    }
+  }
+  # Explicit, source-backed cross-authority claim effects. Recognize only a
+  # registered claim whose candidate rules all belong to the stated authority;
+  # a claim-name prefix alone is not evidence of its meaning.
+  passthrough <- merge_by_id(unlist(lapply(fragments,`[[`,'unchanged_claims'),recursive=FALSE),'claim relation')
+  for(edge in passthrough) {
+    if(!length(edge$target_rule_ids)||!all(unlist(edge$target_rule_ids)%in%ids)||
+       !length(edge$source_ids)||!all(unlist(edge$source_ids)%in%source_ids)||
+       is.null(edge$claim_authority)) stop('Invalid unchanged-claim relation')
+    for(i in seq_along(bundle$claim_definitions)) {
+      claim<-bundle$claim_definitions[[i]];candidates<-unlist(claim$candidate_rule_ids)
+      if(!length(candidates)) next
+      crules<-bundle$rules[match(candidates,ids)]
+      if(anyNA(match(candidates,ids)) || !all(vapply(crules,function(r) identical(r$authority,edge$claim_authority),logical(1)))) next
+      claim$rule_ids<-as.list(sort(unique(c(unlist(claim$rule_ids),unlist(edge$target_rule_ids)))))
+      claim$source_ids<-as.list(sort(unique(c(unlist(claim$source_ids),unlist(edge$source_ids)))))
+      bundle$claim_definitions[[i]]<-claim
+      decisions[[length(decisions)+1L]]<-list(relation_id=edge$id,claim_id=claim$id,
+        effect='claim_leaves_liability_unchanged',rule_ids=edge$target_rule_ids,source_ids=edge$source_ids)
     }
   }
   # Adding actions deliberately invalidates incomplete existing inventories.
