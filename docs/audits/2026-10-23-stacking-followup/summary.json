@@ -1,0 +1,25 @@
+{
+  "candidate_rows_post_june_with_suppressed_metals": 57628,
+  "hong_kong_rows_with_positive_ieepa_fent_and_232": 77541,
+  "groups": 220,
+  "case_rows": 1100,
+  "hong_kong_sample_rows": 12,
+  "classification": "diagnostic_counts_not_individual_legal_determinations",
+  "confirmed_comparison": {
+    "hts10": "7202115000",
+    "country": "1220",
+    "revision": "2025_rev_14",
+    "live_statutory_total_rate": 0.115,
+    "reviewed_component_subtotal_rate": 0.515,
+    "components": {
+      "base": 0.015,
+      "steel232": 0.5,
+      "ieepa_canada": 0
+    },
+    "complete_shipment_total": null,
+    "assumptions": [
+      "No preference claim",
+      "Base and named additional-duty components only; independent scope/deposits not certified"
+    ]
+  }
+}

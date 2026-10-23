@@ -1,0 +1,21 @@
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  PASS: primary amendment reverses priority at the exact Eastern minute
+  PASS: historical live Canadian ferroalloy case changes only at the legal boundary
+  PASS: auto priority survives the amendment; steel and aluminum remain cumulative
+  PASS: shared IEEPA column is suppressed only for the named countries
+  PASS: all later eras inherit the amended action precedence
+  PASS: config ordering and duplicate source order cannot change priority
+  PASS: collection end and Section 122 start are distinct instants on the same day
+  PASS: copper clause (5) suppresses copper only when auto duty is owed
+  PASS: cycles, unknown parents and incomplete action data fail rather than zero
+  PASS: invalid timestamps and missing shared-column origin scopes are rejected
+  PASS: unrelated 122, China/Brazil/forced-labor 301 and 338 actions remain untouched
+  PASS: EO 14195 is full-value for China and Hong Kong; decomposition agrees
+  PASS: statutory evaluation gets unsuppressed inputs, independent of aggregate claim shares
+Tests: 13 passed, 0 failed

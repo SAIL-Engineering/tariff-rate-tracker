@@ -2149,9 +2149,10 @@ enforce_rate_schema <- function(df) {
 
   # Fill NAs in the per-authority rate columns + base. bind_rows for MFN-only
   # grid pairs legitimately leaves an absent authority column NA — that IS a 0
-  # rate. NB: total_additional/total_rate are deliberately NOT in this list —
+  # rate in the aggregate model. Statutory missing values remain unknown.
+  # NB: total_additional/total_rate are deliberately NOT in this list —
   # they are guarded above (a NA total is a bug, not a fill-to-0 case).
-  rate_cols <- c('base_rate', 'statutory_base_rate', AUTHORITY_RATE_COLS)
+  rate_cols <- c('base_rate', AUTHORITY_RATE_COLS)
   for (col in rate_cols) {
     if (col %in% names(df)) {
       df[[col]][is.na(df[[col]])] <- 0
@@ -2794,7 +2795,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
 #'   - Post-annex (>= S232_ANNEXES$effective_date, 2026-04-06): the April 2026
 #'     proclamation applies 232 to the full customs value. nonmetal_share is
 #'     forced to 0 for annex-classified products (s232_annex != NA & rate_232 > 0),
-#'     so IEEPA/S122/fentanyl contribute zero on post-annex 232 products.
+#'     so reciprocal/S122 contribute zero on post-annex 232 products.
 #'   - Fentanyl stacks on 232 for all countries (separate IEEPA authority)
 #'   - Section 301 only applies to China
 #'   - Section 122 is scaled by nonmetal_share on 232 products (same treatment as
@@ -2844,18 +2845,114 @@ load_stacking_rules <- function(path = NULL) {
 #'
 #' @param effective_date Revision effective date
 #' @param cfg Parsed stacking_rules.yaml (loaded if NULL)
-#' @return The era list, or NULL when no config/era applies
+#' @return The resolved era; missing, cyclic or ambiguous source coverage errors
 resolve_stacking_era <- function(effective_date, cfg = NULL) {
   cfg <- cfg %||% load_stacking_rules()
-  if (is.null(cfg) || length(cfg$eras) == 0) return(NULL)
-  d <- suppressWarnings(as.Date(effective_date))
-  if (is.na(d)) return(NULL)
-  froms <- as.Date(vapply(cfg$eras, function(e) e$from %||% '1900-01-01', character(1)))
-  idx <- which(froms <= d)
-  if (length(idx) == 0) return(NULL)
-  cfg$eras[[idx[which.max(froms[idx])]]]
+  if (is.null(cfg) || !length(cfg$eras)) stop('Missing stacking era source')
+  ids <- vapply(cfg$eras, function(e) e$id, character(1))
+  if (anyDuplicated(ids)) stop('Duplicate stacking era ID')
+  # Date-only inputs select the daily revision model. Timestamp inputs select
+  # the exact legal instant; do not truncate away a 00:01 Eastern boundary.
+  instant <- function(x) {
+    if (length(x) != 1L || is.na(x) ||
+        !grepl('^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$', x))
+      stop('Stacking timestamp requires an explicit offset')
+    day <- suppressWarnings(as.Date(substr(x, 1, 10), format = '%Y-%m-%d'))
+    if (is.na(day) || format(day, '%Y-%m-%d') != substr(x, 1, 10) ||
+        as.integer(substr(x, 12, 13)) > 23 || as.integer(substr(x, 15, 16)) > 59 ||
+        as.integer(substr(x, 18, 19)) > 59 ||
+        (!endsWith(x, 'Z') && (as.integer(substr(x, 21, 22)) > 23 ||
+                               as.integer(substr(x, 24, 25)) > 59))) stop('Invalid stacking timestamp')
+    x <- sub('Z$', '+0000', x)
+    x <- sub('([+-][0-9]{2}):([0-9]{2})$', '\\1\\2', x)
+    as.POSIXct(strptime(x, '%Y-%m-%dT%H:%M:%OS%z', tz = 'UTC'))
+  }
+  if (length(effective_date) != 1L || is.na(effective_date)) stop('Invalid stacking date')
+  timestamp <- inherits(effective_date, 'POSIXt') ||
+    (is.character(effective_date) && grepl('T', effective_date, fixed = TRUE))
+  if (timestamp) {
+    d <- if (inherits(effective_date, 'POSIXt')) effective_date else instant(effective_date)
+  } else {
+    day <- suppressWarnings(as.Date(effective_date))
+    # A daily model represents the regime at the end of the named Eastern day.
+    # This distinguishes two actions starting at midnight and 00:01 on one date.
+    d <- as.POSIXct(paste(day, '23:59:59'), tz = 'America/New_York')
+  }
+  starts <- vapply(cfg$eras, function(e) as.numeric(if (!is.null(e$effective_at))
+    instant(e$effective_at) else as.POSIXct(e$from, tz = 'America/New_York')), numeric(1))
+  if (is.na(d) || anyNA(starts) || anyDuplicated(starts)) stop('Invalid or duplicate stacking era boundary')
+  idx <- which(starts <= as.numeric(d))
+  if (!length(idx)) stop('No stacking era covers this date')
+  resolve <- function(id, seen = character()) {
+    if (id %in% seen) stop('Cyclic stacking era inheritance')
+    i <- match(id, ids)
+    if (is.na(i)) stop('Unknown inherited stacking era: ', id)
+    child <- cfg$eras[[i]]
+    parent <- if (is.null(child$inherits)) list() else resolve(child$inherits, c(seen, id))
+    # Explicit lists replace inherited lists, including [] (not recursive merge).
+    for (key in names(child)) parent[[key]] <- child[[key]]
+    parent$effective_at <- child$effective_at  # identity metadata is not inherited
+    if (!is.null(child$always_cumulative_add)) parent$always_cumulative <- unique(c(
+      parent$always_cumulative, child$always_cumulative_add))
+    parent
+  }
+  resolve(ids[idx[which.max(starts[idx])]])
 }
 
+# Evaluate named action exclusions from data. Caller supplies UNSUPPRESSED action
+# inputs; preferences must be applied before this function and then reevaluated.
+# EO 14289 sec. 3(a), as amended by Proc. 10947 clause (5).
+apply_stacking_precedence <- function(df, effective_date = NULL, era = NULL, cfg = NULL,
+                                     threshold = NULL) {
+  cfg <- cfg %||% load_stacking_rules()
+  era <- era %||% resolve_stacking_era(effective_date, cfg)
+  rules <- era$non_stacking %||% list()
+  if (!length(rules) || !nrow(df)) return(df)
+  threshold <- threshold %||% era$subject_to_threshold %||% 0
+  keys <- unique(unlist(lapply(rules, function(r) c(r$action, r$excludes))))
+  if (!all(keys %in% names(cfg$authorities))) stop('Unknown stacking action')
+  columns <- unlist(cfg$authorities)
+  shared <- names(columns)[duplicated(columns) | duplicated(columns, fromLast = TRUE)]
+  for (key in intersect(keys, shared)) if (is.null(cfg$authority_countries[[key]]))
+    stop('Missing origin scope for shared-column action: ', key)
+  required <- unique(c('country', 'rate_232', S232_ACTION_RATE_COLS,
+                        unlist(cfg$authorities[keys])))
+  if (!all(required %in% names(df))) stop('Missing stacking action inputs: ',
+    paste(setdiff(required, names(df)), collapse = ', '))
+  if (anyNA(df[, required, drop = FALSE])) stop('Unresolved stacking action inputs')
+  scoped <- function(key) {
+    countries <- cfg$authority_countries[[key]]
+    if (is.null(countries)) rep(TRUE, nrow(df)) else df$country %in% countries
+  }
+  # Preserve legacy aggregate residual for now; it is NOT legal action evidence.
+  residual <- pmax(df$rate_232 - rowSums(df[, S232_ACTION_RATE_COLS]), 0)
+  traces <- rep(list(list()), nrow(df))
+  priority <- vapply(rules, function(r) as.numeric(r$precedence), numeric(1))
+  if (anyNA(priority) || anyDuplicated(priority)) stop('Ambiguous stacking precedence')
+  for (rule in rules[order(priority)]) {
+    subject <- Reduce(`|`, lapply(rule$action, function(key)
+      scoped(key) & df[[cfg$authorities[[key]]]] > threshold))
+    for (key in rule$excludes) {
+      col <- cfg$authorities[[key]]
+      drop <- which(subject & scoped(key) & df[[col]] > 0)
+      for (i in drop) traces[[i]][[length(traces[[i]]) + 1L]] <- list(
+        rule = rule$rule_id, action = key, rate = df[[col]][i],
+        citation_key = rule$citation_key, cite_locator = rule$cite_locator)
+      df[[col]][drop] <- 0
+    }
+  }
+  df$rate_232 <- rowSums(df[, S232_ACTION_RATE_COLS]) + residual
+  df$s232_suppressed_json <- vapply(traces, function(x) {
+    if (!length(x)) return(NA_character_)
+    # Keep the legacy rule/suppressed shape as well as per-action source traces.
+    suppressed <- setNames(lapply(x, function(v) v$rate),
+      vapply(x, function(v) if (v$action %in% c('ieepa_canada','ieepa_mexico'))
+        'ieepa_camx' else v$action, character(1)))
+    as.character(jsonlite::toJSON(list(rule = x[[1]]$rule,
+      suppressed = suppressed, rules = x), auto_unbox = TRUE))
+  }, character(1))
+  df
+}
 
 #' Apply the EO 14289 non-stacking precedence order
 #'
@@ -2888,60 +2985,15 @@ resolve_stacking_era <- function(effective_date, cfg = NULL) {
 #' @return df with suppressed action rates zeroed and s232_suppressed_json set
 apply_eo14289_precedence <- function(df, threshold = 0,
                                      cty_canada = '1220', cty_mexico = '2010') {
-  if (nrow(df) == 0) return(df)
+  # Historical compatibility entry point. Production supplies its actual era to
+  # apply_stacking_precedence(), rather than treating this original order as timeless.
   df <- zero_fill_authority_rates(df, S232_ACTION_RATE_COLS)
   if (!'rate_ieepa_fent' %in% names(df)) df$rate_ieepa_fent <- 0
-
-  is_camx <- df$country %in% c(cty_canada, cty_mexico)
-
-  # "Subject to" = duty of MORE THAN 0% owed under that action.
-  auto_subject <- df$rate_232_auto > threshold
-  camx_subject <- is_camx & df$rate_ieepa_fent > threshold
-
-  # sec. 3(a)(i) then (ii); first match wins.
-  drop_camx_ieepa <- auto_subject & is_camx
-  drop_metals     <- auto_subject | camx_subject
-
-  reason <- rep(NA_character_, nrow(df))
-  reason[drop_metals & auto_subject] <- 'eo14289_3a_i_auto'
-  reason[drop_metals & !auto_subject & camx_subject] <- 'eo14289_3a_ii_ieepa_camx'
-
-  # Record what was suppressed BEFORE zeroing — sec. 3(b) keeps the
-  # classification valid, so provenance must survive the rate going to 0.
-  supp <- vapply(seq_len(nrow(df)), function(i) {
-    if (is.na(reason[i])) return(NA_character_)
-    parts <- character(0)
-    if (drop_metals[i] && df$rate_232_steel[i] > 0)
-      parts <- c(parts, sprintf('"s232_steel":%s', df$rate_232_steel[i]))
-    if (drop_metals[i] && df$rate_232_aluminum[i] > 0)
-      parts <- c(parts, sprintf('"s232_aluminum":%s', df$rate_232_aluminum[i]))
-    if (drop_camx_ieepa[i] && df$rate_ieepa_fent[i] > 0)
-      parts <- c(parts, sprintf('"ieepa_camx":%s', df$rate_ieepa_fent[i]))
-    if (length(parts) == 0) return(NA_character_)
-    sprintf('{"rule":"%s","suppressed":{%s}}', reason[i], paste(parts, collapse = ','))
-  }, character(1))
-
-  # Any part of rate_232 the action columns do not account for. Later pipeline
-  # steps (the §232 annex override, country deal floors and surcharges) set
-  # rate_232 directly without touching the per-action columns, so re-deriving
-  # rate_232 as a bare sum of actions would silently DELETE that duty. Carry the
-  # unattributed remainder through untouched.
-  attributed <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
-    df$rate_232_copper + df$rate_232_other
-  residual <- pmax(df$rate_232 - attributed, 0)
-
-  df$rate_232_steel[drop_metals]    <- 0
-  df$rate_232_aluminum[drop_metals] <- 0
-  df$rate_ieepa_fent[drop_camx_ieepa] <- 0
-
-  # sec. 3(a)(iii): aluminum and steel stack with EACH OTHER. Nothing to do —
-  # not suppressing them IS the rule, and the per-action columns already carry
-  # both.
-  df$rate_232 <- df$rate_232_auto + df$rate_232_steel + df$rate_232_aluminum +
-    df$rate_232_copper + df$rate_232_other + residual
-
-  df$s232_suppressed_json <- supp
-  df
+  cfg <- load_stacking_rules()
+  cfg$authority_countries$ieepa_canada <- cty_canada
+  cfg$authority_countries$ieepa_mexico <- cty_mexico
+  original <- cfg$eras[[which(vapply(cfg$eras, function(e) e$id == 'eo14289', logical(1)))]]
+  apply_stacking_precedence(df, era = original, cfg = cfg, threshold = threshold)
 }
 
 
@@ -3186,7 +3238,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
   # Post-annex override: the April 2026 proclamation applies Section 232 to the
   # full customs value, eliminating metal-content-based mutual exclusion. Products
   # with an annex classification (s232_annex != NA) get nonmetal_share = 0 so that
-  # IEEPA/S122/fentanyl do not leak through on a phantom non-metal fraction.
+  # reciprocal/S122 do not leak through on a phantom non-metal fraction.
   # Annex II products (rate_232 = 0, removed from scope) are excluded by the
   # rate_232 > 0 guard — they receive full IEEPA/S122 as non-232 products.
   if ('s232_annex' %in% names(df)) {
@@ -3196,6 +3248,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
       ))
   }
 
+  fentanyl_full_value <- df$country %in% unlist(load_stacking_rules()$authority_countries$ieepa_fentanyl)
   df <- df %>%
     mutate(
       total_additional = case_when(
@@ -3209,12 +3262,13 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
           rate_ieepa_recip + rate_ieepa_fent + rate_301 + rate_s122 + rate_section_201 +
           rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
 
-        # Others with 232: 232 + recip*nonmetal + fent*nonmetal + s122*nonmetal + s201 + other
-        # Fentanyl follows the same content-based split as reciprocal: 232 covers
-        # the metal/copper content, fentanyl applies to the non-metal portion only.
-        # For heading products (auto_parts, copper, autos), nonmetal_share ≈ 0.
+        # Others with 232: 232 + recip*nonmetal + fentanyl + s122*nonmetal + s201 + other
+        # EO 14195 (including Hong Kong) is cumulative: EO 14289 sec. 4(b).
+        # CA/MX use distinct actions. Their remaining legacy content approximation
+        # is not a verified shipment rule for copper/wood/MHD/semiconductors.
         rate_232 > 0 ~
-          rate_232 + rate_ieepa_recip * nonmetal_share + rate_ieepa_fent * nonmetal_share +
+          rate_232 + rate_ieepa_recip * nonmetal_share +
+          rate_ieepa_fent * if_else(fentanyl_full_value, 1, nonmetal_share) +
           rate_s122 * nonmetal_share + rate_section_201 + rate_s301fl + rate_s301br + rate_s338 + rate_other + rate_adcvd,
 
         # Others without 232: reciprocal + fentanyl + s122 + s201 + other
@@ -3227,7 +3281,7 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
 }
 
 
-#' Statutory-basis totals — the duty a single entry actually owes
+#' Legacy statutory-basis projection; not a complete shipment determination
 #'
 #' `total_rate` is TRADE-WEIGHTED. 06_calculate_rates.R scales base_rate, the
 #' IEEPA rates, §122 and rate_232 by the MFN exemption share and then by
@@ -3244,8 +3298,9 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
 #'
 #' Measured against cached Avalara payloads on 2025_rev_14, exact agreement was
 #' 11/20 using the weighted columns, 7/20 summing statutory columns naively, and
-#' 17/20 here. The three that still differ are all lines where Avalara omits a
-#' duty that was in force.
+#' 17/20 here. Comparator agreement is not a legal oracle. This legacy adapter
+#' still contains content assumptions; use resolve_shipment_duties for complete
+#' rule-based determinations and do not treat a numeric projection as coverage.
 #'
 #' Runs the SAME engine (apply_eo14289_precedence + apply_stacking_rules) over
 #' statutory inputs, so the two totals cannot diverge in how they treat
@@ -3261,7 +3316,8 @@ apply_stacking_rules <- function(df, cty_china = '5700', stacking_method = 'mutu
 compute_statutory_totals <- function(df, cty_china = '5700',
                                      stacking_method = 'mutual_exclusion',
                                      apply_eo = TRUE, threshold = 0,
-                                     cty_canada = '1220', cty_mexico = '2010') {
+                                     cty_canada = '1220', cty_mexico = '2010',
+                                     stacking_era = NULL, action_inputs = NULL) {
   if (nrow(df) == 0) {
     df$statutory_total_additional <- numeric(0)
     df$statutory_total_rate <- numeric(0)
@@ -3271,22 +3327,32 @@ compute_statutory_totals <- function(df, cty_china = '5700',
 
   # Swap each weighted rate for its statutory counterpart. Columns with no
   # statutory twin (rate_adcvd) are already unweighted and carry through as-is.
+  unknown_statutory <- rep(FALSE, nrow(df))
+  for (sc in intersect(unname(STATUTORY_RATE_COL_MAP), names(df)))
+    unknown_statutory <- unknown_statutory | !is.finite(df[[sc]])
   shadow <- df
   for (rc in names(STATUTORY_RATE_COL_MAP)) {
     sc <- STATUTORY_RATE_COL_MAP[[rc]]
     if (sc %in% names(df)) shadow[[rc]] <- coalesce(df[[sc]], 0)
   }
 
-  # The per-action §232 columns are never trade-weighted (only the collapsed
-  # rate_232 is), so they are already on a statutory basis and feed the shadow
-  # directly. Re-running the suppression over them is idempotent.
+  # Use the action snapshot from BEFORE aggregate suppression. An action erased
+  # by a modeled preference outcome cannot be reconstructed from that outcome.
+  # Legacy content modeling within these columns remains a release limitation;
+  # this aggregate adapter is not the declarative shipment evaluator.
   shadow <- zero_fill_authority_rates(shadow, S232_ACTION_RATE_COLS)
+  if (!is.null(action_inputs)) {
+    if (nrow(action_inputs) != nrow(shadow) ||
+        !all(S232_ACTION_RATE_COLS %in% names(action_inputs))) stop('Invalid pre-stacking actions')
+    shadow[S232_ACTION_RATE_COLS] <- action_inputs[S232_ACTION_RATE_COLS]
+  }
 
   .run <- function(s) {
     if (isTRUE(apply_eo)) {
-      s <- apply_eo14289_precedence(s, threshold = threshold,
+      s <- if (is.null(stacking_era)) apply_eo14289_precedence(s, threshold = threshold,
                                     cty_canada = cty_canada,
-                                    cty_mexico = cty_mexico)
+                                    cty_mexico = cty_mexico) else
+        apply_stacking_precedence(s, era = stacking_era, threshold = threshold)
     }
     apply_stacking_rules(s, cty_china = cty_china,
                          stacking_method = stacking_method)
@@ -3302,10 +3368,11 @@ compute_statutory_totals <- function(df, cty_china = '5700',
   #                           steel/aluminum STILL apply — they are not
   #                           USMCA-exempt (see step 7 of 06_calculate_rates.R)
   #
-  # For 7202.11.50 from Canada at 2025_rev_14 that is 0.115 versus 0.515. Both
-  # are legally correct; which one an entry owes depends on facts the corpus
-  # does not carry, because `usmca_eligible` means the TARIFF LINE is eligible,
-  # not that a given shipment qualifies and claimed it.
+  # This fork describes the ORIGINAL order, before June 4, 2025. Proc. 10947
+  # reverses (ii) after that date: metals prevail in both preference branches.
+  # At rev_14, Canadian 7202.11.50's reviewed base/232/IEEPA subtotal is .515
+  # unclaimed, .500 claimed (not .115). The selected era decides precedence;
+  # line eligibility alone is not evidence that a shipment claimed preference.
   #
   # So the default is the unclaimed treatment — preference is affirmatively
   # claimed, never automatic — and the alternative is carried explicitly rather
@@ -3350,13 +3417,19 @@ compute_statutory_totals <- function(df, cty_china = '5700',
   # which is exactly how the pre-existing `statutory_rate_232` annex overwrite
   # (06_calculate_rates.R:2367) would surface.
   hi <- pmax(unclaimed$total_rate, claimed$total_rate)
-  bad <- which(df$total_rate > hi + 1e-6)
+  bad <- which(!unknown_statutory & df$total_rate > hi + 1e-6)
   if (length(bad) > 0) {
     warning(sprintf(
       'compute_statutory_totals: %d row(s) have a trade-weighted total_rate ABOVE the higher statutory branch (e.g. %s/%s: weighted %.4f > statutory %.4f). Weighting only discounts, so the statutory inputs on these rows are stale.',
       length(bad), df$hts10[bad[1]], df$country[bad[1]],
       df$total_rate[bad[1]], hi[bad[1]]), call. = FALSE)
   }
+  # Missing legal rate/scope is not zero, even if the aggregate projection is
+  # numeric. A suppressed-action decision may itself depend on that unknown.
+  df$statutory_total_additional[unknown_statutory] <- NA_real_
+  df$statutory_total_rate[unknown_statutory] <- NA_real_
+  df$statutory_alternatives_json[unknown_statutory] <- NA_character_
+  for (col in STATUTORY_S232_ACTION_RATE_COLS) df[[col]][unknown_statutory] <- NA_real_
   df
 }
 
@@ -3450,11 +3523,8 @@ compute_net_authority_contributions <- function(df, cty_china = '5700',
     mutate(
       net_232 = if_else(rate_232 > 0, rate_232, 0),
       net_ieepa = if_else(rate_232 > 0, rate_ieepa_recip * nonmetal_share, rate_ieepa_recip),
-      net_fentanyl = case_when(
-        country == cty_china ~ rate_ieepa_fent,
-        rate_232 > 0 ~ rate_ieepa_fent * nonmetal_share,
-        TRUE ~ rate_ieepa_fent
-      ),
+      net_fentanyl = if_else(country %in% unlist(load_stacking_rules()$authority_countries$ieepa_fentanyl) |
+        country == cty_china | rate_232 <= 0, rate_ieepa_fent, rate_ieepa_fent * nonmetal_share),
       # rate_301 is the China-only legacy §301 column, hence the cty_china gate.
       # The 2026 actions are NOT China-scoped — Brazil (note 50) and 60 economies
       # (note 52) — so they are added unconditionally and must not inherit that
@@ -6209,4 +6279,62 @@ get_rates_at_date <- function(ts, query_date, policy_params = NULL) {
   snapshot <- apply_post_interval_adjustments_point(snapshot, query_date, policy_params)
 
   return(snapshot)
+}
+
+
+# Semiconductor Note 39(b)/(d), CBP CSMS 67400472. Technical eligibility and
+# actual end use are shipment facts; these shares only project aggregate duty.
+model_s232_semiconductors <- function(heading_rates, semi_products, shares,
+                                     end_use_exemption_share = 0) {
+  valid_share <- function(x) is.numeric(x) && all(is.finite(x) & x >= 0 & x <= 1)
+  if (length(end_use_exemption_share) != 1L || !valid_share(end_use_exemption_share))
+    stop('Invalid semiconductor end-use modeling share')
+  if (!all(c('hts10','qualifying_share') %in% names(shares)) ||
+      anyNA(shares$hts10) || any(!grepl('^[0-9]{10}$', shares$hts10)) || anyDuplicated(shares$hts10) ||
+      !valid_share(shares$qualifying_share)) stop('Invalid semiconductor qualifying shares')
+  if (!all(c('hts10','heading_232_rate') %in% names(heading_rates)) ||
+      anyDuplicated(heading_rates$hts10) || !all(semi_products %in% heading_rates$hts10) ||
+      !is.numeric(heading_rates$heading_232_rate) ||
+      any(!is.finite(heading_rates$heading_232_rate) | heading_rates$heading_232_rate < 0))
+    stop('Invalid semiconductor heading inputs')
+  heading_rates %>%
+    left_join(shares %>% select(hts10, qualifying_share), by = 'hts10', relationship = 'many-to-one') %>%
+    mutate(
+      published_rate_232_semiconductors = if_else(hts10 %in% semi_products, heading_232_rate, NA_real_),
+      modeled_semi_qualifying_share = if_else(hts10 %in% semi_products, coalesce(qualifying_share, 1), NA_real_),
+      modeled_semi_qualifying_basis = if_else(hts10 %in% semi_products,
+        if_else(is.na(qualifying_share), 'upper_bound_missing_calibration', 'configured_share'), NA_character_),
+      modeled_semi_end_use_exemption_share = if_else(hts10 %in% semi_products, end_use_exemption_share, NA_real_),
+      heading_232_rate = if_else(hts10 %in% semi_products,
+        heading_232_rate * modeled_semi_qualifying_share * (1 - end_use_exemption_share), heading_232_rate)
+    ) %>% select(-qualifying_share)
+}
+
+
+restore_s232_semiconductor_model <- function(rates, heading_rates, semi_products, cfg) {
+  if (!length(semi_products)) return(rates)
+  if (!length(cfg$required_shipment_facts) || is.null(cfg$scope_source))
+    stop('Missing semiconductor scope evidence')
+  metadata <- c('published_rate_232_semiconductors', 'modeled_semi_qualifying_share',
+    'modeled_semi_qualifying_basis', 'modeled_semi_end_use_exemption_share')
+  if (!all(metadata %in% names(heading_rates))) stop('Missing semiconductor model inputs')
+  scoped <- heading_rates %>% filter(hts10 %in% semi_products) %>%
+    select(hts10, .semi_heading_rate = heading_232_rate, all_of(metadata))
+  facts_json <- as.character(jsonlite::toJSON(unname(unlist(cfg$required_shipment_facts))))
+  # Join at the final grid grain too: zero-model-duty products may only have
+  # acquired rows during grid expansion, after the first heading lookup.
+  rates %>% select(-any_of(metadata)) %>%
+    left_join(scoped, by = 'hts10', relationship = 'many-to-one') %>%
+    mutate(
+      rate_232 = if_else(!is.na(.semi_heading_rate), .semi_heading_rate, rate_232),
+      deriv_type = if_else(!is.na(.semi_heading_rate), NA_character_, deriv_type),
+      deriv_ch99_code = if_else(!is.na(.semi_heading_rate), NA_character_, deriv_ch99_code),
+      deriv_content_scaled = if_else(!is.na(.semi_heading_rate), FALSE, coalesce(deriv_content_scaled, FALSE)),
+      # Note 39(b)/(d), CSMS 67400472. Published 25% is conditional, not the
+      # duty for every shipment in this code. Do not copy an aggregate share.
+      statutory_rate_232 = if_else(!is.na(.semi_heading_rate), NA_real_, statutory_rate_232),
+      shipment_232_scope_status = if_else(!is.na(.semi_heading_rate), 'needs_inputs', NA_character_),
+      shipment_232_required_facts_json = if_else(!is.na(.semi_heading_rate), facts_json, NA_character_),
+      shipment_232_scope_source = if_else(!is.na(.semi_heading_rate), cfg$scope_source, NA_character_)
+    ) %>% select(-.semi_heading_rate)
 }

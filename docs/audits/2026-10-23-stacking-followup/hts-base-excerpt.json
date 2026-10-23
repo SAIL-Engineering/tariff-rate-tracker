@@ -1,0 +1,62 @@
+{
+  "archive_path": "data/hts_archives/hts_2025_rev_14.json",
+  "archive_sha256": "0eb0ebeeff04d260ba6b05a16b23350eff4b93d38863ca8387d3b9555eaea43f",
+  "rows": [
+    {
+      "htsno": "7202.11.50.00",
+      "indent": "3",
+      "description": "Containing by weight more than 4 percent of carbon",
+      "superior": null,
+      "units": [
+        "kg",
+        "Mn kg"
+      ],
+      "general": "1.5%",
+      "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)",
+      "other": "10.5%",
+      "footnotes": [
+        {
+          "columns": [
+            "general"
+          ],
+          "value": "See 9903.88.03. ",
+          "type": "endnote"
+        },
+        {
+          "columns": [
+            "other"
+          ],
+          "value": "See 9903.90.09. ",
+          "type": "endnote"
+        }
+      ],
+      "quotaQuantity": null,
+      "additionalDuties": null,
+      "addiitionalDuties": null
+    },
+    {
+      "htsno": "9903.01.24",
+      "indent": "0",
+      "description": "Except for products described in headings 9903.01.21, 9903.01.22, 9903.01.23, or U.S. note 2(w) to this subchapter articles the product of China and Hong Kong, as provided for in U.S. note 2(u) to this subchapter",
+      "superior": null,
+      "units": [],
+      "general": "The duty provided in the applicable subheading + 20%",
+      "special": "The duty provided in the applicable subheading + 20%",
+      "other": "No Change",
+      "footnotes": [
+        {
+          "columns": [
+            "stat",
+            "units"
+          ],
+          "marker": "1",
+          "value": " See chapter 99 statistical note 1. ",
+          "type": "footnote"
+        }
+      ],
+      "quotaQuantity": null,
+      "additionalDuties": "",
+      "addiitionalDuties": null
+    }
+  ]
+}

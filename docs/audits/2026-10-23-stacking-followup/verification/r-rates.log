@@ -1,0 +1,420 @@
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+here() starts at /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-tracker
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+
+--- Test 1: extract_ieepa_rates ---
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 5
+  [Diagnostic] 9903.01.63 (China): terminated=FALSE, description tail: "...the product of China, as provided for in subdivision (v)(iii)"
+  Country-rate pairs extracted: 5
+  Phase 1 (Apr 9, terminated): 2
+  Phase 2 (Aug 7, active): 3
+  Rate types (Phase 2): floor=1, passthrough=1, surcharge=1
+  Universal IEEPA baseline (9903.01.25): 10%
+  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is live, so the EO 14266 pause no longer governs
+  PASS: extracts surcharge rate
+Warning message:
+In .f(.x[[i]], ...) :
+  9903.01.63 (China +34% reciprocal) has rate=0.34 but suspension NOT detected — check footnote text for new suspension language.
+Description: Articles the product of China, as provided for in subdivision (v)(iii)
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 5
+  [Diagnostic] 9903.01.63 (China): terminated=FALSE, description tail: "...the product of China, as provided for in subdivision (v)(iii)"
+  Country-rate pairs extracted: 5
+  Phase 1 (Apr 9, terminated): 2
+  Phase 2 (Aug 7, active): 3
+  Rate types (Phase 2): floor=1, passthrough=1, surcharge=1
+  Universal IEEPA baseline (9903.01.25): 10%
+  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is live, so the EO 14266 pause no longer governs
+  PASS: extracts floor rate
+Warning message:
+In .f(.x[[i]], ...) :
+  9903.01.63 (China +34% reciprocal) has rate=0.34 but suspension NOT detected — check footnote text for new suspension language.
+Description: Articles the product of China, as provided for in subdivision (v)(iii)
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 5
+  [Diagnostic] 9903.01.63 (China): terminated=FALSE, description tail: "...the product of China, as provided for in subdivision (v)(iii)"
+  Country-rate pairs extracted: 5
+  Phase 1 (Apr 9, terminated): 2
+  Phase 2 (Aug 7, active): 3
+  Rate types (Phase 2): floor=1, passthrough=1, surcharge=1
+  Universal IEEPA baseline (9903.01.25): 10%
+  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is live, so the EO 14266 pause no longer governs
+  PASS: detects terminated entry
+Warning message:
+In .f(.x[[i]], ...) :
+  9903.01.63 (China +34% reciprocal) has rate=0.34 but suspension NOT detected — check footnote text for new suspension language.
+Description: Articles the product of China, as provided for in subdivision (v)(iii)
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 5
+  [Diagnostic] 9903.01.63 (China): terminated=FALSE, description tail: "...the product of China, as provided for in subdivision (v)(iii)"
+  Country-rate pairs extracted: 5
+  Phase 1 (Apr 9, terminated): 2
+  Phase 2 (Aug 7, active): 3
+  Rate types (Phase 2): floor=1, passthrough=1, surcharge=1
+  Universal IEEPA baseline (9903.01.25): 10%
+  Phase 1 cap NOT applied: Phase 2 (9903.02) reinstatement is live, so the EO 14266 pause no longer governs
+  PASS: assigns correct phase
+Warning message:
+In .f(.x[[i]], ...) :
+  9903.01.63 (China +34% reciprocal) has rate=0.34 but suspension NOT detected — check footnote text for new suspension language.
+Description: Articles the product of China, as provided for in subdivision (v)(iii)
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 0
+  No IEEPA entries — returning empty tibble
+  PASS: returns empty tibble for no IEEPA entries
+
+--- Test 2: extract_ieepa_fentanyl_rates ---
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 5
+    Inferred country for 9903.01.01: Mexico
+    Inferred country for 9903.01.10: Canada
+    Inferred country for 9903.01.13: Canada
+  Fentanyl rates parsed:
+    9903.01.01 Mexico (2010): 25% [general]
+    9903.01.10 Canada (1220): 25% [general]
+    9903.01.13 Canada (1220): 10% [carveout]
+    9903.01.20 China (5700): 20% [general]
+  PASS: extracts general fentanyl rates by country
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 5
+    Inferred country for 9903.01.01: Mexico
+    Inferred country for 9903.01.10: Canada
+    Inferred country for 9903.01.13: Canada
+  Fentanyl rates parsed:
+    9903.01.01 Mexico (2010): 25% [general]
+    9903.01.10 Canada (1220): 25% [general]
+    9903.01.13 Canada (1220): 10% [carveout]
+    9903.01.20 China (5700): 20% [general]
+  PASS: extracts carveout entries
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 5
+    Inferred country for 9903.01.01: Mexico
+    Inferred country for 9903.01.10: Canada
+    Inferred country for 9903.01.13: Canada
+  Fentanyl rates parsed:
+    9903.01.01 Mexico (2010): 25% [general]
+    9903.01.10 Canada (1220): 25% [general]
+    9903.01.13 Canada (1220): 10% [carveout]
+    9903.01.20 China (5700): 20% [general]
+  PASS: skips exclusion entries without rate
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 5
+    Inferred country for 9903.01.01: Mexico
+    Inferred country for 9903.01.10: Canada
+    Inferred country for 9903.01.13: Canada
+  Fentanyl rates parsed:
+    9903.01.01 Mexico (2010): 25% [general]
+    9903.01.10 Canada (1220): 25% [general]
+    9903.01.13 Canada (1220): 10% [carveout]
+    9903.01.20 China (5700): 20% [general]
+  PASS: ignores non-fentanyl range items
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 0
+  No fentanyl entries — returning empty tibble
+  PASS: returns empty tibble for no fentanyl entries
+
+--- Test 3: extract_section232_rates ---
+Extracting Section 232 blanket rates...
+  Steel 232: 50% (all countries)
+  Aluminum 232: 10% (all except 3 countries/groups)
+  Aluminum derivative 232: 10% (0 Ch99 entries)
+  232 coverage: steel/aluminum
+  PASS: extracts steel 232 rate
+Extracting Section 232 blanket rates...
+  Steel 232: 25% (all countries)
+  Aluminum 232: 10% (all except 3 countries/groups)
+  Aluminum derivative 232: 10% (0 Ch99 entries)
+  232 coverage: steel/aluminum
+  PASS: extracts aluminum 232 with exempt countries
+Extracting Section 232 blanket rates...
+  PASS: has_232 is FALSE when no 232 entries
+
+--- Test 4: extract_section122_rates ---
+Extracting Section 122 rates...
+  Section 122 base rate (9903.03.01): 10%
+  PASS: extracts s122 rate from 9903.03.01
+Extracting Section 122 rates...
+  No Section 122 entries found
+  PASS: has_s122 is FALSE when no 9903.03 entries
+
+--- Test 5: extract_usmca_eligibility ---
+Extracting USMCA eligibility from special field...
+  Products parsed: 3
+  USMCA eligible: 2 (66.7%)
+  PASS: identifies S-program USMCA eligibility
+Extracting USMCA eligibility from special field...
+  Products parsed: 3
+  USMCA eligible: 2 (66.7%)
+  PASS: identifies S+ in secondary parenthesized group
+Extracting USMCA eligibility from special field...
+  Products parsed: 3
+  USMCA eligible: 2 (66.7%)
+  PASS: products without S/S+ are not USMCA eligible
+Extracting USMCA eligibility from special field...
+  Products parsed: 3
+  USMCA eligible: 2 (66.7%)
+  PASS: skips Chapter 99 items
+Extracting USMCA eligibility from special field...
+  Products parsed: 3
+  USMCA eligible: 2 (66.7%)
+  PASS: skips non-10-digit codes
+Extracting USMCA eligibility from special field...
+  Products parsed: 4
+  USMCA eligible: 3 (75%)
+  PASS: statistical suffixes inherit S/S+ from the 8-digit legal line
+Extracting USMCA eligibility from special field...
+  Products parsed: 4
+  USMCA eligible: 3 (75%)
+  PASS: sibling legal line specials do not leak across branches
+Extracting USMCA eligibility from special field...
+  Products parsed: 4
+  USMCA eligible: 3 (75%)
+  PASS: 8-digit leaf kept (padded 00); 8-digit parent with children dropped
+
+--- Test 5b: IEEPA exempt date windows ---
+  PASS: pre-2025-04-05 revision does NOT exempt an electronics entry windowed at 2025-04-05
+  PASS: end-dated entry exempts through end date, not after (copper -> 232)
+  PASS: resource CSV carries the stamped Annex II windows
+
+--- Test 5c: parse_products 8-digit leaves ---
+Reading HTS JSON from: /tmp/Rtmp7pyjrz/file2cb7936c3bf007.json
+  Total items: 4
+  Parsed products: 2
+  8-digit leaf lines retained (padded to 10): 1
+  With Chapter 99 refs: 0
+  With complex rates: 0
+  Inherited parent rate: 1 (50%)
+  With NA base_rate: 0
+  Rate basis: ad_valorem = 2
+  Qty duty-relevant: 0
+  With special rates: 2
+  With Column 2 rates: 2
+  Calc status: ok = 2
+  PASS: 8-digit leaf kept padded to 10; 8-digit parent with children dropped
+
+--- Test 6: Rate invariants ---
+  PASS: total_rate = base_rate + total_additional
+  PASS: no negative rates
+  PASS: net authority decomposition sums to total_additional
+  PASS: 232/IEEPA mutual exclusion: China with 232 gets full fentanyl
+  PASS: 232/IEEPA mutual exclusion: non-China with 232 has scaled IEEPA
+  PASS: rate_301 only contributes for China in decomposition
+
+--- Test 7: classify_authority ---
+  PASS: section_122 from 9903.03.xx
+  PASS: section_232 from 9903.80-85
+  PASS: section_232 from 9903.94 (autos)
+  PASS: section_232 from 9903.74 (MHD)
+  PASS: section_232 from 9903.78 (copper)
+  PASS: section_301 from 9903.86-89
+  PASS: section_301 from 9903.91 (Biden 301)
+  PASS: ieepa_reciprocal from 9903.93/95/96
+  PASS: section_201 safeguards from 9903.40-45
+  PASS: unknown for empty or malformed code
+
+--- Test 8: Rate parsing ---
+  PASS: parse_rate: simple percentage
+  PASS: parse_rate: Free
+  PASS: parse_rate: empty and NA
+  PASS: parse_rate: compound rates return NA
+  PASS: parse_ch99_rate: surcharge format
+  PASS: parse_ch99_rate: bare percentage
+  PASS: parse_ch99_rate: empty returns NA
+
+--- Test 9: Schema enforcement ---
+  PASS: adds missing columns with defaults
+  PASS: fills NAs in per-authority rate columns with 0
+  PASS: fails loud on NA total_rate / total_additional (never coalesces)
+  PASS: a computed (non-NA) total passes the guard untouched
+  PASS: preserves extra columns
+  PASS: schema columns appear first
+
+--- Test 10: Stacking rules ---
+  PASS: tpc_additive stacks all authorities
+  PASS: mutual exclusion: 232 product with metal_share=1 gets no IEEPA
+  PASS: non-232 product stacks IEEPA + fentanyl + s122 fully
+
+--- Test 11: 232 derivative country overrides ---
+  PASS: UK derivative override applies (25%, not the blanket 50%)
+  PASS: exemption zeros win over a country override
+  PASS: no overrides / NULL overrides preserves blanket + exempt behavior
+
+--- Test 11a: 232 per-action schema + attribution ---
+  PASS: per-action §232 columns exist and are zero-filled, not silently absent
+  PASS: enforce_rate_schema fails loud on a schema column with no default
+  PASS: enforce_rate_schema materialises the per-action columns
+  PASS: only Proclamation 10908 programs map to the AUTO action
+  PASS: an unmapped heading program falls to _other rather than vanishing
+  PASS: primary metal chapters attribute by chapter, not by heading program
+
+--- Test 11e: EO 14289 precedence ---
+  PASS: dropped §201 safeguards are reported, and 100% rates flagged not applied
+  PASS: the EO 14266 pause cap stops once Phase 2 reinstatement is live
+  PASS: the 2026 annex range is in the aluminum and copper pools, not just steel
+  PASS: a fallback heading with no published rate is not preferred
+  PASS: the assigned §232 heading carries the rate the row is charged
+  PASS: a §232 heading is never assigned by alphabetical order
+  PASS: classification language is never mistaken for a country of origin
+  PASS: n_ch99_refs counts the refs, not the list wrapping them
+  PASS: IEEPA headings classify as IEEPA, not "other"
+  PASS: the fentanyl/reciprocal split is not cosmetic
+  PASS: existing authority classifications are unchanged
+  PASS: era is selected by effective date from config, last matching wins
+  PASS: sec. 3(a)(i): auto excludes steel, aluminum and IEEPA CA/MX
+  PASS: sec. 3(a)(ii): IEEPA CA/MX excludes steel and aluminum but survives itself
+  PASS: sec. 3(a)(iii): steel and aluminum STACK with each other
+  PASS: USMCA falls out of the >0% definition with no special case
+  PASS: IEEPA fentanyl for the PRC is NOT in sec. 2 and is never suppressed
+  PASS: copper, wood, MHD and semiconductors are cumulative under sec. 3(c)
+  PASS: sec. 3(b): suppression zeroes the RATE but keeps provenance
+  PASS: a zero-rate action is not "subject to" and triggers nothing
+  PASS: duty not attributed to any action is preserved, never silently deleted
+  PASS: vectorises across mixed rows without cross-contamination
+
+--- Test 11d: Column 1 compound recovery + calc_status ---
+  PASS: the ad valorem half of a Column 1 compound rate is recovered
+  PASS: a recovered compound is NOT reported as fully resolved
+  PASS: a specific-only duty is flagged even though it parses cleanly
+  PASS: non-representable bases are distinguished from merely partial ones
+    (skipped — products RDS not present)
+  PASS: every Column 1 string in a real revision resolves to a named status
+
+--- Test 11c: Column 2 base tier (GN 3(b)) ---
+  PASS: every real Column 2 string resolves to a named status — none silent
+  PASS: no regression against the rates the old parser already resolved
+  PASS: fractional and compound percents are recovered
+  PASS: percents of a DIFFERENT base never become ad valorem
+  PASS: component-apportioned and cross-referenced duties are not collapsed
+  PASS: Column 2 REPLACES Column 1, and understatement stays visible
+  PASS: a non-derivable Column 2 names WHY rather than passing silently
+  Column 2: excluded 2 origin(s) not yet non-NTR at 2019-01-01 (4622, 4621)
+  PASS: Column 2 is NOT applied before an origin lost normal trade relations
+  Column 2: excluded 2 origin(s) not yet non-NTR at 2022-04-08 (4622, 4621)
+  PASS: the PNTR gate switches exactly at 2022-04-09
+  Column 2: excluded 2 origin(s) not yet non-NTR at unknown date (4622, 4621)
+  PASS: an unknown effective date is treated conservatively
+  PASS: an unresolvable non-NTR country name fails loud, never silently drops
+  PASS: pipeline wiring: re-bases non-NTR rows without clobbering provenance
+  PASS: Column 2 runs BEFORE floors, so a floor stays consistent with its base
+  PASS: NTR origins are untouched
+  PASS: vectorises row-wise
+
+--- Test 11b: dual-content 232 derivatives ---
+  PASS: dual-content article owes BOTH metal contents, not the larger one
+  PASS: asymmetric metal rates are each applied to their own content
+  PASS: single-metal derivatives are unchanged (no silent re-rating)
+  PASS: missing per-metal share falls back rather than guessing
+  PASS: vectorises row-wise without cross-contamination
+
+--- Test 12: 301 forced labor ---
+  PASS: flat tiers add the rate outright; cap tiers add max(0, cap - base)
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: cap tier yields NO duty when MFN already exceeds the cap
+Warning messages:
+1: There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+2: There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: regime contributes nothing before its effective date
+  PASS: unconditional and USE-conditional exemptions scale correctly
+  PASS: country-specific "full" exemption applies to that economy only
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: semicolon-joined country rows explode to one row per economy
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: fta lines are scaled by the preference-claim share, not fully exempt
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: note 52(f): §232-covered articles are excluded ENTIRELY
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: note 52(g)/(h): CA/MX USMCA-free entries exempt, share-scaled
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: note 52(g)/(h) falls back to binary usmca_eligible
+Warning message:
+There was 1 warning in `summarise()`.
+ℹ In argument: `common_share = max(share)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+  PASS: s301fl stacks additively in apply_stacking_rules (note 52(a))
+
+--- Test 13: 301 Brazil ---
+  PASS: applies 25% to Brazil only, and never to other origins
+  PASS: note 50(a)(vi): §232-covered articles are excluded ENTIRELY
+  PASS: annex_2 is NOT shielded — those goods left §232 scope
+  PASS: HTS heading rate overrides the config fallback
+  PASS: contributes nothing before the effective date
+  PASS: use-conditional lists share-scale; flat list fully exempts
+  PASS: s232_scope_mask reads statutory rate, live rate and in-scope annexes
+  PASS: revision_interval_covers spans activation inside an interval
+
+--- Test 14: Section 338 Canada ---
+  PASS: applies 50% to covered Canadian lines only
+  PASS: WTO civil-aircraft lines fully excluded (Proc 11047 para. 2)
+  PASS: unmanned aircraft are the EXCEPTION to the aircraft carve-out
+  PASS: articles subject to §232 fully excluded
+  PASS: dormant before 2026-08-19
+  PASS: rejects rates above the Section 338 statutory ceiling
+  PASS: 9903.03.12+ classifies as section_338, not the expired section_122
+  PASS: s338 stacks additively (Proc 11047 para. 2)
+
+--- Test 15: UK annex deal scope ---
+  PASS: outside-chapter steel/aluminum derivatives ARE in UK scope
+  PASS: copper is NOT in UK scope even inside a metals chapter
+  PASS: NA metal_type falls back to the chapter test, not to "no deal"
+
+--- Test 16: s122 GN 6 use-conditional exemption ---
+  PASS: unconditional lines stay fully exempt
+  PASS: GN 6 line uses its MEASURED utilization share, not full exemption
+  PASS: GN 6 line with no measurement falls back to the HS2 mean
+  PASS: no utilization data at all -> full exemption (prior behavior)
+  PASS: a list without the condition column keeps the old full-line behavior
+  PASS: unlisted products get no exemption
+
+ ================================================== 
+Tests:  151  passed,  0  skipped,  0  failed
+================================================== 

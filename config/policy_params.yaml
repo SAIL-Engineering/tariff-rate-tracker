@@ -215,7 +215,7 @@ section_232_headings:
     default_rate: 0.10
     usmca_exempt: false
     ch99_code: '9903.74.02'          # buses fall under the note 38 MHD action
-  # 9903.79.01 (Note 39, effective 2026-01-16). Note 39 has no USMCA carve-out —
+  # 9903.79.01 (Note 39, effective 2026-01-15 00:01 Eastern; CSMS 67400472). Note 39 has no USMCA carve-out —
   # all countries owe the 25% on qualifying articles. Subdivision (c) routes
   # imports under the three HTS headings that fail the TPP/DRAM tech gate
   # through 9903.79.02 (no additional duty); qualifying_shares_file models that
@@ -227,6 +227,8 @@ section_232_headings:
   semiconductors:
     products_file: 'resources/s232_semi_products.csv'
     qualifying_shares_file: 'resources/semi_qualifying_shares.csv'
+    scope_source: 'https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318'
+    required_shipment_facts: [contains_logic_integrated_circuit, total_processing_performance, dram_bandwidth_gb_s, semiconductor_end_use]
     prefixes: ['847150', '847180', '847330']  # fallback
     default_rate: 0.25
     usmca_exempt: false
