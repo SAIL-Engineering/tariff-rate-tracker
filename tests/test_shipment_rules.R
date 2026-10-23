@@ -17,3 +17,13 @@ for (case in cases) {
 stopifnot(resolve_shipment_duties(tempdir(), '1234567890', 'TEST',
                                 '2026-06-01T00:00:00Z')$status == 'unresolved_source')
 cat(count, 'shipment rule conformance cases passed\n')
+
+# A zero requires an explicit no-action attestation with its own evidence.
+b <- cases[[1]]$bundle
+b$rules <- list()
+b$coverage[[1]]$determination <- 'no_applicable_rules'
+b$coverage[[1]]$rule_ids <- list()
+r <- evaluate_shipment_bundle(b,cases[[1]]$hts10,cases[[1]]$country,cases[[1]]$entry_at,list())
+stopifnot(r$complete_total==0,r$coverage_decisions[[1]]$status=='verified',
+  r$coverage_decisions[[1]]$attestations[[1]]$determination=='no_applicable_rules',
+  length(r$coverage_decisions[[1]]$attestations[[1]]$citations)>0)

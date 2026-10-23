@@ -1,0 +1,7 @@
+@e1 [textbox] "Entry timestamp with UTC offset"
+@e2 [combobox] "Article is or contains a logic integrated circuit"
+  @e3 [option] "Not supplied"
+  @e4 [option] "Yes"
+  @e5 [option] "No" [selected]
+@e6 [spinbutton] "Customs value (USD)": "100"
+@e7 [button] "Resolve shipment duties"

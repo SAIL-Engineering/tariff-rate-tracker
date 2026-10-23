@@ -152,7 +152,7 @@ section_232_headings:
   copper:
     products_file: 'resources/s232_copper_products.csv'  # Authoritative: US Note 36(b), 80 HTS8 prefixes
     prefixes: ['7406', '7407', '7408', '7409', '7410', '7411', '7412', '7413',
-               '7415', '7418', '7419', '8544']  # Fallback if products_file missing
+               '7415', '7418', '7419', '8544']  # Discovery description only; products_file is authoritative
     default_rate: 0.50    # 9903.78.01: 50% upon value of copper content (June 2025 proclamation)
     usmca_exempt: false
     ch99_code: '9903.78.01'          # note 36(b), semi-finished + intensive derivatives
@@ -196,6 +196,8 @@ section_232_headings:
     ch99_code: '9903.74.01'          # note 38(b), medium- and heavy-duty vehicles
   auto_parts:
     prefixes_file: 'resources/s232_auto_parts.txt'
+    scope_source: 'https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf'
+    required_shipment_facts: ['is_part_for_passenger_vehicle_or_light_truck']
     default_rate: 0.25
     usmca_exempt: true
     # THE Class 2 fix. 9903.94.05 is the automobile PARTS heading (note 33(g));
@@ -229,7 +231,7 @@ section_232_headings:
     qualifying_shares_file: 'resources/semi_qualifying_shares.csv'
     scope_source: 'https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318'
     required_shipment_facts: [contains_logic_integrated_circuit, total_processing_performance, dram_bandwidth_gb_s, semiconductor_end_use]
-    prefixes: ['847150', '847180', '847330']  # fallback
+    prefixes: ['847150', '847180', '847330']  # descriptive; products_file is authoritative
     default_rate: 0.25
     usmca_exempt: false
     end_use_exemption_share: 0.0   # uncalibrated, see todo.md Phase 5

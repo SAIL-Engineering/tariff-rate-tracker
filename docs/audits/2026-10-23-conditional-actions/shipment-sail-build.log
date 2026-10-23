@@ -1,0 +1,144 @@
+Already up to date
+Done in 314ms using pnpm v11.5.2
+$ vite build && node scripts/prerender.mjs && node scripts/check-vendor-neutral.mjs
+vite v5.4.21 building for production...
+transforming...
+
+warn - The class `duration-[250ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;250ms&rsqb;` to silence this warning.
+
+warn - The class `ease-[cubic-bezier(0.16,1,0.3,1)]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `ease-&lsqb;cubic-bezier(0.16,1,0.3,1)&rsqb;` to silence this warning.
+
+warn - The class `ease-[cubic-bezier(0.22,1,0.36,1)]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `ease-&lsqb;cubic-bezier(0.22,1,0.36,1)&rsqb;` to silence this warning.
+
+warn - The class `ease-[cubic-bezier(0.23,1,0.32,1)]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `ease-&lsqb;cubic-bezier(0.23,1,0.32,1)&rsqb;` to silence this warning.
+✓ 8471 modules transformed.
+rendering chunks...
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/services/serverClassificationService.ts is dynamically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/services/exportClassificationService.ts but also statically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classification/FullScreenClassificationLoader.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classification/FullScreenEnhancementLoader.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classification/FullScreenGroundingLoader.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classification/GroundingResultsPanel.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classificationWork/HandoverOffers.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classificationWork/useCancelGuard.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classificationWork/useWorkPreflight.ts, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/history/EnhancedProductAnalysis.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/product-dna/ClassificationZone.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/product-dna/trade/ShipmentImportDialog.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/products/BulkClassificationProgress.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/products/ProductImportDialog.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/workspaces/SmartClassifyLauncher.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/hooks/usePlanConfig.ts, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/modules/post-entry-audit/chain/ClassificationCheckAction.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/pages/Classification.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/pages/History.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/pages/ProductDNAHome.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/pages/Products.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/pages/WorkspaceProductLibrary.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/documents/DocumentPreview.tsx is dynamically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/product-documents/ProductDocumentList.tsx but also statically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/document-evidence/DocumentFileBrowser.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/documents/DocumentDetail.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/documents/DocumentViewer.tsx, /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/products/DocumentImportPanel.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/lib/scheduleBReference.ts is dynamically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/services/exportService.ts but also statically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/components/classification/ExportDeterminationCard.tsx, dynamic import will not move module into another chunk.
+
+[plugin:vite:reporter] [plugin vite:reporter] 
+(!) /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/modules/export-controls/components/history/report/ExportDeterminationPDFDocument.tsx is dynamically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/modules/export-controls/components/history/report/reportDownloads.ts but also statically imported by /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui/src/modules/export-controls/components/history/report/index.ts, dynamic import will not move module into another chunk.
+
+dist/version.json                                         0.03 kB
+dist/index.html                                           4.33 kB
+dist/assets/bulkParse.worker-Zzcyqsso.js                366.24 kB
+dist/assets/pdf.worker.min-GB3t0DcA.mjs               1,369.81 kB
+dist/assets/PdfQuoteViewer-D-xmSLf-.css                   1.81 kB
+dist/assets/vendor-flow-BZV40eAE.css                     15.85 kB
+dist/assets/vendor-mapbox-BpzACoJ1.css                   40.87 kB
+dist/assets/App-BpgijkmB.css                            224.02 kB
+dist/assets/index-DXk5u_-L.css                          434.52 kB
+dist/assets/channel-C2W-ClUv.js                           0.12 kB
+dist/assets/chunk-QZHKN3VN-sG2XieWw.js                    0.20 kB
+dist/assets/chunk-55IACEB6-formYjL3.js                    0.28 kB
+dist/assets/assets-DxR7QHgw.js                            0.28 kB
+dist/assets/neuTokens-CVBzOUVA.js                         0.29 kB
+dist/assets/chunk-4BX2VUAB-Cm2fFCLT.js                    0.30 kB
+dist/assets/chunk-FMBD7UC4-BOawYa2B.js                    0.37 kB
+dist/assets/chunk-2J33WTMH-Dj2VBqDc.js                    0.53 kB
+dist/assets/pdfFileUtils-Q4_pT3K7.js                      0.59 kB
+dist/assets/stateDiagram-v2-BHNVJYJU--jTeYhvj.js          0.65 kB
+dist/assets/classDiagram-4FO5ZUOK-BIfGVzb4.js             0.72 kB
+dist/assets/classDiagram-v2-Q7XG4LA2-BIfGVzb4.js          0.72 kB
+dist/assets/infoDiagram-5YYISTIA-D5-OypY_.js              0.84 kB
+dist/assets/SourcePdfPage-DiTYEpMA.js                     0.96 kB
+dist/assets/ReferralPacketPDFDocument-Bf_Id5fW.js         0.98 kB
+dist/assets/RetainedImportSourcePreview-ClBhNkcT.js       1.43 kB
+dist/assets/chunk-ND2GUHAM-BbCmrlWK.js                    1.91 kB
+dist/assets/ImportSourceGrid-DEnfowBo.js                  2.55 kB
+dist/assets/AccessReportPDFDocument-CELMqmA9.js           2.99 kB
+dist/assets/diagram-5GNKFQAL-BBaLL3Zr.js                  3.02 kB
+dist/assets/MetricTile-CxCYafKC.js                        3.54 kB
+dist/assets/PdfQuoteViewer-DXG4TybS.js                    3.70 kB
+dist/assets/AdminLayout-Cuxtz7MI.js                       3.87 kB
+dist/assets/pdfUnicodeFonts-HpxElhqQ.js                   3.94 kB
+dist/assets/pieDiagram-4H26LBE5-58PltYsl.js               4.34 kB
+dist/assets/SourcingMemoPDFDocument-DbsmerWQ.js           4.50 kB
+dist/assets/diagram-LMA3HP47-BgQXe-58.js                  4.51 kB
+dist/assets/HEBTree-CmZVpPqi.js                           6.06 kB
+dist/assets/diagram-2AECGRRQ-VwbQWiaS.js                  6.23 kB
+dist/assets/pdfMarkdownRenderer-C1eF_wMZ.js               6.65 kB
+dist/assets/ReactFlowDiagram-gncuVK0g.js                 10.34 kB
+dist/assets/stateDiagram-AJRCARHV-Cb199Ikp.js            10.62 kB
+dist/assets/ClassificationPDFDocument-CrhrKnrD.js        10.83 kB
+dist/assets/AdminAudit-CzXbf1F7.js                       10.96 kB
+dist/assets/diagram-KO2AKTUF-Cp-yF9vn.js                 11.09 kB
+dist/assets/diagram-OG6HWLK6-CPRwDpuG.js                 11.32 kB
+dist/assets/dagre-BM42HDAG-BiTSzSkr.js                   11.65 kB
+dist/assets/PartHistoryPDFDocument-I7O3ViUF.js           13.22 kB
+dist/assets/sankeyDiagram-5OEKKPKP-CQrdQV_J.js           15.01 kB
+dist/assets/ChangeLogView-CY8ynL6F.js                    15.81 kB
+dist/assets/ishikawaDiagram-YF4QCWOH-EtAwcFV2.js         17.82 kB
+dist/assets/kanban-definition-UN3LZRKU-BffK8ln4.js       20.96 kB
+dist/assets/TariffView-Df2GOS2W.js                       22.94 kB
+dist/assets/index-CIoPQLo2.js                            23.39 kB
+dist/assets/journeyDiagram-JHISSGLW-4uZn5wSH.js          23.82 kB
+dist/assets/mindmap-definition-RKZ34NQL-wzcSYSSf.js      23.89 kB
+dist/assets/graph-Dqkl27Ch.js                            23.94 kB
+dist/assets/AdminAccounts-BRtITZJE.js                    25.76 kB
+dist/assets/wardleyDiagram-YWT4CUSO-BxUaAHyj.js          26.36 kB
+dist/assets/erDiagram-TEJ5UH35-3m6n3aY0.js               27.24 kB
+dist/assets/gitGraphDiagram-PVQCEYII-lRal6c7H.js         30.20 kB
+dist/assets/index-BoUKpbHd.js                            31.06 kB
+dist/assets/requirementDiagram-4Y6WPE33-PTcc3gRP.js      31.47 kB
+dist/assets/timeline-definition-PNZ67QCA-4PTpXzLc.js     31.59 kB
+dist/assets/quadrantDiagram-W4KKPZXB-BPgfx_oG.js         34.67 kB
+dist/assets/layout-DO9UvE1P.js                           35.83 kB
+dist/assets/chunk-AQP2D5EJ-Beo_cdy0.js                   37.56 kB
+dist/assets/xychartDiagram-2RQKCTM6-BoFUGfIM.js          39.27 kB
+dist/assets/vennDiagram-CIIHVFJN-DlF0QpQS.js             41.98 kB
+dist/assets/chunk-727SXJPM-ZE20moY-.js                   49.11 kB
+dist/assets/ganttDiagram-6RSMTGT7-DLod9-Bj.js            49.63 kB
+dist/assets/DocumentImportPanel-DvmmVOtZ.js              59.62 kB
+dist/assets/flowDiagram-I6XJVG4X-wuGHR6lw.js             61.44 kB
+dist/assets/CreateUserDialog-D-NvOs00.js                 66.23 kB
+dist/assets/vendor-tanstack-BTu8pc-k.js                  66.87 kB
+dist/assets/c4Diagram-AAUBKEIU-BHiIWJQZ.js               70.22 kB
+dist/assets/AdminDashboard-ligm3KLC.js                   73.52 kB
+dist/assets/blockDiagram-GPEHLZMM-sffL3mqt.js            75.35 kB
+dist/assets/vendor-mui-BuG8_xjg.js                       76.25 kB
+dist/assets/cose-bilkent-S5V4N54A-DxKfk-tV.js            81.81 kB
+dist/assets/AdminAnalytics-BB3qVLpa.js                  111.65 kB
+dist/assets/sequenceDiagram-3UESZ5HK-D2r2S6nP.js        117.56 kB
+dist/assets/vendor-flow-B2fx1eMS.js                     128.76 kB
+dist/assets/vendor-motion-BzPwvOm9.js                   128.78 kB
+dist/assets/vendor-icons-COIWSo1P.js                    133.30 kB
+dist/assets/architectureDiagram-3BPJPVTR-8baDDSja.js    149.70 kB
+dist/assets/vendor-react-BSMO2ep8.js                    169.88 kB
+dist/assets/vendor-arrow-BDXaJpCv.js                    170.11 kB
+dist/assets/vendor-ui-CSU5in2j.js                       186.15 kB
+dist/assets/vendor-supabase-CRRApm5N.js                 210.92 kB
+dist/assets/vendor-ai-DLW_FeUf.js                       216.15 kB
+dist/assets/vendor-markdown-Dbno7iLt.js                 236.79 kB
+dist/assets/katex-CvsogVwV.js                           257.66 kB
+dist/assets/AdminCompanies-Dw1ORqFH.js                  266.08 kB
+dist/assets/vendor-grid-463F7X_D.js                     304.26 kB
+dist/assets/vendor-pdfjs-Dp7jIIG2.js                    349.39 kB
+dist/assets/cytoscape.esm-dozMo373.js                   441.99 kB
+dist/assets/vendor-charts-ZBQEZ3uM.js                   494.32 kB
+dist/assets/MermaidDiagram-Dk7YLqCA.js                  524.38 kB
+dist/assets/wardley-L42UT6IY-HR7vlZJy.js                613.17 kB
+dist/assets/vendor-sheets-CHf5G807.js                   639.22 kB
+dist/assets/DependencyGraph-CtGCu5NB.js               1,381.16 kB
+dist/assets/vendor-pdf-C7VTmH1o.js                    1,454.35 kB
+dist/assets/vendor-mapbox-DYLPQm-8.js                 1,799.13 kB
+dist/assets/App-BAaOWfZe.js                           7,848.03 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1m 32s
+  prerender  /privacy    55.0 KB
+  prerender  /terms      71.1 KB
+Vendor-neutral release guard passed (103 production files scanned).

@@ -1,0 +1,2803 @@
+{
+  "bundle": {
+    "contract_version": "sail.shipment-rules/v1",
+    "dataset_version": "synthetic-composition-v1",
+    "revision": "test",
+    "evidence_snapshot_id": "0000000000000000000000000000000000000000000000000000000000000000",
+    "valid_from": "2026-01-01T00:00:00Z",
+    "valid_until": "2027-01-01T05:01:00Z",
+    "products": [
+      "8471500150",
+      "8471801000",
+      "8473301180",
+      "8471410150"
+    ],
+    "sources": [
+      {
+        "id": "FR-2026-01052-annex",
+        "status": "verified",
+        "sha256": "e8b02e973cfeefeab28b831f3723f01a32dface11675d1c3cf68e8834c4782bc",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2026-01-20/pdf/2026-01052.pdf",
+        "citation": "Proclamation 11002, clause 3; Annex, U.S. note 39(a)-(d), notes 2(v)(xvi), 2(x)(xv), 2(z)(xiii) (91 FR 2443, 2449-2455)."
+      },
+      {
+        "id": "synthetic",
+        "status": "verified",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "url": "https://example.invalid/test-fixture",
+        "citation": "Synthetic arithmetic fixture; not legal authority"
+      }
+    ],
+    "rules": [
+      {
+        "id": "s232_semiconductors_99037901",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "or",
+                  "args": [
+                    {
+                      "op": "if",
+                      "args": [
+                        {
+                          "op": "eq",
+                          "args": [
+                            {
+                              "fact": "semiconductor_end_use"
+                            },
+                            {
+                              "value": "us_data_center"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "gt",
+                          "args": [
+                            {
+                              "fact": "data_center_new_ai_load_mw"
+                            },
+                            {
+                              "value": 100
+                            }
+                          ]
+                        },
+                        {
+                          "value": false
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_repair_replacement"
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_research_development"
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_startup"
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_consumer_electronics"
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_civil_industrial"
+                        }
+                      ]
+                    },
+                    {
+                      "op": "eq",
+                      "args": [
+                        {
+                          "fact": "semiconductor_end_use"
+                        },
+                        {
+                          "value": "us_public_sector"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "op": "multiply",
+          "args": [
+            {
+              "fact": "customs_value"
+            },
+            {
+              "value": 0.25
+            }
+          ]
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.01"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037902",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "not",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.02"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037903",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "if",
+              "args": [
+                {
+                  "op": "eq",
+                  "args": [
+                    {
+                      "fact": "semiconductor_end_use"
+                    },
+                    {
+                      "value": "us_data_center"
+                    }
+                  ]
+                },
+                {
+                  "op": "gt",
+                  "args": [
+                    {
+                      "fact": "data_center_new_ai_load_mw"
+                    },
+                    {
+                      "value": 100
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.03"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037904",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_repair_replacement"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.04"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037905",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_research_development"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.05"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037906",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_startup"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.06"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037907",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_consumer_electronics"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.07"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037908",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_civil_industrial"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.08"
+        ]
+      },
+      {
+        "id": "s232_semiconductors_99037909",
+        "verification": "verified",
+        "action_id": "s232_semiconductors_20260115",
+        "authority": "section_232",
+        "kind": "duty",
+        "scope": {
+          "hts_prefixes": [
+            "847150",
+            "847180",
+            "847330"
+          ],
+          "from": "2026-01-15T00:01:00-05:00"
+        },
+        "when": {
+          "op": "if",
+          "args": [
+            {
+              "op": "if",
+              "args": [
+                {
+                  "fact": "contains_logic_integrated_circuit"
+                },
+                {
+                  "op": "if",
+                  "args": [
+                    {
+                      "fact": "all_logic_ic_specs_reviewed"
+                    },
+                    {
+                      "op": "and",
+                      "args": [
+                        {
+                          "fact": "contains_logic_integrated_circuit"
+                        },
+                        {
+                          "op": "or",
+                          "args": [
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 14000
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 17500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 4500
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5000
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "op": "and",
+                              "args": [
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 20800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "total_processing_performance"
+                                    },
+                                    {
+                                      "value": 21100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "gt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 5800
+                                    }
+                                  ]
+                                },
+                                {
+                                  "op": "lt",
+                                  "args": [
+                                    {
+                                      "fact": "dram_bandwidth_gb_s"
+                                    },
+                                    {
+                                      "value": 6200
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "value": false
+                }
+              ]
+            },
+            {
+              "op": "eq",
+              "args": [
+                {
+                  "fact": "semiconductor_end_use"
+                },
+                {
+                  "value": "us_public_sector"
+                }
+              ]
+            },
+            {
+              "value": false
+            }
+          ]
+        },
+        "formula": {
+          "value": 0
+        },
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ],
+        "reporting_codes": [
+          "9903.79.09"
+        ]
+      },
+      {
+        "id": "synthetic-1",
+        "action_id": "synthetic-1",
+        "authority": "synthetic",
+        "kind": "duty",
+        "verification": "verified",
+        "source_ids": [
+          "FR-2026-01052-annex",
+          "synthetic"
+        ],
+        "reporting_codes": [
+          "9903.94.05"
+        ],
+        "formula": {
+          "op": "multiply",
+          "args": [
+            {
+              "fact": "customs_value"
+            },
+            {
+              "value": 0.1
+            }
+          ]
+        },
+        "suppressed_when": {
+          "rule_applies": "s232_semiconductors_99037901"
+        }
+      },
+      {
+        "id": "synthetic-2",
+        "action_id": "synthetic-2",
+        "authority": "synthetic",
+        "kind": "duty",
+        "verification": "verified",
+        "source_ids": [
+          "FR-2026-01052-annex",
+          "synthetic"
+        ],
+        "reporting_codes": [
+          "9903.01.24"
+        ],
+        "formula": {
+          "op": "multiply",
+          "args": [
+            {
+              "fact": "customs_value"
+            },
+            {
+              "value": 0.1
+            }
+          ]
+        },
+        "suppressed_when": {
+          "rule_applies": "s232_semiconductors_99037901"
+        }
+      },
+      {
+        "id": "synthetic-3",
+        "action_id": "synthetic-3",
+        "authority": "synthetic",
+        "kind": "duty",
+        "verification": "verified",
+        "source_ids": [
+          "synthetic"
+        ],
+        "reporting_codes": [
+          "9903.88.03"
+        ],
+        "formula": {
+          "op": "multiply",
+          "args": [
+            {
+              "fact": "customs_value"
+            },
+            {
+              "value": 0.1
+            }
+          ]
+        }
+      },
+      {
+        "id": "synthetic-4",
+        "action_id": "synthetic-4",
+        "authority": "synthetic",
+        "kind": "duty",
+        "verification": "verified",
+        "source_ids": [
+          "synthetic"
+        ],
+        "reporting_codes": [
+          "9903.03.12"
+        ],
+        "formula": {
+          "op": "multiply",
+          "args": [
+            {
+              "fact": "customs_value"
+            },
+            {
+              "value": 0.1
+            }
+          ]
+        }
+      }
+    ],
+    "coverage_requirements": [
+      "synthetic",
+      "section_232",
+      "base",
+      "section_122",
+      "section_301",
+      "section_338",
+      "adcvd"
+    ],
+    "coverage": [
+      {
+        "authority": "synthetic",
+        "status": "verified",
+        "source_ids": [
+          "synthetic"
+        ],
+        "rule_ids": [
+          "synthetic-1",
+          "synthetic-2",
+          "synthetic-3",
+          "synthetic-4"
+        ],
+        "determination": "rules"
+      }
+    ],
+    "fact_definitions": {
+      "customs_value": {
+        "type": "number",
+        "minimum": 0,
+        "unit": "USD",
+        "label": "Customs value (USD)",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "metal_value": {
+        "type": "number",
+        "minimum": 0,
+        "unit": "USD"
+      },
+      "quantity_kg": {
+        "type": "number",
+        "minimum": 0,
+        "unit": "kg"
+      },
+      "contains_logic_integrated_circuit": {
+        "type": "boolean",
+        "label": "Article is or contains a logic integrated circuit",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "all_logic_ic_specs_reviewed": {
+        "type": "boolean",
+        "enum": [
+          true
+        ],
+        "label": "All logic ICs were reviewed for note 39(b)",
+        "description": "Confirm review of all ICs. If any qualifies, supply that same IC’s TPP and DRAM bandwidth below; otherwise supply the reviewed non-qualifying specifications. A single non-qualifying IC cannot establish exclusion for a multi-IC article.",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "total_processing_performance": {
+        "type": "number",
+        "minimum": 0,
+        "label": "Logic IC total processing performance (TPP)",
+        "description": "Note 39(b): aggregate 2 × peak MacTOPS × bit length over processing units on the IC; highest supported TPP, dense matrices without sparsity. Do not substitute marketing TOPS or add TPP across different ICs. A qualifying IC establishes inclusion; exclusion requires reviewing every logic IC in the article.",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "dram_bandwidth_gb_s": {
+        "type": "number",
+        "minimum": 0,
+        "unit": "GB/s",
+        "label": "Same IC total local DRAM bandwidth (GB/s)",
+        "description": "Aggregate IC-to-DRAM bandwidth including co-packaged and non-co-packaged DRAM; exclude DRAM accessed remotely over an interconnect.",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "semiconductor_end_use": {
+        "type": "string",
+        "enum": [
+          "none",
+          "us_data_center",
+          "us_repair_replacement",
+          "us_research_development",
+          "us_startup",
+          "us_consumer_electronics",
+          "us_civil_industrial",
+          "us_public_sector"
+        ],
+        "label": "Confirmed U.S. end-use eligibility",
+        "description": "Declare none unless the shipment meets note 39(d). R&D must meet its systematic study/development definition; startup means emerging growth company under 15 USC 77b(a)(19). Consumer and civil industrial uses exclude data-center applications. All listed uses must be in the United States. Other Secretary-approved uses need separate source review.",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      "data_center_new_ai_load_mw": {
+        "type": "number",
+        "minimum": 0,
+        "unit": "MW",
+        "label": "U.S. data-center new load dedicated to AI (MW)",
+        "description": "New load dedicated to AI inference, training, simulation or synthetic data generation. Greater than 100 MW is required; existing/general facility load is not the statutory measure.",
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      }
+    },
+    "countries": [
+      "5700",
+      "5820",
+      "1220",
+      "2010",
+      "4280"
+    ],
+    "claim_definitions": [],
+    "relation_decisions": [
+      {
+        "relation_id": "note39_and_note2_semiconductor_exclusions",
+        "rule_id": "synthetic-1",
+        "when_rule_applies": "s232_semiconductors_99037901",
+        "effect": "suppress",
+        "reporting_codes": [
+          "9903.94.05"
+        ],
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      },
+      {
+        "relation_id": "note39_and_note2_semiconductor_exclusions",
+        "rule_id": "synthetic-2",
+        "when_rule_applies": "s232_semiconductors_99037901",
+        "effect": "suppress",
+        "reporting_codes": [
+          "9903.01.24"
+        ],
+        "source_ids": [
+          "FR-2026-01052-annex"
+        ]
+      }
+    ],
+    "compiler": {
+      "id": "sail.shipment-rule-composer/v1",
+      "fragments": [
+        "s232_semiconductors_20260115"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "qualifying IC suppresses only listed actions",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "country 5700",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "country 5820",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5820",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "country 1220",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "1220",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "country 2010",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "country 4280",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "4280",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "legal prefix 8471500150",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "legal prefix 8471801000",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471801000",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "legal prefix 8473301180",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict TPP boundary 14000",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 14000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict TPP boundary 17500",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 17500,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict TPP boundary 20800",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 20800,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict TPP boundary 21100",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 21100,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict DRAM boundary 4500",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4500,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict DRAM boundary 5000",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 5000,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict DRAM boundary 5800",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 5800,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "strict DRAM boundary 6200",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 6200,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "second technical window",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 20900,
+        "dram_bandwidth_gb_s": 6000,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_data_center",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_data_center",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.03",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_repair_replacement",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_repair_replacement",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.04",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_research_development",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_research_development",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.05",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_startup",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_startup",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.06",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_consumer_electronics",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_consumer_electronics",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.07",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_civil_industrial",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_civil_industrial",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.08",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "end use us_public_sector",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_public_sector",
+        "data_center_new_ai_load_mw": 101
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.09",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "100 MW does not meet greater-than threshold",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_data_center",
+        "data_center_new_ai_load_mw": 100
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "data center requires its statutory load",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "us_data_center"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 20,
+        "reporting_code": null,
+        "suppressed_rules": [],
+        "missing_inputs": [
+          "data_center_new_ai_load_mw"
+        ]
+      }
+    },
+    {
+      "name": "zero value still suppresses other actions",
+      "facts": {
+        "customs_value": 0,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 0,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "missing value cannot revive excluded actions",
+      "facts": {
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 0,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": [
+          "customs_value"
+        ]
+      }
+    },
+    {
+      "name": "no logic IC requires no technical or end-use inputs",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": false
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": "9903.79.02",
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "unresolved technical scope cannot price dependent actions",
+      "facts": {
+        "customs_value": 100
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 20,
+        "reporting_code": null,
+        "suppressed_rules": [],
+        "missing_inputs": [
+          "contains_logic_integrated_circuit"
+        ]
+      }
+    },
+    {
+      "name": "unreviewed IC inventory cannot establish exclusion",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": false,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 20,
+        "reporting_code": null,
+        "suppressed_rules": [],
+        "missing_inputs": [
+          "all_logic_ic_specs_reviewed"
+        ]
+      }
+    },
+    {
+      "name": "adjacent uncovered prefix retains other actions",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471410150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": null,
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "first legal minute boundary",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none"
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:00:59-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 40,
+        "reporting_code": null,
+        "suppressed_rules": [],
+        "missing_inputs": []
+      }
+    },
+    {
+      "name": "modeled shares cannot change shipment liability",
+      "facts": {
+        "customs_value": 100,
+        "contains_logic_integrated_circuit": true,
+        "all_logic_ic_specs_reviewed": true,
+        "total_processing_performance": 15000,
+        "dram_bandwidth_gb_s": 4700,
+        "semiconductor_end_use": "none",
+        "modeled_semi_qualifying_share": 0,
+        "modeled_semi_end_use_exemption_share": 1
+      },
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_at": "2026-01-15T00:01:00-05:00",
+      "expected": {
+        "status": "unresolved_source",
+        "complete_total": null,
+        "known_subtotal": 45,
+        "reporting_code": "9903.79.01",
+        "suppressed_rules": [
+          "synthetic-1",
+          "synthetic-2"
+        ],
+        "missing_inputs": []
+      }
+    }
+  ]
+}

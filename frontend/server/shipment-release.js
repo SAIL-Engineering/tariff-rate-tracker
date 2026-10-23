@@ -18,6 +18,7 @@ const TABLES = {
   authority_country_rates: ['revision', 'authority', 'program', 'country'],
   authority_product_applicability: ['revision', 'authority', 'program', 'hts10', 'hts_prefix'],
   authority_exemptions: ['revision', 'authority'],
+  authority_product_candidates: ['revision', 'authority', 'program', 'hts10', 'scope_code', 'scope_grain', 'source_path', 'source_sha256', 'status'],
 };
 
 export async function readReleaseManifest(manifestPath) {
@@ -85,6 +86,20 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
     }
     const products = `read_parquet([${revision.files.products_base.map(literal).join(',')}], hive_partitioning=false)`;
     const rates = `read_parquet([${revision.files.rates.map(literal).join(',')}], hive_partitioning=false)`;
+    const candidates = `read_parquet([${revision.files.authority_product_candidates.map(literal).join(',')}], hive_partitioning=false)`;
+    const badCandidates = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${candidates} c
+      LEFT JOIN ${products} p ON c.hts10=p.hts10 AND c.revision=p.revision
+      WHERE p.hts10 IS NULL OR NOT regexp_full_match(coalesce(c.source_sha256,''),'[a-f0-9]{64}')
+        OR coalesce(c.source_path,'')='' OR coalesce(c.status,'')<>'candidate_requires_legal_predicates'
+        OR NOT regexp_full_match(coalesce(c.hts10,''),'[0-9]{10}')
+        OR NOT regexp_full_match(coalesce(c.scope_code,''),'([0-9]{2}|[0-9]{4}|[0-9]{6}|[0-9]{8}|[0-9]{10})')
+        OR coalesce(c.authority,'')='' OR coalesce(c."program",'')=''
+        OR (c.scope_grain='prefix' AND length(c.scope_code)=10)
+        OR NOT starts_with(c.hts10,c.scope_code)
+        OR (c.scope_grain='exact_hts10' AND c.hts10<>c.scope_code)
+        OR coalesce(c.scope_grain,'') NOT IN ('exact_hts10','prefix')`)).getRowObjects()[0].n;
+    if (Number(badCandidates)) throw new Error('Invalid candidate scope/source relationship');
+
     const invalid = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
       LEFT JOIN ${products} p ON r.hts10=p.hts10 AND r.revision=p.revision WHERE p.hts10 IS NULL`)).getRowObjects()[0].n;
     if (Number(invalid)) throw new Error('Rates reference missing products_base rows');
@@ -116,8 +131,8 @@ export async function prepareRelease(conn, prepared, expectedCatalog) {
     await conn.run(`CREATE TABLE ${schema}.rule_bundles (revision VARCHAR PRIMARY KEY, valid_from TIMESTAMPTZ, valid_until TIMESTAMPTZ, bundle_sha256 VARCHAR, bundle_json VARCHAR)`);
     await conn.run(`CREATE TABLE ${schema}.rule_sources (revision VARCHAR, source_id VARCHAR, source_json VARCHAR, PRIMARY KEY(revision,source_id))`);
     await conn.run(`CREATE TABLE ${schema}.executable_rules (revision VARCHAR, rule_id VARCHAR, action_id VARCHAR, authority VARCHAR, rule_json VARCHAR, PRIMARY KEY(revision,rule_id))`);
-    for (const { revision, bundle, bundleHash } of prepared.revisions) {
-      await conn.run(`INSERT INTO ${schema}.rule_bundles VALUES (?,?,?,?,?)`, [revision, bundle.valid_from, bundle.valid_until, bundleHash, JSON.stringify(bundle)]);
+    for (const { revision, bundle } of prepared.revisions) {
+      await conn.run(`INSERT INTO ${schema}.rule_bundles VALUES (?,?,?,?,?)`, [revision, bundle.valid_from, bundle.valid_until, digest(JSON.stringify(bundle)), JSON.stringify(bundle)]);
       for (const source of bundle.sources) await conn.run(`INSERT INTO ${schema}.rule_sources VALUES (?,?,?)`, [revision, source.id, JSON.stringify(source)]);
       for (const rule of bundle.rules) await conn.run(`INSERT INTO ${schema}.executable_rules VALUES (?,?,?,?,?)`, [revision, rule.id, rule.action_id, rule.authority, JSON.stringify(rule)]);
     }

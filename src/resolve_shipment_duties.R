@@ -6,8 +6,8 @@
        dataset_version = bundle$dataset_version, revision = bundle$revision,
        evidence_snapshot_id = bundle$evidence_snapshot_id,
        status = if (length(errors)) 'unresolved_source' else 'complete',
-       components = list(), applied_rules = character(), suppressed_rules = character(),
-       missing_inputs = character(), source_errors = errors,
+       components = list(), rule_decisions = list(), coverage_decisions = list(), applied_rules = character(), suppressed_rules = character(),
+       missing_inputs = character(), required_facts = list(), source_errors = errors,
        known_subtotal = 0, complete_total = if (length(errors)) NULL else 0)
 }
 
@@ -125,9 +125,14 @@
       if (identical(c$determination, 'rules')) return(length(c$rule_ids) > 0)
       identical(c$determination, 'no_applicable_rules') && !length(c$rule_ids) && !length(applicable)
     }
-    if (!length(matches) || !all(vapply(matches, valid_coverage, logical(1))) ||
-        any(!names(applicable) %in% unlist(lapply(matches, `[[`, 'rule_ids'))))
-      result$source_errors <- c(result$source_errors, paste0('coverage_unverified:', authority))
+    unverified <- !length(matches) || !all(vapply(matches, valid_coverage, logical(1))) ||
+        any(!names(applicable) %in% unlist(lapply(matches, `[[`, 'rule_ids')))
+    if (unverified) result$source_errors <- c(result$source_errors, paste0('coverage_unverified:', authority))
+    result$coverage_decisions[[length(result$coverage_decisions)+1L]] <- list(
+      authority=authority, status=if(unverified) 'unresolved_source' else 'verified',
+      matched_rule_ids=as.list(sort(names(applicable))), attestations=lapply(matches,function(c) {
+        c$citations <- unname(Filter(Negate(is.null),sources[unlist(c$source_ids)])); c
+      }))
   }
   val <- function(value = NULL, missing = character(), errors = character())
     list(value = value, missing = missing, errors = errors)
@@ -136,7 +141,7 @@
   cache <- new.env(parent = emptyenv()); visiting <- character()
   expr <- function(x) {
     if (!is.list(x)) return(val(errors = 'invalid_expression'))
-    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'op'))
+    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'op'))
     if (length(keys) != 1) return(val(errors = 'invalid_expression'))
     if (keys == 'value') {
       if (length(x$value) != 1 || !(is.character(x$value) || is.logical(x$value) || is.numeric(x$value)) ||
@@ -158,6 +163,10 @@
       if (okay && !is.null(definition$maximum)) okay <- value <= definition$maximum
       if (okay && !is.null(definition$enum)) okay <- value %in% unlist(definition$enum)
       return(if (okay) val(value) else val(missing = key))
+    }
+    if (keys == 'rule_applies') {
+      r <- resolve(x$rule_applies, applicability_only = TRUE)
+      return(val(if (r$state == 'unresolved') NULL else r$state == 'applied', r$missing, r$errors))
     }
     if (keys == 'rule_amount') {
       r <- resolve(x$rule_amount)
@@ -195,15 +204,16 @@
     if (is.numeric(answer) && !is.finite(answer)) return(val(errors = 'non_finite_result'))
     val(answer)
   }
-  resolve <- function(id) {
-    if (exists(id, envir = cache, inherits = FALSE)) return(get(id, envir = cache))
+  resolve <- function(id, applicability_only = FALSE) {
+    cache_key <- paste0(if (applicability_only) 'applies:' else 'amount:', id)
+    if (exists(cache_key, envir = cache, inherits = FALSE)) return(get(cache_key, envir = cache))
     r <- rules[[id]]
     blank <- list(amount = NULL, missing = character(), errors = character(), state = 'unresolved')
     if (is.null(r)) { blank$errors <- paste0('unknown_rule:', id); return(blank) }
-    if (id %in% visiting) { blank$errors <- paste0('dependency_cycle:', id); return(blank) }
-    visiting <<- c(visiting, id)
-    on.exit(visiting <<- setdiff(visiting, id))
-    finish <- function(value) { assign(id, value, envir = cache); value }
+    if (cache_key %in% visiting) { blank$errors <- paste0('dependency_cycle:', id); return(blank) }
+    visiting <<- c(visiting, cache_key)
+    on.exit(visiting <<- setdiff(visiting, cache_key))
+    finish <- function(value) { assign(cache_key, value, envir = cache); value }
     if (!.shipment_scope(r$scope, hts10, country, at)) {
       blank$amount <- 0; blank$state <- 'not_applicable'; return(finish(blank))
     }
@@ -225,19 +235,21 @@
     if (identical(condition$value, FALSE)) {
       blank$amount <- 0; blank$state <- 'not_applicable'; return(finish(blank))
     }
-    if (!identical(condition$value, TRUE)) {
-      blank$missing <- condition$missing; blank$errors <- condition$errors
-      if (!is.null(condition$value)) blank$errors <- c(blank$errors, 'non_boolean_condition')
-      return(finish(blank))
-    }
     suppress <- if (is.null(r$suppressed_when)) val(FALSE) else expr(r$suppressed_when)
     if (identical(suppress$value, TRUE)) {
       blank$amount <- 0; blank$state <- 'suppressed'; return(finish(blank))
     }
-    if (!identical(suppress$value, FALSE)) {
-      blank$missing <- suppress$missing; blank$errors <- suppress$errors
-      if (!is.null(suppress$value)) blank$errors <- c(blank$errors, 'non_boolean_condition')
+    if (!identical(condition$value, TRUE) || !identical(suppress$value, FALSE)) {
+      blank$missing <- unique(c(condition$missing, suppress$missing))
+      blank$errors <- unique(c(condition$errors, suppress$errors))
+      if (!is.null(condition$value) && !is.logical(condition$value)) blank$errors <- c(blank$errors, 'non_boolean_condition')
+      if (!is.null(suppress$value) && !is.logical(suppress$value)) blank$errors <- c(blank$errors, 'non_boolean_condition')
       return(finish(blank))
+    }
+    # Liability predicates, not a positive dollar amount, determine precedence.
+    # Valuation inputs and constraints are evaluated only when pricing.
+    if (applicability_only) {
+      blank$amount <- 0; blank$state <- 'applied'; return(finish(blank))
     }
     for (constraint in r$input_constraints) {
       tested <- expr(constraint$test)
@@ -257,6 +269,14 @@
   }
   for (id in sort(names(rules))) {
     r <- rules[[id]]; resolved <- resolve(id)
+    if (.shipment_scope(r$scope, hts10, country, at)) {
+      result$rule_decisions[[length(result$rule_decisions)+1L]] <- list(
+        rule_id=id, action_id=r$action_id, authority=r$authority, outcome=resolved$state,
+        scope=r$scope, when=r$when, suppressed_when=r$suppressed_when,
+        reporting_codes=r$reporting_codes, source_ids=r$source_ids,
+        citations=unname(Filter(Negate(is.null), sources[unlist(r$source_ids)])),
+        missing_inputs=resolved$missing, source_errors=resolved$errors)
+    }
     if (resolved$state == 'not_applicable') next
     result$components[[length(result$components) + 1L]] <- list(
       rule_id = id, action_id = r$action_id, authority = r$authority, kind = r$kind,
@@ -270,6 +290,7 @@
     if (!is.null(resolved$amount)) result$known_subtotal <- result$known_subtotal + resolved$amount
   }
   result$missing_inputs <- sort(unique(result$missing_inputs))
+  result$required_facts <- bundle$fact_definitions[intersect(result$missing_inputs, names(bundle$fact_definitions))]
   result$source_errors <- sort(unique(result$source_errors))
   result$status <- if (length(result$source_errors)) 'unresolved_source' else
     if (length(result$missing_inputs)) 'needs_inputs' else 'complete'

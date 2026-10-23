@@ -102,3 +102,28 @@ candidates and 77,541 Hong Kong overlap rows for further legal review. Missing
 statutory components now leave totals unavailable. Aggregate historical
 corrections are stacking-model version 2; the manual rebuild and serving-path
 qualification remain pending.
+
+
+## Conditional-action and serving checkpoint, 2026-10-23
+
+The tracker audit at `docs/audits/2026-10-23-conditional-actions/README.md` retains
+37,712 grouped live MotherDuck rows plus 4,840 exact samples across 55 revisions
+and 8 origins. Semiconductor technical/end-use liability and automobile-parts
+use predicates now come from reviewed source fragments; candidate scopes survive
+aggregate suppression. Exact Section 301 scope has real-source regressions, but
+full legacy note/amendment reconstruction and its MAX-rate replacement remain open.
+
+The shared R/TypeScript contract exposes rule and authority-coverage decisions,
+including source-backed absence, required facts and source citations. The existing
+Duty Workspace exact lookup has a version-pinned shipment determination panel;
+it makes no aggregate fallback and preserves null complete totals. Legacy financial
+consumers, comparisons/bulk/export, HTS Explorer, saved results, Product DNA and PEA
+still need full migration. No complete production bundle or deployment is claimed.
+
+This pass's checks: 44 shared conformance fixtures, 35 semiconductor cases with
+synthetic companion actions, 97 tracker/API tests, 92 SAIL tests, changed-file lint,
+unchanged typecheck baseline and local production build. R full suite has 24/26
+passing suites; data-dependent normalized parity and TPC remain unqualified.
+The final auto-parts model/total guards passed focused R checks. gstack checks used
+an isolated component fixture, not an authenticated production page or live MD.
+Timeseries rebuilds remain WJR's manual task. No production activation occurred.

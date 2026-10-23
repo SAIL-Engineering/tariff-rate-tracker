@@ -84,3 +84,26 @@ product-base data, release manifest and all-authority coverage validation first.
 Local preparation is available with `frontend/scripts/prepare-shipment-release.mjs`
 using an explicit manifest and local DuckDB path; it cannot connect to MotherDuck.
 No live synchronization/activation command is authorized by this runbook.
+
+
+## Conditional-action contract dependency
+
+The next rebuild must include `authority_product_candidates.parquet` for every
+revision. The current release preflight requires it; do not reuse an older set
+that silently discarded competing auto/semiconductor candidates. Missing configured
+product sources now fail extraction, and exact HTS10 scope cannot be widened to
+fallback prefixes. Fix the source/revision coverage rather than disabling checks.
+
+Reviewed fragments can be composed locally after a complete base rule bundle has
+been constructed (replace the uppercase paths with reviewed versioned artifacts):
+
+```sh
+Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json NEW_COMPOSED_BUNDLE.json \
+  resources/shipment_rules/s232_semiconductors.json \
+  resources/shipment_rules/s232_auto_parts_condition.json
+```
+
+This is not the full rule compiler and does not grant coverage or publication
+approval. Do not use the synthetic test bundle as the base of a real release.
+The audit and uncompleted Section 301 reconstruction are recorded in
+`docs/audits/2026-10-23-conditional-actions/README.md`.

@@ -1,0 +1,95 @@
+{
+  "snapshot_uncompressed_sha256": "abc27677f25579d248ce9d0b5aa81a7b4f5ed4a5cba19bc4c9f5e7070ffa4f23",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "aff3b2eb79bb1e6a499a27bbabb6e674a9fe15daf771353f4a80f5fb37a27ed9",
+      "bytes": 9328
+    },
+    {
+      "path": "motherduck.json.gz",
+      "sha256": "43d468a25cde37bb0bebb27152c55d60b1f22006ec3d1673c9e62561b6603b97",
+      "bytes": 93764
+    },
+    {
+      "path": "shipment-browser-duty.png",
+      "sha256": "25b076613c1c8113e680f09b14d7754800f1ca21f44f457bda31a459c11df334",
+      "bytes": 135649
+    },
+    {
+      "path": "shipment-browser-duty.txt",
+      "sha256": "e10957c7539b944beb2d0cb7ead2ed24d513fa45f0e11315ec95758cf32f5397",
+      "bytes": 4143
+    },
+    {
+      "path": "shipment-browser-exempt.txt",
+      "sha256": "f8feb0d9faa99cba7056f397ba9ce051965c62096c0cab0a584483addc15ccfe",
+      "bytes": 4112
+    },
+    {
+      "path": "shipment-browser-final-snapshot.txt",
+      "sha256": "58fc55f610f7abd0aa4e52991d20fcabb3bdd315db2287052cc4ed8bec95c265",
+      "bytes": 282
+    },
+    {
+      "path": "shipment-browser-final.png",
+      "sha256": "88d89584b0a5fd92bf42d45520f98f0a5e2de0d805d0bd0b7ebd3b76f0cb5130",
+      "bytes": 64942
+    },
+    {
+      "path": "shipment-browser-final.txt",
+      "sha256": "f1c89c74b0f8c03209b8b6461cda492c3999d85306ec5ca677b17b28eeae8f50",
+      "bytes": 3094
+    },
+    {
+      "path": "shipment-model-tests.log",
+      "sha256": "7183e25f23edb9f0813ded3c777c8fa3bfde7f798971f82e6fa4e121cf164612",
+      "bytes": 316
+    },
+    {
+      "path": "shipment-node-tests.log",
+      "sha256": "556460e6d15aa283c7f0268efa4707735b88fa88e84d5de9a05839478e8b2390",
+      "bytes": 17117
+    },
+    {
+      "path": "shipment-panel-lint.log",
+      "sha256": "84f888696726b1930c71ebda5a3e63281118bf4d06bb88e744180a6c1143e925",
+      "bytes": 52
+    },
+    {
+      "path": "shipment-r-all.log",
+      "sha256": "22fe687a84c6474f5e1485315671f8ef8870122f26e6949b78c44dd1075d532c",
+      "bytes": 4540
+    },
+    {
+      "path": "shipment-sail-build.log",
+      "sha256": "f88139b2cbd2c15da0b577044e8e2bc9f67490ab702e0a20046a349cbda5d2cb",
+      "bytes": 13262
+    },
+    {
+      "path": "shipment-sail-lint.log",
+      "sha256": "8f558ec8f35a45004cd58b9f91185a57027289c46f0ed41c793499785accf726",
+      "bytes": 52
+    },
+    {
+      "path": "shipment-sail-tests.log",
+      "sha256": "486b8d21bc0346da86d47126af0e8b6736359941cd1f9397f2b2d14f28b00a4b",
+      "bytes": 528
+    },
+    {
+      "path": "shipment-sail-typecheck.log",
+      "sha256": "d36f356c6eb15451c23fc352461808c651dc39967745b383ead2dfa623045a14",
+      "bytes": 1719
+    },
+    {
+      "path": "shipment-scope-tests.log",
+      "sha256": "0197815aef823350e7c715e392b53429115757a83c81b1e88bae9b94e99373d3",
+      "bytes": 407
+    },
+    {
+      "path": "shipment-total-tests.log",
+      "sha256": "2980462861ec8f648bde0c109304d1ed987f77f83ff45abbd9feacca269d66c2",
+      "bytes": 1505
+    }
+  ]
+}
