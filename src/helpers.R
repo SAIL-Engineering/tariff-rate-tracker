@@ -2696,8 +2696,14 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
         ',"rate_type":"surcharge"',
         ',"stacking_class":"additive"',   # note 41(b): cumulative, in addition
         ',"tier":"', tier, '"',
-        ',"missing_facts":["quota_period","quota_fill_status"]',
-        ',"required_user_inputs":["entry_date","entered_quantity"]}'
+        ',"operative_from":"', operative_from, '"',
+        ',"operative_until":"', operative_until, '"',
+        ',"source_url":"', source_url, '"',
+        ',"source_sha256":"', source_sha256, '"',
+        ',"scope_note":"U.S. note 41(a)"',
+        ',"valuation_basis":"covered_quartz_customs_value"',
+        ',"missing_facts":["quartz_product_scope","quota_period","quota_fill_status"]',
+        ',"required_user_inputs":["entry_at","entered_quantity","covered_quartz_customs_value"]}'
       )) %>%
       dplyr::group_by(hts10) %>%
       dplyr::summarise(frag = paste0(frag, collapse = ''), .groups = 'drop')
@@ -3911,46 +3917,49 @@ build_s301_exclusion_candidates <- function(ch99_data, effective_date,
 #' @param ch99_data Parsed Chapter 99 tibble for this revision.
 #' @return list(candidates = tibble(hts10, ch99_code, tier, statutory_rate),
 #'   exempt_codes = character). Empty candidates when the headings are not in
-#'   this revision (pre-2026_rev_16) or the resource CSVs are missing.
-build_s201_quartz_candidates <- function(ch99_data) {
-  empty <- list(
-    candidates = tibble::tibble(hts10 = character(0), ch99_code = character(0),
-                                tier = character(0), statutory_rate = numeric(0)),
-    exempt_codes = character(0)
-  )
+#'   this revision. Missing/contradictory scope, rate or temporal evidence fails.
+#'   The verified rule window currently covers the first safeguard year only.
+build_s201_quartz_candidates <- function(ch99_data, effective_date = NULL,
+                                          resource_dir = here('resources')) {
+  empty <- list(candidates = tibble::tibble(), exempt_codes = character(0))
   if (is.null(ch99_data) || nrow(ch99_data) == 0) return(empty)
-  q <- ch99_data[ch99_data$ch99_code %in% c('9903.45.30', '9903.45.31') &
-                   !is.na(ch99_data$rate), , drop = FALSE]
-  if (nrow(q) == 0) return(empty)
-
-  prod_path <- here('resources', 's201_quartz_products.csv')
-  ex_path   <- here('resources', 's201_quartz_exempt_countries.csv')
-  if (!file.exists(prod_path) || !file.exists(ex_path)) {
-    warning('Quartz §201 headings present but resources/s201_quartz_*.csv ',
-            'missing — determination NOT emitted (fail-closed).')
-    return(empty)
+  required <- file.path(resource_dir, c('s201_quartz_products.csv',
+    's201_quartz_exempt_countries.csv', 's201_quartz_rule_windows.csv'))
+  if (!all(file.exists(required)))
+    stop('Quartz determination resources missing: ', paste(basename(required[!file.exists(required)]), collapse = ', '))
+  prods <- readr::read_csv(required[1], col_types = readr::cols(.default = readr::col_character()), show_col_types = FALSE)
+  exempt <- readr::read_csv(required[2], col_types = readr::cols(.default = readr::col_character()), show_col_types = FALSE)
+  windows <- readr::read_csv(required[3], col_types = readr::cols(.default = readr::col_character(), expected_rate = readr::col_double()), show_col_types = FALSE)
+  if (!nrow(prods) || anyNA(prods$hts10) || any(!grepl('^[0-9]{10}$', prods$hts10)) ||
+      anyDuplicated(prods$hts10) || !nrow(exempt) || anyNA(exempt$census_code) ||
+      any(!grepl('^[0-9]{4}$', exempt$census_code))) stop('Invalid quartz product/country scope')
+  codes <- unique(c(prods$ch99_code_in_quota, prods$ch99_code_over_quota))
+  q <- ch99_data[ch99_data$ch99_code %in% codes, , drop = FALSE] %>% dplyr::distinct(ch99_code, rate)
+  if (!nrow(q)) return(empty)  # Absent from this historical schedule.
+  if (!setequal(q$ch99_code, codes) || anyDuplicated(q$ch99_code) ||
+      any(!is.finite(q$rate)) || any(q$rate < 0))
+    stop('Incomplete, conflicting or unparsed quartz quota tiers')
+  # Preserve a future operative start when it falls inside this revision. The
+  # caller supplies UNFILTERED headings; revision publication is not entry time.
+  if (!is.null(effective_date)) {
+    at <- as.Date(effective_date)
+    windows <- windows[as.Date(substr(windows$operative_until, 1, 10)) > at, , drop = FALSE]
+    if (nrow(windows)) {
+      next_start <- min(windows$operative_from)
+      windows <- windows[windows$operative_from == next_start, , drop = FALSE]
+    }
   }
-  prods <- suppressMessages(readr::read_csv(
-    prod_path, col_types = readr::cols(.default = readr::col_character())))
-  exempt <- suppressMessages(readr::read_csv(
-    ex_path, col_types = readr::cols(.default = readr::col_character())))
-
-  tiers <- tibble::tibble(
-    ch99_code = c('9903.45.30', '9903.45.31'),
-    tier = c('in_quota', 'over_quota')
-  ) %>%
-    dplyr::inner_join(q %>% dplyr::distinct(ch99_code, rate), by = 'ch99_code') %>%
-    dplyr::rename(statutory_rate = rate)
-
+  if (!nrow(windows) || !setequal(windows$ch99_code, codes) || anyDuplicated(windows$ch99_code) ||
+      anyNA(windows) || any(windows$operative_from >= windows$operative_until) ||
+      any(!grepl('^[a-f0-9]{64}$', windows$source_sha256)))
+    stop('Quartz operative window or source evidence is missing/ambiguous')
+  tiers <- dplyr::left_join(windows, q, by = 'ch99_code')
+  if (any(abs(tiers$rate - tiers$expected_rate) > 1e-9))
+    stop('Quartz heading rate conflicts with the verified operative annex')
+  tiers <- tiers %>% dplyr::rename(statutory_rate = rate) %>% dplyr::select(-expected_rate)
   candidates <- tidyr::crossing(hts10 = unique(prods$hts10), tiers)
-  message('  Section 201 quartz TRQ determination: ', nrow(prods),
-          ' HTS10 x ', nrow(tiers), ' tiers (',
-          paste(sprintf('%s@%g%%', tiers$ch99_code, tiers$statutory_rate * 100),
-                collapse = ', '),
-          '), ', dplyr::n_distinct(exempt$census_code),
-          ' note-41(c) exempt origins; rate_section_201 NOT set (TRQ facts required)')
-  list(candidates = candidates,
-       exempt_codes = unique(as.character(exempt$census_code)))
+  message('  Section 201 quartz: ', nrow(candidates), ' temporally bounded scope/quota candidates; aggregate rates unchanged')
+  list(candidates = candidates, exempt_codes = unique(exempt$census_code))
 }
 
 
@@ -4795,8 +4804,10 @@ load_s301fl_exemptions <- function(fl_cfg) {
 #'
 #' Port of upstream cf0a709b. U.S. note 2(aa) partitions the §122 exempt list into
 #' two legally different groups, which the engine used to treat identically:
-#'   (aa)(ii)/(iii), heading 9903.03.03-.04 — 1,115 hts8, UNCONDITIONAL. Full
-#'     exemption is correct.
+#'   (aa)(ii), heading 9903.03.03 — unconditional product scope.
+#'   (aa)(iii), heading 9903.03.04 — named articles or specified religious use,
+#'     not every shipment under the associated HTS8. CSMS 67844987 lists the
+#'     eleven article descriptions; those conditions survive in the resource.
 #'   (aa)(iv), heading 9903.03.05 — 541 hts8 covering civil aircraft, engines,
 #'     parts and simulators "that otherwise meet the criteria of general note 6".
 #'     That is a USE test, not a product test. Applying it full-line exempts a
@@ -4820,16 +4831,22 @@ s122_exempt_share <- function(hts10,
                               statutory = FALSE) {
   n <- length(hts10)
   if (n == 0) return(numeric(0))
-  if (!file.exists(exempt_path)) return(rep(0, n))
+  if (!file.exists(exempt_path)) stop('Section 122 exemption source missing: ', exempt_path)
 
   ex <- suppressWarnings(read_csv(exempt_path, col_types = cols(.default = col_character())))
-  if (!'hts8' %in% names(ex)) return(rep(0, n))
-  # A list without the condition column predates this fix: every line is
-  # unconditional, i.e. the old full-line behavior.
-  if (!'condition' %in% names(ex)) ex$condition <- 'none'
+  if (!'hts8' %in% names(ex) || anyDuplicated(ex$hts8) || any(!grepl('^[0-9]{8}$', ex$hts8)))
+    stop('Section 122 exemption source has invalid product precision')
+  # Legacy aggregate artifacts retain their historical interpretation, but may
+  # never certify a shipment exemption without the condition column.
+  if (!'condition' %in% names(ex)) {
+    if (statutory) stop('Section 122 shipment exemption conditions missing')
+    ex$condition <- 'none'
+  }
+  if (anyNA(ex$condition) || any(!ex$condition %in% c('none', 'gn6_civil_aircraft', 'article_description', 'chapter98_adjusted_value', 'chapter98_claim')))
+    stop('Section 122 exemption source has unknown conditions')
 
   hts8 <- substr(hts10, 1, 8)
-  uncond <- unique(ex$hts8[ex$condition != 'gn6_civil_aircraft'])
+  uncond <- unique(ex$hts8[ex$condition == 'none'])
   gn6    <- unique(ex$hts8[ex$condition == 'gn6_civil_aircraft'])
 
   share <- rep(0, n)
@@ -4838,6 +4855,14 @@ s122_exempt_share <- function(hts10,
   # CSMS 67844987 / note 2(aa)(iv): the use condition must be established for
   # a shipment. Only the model consumes measured or fallback utilization.
   if (statutory) return(share)
+
+  # Explicit legacy modeling assumption, not a legal determination: preserve
+  # the aggregate series' prior full exemption for the eleven description-
+  # limited lines and prior Chapter 98 treatment until separately reconciled.
+  # CBP CSMS 67844987 requires adjusted values for specified Chapter 98 entries;
+  # the model's prior full exemption is not a legal assertion. modeled_s122_exempt_share
+  # exposes the assumption; statutory duty remains unclaimed and unblended.
+  share[hts8 %in% ex$hts8[ex$condition %in% c('article_description', 'chapter98_adjusted_value', 'chapter98_claim')]] <- 1
 
   is_gn6 <- hts8 %in% gn6 & share == 0
   if (any(is_gn6)) {

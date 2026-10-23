@@ -1,0 +1,54 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 67844987 - Imposing Temporary Section 122 Duties
+U.S. Customs and Border Protection sent this bulletin at 02/23/2026 07:32 PM EST
+Cargo Systems Messaging Service
+CSMS # 67844987 - Imposing Temporary Section 122 Duties
+The purpose of this message is to provide guidance regarding the February 20, 2026 Presidential Proclamation, “Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems,” issued pursuant to Section 122 of the Trade Act of 1974 (Section 122), which imposed an additional 10% ad valorem duty on imported articles of every country for a period of 150 days, unless specifically exempt.
+GUIDANCEAPPLICATION OF ADDITIONAL DUTY RATES UNDER SECTION 122
+For articles that are the product of any country entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern standard time on February 24, 2026, and through 12:01 a.m. eastern daylight time on July 24, 2026, the following HTSUS classification and additional duty rate apply under heading 9903.03.01:
+Except for products described in headings 9903.03.02–9903.03.11, and other than products for personal use included in accompanied baggage of persons arriving in the United States, articles the product of any country, as provided for in subdivision (aa) of U.S. note 2 to subchapter III of chapter 99 of the HTSUS, will be subject to an additional ad valorem rate of 10%
+ExemptionsThe following HTSUS headings apply to products that are exempted from the additional 10% ad valorem duty under heading 9903.03.01:
+9903.03.02:  Articles the product of any country that (1) were loaded onto a vessel at the port of loading and in transit on the final mode of transit prior to entry into the United States, before 12:01 a.m. eastern standard time on February 24, 2026; and (2) are entered for consumption, or withdrawn from warehouse for consumption, before 12:01 a.m. eastern standard time on February 28, 2026.
+9903.03.03: Articles the product of any country, as provided for in subdivision (aa)(ii) of U.S. note 2 to subchapter III of chapter 99 of the HTSUS.
+9903.03.04: Articles the product of any country, as provided for in subdivision (aa)(iii) of U.S. note 2 to subchapter III of chapter 99 of the HTSUS. The agricultural products described in subdivision (aa)(iii) are:
+(1) Etrogs (classifiable in subheading 0805.90.01);
+(2) Tropical fruit, nesoi, frozen, whether or not previously steamed or boiled (classifiable in subheading 0811.90.80);
+(3) Date palm branches, Myrtus branches or other vegetable material, for religious purposes only (classifiable in subheading 1404.90.90);
+(4) Bread, pastry, cakes, biscuits and similar baked products nesoi, and puddings, whether or not containing chocolate, fruit, nuts or confectionery, for religious purposes only (classifiable in subheading 1905.90.10);
+(5) Bakers’ wares, communion wafers, sealing wafers, rice paper and similar products, nesoi, for religious purposes only (classifiable in subheading 1905.90.90);
+(6) Acai (classifiable in subheading 2008.99.21);
+(7) Citrus juice of any single citrus fruit (other than orange, grapefruit or lime), of a Brix value not exceeding 20, concentrated, unfermented, except for lemon juice (classifiable in subheading 2009.31.60);
+(8) Coconut water or juice of acai (classifiable in subheading 2009.89.70);
+(9) Coconut water juice blends, not from concentrate, packaged for retail sale (classifiable in subheading 2009.90.40);
+(10) Acai preparations for the manufacture of beverages (classifiable in subheading 2106.90.99); and
+(11) Essential oils other than those of citrus fruit, nesoi, for religious purposes only (classifiable in subheading 3301.29.51).
+Filers must ensure that all supporting documentation that substantiates the intended use of the product, where applicable, is kept on file for recordkeeping purposes.
+9903.03.05: Articles of civil aircraft (all aircraft other than military aircraft); their engines, parts and components; their other parts, components and subassemblies; and ground flight simulators and their parts and components of any country, provided for in subdivision (aa)(iv) of U.S. note 2 to subchapter III of chapter 99 of the HTSUS.
+Filers must ensure that all supporting documentation that substantiates the intended use of the product, where applicable, is kept on file for recordkeeping purposes.
+9903.03.06: Articles of iron or steel, derivative articles of iron or steel, articles of aluminum, derivative articles of aluminum, passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks and parts of passenger vehicles and light trucks, semiconductor articles, semi-finished copper and intensive copper derivative products, wood products, or medium- and heavy-duty vehicles and buses or medium- and heavy-duty vehicle parts, of any country, as provided for in subdivision (aa)(v) of U.S. note 2 to subchapter III of chapter 99 of the HTSUS.
+9903.03.07: Articles the product of Canada, entered free of duty under the United States-Mexico-Canada Agreement.
+9903.03.08: Articles the product of Mexico, entered free of duty under the United States-Mexico-Canada Agreement.
+9903.03.09: Articles of textiles or apparel the product of Costa Rica, the Dominican Republic, El Salvador, Guatemala, Honduras or Nicaragua that meet the rules of origin under the Dominican Republic-Central America Free Trade Agreement.
+9903.03.10:  Articles that are donations, by persons subject to the jurisdiction of the United States, such as food, clothing and medicine, intended to be used to relieve human suffering.
+9903.03.11: Articles that are informational materials, including but not limited to publications, films, posters, phonograph records, photographs, microfilms, microfiche, tapes, compact disks, CD ROMs, artworks and news wire feeds.
+Chapter 98The additional duties imposed by heading 9903.03.01, HTSUS will not apply to goods for which entry is properly claimed under a provision of Chapter 98 of the HTSUS pursuant to applicable regulations issued by CBP, and whenever CBP agrees that entry under such a provision is appropriate, except for goods entered under heading 9802.00.80; and subheadings 9802.00.40, 9802.00.50, and 9802.00.60, HTSUS.  For subheadings 9802.00.40, 9802.00.50, and 9802.00.60, HTSUS, the additional duties apply to the value of repairs, alterations, or processing performed, as described in the applicable subheading.  For heading 9802.00.80, HTSUS, the additional duties apply to the value of the article assembled abroad, less the cost or value of such products of the United States, as described.
+Foreign Trade ZoneArticles subject to the ad valorem duty imposed by the February 20, 2026,  Proclamation, “Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems,” except those that are eligible for admission to a foreign trade zone under “domestic status” as defined in 19 C.F.R. § 146.43, and are admitted into a United States foreign trade zone on or after 12:01 a.m. eastern standard time on February 24, 2026, must be admitted as “privileged foreign status” as defined in 19 C.F.R. § 146.41.  Such articles will be subject, upon entry for consumption, to the duties imposed by this order and the rates of duty related to the classification under the applicable HTSUS subheading in effect at the time of admission into the United States foreign trade zone.
+DrawbackDrawback is available with respect to the additional duties imposed pursuant to the February 20, 2026, Proclamation “Imposing a Temporary Import Surcharge to Address Fundamental International Payments Problems.”
+HTS SequenceWhen submitting an entry summary in which a heading or subheading in Chapter 98 and/or 99 is claimed on imported merchandise, the following instructions will apply for the order of reporting the HTS on an entry summary line.
+1. Chapter 98 (if applicable)2. Chapter 99 number(s) for additional duties (if applicable)3. For trade remedies,
+First report the Chapter 99 HTS for Section 301,
+Followed by the Chapter 99 HTS for Section 122,
+Followed by the Chapter 99 HTS for Section 232
+Followed by the Chapter 99 HTS for Section 201 duties (if applicable),
+Followed by the Chapter 99 HTS for Section 201 quota (if applicable).
+4. Chapter 99 number(s) for REPLACEMENT duty or other use (i.e., Miscellaneous Tariff Bill or other provisions)5. Chapter 99 number for other quota (not covered by #3) (if applicable)6. Chapter 1 to 97 Commodity Tariff
+The entered value of the imported product reported on the entry summary line should be reported on the Chapter 1-97 HTS classification, unless Chapter 98 reporting provisions require the entered value to be reported differently.
+CBP will provide additional guidance to the trade community through CSMS messages as appropriate.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Questions regarding this message should be directed to CBP’s Office of Trade Relations at traderelations@cbp.dhs.gov.
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help
