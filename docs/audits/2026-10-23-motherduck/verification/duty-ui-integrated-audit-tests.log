@@ -1,0 +1,13 @@
+Already up to date
+Done in 673ms using pnpm v11.5.2
+
+ RUN  v2.1.9 /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-ui
+
+ ✓ src/tests/tariffRates/shipmentRules.test.ts (38 tests) 43ms
+ ✓ src/tests/classification/chapter99Panel.test.ts (10 tests) 13ms
+
+ Test Files  2 passed (2)
+      Tests  48 passed (48)
+   Start at  01:04:54
+   Duration  4.98s (transform 2.22s, setup 0ms, collect 3.83s, tests 56ms, environment 1ms, prepare 333ms)
+

@@ -1,0 +1,53 @@
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+here() starts at /home/wijreid/Desktop/SAIL/SAIL_Engineering/sor-lanes/shipment-duty-tracker
+
+=== build_s201_quartz_candidates ===
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: both tiers built from the headings' own rates
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: note-41(c) exemptions loaded (CA/MX + FTA + developing + CBERA)
+  PASS: empty when headings absent (pre-rev_16 revisions)
+
+=== classifier claims the headings ===
+  PASS: 9903.45.30/.31 -> handled_by_s201_determination (not resolved_by_parser)
+  PASS: solar 9903.45.2x claimed by extractor regardless of country scope
+
+=== completeness gate: unclaimed rated safeguard is an offender ===
+  PASS: a NEW rated 9903.45.3x-style heading with no claim trips the gate
+  PASS: quartz itself passes the gate (claimed by the determination)
+
+=== ch99_rules_json emission ===
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: both tiers emitted on covered non-exempt rows; rates untouched
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: note-41(c) exempt origin (Canada) gets no quartz rule
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: non-covered product gets no quartz rule
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: rules json stays valid JSON on all rows
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: mid-revision start survives and preserves exact entry boundary
+  PASS: missing evidence or a tier cannot silently remove the safeguard
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  PASS: source duplication and order leave candidates unchanged
+
+==================================================
+Tests: 14 passed, 0 failed
+==================================================
