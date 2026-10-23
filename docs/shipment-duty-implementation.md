@@ -1,0 +1,79 @@
+# Shipment duty implementation and integration status
+
+Audit cutoff: 2026-10-22. This is an in-progress implementation, not legal or
+production release qualification. Local integration does not activate a dataset.
+
+## Branches and durable worktrees
+
+| Repository | Working branch | Original base SHA | Local merge destination | Durable worktree |
+| --- | --- | --- | --- | --- |
+| tariff-rate-tracker | codex/shipment-duty-correctness | fca8db2c88fa11370b6dd1c291f36b03dc3bd17a | wjr_dev | SAIL_Engineering/sor-lanes/shipment-duty-tracker |
+| sail-trade-intel-data | codex/shipment-duty-evidence | bb6a17f23494de60206d8cf39d8752eb9725fadc | main | SAIL_Engineering/sor-lanes/shipment-duty-evidence |
+| sail-gtx-prerelease | codex/shipment-duty-correctness-ui | 2260f0787259253f810a8c5d3462ba02c9c5eb72 | pinecone-hts | SAIL_Engineering/sor-lanes/shipment-duty-ui |
+
+WJR explicitly authorized local merges into the branches above, superseding the
+original no-merge instruction. The tracker has `wjr_dev`, not `wjr-dev`; this was
+verified against local refs. Original checkouts and unrelated worktrees remain
+preserved. All three implementation worktrees were moved out of `/tmp`.
+
+## Production destination and approval boundary
+
+MotherDuck remains the production database for both data repositories. Evidence
+snapshots and local DuckDB files are reproducible interchange/test artifacts.
+The tracker must serve a complete versioned release across every configured
+revision, rather than depend on one pinned local revision. A release is pinned to
+an identified evidence snapshot, not permanently pinned to one HTS revision.
+
+No push, deployment, workflow dispatch, data publication, live MotherDuck write
+or active release change is authorized. Revisit the explicit production migration
+and activation approval with WJR after implementation and validation are complete.
+The new customs-reference refresh workflow was explicitly authorized as a code
+change and is included locally; it has not been dispatched. Existing source
+publication schedules have not been changed.
+
+## Implemented foundation
+
+- AD/CVD evidence retains company/case identity, instruction sections, operative
+  entry windows, source offsets and correction references. Interpretation still
+  requires scope and chronology review. Served evidence schema is version 8.
+- Read-only evidence export pins source hashes, publication versions and validated
+  customs-reference artifacts. It declares incomplete historical reconciliation.
+- Independent R and shared SAIL TypeScript shipment interpreters distinguish
+  unresolved sources, missing inputs, known subtotal and complete total. Rules
+  carry formulas, claims, conditions, citations, reporting codes and versions.
+- Strict duty-expression parsing preserves quantity and component valuation bases;
+  unknown text remains unresolved. Product inheritance no longer crosses siblings.
+- Initial statutory/model separation and dated Section 338 amendment handling are
+  implemented. These do not establish correctness of every tariff action.
+- Local immutable release preparation and read-only API serving have JSON, Arrow,
+  batch, missing-contract, version and rollback tests. Preparation never activates.
+- SAIL's AD/CVD instruction view shows entry windows and unresolved interpretation.
+  The production shipment consumers still require migration to the new contract.
+
+## Remaining implementation and release gates
+
+1. Reconcile all primary legal sources and the ten handoff findings, including the
+   Canadian beer result. Neither 40% nor 60% is an accepted oracle yet.
+2. Build verified executable rule bundles across all action intervals. Finish
+   claim interactions, mixed metals, vehicles/parts, floors/caps, Section 201/301/
+   122/338, quotas, Chapter 98 and AD/CVD scope/party/instruction chronology.
+3. Remove residual-duty attribution, predicted reporting headings, silent zero
+   defaults and remaining model-share leakage. Extend normalized action coverage.
+4. Export and pin the actual reconciled evidence snapshot. Complete release
+   coverage validation, migrations, immutable preparation and cloud rollout tools.
+5. Migrate Duty Workspace, Tariff Schedule, comparisons, scenarios, bulk/export,
+   Product DNA, saved results and Post-Entry Audit without aggregate fallbacks.
+   Preserve authentication, tenancy, saved dataset versions and explicit recalc.
+6. Rebuild all 55 configured revisions, including normalized revisions 20 and 21,
+   and any further verified release within the cutoff. The exploratory revision 21
+   build predates later fixes and is not a final release artifact.
+7. Complete action-attribution/temporal/parity/property sweeps, aggregate difference
+   review, required R/Python/UI gates and browser checks. Local fixtures cannot
+   establish legal completeness or replace the later approved live smoke test.
+8. Integrate validated commits locally into the destination branches, record the
+   exact integrated SHAs and rollback instructions, and then present the concrete
+   MotherDuck migration/activation proposal for WJR's approval.
+
+Known subtotal is never labeled complete when facts or source coverage are missing.
+HTS associations are discovery aids, not AD/CVD scope determinations. Final
+liquidation, refund filing and brokerage/logistics charges remain outside scope.

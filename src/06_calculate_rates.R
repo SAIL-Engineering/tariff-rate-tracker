@@ -2200,7 +2200,10 @@ calculate_rates_for_revision <- function(
   # auto_rebate_rate = 0 so ETRs does not re-apply it.
   # Derivatives (set in step 5) update this column for their products.
   rates <- rates %>%
-    mutate(statutory_rate_232 = rate_232 + coalesce(.auto_rebate_applied, 0)) %>%
+    mutate(statutory_rate_232 = rate_232 + coalesce(.auto_rebate_applied, 0),
+           modeled_auto_credit = coalesce(.auto_rebate_applied, 0),
+           modeled_auto_assembly_share = if_else(modeled_auto_credit > 0, assembly_share, 0),
+           modeled_auto_credit_rate = if_else(modeled_auto_credit > 0, rebate_rate, 0)) %>%
     select(-.auto_rebate_applied)
   rates <- record_duty(rates, '4c-post', 's232', 'statutory_rate_232',
                        'auto_rebate_addback', ch99_code_col = 'ch99_code_232')
@@ -2279,11 +2282,6 @@ calculate_rates_for_revision <- function(
           is_copper_heading & rate_232 > 0,
           rate_232 * copper_share,
           rate_232
-        ),
-        statutory_rate_232 = if_else(
-          is_copper_heading & statutory_rate_232 > 0,
-          statutory_rate_232 * copper_share,
-          statutory_rate_232
         )
       )
     n_scaled <- sum(rates$is_copper_heading & rates$rate_232 > 0)
@@ -2576,8 +2574,13 @@ calculate_rates_for_revision <- function(
       }
 
       # Update statutory_rate_232 to reflect annex overrides
+      # Proc. 10908 clause (1), FR 2025-05930: the automobile heading rate
+      # remains 25% unless a legal deal replaces it. The metals annex does not
+      # replace a heading-program rate with its assembly-credit projection.
       rates <- rates %>%
-        mutate(statutory_rate_232 = if_else(!is.na(s232_annex), rate_232, statutory_rate_232))
+        mutate(statutory_rate_232 = if_else(
+          !is.na(s232_annex) & !(hts10 %in% heading_program_products),
+          rate_232, statutory_rate_232))
 
       n_by_annex <- rates %>% filter(!is.na(s232_annex), rate_232 > 0) %>% count(s232_annex)
       if (nrow(n_by_annex) > 0) {
@@ -2652,7 +2655,8 @@ calculate_rates_for_revision <- function(
                 fta_share * 0 + (1 - fta_share) * .non_fta_blend,
                 rate_232
               ),
-              statutory_rate_232 = if_else(.subdiv_r, rate_232, statutory_rate_232)
+              modeled_subdivision_r_certified_share = if_else(.subdiv_r, certified_share, 0),
+              modeled_subdivision_r_fta_share = if_else(.subdiv_r, fta_share, 0)
             ) %>%
             select(-.subdiv_r, -.floor_232, -.non_fta_blend, -fta_share)
 
@@ -3069,7 +3073,12 @@ calculate_rates_for_revision <- function(
       statutory_rate_ieepa_recip = rate_ieepa_recip,
       statutory_rate_ieepa_fent  = rate_ieepa_fent,
       statutory_rate_301         = rate_301,
-      statutory_rate_s122        = rate_s122,
+      # Note 2(aa)(iv), 9903.03.05; CSMS 67844987. GN6 utilization is
+      # aggregate modeling, not evidence that this shipment meets GN6.
+      statutory_rate_s122        = if (s122_rates$has_s122 && s122_in_force)
+        s122_rates$s122_rate * (1 - s122_exempt_share(hts10, statutory = TRUE)) else rate_s122,
+      modeled_s122_exempt_share = if (s122_rates$has_s122 && s122_in_force)
+        s122_exempt_share(hts10) else 0,
       statutory_rate_section_201 = rate_section_201,
       statutory_rate_other       = rate_other
     )
@@ -3099,7 +3108,8 @@ calculate_rates_for_revision <- function(
           exclude_usmca & country %in% usmca_countries,
           0, exemption_share
         ),
-        base_rate = base_rate * (1 - exemption_share)
+        base_rate = base_rate * (1 - exemption_share),
+        modeled_mfn_exemption_share = exemption_share
       ) %>%
       select(-hs2, -exemption_share)
 
@@ -3268,8 +3278,7 @@ calculate_rates_for_revision <- function(
             ),
             rate_232
           )
-        ) %>%
-        select(-usmca_share)
+        )
     } else {
       # Fallback: binary USMCA from HTS special field
       rates <- rates %>%
@@ -3481,34 +3490,17 @@ calculate_rates_for_revision <- function(
         tibble(country = s338_cty, blanket_rate = as.numeric(s338_cfg$rate %||% 0)),
         'rate_s338', 'Section 338 Canada duties')
       .s338_eff_date <- max(as.Date(effective_date), s338_eff)
-      rates$rate_s338 <- compute_s338_rates(rates, s338_cfg, effective_date = .s338_eff_date)
-      # Statutory = the 50% before the §232 and WTO civil-aircraft exclusions.
-      rates$statutory_rate_s338 <- compute_s338_rates(
-        rates, s338_cfg, effective_date = .s338_eff_date, statutory = TRUE)
-      n_338 <- sum(rates$rate_s338 > 0)
-
-      # FORWARD attribution: U.S. note 51(b) splits the covered products across
-      # three headings (9903.03.12 alcohol / .13 dairy / .14 the broad list),
-      # so the heading is a per-PRODUCT fact, not a per-country one. Stamp it
-      # from the same list the duty was computed from; the resolver prefers
-      # this over its country-scoped fallback (which can only name one heading
-      # for Canada).
-      .s338_map <- tryCatch({
-        .pf <- s338_cfg$products_file
-        .pf <- if (file.exists(.pf)) .pf else here(.pf)
-        .m <- read_csv(.pf, col_types = cols(.default = col_character()))
-        if (all(c('hts8', 'ch99_heading') %in% names(.m))) {
-          .m %>% distinct(hts8, .keep_all = TRUE) %>%
-            transmute(.hts8 = substr(hts8, 1, 8), .s338_code = ch99_heading)
-        } else NULL
-      }, error = function(e) NULL)
-      if (!is.null(.s338_map) && nrow(.s338_map) > 0) {
-        .idx <- match(substr(rates$hts10, 1, 8), .s338_map$.hts8)
-        rates$ch99_src_s338 <- if_else(
-          rates$country == s338_cty & !is.na(.idx) &
-            (rates$rate_s338 > 0 | rates$statutory_rate_s338 > 0),
-          .s338_map$.s338_code[.idx], rates$ch99_src_s338)
+      .s338_model <- compute_s338_components(rates, s338_cfg, .s338_eff_date)
+      .s338_stat <- compute_s338_components(rates, s338_cfg, .s338_eff_date, statutory = TRUE)
+      rates$rate_s338 <- .s338_model$rate
+      rates$statutory_rate_s338 <- .s338_stat$rate
+      rates$ch99_src_s338 <- .s338_stat$reporting_codes
+      # Preserve individual actions, including any cumulative overlap, before rollup.
+      for (.action in names(.s338_stat$actions)) {
+        rates[[paste0('statutory_rate_s338_', .action)]] <- .s338_stat$actions[[.action]]
+        rates[[paste0('modeled_rate_s338_', .action)]] <- .s338_model$actions[[.action]]
       }
+      n_338 <- sum(rates$rate_s338 > 0)
 
       # This revision's interval may START before the duty does. rev_13 is
       # effective 2026-07-24 while §338 begins 2026-08-19, and the interval is
@@ -3532,8 +3524,7 @@ calculate_rates_for_revision <- function(
       message('  Section 338 Canada: ', round(as.numeric(s338_cfg$rate %||% 0) * 100),
               '% on ', format(n_338, big.mark = ','), ' product-country pairs',
               ' (effective ', s338_cfg$effective_date,
-              '; §232 articles and WTO civil-aircraft lines fully excluded per',
-              ' Proclamation 11047 para. 2)')
+              '; action-specific amendments and aggregate civil-aircraft assumption)')
       if (.not_yet && n_338 > 0) {
         message('    NOT YET ACTIVE at ', format(as.Date(effective_date)),
                 ' — ', format(n_338, big.mark = ','),

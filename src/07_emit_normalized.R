@@ -108,6 +108,7 @@ emit_products_base <- function(products, revision_id, effective_date,
   # revision; select() with any_of() avoids hard failures on missing fields.
   required_cols <- c('hts10', 'base_rate')
   optional_cols <- c(
+    'base_rate_raw', 'duty_expression_raw', 'base_rate_source',
     'statutory_base_rate', 'rate_column2', 'rate_column2_raw',
     'rate_special', 'rate_special_raw', 'special_programs',
     'rate_basis', 'specific_amount', 'specific_rate_unit',
@@ -128,6 +129,7 @@ emit_products_base <- function(products, revision_id, effective_date,
   # the parquet schema is stable across revisions even if an older revision
   # is missing a column). Mirrors enforce_rate_schema() defaults.
   defaults <- list(
+    base_rate_raw = NA_character_, duty_expression_raw = NA_character_, base_rate_source = NA_character_,
     statutory_base_rate = NA_real_,
     rate_column2 = NA_real_, rate_column2_raw = NA_character_,
     rate_special = NA_real_, rate_special_raw = NA_character_,
@@ -192,6 +194,7 @@ emit_products_base <- function(products, revision_id, effective_date,
     ) %>%
     select(
       hts10, revision, base_rate, statutory_base_rate,
+      base_rate_raw, duty_expression_raw, base_rate_source,
       rate_column2, rate_column2_raw,
       rate_special, rate_special_raw, special_programs_json,
       rate_basis, specific_amount, specific_rate_unit,
@@ -564,42 +567,19 @@ emit_authority_product_applicability <- function(products, ch99_data,
       )
     }
 
-    # Auto programs — one row per program from heading_product_lists.
-    #
-    # The denorm pipeline at src/06_calculate_rates.R step 4b deducts a
-    # flat assembly rebate from rate_232 BEFORE deal overrides:
-    #   rate_232 -= pp$auto_rebate$rebate_rate * pp$auto_rebate$us_assembly_share
-    # restricted to `hts10 %in% auto_products`. We bake that deduction
-    # directly into the layer-3 statutory_rate so:
-    #   (a) non-deal-country winners (precedence 1) match denorm exactly,
-    #   (b) deal-country winners (precedence 10, set above) cleanly
-    #       REPLACE the rebated value rather than compound on top of it,
-    #       which is what denorm step 4c does (rate_232 = pmax(deal_rate
-    #       - base_rate, 0) — no rebate factor).
-    # We restrict the rebate to products that survive the denorm
-    # blanket-chapter exclusion in denorm_state$auto_products, mirroring
-    # `hts10 %in% auto_products` from step 4b.
-    rebate_deduction <- 0
-    if (!is.null(pp) && !is.null(pp$auto_rebate)) {
-      rebate_deduction <- as.numeric(pp$auto_rebate$rebate_rate %||% 0) *
-                          as.numeric(pp$auto_rebate$us_assembly_share %||% 0)
-    }
-    rebate_set <- if (!is.null(denorm_state)) {
-      as.character(denorm_state$auto_products %||% character(0))
-    } else character(0)
+    # Proc. 10908 clause (1), FR 2025-05930. The legal heading rate is
+    # independent of the model's assembly credit. Preserve that credit as an
+    # explicit projection input rather than subtracting it from statutory_rate.
+    rebate_deduction <- as.numeric(pp$auto_rebate$rebate_rate %||% 0) *
+      as.numeric(pp$auto_rebate$us_assembly_share %||% 0)
+    rebate_set <- as.character(denorm_state$auto_products %||% character(0))
     for (pname in names(heading_product_lists)) {
       if (!grepl('auto|passenger|light_truck|heavy_truck', pname, ignore.case = TRUE)) next
       plist <- heading_product_lists[[pname]]
       if (is.null(plist) || length(plist$products) == 0) next
       base_auto_rate <- as.numeric(plist$rate %||% 0)
       hts10s <- as.character(plist$products)
-      # Per-product post-rebate rate: subtract the deduction only for
-      # products in the denorm-rebated set.
-      rate_per_hts <- ifelse(
-        hts10s %in% rebate_set,
-        pmax(base_auto_rate - rebate_deduction, 0),
-        base_auto_rate
-      )
+      rate_per_hts <- rep(base_auto_rate, length(hts10s))
       rows[[paste0('s232_', pname)]] <- tibble(
         revision          = revision_id,
         authority         = 'section_232',
@@ -608,6 +588,8 @@ emit_authority_product_applicability <- function(products, ch99_data,
         hts_prefix        = NA_character_,
         ch99_code         = '9903.94.01',
         statutory_rate    = rate_per_hts,
+        modeled_auto_credit = ifelse(hts10s %in% rebate_set,
+                                     pmin(base_auto_rate, rebate_deduction), 0),
         rate_kind         = 'ad_valorem_full',
         scaling_dimension = 'none',
         deriv_type        = NA_character_,

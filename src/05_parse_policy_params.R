@@ -1271,6 +1271,9 @@ extract_usmca_eligibility <- function(hts_raw) {
     special <- item$special %||% ''
     general <- item$general %||% ''
     indent <- as.integer(item$indent %||% 0)
+    if (length(indent) != 1 || is.na(indent) || indent < 0)
+      stop('Invalid HTS hierarchy indent at ', htsno)
+    special_stack <<- special_stack[as.integer(names(special_stack)) < indent]
 
     # Legal-line boundary: any item with rate or special text resets this
     # indent level (and deeper) so siblings' specials can't leak across
