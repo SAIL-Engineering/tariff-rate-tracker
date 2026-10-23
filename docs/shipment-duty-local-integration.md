@@ -101,3 +101,30 @@ Timeseries rebuilds are WJR's manual task; see
 The original integration SHAs above remain historical checkpoints. Follow-up
 commits preserve those bases and the concurrent SAIL commit `04b71480b`; inspect
 the local branch log for the later audit integration. No active release changed.
+
+
+## Conditional-action integration, 2026-10-23
+
+| Repository | Base at start of this pass | Implementation commit | Local integration merge |
+| --- | --- | --- | --- |
+| Tracker `wjr_dev` | `42a3bb5f631a816f5a5d19d0d80d9644e9481609` | `11ae7503acf07212262fc9363f17c2db5ff60b79` | `5ca4d121b02f78d6936eb99671880607627a4bb1` |
+| SAIL `pinecone-hts` | `2d0d25b23ef69949629a3d38496677f1157a7fb9` | `f9e2fe7d5f4669f1fc4595c799fce54a2539edc6` | `5d8e5b430a43c67c6b2f3522e1f20d5a95be6cc7` |
+| Trade Intelligence `main` | `766334b6b41dd5f45cfd3df583b7c5d53447ae1a` | No new change | Unchanged; contains the evidence branch |
+
+These merges are in the original checkouts, not only the durable worktrees.
+SAIL's two pre-existing untracked entries remain unchanged. Both merge trees
+match their tested implementation commits. The shared interpreter SHA256 is
+`a57d64d9ecf259d6710761e52409aca6f140549ee3d60b0b5af0648171524ab8`;
+the tracker generated runtime identifies that same SAIL source hash.
+
+See [the conditional-action audit](audits/2026-10-23-conditional-actions/README.md)
+for source findings, 37,712 grouped live rows/4,840 exact samples, contract changes,
+retained test/browser evidence and remaining gaps. All retained audit files are
+tracked and their hashes verified. No timeseries revisions were regenerated.
+The manual rebuild runbook remains the command source for WJR.
+
+Local rollback, after preserving later work, is `git revert -m 1` with the
+applicable integration merge in the table. Coordinate the R/TypeScript/result
+contract rollback across both repos. No live rollback is needed: no production
+release, MotherDuck table, deployment or published object changed. Do not activate
+partial fragments or bypass the remaining all-authority/consumer/rebuild gates.
