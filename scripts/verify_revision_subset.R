@@ -29,7 +29,7 @@ cat('Completeness QC: PASS (no unresolved-with-rate headings)\n')
 products_all <- parse_products(json_path)
 country_lookup <- build_country_lookup('resources/census_codes.csv')
 ieepa_rates <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)
-fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date)
+fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date, revision_id = rev_id)
 s232_rates <- extract_section232_rates(ch99_data)
 usmca <- extract_usmca_eligibility(hts_raw)
 

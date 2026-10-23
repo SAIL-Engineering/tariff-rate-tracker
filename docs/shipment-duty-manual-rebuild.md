@@ -116,8 +116,8 @@ The command above automatically runs `src/section301_sources.py` through
 `src/section301_revision.R` for each requested 2025/2026 revision. Install Python 3
 with zoneinfo/tzdata and Poppler's `pdftotext`; both are required build inputs.
 The extractor uses that revision's full Chapter 99 PDF and HTS JSON, checks the
-PDF revision header, and caches by source/extractor hashes. Missing PDF archives
-are downloaded from USITC. Missing sources, unknown potentially operative charge
+PDF revision header, and caches by source/extractor hashes. The coordinated source pass requires retained PDF and JSON archives before calculation;
+acquire missing sources through the existing source-acquisition pipeline before rebuilding. Missing sources, unknown potentially operative charge
 headings, unsupported table grammar and conflicting actions fail the build.
 The local cache includes the verified revision 20/21 PDFs, but is not a production
 data store. A clean checkout retrieves them through the same build path.
@@ -142,12 +142,12 @@ Section 301 coverage: the implemented note 20 and direct-heading exclusions do n
 complete the other investigations, claims and Chapter 98 interactions. Do not substitute a test bundle. Source hash artifacts
 must exist during composition; serving subsequently uses the stored bundle.
 
-Release manifests now require `sail.tariff-release/v4`, the decision and claim-effect partitions,
+Release manifests now require `sail.tariff-release/v5`, the decision and claim-effect partitions,
 and the new rate fields. Preparation validates their relationships locally and
-does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3
+does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3/v4
 release is not accepted by the new reader: rollback across this boundary requires
 the compatible previous code and release, not only an active-ID change. Within
-v4, retain the previous validated release for the existing atomic rollback path.
+v5, retain the previous validated release for the existing atomic rollback path.
 
 
 The source-backed exclusions and five retroactive amendments are part of this
@@ -176,11 +176,46 @@ Do not substitute a modeled base or aggregate AVE.
 
 Read the [reporting-heading findings and remaining tasks](audits/2026-10-23-reporting-headings/README.md)
 and [IEEPA interval limitation](audits/2026-10-23-ieepa-actions/README.md) before
-interpreting a rebuild as complete historical correction. In particular, exact
-November 14 legal-event splitting and the remaining authorities/consumers still
-need implementation. New tables and a successful rebuild alone do not close them.
+interpreting a rebuild as complete historical correction. The shared build now splits the November 14 legal event; complete
+coverage of other amendments, remaining authority predicates and consumers is
+still unfinished. New tables and a successful rebuild alone do not close them.
 
 Existing production data was only read. Rollback of this local source change is
 a local revert on `wjr_dev`; no active MotherDuck identifier needs restoring.
 After a later approved deployment, retain both the preceding validated release
 and its compatible reader. Never activate partly regenerated partitions.
+
+## Legal states and emergency-note provenance (release v5)
+
+The ordinary build recalculates each known legal state inside a source revision.
+`valid_from`/`valid_until` therefore need not be unique per revision. Preserve them
+when combining, aggregating, exporting or preparing a release. The v5 preflight
+rejects duplicate/incomplete product-country state grids and normalized windows
+that disagree with the wide data. Daily states do not replace the exact entry
+timestamps preserved in rule/source evidence. The existing aggregate horizon
+extends to December 31, 2026; this audit only covers through October 22. Keep
+shipment bundle coverage bounded to reviewed dates and do not certify the
+remaining forecast period as audited history.
+
+Section 122 production scope now comes from the matching revision's full note
+2(aa), retaining statistical suffixes and use/description conditions. Each active
+revision emits `section122_source.json` alongside the normalized exemptions. It
+is source evidence, not a complete rule bundle. Emergency evidence now includes
+ordinary/conditional actions, source notes and amendment chronology. Compose the
+updated `ieepa_evidence_sources.json` into the reviewed bundle before preflight.
+
+These source-only audits can be run before the manual rebuild. Choose new output
+directories; they do not calculate a timeseries or write MotherDuck:
+
+```sh
+node frontend/scripts/audit-ieepa-emergency-motherduck.mjs \
+  .env output/emergency-read-only.json
+Rscript scripts/audit_ieepa_emergency.R \
+  output/emergency-source-audit output/emergency-read-only.json
+python3 scripts/audit_section122_sources.py output/section122-source-audit
+```
+
+The first command uses a read-only MotherDuck connection. The other two use
+retained local sources. See the [findings, counts and remaining gates](audits/2026-10-23-legal-intervals/README.md).
+Do not deploy a v5 reader against a v4 release. Rollback across the contract
+boundary requires the previous compatible reader and release together.

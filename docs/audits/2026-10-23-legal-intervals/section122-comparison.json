@@ -1,0 +1,550 @@
+{
+  "access_mode": "READ_ONLY",
+  "database": "duty_calculator",
+  "snapshot_sha256": "e6ba2a29e025eeb0d753b3cb799e32fb269db4bc3160a27122a5880714d510e9",
+  "adjacent_unlisted_magnet_zero_statutory_rows": 8640,
+  "count_unit": "HTS10 x country x revision rows, not entries or financial losses",
+  "live_schema_missing_model_share": true,
+  "observations": [
+    {
+      "revision": "2026_rev_10",
+      "hts10": "8505110010",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "hts10": "8505110030",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "hts10": "8505110050",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "hts10": "8505110070",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "hts10": "8505110090",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "hts10": "9031497000",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "8505110010",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "8505110030",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "8505110050",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "8505110070",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "8505110090",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "hts10": "9031497000",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-07-20",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "8505110010",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "8505110030",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "8505110050",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "8505110070",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "8505110090",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "hts10": "9031497000",
+      "valid_from": "2026-07-21",
+      "valid_until": "2026-07-23",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "8505110010",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "8505110030",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "8505110050",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "8505110070",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "8505110090",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "hts10": "9031497000",
+      "valid_from": "2026-02-24",
+      "valid_until": "2026-04-05",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "8505110010",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "8505110030",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "8505110050",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "8505110070",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "8505110090",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "hts10": "9031497000",
+      "valid_from": "2026-04-06",
+      "valid_until": "2026-04-22",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "8505110010",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "8505110030",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "8505110050",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "8505110070",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "8505110090",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "hts10": "9031497000",
+      "valid_from": "2026-04-23",
+      "valid_until": "2026-04-28",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "8505110010",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "8505110030",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "8505110050",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "8505110070",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "8505110090",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "hts10": "9031497000",
+      "valid_from": "2026-04-29",
+      "valid_until": "2026-04-30",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "8505110010",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "8505110030",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "8505110050",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "8505110070",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "8505110090",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "hts10": "9031497000",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "8505110010",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "8505110030",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "8505110050",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "8505110070",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "8505110090",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "hts10": "9031497000",
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-05-21",
+      "statutory_rate_s122": 0.082535916697999,
+      "statutory_rate_232": 0,
+      "ch99_code_s122": null,
+      "origin_rows": 240
+    }
+  ]
+}

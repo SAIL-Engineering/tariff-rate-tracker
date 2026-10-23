@@ -1,0 +1,47 @@
+{
+  "base_commit": "93315d1cdb48a4fb253e9e621186b4cce98fbd7d",
+  "branch": "wjr_dev",
+  "source_revision_audits": {
+    "emergency": 55,
+    "section122": 55,
+    "timeseries_rebuild": false
+  },
+  "python": {
+    "passed": 288,
+    "failed": 0,
+    "command": "/usr/bin/python3 -m pytest tests/python -q"
+  },
+  "api": {
+    "passed": 153,
+    "failed": 0,
+    "command": "node --test frontend/tests/*.test.mjs",
+    "native_duckdb": true
+  },
+  "r": {
+    "suite_verdicts": {
+      "OK": 31,
+      "ERROR": 1,
+      "FAIL": 0,
+      "SKIP": 1
+    },
+    "reported_counted_assertions_passed": 402,
+    "exit_code": 1,
+    "parity_missing_partitions": 312,
+    "parity_row_comparisons_ran": false,
+    "tpc": "SKIP; requires built inputs",
+    "additional_focused_tests": "emergency normalized action selection and dated ledger replay passed"
+  },
+  "tracker_frontend": {
+    "typecheck": "passed",
+    "vite_build": "passed",
+    "generated_dist_changes_retained": false
+  },
+  "production": {
+    "database": "duty_calculator",
+    "access_mode": "READ_ONLY",
+    "writes": false,
+    "release_activation": false
+  },
+  "legal_coverage": "partial; see README remaining gates",
+  "release_contract": "sail.tariff-release/v5"
+}

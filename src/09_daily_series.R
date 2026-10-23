@@ -4,8 +4,8 @@
 #
 # Provides pre-computed daily aggregates and on-demand expansion.
 # Leverages the interval-encoded timeseries (valid_from / valid_until) built
-# by 00_build_timeseries.R -- rates only change at revision boundaries, so
-# we compute one aggregate per revision and broadcast across calendar days.
+# by 00_build_timeseries.R. A revision can contain multiple legal states;
+# aggregate each state separately and broadcast only within its entry window.
 #
 # Note: get_rates_at_date() is defined in helpers.R (shared with 08_weighted_etr.R).
 #
@@ -30,6 +30,7 @@
 
 library(tidyverse)
 library(jsonlite)
+source(here::here('src/legal_intervals.R'))
 
 
 # =============================================================================
@@ -38,8 +39,8 @@ library(jsonlite)
 
 #' Build daily aggregate statistics
 #'
-#' Since rates only change at revision boundaries, computes one aggregate per
-#' revision and broadcasts to all calendar days in that revision's interval.
+#' Computes each legal state within a revision independently. Entry-date
+#' amendments do not wait for the next published HTS revision.
 #' Import weights are optional -- if NULL, computes simple (unweighted) means.
 #'
 #' If policy_params contains SECTION_122 with finalized=FALSE, any revision
@@ -100,7 +101,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
 
   # Helper: compute aggregates for one revision interval (or sub-interval)
   compute_agg_overall <- function(revision, valid_from, valid_until, sub_start = valid_from) {
-    rev_data <- ts %>% filter(revision == !!revision)
+    rev_data <- ts %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
     rev_data <- apply_expiry_zeroing(rev_data, sub_start, policy_params)
     if (any(c('rate_s122', 'rate_ieepa_recip') %in% names(rev_data))) {
       rev_data <- apply_stacking_rules(rev_data, stacking_method = stacking_method)
@@ -127,7 +128,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       n_all_pairs = n_all_pairs
     )
     if (has_weights) {
-      wt_data <- ts_weighted %>% filter(revision == !!revision)
+      wt_data <- ts_weighted %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
       wt_data <- apply_expiry_zeroing(wt_data, sub_start, policy_params)
       if (nrow(wt_data) > 0) {
         wt_data <- apply_stacking_rules(wt_data, stacking_method = stacking_method)
@@ -146,7 +147,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
   }
 
   compute_agg_country <- function(revision, valid_from, valid_until, sub_start = valid_from) {
-    rev_data <- ts %>% filter(revision == !!revision)
+    rev_data <- ts %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
     rev_data <- apply_expiry_zeroing(rev_data, sub_start, policy_params)
     rev_data <- apply_stacking_rules(rev_data, stacking_method = stacking_method)
     n_products_rev <- n_distinct(rev_data$hts10)
@@ -171,7 +172,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
         n_products_total = n_products_rev
       )
     if (has_weights) {
-      wt_data <- ts_weighted %>% filter(revision == !!revision)
+      wt_data <- ts_weighted %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
       wt_data <- apply_expiry_zeroing(wt_data, sub_start, policy_params)
       wt_data <- apply_stacking_rules(wt_data, stacking_method = stacking_method)
       country_total_imp <- imports %>%
@@ -197,7 +198,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
   }
 
   compute_agg_authority <- function(revision, valid_from, valid_until, sub_start = valid_from) {
-    rev_data <- ts %>% filter(revision == !!revision)
+    rev_data <- ts %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
     rev_data <- apply_expiry_zeroing(rev_data, sub_start, policy_params)
 
     # Use shared net authority decomposition from helpers.R
@@ -218,7 +219,7 @@ build_daily_aggregates <- function(ts, date_range = NULL, imports = NULL,
       mean_other = mean(net_data$net_other)
     )
     if (has_weights) {
-      wt_data <- ts_weighted %>% filter(revision == !!revision)
+      wt_data <- ts_weighted %>% filter(revision == !!revision, .data$valid_from <= sub_start, .data$valid_until >= sub_start)
       wt_data <- apply_expiry_zeroing(wt_data, sub_start, policy_params)
       if (nrow(wt_data) > 0) {
         wt_net <- compute_net_authority_contributions(wt_data, cty_china = CTY_CHINA,
@@ -835,17 +836,12 @@ build_alternative_timeseries <- function(pp_override, variant_name, imports = NU
       ch99_data <- parse_chapter99(json_path, revision_id = rev_id)
       products <- parse_products(json_path)
       ieepa_rates <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)
-      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date)
+      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date, revision_id = rev_id)
       s232_rates <- extract_section232_rates(ch99_data)
       usmca <- extract_usmca_eligibility(hts_raw)
 
-      rates <- calculate_rates_for_revision(
-        products, ch99_data, ieepa_rates, usmca,
-        countries, rev_id, eff_date,
-        s232_rates = s232_rates,
-        fentanyl_rates = fentanyl_rates,
-        policy_params = policy_params %||% pp_override
-      )
+      rates <- calculate_revision_legal_states(products,ch99_data,hts_raw,usmca,countries,
+        rev_id,rev_dates,country_lookup,policy_params %||% pp_override,emit_normalized=FALSE)
       snapshots[[rev_id]] <- rates
     }, error = function(e) {
       message('    SKIP ', rev_id, ': ', conditionMessage(e))
@@ -862,23 +858,8 @@ build_alternative_timeseries <- function(pp_override, variant_name, imports = NU
   timeseries <- enforce_rate_schema(timeseries)
   timeseries <- timeseries %>% arrange(effective_date, revision, country, hts10)
 
-  horizon_end <- pp_override$SERIES_HORIZON_END %||% Sys.Date()
-  last_eff <- max(rev_dates$effective_date[rev_dates$revision %in% unique(timeseries$revision)])
-  if (horizon_end < last_eff) horizon_end <- last_eff
-
-  rev_intervals <- rev_dates %>%
-    filter(revision %in% unique(timeseries$revision)) %>%
-    arrange(effective_date) %>%
-    mutate(
-      valid_from = effective_date,
-      valid_until = lead(effective_date) - 1
-    ) %>%
-    mutate(valid_until = if_else(is.na(valid_until), horizon_end, valid_until)) %>%
-    select(revision, valid_from, valid_until)
-
-  timeseries <- timeseries %>%
-    select(-any_of(c('valid_from', 'valid_until'))) %>%
-    left_join(rev_intervals, by = 'revision')
+  # Preserve the legal intervals produced by the shared builder. Diagnostic
+  # modeling variants do not replace the shipment release's normalized data.
 
   # Build daily aggregates
   daily <- build_daily_aggregates(timeseries, imports = imports, policy_params = pp_override)

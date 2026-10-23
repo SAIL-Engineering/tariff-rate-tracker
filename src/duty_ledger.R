@@ -85,10 +85,10 @@ record_duty <- function(df, step, authority, rate_col, reason,
   if (!rate_col %in% names(df)) return(df)
 
   cur  <- df[[rate_col]]
-  cur[is.na(cur)] <- 0
   prev <- .duty_ledger$prev[[rate_col]]
   if (is.null(prev) || length(prev) != length(cur)) prev <- rep(0, length(cur))
-  changed <- abs(cur - prev) > 1e-12
+  changed <- xor(is.na(cur),is.na(prev)) |
+    (!is.na(cur) & !is.na(prev) & abs(cur-prev)>1e-12)
 
   .duty_ledger$seq <- .duty_ledger$seq + 1L
   .duty_ledger$steps[[length(.duty_ledger$steps) + 1L]] <- list(
@@ -97,7 +97,8 @@ record_duty <- function(df, step, authority, rate_col, reason,
     note_ref = note_ref, revision = .duty_ledger$revision,
     effective_date = .duty_ledger$eff_date,
     n_rows = length(cur), n_changed = sum(changed),
-    n_nonzero = sum(cur > 0), sum_rate = sum(cur),
+    n_nonzero = sum(cur > 0,na.rm=TRUE), n_unresolved = sum(is.na(cur)),
+    sum_rate = sum(cur), known_sum_rate = sum(cur,na.rm=TRUE),
     delta_sum = sum(cur - prev)
   )
 
@@ -112,6 +113,7 @@ record_duty <- function(df, step, authority, rate_col, reason,
         seq = .duty_ledger$seq, step = step, authority = authority,
         rate_col = rate_col, reason = reason, citation_key = citation_key,
         note_ref = note_ref, revision = .duty_ledger$revision,
+        effective_date = .duty_ledger$eff_date,
         hts10 = df$hts10[hit], country = df$country[hit],
         ch99_code = code, before = prev[hit], after = cur[hit],
         changed = changed[hit]
@@ -177,15 +179,20 @@ trace_row <- function(hts10, country, all = FALSE) {
 #' Persist the ledger for this revision
 #'
 #' The build runs in its own process, so an in-memory ledger dies with it. Both
-#' tiers are written per revision: the aggregate step table always, the per-row
+#' tiers are written per revision and legal state: the aggregate step table always, the per-row
 #' table only when tracing was armed.
 #'
 #' @param dir Output directory; created if absent
 #' @param revision Revision id, defaulting to the one passed to init
 duty_ledger_save <- function(dir = here::here('output', 'provenance'),
-                             revision = NULL) {
+                             revision = NULL, entry_day = NULL) {
   if (!duty_ledger_active()) return(invisible(NULL))
   rev <- revision %||% .duty_ledger$revision %||% 'unknown'
+  if(!is.null(entry_day)) {
+    day <- as.Date(entry_day)
+    if(length(day)!=1L||is.na(day)) stop('Ledger requires a valid legal-state date')
+    rev <- paste0(rev,'_',day)
+  }
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   steps <- duty_ledger_steps()
@@ -210,8 +217,14 @@ duty_ledger_save <- function(dir = here::here('output', 'provenance'),
 #'
 #' @param revision Revision id
 #' @param dir Provenance directory
-duty_ledger_load <- function(revision, dir = here::here('output', 'provenance')) {
+duty_ledger_load <- function(revision, dir = here::here('output', 'provenance'), entry_day=NULL) {
+  if(!grepl('^[A-Za-z0-9_]+$',revision)) stop('Invalid ledger revision')
+  states <- list.files(dir,pattern=paste0('^duty_rows_',revision,'_[0-9]{4}-[0-9]{2}-[0-9]{2}[.]csv$'),full.names=TRUE)
   f <- file.path(dir, paste0('duty_rows_', revision, '.csv'))
+  if(!is.null(entry_day)) f <- file.path(dir,paste0('duty_rows_',revision,'_',as.Date(entry_day),'.csv'))
+  else if(length(states)>1L) stop('Select a legal-state entry_day to replay this revision ledger')
+  else if(length(states)==1L) f <- states[1]
+
   if (!file.exists(f)) {
     message('No saved row ledger for ', revision, ' at ', f)
     return(invisible(NULL))
@@ -232,6 +245,6 @@ duty_ledger_load <- function(revision, dir = here::here('output', 'provenance'))
 duty_ledger_uncited <- function() {
   s <- duty_ledger_steps()
   if (nrow(s) == 0) return(s)
-  s[is.na(s$citation_key) & s$n_changed > 0 & s$delta_sum != 0,
+  s[is.na(s$citation_key) & s$n_changed > 0 & (is.na(s$delta_sum) | s$delta_sum != 0),
     c('seq', 'step', 'authority', 'rate_col', 'reason', 'n_changed', 'delta_sum')]
 }

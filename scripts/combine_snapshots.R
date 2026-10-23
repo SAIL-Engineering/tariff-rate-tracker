@@ -21,6 +21,7 @@ suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(yaml))
 
 source(here('src', 'helpers.R'))
+source(here('src','legal_intervals.R'))
 
 output_dir <- here('data', 'timeseries')
 
@@ -85,10 +86,9 @@ for (i in seq_along(snapshot_files)) {
 
   snap <- enforce_rate_schema(snap)
   validate_hts_column(snap)
-  snap <- snap %>%
-    select(-any_of(c('valid_from', 'valid_until'))) %>%
-    left_join(rev_intervals, by = 'revision') %>%
-    arrange(country, hts10)
+  interval <- rev_intervals[rev_intervals$revision==rev_name,]
+  snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until) %>%
+    arrange(valid_from,country,hts10)
 
   total_rows <- total_rows + nrow(snap)
 

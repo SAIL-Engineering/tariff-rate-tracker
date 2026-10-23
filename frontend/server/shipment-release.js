@@ -2,6 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { validateProjectedIntervals } from './revision-intervals.js';
 import { RELEASE_CONTRACT } from './shipment-store.js';
 
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -13,15 +14,15 @@ const literal = value => `'${String(value).replaceAll("'", "''")}'`;
 export const RELEASE_MIGRATION = await fs.readFile(new URL('../migrations/001_shipment_releases.sql', import.meta.url), 'utf8');
 
 const TABLES = {
-  rates: ['hts10', 'country', 'revision', 'statutory_base_rate', 'statutory_rate_232', 'rate_301', 'statutory_rate_301', 'rate_s301_maritime', 'statutory_rate_s301_maritime'],
-  products_base: ['hts10', 'revision', 'duty_expression_raw', 'rate_column2_raw'],
-  authority_country_rates: ['revision', 'authority', 'program', 'country','reciprocal_parameter','reciprocal_ch99','country_eo_parameter','country_eo_ch99'],
-  authority_product_applicability: ['revision', 'authority', 'program', 'hts10', 'hts_prefix'],
-  authority_exemptions: ['revision', 'authority'],
+  rates: ['hts10', 'country', 'revision', 'valid_from', 'valid_until', 'statutory_base_rate', 'statutory_rate_232', 'rate_301', 'statutory_rate_301', 'rate_s301_maritime', 'statutory_rate_s301_maritime'],
+  products_base: ['hts10', 'revision', 'valid_from', 'valid_until', 'duty_expression_raw', 'rate_column2_raw'],
+  authority_country_rates: ['revision', 'valid_from', 'valid_until', 'authority', 'program', 'country','reciprocal_parameter','reciprocal_ch99','country_eo_parameter','country_eo_ch99'],
+  authority_product_applicability: ['revision', 'valid_from', 'valid_until', 'authority', 'program', 'hts10', 'hts_prefix'],
+  authority_exemptions: ['revision', 'valid_from', 'valid_until', 'authority'],
   authority_product_candidates: ['revision', 'authority', 'program', 'hts10', 'scope_code', 'scope_grain', 'source_path', 'source_sha256', 'status'],
   claim_effects: ['revision', 'claim_id', 'rule_id', 'authority', 'effect', 'target_reporting_code', 'hts10', 'country', 'valid_from', 'valid_until', 'source_ids_json', 'condition_json', 'source_locator', 'source_scope_sha256'],
   section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
-  ieepa_action_decisions: ['revision','authority','country','ch99_code','rate','rate_type','phase','terminated','decision','source_description','duty_expression','source_heading_sha256','hts_sha256','amendment_source_id','amendment_source_sha256','amendment_effective_from'],
+  ieepa_action_decisions: ['revision','authority','country','ch99_code','rate','rate_type','phase','terminated','decision','source_description','duty_expression','source_heading_sha256','hts_sha256','amendment_source_id','amendment_source_sha256','amendment_effective_from','pdf_sha256','source_note_locator','source_note_sha256','source_note','entry_valid_from','entry_valid_until','state_valid_from','state_valid_until'],
   section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256'],
 };
 
@@ -85,7 +86,9 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       if (table === 'claim_effects' && TABLES[table].some(k => have.get(k) !== 'VARCHAR'))
         throw new Error('Invalid claim_effects field types');
       if(table==='ieepa_action_decisions' && TABLES[table].some(k=>have.get(k)!==
-        (k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':'VARCHAR'))) throw new Error('Invalid IEEPA action field types');
+        (k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':k.startsWith('state_valid_')?'DATE':'VARCHAR'))) throw new Error('Invalid IEEPA action field types');
+      if(['rates','products_base','authority_country_rates','authority_product_applicability','authority_exemptions'].includes(table)
+        && ['valid_from','valid_until'].some(k=>have.get(k)!=='DATE')) throw new Error(`Invalid ${table} legal-state date types`);
       const signature = JSON.stringify([...have].sort(([a], [b]) => a.localeCompare(b)));
       if (types.has(table) && types.get(table) !== signature) throw new Error(`Inconsistent ${table} partition types`);
       types.set(table, signature);
@@ -135,7 +138,7 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
     if(Number(invalidParameters)) throw new Error('Incomplete IEEPA action parameters');
     const ieepa = `read_parquet([${revision.files.ieepa_action_decisions.map(literal).join(',')}], hive_partitioning=false)`;
     const invalidIEEPA = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${ieepa} d WHERE
-      coalesce(d.authority,'')<>'ieepa_reciprocal' OR coalesce(d.country,'')=''
+      coalesce(d.authority,'') NOT IN ('ieepa_reciprocal','ieepa_fentanyl') OR coalesce(d.country,'')=''
       OR NOT regexp_full_match(coalesce(d.ch99_code,''),'9903[.](01|02)[.][0-9]{2}')
       OR coalesce(d.rate_type,'') NOT IN ('floor','surcharge','passthrough')
       OR (d.rate_type<>'passthrough' AND (d.rate IS NULL OR NOT isfinite(d.rate) OR d.rate<0))
@@ -146,11 +149,20 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
         coalesce(d.phase='country_exclusion' AND d.rate_type='passthrough' AND d.rate=0,FALSE))
       OR NOT regexp_full_match(coalesce(d.source_heading_sha256,''),'[a-f0-9]{64}')
       OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')
+      OR d.state_valid_from IS NULL OR d.state_valid_until IS NULL OR d.state_valid_from>d.state_valid_until
+      OR (d.authority='ieepa_fentanyl' AND (
+        NOT regexp_full_match(coalesce(d.pdf_sha256,''),'[a-f0-9]{64}')
+        OR coalesce(d.source_note_locator,'')='' OR coalesce(d.source_note,'')=''
+        OR sha256(d.source_note) IS DISTINCT FROM d.source_note_sha256
+        OR (d.decision='ordinary_action_selected' AND d.phase<>'general')
+        OR (d.entry_valid_from IS NOT NULL AND TRY_CAST(d.entry_valid_from AS TIMESTAMPTZ) IS NULL)
+        OR (d.entry_valid_until IS NOT NULL AND TRY_CAST(d.entry_valid_until AS TIMESTAMPTZ) IS NULL)))
       OR (d.amendment_source_id IS NOT NULL AND (d.amendment_effective_from IS NULL
         OR NOT regexp_full_match(coalesce(d.amendment_source_sha256,''),'[a-f0-9]{64}')))`)).getRowObjects()[0].n;
     if(Number(invalidIEEPA)) throw new Error('Invalid IEEPA action decision');
-    const ieepaHashes = (await conn.runAndReadAll(`SELECT DISTINCT hts_sha256,amendment_source_sha256 FROM ${ieepa}`)).getRowObjects();
-    if(ieepaHashes.some(r=>!bundleHashes.has(r.hts_sha256)||(r.amendment_source_sha256&&!bundleHashes.has(r.amendment_source_sha256))))
+    const ieepaHashes = (await conn.runAndReadAll(`SELECT DISTINCT hts_sha256,pdf_sha256,amendment_source_sha256 FROM ${ieepa}`)).getRowObjects();
+    if(ieepaHashes.some(r=>!bundleHashes.has(r.hts_sha256)||(r.pdf_sha256&&!bundleHashes.has(r.pdf_sha256))||
+      (r.amendment_source_sha256&&!bundleHashes.has(r.amendment_source_sha256))))
       throw new Error('IEEPA decisions are absent from bundle sources');
     const metals = `read_parquet([${revision.files.section232_scope_decisions.map(literal).join(',')}], hive_partitioning=false)`;
     const bad232 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${metals} d
@@ -181,13 +193,18 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       JOIN (SELECT DISTINCT hts10,revision FROM ${metals}) d USING(hts10,revision)
       WHERE r.statutory_rate_232 IS NOT NULL`)).getRowObjects()[0].n;
     if(Number(metalTotal)) throw new Error('Section 232 conditional scope escaped as a statutory rate');
-    const mismatch301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN (
-      SELECT hts10,revision,min(rate) expected,min(rate)=max(rate) consistent,
+    // Wide tables represent daily legal states. Exact intraday boundaries
+    // remain in executable rules; compare the source parameter for that day.
+    const inDailyState = `AND (d.valid_from IS NULL OR CAST(substr(d.valid_from,1,10) AS DATE)<=r.valid_from)
+      AND (d.valid_until IS NULL OR CAST(substr(d.valid_until,1,10) AS DATE)>r.valid_from)`;
+    const mismatch301 = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN LATERAL (
+      SELECT min(rate) expected,min(rate)=max(rate) consistent,
         count(DISTINCT ch99_code) headings,bool_and(condition_text IS NOT NULL) needs_inputs
-      FROM ${decisions} WHERE "program"='china_technology_transfer' GROUP BY hts10,revision
-    ) d ON d.hts10=r.hts10 AND d.revision=r.revision WHERE r.country='5700' AND (
-      (d.hts10 IS NULL AND (r.rate_301 IS DISTINCT FROM 0 OR r.statutory_rate_301 IS DISTINCT FROM 0)) OR
-      (d.hts10 IS NOT NULL AND (NOT d.consistent OR d.headings<>1
+      FROM ${decisions} d WHERE d.hts10=r.hts10 AND d.revision=r.revision
+        AND d."program"='china_technology_transfer' ${inDailyState}
+    ) d ON TRUE WHERE r.country='5700' AND (
+      (d.headings=0 AND (r.rate_301 IS DISTINCT FROM 0 OR r.statutory_rate_301 IS DISTINCT FROM 0)) OR
+      (d.headings>0 AND (NOT d.consistent OR d.headings<>1
         OR r.rate_301 IS NULL OR abs(r.rate_301-d.expected)>0.000000001
         OR (d.needs_inputs AND r.statutory_rate_301 IS NOT NULL)
         OR (NOT d.needs_inputs AND (r.statutory_rate_301 IS NULL OR abs(r.statutory_rate_301-d.expected)>0.000000001))))
@@ -197,8 +214,8 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       WHERE country<>'5700' AND (rate_301 IS DISTINCT FROM 0 OR statutory_rate_301 IS DISTINCT FROM 0)`)).getRowObjects()[0].n;
     if(Number(foreign301)) throw new Error('Section 301 technology-transfer origin/completeness mismatch');
     const maritimeMismatch = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r LEFT JOIN
-      (SELECT DISTINCT hts10,revision,country_scope,rate FROM ${decisions} WHERE "program"='maritime') d
-      ON d.hts10=r.hts10 AND d.revision=r.revision AND (d.country_scope='all' OR d.country_scope=r.country)
+      (SELECT DISTINCT hts10,revision,country_scope,rate,valid_from,valid_until FROM ${decisions} WHERE "program"='maritime') d
+      ON d.hts10=r.hts10 AND d.revision=r.revision AND (d.country_scope='all' OR d.country_scope=r.country) ${inDailyState}
       WHERE (d.hts10 IS NULL AND (r.rate_s301_maritime IS DISTINCT FROM 0 OR r.statutory_rate_s301_maritime IS DISTINCT FROM 0))
         OR (d.hts10 IS NOT NULL AND (r.rate_s301_maritime IS NULL OR abs(r.rate_s301_maritime-d.rate)>0.000000001
           OR r.statutory_rate_s301_maritime IS NOT NULL))`)).getRowObjects()[0].n;
@@ -237,12 +254,39 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       expectedClaims.delete(key);
     }
 
+    const states = (await conn.runAndReadAll(`SELECT DISTINCT revision,valid_from::VARCHAR valid_from,
+      valid_from::VARCHAR valid_from_max,valid_until::VARCHAR valid_until,valid_until::VARCHAR valid_until_min FROM ${rates}`)).getRowObjects();
+    validateProjectedIntervals([],states,{full:true});
+    const ordered = [...states].sort((a,b)=>a.valid_from.localeCompare(b.valid_from));
+    const lastDay = new Date(`${ordered.at(-1).valid_until}T00:00:00Z`);
+    lastDay.setUTCDate(lastDay.getUTCDate()+1);
+    // Compare calendar labels for daily data; bundle timestamps additionally
+    // preserve the entry-time rule boundary.
+    if(ordered[0].valid_from!==revision.bundle.valid_from.slice(0,10)
+      || lastDay.toISOString().slice(0,10)!==revision.bundle.valid_until.slice(0,10))
+      throw new Error('Daily state/bundle interval mismatch');
     const invalid = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${rates} r
-      LEFT JOIN ${products} p ON r.hts10=p.hts10 AND r.revision=p.revision WHERE p.hts10 IS NULL`)).getRowObjects()[0].n;
-    if (Number(invalid)) throw new Error('Rates reference missing products_base rows');
-    const productRows = (await conn.runAndReadAll(`SELECT hts10, count(*) AS n FROM ${products} GROUP BY hts10`)).getRowObjects();
-    if (productRows.some(r => Number(r.n) !== 1) || productRows.length !== revision.bundle.products.length
+      LEFT JOIN ${products} p ON r.hts10=p.hts10 AND r.revision=p.revision
+        AND r.valid_from=p.valid_from AND r.valid_until=p.valid_until WHERE p.hts10 IS NULL`)).getRowObjects()[0].n;
+    if (Number(invalid)) throw new Error('Rates reference missing products_base legal states');
+    for(const table of ['products_base','authority_country_rates','authority_product_applicability','authority_exemptions']) {
+      const from = `read_parquet([${revision.files[table].map(literal).join(',')}], hive_partitioning=false)`;
+      const invalidStates = (await conn.runAndReadAll(`SELECT count(*) n FROM ${from} m
+        LEFT JOIN (SELECT DISTINCT revision,valid_from,valid_until FROM ${rates}) r
+        ON m.revision=r.revision AND m.valid_from=r.valid_from AND m.valid_until=r.valid_until
+        WHERE r.revision IS NULL`)).getRowObjects()[0].n;
+      if(Number(invalidStates)) throw new Error(`Inconsistent ${table} legal states`);
+    }
+    const invalidGrid = (await conn.runAndReadAll(`SELECT count(*) n FROM (
+      SELECT hts10,country,count(*) row_count,count(DISTINCT (valid_from,valid_until)) states
+      FROM ${rates} GROUP BY hts10,country HAVING row_count<>${states.length} OR states<>${states.length})`)).getRowObjects()[0].n;
+    if(Number(invalidGrid)) throw new Error('Incomplete or duplicate product-country legal states');
+    const productRows = (await conn.runAndReadAll(`SELECT hts10,count(*) n,
+      count(DISTINCT (valid_from,valid_until)) states FROM ${products} GROUP BY hts10`)).getRowObjects();
+    if (productRows.some(r => Number(r.n)!==states.length || Number(r.states)!==states.length)
+      || productRows.length !== revision.bundle.products.length
       || productRows.some(r => !revision.bundle.products.includes(r.hts10))) throw new Error('Rule/product coverage mismatch');
+
   }
   return { catalog, revisions: prepared.revisions.length, manifest_sha256: prepared.manifestHash };
 }

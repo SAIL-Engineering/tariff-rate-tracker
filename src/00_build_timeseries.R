@@ -52,6 +52,7 @@ library(here)
 # Source pipeline components
 source(here('src', 'logging.R'))
 source(here('src', 'helpers.R'))
+source(here('src', 'legal_intervals.R'))
 source(here('src', 'duty_ledger.R'))
 source(here('src', 'resolve_country_scope.R'))
 source(here('src', 'resolve_product_scope.R'))
@@ -321,21 +322,13 @@ build_full_timeseries <- function(
       #    effective date in their description is after this revision (mirrors
       #    the filter_active_ch99() gate inside calculate_rates_for_revision).
       ieepa_rates <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)
-      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date)
+      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date, revision_id = rev_id)
       s232_rates <- extract_section232_rates(ch99_data)
       usmca <- extract_usmca_eligibility(hts_raw)
 
-      # f. Calculate rates for this revision
-      rates <- calculate_rates_for_revision(
-        products, ch99_data, ieepa_rates, usmca,
-        countries, rev_id, eff_date,
-        s232_rates = s232_rates,
-        fentanyl_rates = fentanyl_rates,
-        stacking_method = stacking_method,
-        policy_params = pp_build,
-        ch99_other = ch99_other,
-        s301_exclusions = s301_exclusions
-      )
+      # f. Re-evaluate every legal state without changing the HTS identity.
+      rates <- calculate_revision_legal_states(products,ch99_data,hts_raw,usmca,
+        countries,rev_id,rev_dates,country_lookup,pp_build,stacking_method,ch99_other)
 
       # g. Save snapshot + parse caches
       saveRDS(rates, file.path(output_dir, paste0('snapshot_', rev_id, '.rds')))
@@ -347,7 +340,7 @@ build_full_timeseries <- function(
       if (!is.na(tpc_date) && file.exists(tpc_path)) {
         tryCatch({
           validation <- validate_revision_against_tpc(
-            revision_rates = rates,
+            revision_rates = rates %>% filter(valid_from <= as.Date(tpc_date), valid_until >= as.Date(tpc_date)),
             tpc_path      = tpc_path,
             tpc_date      = tpc_date,
             census_codes  = census_codes
@@ -726,10 +719,9 @@ build_full_timeseries <- function(
     }
 
     snap <- enforce_rate_schema(snap)
-    snap <- snap %>%
-      select(-any_of(c('valid_from', 'valid_until'))) %>%
-      left_join(rev_intervals, by = 'revision') %>%
-      arrange(country, hts10)
+    interval <- rev_intervals[rev_intervals$revision==rev_name,]
+    snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until) %>%
+      arrange(valid_from,country,hts10)
 
     total_rows <- total_rows + nrow(snap)
     n_revisions_written <- n_revisions_written + 1
@@ -1179,21 +1171,15 @@ reemit_normalized_for_cached <- function(
       json_path <- resolve_json_path(rev_id, archive_dir)
       hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
       ieepa_rates    <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)
-      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date)
+      fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date, revision_id = rev_id)
       s232_rates     <- extract_section232_rates(ch99_data)
       usmca          <- extract_usmca_eligibility(hts_raw)
 
-      # Run the full rate calculator — the Phase 2 dual-write fires inside
-      # and the normalized parquets land. We discard the returned rates
-      # tibble; the denormalized parquet dataset is untouched.
-      calculate_rates_for_revision(
-        products, ch99_data, ieepa_rates, usmca,
-        countries, rev_id, eff_date,
-        s232_rates = s232_rates,
-        fentanyl_rates = fentanyl_rates,
-        stacking_method = 'mutual_exclusion',
-        policy_params = pp_build
-      )
+      # Re-emission follows the same legal-state calendar as a full build.
+      # It still does not update the wide snapshot; release parity must be
+      # checked after the separately requested full/manual rebuild.
+      calculate_revision_legal_states(products,ch99_data,hts_raw,usmca,countries,
+        rev_id,rev_dates,country_lookup,pp_build,'mutual_exclusion')
       message('  ok')
     }, error = function(e) {
       message('  FAILED: ', conditionMessage(e))

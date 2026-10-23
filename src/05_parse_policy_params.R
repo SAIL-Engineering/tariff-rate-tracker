@@ -15,6 +15,8 @@
 library(tidyverse)
 library(jsonlite)
 source(here::here("src","ieepa_actions.R"))
+source(here::here("src","ieepa_fentanyl.R"))
+source(here::here('src/section122_revision.R'))
 
 # =============================================================================
 # Constants (loaded from YAML)
@@ -433,7 +435,20 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
 #'   products), or 'carveout' for product-specific lower/higher rates (e.g.,
 #'   energy/minerals, potash). The general entry is identified by "Except for
 #'   products described in" language in the description.
-extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date = NULL) {
+extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date = NULL, revision_id = NULL) {
+  if(!is.null(revision_id) && grepl('^202[56]_',revision_id)) {
+    evidence <- load_ieepa_emergency_source(revision_id)
+    # Reject mismatched in-memory JSON, not just mismatched source filenames.
+    archived <- jsonlite::fromJSON(evidence$sources[[2]]$path,simplifyVector=FALSE)
+    if(!identical(hts_raw,archived)) stop('Emergency extraction revision/JSON mismatch')
+    rows <- emergency_source_rows(evidence,country_lookup)
+    selected <- select_ieepa_emergency_actions(rows,effective_date,daily=TRUE)
+    attr(selected,'emergency_source') <- evidence
+    attr(selected,'emergency_candidates') <- rows
+    return(selected)
+  }
+  # Legacy/synthetic heading-only parsing. Production 2025/26 callers supply
+  # the revision and therefore require the complete note evidence above.
   message('Extracting IEEPA fentanyl/initial rates...')
 
   # Filter to 9903.01.01 through 9903.01.24
@@ -486,28 +501,15 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date
 
     # Detect general vs carveout: general entries say "Except for products described in"
     is_general <- grepl('Except for products described in', description, ignore.case = TRUE)
+    is_conditional <- grepl('transshipped to evade',description,ignore.case=TRUE)
 
-    # Extract country from description; fall back to ch99_code range if
-    # description doesn't mention a country (e.g., 9903.01.13 lists product
-    # categories for CA energy without saying "Canada").
+    # A heading-only parse cannot infer origin from a numbering block.
     country_names <- extract_countries_from_description(description)
-
-    if (length(country_names) == 0) {
-      # Infer country from ch99_code block structure:
-      #   9903.01.01-09 → Mexico
-      #   9903.01.10-19 → Canada
-      #   9903.01.20-24 → China/Hong Kong
-      suffix <- as.integer(sub('^9903\\.01\\.', '', ch99_code))
-      inferred_country <- case_when(
-        suffix >= 1L  & suffix <= 9L  ~ 'Mexico',
-        suffix >= 10L & suffix <= 19L ~ 'Canada',
-        suffix >= 20L & suffix <= 24L ~ 'China',
-        TRUE ~ NA_character_
-      )
-      if (is.na(inferred_country)) return(NULL)
-      country_names <- inferred_country
-      message('    Inferred country for ', ch99_code, ': ', inferred_country)
+    if(!length(country_names)) {
+      explicit <- str_match(description,'products? of (.+?)(?:,| described in|$)')[,2]
+      if(!is.na(explicit)) country_names <- strsplit(explicit,' and ',fixed=TRUE)[[1]]
     }
+    if (!length(country_names)) stop('Full note evidence required for origin: ', ch99_code)
 
     matched <- match_countries(country_names, country_lookup)
 
@@ -516,7 +518,7 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date
       rate = rate,
       country_name = matched$country_name,
       census_code = matched$census_code,
-      entry_type = if_else(is_general, 'general', 'carveout')
+      entry_type = if(is_conditional) 'conditional_replacement' else if(is_general) 'general' else 'carveout'
     )
   })
 
@@ -530,7 +532,7 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date
   }
 
   # Drop unmatched countries
-  results <- results %>% filter(!is.na(census_code))
+  if(anyNA(results$census_code)) stop('Unmatched IEEPA emergency origin')
 
   message('  Fentanyl rates parsed:')
   for (i in seq_len(nrow(results))) {
@@ -587,7 +589,7 @@ extract_section232_rates <- function(ch99_data) {
   # override (census-keyed), mirroring the UK steel-deal mechanism, and exclude
   # the entry from the blanket so the all-country rate stays correct.
   #
-  # NOTE: Russia 200% (steel + aluminum, Proc 10522) is intentionally NOT in
+  # NOTE: Russia 200% (aluminum only, Proc 10522) is intentionally NOT in
   # this map. It is already applied across 2023-2026 by the COUNTRY-CODE config
   # `section_232_country_exemptions` (Russia '4621', rate 2.0, expiry_date: null
   # -> step-4 loop in 06_calculate_rates.R), and carried into the annex era by
@@ -991,7 +993,7 @@ extract_section232_rates <- function(ch99_data) {
 #' all countries). Applied after SCOTUS invalidated IEEPA authority.
 #'
 #' Parses 9903.03.01 for the base 10% rate. Product exemptions (Annex II)
-#' are handled separately via resources/s122_exempt_products.csv.
+#' are extracted from the matching revision's complete note 2(aa).
 #'
 #' @param ch99_data Parsed Chapter 99 data from parse_chapter99()
 #' @return List with s122_rate (numeric) and has_s122 (logical)
@@ -1000,14 +1002,16 @@ extract_section122_rates <- function(ch99_data) {
 
   # Look for 9903.03.01 (base Section 122 duty)
   s122_entries <- ch99_data %>%
-    filter(grepl('^9903\\.03\\.01$', ch99_code), !is.na(rate))
+    filter(grepl('^9903\\.03\\.01$', ch99_code))
 
   if (nrow(s122_entries) == 0) {
     message('  No Section 122 entries found')
     return(list(s122_rate = 0, has_s122 = FALSE))
   }
 
-  s122_rate <- max(s122_entries$rate)
+  if(anyNA(s122_entries$rate) || length(unique(s122_entries$rate))!=1L)
+    stop('Missing or conflicting Section 122 heading rate')
+  s122_rate <- unique(s122_entries$rate)
   message('  Section 122 base rate (9903.03.01): ', round(s122_rate * 100), '%')
 
   return(list(s122_rate = s122_rate, has_s122 = TRUE))

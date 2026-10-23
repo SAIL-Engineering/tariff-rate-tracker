@@ -39,7 +39,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
     authority_country_rates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", 'TEST'::VARCHAR country,NULL::DOUBLE reciprocal_parameter,NULL::DOUBLE country_eo_parameter,NULL::VARCHAR reciprocal_ch99,NULL::VARCHAR country_eo_ch99",
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
     authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
-    ieepa_action_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR country,''::VARCHAR ch99_code,0::DOUBLE rate,''::VARCHAR rate_type,''::VARCHAR phase,FALSE::BOOLEAN terminated,''::VARCHAR decision,''::VARCHAR source_description,''::VARCHAR duty_expression,''::VARCHAR source_heading_sha256,''::VARCHAR hts_sha256,NULL::VARCHAR amendment_source_id,NULL::VARCHAR amendment_source_sha256,NULL::VARCHAR amendment_effective_from WHERE FALSE",
+    ieepa_action_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR country,''::VARCHAR ch99_code,0::DOUBLE rate,''::VARCHAR rate_type,''::VARCHAR phase,FALSE::BOOLEAN terminated,''::VARCHAR decision,''::VARCHAR source_description,''::VARCHAR duty_expression,''::VARCHAR source_heading_sha256,''::VARCHAR hts_sha256,NULL::VARCHAR amendment_source_id,NULL::VARCHAR amendment_source_sha256,NULL::VARCHAR amendment_effective_from,NULL::VARCHAR pdf_sha256,NULL::VARCHAR source_note_locator,NULL::VARCHAR source_note_sha256,NULL::VARCHAR source_note,NULL::VARCHAR entry_valid_from,NULL::VARCHAR entry_valid_until,NULL::DATE state_valid_from,NULL::DATE state_valid_until WHERE FALSE",
     section232_scope_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR hts10,''::VARCHAR scope_code,0::INTEGER scope_grain,''::VARCHAR list_id,''::VARCHAR metal,FALSE::BOOLEAN derivative,''::VARCHAR source_locator,''::VARCHAR source_text_sha256,''::VARCHAR pdf_sha256,''::VARCHAR hts_sha256 WHERE FALSE",
     section301_scope_decisions: "SELECT 'test'::VARCHAR revision, 'section_301'::VARCHAR authority, 'china_technology_transfer'::VARCHAR AS \"program\", '5700'::VARCHAR country_scope, '1234567890'::VARCHAR hts10, '9903.88.01'::VARCHAR ch99_code, 0.25::DOUBLE rate, NULL::VARCHAR condition_text, 'fixture'::VARCHAR source_locator, repeat('0',64)::VARCHAR source_text_sha256, repeat('0',64)::VARCHAR pdf_sha256, repeat('0',64)::VARCHAR hts_sha256, NULL::VARCHAR valid_from, NULL::VARCHAR valid_until WHERE FALSE",
     claim_effects: "SELECT ''::VARCHAR revision,''::VARCHAR claim_id,''::VARCHAR rule_id,''::VARCHAR authority,''::VARCHAR effect,''::VARCHAR target_reporting_code,''::VARCHAR hts10,''::VARCHAR country,''::VARCHAR valid_from,''::VARCHAR valid_until,''::VARCHAR source_ids_json,''::VARCHAR condition_json,''::VARCHAR source_locator,''::VARCHAR source_scope_sha256 WHERE FALSE",
@@ -48,13 +48,15 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   const hashFile = async name => ({ path: name, sha256: crypto.createHash('sha256').update(await fs.readFile(path.join(root, name))).digest('hex') });
   for (const [name, sql] of Object.entries(statements)) {
     const filename = `${version}-${name}.parquet`;
-    await conn.run(`COPY (${sql}) TO '${path.join(root, filename)}' (FORMAT PARQUET)`);
+    const projected = ['rates','products_base','authority_country_rates','authority_product_applicability','authority_exemptions'].includes(name)
+      ? `SELECT *, DATE '2026-01-01' valid_from, DATE '2026-12-31' valid_until FROM (${sql})` : sql;
+    await conn.run(`COPY (${projected}) TO '${path.join(root, filename)}' (FORMAT PARQUET)`);
     revision[name] = [await hashFile(filename)];
   }
   const rules = `${version}-rules.json`;
   await fs.writeFile(path.join(root, rules), JSON.stringify(bundle));
   revision.rules = await hashFile(rules);
-  const manifest = { contract_version: 'sail.tariff-release/v4', dataset_version: version,
+  const manifest = { contract_version: 'sail.tariff-release/v5', dataset_version: version,
     evidence_snapshot_id: bundle.evidence_snapshot_id, required_revisions: ['test'], revisions: [revision] };
   const file = path.join(root, `${version}-manifest.json`);
   await fs.writeFile(file, JSON.stringify(manifest));
@@ -91,12 +93,12 @@ test('local Parquet release prepares atomically, validates target and preserves 
   await assert.rejects(prepareRelease(conn, prepared, catalog), /immutable/);
 }));
 
-test('release v4 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
+test('release v5 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
   const {file,manifest}=await manifestFixture(conn,root);
   manifest.contract_version='sail.tariff-release/v1';
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Unsupported release/);
-  manifest.contract_version='sail.tariff-release/v4';
+  manifest.contract_version='sail.tariff-release/v5';
   delete manifest.revisions[0].section301_scope_decisions;
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Missing section301_scope_decisions/);
@@ -114,7 +116,7 @@ test('release preflight rejects unattributed Section 301 wide rates', () => with
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
-test('release v4 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates', () => withDatabase(async (conn,root)=>{
+test('release v5 retains all note 16 memberships and rejects incomplete inventories or numeric conditional rates', () => withDatabase(async (conn,root)=>{
   const {file,manifest}=await manifestFixture(conn,root);
   const revision=manifest.revisions[0];
   const replace=async(name,sql,suffix)=>{
@@ -280,7 +282,7 @@ test('candidate provenance preflight rejects missing scope and cross-product mem
   }
 }));
 
-test('release v4 requires claim chronology and validates every executable effect before preparation', () => withDatabase(async (conn,root)=>{
+test('release v5 requires claim chronology and validates every executable effect before preparation', () => withDatabase(async (conn,root)=>{
   const {file,manifest,bundle}=await manifestFixture(conn,root);
   const artifact=manifest.revisions[0].claim_effects;
   delete manifest.revisions[0].claim_effects;
@@ -321,7 +323,7 @@ test('release v4 requires claim chronology and validates every executable effect
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
-test('release v4 persists IEEPA provenance and rejects missing or mixed source data',()=>withDatabase(async(conn,root)=>{
+test('release v5 persists IEEPA note provenance and legal-state intervals',()=>withDatabase(async(conn,root)=>{
   const {file,manifest}=await manifestFixture(conn,root);
   const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
   const table='ieepa_action_decisions',artifact=manifest.revisions[0][table];
@@ -332,11 +334,13 @@ test('release v4 persists IEEPA provenance and rejects missing or mixed source d
     rate_type:'floor',phase:'phase2_aug7',terminated:false,decision:'ordinary_action_selected',
     source_description:'Synthetic action evidence',duty_expression:'15%',source_heading_sha256:'0'.repeat(64),
     hts_sha256:'0'.repeat(64),amendment_source_id:'fixture',amendment_source_sha256:'0'.repeat(64),
-    amendment_effective_from:'2025-08-07T00:01:00-04:00'};
+    amendment_effective_from:'2025-08-07T00:01:00-04:00',pdf_sha256:null,source_note_locator:null,
+    source_note_sha256:null,source_note:null,entry_valid_from:null,entry_valid_until:null,
+    state_valid_from:'2025-08-07',state_valid_until:'2025-08-31'};
   const rewrite=async value=>{
     const json=path.join(root,'ieepa.json'),parquet=path.join(root,'ieepa.parquet');
     await fs.writeFile(json,JSON.stringify([value]));await fs.rm(parquet,{force:true});
-    const columns=Object.fromEntries(Object.keys(row).map(k=>[k,k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':'VARCHAR']));
+    const columns=Object.fromEntries(Object.keys(row).map(k=>[k,k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':k.startsWith('state_valid_')?'DATE':'VARCHAR']));
     await conn.run(`COPY (SELECT * FROM read_json('${json}',columns=${JSON.stringify(columns)})) TO '${parquet}' (FORMAT PARQUET)`);
     artifact[0]={path:path.basename(parquet),sha256:crypto.createHash('sha256').update(await fs.readFile(parquet)).digest('hex')};
     await fs.writeFile(file,JSON.stringify(manifest));return readReleaseManifest(file);
@@ -349,10 +353,58 @@ test('release v4 persists IEEPA provenance and rejects missing or mixed source d
   const exclusion={...row,ch99_code:'9903.01.29',rate:0,rate_type:'passthrough',phase:'country_exclusion',duty_expression:''};
   await preflightRelease(conn,await rewrite(exclusion),catalog);
   await assert.rejects(preflightRelease(conn,await rewrite({...exclusion,rate:null}),catalog),/IEEPA/);
+  const note='Synthetic complete note, with independently retained heading and entry window';
+  const emergency={...row,authority:'ieepa_fentanyl',ch99_code:'9903.01.10',rate:.35,rate_type:'surcharge',
+    phase:'general',pdf_sha256:'0'.repeat(64),source_note_locator:'U.S. note 2(j)',source_note:note,
+    source_note_sha256:crypto.createHash('sha256').update(note).digest('hex'),entry_valid_from:'2025-08-01T00:01:00-04:00'};
+  await preflightRelease(conn,await rewrite(emergency),catalog);
+  for(const change of [{source_note:note+' altered'},{pdf_sha256:null},{source_note_locator:null},
+    {phase:'conditional_replacement'},{entry_valid_from:'unknown'},{state_valid_until:'2025-08-01'}])
+    await assert.rejects(preflightRelease(conn,await rewrite({...emergency,...change}),catalog),/IEEPA/);
   const prepared=await rewrite(row);await preflightRelease(conn,prepared,catalog);
   await prepareRelease(conn,prepared,catalog);
   const stored=(await conn.runAndReadAll(`SELECT * FROM "${prepared.schema}".${table}`)).getRowObjects();
   assert.equal(stored.length,1);assert.equal(stored[0].rate,.15);
   assert.equal(stored[0].amendment_effective_from,row.amendment_effective_from);
+  assert.equal(await activeShipmentRelease(conn),null);
+}));
+
+test('release compares Section 301 at each legal state and rejects missing or overlapping state grids',()=>withDatabase(async(conn,root)=>{
+  const {file,manifest}=await manifestFixture(conn,root);
+  const rev=manifest.revisions[0];
+  const replace=async(name,sql,suffix)=>{
+    const target=path.join(root,`${name}-${suffix}.parquet`);
+    await conn.run(`COPY (${sql}) TO '${target}' (FORMAT PARQUET)`);
+    rev[name]=[{path:path.basename(target),sha256:crypto.createHash('sha256').update(await fs.readFile(target)).digest('hex')}];
+    await fs.writeFile(file,JSON.stringify(manifest));
+  };
+  const originalRates=path.join(root,rev.rates[0].path), originalProducts=path.join(root,rev.products_base[0].path);
+  const states="(VALUES (DATE '2026-01-01',DATE '2026-06-30',0.25),(DATE '2026-07-01',DATE '2026-12-31',0.50)) s(start_day,end_day,rate)";
+  await replace('rates',`SELECT r.* REPLACE ('5700' AS country,s.start_day AS valid_from,s.end_day AS valid_until,
+    s.rate::DOUBLE AS rate_301,s.rate::DOUBLE AS statutory_rate_301) FROM read_parquet('${originalRates}') r CROSS JOIN ${states}`,'states');
+  const fullRates=path.join(root,rev.rates[0].path);
+  await replace('products_base',`SELECT p.* REPLACE (s.start_day AS valid_from,s.end_day AS valid_until)
+    FROM read_parquet('${originalProducts}') p CROSS JOIN ${states}`,'states');
+  for(const table of ['authority_country_rates','authority_product_applicability','authority_exemptions']) {
+    const original=path.join(root,rev[table][0].path);
+    await replace(table,`SELECT m.* REPLACE (s.start_day AS valid_from,s.end_day AS valid_until)
+      FROM read_parquet('${original}') m CROSS JOIN ${states}`,'states');
+  }
+  await replace('section301_scope_decisions',`SELECT 'test' revision,'section_301' authority,'china_technology_transfer' AS "program",
+    '5700' country_scope,'1234567890' hts10,'9903.88.01' ch99_code,s.rate::DOUBLE rate,NULL::VARCHAR condition_text,
+    'fixture' source_locator,repeat('0',64) source_text_sha256,repeat('0',64) pdf_sha256,repeat('0',64) hts_sha256,
+    s.start_day::VARCHAR||'T00:01:00-05:00' valid_from,(s.end_day+1)::VARCHAR||'T00:01:00-05:00' valid_until FROM ${states}`,'states');
+  const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  await preflightRelease(conn,await readReleaseManifest(file),catalog);
+  // Holding the old parameter through the later state cannot pass provenance checks.
+  await replace('rates',`SELECT * REPLACE (0.25::DOUBLE AS rate_301,0.25::DOUBLE AS statutory_rate_301) FROM read_parquet('${fullRates}')`,'stale');
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Section 301 normalized\/wide/);
+  // An extra origin in just one state is a partial grid even when its rates are zero.
+  await replace('rates',`SELECT * FROM read_parquet('${fullRates}') UNION ALL
+    SELECT * REPLACE ('OTHER' AS country,0::DOUBLE AS rate_301,0::DOUBLE AS statutory_rate_301)
+    FROM read_parquet('${fullRates}') WHERE valid_from=DATE '2026-01-01'`,'missing-origin');
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/product-country legal states/);
+  await replace('rates',`SELECT * FROM read_parquet('${fullRates}') UNION ALL SELECT * FROM read_parquet('${fullRates}') WHERE valid_from=DATE '2026-01-01'`,'duplicate');
+  await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/product-country legal states/);
   assert.equal(await activeShipmentRelease(conn),null);
 }));

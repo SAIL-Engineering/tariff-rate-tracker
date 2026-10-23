@@ -53,3 +53,24 @@ out <- tempfile(); dir.create(out)
 other <- emit_authority_exemptions('0101210010',NULL,NULL,'other','2025-01-01',out)
 stopifnot(is.character(other$shipment_valuation_basis), all(is.na(other$shipment_valuation_basis)))
 unlink(out,recursive=TRUE)
+
+# Production revision extraction keeps the statistical suffix in note 2(aa)(ii).
+source('src/section122_revision.R')
+source122 <- load_s122_revision_source('2026_rev_4')
+ex122 <- s122_exemptions_from_source(source122)
+siblings <- c('8505110010','8505110030','8505110070','8505110090')
+stopifnot(identical(s122_exempt_share(siblings,statutory=TRUE,exemptions=ex122),c(0,0,1,0)),
+  identical(s122_exempt_share(siblings,exemptions=ex122),c(0,0,1,0)))
+stopifnot(s122_exempt_share('3917330000',statutory=TRUE,exemptions=ex122)==0,
+  abs(s122_exempt_share('3917330000',exemptions=ex122)-0.6794028757556119)<1e-8)
+out <- tempfile();dir.create(out)
+matched <- s122_match_exemptions(c(siblings,'3917330000'),ex122)
+state <- list(s122=list(in_force=TRUE,exempt_hts8=ex122$scope_code,exemptions=ex122,source=source122,
+  modeled_exemptions=tibble(hts10=matched$hts10,
+    exemption_share=s122_exempt_share(matched$hts10,exemptions=ex122))))
+r <- emit_authority_exemptions(NULL,NULL,NULL,'2026_rev_4','2026-03-10',out,denorm_state=state)
+stopifnot(setequal(r$hts10,c('8505110070','3917330000')),
+  r$statutory_exemption_share[r$hts10=='8505110070']==1,
+  is.na(r$statutory_exemption_share[r$hts10=='3917330000']))
+unlink(out,recursive=TRUE)
+cat('Revision-bound Section 122 exact suffix and adjacent-code normalized parity passed\n')

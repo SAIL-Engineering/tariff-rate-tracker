@@ -2102,7 +2102,7 @@ enforce_rate_schema <- function(df) {
     defaults[[col]] <- NA_real_
   for(col in c('s232_action_attribution_status','modeled_s232_residual_action',
     's232_note16_status','s232_note16_lists_json','s232_note16_metals_json',
-    'ieepa_recip_ch99','ieepa_selected_actions_json','ch99_src_ieepa_country_eo')) defaults[[col]] <- NA_character_
+    'ieepa_recip_ch99','ieepa_selected_actions_json','ch99_src_ieepa_country_eo','ch99_src_ieepa_fent')) defaults[[col]] <- NA_character_
   for(col in c('modeled_s232_note16_combined_metals','modeled_ieepa_reciprocal_exempt','modeled_ieepa_duty_free'))
     defaults[[col]] <- NA
 
@@ -4161,6 +4161,7 @@ resolve_ch99_codes <- function(rates, ch99_data,
 
   # ---- IEEPA fentanyl (country-specific) ----
   if ('rate_ieepa_fent' %in% names(rates)) {
+    forward <- if('ch99_src_ieepa_fent' %in% names(rates)) rates$ch99_src_ieepa_fent else rep(NA_character_,nrow(rates))
     fent_map <- NULL
     if (!is.null(fentanyl_rates) && nrow(fentanyl_rates) > 0 &&
         all(c('ch99_code', 'census_code') %in% names(fentanyl_rates))) {
@@ -4176,7 +4177,7 @@ resolve_ch99_codes <- function(rates, ch99_data,
       rates <- rates %>%
         left_join(fent_map, by = 'country') %>%
         mutate(
-          ch99_code_ieepa_fent = if_else(rate_ieepa_fent > 0, .fent_code, NA_character_)
+          ch99_code_ieepa_fent = if_else(rate_ieepa_fent > 0, coalesce(forward,.fent_code), NA_character_)
         ) %>%
         select(-.fent_code)
     }
@@ -4666,14 +4667,15 @@ load_s301fl_exemptions <- function(fl_cfg) {
 s122_exempt_share <- function(hts10,
                               exempt_path = here('resources', 's122_exempt_products.csv'),
                               util_path = here('resources', 's122_aircraft_utilization.csv'),
-                              statutory = FALSE) {
+                              statutory = FALSE, exemptions = NULL) {
   n <- length(hts10)
   if (n == 0) return(numeric(0))
-  if (!file.exists(exempt_path)) stop('Section 122 exemption source missing: ', exempt_path)
-
-  ex <- suppressWarnings(read_csv(exempt_path, col_types = cols(.default = col_character())))
-  if (!'hts8' %in% names(ex) || anyDuplicated(ex$hts8) || any(!grepl('^[0-9]{8}$', ex$hts8)))
-    stop('Section 122 exemption source has invalid product precision')
+  if(!exists('s122_scope_rows',mode='function')) source(here::here('src/section122_revision.R'))
+  if(is.null(exemptions)) {
+    if (!file.exists(exempt_path)) stop('Section 122 exemption source missing: ', exempt_path)
+    exemptions <- suppressWarnings(read_csv(exempt_path, col_types = cols(.default = col_character())))
+  }
+  ex <- s122_scope_rows(exemptions)
   # Legacy aggregate artifacts retain their historical interpretation, but may
   # never certify a shipment exemption without the condition column.
   if (!'condition' %in% names(ex)) {
@@ -4684,11 +4686,12 @@ s122_exempt_share <- function(hts10,
     stop('Section 122 exemption source has unknown conditions')
 
   hts8 <- substr(hts10, 1, 8)
-  uncond <- unique(ex$hts8[ex$condition == 'none'])
-  gn6    <- unique(ex$hts8[ex$condition == 'gn6_civil_aircraft'])
+  matches <- s122_match_exemptions(hts10,ex)
+  uncond <- matches$hts10[matches$condition == 'none']
+  gn6 <- matches$hts10[matches$condition == 'gn6_civil_aircraft']
 
   share <- rep(0, n)
-  share[hts8 %in% uncond] <- 1
+  share[hts10 %in% uncond] <- 1
 
   # CSMS 67844987 / note 2(aa)(iv): the use condition must be established for
   # a shipment. Only the model consumes measured or fallback utilization.
@@ -4700,9 +4703,11 @@ s122_exempt_share <- function(hts10,
   # CBP CSMS 67844987 requires adjusted values for specified Chapter 98 entries;
   # the model's prior full exemption is not a legal assertion. modeled_s122_exempt_share
   # exposes the assumption; statutory duty remains unclaimed and unblended.
-  share[hts8 %in% ex$hts8[ex$condition %in% c('article_description', 'chapter98_adjusted_value', 'chapter98_claim')]] <- 1
+  share[hts10 %in% matches$hts10[matches$condition %in% c('article_description', 'chapter98_adjusted_value', 'chapter98_claim')]] <- 1
 
-  is_gn6 <- hts8 %in% gn6 & share == 0
+  # Preserve the model's historic full Chapter 98 share; it is not a claim.
+  share[startsWith(hts10,'98') & hts10 %in% matches$hts10] <- 1
+  is_gn6 <- hts10 %in% gn6 & share == 0
   if (any(is_gn6)) {
     gn6_share <- rep(1, n)                       # final fallback: full exemption
     if (file.exists(util_path)) {
@@ -4728,7 +4733,7 @@ s122_exempt_share <- function(hts10,
 #'
 #' A duty whose effective date falls strictly INSIDE a revision interval (§301
 #' Brazil: 2026-07-22 vs rev_12 published 2026-07-21) or after the last published
-#' revision (§338 Canada: 2026-08-19) must still be COMPUTED for the enclosing
+#' revision (§338 Canada: 2026-08-22) must still be COMPUTED for the enclosing
 #' revision, so the activation gate can then expose it only from its effective
 #' date onward. Computing it only when `revision effective_date >= activation`
 #' would delay the duty to the next revision — days or weeks late.
@@ -4820,8 +4825,14 @@ load_s338_actions <- function(cfg, effective_date) {
     if (!file.exists(path)) stop('section_338 amendment source missing')
     amendments <- jsonlite::fromJSON(path, simplifyVector = FALSE)
     dates <- vapply(amendments, function(a) a$effective_at, character(1))
-    for (a in amendments[order(dates)]) {
+    if(anyDuplicated(vapply(amendments,function(a) paste(a$program,a$effective_at),character(1))))
+      stop('section_338 conflicting amendments at the same legal instant')
+    for (a in amendments[order(dates,vapply(amendments,`[[`,character(1),'id'))]) {
       if (as.Date(substr(a$effective_at, 1, 10)) > as.Date(effective_date)) next
+      primary <- a$source_path
+      if(is.null(primary)||!file.exists(here(primary))||is.null(a$sha256)||
+          !identical(digest::digest(file=here(primary),algo='sha256'),a$sha256))
+        stop('section_338 amendment primary-source hash mismatch: ',a$id)
       scope <- rows$program == a$program
       remove <- unlist(a$delete)
       if (!all(remove %in% rows$hts_code[scope]))
@@ -5823,7 +5834,7 @@ collect_expiry_adjustments <- function(policy_params) {
 #' last published revision entirely — the HTS revision cadence and the Federal
 #' Register effective dates are independent. Examples:
 #'   - §301 Brazil       eff. 2026-07-22, but rev_12 is dated 2026-07-21
-#'   - §338 Canada       eff. 2026-08-19, carried by NO published revision yet
+#'   - §338 Canada       eff. 2026-08-22 after Proclamation 11056's suspension
 #' Applying such a duty at the enclosing revision boundary would be days early;
 #' waiting for the next revision would be days late.
 #'

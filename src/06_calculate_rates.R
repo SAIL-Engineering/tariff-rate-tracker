@@ -645,7 +645,9 @@ calculate_rates_for_revision <- function(
   stacking_method = 'mutual_exclusion',
   policy_params = NULL,
   ch99_other = NULL,
-  s301_exclusions = NULL
+  s301_exclusions = NULL,
+  normalized_output_dir = NULL,
+  normalized_valid_until = NULL
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
 
@@ -786,6 +788,7 @@ calculate_rates_for_revision <- function(
   # 1b. At-entry collection follows CBP CSMS 67834313, not the earlier
   # ruling date. Preserve source actions even after collection ceases.
   denorm_ieepa_evidence <- ieepa_rates
+  denorm_fentanyl_evidence <- fentanyl_rates
   ieepa_was_invalidated <- has_ieepa_collection_ended(effective_date)
   if(ieepa_was_invalidated) {
     message('  IEEPA collection ended at this entry date: ',revision_id)
@@ -1125,14 +1128,9 @@ calculate_rates_for_revision <- function(
   has_fentanyl <- !is.null(fentanyl_rates) && nrow(fentanyl_rates) > 0
 
   if (has_fentanyl) {
-    # Separate general (blanket) and carve-out entries.
-    # Some countries have multiple general entries (e.g., China 9903.01.20 +10%
-    # and 9903.01.24 +20%) — the later entry supersedes. Take max rate per
-    # country to get the effective rate (avoids row multiplication in joins).
-    general_fent <- fentanyl_rates %>%
-      filter(entry_type == 'general') %>%
-      group_by(census_code) %>%
-      summarise(fent_rate = max(rate), .groups = 'drop')
+    # Chronology and conditional replacements are resolved before joining.
+    # A larger rate is never proof that an ordinary action supersedes another.
+    general_fent <- ordinary_emergency_parameters(fentanyl_rates) %>% select(-fent_ch99)
 
     carveout_fent <- fentanyl_rates %>%
       filter(entry_type == 'carveout') %>%
@@ -1147,8 +1145,11 @@ calculate_rates_for_revision <- function(
       # HTS8 × country → carve-out rate (join product list to parsed ch99 entries)
       carveout_lookup <- carveout_products %>%
         inner_join(carveout_fent, by = 'ch99_code') %>%
-        distinct(hts8, census_code, .keep_all = TRUE) %>%
-        select(hts8, census_code, carveout_rate)
+        distinct(hts8, census_code, carveout_rate, ch99_code) %>%
+        rename(carveout_ch99=ch99_code)
+      if(anyDuplicated(carveout_lookup[c('hts8','census_code')]))
+        stop('Conflicting emergency product carve-outs require source reconciliation')
+
     }
 
     # Apply fentanyl to existing rows: general rate with carve-out overrides
@@ -1161,7 +1162,7 @@ calculate_rates_for_revision <- function(
         mutate(
           rate_ieepa_fent = coalesce(carveout_rate, fent_rate, 0)
         ) %>%
-        select(-fent_rate, -carveout_rate, -.hts8)
+        select(-fent_rate, -carveout_rate, -carveout_ch99, -.hts8)
 
       n_carveout <- sum(rates$rate_ieepa_fent > 0 &
                         rates$rate_ieepa_fent < max(general_fent$fent_rate, na.rm = TRUE))
@@ -1191,7 +1192,17 @@ calculate_rates_for_revision <- function(
         mutate(
           rate_ieepa_fent = if_else(!is.na(carveout_rate), carveout_rate, rate_ieepa_fent)
         ) %>%
-        select(-carveout_rate, -.hts8)
+        select(-carveout_rate, -carveout_ch99, -.hts8)
+    }
+
+    # Preserve the selected action before rollups and modeled claim shares.
+    # Energy and potash use their own heading, never the general country code.
+    general_codes <- ordinary_emergency_parameters(fentanyl_rates)
+    rates$ch99_src_ieepa_fent <- general_codes$fent_ch99[match(rates$country,general_codes$census_code)]
+    if(has_carveouts) {
+      ix <- match(paste(substr(rates$hts10,1,8),rates$country),
+        paste(carveout_lookup$hts8,carveout_lookup$census_code))
+      rates$ch99_src_ieepa_fent[!is.na(ix)] <- carveout_lookup$carveout_ch99[ix[!is.na(ix)]]
     }
 
     # Apply Ch98 exemption (US Note 2(v)(i)) to fentanyl rate.
@@ -2608,22 +2619,32 @@ calculate_rates_for_revision <- function(
   if (s122_rates$has_s122 && s122_in_force) {
     s122_rate <- s122_rates$s122_rate
 
-    # Load product exemptions (Annex II)
-    s122_exempt_path <- here('resources', 's122_exempt_products.csv')
-    if (!file.exists(s122_exempt_path)) stop('Section 122 exemption source missing')
-    s122_exemptions <- read_csv(s122_exempt_path, col_types = cols(.default = col_character()))
+    # Identified production revisions use their full note, including exact
+    # statistical suffixes. Legacy fixtures retain the explicit local source.
+    if(grepl('^202[56]_',revision_id)) {
+      s122_source <- load_s122_revision_source(revision_id)
+      if(!identical(as.numeric(s122_source$rate),as.numeric(s122_rate)))
+        stop('Section 122 PDF/heading rate mismatch')
+      s122_exemptions <- s122_exemptions_from_source(s122_source)
+      denorm_state_s122$source <- s122_source
+    } else {
+      s122_exempt_path <- here('resources','s122_exempt_products.csv')
+      if(!file.exists(s122_exempt_path)) stop('Section 122 exemption source missing')
+      s122_exemptions <- read_csv(s122_exempt_path,col_types=cols(.default=col_character()))
+    }
+    s122_exemptions <- s122_scope_rows(s122_exemptions)
     # CSMS 67844987: subdivision (iii) is description/use-limited; (iv) is
     # GN6-conditional. Preserve these predicates in normalized output. The
     # legacy model's shares are separate from shipment exemption eligibility.
-    s122_exempt_hts8 <- s122_exemptions$hts8
+    s122_exempt_hts8 <- s122_exemptions$scope_code
     denorm_state_s122$exempt_hts8 <- s122_exempt_hts8
     denorm_state_s122$exemptions <- s122_exemptions
     denorm_state_s122$modeled_exemptions <- tibble(
       hts10 = products$hts10,
-      exemption_share = s122_exempt_share(products$hts10)
-    ) %>% filter(substr(hts10, 1, 8) %in% s122_exempt_hts8)
+      exemption_share = s122_exempt_share(products$hts10,exemptions=s122_exemptions)
+    ) %>% filter(hts10 %in% s122_match_exemptions(products$hts10,s122_exemptions)$hts10)
     if (length(s122_exempt_hts8) > 0) {
-      message('  Section 122 exempt products: ', length(s122_exempt_hts8), ' HTS8 codes')
+      message('  Section 122 exempt products: ', length(s122_exempt_hts8), ' source product codes (precision preserved)')
     }
 
     # Set rate_s122 for all existing rows.
@@ -2636,7 +2657,7 @@ calculate_rates_for_revision <- function(
     # returns 1.0 for the unconditional groups and the MEASURED per-HTS10
     # utilization share for the conditional one.
     rates <- rates %>%
-      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10)))
+      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10,exemptions=s122_exemptions)))
 
     # Add s122-only rows for products not yet in rates.
     # Coverage is now "share < 1", not "not on the exempt list": a GN 6
@@ -2647,14 +2668,14 @@ calculate_rates_for_revision <- function(
       country = countries,
       blanket_rate = s122_rate
     )
-    prod_share <- s122_exempt_share(products$hts10)
+    prod_share <- s122_exempt_share(products$hts10,exemptions=s122_exemptions)
     partial_hts10 <- products$hts10[prod_share < 1]
     rates <- add_blanket_pairs(rates, products, partial_hts10, s122_country_rates,
                                'rate_s122', 'Section 122 duties')
     # add_blanket_pairs assigns the flat blanket rate; re-apply the share so the
     # newly added GN 6 rows carry their partial rate rather than the full 10%.
     rates <- rates %>%
-      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10)))
+      mutate(rate_s122 = s122_rate * (1 - s122_exempt_share(hts10,exemptions=s122_exemptions)))
 
     n_with_s122 <- sum(rates$rate_s122 > 0)
     n_partial <- sum(prod_share > 0 & prod_share < 1)
@@ -2803,9 +2824,9 @@ calculate_rates_for_revision <- function(
       # Note 2(aa)(iv), 9903.03.05; CSMS 67844987. GN6 utilization is
       # aggregate modeling, not evidence that this shipment meets GN6.
       statutory_rate_s122        = if (s122_rates$has_s122 && s122_in_force)
-        s122_rates$s122_rate * (1 - s122_exempt_share(hts10, statutory = TRUE)) else rate_s122,
+        s122_rates$s122_rate * (1 - s122_exempt_share(hts10, statutory = TRUE,exemptions=s122_exemptions)) else rate_s122,
       modeled_s122_exempt_share = if (s122_rates$has_s122 && s122_in_force)
-        s122_exempt_share(hts10) else 0,
+        s122_exempt_share(hts10,exemptions=s122_exemptions) else 0,
       statutory_rate_section_201 = rate_section_201,
       statutory_rate_other       = rate_other
     )
@@ -3107,7 +3128,7 @@ calculate_rates_for_revision <- function(
   fl_cfg <- pp$SECTION_301_FORCED_LABOR
   if (!is.null(fl_cfg)) {
     fl_eff <- as.Date(fl_cfg$effective_date)
-    if (revision_interval_covers(revision_id, effective_date, fl_eff)) {
+    if (as.Date(effective_date) >= fl_eff) {
       fl_ctys <- intersect(as.character(fl_cfg$countries %||% character(0)), countries)
       if (length(fl_ctys) > 0) {
         # Materialize pairs for products of investigated economies that carry no
@@ -3160,11 +3181,9 @@ calculate_rates_for_revision <- function(
       h <- ch99_data %>% filter(ch99_code == '9903.05.01', !is.na(rate), rate > 0)
       if (nrow(h) > 0) max(h$rate) else NA_real_
     }
-    # Compute whenever this revision's INTERVAL reaches the effective date, not
-    # just when the revision starts on/after it: rev_12 starts 2026-07-21 and the
-    # duty starts 07-22, so the rate is computed here and the activation gate
-    # zeroes only the 07-21 day.
-    br_in_force <- revision_interval_covers(revision_id, effective_date, br_eff)
+    # The shared builder recalculates on the legal activation day within
+    # the revision; an earlier state's row must not preload this duty.
+    br_in_force <- as.Date(effective_date) >= br_eff
     if (isTRUE(br_in_force)) {
       br_cty <- as.character(br_cfg$country %||% '3510')
       if (br_cty %in% countries) {
@@ -3202,19 +3221,16 @@ calculate_rates_for_revision <- function(
 
 
   # 6b0c. Apply Section 338 Canada (19 U.S.C. 1338; 91 FR 46653 et seq.,
-  #       effective 2026-08-19). Three proclamations of 2026-07-20 — dairy, motor
+  #       effective 2026-08-22 after suspension). Three proclamations of 2026-07-20 — dairy, motor
   #       vehicles, alcoholic beverages — each 50% on an Annex II list.
   #
-  #       NO published HTS revision carries these headings yet (rev_13 published
-  #       2026-07-28, three weeks early), so this is entirely config-driven and
-  #       depends on revision_interval_covers() treating the final revision as
-  #       open-ended. The activation gate then exposes the duty only from
-  #       2026-08-19 onward, so the current published series is unchanged.
+  #       Each legal state is recalculated at its entry date. A later action
+  #       must never be preloaded into an earlier row of the same revision.
   s338_cfg <- pp$SECTION_338
   if (!is.null(s338_cfg)) {
     s338_eff <- as.Date(s338_cfg$effective_date)
     s338_cty <- as.character(s338_cfg$country %||% '1220')
-    if (revision_interval_covers(revision_id, effective_date, s338_eff) &&
+    if (as.Date(effective_date) >= s338_eff &&
         s338_cty %in% countries) {
       rates <- add_blanket_pairs(
         rates, products, products$hts10,
@@ -3233,35 +3249,9 @@ calculate_rates_for_revision <- function(
       }
       n_338 <- sum(rates$rate_s338 > 0)
 
-      # This revision's interval may START before the duty does. rev_13 is
-      # effective 2026-07-24 while §338 begins 2026-08-19, and the interval is
-      # treated as open-ended because it is the latest revision — so the rate is
-      # computed onto a snapshot that predates it by 26 days.
-      #
-      # The DAILY series splits activation correctly. The revision SNAPSHOT does
-      # not, and the frontend reads rates at revision granularity, so without a
-      # marker "2026 Rev 13" would show §338 on Canadian goods before it is
-      # owed. Record the activation date on the affected rows so a consumer can
-      # tell a live duty from a pre-loaded one.
-      .not_yet <- as.Date(effective_date) < s338_eff
-      if (.not_yet && n_338 > 0) {
-        rates$pending_activation_json <- if_else(
-          rates$rate_s338 > 0,
-          sprintf('{"rate_s338":{"activates":"%s","revision_effective":"%s"}}',
-                  format(s338_eff), format(as.Date(effective_date))),
-          rates$pending_activation_json %||% NA_character_)
-      }
-
-      message('  Section 338 Canada: ', round(as.numeric(s338_cfg$rate %||% 0) * 100),
-              '% on ', format(n_338, big.mark = ','), ' product-country pairs',
-              ' (effective ', s338_cfg$effective_date,
-              '; action-specific amendments and aggregate civil-aircraft assumption)')
-      if (.not_yet && n_338 > 0) {
-        message('    NOT YET ACTIVE at ', format(as.Date(effective_date)),
-                ' — ', format(n_338, big.mark = ','),
-                ' row(s) marked pending_activation_json; the daily series gates',
-                ' them, the revision snapshot must not be read as live duty')
-      }
+      message('  Section 338 Canada: ',round(as.numeric(s338_cfg$rate)*100),
+        '% on ',format(n_338,big.mark=','),' product-country pairs at ',effective_date,
+        ' (action-specific amendments; aggregate civil-aircraft assumption separately retained)')
       rates <- record_duty(rates, '7d', 's338', 'rate_s338',
                            's338_canada', citation_key = 's338_active')
     } else {
@@ -3531,6 +3521,7 @@ calculate_rates_for_revision <- function(
         # the variables captured here without touching the emitter.
         denorm_state <- list(
           ieepa_evidence = denorm_ieepa_evidence,
+          fentanyl_evidence = denorm_fentanyl_evidence,
           country_eo_exemptions = country_eo_exempt,
           s232_note16_source = s232_note16_source,
           s232_note16_matches = s232_note16_matches,
@@ -3591,6 +3582,9 @@ calculate_rates_for_revision <- function(
           pp                    = pp,
           revision_id           = revision_id,
           effective_date        = effective_date,
+          valid_from            = as.Date(effective_date),
+          valid_until           = normalized_valid_until,
+          output_dir            = normalized_output_dir,
           denorm_state          = denorm_state
         )
       }
@@ -3620,7 +3614,7 @@ calculate_rates_for_revision <- function(
   # Persist the forward provenance ledger — the build is its own process, so an
   # in-memory ledger would die with it. Failure here must never break a build:
   # provenance is diagnostic output, not a rate input.
-  tryCatch(duty_ledger_save(revision = revision_id),
+  tryCatch(duty_ledger_save(revision = revision_id, entry_day = effective_date),
            error = function(e) message('  [duty ledger not saved: ',
                                        conditionMessage(e), ']'))
 

@@ -26,3 +26,14 @@ stopifnot(identical(compute_s338_rates(rows, cfg, as.Date('2026-09-15'), TRUE),
 rows$country <- '2010'
 stopifnot(all(compute_s338_rates(rows, cfg, as.Date('2026-09-15'), TRUE) == 0))
 message('Section 338: suspension, all amendment rows, exact HTS10 removals and stacking passed')
+# Retained annex evidence is an input, not an unchecked citation label.
+bad <- amendments;bad[[1]]$sha256<-paste(rep('0',64),collapse='')
+tmp<-tempfile(fileext='.json');jsonlite::write_json(bad,tmp,auto_unbox=TRUE)
+badcfg<-cfg;badcfg$amendments_file<-tmp
+stopifnot(inherits(try(load_s338_actions(badcfg,as.Date('2026-09-15')),silent=TRUE),'try-error'))
+# Source order has no effect on independent dated actions.
+jsonlite::write_json(rev(amendments),tmp,auto_unbox=TRUE)
+reordered<-load_s338_actions(badcfg,as.Date('2026-09-15'))
+stopifnot(identical(after,reordered))
+unlink(tmp)
+message('Section 338 rejects altered evidence and preserves amendment-order invariance')

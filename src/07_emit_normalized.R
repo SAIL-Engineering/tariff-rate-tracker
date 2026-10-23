@@ -1132,19 +1132,20 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
     ex <- denorm_state$s122$exemptions
     modeled <- denorm_state$s122$modeled_exemptions
     if (is.null(ex) || is.null(modeled) ||
-        !all(c('hts8', 'condition', 'condition_text', 'valuation_basis', 'source_ref', 'source_url') %in% names(ex)))
+        !all(c('condition', 'condition_text', 'valuation_basis', 'source_ref', 'source_url') %in% names(ex)))
       stop('Section 122 normalized output requires explicit exemption conditions and modeled shares')
-    if (anyDuplicated(ex$hts8) || anyDuplicated(modeled$hts10) ||
+    if(!exists('s122_match_exemptions',mode='function')) source(here::here('src/section122_revision.R'))
+    if (anyDuplicated(modeled$hts10) ||
         anyNA(modeled$exemption_share) || any(modeled$exemption_share < 0 | modeled$exemption_share > 1))
       stop('Section 122 exemption projection has invalid identities or shares')
+    matches <- s122_match_exemptions(modeled$hts10,ex)
     rows[['s122_exempt']] <- modeled %>%
-      mutate(hts8 = substr(hts10, 1, 8)) %>%
-      left_join(ex, by = 'hts8', relationship = 'many-to-one') %>%
+      left_join(matches, by = 'hts10', relationship = 'one-to-one') %>%
       transmute(
         revision = revision_id, authority = 'section_122', program = NA_character_,
         hts10, hts_prefix = NA_character_, country = NA_character_, country_group = NA_character_,
         exemption_type = 's122_modeled_exemption', exemption_share,
-        rate_override = NA_real_, source = 's122_exempt_products.csv',
+        rate_override = NA_real_, source = if(is.null(denorm_state$s122$source)) 's122_exempt_products.csv' else paste0('USITC-',revision_id,'-note2aa'),
         shipment_condition = condition, shipment_condition_text = condition_text,
         shipment_valuation_basis = valuation_basis,
         statutory_exemption_share = if_else(condition == 'none', 1, NA_real_),
@@ -1252,11 +1253,24 @@ emit_normalized_revision <- function(
   )
 
   source(if(requireNamespace('here',quietly=TRUE)) here::here('src/ieepa_actions.R') else 'src/ieepa_actions.R')
+  if(!exists('emergency_action_decisions',mode='function')) source(here::here('src/ieepa_fentanyl.R'))
   ieepa_evidence <- denorm_state$ieepa_evidence
-  .write_parquet_safe(ieepa_action_decisions(ieepa_evidence,denorm_state$country_ieepa,revision_id),
+  decisions <- dplyr::bind_rows(
+    ieepa_action_decisions(ieepa_evidence,denorm_state$country_ieepa,revision_id),
+    emergency_action_decisions(denorm_state$fentanyl_evidence,fentanyl_rates,revision_id,effective_date))
+  for(col in c('pdf_sha256','source_note_locator','source_note_sha256','source_note','entry_valid_from','entry_valid_until'))
+    if(!col %in% names(decisions)) decisions[[col]] <- rep(NA_character_,nrow(decisions))
+  decisions$state_valid_from <- rep(as.Date(valid_from %||% effective_date),nrow(decisions))
+  decisions$state_valid_until <- rep(as.Date(valid_until %||% NA),nrow(decisions))
+  .write_parquet_safe(decisions,
     file.path(output_dir,revision_id,'ieepa_action_decisions.parquet'))
-  if(!is.null(ieepa_evidence)&&(nrow(ieepa_evidence)>0 || !is.null(attr(ieepa_evidence,'universal_baseline')))) jsonlite::write_json(
-    ieepa_evidence_fragment(ieepa_evidence,revision_id),file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
+  if(!is.null(denorm_state$fentanyl_evidence)||!is.null(ieepa_evidence)) jsonlite::write_json(
+    attach_emergency_evidence(ieepa_evidence_fragment(ieepa_evidence,revision_id),denorm_state$fentanyl_evidence),
+    file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
+    auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+
+  if(!is.null(denorm_state$s122$source)) jsonlite::write_json(
+    denorm_state$s122$source,file.path(output_dir,revision_id,'section122_source.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
 
   candidates <- denorm_state$heading_candidates %||% list()

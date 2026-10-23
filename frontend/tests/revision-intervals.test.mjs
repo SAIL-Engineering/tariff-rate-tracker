@@ -6,6 +6,15 @@ import path from 'node:path';
 import {DuckDBInstance} from '@duckdb/node-api';
 import {validateProjectedIntervals,preflightPartitionIntervals} from '../server/revision-intervals.js';
 const row=(revision,from,until)=>({revision,valid_from:from,valid_from_max:from,valid_until:until,valid_until_min:until});
+test('one revision can contain multiple contiguous legal entry states',()=>{
+ const old=[row('r1','2025-11-13','2025-11-20'),row('r2','2025-11-21','2025-11-30')];
+ const states=[row('r1','2025-11-13','2025-11-13'),row('r1','2025-11-14','2025-11-20')];
+ const projected=validateProjectedIntervals(old,states);
+ assert.equal(projected.length,3);
+ assert.throws(()=>validateProjectedIntervals(old,[states[0],row('r1','2025-11-15','2025-11-20')]),/gap/);
+ assert.throws(()=>validateProjectedIntervals(old,[states[0],row('r1','2025-11-13','2025-11-20')]),/overlap/);
+ assert.throws(()=>validateProjectedIntervals(old,[states[0],states[0]]),/Duplicate/);
+});
 test('latest-only replacement cannot leave the previous revision open-ended',()=>{
  const old=[row('r19','2026-09-15','2026-12-31'),row('r20','2026-09-29','2026-12-31')];
  assert.throws(()=>validateProjectedIntervals(old,[row('r21','2026-10-09','2026-12-31')]),/preflight failed/);

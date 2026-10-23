@@ -204,16 +204,20 @@ suppressPackageStartupMessages({
     winner_ch99 <- ch99_code  # from layer-3 winner
     if (!is.na(winner_ch99) && nzchar(winner_ch99) &&
         'ch99_code' %in% names(match)) {
-      narrowed <- match %>% filter(ch99_code == winner_ch99)
-      if (nrow(narrowed) > 0) match <- narrowed
-      # Fall through to full match if narrowing produced 0 rows
+      match <- match %>% filter(ch99_code == winner_ch99)
+    } else if(auth=='ieepa_fentanyl') {
+      # Ordinary, product carve-out, and CBP evasion determinations are
+      # distinct actions. The largest rate is not an applicability decision.
+      match <- match %>% filter(program==winner$program)
     }
 
     if (nrow(match) == 0) {
       return(list(rate = NA_real_, ch99_code = NA_character_,
                   deriv_type = winner$deriv_type))
     }
-    idx <- which.max(match$statutory_rate)
+    match <- distinct(match)
+    if(nrow(match)!=1L) stop('Ambiguous normalized country action: ',auth,' / ',country)
+    idx <- 1L
     stat <- match$statutory_rate[idx]
     layer2_ch99 <- match$ch99_code[idx]
     if (!is.na(layer2_ch99)) ch99_code <- layer2_ch99
@@ -316,7 +320,7 @@ suppressPackageStartupMessages({
 #' @return One-row tibble with the columns the stacking engine writes, plus
 #'   layer-1 product metadata. Returns NULL if the product has no row in
 #'   products_base for the revision.
-resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revision) {
+resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revision, entry_date=NULL) {
   .ensure_stacking_sourced()
 
   hts10 <- as.character(hts10)
@@ -328,12 +332,25 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
   if (is.null(pb)) {
     stop('products_base.parquet missing for revision ', revision)
   }
+  windows <- unique(pb[c('valid_from','valid_until')])
+  if(is.null(entry_date)) {
+    if(nrow(windows)>1L) stop('Entry date required: revision has multiple legal states')
+    entry_date <- windows$valid_from[1]
+  }
+  day <- as.Date(entry_date)
+  if(length(day)!=1L||is.na(day)) stop('Invalid normalized entry date')
+  at_entry <- function(x) {
+    if(is.null(x)||!nrow(x)) return(x)
+    if(!all(c('valid_from','valid_until') %in% names(x))) stop('Missing normalized legal intervals')
+    x[(is.na(x$valid_from)|x$valid_from<=day)&(is.na(x$valid_until)|x$valid_until>=day),,drop=FALSE]
+  }
+  pb <- at_entry(pb)
   base_row <- pb %>% filter(hts10 == !!hts10)
   if (nrow(base_row) == 0) return(NULL)
-  base_row <- base_row[1, ]
+  if(nrow(base_row)!=1L) stop('Overlapping normalized product intervals')
 
   # ---- Layer 3: authority_product_applicability (product-matched) ----
-  apa <- .read_layer(normalized_dir, revision, 'authority_product_applicability.parquet')
+  apa <- at_entry(.read_layer(normalized_dir, revision, 'authority_product_applicability.parquet'))
   apa_matches <- if (!is.null(apa) && nrow(apa) > 0) {
     apa[.matches_product(apa, hts10), , drop = FALSE]
   } else {
@@ -361,11 +378,11 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
   winners <- .pick_winner_per_authority(apa_matches)
 
   # ---- Layer 2: authority_country_rates (country-filtered) ----
-  acr <- .read_layer(normalized_dir, revision, 'authority_country_rates.parquet')
+  acr <- at_entry(.read_layer(normalized_dir, revision, 'authority_country_rates.parquet'))
   if (is.null(acr)) acr <- tibble()
 
   # ---- Layer 4: authority_exemptions (no filter — compound in place) ----
-  ae <- .read_layer(normalized_dir, revision, 'authority_exemptions.parquet')
+  ae <- at_entry(.read_layer(normalized_dir, revision, 'authority_exemptions.parquet'))
 
   # ---- product_metal_content (static) ----
   pmc <- .read_parquet_if_exists(file.path(normalized_dir, 'product_metal_content.parquet'))
@@ -402,7 +419,7 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
   # the same share for ieepa_reciprocal/ieepa_fentanyl/section_122; the
   # base_rate reduction reads the same row by (hts10, country) so any
   # change to the upstream USMCA shares flows through one source.
-  ae_pre <- .read_layer(normalized_dir, revision, 'authority_exemptions.parquet')
+  ae_pre <- at_entry(.read_layer(normalized_dir, revision, 'authority_exemptions.parquet'))
   if (!is.null(ae_pre) && nrow(ae_pre) > 0 && 'exemption_type' %in% names(ae_pre)) {
     usmca_hit <- ae_pre %>%
       filter(exemption_type == 'usmca_eligible',

@@ -248,60 +248,27 @@ for (i in seq_len(nrow(SAMPLE_CASES))) {
     filter(hts10 == !!hts10, country == !!country, revision == !!revision) %>%
     collect()
 
-  # Normalized reconstruction
-  reconstructed <- tryCatch(
-    resolve_rate_from_normalized(NORMALIZED_DIR, hts10, country, revision),
-    error = function(e) {
-      log_fail(paste0('resolve_rate_from_normalized errored for ',
-                      hts10, '/', country, '/', revision, ': ',
-                      conditionMessage(e)))
-      NULL
-    }
-  )
-  if (is.null(reconstructed)) {
-    diff_count <- diff_count + 1
+  if(!nrow(base)) {
+    log_fail(paste0(hts10,'/',country,'/',revision,' missing wide row; zero cannot be inferred'))
+    diff_count <- diff_count+1L
     next
   }
-
-  # Compare the canonical rate columns
-  rate_cols <- c('base_rate', 'rate_232', 'rate_301', 'rate_ieepa_recip',
-                 'rate_ieepa_fent', 'rate_s122', 'rate_section_201',
-                 'rate_other', 'total_additional', 'total_rate')
-  label <- paste0(hts10, '/', country, '/', revision)
-
-  if (nrow(base) == 0) {
-    # The denormalized row is absent. Under the Phase 1 base-MFN synthesis
-    # contract, this should still produce a valid reconstructed row with
-    # base_rate > 0 and zero additionals. Treat as "known sparse" — not a
-    # parity failure, but flag it.
-    if (!is.null(reconstructed) && reconstructed$base_rate > 0 &&
-        reconstructed$total_additional == 0) {
-      log_ok(paste0(label, ' (sparse — synthesized base_rate=',
-                    format(reconstructed$base_rate, digits = 4), ')'))
-    } else {
-      log_fail(paste0(label, ' sparse but reconstruction produced unexpected shape'))
-      diff_count <- diff_count + 1
+  for(j in seq_len(nrow(base))) {
+    day <- base$valid_from[j]
+    label <- paste(hts10,country,revision,day,sep='/')
+    reconstructed <- tryCatch(resolve_rate_from_normalized(NORMALIZED_DIR,hts10,country,revision,entry_date=day),
+      error=function(e) {log_fail(paste(label,conditionMessage(e)));NULL})
+    if(is.null(reconstructed)) {diff_count<-diff_count+1L;next}
+    rate_cols <- c('base_rate','rate_232','rate_301','rate_ieepa_recip','rate_ieepa_fent',
+      'rate_s122','rate_section_201','rate_other','total_additional','total_rate')
+    diverged <- FALSE
+    for(col in rate_cols) {
+      a<-base[[col]][j];b<-reconstructed[[col]]
+      same <- length(a)==1L && length(b)==1L &&
+        ((is.na(a)&&is.na(b))||(!is.na(a)&&!is.na(b)&&abs(a-b)<=PARITY_TOL))
+      if(!same) {log_fail(paste(label,col,'denorm=',a,'norm=',b));diverged<-TRUE}
     }
-    next
-  }
-
-  diverged <- FALSE
-  for (col in rate_cols) {
-    a <- base[[col]][1]
-    b <- reconstructed[[col]]
-    if (is.null(a) || is.null(b)) next
-    if (abs(a - b) > PARITY_TOL) {
-      log_fail(paste0(label, ' ', col, ': denorm=',
-                      format(a, digits = 6), ' norm=',
-                      format(b, digits = 6), ' diff=',
-                      format(abs(a - b), digits = 6)))
-      diverged <- TRUE
-    }
-  }
-  if (diverged) {
-    diff_count <- diff_count + 1
-  } else {
-    log_ok(paste0(label))
+    if(diverged) diff_count<-diff_count+1L else log_ok(label)
   }
 }
 

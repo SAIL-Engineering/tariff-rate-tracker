@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import { evaluateShipmentBundle, unavailableShipment } from './generated/shipmentRules.js';
 
 export const SHIPMENT_CONTRACT = 'sail.shipment-result/v1';
-export const RELEASE_CONTRACT = 'sail.tariff-release/v4';
+export const RELEASE_CONTRACT = 'sail.tariff-release/v5';
 
 /** Captured once per request/batch; every read uses this immutable schema. */
 export async function activeShipmentRelease(conn) {

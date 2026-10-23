@@ -734,7 +734,7 @@ section_122:
   rate: 0.10                    # 10% non-discriminatory rate (from 9903.03.01)
   exempt_products: 'resources/s122_exempt_products.csv'
 
-# --- Section 338 Canada (19 U.S.C. 1338; DORMANT until 2026-08-19) -----------
+# --- Section 338 Canada (19 U.S.C. 1338; active from 2026-08-22) -----------
 # Section 338 of the Tariff Act of 1930 empowers the President to impose duties
 # to offset a foreign country's discrimination against U.S. commerce, capped at
 # 50% ad valorem and effective no earlier than 30 days after the proclamation.

@@ -22,7 +22,7 @@ export function auditQueries(catalog, cases, { from = '2025-01-01', through = '2
     revisions: { sql: `SELECT revision, min(valid_from)::VARCHAR valid_from, max(valid_from)::VARCHAR valid_from_max,
       min(valid_until)::VARCHAR valid_until_min, max(valid_until)::VARCHAR valid_until,
       count(*)::DOUBLE row_count, count(DISTINCT hts10)::DOUBLE products, count(DISTINCT country)::DOUBLE origins
-      FROM ${table} WHERE ${window} GROUP BY revision ORDER BY min(valid_from),revision`, params },
+      FROM ${table} WHERE ${window} GROUP BY revision,valid_from,valid_until ORDER BY min(valid_from),revision`, params },
     cases: { sql: `SELECT to_json(r)::VARCHAR row_json FROM ${table} r
       WHERE ${window} AND (hts10,country) IN (${pairs.map(() => '(?,?)').join(',')})
       ORDER BY hts10,country,valid_from,revision LIMIT 10001`, params: [...params, ...pairs.flatMap(c => [c.hts10,c.country])] },

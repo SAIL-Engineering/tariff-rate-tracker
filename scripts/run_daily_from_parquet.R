@@ -57,8 +57,7 @@ for (i in seq_len(nrow(rev_intervals))) {
   # Load single revision from Parquet
   rev_ts <- ds %>%
     filter(revision == rev) %>%
-    collect() %>%
-    mutate(valid_from = vf, valid_until = vu)
+    collect()
 
   # Run daily aggregates for just this revision
   daily <- build_daily_aggregates(
