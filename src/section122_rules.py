@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 from section301_sources import sha
 from section122_sources import extract
 from section232_note16_rules import val, fact, op, both, either, negate
+from chapter98_rules import compile_valuation, overlap_value, treatment
 ROOT=Path(__file__).resolve().parents[1]
 EVIDENCE=ROOT/'resources/legal_evidence/section122/interactions'
 
@@ -205,12 +206,21 @@ def compile_rules(x,products):
         raise ValueError('Unreviewed transit conditions/window')
     transit_until=date_at(transit_dates[1])
     facts={};rules=[]
-    def f(name,label,kind='boolean',description=None):
+    def f(name,label,kind='boolean',description=None,choices=None):
         d=dict(type=kind,label=label,source_ids=ids)
         if kind=='number':d.update(minimum=0,unit='USD')
         if description:d['description']=description
+        if choices is not None:d['enum']=choices
         facts[name]=d;return fact(name)
     cv=f('customs_value','Customs value (USD)','number')
+    # Reconcile the valuation clause with the original annex, independently of
+    # later HTS note snapshots. Each source revision supplies valid Chapter 98
+    # provisions, but may not silently change the operative valuation policy.
+    original=(EVIDENCE/'2026-03824-page9347-ocr.txt').read_text()
+    clause=next(c['text'] for c in x['clauses'] if c['id']=='i')
+    if treatment(clause)!=treatment(original):raise ValueError('Section 122 Chapter 98 policy changed without original-annex reconciliation')
+    hts=json.loads((ROOT/f'data/hts_archives/hts_{x["revision"]}.json').read_bytes())
+    valuation=compile_valuation(clause,hts,f,f('s122_chapter98_claimed','Entry claimed under Chapter 98'),cv)
     def reported(codes,positive=False,exclude=False):
         return {'reporting_predicate':dict(authority='section_232',codes=sorted(set(codes)),positive_duty=positive,exclude=exclude)}
     def emit(scope,path,code,formula,constraints=None):
@@ -269,7 +279,7 @@ def compile_rules(x,products):
             transit=dict(id=f's122_transit_{len(rules)}',action_id='section122_surcharge',authority='section_122',kind='duty',verification='verified',scope=transit_scope,
               when=both(path,f('s122_loaded_and_final_transit_before_start','Loaded on vessel and in final transit before Section 122 began',description=transit_heading['description'])),formula=val(0),reporting_codes=['9903.03.02'],source_ids=ids)
             rules.append(transit);path=both(path,negate({'rule_applies':transit['id']}))
-        branch(f('s122_chapter98_claimed','Entry claimed under Chapter 98'),None,{'unresolved_source':'section122_chapter98_predicate_and_adjusted_value_not_compiled'})
+        branch(valuation['exempt'],None,constraints=valuation['constraints'])
         branch(f('s122_ftz_entry','Entry from a foreign trade zone'),None,{'unresolved_source':'section122_ftz_admission_classification_requires_separate_rule'})
         whole=[];parts={};known=[]
         independently_defined={c for d in history['independent_interactions'] for c in d['codes']}
@@ -291,7 +301,7 @@ def compile_rules(x,products):
             if row['kind']=='whole':whole.append(reported(codes))
             else:parts.setdefault(row['kind'],[]).append(reported(codes))
         branch(either(*whole),'9903.03.06')
-        portions=[];constraints=[];active_portions=[]
+        portions=[];constraints=list(valuation['constraints']);active_portions=[]
         for metal,pred in parts.items():
             hit=either(*pred) if isinstance(pred,list) else pred
             value=f(metal+'_content_value' if metal!='vehicle_us_content' else 's122_vehicle_us_content_value',metal.replace('_',' ').title()+' value (USD)','number')
@@ -299,7 +309,9 @@ def compile_rules(x,products):
             active_portions.append(both(hit,op('gt',value,val(0))))
             constraints.append(dict(test=op('if',hit,op('lte',value,cv),val(True)),inputs=['customs_value',value['fact']],label='Exempt content cannot exceed article value'))
         excluded=op('add',*portions) if portions else val(0)
-        remaining=op('subtract',cv,excluded)
+        overlap,overlap_constraint=overlap_value(valuation,excluded,cv,f,'s122')
+        constraints.append(overlap_constraint)
+        remaining=op('subtract',valuation['basis'],overlap)
         constraints.append(dict(test=op('lte',excluded,cv),inputs=['customs_value'],label='Distinct exempt portions cannot exceed article value; do not count the same content twice'))
         if len(active_portions)>1:
             multiple=either(*(both(a,b) for i,a in enumerate(active_portions) for b in active_portions[i+1:]))
@@ -314,20 +326,21 @@ def compile_rules(x,products):
         branch(checked,'9903.03.06',constraints=constraints)
         # A split valuation reports the exempt portion as well as .03.01 on
         # the remaining portion. It is a zero-dollar component, not a credit.
-        emit(scope,both(path,{'authority_covered':'section_232'},op('gt',excluded,val(0))),
+        emit(scope,both(path,{'authority_covered':'section_232'},op('gt',overlap,val(0))),
              '9903.03.06',val(0),constraints)
         formula=op('if',{'authority_covered':'section_232'},op('multiply',val(x['rate']),remaining),val(0))
         emit(scope,path,'9903.03.01',formula,constraints)
     all_ids=[r['id'] for r in rules]
     claims=[dict(id=c,label=c if c=='USMCA' else 'CAFTA-DR',rule_ids=all_ids,source_ids=ids) for c in ('USMCA','CAFTA_DR')]
+    claims.append(dict(id='CHAPTER_98',label='Chapter 98',rule_ids=all_ids,source_ids=ids))
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='section122_'+x['revision'],compiler_sha256=sha(Path(__file__).read_bytes()),
-        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv')},
+        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','src/chapter98_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv')},
         supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',sources=history['sources'],source_artifacts=history['source_artifacts'],
         rules=rules,coverage=[],fact_definitions=facts,claim_definitions=claims,relations=[],interaction_history=history['periods'],
         independent_interactions=history['independent_interactions'],
         unchanged_claims=[dict(id='s122_301_independence_'+x['revision'],claim_authority='section_301',target_rule_ids=all_ids,source_ids=ids),
           dict(id='s122_232_reevaluation_'+x['revision'],effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=all_ids,source_ids=ids)],
-        limitations=['No complete authority coverage attestation. Uncompiled Chapter 98/FTZ claims and import-adjustment offsets remain unresolved.',
+        limitations=['No complete authority coverage attestation. FTZ and import-adjustment offsets remain unresolved. Chapter 98 entitlement requires proper claim and CBP agreement; intersecting adjusted and Section 232 values requires shipment evidence.',
           'Taiwan auto-parts interaction uses independent operative provisions; malformed annex text is retained, not repaired. Underlying Section 232 applicability must still be established.',
           'Post-expiry note mutations never establish earlier Section 122 liability.'])
 

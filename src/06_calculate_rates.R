@@ -2453,7 +2453,7 @@ calculate_rates_for_revision <- function(
     # that assumption. A shipment result must establish the condition instead.
     existing_china <- rates$hts10[rates$country == CTY_CHINA]
     new_301_products <- setdiff(s301_lookup$hts10,existing_china)
-    if(length(new_301_products)) {
+    if(CTY_CHINA %in% countries && length(new_301_products)) {
       rates <- bind_rows(rates,products %>% filter(hts10 %in% new_301_products) %>%
         select(hts10,base_rate) %>% mutate(country=CTY_CHINA,
           rate_232=0,rate_301=0,rate_ieepa_recip=0,rate_ieepa_fent=0,
@@ -2579,7 +2579,7 @@ calculate_rates_for_revision <- function(
 
         new_301_products <- setdiff(s301_hts10, existing_china)
 
-        if (length(new_301_products) > 0) {
+        if (CTY_CHINA %in% countries && length(new_301_products) > 0) {
           new_301_pairs <- products %>%
             filter(hts10 %in% new_301_products) %>%
             select(hts10, base_rate) %>%

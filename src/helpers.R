@@ -4825,6 +4825,8 @@ s232_scope_mask <- function(rates) {
 #' HTS8 provisions remain prefixes; HTS10 provisions remain exact. A deletion
 #' must reconcile with the previous version, or the build stops for review.
 load_s338_actions <- function(cfg, effective_date) {
+  if(!exists('load_s338_source',mode='function')) source(here('src/section338_revision.R'))
+  evidence <- load_s338_source()
   read_source <- function(path) {
     if (is.null(path)) stop('section_338 source path missing')
     path <- if (file.exists(path)) path else here(path)
@@ -4839,11 +4841,33 @@ load_s338_actions <- function(cfg, effective_date) {
                             s232_exempt = TRUE)
   if (any(!grepl('^([0-9]{8}|[0-9]{10})$', rows$hts_code)))
     stop('section_338 invalid product precision')
+  original <- bind_rows(lapply(evidence$actions,function(a) tibble(
+    hts_code=unlist(a$products),program=a$program,ch99_heading=a$heading,s232_exempt=TRUE)))
+  key <- function(x) sort(paste(x$program,x$ch99_heading,x$hts_code))
+  if(!identical(key(rows),key(original))) stop('section_338 coverage projection disagrees with original annex')
+  if(!identical(as.character(cfg$effective_at),evidence$actions[[1]]$from_) ||
+     !identical(as.character(cfg$effective_date),substr(evidence$actions[[1]]$from_,1,10)) ||
+     any(vapply(evidence$actions,function(a) abs(a$rate-as.numeric(cfg$rate))>1e-10,logical(1))))
+    stop('section_338 configured commencement/rate disagrees with original source')
+  rows <- original
+  if(is.null(cfg$amendments_file)) stop('section_338 amendment source path missing')
+  gn6<-read_source(cfg$gn6_exempt_products)
+  if(!'hts8' %in% names(gn6)||!setequal(gn6$hts8,unlist(evidence$aircraft$products)))
+    stop('section_338 aircraft projection disagrees with original annex')
   if (!is.null(cfg$amendments_file)) {
     path <- cfg$amendments_file
     path <- if (file.exists(path)) path else here(path)
     if (!file.exists(path)) stop('section_338 amendment source missing')
     amendments <- jsonlite::fromJSON(path, simplifyVector = FALSE)
+    if(!setequal(vapply(amendments,`[[`,character(1),'id'),vapply(evidence$amendments,`[[`,character(1),'id')))
+      stop('section_338 missing original-source amendment')
+    for(a in amendments) {
+      expected<-Filter(function(e) identical(e$id,a$id),evidence$amendments)[[1]]
+      if(!identical(a$program,expected$program)||!identical(a$effective_at,expected$effective_at)||
+         !identical(a$s232_exempt,expected$s232_exempt)||
+         !setequal(unlist(a$delete),unlist(expected$delete))||!setequal(unlist(a$insert),unlist(expected$insert)))
+        stop('section_338 amendment projection disagrees with original annex: ',a$id)
+    }
     dates <- vapply(amendments, function(a) a$effective_at, character(1))
     if(anyDuplicated(vapply(amendments,function(a) paste(a$program,a$effective_at),character(1))))
       stop('section_338 conflicting amendments at the same legal instant')

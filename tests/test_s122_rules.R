@@ -60,8 +60,7 @@ add('civil aircraft association alone is not exemption',f,10,hts='3917330000',co
 f<-q;f$modeled_share<-0;f$assembly_credit<-100000;f$modeled_s122_exempt_share<-1
 add('model values cannot change shipment',f,18)
 f<-q;f$s122_chapter98_claimed<-TRUE
-add('uncompiled chapter98 does not become zero known duty',f,10,error='section122_chapter98_predicate')
-if('--emit'%in%commandArgs(TRUE)) jsonlite::write_json(list(bundles=bundles,cases=cases),'tests/fixtures/shipment/section122.json',auto_unbox=TRUE,null='null',digits=NA)
+add('Chapter98 requires a confirmed claim and provision',f,10,missing=c('chapter98_properly_claimed_and_cbp_agreed','chapter98_provision'))
 cat(length(cases),'Section 122 cross-program cases passed\n')
 # Independent action fixtures verify heading-based relief and exact legal clocks.
 # Their rates and coverage are synthetic; the Section 122 interaction is sourced.
@@ -121,5 +120,38 @@ add('April23 printed standard-time boundary honored at',q,0,at='2026-04-23T01:01
 bb$rules[[1]]$grant_id<-NULL;bb$rules[[1]]$grant_snapshot_id<-NULL
 bundles$unreviewed_claim<-compose_shipment_rules(bb,list(f122));f<-q;f$claims<-list('synthetic232claim')
 add('unreviewed 232 claim is not granted an unchanged effect',f,0,bundle='unreviewed_claim',error='claim_not_priced:synthetic232claim')
+# Source-defined Chapter 98 valuation, with an explicitly empty synthetic 232
+# inventory. Other authorities' Chapter 98 entitlement is not inferred here.
+bb<-b;bb$rules<-list();bb$claim_definitions<-list()
+bb$coverage<-list(list(authority='section_232',status='verified',source_ids=list(sid),determination='no_applicable_rules',rule_ids=list()))
+bundles$chapter98<-compose_shipment_rules(bb,list(f122))
+f<-q;f$s122_chapter98_claimed<-TRUE;f$claims<-list('CHAPTER_98');f$chapter98_properly_claimed_and_cbp_agreed<-TRUE;f$chapter98_provision<-'98010010'
+add('properly claimed returned goods exempt only this authority',f,0,bundle='chapter98',codes=character(),missing=character())
+f$chapter98_provision<-'98230101';add('122 Chapter98 rule does not import 338 XXIII exception',f,0,bundle='chapter98',codes=character())
+f$chapter98_provision<-'98020040';f$chapter98_repairs_alterations_processing_value<-30
+add('122 repairs value',f,3,bundle='chapter98',codes='9903.03.01',missing=character())
+f$chapter98_provision<-'98020050';add('122 alterations value',f,3,bundle='chapter98')
+f$chapter98_provision<-'98020060';add('122 processing value',f,3,bundle='chapter98')
+f$chapter98_provision<-'98020080';f$chapter98_us_products_value<-70;add('122 foreign assembly less qualifying US value',f,3,bundle='chapter98')
+f$chapter98_us_products_value<-101;add('122 assembly values must reconcile',f,0,bundle='chapter98',missing=c('chapter98_us_products_value','customs_value'))
+f$chapter98_us_products_value<-70;f$chapter98_provision<-'98999999';add('invalid Chapter98 provision cannot become exemption',f,0,bundle='chapter98',missing='chapter98_provision')
+f$chapter98_provision<-'98020040';f$chapter98_properly_claimed_and_cbp_agreed<-FALSE;add('rejected Chapter98 claim leaves ordinary basis',f,10,bundle='chapter98')
+f$chapter98_properly_claimed_and_cbp_agreed<-TRUE;f$claims<-NULL
+add('Chapter98 valuation requires stack-wide claim evaluation',f,0,bundle='chapter98',missing='claims')
+f$claims<-list('CHAPTER_98')
+add('uncompiled Chapter98 effect on 232 is not silently unchanged',f,0,bundle='covered',error='claim_not_priced:CHAPTER_98')
+# Counterfactual reviewed 232 action isolates the intersection of two bases.
+rr<-mk('adjusted232','9903.81.89',10);bb$rules<-list(rr)
+bb$coverage<-list(list(authority='section_232',status='verified',source_ids=list(sid),determination='rules',rule_ids=list(rr$id)))
+bb$claim_definitions<-list(list(id='CHAPTER_98',label='Chapter 98',rule_ids=list(rr$id),source_ids=list(sid)))
+bundles$chapter98_overlap<-compose_shipment_rules(bb,list(f122))
+f$s122_chapter98_section232_overlap_value<-5
+add('122 subtracts only metal value inside repairs basis',f,12.5,bundle='chapter98_overlap',codes=c('9903.03.01','9903.03.06'))
+f$s122_chapter98_section232_overlap_value<-NULL
+add('unreconciled repairs-metal overlap remains missing',f,10,bundle='chapter98_overlap',missing='s122_chapter98_section232_overlap_value')
+f$s122_chapter98_section232_overlap_value<-21
+add('overlap cannot exceed metal content',f,10,bundle='chapter98_overlap',missing=c('s122_chapter98_section232_overlap_value','customs_value'))
+f$chapter98_repairs_alterations_processing_value<-90;f$s122_chapter98_section232_overlap_value<-5
+add('impossible disjoint valuation cannot understate the intersection',f,10,bundle='chapter98_overlap',missing=c('s122_chapter98_section232_overlap_value','customs_value'))
 if('--emit'%in%commandArgs(TRUE)) jsonlite::write_json(list(bundles=bundles,cases=cases),'tests/fixtures/shipment/section122.json',auto_unbox=TRUE,null='null',digits=NA)
 cat(length(cases),'total Section 122 interaction and temporal cases passed\n')

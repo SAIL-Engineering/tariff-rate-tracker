@@ -8,7 +8,7 @@ legal_event_days <- function(value) {
     if(!is.list(x)) return()
     for(name in names(x)) {
       child <- x[[name]]
-      if(name %in% c('valid_from','valid_until','from','until','effective_from','effective_at','effective_date',
+      if(name %in% c('valid_from','valid_until','from','from_','until','effective_from','effective_at','effective_date',
                     'policy_effective_date','activation_date','patented_pharma_exempt_date')) {
         if(length(child)==1L && !is.list(child) && !is.na(child)) {
           day <- substr(as.character(child),1,10)
@@ -156,8 +156,10 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
   fentanyl <- extract_ieepa_fentanyl_rates(hts_raw,country_lookup,first,revision_id)
   source_events <- list(country_amendments=load_ieepa_country_amendments(),
     emergency=attr(fentanyl,'emergency_source'),stacking=load_stacking_rules())
-  if(!is.null(policy_params$SECTION_338$amendments_file))
-    source_events$section338 <- jsonlite::fromJSON(here::here(policy_params$SECTION_338$amendments_file),simplifyVector=FALSE)
+  if(!is.null(policy_params$SECTION_338)) {
+    if(!exists('load_s338_source',mode='function')) source(here::here('src/section338_revision.R'))
+    source_events$section338 <- load_s338_source()
+  }
   # Section 301 source windows include exclusions, grant/extension chronology,
   # maritime suspension and amendments to historical classification references.
   if(grepl('^202[56]_',revision_id)) {

@@ -1,0 +1,250 @@
+{
+  "sources": [
+    {
+      "id": "2026-14991",
+      "program": "alcohol",
+      "kind": "original",
+      "path": "resources/legal_evidence/section338/2026-14991.pdf",
+      "sha256": "f8e536b4131993736fd315128209d8828078644856cd2566c4fb011efa0a5775",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-23/pdf/2026-14991.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-05.txt",
+          "sha256": "29f13d4773dacb0c10119d9b7fcff4484bd4ed2ecd7b8815bee87a67e237639b"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-06.txt",
+          "sha256": "ebd383c2219f6204925d94726fda7699fc8407650ef5f4d549df5df8ec0dad33"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-07.txt",
+          "sha256": "aaf57bb4a489fe3f98af6700a234765c890ce679e5104d1006a7fe34b7e0701e"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-08.txt",
+          "sha256": "dc16adf61ddc211a0f50e0ae3253f4ff202d77791687b73025d8b4d0912e650f"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-09.txt",
+          "sha256": "5b7766e4c29be917c4a3dd4d155ed67ac83c2035b5e143f9e6f9d7d15f4e329b"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-10.txt",
+          "sha256": "64e6de81c678c180f8583eaae216acc616ebc19b31fcec6891e608449566e548"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-11.txt",
+          "sha256": "8b51c139ad8a165f46aec547305109173d5660a811526cb0aa741caca492d9dc"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-12.txt",
+          "sha256": "b7287e5d6daa2c49bbd71b2921e943b0ab7fa62e3afb709fdd84dda789ba36a9"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-13.txt",
+          "sha256": "c6c859874de8b2b75215c4379c9a046e0ad31f0a8abd0102461c7cff9baeedbf"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14991-14.txt",
+          "sha256": "429ea32bce564c603bee4f7a8c6b8ca555085ba552fc09ee124ea6478b53315f"
+        }
+      ]
+    },
+    {
+      "id": "2026-14992",
+      "program": "dairy",
+      "kind": "original",
+      "path": "resources/legal_evidence/section338/2026-14992.pdf",
+      "sha256": "93c21e5645c9aa0b0b064ebe99877829b5c6500e83e29493f0ec612d8a0a018b",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-23/pdf/2026-14992.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-04.txt",
+          "sha256": "299437e6ea0db3d34b074bdd8b90601ddb3b07d9c8309599dbac041cd5805d8a"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-05.txt",
+          "sha256": "271628cb173fe4bdbedd942911a05bd547742a8cf98f0df426465f422593dca3"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-06.txt",
+          "sha256": "fb1b7c61325ecf60198bfe8dab2b207acc4f568bb53860aea7c6ce76b840f233"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-07.txt",
+          "sha256": "d694b6f7606bc7c16f4cae5f6156a480e47531cdfed1d4ca3fd5886daa31a39c"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-08.txt",
+          "sha256": "52d8e1e17cd6f5f034b8abd69957a3af687b93146760664abab782afcc9df479"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14992-09.txt",
+          "sha256": "0bfcd1264e0a38b60642d8277f1e1231684efbde62efa37b4ff6e257728b30e1"
+        }
+      ]
+    },
+    {
+      "id": "2026-14997",
+      "program": "motor_vehicles",
+      "kind": "original",
+      "path": "resources/legal_evidence/section338/2026-14997.pdf",
+      "sha256": "e4b7af55b55baaa23f4872734685e664e52c6879c1c8cd93ac88d9ac9a85a9c0",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-23/pdf/2026-14997.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-05.txt",
+          "sha256": "d86679ca6a42c666cb782f3a34abf45efa5fc09acce53396846bb74f9ce702bd"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-06.txt",
+          "sha256": "fd36d70051e67b7217b02b04feac2bc6caa978eb1b31b2e48ac9eda29b88b340"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-07.txt",
+          "sha256": "b989bbc49966145693d4caf9f57583b5f25d1505e01edc418f32a08a8c2d17be"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-08.txt",
+          "sha256": "dc16c8e870c4712bc941aca50d76b368a5efdaa686e3bbcdfff9d38a160c84a1"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-09.txt",
+          "sha256": "1a1d8a61c5a26a54636a5143ca402965295555958229277db890aa4fcb6beb5c"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-10.txt",
+          "sha256": "ec7fb584b21a62cf35aac6f3218b6455bdd633d90f06b456ae6789d08e7ea59d"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-11.txt",
+          "sha256": "908bd4b3727d300eca2fc11f42bfda28a10513036bf49698e783c1457e13a434"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-12.txt",
+          "sha256": "63818033720c1f70366fa3644172bc72ec11cccbadc8e06877d42b2e159fa68c"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-13.txt",
+          "sha256": "2763b5564c787327548ffcfd6318f9e34aedc0441ad0c93fa000e26d6822ee65"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-14.txt",
+          "sha256": "13efa3ff2f93df93a1fc939b8700bf34e7873107160f38ec42e179018e543147"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-15.txt",
+          "sha256": "effbcd44517d639b76ec49b5ed9cee898bad3796c44d34655dc1b30d6013bf84"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-16.txt",
+          "sha256": "c8ac5518993e688530ff4f9c3a04ea9c2e049fd5859fa46c608e6e5a3dce1506"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-17.txt",
+          "sha256": "c4311e257824098a87934bd5080b235bf1467fde16b663564a59165788883a42"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-18.txt",
+          "sha256": "499f7db883d4e8d8adf830930d1f016d833fc7a2c7b073e6fc1aae03962176a3"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-19.txt",
+          "sha256": "b225be6e7cb2389d517d1d8a5c935b61bd62a998f24933344e4f0cf93edc9e46"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-20.txt",
+          "sha256": "f98cd1cdc10d9dcb6d637dbea6b88db0403e43ebbd65d31698c8256b8d7f0a54"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-21.txt",
+          "sha256": "be86dda5a892290904ecd801f28595689b9257159d4ad77abdc937865bdabe8d"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-22.txt",
+          "sha256": "806de00581907cdba46de7351be04d4abac496d98f19a2ab299c707057d2d6c3"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-23.txt",
+          "sha256": "2703032642f16a6145e236000e18f02e1d9e62ecf9224deeb438e28460def300"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-24.txt",
+          "sha256": "103d32795cdcfc794967f92d49da973687bec036cb95950de9989a9b827ece70"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-25.txt",
+          "sha256": "bca2c1d344b0d6fb266069b54f3a669dd0461cba6eff10f3b50736e307e03d5a"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-14997-26.txt",
+          "sha256": "a0274690b4e3a03ab90690a869c7a6d77693e2ac82595c67ff5d6295f9a587ab"
+        }
+      ]
+    },
+    {
+      "id": "2026-18838",
+      "program": "alcohol",
+      "kind": "amendment",
+      "path": "resources/legal_evidence/section338/2026-18838.pdf",
+      "sha256": "f93f50ab4fa27f38f88152f787184b657b59e38f4bac255457fabf151f6401b7",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-14/pdf/2026-18838.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18838-04.txt",
+          "sha256": "ef9b5c98ccc15c4cc46ca8462bfbceeed5c7dca741707dfbb2a901a67866b11c"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18838-05.txt",
+          "sha256": "56168f6a47a92487e5811ae4559a5851fc8c04412e8b17168527d4f43e389c91"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18838-06.txt",
+          "sha256": "762759c4366f1143061646d8933975a074806d147209537a2d0b6ee0f2d11f33"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18838-07.txt",
+          "sha256": "104975799b39f0f43a003ae1562703833de637623a1b337b6d219c6e44beaf66"
+        }
+      ]
+    },
+    {
+      "id": "2026-18839",
+      "program": "motor_vehicles",
+      "kind": "amendment",
+      "path": "resources/legal_evidence/section338/2026-18839.pdf",
+      "sha256": "137f6b30ef4b597cf514212e1a5f64bf9c9076a67b3f69f769d869d13826921d",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-14/pdf/2026-18839.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18839-04.txt",
+          "sha256": "6d85804dbf605492a8044a4ed736a692cad165c6bb709d2801ba2053279ec872"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18839-05.txt",
+          "sha256": "ac34023982d293b5008a313f69d7d0e1c93331d75f5b596413753f41336c17c5"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18839-06.txt",
+          "sha256": "beac1514b5c80655a0a1959c641699f789fd55f752c91b76f0f44b05ccf59636"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18839-07.txt",
+          "sha256": "c9e841694b439ab7efaabf7fc60ff614ddc8f2bc9a46fdc55e407f51d4339212"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-18839-08.txt",
+          "sha256": "b46712e9e744b9111ef3e527d64081c6c5bb86acdc2a957918abbbbd3fe2dc97"
+        }
+      ]
+    },
+    {
+      "id": "2026-17294",
+      "kind": "delay",
+      "path": "resources/legal_evidence/section338/2026-17294.txt",
+      "sha256": "87e607ca5023ae68a4721da727001dc9af8f020049f375ea15ad78a33d98a035",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-08-24/html/2026-17294.htm"
+    }
+  ],
+  "review": "Original Annex I discovery tables and Annex II operative tables reconciled independently; table OCR retained with source-page identity. Motor page 25 uses PSM 6 to preserve row order. Source PDF is authoritative."
+}

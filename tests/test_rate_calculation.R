@@ -1838,24 +1838,20 @@ run_test('revision_interval_covers spans activation inside an interval', {
 message('\n--- Test 14: Section 338 Canada ---')
 
 s338_fixture <- function() {
-  pf <- tempfile(fileext = '.csv'); gf <- tempfile(fileext = '.csv')
-  write_csv(tibble(hts8 = c('22030000', '04061000', '87032301'),
-                   program = c('alcohol', 'dairy', 'motor_vehicles'),
-                   ch99_heading = c('9903.03.12', '9903.03.13', '9903.03.14')), pf)
-  write_csv(tibble(hts8 = '87032301'), gf)          # pretend this is a GN 6 line
-  list(cfg = list(effective_date = as.Date('2026-08-19'), rate = 0.50,
-                  country = '1220', products_file = pf, gn6_exempt_products = gf,
-                  unmanned_aircraft_hts8 = character(0)),
+  # Production now reconciles every projection against the original annex.
+  # These are actual listed provisions; GN6 here is the aggregate assumption,
+  # while tests/test_s338_rules.R tests shipment-use predicates independently.
+  list(cfg = load_policy_params()$SECTION_338,
        rows = tibble(
-         hts10 = c('2203000000', '0406100000', '8703230100', '0101300000', '2203000000'),
+         hts10 = c('2203000030', '0402101000', '9403200090', '0101290010', '2203000030'),
          country = c('1220', '1220', '1220', '1220', '5700'),
          statutory_rate_232 = 0, rate_232 = 0, s232_annex = NA_character_),
-       files = c(pf, gf))
+       files = character())
 }
 
 run_test('applies 50% to covered Canadian lines only', {
   f <- s338_fixture()
-  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-19'))
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-22'))
   stopifnot(abs(r[1] - 0.50) < 1e-12)   # alcohol, Canada
   stopifnot(abs(r[2] - 0.50) < 1e-12)   # dairy, Canada
   stopifnot(abs(r[4] - 0) < 1e-12)      # not on any annex
@@ -1863,19 +1859,18 @@ run_test('applies 50% to covered Canadian lines only', {
   unlink(f$files)
 })
 
-run_test('WTO civil-aircraft lines fully excluded (Proc 11047 para. 2)', {
+run_test('aggregate GN6 assumption remains separate (Proc 11047 para. 2)', {
   f <- s338_fixture()
-  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-19'))
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-22'))
   stopifnot(abs(r[3] - 0) < 1e-12)
   unlink(f$files)
 })
 
-run_test('unmanned aircraft are the EXCEPTION to the aircraft carve-out', {
-  # "articles, EXCLUDING UNMANNED AIRCRAFT, subject to the WTO Agreement on
-  # Trade in Civil Aircraft" — a UAV line on the GN 6 list still pays.
+run_test('GN6 association alone cannot remove unclaimed statutory duty', {
+  # A listed furniture provision does not establish aircraft use. The shipment
+  # compiler separately excludes military and unmanned aircraft from GN6 relief.
   f <- s338_fixture()
-  cfg <- modifyList(f$cfg, list(unmanned_aircraft_hts8 = '87032301'))
-  r <- compute_s338_rates(f$rows, cfg, as.Date('2026-08-19'))
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-22'), statutory=TRUE)
   stopifnot(abs(r[3] - 0.50) < 1e-12)
   unlink(f$files)
 })
@@ -1883,14 +1878,14 @@ run_test('unmanned aircraft are the EXCEPTION to the aircraft carve-out', {
 run_test('articles subject to §232 fully excluded', {
   f <- s338_fixture()
   rows <- f$rows; rows$statutory_rate_232[1] <- 0.50
-  r <- compute_s338_rates(rows, f$cfg, as.Date('2026-08-19'))
+  r <- compute_s338_rates(rows, f$cfg, as.Date('2026-08-22'))
   stopifnot(abs(r[1] - 0) < 1e-12)
   unlink(f$files)
 })
 
-run_test('dormant before 2026-08-19', {
+run_test('dormant through August21 after original commencement was postponed', {
   f <- s338_fixture()
-  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-18'))
+  r <- compute_s338_rates(f$rows, f$cfg, as.Date('2026-08-21'))
   stopifnot(all(abs(r) < 1e-12))
   unlink(f$files)
 })
@@ -1898,7 +1893,7 @@ run_test('dormant before 2026-08-19', {
 run_test('rejects rates above the Section 338 statutory ceiling', {
   f <- s338_fixture()
   err <- tryCatch({ compute_s338_rates(f$rows[1, ],
-    modifyList(f$cfg, list(rate = 0.75)), as.Date('2026-08-19')); NULL }, error = identity)
+    modifyList(f$cfg, list(rate = 0.75)), as.Date('2026-08-22')); NULL }, error = identity)
   stopifnot(inherits(err, 'error'))
   unlink(f$files)
 })

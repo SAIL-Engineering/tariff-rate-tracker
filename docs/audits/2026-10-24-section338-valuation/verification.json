@@ -1,0 +1,105 @@
+{
+  "base_sha": "e716bccaf16e52dcad0b016b01bb9efb03d2e648",
+  "branch": "wjr_dev",
+  "checks": [
+    {
+      "name": "python",
+      "command": "/usr/bin/python3 -m pytest -q tests/python",
+      "exit_code": 0,
+      "passed": 341,
+      "log": "verification/python.log.gz",
+      "log_sha256": "db854b37ea6b2c03809a73a3426d6603f55972fa359bf4b4ed5dcb7d64e41a38",
+      "compressed_sha256": "69723ba2534ec0c3be6eb59bf4130402e1827907c45c3470902612d43a1ab287"
+    },
+    {
+      "name": "node",
+      "command": "node --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 362,
+      "log": "verification/node.log.gz",
+      "log_sha256": "98c3b5ed4900aa8c14e724e4f10ff69cffe153a36329bdf00849ee0d0d15c2cc",
+      "compressed_sha256": "a4969276e06e7b1045e72de2989a0e6ffeb5ed8963f71dab346c53717e83b13b"
+    },
+    {
+      "name": "r",
+      "command": "Rscript tests/run_all_tests.R --require-data",
+      "exit_code": 1,
+      "suites": 41,
+      "counted_passed": 402,
+      "counted_failed": 0,
+      "suite_errors": [
+        "test_normalized_parity.R"
+      ],
+      "missing_or_stale_partitions": 312,
+      "missing_external_input": "data/tpc/tariff_by_flow_day.csv",
+      "skipped_suites": [
+        "test_tpc_comparison.R"
+      ],
+      "log": "verification/r.log.gz",
+      "log_sha256": "0ab11d427d536fb3743acc0f75e59d177578fe45866d8c39b31abc4d2df7f826",
+      "compressed_sha256": "36e2ac19399547db841a773b496e7c2b452bcfb67c960861d2874d4e04b8fb65"
+    },
+    {
+      "name": "typecheck",
+      "command": "cd frontend && node node_modules/typescript/bin/tsc --noEmit",
+      "exit_code": 0,
+      "log": "verification/typecheck.log.gz",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressed_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "build",
+      "command": "cd frontend && node node_modules/vite/bin/vite.js build --outDir /tmp/authority-tracker-build-20261024-section338",
+      "exit_code": 0,
+      "log": "verification/build.log.gz",
+      "log_sha256": "a7b3a4ff126b755c770c40567b98fb0cef3c496e9a4e8ba0d507461f8ac2d2ff",
+      "compressed_sha256": "e0e3b107ef9a3e35401e85ed736a984ea96f40af2a083da900b7bfea637a6ff4"
+    },
+    {
+      "name": "section338_source_sweep",
+      "command": "python3 scripts/audit_section338_sources.py docs/audits/2026-10-24-section338-valuation/source-sweep --motherduck /tmp/section338-motherduck-20261024.json",
+      "exit_code": 0,
+      "revisions": 55,
+      "log": "verification/section338_source_sweep.log.gz",
+      "log_sha256": "13e7d5de93e2d099c00e4131dc4107c2fd0af25769bc60ef09a26b49a9021cd9",
+      "compressed_sha256": "0f67e3a0a23ff612ebbfb6ae0ad526d64b5175f5164a7db390d3552b3503b2e1"
+    },
+    {
+      "name": "section122",
+      "command": "Rscript tests/test_s122_rules.R --emit",
+      "exit_code": 0,
+      "cases": 58,
+      "log": "verification/section122.log.gz",
+      "log_sha256": "2fb9973bf71274c8e24e149f71afb318d7a246172ca89334b46b5bf6b4ba172b",
+      "compressed_sha256": "7ec0c7c9aacd736d0faffd6fe0c2e4e7600bbf720e08f7e34175758f8968477a"
+    },
+    {
+      "name": "section338",
+      "command": "Rscript tests/test_s338_rules.R --emit",
+      "exit_code": 0,
+      "cases": 41,
+      "log": "verification/section338.log.gz",
+      "log_sha256": "86b4428cf9bd7b4a1336fa09e890f59133301ee454a315cc4346066837b270da",
+      "compressed_sha256": "d304200accd0a07ad9bd3195985573ab35e5f1e52f77896d21b17a3fe533ce92"
+    },
+    {
+      "name": "section338_pipeline",
+      "command": "Rscript tests/test_s338_pipeline.R",
+      "exit_code": 0,
+      "bounded_products": 4,
+      "origins": 1,
+      "log": "verification/section338_pipeline.log.gz",
+      "log_sha256": "0242bc539f4a272f58c4bb1696b4e62d192748e190a4ed73c323ea2954dea1f1",
+      "compressed_sha256": "0bffff8ec011d9755067eac07a9d25feae3a4ef93fe999363bba193d7b22f180"
+    }
+  ],
+  "full_r_gate_passed": false,
+  "timeseries_rebuilt": false,
+  "motherduck_written": false,
+  "complete_legal_coverage": false,
+  "notes": [
+    "R aggregate summary counts only suites that report numeric totals; 402 is not the complete assertion count.",
+    "Bounded pipeline test was rerun successfully by the final full R gate after the last applicability assertions were added.",
+    "Native Node v22 required for DuckDB bindings; local route fixtures do not prove a deployed API release."
+  ]
+}

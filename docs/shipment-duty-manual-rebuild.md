@@ -343,3 +343,44 @@ A source-only check, independent of WJR's timeseries rebuild, is:
 python3 scripts/audit_section122_interactions.py output/section122-interactions-NEW.json
 Rscript tests/test_s122_rules.R
 ```
+
+## Executable Section 338 and Chapter 98 dependency
+
+The normal emitter also writes `section338_source.json` and
+`section338_rules.json`, and action-specific rows in the existing
+`authority_product_applicability.parquet`. The latter exposes
+`legal_rate_parameter`, exact/prefix scope, `requires_section232_inventory`,
+`source_ids_json` and `entry_valid_from`; it leaves unpriced `statutory_rate` NULL.
+These are additive columns in an existing release table, not permission to
+replace the active table in place. Rebuild every partition consistently.
+
+Compose each revision's emitted Section 338 fragment with that revision's
+reviewed base bundle and other fragments. It retains August 22/September 15
+instants even when they fall between HTS publications. Reuse of a single pinned
+revision does not satisfy the release contract. Example local composition:
+
+```sh
+Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json NEW_COMPOSED_BUNDLE.json \
+  output/normalized/REVISION/section338_rules.json \
+  OTHER_REVIEWED_FRAGMENTS.json
+```
+
+The Section 122/338 Chapter 98 clauses now use revision-valid provisions,
+proper claim/CBP agreement and source-defined repair/assembly values. Supply
+`CHAPTER_98` in the shipment's claims when selecting that treatment. Other
+authorities with uncompiled claim effects remain “Claim not priced.” Intersecting
+Section 232 and adjusted Chapter 98 values needs a reconciled overlap value.
+
+Read-only/source-only reproduction, without a timeseries rebuild:
+
+```sh
+node frontend/scripts/audit-section338-motherduck.mjs .env NEW_MD_EXPORT.json
+python3 scripts/audit_section338_sources.py NEW_AUDIT_DIR --motherduck NEW_MD_EXPORT.json
+Rscript tests/test_s338_rules.R
+Rscript tests/test_s338_pipeline.R
+```
+
+The last command uses four products in temporary local output. It is not a
+revision rebuild. See the [evidence, findings and limits](audits/2026-10-24-section338-valuation/README.md).
+No live MotherDuck publication is authorized. The full R gate still requires
+rebuilt normalized partitions and the actual TPC input.

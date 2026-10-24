@@ -55,6 +55,13 @@
       "sha256": "7bc5fe3bc0f93dc2dae12cc6caf772d417b2873ea79183ac56911ff3ff8df8d2",
       "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-23/pdf/2026-07987.pdf",
       "citation": "Annex paragraphs 3-10, pp.21793-21794. Explicit insertion .04-.19, corroborated by revision 6; malformed deletion operand retained. Published Eastern standard time is honored literally."
+    },
+    {
+      "id": "FR-2026-03824-chapter98-transcription",
+      "path": "resources/legal_evidence/section122/interactions/2026-03824-page9347-ocr.txt",
+      "sha256": "d6c9eb48a54cddc79e061ed3ce2cede479326884e8581aad412a0befd25ff98b",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03824.pdf",
+      "citation": "Original Annex I, note 2(aa)(i), page 9347. Chapter 98 claim and valuation clause visually reconciled with the source PDF."
     }
   ],
   "clauses": [

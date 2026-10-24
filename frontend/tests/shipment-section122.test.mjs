@@ -42,6 +42,12 @@ test('stored Section 122 bundle preserves portions and incompleteness through JS
   const json=await request('/api/shipments/resolve',shipment);
   assert.equal(json.data[0].known_subtotal,18);assert.equal(json.data[0].complete_total,null);
   assert.deepEqual(json.data[0].components.filter(x=>x.authority==='section_122'&&x.status==='applied').map(x=>x.amount).sort(),[0,8]);
+  const chapter98=await request('/api/shipments/resolve',{...shipment,facts:{...shipment.facts,
+   claims:['CHAPTER_98'],s122_chapter98_claimed:true,chapter98_properly_claimed_and_cbp_agreed:true,
+   chapter98_provision:'98020040',chapter98_repairs_alterations_processing_value:30}});
+  assert.equal(chapter98.data[0].known_subtotal,0);
+  assert.equal(chapter98.data[0].complete_total,null);
+  assert.ok(chapter98.data[0].source_errors.some(e=>e.includes('claim_not_priced:CHAPTER_98')));
   const body={contract_version:SHIPMENT_CONTRACT,shipments:[shipment,{...shipment,facts:{}}]};
   const batch=await request('/api/rates/batch',body);
   assert.equal(batch.data[1].known_subtotal,0);assert.ok(batch.data[1].missing_inputs.length);

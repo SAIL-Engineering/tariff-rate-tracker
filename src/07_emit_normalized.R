@@ -685,6 +685,11 @@ emit_authority_product_applicability <- function(products, ch99_data,
     }
   }
 
+  # Original-annex Section338 actions, including inter-revision amendments.
+  # Keep the action percentage separate from unresolved shipment liability.
+  source(here_fn('src','section338_revision.R'))
+  rows[['s338_actions']]<-s338_normalized_applicability(revision_id,effective_date,vf,vu)
+
   # ---- Section 301 buckets (per HS8, from resources/s301_product_lists.csv) ----
   s301_products_path <- here_fn('resources', 's301_product_lists.csv')
   if (!is.null(denorm_state$s301_matches)) {
@@ -1285,6 +1290,9 @@ emit_normalized_revision <- function(
     jsonlite::write_json(compile_s122_fragment(denorm_state$s122$source,products$hts10),
       file.path(output_dir,revision_id,'section122_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
   }
+
+  source(here::here('src/section338_revision.R'))
+  emit_s338_rules(revision_id,products$hts10,output_dir)
 
   candidates <- denorm_state$heading_candidates %||% list()
   source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')
