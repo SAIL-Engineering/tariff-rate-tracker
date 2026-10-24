@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_sail-gtx-prerelease/sail-gtx-prerelease
+
+ ✓ src/tests/tariffRates/shipmentRules.test.ts (46 tests) 40ms
+ ✓ src/tests/tariffRates/shipmentClient.test.ts (63 tests) 85ms
+
+ Test Files  2 passed (2)
+      Tests  109 passed (109)
+   Start at  23:19:41
+   Duration  829ms (transform 246ms, setup 0ms, collect 334ms, tests 125ms, environment 0ms, prepare 188ms)

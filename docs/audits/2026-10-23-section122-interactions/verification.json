@@ -1,0 +1,242 @@
+{
+  "base_sha": "46aa24b1b435542ff20e8487a2cc32b37fdf85e3",
+  "branch": "wjr_dev",
+  "sail_base_sha": "2e2720b84c78b0fbc2199d614ae83c7912581806",
+  "sail_branch": "pinecone-hts",
+  "sail_commit": "a072ade66cbf93d00451a557d332d95e4ea0493a",
+  "sail_shared_interpreter_sha256": "be1e6ff24c9684dfdca62a902bba27a11dfe59e646f624bed02de8ab1c134785",
+  "trade_intelligence_changed": false,
+  "timeseries_build_run": false,
+  "production_writes": false,
+  "pushed": false,
+  "checks": [
+    {
+      "command": "/usr/bin/python3 -m pytest tests/python -q",
+      "exit_code": 0,
+      "passed": 330,
+      "log": "python-tests.log"
+    },
+    {
+      "command": "/usr/bin/python3 -m pytest tests/python/test_section122_rules.py -q",
+      "exit_code": 0,
+      "passed": 8,
+      "log": "python-focused-final.log",
+      "scope": "Final dependency hash metadata change checked after full Python suite."
+    },
+    {
+      "command": "Rscript tests/test_s122_rules.R --emit",
+      "exit_code": 0,
+      "scenarios": 38,
+      "log": "r-conformance.log"
+    },
+    {
+      "command": "native Node v22.22.3 --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 282,
+      "log": "node-tests.log"
+    },
+    {
+      "command": "Rscript tests/run_all_tests.R --require-data",
+      "exit_code": 1,
+      "suites": 39,
+      "ok": 37,
+      "error": 1,
+      "skipped": 1,
+      "counted_assertions_passed": 402,
+      "log": "r-tests.log",
+      "limitation": "312 missing/stale normalized partitions stop parity; missing TPC input. Not a passing full R gate. Includes bounded normal-emission test verifying the new fragment and its evidence hashes."
+    },
+    {
+      "command": "native Node node_modules/vitest/vitest.mjs run src/tests/tariffRates/shipmentRules.test.ts src/tests/tariffRates/shipmentClient.test.ts",
+      "repository": "SAIL",
+      "exit_code": 0,
+      "passed": 109,
+      "log": "sail-tests.log"
+    },
+    {
+      "command": "native Node node_modules/typescript/bin/tsc --noEmit -p server/tsconfig.json",
+      "repository": "SAIL",
+      "exit_code": 0,
+      "log": "sail-server-typecheck.log"
+    },
+    {
+      "command": "native Node node_modules/eslint/bin/eslint.js server/src/shared/duty/shipmentRules.ts src/tests/tariffRates/shipmentRules.test.ts",
+      "repository": "SAIL",
+      "exit_code": 0,
+      "log": "sail-lint.log"
+    },
+    {
+      "command": "native Node node_modules/typescript/bin/tsc --noEmit",
+      "repository": "tracker/frontend",
+      "exit_code": 0,
+      "log": "tracker-typecheck.log"
+    },
+    {
+      "command": "native Node node_modules/vite/bin/vite.js build --outDir /tmp/s122-tracker-build",
+      "repository": "tracker/frontend",
+      "exit_code": 0,
+      "log": "tracker-build.log",
+      "warning": "Existing chunk-size warning; tracked dist untouched."
+    },
+    {
+      "command": "python3 scripts/audit_section122_interactions.py docs/audits/2026-10-23-section122-interactions/source-sweep-final.json",
+      "exit_code": 0,
+      "revisions": 55,
+      "with_section122": 18,
+      "post_expiry_note_warning": 8,
+      "historical_windows": 5,
+      "log": "source-audit.log",
+      "limitation": "Source-only bounded compilation, not a full HTS10/origin sweep or a rebuild."
+    }
+  ],
+  "log_normalization": "Trailing spaces and final blank lines removed from verification logs. Empty successful lint/typecheck logs are retained as empty files; source PDFs are unchanged.",
+  "not_qualified": [
+    "complete legal coverage",
+    "full normalized/wide parity",
+    "all-HTS10/origin/interval sweep",
+    "production MotherDuck deployment",
+    "full SAIL application/build/browser qualification"
+  ],
+  "files": [
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/README.md",
+      "sha256": "4f08a908fec1ec093f94973e5ec1640a948c83df9107246cb4126813aa1248ad"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/node-tests.log",
+      "sha256": "cd7afb1702cd73edb4f8a183ff4ac5ebc16a661dfa89ca66cf4fd63a24db56de"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/python-focused-final.log",
+      "sha256": "f67193047e43957f17a1dce73280117e178430360cf2926899e6ec31bd78992a"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/python-tests.log",
+      "sha256": "887e52411403577c7ae7111ec3ec6fa53a4aa48cfa2b390e206d220fcdfdf9da"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/r-conformance.log",
+      "sha256": "5aa5c30e14b37934d13e0d2ad1a012097a2a0f61359d1ef63f7708f4ada9bb9c"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/r-tests.log",
+      "sha256": "7c38b0f73b2bdb169db77de3cb0c6a4402e5f95110bcb2c6120d12dfb8edff83"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/sail-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/sail-server-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/sail-tests.log",
+      "sha256": "e58b22204c03fa5322efe03cde8541b3549833647c8f212c90f7e7fd877aa96f"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/source-audit.log",
+      "sha256": "d9942a1eb9ced8ad75f4929891ca50616b66d5b4db3dabc511d7ebce395af1f9"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/source-sweep-final.json",
+      "sha256": "5280b0e9755cc581457058f33bf5765f1253846ccd0ea764a58a3ccfd858fddc"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/tracker-build.log",
+      "sha256": "36f5f5277ba7077a610293d3f4c46c6aa20d65d880f2ecfbf6cf677e3ecdb29e"
+    },
+    {
+      "path": "docs/audits/2026-10-23-section122-interactions/tracker-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/shipment-duty-manual-rebuild.md",
+      "sha256": "6641eb4366465bb4f7fc473955005a08e65bbcedb88a808bc3b92f4e7ef400ee"
+    },
+    {
+      "path": "docs/shipment-rule-contract.md",
+      "sha256": "85f760e43702ef3b197ee70e533e3ce0f58385aee6a892076965965286ea7b5b"
+    },
+    {
+      "path": "frontend/server/generated/shipmentRules.js",
+      "sha256": "27618e7b78ed9a14ddba3a4c5ea07b41af50890c20dce28c1108e168d4316d34"
+    },
+    {
+      "path": "frontend/tests/shipment-section122.test.mjs",
+      "sha256": "605c761e17c858505c89631c84afedd181aa07da5dd1b2bc1fe004a2cdddfa43"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-03824-page9355-ocr.txt",
+      "sha256": "f616b1c0c2f078068279e1abdfac2058de18a690dcb3ee2f97046f17245a56e4"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-03824.pdf",
+      "sha256": "1ad226167d7f1b92feac3a2b1adc54bb332093f46e37c248eb714d9340b63cb9"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-03824.txt",
+      "sha256": "4d1a2850e94e5bd2ed30d22ecb95408f67ec13ec9aed445153bd63885b036e52"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-06960-page18261-ocr.txt",
+      "sha256": "b2c7ddebb93db6583e0ac02b825770f0f899064d49fff25daf3a614db0616c9c"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-07987.pdf",
+      "sha256": "7bc5fe3bc0f93dc2dae12cc6caf772d417b2873ea79183ac56911ff3ff8df8d2"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-07987.txt",
+      "sha256": "b672fbdeca315bebcd41cf15bcd55188b884b93d157aa632f1444794ae881455"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/2026-10571.txt",
+      "sha256": "81a9c0148f3b7e744b95064849e7385cd4f2335be179659a3b06dfe79e6adb41"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/review.json",
+      "sha256": "5b94d493172aabda95f4f4a79eea928bc915796e2805e0a13ba442b7a9af6bab"
+    },
+    {
+      "path": "scripts/audit_section122_interactions.py",
+      "sha256": "48e89d175c4efd181e55628a2a54880016e09e30907fd86fe094c4f9ee0f7eae"
+    },
+    {
+      "path": "src/07_emit_normalized.R",
+      "sha256": "4a7169dc9b333b95f569d2c62bd089a929aef09aa720eef4e7898c812a01ccee"
+    },
+    {
+      "path": "src/compile_shipment_rules.R",
+      "sha256": "86c32364b3240948fc3885c65399d1a0369c6359246624332ea425ce41d2f841"
+    },
+    {
+      "path": "src/resolve_shipment_duties.R",
+      "sha256": "318ae084a123d2bca1cb83e5158ba34bc733e411967e7bd4e3519e680e4cde93"
+    },
+    {
+      "path": "src/section122_revision.R",
+      "sha256": "6409b1a2edd7b33a1daa40b134ce4f8aa387bc273e7e73cab2f8c5e6c6fe86d8"
+    },
+    {
+      "path": "src/section122_rules.py",
+      "sha256": "c4862317ccdf3e9117a5265df2e6e7e58d9e134925fc3c3c0e1107467c36dd77"
+    },
+    {
+      "path": "tests/fixtures/shipment/section122.json",
+      "sha256": "9ccd960c88a57d9177763ca3a88bb34421cc0000f12c0383128263a14b61abc2"
+    },
+    {
+      "path": "tests/python/test_section122_rules.py",
+      "sha256": "757e91f9d369dd55669bd0a3ffc50ccda316497122961100bfc486cc85093617"
+    },
+    {
+      "path": "tests/test_s122_rules.R",
+      "sha256": "3891f59d9865c1eca8b5ba1898d37c1c04a78a732da0a5ba4f68af0598b3977f"
+    },
+    {
+      "path": "tests/test_s232_legacy_pipeline.R",
+      "sha256": "672bbb6c58cf32e58f8cc3b59e084cfb7e9cbb866913103e5c3bf4743019f3bb"
+    }
+  ]
+}

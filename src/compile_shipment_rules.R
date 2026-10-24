@@ -41,6 +41,41 @@ compose_shipment_rules <- function(bundle, fragments) {
   }
   bundle$sources <- merge_by_id(c(bundle$sources, unlist(lapply(fragments, `[[`, 'sources'), recursive = FALSE)), 'source')
   bundle$rules <- merge_by_id(c(bundle$rules, unlist(lapply(fragments, `[[`, 'rules'), recursive = FALSE)), 'rule')
+  # Bind source-derived reporting predicates to action identities. Empty matches
+  # do not establish legal absence: the pricing expression separately requires
+  # a verified authority inventory. This is a compiler construct, not a caller fact.
+  overlap <- function(a,b) {
+    if(length(a$countries)&&length(b$countries)&&!length(intersect(unlist(a$countries),unlist(b$countries)))) return(FALSE)
+    if(!is.null(a$from)&&!is.null(b$until)&&.shipment_time(a$from)>=.shipment_time(b$until)) return(FALSE)
+    if(!is.null(b$from)&&!is.null(a$until)&&.shipment_time(b$from)>=.shipment_time(a$until)) return(FALSE)
+    if(length(a$hts_exact)&&length(b$hts_exact)&&!length(b$hts_prefixes)&&!length(intersect(unlist(a$hts_exact),unlist(b$hts_exact)))) return(FALSE)
+    TRUE
+  }
+  original_rules <- bundle$rules
+  bind_reporting <- function(node,scope) {
+    if(!is.list(node)) return(node)
+    if(!is.null(node$reporting_predicate)) {
+      p<-node$reporting_predicate
+      if(length(node)!=1 || !identical(p$authority,'section_232') || !length(p$codes) ||
+         any(!grepl('^9903\\.[0-9]{2}\\.[0-9]{2}$',unlist(p$codes))) ||
+         !is.logical(p$positive_duty)||length(p$positive_duty)!=1 ||
+         !is.logical(p$exclude)||length(p$exclude)!=1) stop('Invalid reporting predicate')
+      selected<-Filter(function(r) identical(r$authority,p$authority)&&overlap(scope,r$scope),original_rules)
+      selected<-Filter(function(r) {
+        hit<-intersect(unlist(r$reporting_codes),unlist(p$codes))
+        if(length(hit)&&length(setdiff(unlist(r$reporting_codes),unlist(p$codes)))) stop('Mixed reporting decision must be split: ',r$id)
+        if(p$exclude) !length(hit) else length(hit)>0
+      },selected)
+      args<-lapply(selected,function(r) if(p$positive_duty)
+        list(op='gt',args=list(list(rule_amount=r$id),list(value=0))) else list(rule_applies=r$id))
+      return(if(!length(args)) list(value=FALSE) else if(length(args)==1) args[[1]] else list(op='or',args=args))
+    }
+    lapply(node,bind_reporting,scope=scope)
+  }
+  bundle$rules <- lapply(bundle$rules,function(r) {
+    for(k in c('when','suppressed_when','formula','input_constraints')) if(!is.null(r[[k]])) r[[k]]<-bind_reporting(r[[k]],r$scope)
+    r
+  })
   claims <- list()
   for (claim in c(bundle$claim_definitions,unlist(lapply(fragments,`[[`,'claim_definitions'),recursive=FALSE))) {
     if (is.null(claim$id) || !nzchar(claim$id) || !length(claim$source_ids) || !length(claim$rule_ids))
@@ -127,6 +162,7 @@ compose_shipment_rules <- function(bundle, fragments) {
   # a claim-name prefix alone is not evidence of its meaning.
   passthrough <- merge_by_id(unlist(lapply(fragments,`[[`,'unchanged_claims'),recursive=FALSE),'claim relation')
   for(edge in passthrough) {
+    if(!is.null(edge$effect) && !edge$effect %in% c('unchanged','reevaluate')) stop('Invalid claim relation effect')
     if(length(edge$target_authorities)) {
       if(length(edge$target_rule_ids)||!length(edge$claim_ids)) stop('Authority claim relation requires explicit claims')
       edge$target_rule_ids<-as.list(ids[vapply(bundle$rules,function(r) r$authority %in% unlist(edge$target_authorities),logical(1))])
@@ -150,11 +186,13 @@ compose_shipment_rules <- function(bundle, fragments) {
       if(!length(candidates)) next
       crules<-bundle$rules[match(candidates,ids)]
       if(anyNA(match(candidates,ids)) || !all(vapply(crules,function(r) identical(r$authority,edge$claim_authority),logical(1)))) next
+      if(length(edge$candidate_required_fields) && !all(vapply(crules,function(r)
+        all(vapply(unlist(edge$candidate_required_fields),function(k) is.character(r[[k]])&&length(r[[k]])==1&&nzchar(r[[k]]),logical(1))),logical(1)))) next
       claim$rule_ids<-as.list(sort(unique(c(unlist(claim$rule_ids),unlist(edge$target_rule_ids)))))
       claim$source_ids<-as.list(sort(unique(c(unlist(claim$source_ids),unlist(edge$source_ids)))))
       bundle$claim_definitions[[i]]<-claim
       decisions[[length(decisions)+1L]]<-list(relation_id=edge$id,claim_id=claim$id,
-        effect='claim_leaves_liability_unchanged',rule_ids=edge$target_rule_ids,source_ids=edge$source_ids)
+        effect=if(identical(edge$effect,'reevaluate')) 'claim_reevaluates_action_dependencies' else 'claim_leaves_liability_unchanged',rule_ids=edge$target_rule_ids,source_ids=edge$source_ids)
     }
   }
   # Adding actions deliberately invalidates incomplete existing inventories.

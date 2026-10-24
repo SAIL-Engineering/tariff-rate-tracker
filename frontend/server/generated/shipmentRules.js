@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: 81a51675707440f5e3303962a242e18e1d3fce933f017c2223eb00e31947f957
+// Source SHA256: be1e6ff24c9684dfdca62a902bba27a11dfe59e646f624bed02de8ab1c134785
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -121,9 +121,16 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     function expr(x) {
         if (!x || typeof x !== 'object')
             return val(null, [], ['invalid_expression']);
-        const keys = ['value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'unresolved_source', 'op'].filter(k => k in x);
+        const keys = ['value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'authority_covered', 'unresolved_source', 'op'].filter(k => k in x);
         if (keys.length !== 1)
             return val(null, [], ['invalid_expression']);
+        if ('authority_covered' in x) {
+            if (typeof x.authority_covered !== 'string' || !x.authority_covered.length)
+                return val(null, [], ['invalid_coverage_dependency']);
+            const decisions = result.coverage_decisions.filter(d => d.authority === x.authority_covered);
+            return decisions.length === 1 && decisions[0].status === 'verified' ? val(true)
+                : val(null, [], [`coverage_dependency_unverified:${x.authority_covered}`]);
+        }
         if ('unresolved_source' in x)
             return typeof x.unresolved_source === 'string' && x.unresolved_source.length
                 ? val(null, [], [`source_discrepancy:${x.unresolved_source}`]) : val(null, [], ['invalid_source_discrepancy']);

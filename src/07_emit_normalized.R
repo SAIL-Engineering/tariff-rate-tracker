@@ -1278,9 +1278,13 @@ emit_normalized_revision <- function(
     file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
 
-  if(!is.null(denorm_state$s122$source)) jsonlite::write_json(
+  if(!is.null(denorm_state$s122$source)) {
+    jsonlite::write_json(
     denorm_state$s122$source,file.path(output_dir,revision_id,'section122_source.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    jsonlite::write_json(compile_s122_fragment(denorm_state$s122$source,products$hts10),
+      file.path(output_dir,revision_id,'section122_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
+  }
 
   candidates <- denorm_state$heading_candidates %||% list()
   source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')

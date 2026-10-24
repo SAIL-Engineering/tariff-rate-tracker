@@ -323,3 +323,23 @@ Without a reviewed snapshot, individual claims remain unavailable. Broad
 all-authority, post-April-2026 grant and preference/Chapter 98 interactions still
 need review. This option does not change aggregate shares, trigger a build,
 publish a release or write to MotherDuck.
+
+## Executable Section 122 interaction dependency
+
+The next ordinary build emits `section122_rules.json` for active Section 122
+states. Compose this fragment alongside the same revision's Section 232 and
+Section 301 fragments. It binds reporting decisions and requires verified
+Section 232 coverage before pricing a remaining taxable portion. Missing rules
+or attestations cannot be replaced by zero/aggregate values.
+
+The shared R and SAIL interpreters must both include `authority_covered` before
+a later approved release activation. Use a new dataset version. No extra live
+migration is required; the versioned rule bundle carries the expression. Read
+[the interaction findings and remaining source conflicts](audits/2026-10-23-section122-interactions/README.md).
+
+A source-only check, independent of WJR's timeseries rebuild, is:
+
+```sh
+python3 scripts/audit_section122_interactions.py output/section122-interactions-NEW.json
+Rscript tests/test_s122_rules.R
+```

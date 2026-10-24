@@ -20,6 +20,11 @@ stopifnot(identical(names(part),c(names(s232_note16_matches(list(lists=list()),c
  'revision','authority','state_valid_from','state_valid_until')))
 stopifnot(setequal(unique(part$hts10),'7318158085'),all(part$state_valid_from==as.Date('2026-03-01')),
  file.exists(file.path(out,'2026_rev_4','section232_legacy_rules.json')))
+source('src/compile_shipment_rules.R')
+s122<-read_shipment_rule_fragment(file.path(out,'2026_rev_4','section122_rules.json'))
+stopifnot(identical(s122$id,'section122_2026_rev_4'),length(s122$rules)>0,
+ all(vapply(s122$rules,function(r) identical(r$authority,'section_122'),logical(1))),
+ setequal(unique(unlist(lapply(s122$rules,function(r)r$scope$hts_exact))),products$hts10))
 app<-arrow::read_parquet(file.path(out,'2026_rev_4','authority_product_applicability.parquet'))
 metal<-app %>% filter(authority=='section_232',program %in% c('steel_base','alum_base','steel_deriv','aluminum_deriv'))
 stopifnot(!any(metal$hts_prefix %in% c('72','73','76'),na.rm=TRUE),

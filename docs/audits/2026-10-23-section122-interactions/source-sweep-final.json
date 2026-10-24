@@ -1,0 +1,1641 @@
+{
+  "revisions": [
+    {
+      "revision": "2025_basic",
+      "source_hashes": [
+        "ee46a05fd679f0b2758d8a110dad62acb66262886a1087d37379ce105fcd618b",
+        "fe9de40662e7ab4d263f3dfb2d9090f8f78892bf881ce521628bbb5440829d01"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_1",
+      "source_hashes": [
+        "aeac15b98ce09c94e2388c2a8fff33693acaf67c0c7997a2f5fa1b8110555c13",
+        "c1fcdf003066f6e0471ae82068cee3289ff26bc74c75ee00c75fcf1ba06c159f"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_2",
+      "source_hashes": [
+        "2d05a923e33329322bdf84fad315d1ec935f991d7ef56a0176e18d4186825e5a",
+        "a25ac13d6442f3c4bf075440cb26f4cfdeaa6be655e9e923a2ac7a01064a12fc"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_3",
+      "source_hashes": [
+        "cb188f75fd8f12f76a7a1efab2a19bb04e8eddb0d011e247686bb58029a0b302",
+        "6177777ed76cf40b2c00b2835f74e8f9486ecae4851e50ca98128848c959c108"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_4",
+      "source_hashes": [
+        "ad2db5f58b0acc29f21939b31bd8a5c037f30cb3ea4ae28d438cad790ef1da19",
+        "e164aeccdc9cb948b6f351f3d05997024e45b26a834ad53d72ec8bf880c3a772"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_5",
+      "source_hashes": [
+        "6135096c205abec026c66dfcb20d4e5acb0f54bdf98a71e037faf318c3eb534b",
+        "ca15d92fddaeb48e32547f983c8376ac7e40d238e275964f73eca73d0a67bf05"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_6",
+      "source_hashes": [
+        "248c068dcfdae57abced19f4dff4081c1745853e424867b87268c50e627ddd44",
+        "1d078537a8ab86bc22ce9221e838511b5246151a66a04d23e95d9b4149fd485e"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_7",
+      "source_hashes": [
+        "d538442589a10c91073613548ef4205f223be038855942982ec08e0bcb117ff2",
+        "99caf1e37916595d19f385ba02cefc205964216e253adb73c30756877a2ced13"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_8",
+      "source_hashes": [
+        "69945534443f537cd74156555a4f87436e4569ea5eb6ded2f9ef84c9434e6711",
+        "84d998126e8bb0aafe9f287a511fd25742474874720033db342ca9cf083ab41b"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_9",
+      "source_hashes": [
+        "f9087541d2a3951284c800bd5cd33938e118df8d266761e41df51eff46ae1eb0",
+        "a36d2079ac19f9d5a051aee175d379fa2eb57353ee56c8cf158ec9b9a77a644e"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_10",
+      "source_hashes": [
+        "a860fa5830f6d8aa98043ad0a8cd606c60e283eb06c5226e0695c8bc88aede1f",
+        "90d50a0433456141452826469638303a3e928601e20e6f1554172b53f60bfadc"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_11",
+      "source_hashes": [
+        "66a800d06a300d85a5444449183bfad0eb50a994140279456c06472740640e75",
+        "4ea6932ffbb8106dd2c7a2199d85475d07a3f486c68ff40068c9a0ce81a793a9"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_12",
+      "source_hashes": [
+        "52b985f3ad550ccd70bcbd70946ef0f2b64cb52b1a0fb559587feb14c4afc5f2",
+        "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_13",
+      "source_hashes": [
+        "e6a2756923b74a7c9b666d9e72164983a3dc5362c3a01d3cf3a6f7bd4b6765c8",
+        "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_14",
+      "source_hashes": [
+        "009d30d94dc48b5a624161d073acf474765cd163fe25b4554142c476516f4bf6",
+        "0eb0ebeeff04d260ba6b05a16b23350eff4b93d38863ca8387d3b9555eaea43f"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_15",
+      "source_hashes": [
+        "6b97e556b3d924e32cb22f50ab69ad005330e1efd017f60f16c66f7f66f118ea",
+        "83e5fc468a032b72c7f3759add0290b6bd2ba53fca40f73a5da0c59f9511a444"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_16",
+      "source_hashes": [
+        "1418c8c09c4ce03d82a8aa4913680799ada319d36f2e3939e3c9d39b78bf5651",
+        "69a3ddee24ff58342dbfcc74cc9eb2be8c405cf6fff72eb5407bdea66c2c503e"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_17",
+      "source_hashes": [
+        "6660f9364d1cb57d264df219a8cd0bd1a3308af754795b80e98519f4a5f91a53",
+        "7940afb35ab29c4c09903d9fbe4f5ef0f99ee0a4fa7983976bc2c5ce5e6acba2"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_18",
+      "source_hashes": [
+        "722f44071fc4ee1a1460cd21151593a4dc979c9084fb419dca77b3653cfcb0af",
+        "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_19",
+      "source_hashes": [
+        "ddf1a41670aea688cd696ee79d33b0ac353f7fbd33b03fb639f6061ca97c03e3",
+        "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_20",
+      "source_hashes": [
+        "090e2893efe2368e11fc61a36ed66cc2e80e0187985133b133542de75ac947e5",
+        "cf8694ac954664df3eaf978cf27243e684520301ebc42ec39cebade38596f4ef"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_21",
+      "source_hashes": [
+        "9121364f3f7ed4d1c9ebf6b7bb339f5c4cf82bac745494085f36a7d3c8fb4180",
+        "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_22",
+      "source_hashes": [
+        "07e52f8cea995f56c051c906c20cddd4d386ef2e5e96f566a27c9f332d28f749",
+        "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_23",
+      "source_hashes": [
+        "0f7d793901cc5eade4ebb45c425e3d8fed995a80b01db79dc24f3cb3f28997d0",
+        "2520132cb2eeb5efd3ecbafab739f04be1875482991d1128098ec0bd047e2e07"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_24",
+      "source_hashes": [
+        "a73c04fe8bda1593440faabc4cd2ea55866e783ffac239807bfcefbaa5552255",
+        "284be76a38366f798012b99e351d226213d77098c2dd97349e3f1a16951f2034"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_25",
+      "source_hashes": [
+        "41f693213d034cf34d7e898a791b83f9990340f1016763a2d42279511dc7a71f",
+        "c86beb392418c2db581fae8bb1b6243db90c3c25e2bfda01214b8aef8fbd10f8"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_26",
+      "source_hashes": [
+        "78d85e72d2f710b0ab49dd4bb1f1d92ca345df251f9fca44e4bad42694838161",
+        "b0721d6da3ba653e30ea11832c0ea8ddb34d7f3a92e32a4004f3d574ad45a6fe"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_27",
+      "source_hashes": [
+        "563bbc156ca19a27570d9bb4c8be81987de7d7c71b69ce027c544ccdb05ddb10",
+        "29b8eba1b5a1bfeeb421e2b99cf880f6c0748abf6265986ac299c524579488c9"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_28",
+      "source_hashes": [
+        "41a65d97264b7aa77b13e94d648d134d6c6a656ae5da7a4fab787154eca917da",
+        "98973df36de2f2cc02cef868a2e9fc943eff08f0177dbbe3e2a3b3d02f5d1872"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_29",
+      "source_hashes": [
+        "b7b63de1f24302ba1308477ff5abbaaf1ad391fcecf5b8e05bb4f064d55f66c8",
+        "3e02879465307fe177c8f1e5e6f94f1e9c4a4b7e7a1b47dfa43019f132a70749"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_30",
+      "source_hashes": [
+        "6307d24f2b21ee5fdec6b77571ccfad31f5e3f71a828c8d71b2131ff4b71fb90",
+        "5a72090f3e975c04af388bb9e27601738308393db595aa5ce731d042be5224f7"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_31",
+      "source_hashes": [
+        "d9e92b959e6ae9924e53aa2c77dca13fd54bf8cf650f26f719f01197cd88bc3e",
+        "c3d74cae8cb2a5993963ac6699d65444722544f6e2043aedcc2199f52b6b5d12"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2025_rev_32",
+      "source_hashes": [
+        "2c03f410b370127eca27db9188f9d37d12de7709069204602b693d4036d11509",
+        "aa2056b68dc18a815fb8f467453dbdf457d73f2b495d3cb2499b3028527743d3"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2026_basic",
+      "source_hashes": [
+        "e7ed46e46bb38275c167ca5106acaca18aabb65772f03a8699eefc5bc030be63",
+        "a718007c8455c93a88ddc68f15f036cee10e9a820065a4c356da1481f4131858"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2026_rev_1",
+      "source_hashes": [
+        "951d37a5f9446aace6263a87f192151e7b315c3bf39315a5c0d7bc97ee48341a",
+        "8d258c60f75c09f2f61c8e184aa8f38b5a3f7ba0e0edcfc608282ca51cbc8ef2"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2026_rev_2",
+      "source_hashes": [
+        "83eac54025d24c71eb0f53356bb05f7c1f7f73160e1a6af37b0aa335ff633762",
+        "b56567588ca6165772d409d7ad097e7b96327fa7f19d18b6a95f70317ad864a1"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2026_rev_3",
+      "source_hashes": [
+        "c151029926c51ec3300a47f687c592e7cab6f56d0a9903651f0ac7c247b68cdc",
+        "fae12fab3c47b54cfb5db7325478d222409adbcfa8a10812fa2af0d213dff07e"
+      ],
+      "has_section122": false
+    },
+    {
+      "revision": "2026_rev_4",
+      "source_hashes": [
+        "52fde6da5cde366ec8f643016a78fcbd02abd8e4115c76ef98480132939c48e0",
+        "0273ec6e6251479a3fc5056e2ed1d4f737fa7ee0675bc37c122364cc7a5732a3"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "25a480b362cd3eb1aa2c49e763375fb1984367fa6994959216aeec41e7609bd9",
+      "post_expiry_warning": false,
+      "malformed_references": []
+    },
+    {
+      "revision": "2026_rev_5",
+      "source_hashes": [
+        "7f178b357edb4b7cb087f5d2ca92e5e59ccb403e6dbc88a4ba5872a3b8537699",
+        "0e6117efc73e98a8b0203205e8e7f09e6a6a9aa2c793f15def3680d447d68448"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a4e821ded5a780b34130ef3dd0f8a72e3fe728208c198702034f7a2598aa8066",
+      "post_expiry_warning": false,
+      "malformed_references": []
+    },
+    {
+      "revision": "2026_rev_6",
+      "source_hashes": [
+        "12e1d36a73c321ed69e61ec164b72f94ceaed28e33ea3e5483b3a2424b6639b3",
+        "8258abee12b65e04a1c5b04519377040c711b8c31653d2b069fbf5e87a00e4d8"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "6f59e37df749fbbe8e52b8f41814b7a84c9c9e0939db618264a75b58e895bb64",
+      "post_expiry_warning": false,
+      "malformed_references": []
+    },
+    {
+      "revision": "2026_rev_7",
+      "source_hashes": [
+        "1472963223b470252178704ad9b3ad4c5f9f1502972a63ac5b01abc8845f56e1",
+        "0a8789f5a540f69117b74855c348ce2aaa62b6e57efe80ef46b45248053e9c37"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "6f59e37df749fbbe8e52b8f41814b7a84c9c9e0939db618264a75b58e895bb64",
+      "post_expiry_warning": false,
+      "malformed_references": []
+    },
+    {
+      "revision": "2026_rev_8",
+      "source_hashes": [
+        "4be0b0f44d98ddf75398de7d7649016a7c9893c3ca60f8c814d60355600bb201",
+        "04f4ddda584823a954097b65cd8ca3a5aa1982317c344c582aa4cc3d5021433a"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "6f59e37df749fbbe8e52b8f41814b7a84c9c9e0939db618264a75b58e895bb64",
+      "post_expiry_warning": false,
+      "malformed_references": []
+    },
+    {
+      "revision": "2026_rev_9",
+      "source_hashes": [
+        "9e51ba86334d76fce4c9c3a8bec2f688298243f6651d2226fd3e27e38507b1ee",
+        "2dc811962b6809736e2e30c8753d0d0bc3fb3f1c65bbb15728663959247957ae"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "7907e579709b3907231da49647783020b4fb8e3242febc8d751c6af99388a9bc",
+      "post_expiry_warning": false,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_10",
+      "source_hashes": [
+        "eec925800663851d0133317a412ff236aa938235c305d87b42d97e6de9bc5405",
+        "66375d1cc8e56cae00bbf8327c400e62586eefe128cad7c8e4d936dc3d4eda2f"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "ce317f2ad9c3244031b05924d6a00306bb01cc98ee321b27593745df278d26f9",
+      "post_expiry_warning": false,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_11",
+      "source_hashes": [
+        "05124f75836d3145b9d6661e29020de0f3b27fe26422a46f8121ab86f021ff53",
+        "bf6e76f0fdb3909ac8fd080b50a46d4affad050cfafa8a20579f7714f83ab441"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "c08f509c11436469efebbd1a7bcf524899cbf48eae8947cd6f173803f529d1c1",
+      "post_expiry_warning": false,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_12",
+      "source_hashes": [
+        "a760524501f35a6a5256c4bfa1ea6ac66db101fbf74c05b71d367130468ba89e",
+        "c2df18de026f8ba78178a10dff5033b153c7a48fd66b5f218f529c1369fa0c72"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "c08f509c11436469efebbd1a7bcf524899cbf48eae8947cd6f173803f529d1c1",
+      "post_expiry_warning": false,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_13",
+      "source_hashes": [
+        "cff368d7d80724781afa3fd7ebe4ffbbf6dfd68b8e0a9c9c7c6ce54b95c9cecc",
+        "3b4057c56e3bfaa48285b5371f771007840ea007c5094772f04c4754b6e3c6a5"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "c08f509c11436469efebbd1a7bcf524899cbf48eae8947cd6f173803f529d1c1",
+      "post_expiry_warning": false,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_14",
+      "source_hashes": [
+        "a8d97896814b3338857e83795fe6082c65f4932da6661e5ace9aa487171b4129",
+        "a99da87129ebfd71352b9a747b2a36045a45f7f838ce8d4b9b02e157b78392ef"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "577ab4ad0f917fc3f87b691e9c0765d0db253d46a968c1fc192a44e7ac15df91",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_15",
+      "source_hashes": [
+        "92822e8f38873a7275c4cf9bd5341f96f5834dbea964623e7a7aa7b2cd02f225",
+        "59a76c12e28d7a28975f31a8876bfb08e64927b922fe2b4f88801ff4459181e6"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "577ab4ad0f917fc3f87b691e9c0765d0db253d46a968c1fc192a44e7ac15df91",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_16",
+      "source_hashes": [
+        "58b2a00dcae593f4dd6dd21c3ccc9a570c162f276c9063a89e440c0038b38144",
+        "d95564c9ca2eccc9727e7797c0ee9f7f47af5e53d342fd4c0f3ff908d70427a4"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_17",
+      "source_hashes": [
+        "0a267cc2d607a44a89a0b9faab70af47699c15991e3d45bc771ee570856df917",
+        "8ee8cdc2575a74ed1795a3b354bbefd308b857921c3a4901c744dce00a443294"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_18",
+      "source_hashes": [
+        "83ca2c46697de2042d13db6be88c9fd2ec7a9edf5835468eb1efa8103c54bbe4",
+        "c6beeedc5d675896c9a1f89c3b8d18fd92834075fef0e377cc7f6a684f114809"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_19",
+      "source_hashes": [
+        "5f2b3ef1f9ece214d2a9bfd8ce523413fb2bd8f5e8298dd1c56b3a36c979ba15",
+        "b83a0e40640e0fd36c434a37d0317c51e1d466ce9160613f7384609665128e28"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_20",
+      "source_hashes": [
+        "53c7858d3c70583537684f7e78b9fc1bd222a51a857d5f331f67d2468d48986c",
+        "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    },
+    {
+      "revision": "2026_rev_21",
+      "source_hashes": [
+        "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad",
+        "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+      ],
+      "has_section122": true,
+      "rule_count": 239,
+      "historical_windows": [
+        {
+          "from_": "2026-02-24T00:01:00-05:00",
+          "until": "2026-04-06T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-04-06T00:01:00-04:00",
+          "until": "2026-04-23T00:01:00-05:00"
+        },
+        {
+          "from_": "2026-04-23T00:01:00-05:00",
+          "until": "2026-05-01T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-05-01T00:01:00-04:00",
+          "until": "2026-06-08T00:01:00-04:00"
+        },
+        {
+          "from_": "2026-06-08T00:01:00-04:00",
+          "until": "2026-07-24T00:01:00-04:00"
+        }
+      ],
+      "native_note_sha256": "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+      "post_expiry_warning": true,
+      "malformed_references": [
+        "903.94.67"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "from_": "2026-02-24T00:01:00-05:00",
+      "until": "2026-04-06T00:01:00-04:00",
+      "rows": [
+        {
+          "locator": "note 2(aa)(v)(a)",
+          "kind": "steel",
+          "codes": [
+            "9903.81.87",
+            "9903.81.88",
+            "9903.81.94",
+            "9903.81.95"
+          ],
+          "malformed_references": [],
+          "text": "products of iron or steel provided for in headings 9903.81.87, 9903.81.88, 9903.81.94 and 9903.81.95, but such additional duty shall apply to the non-steel content of such products of iron or steel;",
+          "sha256": "eced12d47d3a9b08091f8245841e4ee83585c3352ec8a80f19b9cdab4da859a3"
+        },
+        {
+          "locator": "note 2(aa)(v)(b)",
+          "kind": "steel",
+          "codes": [
+            "9903.81.89",
+            "9903.81.90",
+            "9903.81.91",
+            "9903.81.92",
+            "9903.81.93",
+            "9903.81.96",
+            "9903.81.97",
+            "9903.81.98",
+            "9903.81.99"
+          ],
+          "malformed_references": [],
+          "text": "the declared value of the steel content of the derivative iron or steel products provided for in headings 9903.81.89, 9903.81.90, 9903.81.91, 9903.81.92, 9903.81.93, 9903.81.96, 9903.81.97, 9903.81.98 and 9903.81.99, but such additional duty shall apply to the non-steel content;",
+          "sha256": "989c00f58d023aa073d5e028c9e66f97fb27d61e01a40b1a41b1075d814d6db0"
+        },
+        {
+          "locator": "note 2(aa)(v)(c)",
+          "kind": "aluminum",
+          "codes": [
+            "9903.85.02",
+            "9903.85.12"
+          ],
+          "malformed_references": [],
+          "text": "products of aluminum provided for in headings 9903.85.02 and 9903.85.12, but such additional duty shall apply to the non-aluminum content of such products of aluminum;",
+          "sha256": "616e69ea4a85cdec8910089cfe0cbbecfbc01b0d574a7f1f7fbc9a19366f6bdb"
+        },
+        {
+          "locator": "note 2(aa)(v)(d)",
+          "kind": "aluminum",
+          "codes": [
+            "9903.85.04",
+            "9903.85.07",
+            "9903.85.08",
+            "9903.85.09",
+            "9903.85.13",
+            "9903.85.14",
+            "9903.85.15"
+          ],
+          "malformed_references": [],
+          "text": "the declared value of the aluminum content of the derivative aluminum products provided for in headings 9903.85.04, 9903.85.07, 9903.85.08, 9903.85.09, 9903.85.13, 9903.85.14 and 9903.85.15, but such additional duty shall apply to the non-aluminum content;",
+          "sha256": "3d26d7dedf77a282ef88d65faf8038c8d0aa3fc49c0bbb268c5d14e9f120606c"
+        },
+        {
+          "locator": "note 2(aa)(v)(e)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.01",
+            "9903.94.02",
+            "9903.94.03",
+            "9903.94.31",
+            "9903.94.40",
+            "9903.94.41",
+            "9903.94.50",
+            "9903.94.51",
+            "9903.94.60",
+            "9903.94.61"
+          ],
+          "malformed_references": [],
+          "text": "passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks provided for in headings 9903.94.01, 9903.94.02 (as applied to the U.S. content of passenger vehicles and light trucks described in subdivision 33(d) of this subchapter upon approval from the Secretary of Commerce), 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;",
+          "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57"
+        },
+        {
+          "locator": "note 2(aa)(v)(f)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.05",
+            "9903.94.06",
+            "9903.94.07",
+            "9903.94.32",
+            "9903.94.33",
+            "9903.94.42",
+            "9903.94.43",
+            "9903.94.44",
+            "9903.94.45",
+            "9903.94.52",
+            "9903.94.53",
+            "9903.94.54",
+            "9903.94.55",
+            "9903.94.62",
+            "9903.94.63",
+            "9903.94.64",
+            "9903.94.65"
+          ],
+          "malformed_references": [],
+          "text": "parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks provided for in headings 9903.94.05, 9903.94.06 (as applied to parts of passenger vehicles that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA) other than automobile knock-down kits or parts compilations), 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64 and 9903.94.65, and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks subject to an import adjustment offset pursuant to Proclamation 10925 of April 29, 2025 (90 FR 18899), as amended;",
+          "sha256": "73db17da6cced0725d1f318f966edf0677cf0ec0e579735796a68ef3d0e90f5f"
+        },
+        {
+          "locator": "note 2(aa)(v)(g)",
+          "kind": "copper",
+          "codes": [
+            "9903.78.01"
+          ],
+          "malformed_references": [],
+          "text": "semi-finished copper and intensive copper derivative products provided for in heading 9903.78.01, but such additional duty shall apply to the non-copper content of such products of copper;",
+          "sha256": "96a2b64b9466fca0504ea7fa2389a170131ac2bba89ad3aebaa9accac73535ce"
+        },
+        {
+          "locator": "note 2(aa)(v)(h)",
+          "kind": "whole",
+          "codes": [
+            "9903.76.01",
+            "9903.76.02",
+            "9903.76.03",
+            "9903.76.20",
+            "9903.76.21",
+            "9903.76.22",
+            "9903.76.23"
+          ],
+          "malformed_references": [],
+          "text": "wood products provided for in headings 9903.76.01, 9903.76.02, 9903.76.03, 9903.76.20, 9903.76.21, 9903.76.22 and 9903.76.23;",
+          "sha256": "83a1baece7dadedeebe1d78925bbad0e8a1a6602d5b0983a897808b1a004bd7e"
+        },
+        {
+          "locator": "note 2(aa)(v)(i)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.01",
+            "9903.74.02",
+            "9903.74.03",
+            "9903.74.06"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicles, buses, and other vehicles provided for in headings 9903.74.01, 9903.74.02, 9903.74.03 and 9903.74.06;",
+          "sha256": "1011993f2bd424a690e8182ff1621b154b2077f301cd775c2cb3bdc5973e50f6"
+        },
+        {
+          "locator": "note 2(aa)(v)(j)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.08",
+            "9903.74.09",
+            "9903.74.10"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicle parts provided for in headings 9903.74.08, 9903.74.09 and 9903.74.10, and parts of medium- and heavy-duty vehicles subject to an import adjustment offset pursuant to Proclamation 10984 of October 17, 2025 (90 FR 48451); and",
+          "sha256": "4ee0051893204953bb19d2b66311079ffde3df2455d6e90afab370a2765289a6"
+        },
+        {
+          "locator": "note 2(aa)(v)(k)",
+          "kind": "whole",
+          "codes": [
+            "9903.79.01"
+          ],
+          "malformed_references": [],
+          "text": "semiconductor articles provided for in heading 9903.79.01.",
+          "sha256": "5ee7bfec665ca3856319367fb536ba6e874f1b77440998d13b70333ee85923ea"
+        }
+      ]
+    },
+    {
+      "from_": "2026-04-06T00:01:00-04:00",
+      "until": "2026-04-23T00:01:00-05:00",
+      "rows": [
+        {
+          "locator": "note 2(aa)(v)(1)",
+          "kind": "whole",
+          "codes": [
+            "9903.82.02",
+            "9903.82.04",
+            "9903.82.05",
+            "9903.82.06",
+            "9903.82.07",
+            "9903.82.08",
+            "9903.82.09",
+            "9903.82.10",
+            "9903.82.11",
+            "9903.82.12",
+            "9903.82.13",
+            "9903.82.14",
+            "9903.82.15",
+            "9903.82.16",
+            "9903.82.17"
+          ],
+          "malformed_references": [],
+          "text": "articles of aluminum, of steel, or of copper or derivative aluminum or steel articles provided for in headings 9903.82.02 and 9903.82.04\u20139903.82.17;",
+          "sha256": "59702982a83571698e5fc69631c940a651a7d32a5e1a0887042793bf4620b1b5"
+        },
+        {
+          "locator": "note 2(aa)(v)(2)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.01",
+            "9903.94.02",
+            "9903.94.03",
+            "9903.94.31",
+            "9903.94.40",
+            "9903.94.41",
+            "9903.94.50",
+            "9903.94.51",
+            "9903.94.60",
+            "9903.94.61"
+          ],
+          "malformed_references": [],
+          "text": "passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks provided for in headings 9903.94.01, 9903.94.02 (as applied to the U.S. content of passenger vehicles and light trucks described in subdivision 33(d) of this subchapter upon approval from the Secretary of Commerce), 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;",
+          "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57"
+        },
+        {
+          "locator": "note 2(aa)(v)(3)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.05",
+            "9903.94.06",
+            "9903.94.07",
+            "9903.94.32",
+            "9903.94.33",
+            "9903.94.42",
+            "9903.94.43",
+            "9903.94.44",
+            "9903.94.45",
+            "9903.94.52",
+            "9903.94.53",
+            "9903.94.54",
+            "9903.94.55",
+            "9903.94.62",
+            "9903.94.63",
+            "9903.94.64",
+            "9903.94.65"
+          ],
+          "malformed_references": [],
+          "text": "parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks provided for in headings 9903.94.05, 9903.94.06 (as applied to parts of passenger vehicles that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA) other than automobile knock-down kits or parts compilations), 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64 and 9903.94.65, and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks subject to an import adjustment offset pursuant to Proclamation 10925 of April 29, 2025 (90 FR 18899), as amended;",
+          "sha256": "73db17da6cced0725d1f318f966edf0677cf0ec0e579735796a68ef3d0e90f5f"
+        },
+        {
+          "locator": "note 2(aa)(v)(4)",
+          "kind": "whole",
+          "codes": [
+            "9903.76.01",
+            "9903.76.02",
+            "9903.76.03",
+            "9903.76.20",
+            "9903.76.21",
+            "9903.76.22",
+            "9903.76.23"
+          ],
+          "malformed_references": [],
+          "text": "wood products provided for in headings 9903.76.01, 9903.76.02, 9903.76.03, 9903.76.20, 9903.76.21, 9903.76.22 and 9903.76.23;",
+          "sha256": "83a1baece7dadedeebe1d78925bbad0e8a1a6602d5b0983a897808b1a004bd7e"
+        },
+        {
+          "locator": "note 2(aa)(v)(5)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.01",
+            "9903.74.02",
+            "9903.74.03",
+            "9903.74.06"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicles, buses, and other vehicles provided for in headings 9903.74.01, 9903.74.02, 9903.74.03 and 9903.74.06;",
+          "sha256": "1011993f2bd424a690e8182ff1621b154b2077f301cd775c2cb3bdc5973e50f6"
+        },
+        {
+          "locator": "note 2(aa)(v)(6)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.08",
+            "9903.74.09",
+            "9903.74.10"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicle parts provided for in headings 9903.74.08, 9903.74.09 and 9903.74.10, and parts of medium- and heavy-duty vehicles subject to an import adjustment offset pursuant to Proclamation 10984 of October 17, 2025 (90 FR 48451); and",
+          "sha256": "4ee0051893204953bb19d2b66311079ffde3df2455d6e90afab370a2765289a6"
+        },
+        {
+          "locator": "note 2(aa)(v)(7)",
+          "kind": "whole",
+          "codes": [
+            "9903.79.01"
+          ],
+          "malformed_references": [],
+          "text": "semiconductor articles provided for in heading 9903.79.01.",
+          "sha256": "5ee7bfec665ca3856319367fb536ba6e874f1b77440998d13b70333ee85923ea"
+        }
+      ]
+    },
+    {
+      "from_": "2026-04-23T00:01:00-05:00",
+      "until": "2026-05-01T00:01:00-04:00",
+      "rows": [
+        {
+          "locator": "note 2(aa)(v)(1)",
+          "kind": "whole",
+          "codes": [
+            "9903.82.02",
+            "9903.82.04",
+            "9903.82.05",
+            "9903.82.06",
+            "9903.82.07",
+            "9903.82.08",
+            "9903.82.09",
+            "9903.82.10",
+            "9903.82.11",
+            "9903.82.12",
+            "9903.82.13",
+            "9903.82.14",
+            "9903.82.15",
+            "9903.82.16",
+            "9903.82.17",
+            "9903.82.18",
+            "9903.82.19"
+          ],
+          "malformed_references": [],
+          "text": "articles of aluminum, of steel, or of copper or derivative aluminum or steel articles provided for in headings 9903.82.02 and 9903.82.04-9903.82.19;",
+          "sha256": "e96f2dfcd60f61bb9636e8527cee2b63bec480bb4787d9bfd4aaae9649fbf2e4"
+        },
+        {
+          "locator": "note 2(aa)(v)(2)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.01",
+            "9903.94.02",
+            "9903.94.03",
+            "9903.94.31",
+            "9903.94.40",
+            "9903.94.41",
+            "9903.94.50",
+            "9903.94.51",
+            "9903.94.60",
+            "9903.94.61"
+          ],
+          "malformed_references": [],
+          "text": "passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks provided for in headings 9903.94.01, 9903.94.02 (as applied to the U.S. content of passenger vehicles and light trucks described in subdivision 33(d) of this subchapter upon approval from the Secretary of Commerce), 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;",
+          "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57"
+        },
+        {
+          "locator": "note 2(aa)(v)(3)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.05",
+            "9903.94.06",
+            "9903.94.07",
+            "9903.94.32",
+            "9903.94.33",
+            "9903.94.42",
+            "9903.94.43",
+            "9903.94.44",
+            "9903.94.45",
+            "9903.94.52",
+            "9903.94.53",
+            "9903.94.54",
+            "9903.94.55",
+            "9903.94.62",
+            "9903.94.63",
+            "9903.94.64",
+            "9903.94.65"
+          ],
+          "malformed_references": [],
+          "text": "parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks provided for in headings 9903.94.05, 9903.94.06 (as applied to parts of passenger vehicles that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA) other than automobile knock-down kits or parts compilations), 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64 and 9903.94.65, and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks subject to an import adjustment offset pursuant to Proclamation 10925 of April 29, 2025 (90 FR 18899), as amended;",
+          "sha256": "73db17da6cced0725d1f318f966edf0677cf0ec0e579735796a68ef3d0e90f5f"
+        },
+        {
+          "locator": "note 2(aa)(v)(4)",
+          "kind": "whole",
+          "codes": [
+            "9903.76.01",
+            "9903.76.02",
+            "9903.76.03",
+            "9903.76.20",
+            "9903.76.21",
+            "9903.76.22",
+            "9903.76.23"
+          ],
+          "malformed_references": [],
+          "text": "wood products provided for in headings 9903.76.01, 9903.76.02, 9903.76.03, 9903.76.20, 9903.76.21, 9903.76.22 and 9903.76.23;",
+          "sha256": "83a1baece7dadedeebe1d78925bbad0e8a1a6602d5b0983a897808b1a004bd7e"
+        },
+        {
+          "locator": "note 2(aa)(v)(5)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.01",
+            "9903.74.02",
+            "9903.74.03",
+            "9903.74.06"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicles, buses, and other vehicles provided for in headings 9903.74.01, 9903.74.02, 9903.74.03 and 9903.74.06;",
+          "sha256": "1011993f2bd424a690e8182ff1621b154b2077f301cd775c2cb3bdc5973e50f6"
+        },
+        {
+          "locator": "note 2(aa)(v)(6)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.08",
+            "9903.74.09",
+            "9903.74.10"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicle parts provided for in headings 9903.74.08, 9903.74.09 and 9903.74.10, and parts of medium- and heavy-duty vehicles subject to an import adjustment offset pursuant to Proclamation 10984 of October 17, 2025 (90 FR 48451); and",
+          "sha256": "4ee0051893204953bb19d2b66311079ffde3df2455d6e90afab370a2765289a6"
+        },
+        {
+          "locator": "note 2(aa)(v)(7)",
+          "kind": "whole",
+          "codes": [
+            "9903.79.01"
+          ],
+          "malformed_references": [],
+          "text": "semiconductor articles provided for in heading 9903.79.01.",
+          "sha256": "5ee7bfec665ca3856319367fb536ba6e874f1b77440998d13b70333ee85923ea"
+        }
+      ]
+    },
+    {
+      "from_": "2026-05-01T00:01:00-04:00",
+      "until": "2026-06-08T00:01:00-04:00",
+      "rows": [
+        {
+          "locator": "note 2(aa)(v)(1)",
+          "kind": "whole",
+          "codes": [
+            "9903.82.02",
+            "9903.82.04",
+            "9903.82.05",
+            "9903.82.06",
+            "9903.82.07",
+            "9903.82.08",
+            "9903.82.09",
+            "9903.82.10",
+            "9903.82.11",
+            "9903.82.12",
+            "9903.82.13",
+            "9903.82.14",
+            "9903.82.15",
+            "9903.82.16",
+            "9903.82.17",
+            "9903.82.18",
+            "9903.82.19"
+          ],
+          "malformed_references": [],
+          "text": "articles of aluminum, of steel, or of copper or derivative aluminum or steel articles provided for in headings 9903.82.02 and 9903.82.04-9903.82.19;",
+          "sha256": "e96f2dfcd60f61bb9636e8527cee2b63bec480bb4787d9bfd4aaae9649fbf2e4"
+        },
+        {
+          "locator": "note 2(aa)(v)(2)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.01",
+            "9903.94.02",
+            "9903.94.03",
+            "9903.94.31",
+            "9903.94.40",
+            "9903.94.41",
+            "9903.94.50",
+            "9903.94.51",
+            "9903.94.60",
+            "9903.94.61"
+          ],
+          "malformed_references": [],
+          "text": "passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks provided for in headings 9903.94.01, 9903.94.02 (as applied to the U.S. content of passenger vehicles and light trucks described in subdivision 33(d) of this subchapter upon approval from the Secretary of Commerce), 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;",
+          "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57"
+        },
+        {
+          "locator": "note 2(aa)(v)(3)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.05",
+            "9903.94.06",
+            "9903.94.07",
+            "9903.94.32",
+            "9903.94.33",
+            "9903.94.42",
+            "9903.94.43",
+            "9903.94.44",
+            "9903.94.45",
+            "9903.94.52",
+            "9903.94.53",
+            "9903.94.54",
+            "9903.94.55",
+            "9903.94.62",
+            "9903.94.63",
+            "9903.94.64",
+            "9903.94.65",
+            "9903.94.66",
+            "9903.94.68",
+            "9903.94.69"
+          ],
+          "malformed_references": [
+            "903.94.67"
+          ],
+          "text": "parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks provided for in headings 9903.94.05, 9903.94.06 (as applied to parts of passenger vehicles that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA) other than automobile knock-down kits or parts compilations), 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64, 9903.94.65, 9903.94.66, 903.94.67, 9903.94.68 and 9903.94.69, and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks subject to an import adjustment offset pursuant to Proclamation 10925 of April 29, 2025 (90 FR 18899), as amended;",
+          "sha256": "027173548438cf0cd1d0121cd8ec1d48d06cf39c49005adc699a6da94dd5bbac"
+        },
+        {
+          "locator": "note 2(aa)(v)(4)",
+          "kind": "whole",
+          "codes": [
+            "9903.76.01",
+            "9903.76.02",
+            "9903.76.03",
+            "9903.76.20",
+            "9903.76.21",
+            "9903.76.22",
+            "9903.76.23",
+            "9903.76.24"
+          ],
+          "malformed_references": [],
+          "text": "wood products provided for in headings 9903.76.01, 9903.76.02, 9903.76.03, 9903.76.20, 9903.76.21, 9903.76.22, 9903.76.23 and 9903.76.24;",
+          "sha256": "1c189c173bc696d706588d220b52325bd786cd4d3149c08a68ddecd99d459093"
+        },
+        {
+          "locator": "note 2(aa)(v)(5)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.01",
+            "9903.74.02",
+            "9903.74.03",
+            "9903.74.06"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicles, buses, and other vehicles provided for in headings 9903.74.01, 9903.74.02, 9903.74.03 and 9903.74.06;",
+          "sha256": "1011993f2bd424a690e8182ff1621b154b2077f301cd775c2cb3bdc5973e50f6"
+        },
+        {
+          "locator": "note 2(aa)(v)(6)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.08",
+            "9903.74.09",
+            "9903.74.10"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicle parts provided for in headings 9903.74.08, 9903.74.09 and 9903.74.10, and parts of medium- and heavy-duty vehicles subject to an import adjustment offset pursuant to Proclamation 10984 of October 17, 2025 (90 FR 48451); and",
+          "sha256": "4ee0051893204953bb19d2b66311079ffde3df2455d6e90afab370a2765289a6"
+        },
+        {
+          "locator": "note 2(aa)(v)(7)",
+          "kind": "whole",
+          "codes": [
+            "9903.79.01"
+          ],
+          "malformed_references": [],
+          "text": "semiconductor articles provided for in heading 9903.79.01.",
+          "sha256": "5ee7bfec665ca3856319367fb536ba6e874f1b77440998d13b70333ee85923ea"
+        }
+      ]
+    },
+    {
+      "from_": "2026-06-08T00:01:00-04:00",
+      "until": "2026-07-24T00:01:00-04:00",
+      "rows": [
+        {
+          "locator": "note 2(aa)(v)(1)",
+          "kind": "whole",
+          "codes": [
+            "9903.82.02",
+            "9903.82.04",
+            "9903.82.05",
+            "9903.82.06",
+            "9903.82.07",
+            "9903.82.08",
+            "9903.82.09",
+            "9903.82.10",
+            "9903.82.11",
+            "9903.82.12",
+            "9903.82.13",
+            "9903.82.14",
+            "9903.82.15",
+            "9903.82.16",
+            "9903.82.17",
+            "9903.82.18",
+            "9903.82.19",
+            "9903.82.20",
+            "9903.82.21",
+            "9903.82.22",
+            "9903.82.23",
+            "9903.82.24",
+            "9903.82.25",
+            "9903.82.26"
+          ],
+          "malformed_references": [],
+          "text": "articles of aluminum, of steel, or of copper or derivative aluminum or steel articles provided for in headings 9903.82.02 and 9903.82.04-9903.82.26;",
+          "sha256": "f877b938ab2dd2025271972dbdbc0662c8ab57d734b0244ef0d5bd2f0bc6eea2"
+        },
+        {
+          "locator": "note 2(aa)(v)(2)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.01",
+            "9903.94.02",
+            "9903.94.03",
+            "9903.94.31",
+            "9903.94.40",
+            "9903.94.41",
+            "9903.94.50",
+            "9903.94.51",
+            "9903.94.60",
+            "9903.94.61"
+          ],
+          "malformed_references": [],
+          "text": "passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks provided for in headings 9903.94.01, 9903.94.02 (as applied to the U.S. content of passenger vehicles and light trucks described in subdivision 33(d) of this subchapter upon approval from the Secretary of Commerce), 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61;",
+          "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57"
+        },
+        {
+          "locator": "note 2(aa)(v)(3)",
+          "kind": "whole",
+          "codes": [
+            "9903.94.05",
+            "9903.94.06",
+            "9903.94.07",
+            "9903.94.32",
+            "9903.94.33",
+            "9903.94.42",
+            "9903.94.43",
+            "9903.94.44",
+            "9903.94.45",
+            "9903.94.52",
+            "9903.94.53",
+            "9903.94.54",
+            "9903.94.55",
+            "9903.94.62",
+            "9903.94.63",
+            "9903.94.64",
+            "9903.94.65",
+            "9903.94.66",
+            "9903.94.68",
+            "9903.94.69"
+          ],
+          "malformed_references": [
+            "903.94.67"
+          ],
+          "text": "parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks provided for in headings 9903.94.05, 9903.94.06 (as applied to parts of passenger vehicles that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA) other than automobile knock-down kits or parts compilations), 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64, 9903.94.65, 9903.94.66, 903.94.67, 9903.94.68 and 9903.94.69, and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and parts of light trucks subject to an import adjustment offset pursuant to Proclamation 10925 of April 29, 2025 (90 FR 18899), as amended;",
+          "sha256": "027173548438cf0cd1d0121cd8ec1d48d06cf39c49005adc699a6da94dd5bbac"
+        },
+        {
+          "locator": "note 2(aa)(v)(4)",
+          "kind": "whole",
+          "codes": [
+            "9903.76.01",
+            "9903.76.02",
+            "9903.76.03",
+            "9903.76.20",
+            "9903.76.21",
+            "9903.76.22",
+            "9903.76.23",
+            "9903.76.24"
+          ],
+          "malformed_references": [],
+          "text": "wood products provided for in headings 9903.76.01, 9903.76.02, 9903.76.03, 9903.76.20, 9903.76.21, 9903.76.22, 9903.76.23 and 9903.76.24;",
+          "sha256": "1c189c173bc696d706588d220b52325bd786cd4d3149c08a68ddecd99d459093"
+        },
+        {
+          "locator": "note 2(aa)(v)(5)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.01",
+            "9903.74.02",
+            "9903.74.03",
+            "9903.74.06"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicles, buses, and other vehicles provided for in headings 9903.74.01, 9903.74.02, 9903.74.03 and 9903.74.06;",
+          "sha256": "1011993f2bd424a690e8182ff1621b154b2077f301cd775c2cb3bdc5973e50f6"
+        },
+        {
+          "locator": "note 2(aa)(v)(6)",
+          "kind": "whole",
+          "codes": [
+            "9903.74.08",
+            "9903.74.09",
+            "9903.74.10"
+          ],
+          "malformed_references": [],
+          "text": "medium- and heavy-duty vehicle parts provided for in headings 9903.74.08, 9903.74.09 and 9903.74.10, and parts of medium- and heavy-duty vehicles subject to an import adjustment offset pursuant to Proclamation 10984 of October 17, 2025 (90 FR 48451); and",
+          "sha256": "4ee0051893204953bb19d2b66311079ffde3df2455d6e90afab370a2765289a6"
+        },
+        {
+          "locator": "note 2(aa)(v)(7)",
+          "kind": "whole",
+          "codes": [
+            "9903.79.01"
+          ],
+          "malformed_references": [],
+          "text": "semiconductor articles provided for in heading 9903.79.01.",
+          "sha256": "5ee7bfec665ca3856319367fb536ba6e874f1b77440998d13b70333ee85923ea"
+        }
+      ]
+    }
+  ],
+  "compiler_sha256": "c4862317ccdf3e9117a5265df2e6e7e58d9e134925fc3c3c0e1107467c36dd77",
+  "scope": "Source extraction and bounded rule compilation, not a timeseries rebuild or full stack validation."
+}

@@ -45,6 +45,11 @@ Expressions are JSON objects with exactly one discriminator:
 - `{ "claim": "USMCA" }`: membership in the explicit `facts.claims` array;
   omitted claims means no claims. A claim's eligibility remains a separate fact.
 - `{ "rule_amount": "rule-id" }`: evaluated amount, including suppression.
+- `{ "authority_covered": "section_232" }`: true only when that authority's
+  declared coverage requirement has a verified, complete matched rule inventory.
+  Otherwise the expression is unresolved; it never returns false/zero or reads
+  caller facts. A dependent duty cannot assume omitted actions are absent.
+  A separately established exemption may bypass this dependency.
 - `{ "rule_applies": "rule-id" }`: actual applicability after scope, source,
   claims and suppression, independent of valuation/amount. Use for exclusions
   conditioned on liability; zero/missing customs value cannot revive an action.
@@ -233,3 +238,18 @@ preparation retain and check that evidence dependency. An ordinary base rule
 must explicitly declare `base_treatment: column1_general` or `column2` before a
 metal exclusion's unchanged-base relation can cover it. GSP/AGOA and unreviewed
 base rules remain outside that attestation.
+
+## Source-bound reporting dependencies
+
+A fragment may use `reporting_predicate` as a **compiler-only** expression with
+an explicit authority, exact reporting-code list, inclusion/exclusion direction,
+and applicability/positive-duty test. The composer resolves it to action IDs,
+rejects mixed reporting decisions, and avoids disjoint product/country/time scopes.
+It does not create an absence attestation from an empty match. Dependent amounts
+must still require `authority_covered`. Uncomposed predicates are unsupported by
+the runtime.
+
+Claim relations may explicitly `reevaluate` dependent actions. This records a
+reviewed interaction, rather than a claim leaving liability unchanged. Required
+candidate metadata can restrict the relation to independently verified Commerce
+grants; a claim-name prefix or any arbitrary Section 232 claim is insufficient.

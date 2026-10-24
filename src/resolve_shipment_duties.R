@@ -150,8 +150,17 @@
   cache <- new.env(parent = emptyenv()); visiting <- character()
   expr <- function(x) {
     if (!is.list(x)) return(val(errors = 'invalid_expression'))
-    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'unresolved_source', 'op'))
+    keys <- intersect(names(x), c('value', 'fact', 'claim', 'rule_amount', 'rule_applies', 'authority_covered', 'unresolved_source', 'op'))
     if (length(keys) != 1) return(val(errors = 'invalid_expression'))
+    if (keys == 'authority_covered') {
+      authority <- x$authority_covered
+      if (!is.character(authority) || length(authority)!=1 || !nzchar(authority))
+        return(val(errors='invalid_coverage_dependency'))
+      decisions <- Filter(function(d) identical(d$authority,authority),result$coverage_decisions)
+      if(length(decisions)!=1 || !identical(decisions[[1]]$status,'verified'))
+        return(val(errors=paste0('coverage_dependency_unverified:',authority)))
+      return(val(TRUE))
+    }
     if (keys == 'unresolved_source') {
       if (!is.character(x$unresolved_source) || length(x$unresolved_source)!=1 || !nzchar(x$unresolved_source))
         return(val(errors='invalid_source_discrepancy'))

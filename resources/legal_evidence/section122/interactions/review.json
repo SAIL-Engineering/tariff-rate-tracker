@@ -1,0 +1,88 @@
+{
+  "sources": [
+    {
+      "id": "FR-2026-03824",
+      "path": "resources/legal_evidence/section122/interactions/2026-03824.pdf",
+      "sha256": "1ad226167d7f1b92feac3a2b1adc54bb332093f46e37c248eb714d9340b63cb9",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/pdf/2026-03824.pdf",
+      "citation": "Proclamation 11012 paragraphs 4, 7; Annex I, note 2(aa), 91 FR 9339, 9355-9356."
+    },
+    {
+      "id": "FR-2026-03824-text",
+      "path": "resources/legal_evidence/section122/interactions/2026-03824.txt",
+      "sha256": "4d1a2850e94e5bd2ed30d22ecb95408f67ec13ec9aed445153bd63885b036e52",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-02-25/html/2026-03824.htm",
+      "citation": "Proclamation 11012 paragraphs 4, 7; operative dates and nonstacking."
+    },
+    {
+      "id": "FR-2026-10571",
+      "path": "resources/legal_evidence/section122/interactions/2026-10571.txt",
+      "sha256": "81a9c0148f3b7e744b95064849e7385cd4f2335be179659a3b06dfe79e6adb41",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-05-28/html/2026-10571.htm",
+      "citation": "Taiwan implementation, Annex introduction and paragraphs 6-7; original malformed 903.94.67 is retained."
+    },
+    {
+      "id": "FR-2026-06960",
+      "path": "resources/legal_evidence/section232/2026-06960.pdf",
+      "sha256": "a4cb2a59457ad6d73210025b5b80614ccb9d7a851a9d882c4c4820bacc8ea2ff",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
+      "citation": "Proclamation 11021 Annex IV A(4), p.18261; full article metal references from April 6 00:01 Eastern."
+    },
+    {
+      "id": "FR-2026-11314",
+      "path": "resources/legal_evidence/2026-11314/proclamation.pdf",
+      "sha256": "382464d160832d2d115a72579cc7f74fc87f235d585fa5accc8661a5db922299",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-06-04/pdf/2026-11314.pdf",
+      "citation": "Proclamation 11032 Annex IV A(7), B(1), pp.34138-34139. June replacement reconciles with intervening April 23 insertion through .19; unchanged standalone .02 is retained."
+    },
+    {
+      "id": "FR-2026-11314-reviewed-transcription",
+      "path": "resources/legal_evidence/2026-11314/annex-iv-ocr.txt",
+      "sha256": "763ae96d07f420692dc3c331c295da36e32000e6786ce780661f90fcd5481357",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-06-04/pdf/2026-11314.pdf",
+      "citation": "Annex IV A(7), p.34138; retained OCR transcription, not a repair to the published replacement operand."
+    },
+    {
+      "id": "FR-2026-07987-txt",
+      "path": "resources/legal_evidence/section122/interactions/2026-07987.txt",
+      "sha256": "b672fbdeca315bebcd41cf15bcd55188b884b93d157aa632f1444794ae881455",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-23/html/2026-07987.htm",
+      "citation": "Annex paragraphs 3-10, pp.21793-21794. Explicit insertion .04-.19, corroborated by revision 6; malformed deletion operand retained. Published Eastern standard time is honored literally."
+    },
+    {
+      "id": "FR-2026-07987-pdf",
+      "path": "resources/legal_evidence/section122/interactions/2026-07987.pdf",
+      "sha256": "7bc5fe3bc0f93dc2dae12cc6caf772d417b2873ea79183ac56911ff3ff8df8d2",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-23/pdf/2026-07987.pdf",
+      "citation": "Annex paragraphs 3-10, pp.21793-21794. Explicit insertion .04-.19, corroborated by revision 6; malformed deletion operand retained. Published Eastern standard time is honored literally."
+    }
+  ],
+  "clauses": [
+    {
+      "revision": "2026_rev_4",
+      "clause_sha256": "25a480b362cd3eb1aa2c49e763375fb1984367fa6994959216aeec41e7609bd9"
+    },
+    {
+      "revision": "2026_rev_5",
+      "clause_sha256": "a4e821ded5a780b34130ef3dd0f8a72e3fe728208c198702034f7a2598aa8066"
+    }
+  ],
+  "review": "Original February, April 6, April 23 and June annex chain reconciled with native notes; literal malformed operands retained. Taiwan insertion reference remains unresolved. Known later snapshots cannot rewrite historical windows.",
+  "malformed_deletion_review": {
+    "source_id": "FR-2026-07987-txt",
+    "locator": "Annex paragraph 3, note 2(aa)(v)(1)",
+    "published_deleted_text": "99903.82.04-9903.82.17",
+    "corroborating_revision": "2026_rev_6",
+    "decision": "Use the explicit valid insertion into the uniquely identified subdivision, independently confirmed in the successor note. Do not repair or execute the malformed deleted reference."
+  },
+  "known_snapshot_clause_sha256": [
+    "25a480b362cd3eb1aa2c49e763375fb1984367fa6994959216aeec41e7609bd9",
+    "577ab4ad0f917fc3f87b691e9c0765d0db253d46a968c1fc192a44e7ac15df91",
+    "6f59e37df749fbbe8e52b8f41814b7a84c9c9e0939db618264a75b58e895bb64",
+    "7907e579709b3907231da49647783020b4fb8e3242febc8d751c6af99388a9bc",
+    "a4e821ded5a780b34130ef3dd0f8a72e3fe728208c198702034f7a2598aa8066",
+    "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
+    "c08f509c11436469efebbd1a7bcf524899cbf48eae8947cd6f173803f529d1c1",
+    "ce317f2ad9c3244031b05924d6a00306bb01cc98ee321b27593745df278d26f9"
+  ]
+}

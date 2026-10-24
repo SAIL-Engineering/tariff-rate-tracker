@@ -55,3 +55,13 @@ s122_match_exemptions <- function(hts10,exemptions) {
   if(anyDuplicated(matches$hts10)) stop('Overlapping Section 122 conditions need explicit alternatives')
   matches
 }
+
+compile_s122_fragment <- function(x,products) {
+  input<-tempfile(fileext='.json');output<-tempfile(fileext='.json')
+  on.exit(unlink(c(input,output)),add=TRUE)
+  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products)))),input,
+    auto_unbox=TRUE,null='null',digits=NA)
+  status<-system2('python3',c(shQuote(here::here('src/section122_rules.py')),shQuote(input),shQuote(output)))
+  if(status!=0L) stop('Section 122 executable-rule compilation failed')
+  jsonlite::fromJSON(output,simplifyVector=FALSE)
+}
