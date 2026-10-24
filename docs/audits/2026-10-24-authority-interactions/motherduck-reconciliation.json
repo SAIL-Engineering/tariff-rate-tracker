@@ -1,0 +1,2060 @@
+{
+  "snapshot_sha256": "03047fa40a51d67c7201a28c06cb292c6847dd6af807b80bde466a8ecb3a701b",
+  "database": "duty_calculator",
+  "started_at": "2026-10-24T04:20:04.463Z",
+  "finished_at": "2026-10-24T04:20:25.599Z",
+  "findings": [
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_10",
+      "country": "1220",
+      "valid_from": "2025-04-15",
+      "valid_until": "2025-05-02",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5188,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_10",
+      "country": "2010",
+      "valid_from": "2025-04-15",
+      "valid_until": "2025-05-02",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5027,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_11",
+      "country": "1220",
+      "valid_from": "2025-05-03",
+      "valid_until": "2025-05-13",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5460,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_11",
+      "country": "2010",
+      "valid_from": "2025-05-03",
+      "valid_until": "2025-05-13",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5328,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_12",
+      "country": "1220",
+      "valid_from": "2025-05-14",
+      "valid_until": "2025-05-15",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5460,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_12",
+      "country": "2010",
+      "valid_from": "2025-05-14",
+      "valid_until": "2025-05-15",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5328,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_13",
+      "country": "1220",
+      "valid_from": "2025-05-16",
+      "valid_until": "2025-06-03",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5460,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_13",
+      "country": "2010",
+      "valid_from": "2025-05-16",
+      "valid_until": "2025-06-03",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5328,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_14",
+      "country": "1220",
+      "valid_from": "2025-06-04",
+      "valid_until": "2025-06-22",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5460,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_14",
+      "country": "2010",
+      "valid_from": "2025-06-04",
+      "valid_until": "2025-06-22",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5328,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_15",
+      "country": "1220",
+      "valid_from": "2025-06-23",
+      "valid_until": "2025-06-30",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5460,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_15",
+      "country": "2010",
+      "valid_from": "2025-06-23",
+      "valid_until": "2025-06-30",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5328,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_16",
+      "country": "1220",
+      "valid_from": "2025-07-01",
+      "valid_until": "2025-07-31",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_16",
+      "country": "2010",
+      "valid_from": "2025-07-01",
+      "valid_until": "2025-07-31",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_17",
+      "country": "1220",
+      "valid_from": "2025-08-01",
+      "valid_until": "2025-08-06",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_17",
+      "country": "1220",
+      "valid_from": "2025-08-01",
+      "valid_until": "2025-08-06",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_17",
+      "country": "2010",
+      "valid_from": "2025-08-01",
+      "valid_until": "2025-08-06",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_18",
+      "country": "1220",
+      "valid_from": "2025-08-07",
+      "valid_until": "2025-08-17",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_18",
+      "country": "1220",
+      "valid_from": "2025-08-07",
+      "valid_until": "2025-08-17",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_18",
+      "country": "2010",
+      "valid_from": "2025-08-07",
+      "valid_until": "2025-08-17",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_19",
+      "country": "1220",
+      "valid_from": "2025-08-18",
+      "valid_until": "2025-08-26",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_19",
+      "country": "1220",
+      "valid_from": "2025-08-18",
+      "valid_until": "2025-08-26",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_19",
+      "country": "2010",
+      "valid_from": "2025-08-18",
+      "valid_until": "2025-08-26",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_20",
+      "country": "1220",
+      "valid_from": "2025-08-27",
+      "valid_until": "2025-09-01",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_20",
+      "country": "1220",
+      "valid_from": "2025-08-27",
+      "valid_until": "2025-09-01",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_20",
+      "country": "2010",
+      "valid_from": "2025-08-27",
+      "valid_until": "2025-09-01",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_21",
+      "country": "1220",
+      "valid_from": "2025-09-02",
+      "valid_until": "2025-09-07",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_21",
+      "country": "1220",
+      "valid_from": "2025-09-02",
+      "valid_until": "2025-09-07",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_21",
+      "country": "2010",
+      "valid_from": "2025-09-02",
+      "valid_until": "2025-09-07",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_22",
+      "country": "1220",
+      "valid_from": "2025-09-08",
+      "valid_until": "2025-09-15",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_22",
+      "country": "1220",
+      "valid_from": "2025-09-08",
+      "valid_until": "2025-09-15",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_22",
+      "country": "2010",
+      "valid_from": "2025-09-08",
+      "valid_until": "2025-09-15",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_23",
+      "country": "1220",
+      "valid_from": "2025-09-16",
+      "valid_until": "2025-09-24",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_23",
+      "country": "1220",
+      "valid_from": "2025-09-16",
+      "valid_until": "2025-09-24",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_23",
+      "country": "2010",
+      "valid_from": "2025-09-16",
+      "valid_until": "2025-09-24",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_24",
+      "country": "1220",
+      "valid_from": "2025-09-25",
+      "valid_until": "2025-10-13",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_24",
+      "country": "1220",
+      "valid_from": "2025-09-25",
+      "valid_until": "2025-10-13",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_24",
+      "country": "2010",
+      "valid_from": "2025-09-25",
+      "valid_until": "2025-10-13",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_25",
+      "country": "1220",
+      "valid_from": "2025-10-14",
+      "valid_until": "2025-10-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_25",
+      "country": "1220",
+      "valid_from": "2025-10-14",
+      "valid_until": "2025-10-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_25",
+      "country": "2010",
+      "valid_from": "2025-10-14",
+      "valid_until": "2025-10-31",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5344,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_26",
+      "country": "1220",
+      "valid_from": "2025-11-01",
+      "valid_until": "2025-11-08",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_26",
+      "country": "1220",
+      "valid_from": "2025-11-01",
+      "valid_until": "2025-11-08",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_26",
+      "country": "2010",
+      "valid_from": "2025-11-01",
+      "valid_until": "2025-11-08",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_27",
+      "country": "1220",
+      "valid_from": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_27",
+      "country": "1220",
+      "valid_from": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_27",
+      "country": "2010",
+      "valid_from": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_rate_chronology_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.2,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_27",
+      "country": "5700",
+      "valid_from": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_rate_chronology_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.2,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_27",
+      "country": "5820",
+      "valid_from": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_28",
+      "country": "1220",
+      "valid_from": "2025-11-10",
+      "valid_until": "2025-11-12",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_28",
+      "country": "1220",
+      "valid_from": "2025-11-10",
+      "valid_until": "2025-11-12",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_28",
+      "country": "2010",
+      "valid_from": "2025-11-10",
+      "valid_until": "2025-11-12",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_28",
+      "country": "5700",
+      "valid_from": "2025-11-10",
+      "valid_until": "2025-11-12",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_28",
+      "country": "5820",
+      "valid_from": "2025-11-10",
+      "valid_until": "2025-11-12",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_29",
+      "country": "1220",
+      "valid_from": "2025-11-13",
+      "valid_until": "2025-11-20",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_29",
+      "country": "1220",
+      "valid_from": "2025-11-13",
+      "valid_until": "2025-11-20",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_29",
+      "country": "2010",
+      "valid_from": "2025-11-13",
+      "valid_until": "2025-11-20",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_29",
+      "country": "5700",
+      "valid_from": "2025-11-13",
+      "valid_until": "2025-11-20",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_29",
+      "country": "5820",
+      "valid_from": "2025-11-13",
+      "valid_until": "2025-11-20",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_3",
+      "country": "1220",
+      "valid_from": "2025-03-04",
+      "valid_until": "2025-03-06",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5127,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_3",
+      "country": "2010",
+      "valid_from": "2025-03-04",
+      "valid_until": "2025-03-06",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 4961,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_30",
+      "country": "1220",
+      "valid_from": "2025-11-21",
+      "valid_until": "2025-11-29",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_30",
+      "country": "1220",
+      "valid_from": "2025-11-21",
+      "valid_until": "2025-11-29",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_30",
+      "country": "2010",
+      "valid_from": "2025-11-21",
+      "valid_until": "2025-11-29",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_30",
+      "country": "5700",
+      "valid_from": "2025-11-21",
+      "valid_until": "2025-11-29",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_30",
+      "country": "5820",
+      "valid_from": "2025-11-21",
+      "valid_until": "2025-11-29",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_31",
+      "country": "1220",
+      "valid_from": "2025-11-30",
+      "valid_until": "2025-12-04",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_31",
+      "country": "1220",
+      "valid_from": "2025-11-30",
+      "valid_until": "2025-12-04",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_31",
+      "country": "2010",
+      "valid_from": "2025-11-30",
+      "valid_until": "2025-12-04",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_31",
+      "country": "5700",
+      "valid_from": "2025-11-30",
+      "valid_until": "2025-12-04",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_31",
+      "country": "5820",
+      "valid_from": "2025-11-30",
+      "valid_until": "2025-12-04",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_32",
+      "country": "1220",
+      "valid_from": "2025-12-05",
+      "valid_until": "2025-12-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_32",
+      "country": "1220",
+      "valid_from": "2025-12-05",
+      "valid_until": "2025-12-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_32",
+      "country": "2010",
+      "valid_from": "2025-12-05",
+      "valid_until": "2025-12-31",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_32",
+      "country": "5700",
+      "valid_from": "2025-12-05",
+      "valid_until": "2025-12-31",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2025_rev_32",
+      "country": "5820",
+      "valid_from": "2025-12-05",
+      "valid_until": "2025-12-31",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_4",
+      "country": "1220",
+      "valid_from": "2025-03-07",
+      "valid_until": "2025-03-13",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5124,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_4",
+      "country": "2010",
+      "valid_from": "2025-03-07",
+      "valid_until": "2025-03-13",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 4956,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_5",
+      "country": "1220",
+      "valid_from": "2025-03-14",
+      "valid_until": "2025-04-02",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5124,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_5",
+      "country": "2010",
+      "valid_from": "2025-03-14",
+      "valid_until": "2025-04-02",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 4956,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_6",
+      "country": "1220",
+      "valid_from": "2025-04-03",
+      "valid_until": "2025-04-04",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5188,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_6",
+      "country": "2010",
+      "valid_from": "2025-04-03",
+      "valid_until": "2025-04-04",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5027,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_7",
+      "country": "1220",
+      "valid_from": "2025-04-05",
+      "valid_until": "2025-04-08",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5188,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_7",
+      "country": "2010",
+      "valid_from": "2025-04-05",
+      "valid_until": "2025-04-08",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5027,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_8",
+      "country": "1220",
+      "valid_from": "2025-04-09",
+      "valid_until": "2025-04-09",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5188,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_8",
+      "country": "2010",
+      "valid_from": "2025-04-09",
+      "valid_until": "2025-04-09",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5027,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2025_rev_9",
+      "country": "1220",
+      "valid_from": "2025-04-10",
+      "valid_until": "2025-04-14",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5188,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2025_rev_9",
+      "country": "2010",
+      "valid_from": "2025-04-10",
+      "valid_until": "2025-04-14",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5027,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_basic",
+      "country": "1220",
+      "valid_from": "2026-01-01",
+      "valid_until": "2026-01-14",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13783,
+      "positive_modeled_rows": 13783,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_basic",
+      "country": "1220",
+      "valid_from": "2026-01-01",
+      "valid_until": "2026-01-14",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5473,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2026_basic",
+      "country": "2010",
+      "valid_from": "2026-01-01",
+      "valid_until": "2026-01-14",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5341,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_basic",
+      "country": "5700",
+      "valid_from": "2026-01-01",
+      "valid_until": "2026-01-14",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_basic",
+      "country": "5820",
+      "valid_from": "2026-01-01",
+      "valid_until": "2026-01-14",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_1",
+      "country": "1220",
+      "valid_from": "2026-01-15",
+      "valid_until": "2026-01-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13787,
+      "positive_modeled_rows": 13787,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_1",
+      "country": "1220",
+      "valid_from": "2026-01-15",
+      "valid_until": "2026-01-31",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5469,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2026_rev_1",
+      "country": "2010",
+      "valid_from": "2026-01-15",
+      "valid_until": "2026-01-31",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5337,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_1",
+      "country": "5700",
+      "valid_from": "2026-01-15",
+      "valid_until": "2026-01-31",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_1",
+      "country": "5820",
+      "valid_from": "2026-01-15",
+      "valid_until": "2026-01-31",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19745,
+      "positive_modeled_rows": 19745,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_2",
+      "country": "1220",
+      "valid_from": "2026-02-01",
+      "valid_until": "2026-02-06",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13870,
+      "positive_modeled_rows": 13870,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_2",
+      "country": "1220",
+      "valid_from": "2026-02-01",
+      "valid_until": "2026-02-06",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5472,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2026_rev_2",
+      "country": "2010",
+      "valid_from": "2026-02-01",
+      "valid_until": "2026-02-06",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5356,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_2",
+      "country": "5700",
+      "valid_from": "2026-02-01",
+      "valid_until": "2026-02-06",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19832,
+      "positive_modeled_rows": 19832,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_2",
+      "country": "5820",
+      "valid_from": "2026-02-01",
+      "valid_until": "2026-02-06",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19832,
+      "positive_modeled_rows": 19832,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_3",
+      "country": "1220",
+      "valid_from": "2026-02-07",
+      "valid_until": "2026-02-23",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": "9903.01.16",
+      "row_count": 13871,
+      "positive_modeled_rows": 13871,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "conditional_replacement_as_ordinary_parameter",
+      "expected_ordinary": [
+        {
+          "census_code": "1220",
+          "fent_rate": 0.35,
+          "fent_ch99": "9903.01.10"
+        }
+      ],
+      "revision": "2026_rev_3",
+      "country": "1220",
+      "valid_from": "2026-02-07",
+      "valid_until": "2026-02-23",
+      "statutory_rate_ieepa_fent": 0.4,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5472,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0101300000"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "2010",
+          "fent_rate": 0.25,
+          "fent_ch99": "9903.01.01"
+        }
+      ],
+      "revision": "2026_rev_3",
+      "country": "2010",
+      "valid_from": "2026-02-07",
+      "valid_until": "2026-02-23",
+      "statutory_rate_ieepa_fent": 0.25,
+      "ch99_code_ieepa_fent": null,
+      "row_count": 5356,
+      "positive_modeled_rows": 0,
+      "sample_hts10": "0102294054"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5700",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_3",
+      "country": "5700",
+      "valid_from": "2026-02-07",
+      "valid_until": "2026-02-23",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19833,
+      "positive_modeled_rows": 19833,
+      "sample_hts10": "0101210010"
+    },
+    {
+      "finding": "ordinary_reporting_heading_mismatch",
+      "expected_ordinary": [
+        {
+          "census_code": "5820",
+          "fent_rate": 0.1,
+          "fent_ch99": "9903.01.24"
+        }
+      ],
+      "revision": "2026_rev_3",
+      "country": "5820",
+      "valid_from": "2026-02-07",
+      "valid_until": "2026-02-23",
+      "statutory_rate_ieepa_fent": 0.1,
+      "ch99_code_ieepa_fent": "9903.01.20",
+      "row_count": 19833,
+      "positive_modeled_rows": 19833,
+      "sample_hts10": "0101210010"
+    }
+  ]
+}

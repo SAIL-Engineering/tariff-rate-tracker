@@ -50,6 +50,40 @@ def interaction_rows(text):
     return rows
 
 
+def taiwan_interaction_basis(proclamation, notice):
+    """Independent operative provisions, not a spelling repair to note 2.
+
+    Proclamation 11012 paragraph 4 governs later Section 232 actions as well.
+    The Taiwan notice's note 33(u) and inserted heading table independently
+    identify the same full-article auto-parts decisions. Retain paragraph 6's
+    malformed reference verbatim; it is not an executable heading identifier.
+    """
+    flat=' '.join(proclamation.split());t=' '.join(notice.split())
+    clause=re.search(r'\(4\) (The surcharge imposed.*?)(?=\(5\))',flat)
+    if not clause or not all(s in clause[1] for s in (
+        'shall not apply in addition to tariffs imposed under section 232',
+        'part of an import', 'shall not apply to the part of the import')):
+        raise ValueError('Unreviewed operative Section 122 portion rule')
+    scope=re.search(r'1\. U\.S\. note 33.*?headings (.*?) set forth the ordinary customs duty treatment for (.*?)Taiwan\.',t)
+    table=re.search(r'3\. The following new headings.*?(?=4\. U\.S\.)',t)
+    when=re.search(r'on or after 12:01 a\.m\. eastern time on (\w+ \d+, \d{4})',t)
+    if not scope or not table or not when:raise ValueError('Missing Taiwan operative auto-parts provisions')
+    codes=re.findall(r'9903\.\d{2}\.\d{2}',scope[1])
+    rows=re.findall(r'(9903\.\d{2}\.\d{2})\.{2,}(.*?)(?=9903\.\d{2}\.\d{2}\.{2,}|$)',table[0])
+    substantive={code:body for code,body in rows if code in codes}
+    if len(codes)!=len(set(codes)) or set(substantive)!=set(codes) or not codes:
+        raise ValueError('Taiwan note and inserted heading inventory disagree')
+    if any(not all(s in body for s in ('Parts of passenger', 'products of Taiwan', 'U.S. note 33'))
+           for body in substantive.values()):
+        raise ValueError('Unreviewed Taiwan heading scope/valuation')
+    return dict(kind='whole',codes=sorted(codes),country_names=['Taiwan'],from_=date_at(when[1]),
+        locator='Proclamation 11012 paragraph 4; 2026-10571 Annex paragraphs 1 and 3, note 33(u)',
+        source_ids=['FR-2026-03824-text','FR-2026-10571'],
+        decision='Independent substantive provisions establish full-article Section 232 treatment. Note 2 malformed text remains unmodified.',
+        operative_clause_sha256=sha(clause[1].encode()),heading_scope_sha256=sha(scope[0].encode()),
+        heading_table_sha256=sha(table[0].encode()))
+
+
 def load_history():
     review=json.loads((EVIDENCE/'review.json').read_bytes());sources=[];artifacts=[]
     for s in review['sources']:
@@ -133,7 +167,10 @@ def load_history():
              dict(from_=april23_at,until=date_at(when[1]),rows=interaction_rows(corrected_april)),
              dict(from_=date_at(when[1]),until=june,rows=interaction_rows(amended)),
              dict(from_=june,until=end,rows=interaction_rows(june_clause))]
-    return dict(start=start,end=end,periods=periods,sources=sources,source_artifacts=artifacts)
+    independent=taiwan_interaction_basis((EVIDENCE/'2026-03824.txt').read_text(),
+                                         (EVIDENCE/'2026-10571.txt').read_text())
+    return dict(start=start,end=end,periods=periods,sources=sources,source_artifacts=artifacts,
+                independent_interactions=[independent])
 
 
 def compile_rules(x,products):
@@ -186,6 +223,12 @@ def compile_rules(x,products):
     jurisdictions=[([country('Canada')],'9903.03.07'),([country('Mexico')],'9903.03.08')]
     cafta=[country(n) for n in ('Costa Rica','Dominican Republic','El Salvador','Guatemala','Honduras','Nicaragua')]
     jurisdictions += [(cafta,'9903.03.09'),([r['Code'] for r in country_rows if r['Code'] not in {c for cs,_ in jurisdictions for c in cs}|set(cafta)],None)]
+    # Independent source reconciliation is country-specific. Split groups
+    # rather than assuming a reporting identifier proves its country scope.
+    for decision in history['independent_interactions']:
+        cc={country(n) for n in decision['country_names']}
+        jurisdictions=[(sorted(part),pref) for cs,pref in jurisdictions
+                       for part in (set(cs)&cc,set(cs)-cc) if part]
     groups={}
     for p in sorted(set(products)):
         if not re.fullmatch(r'\d{10}',p):raise ValueError('Exact HTS10 required')
@@ -229,8 +272,12 @@ def compile_rules(x,products):
         branch(f('s122_chapter98_claimed','Entry claimed under Chapter 98'),None,{'unresolved_source':'section122_chapter98_predicate_and_adjusted_value_not_compiled'})
         branch(f('s122_ftz_entry','Entry from a foreign trade zone'),None,{'unresolved_source':'section122_ftz_admission_classification_requires_separate_rule'})
         whole=[];parts={};known=[]
+        independently_defined={c for d in history['independent_interactions'] for c in d['codes']}
+        for d in history['independent_interactions']:
+            if period['from_']>=d['from_'] and set(countries)<={country(n) for n in d['country_names']}:
+                whole.append(reported(d['codes']));known+=d['codes']
         for row in period['rows']:
-            codes=row['codes'];known+=codes
+            codes=[c for c in row['codes'] if c not in independently_defined];known+=codes
             # The two parenthetical qualifications are not blanket zero-rate
             # exemptions for every use of the named headings.
             if 'as applied to the U.S. content' in row['text']:
@@ -277,10 +324,11 @@ def compile_rules(x,products):
         compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv')},
         supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',sources=history['sources'],source_artifacts=history['source_artifacts'],
         rules=rules,coverage=[],fact_definitions=facts,claim_definitions=claims,relations=[],interaction_history=history['periods'],
+        independent_interactions=history['independent_interactions'],
         unchanged_claims=[dict(id='s122_301_independence_'+x['revision'],claim_authority='section_301',target_rule_ids=all_ids,source_ids=ids),
           dict(id='s122_232_reevaluation_'+x['revision'],effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=all_ids,source_ids=ids)],
         limitations=['No complete authority coverage attestation. Uncompiled Chapter 98/FTZ claims and import-adjustment offsets remain unresolved.',
-          'Malformed Taiwan insertion remains unresolved; April/June replacements are reconciled with original annexes. No reporting code guessed.',
+          'Taiwan auto-parts interaction uses independent operative provisions; malformed annex text is retained, not repaired. Underlying Section 232 applicability must still be established.',
           'Post-expiry note mutations never establish earlier Section 122 liability.'])
 
 if __name__=='__main__':

@@ -17,6 +17,17 @@ selected<-list()
 for(rev in revs) {
   day<-rd$effective_date[match(rev,rd$revision)]
   x<-load_ieepa_emergency_source(rev);rows<-emergency_source_rows(x,lookup)
+  if(nrow(rows)) {
+    stopifnot(!anyNA(rows$valid_from),!anyNA(rows$valid_until),
+      all(nzchar(rows$termination_source_ids)),length(unique(rows$collection_ended_at))==1L)
+    from<-vapply(rows$valid_from,.shipment_time,numeric(1))
+    until<-vapply(rows$valid_until,.shipment_time,numeric(1))
+    end<-vapply(rows$collection_ended_at,.shipment_time,numeric(1))
+    stopifnot(all(from<until),all(until<=end))
+    # Retained source headings must cease at the sourced instant, irrespective
+    # of the revision's publication date or presence in a later snapshot.
+    stopifnot(nrow(select_ieepa_emergency_actions(rows,rows$collection_ended_at[[1]]))==0)
+  }
   active<-select_ieepa_emergency_actions(rows,day,daily=TRUE)
   events<-list(country=load_ieepa_country_amendments(),emergency=x,stacking=load_stacking_rules(),
     section301=load_s301_revision_source(rev,download=FALSE),
@@ -26,7 +37,11 @@ for(rev in revs) {
   segments$valid_until<-pmin(segments$valid_until,as.Date('2026-10-22'))
   report$revisions[[rev]]<-list(entry_day=as.character(day),collection_ended=has_ieepa_collection_ended(day),
     ordinary_parameters=ordinary_emergency_parameters(active),legal_intervals=segments,
-    sources=x$sources,additional_sources=x$additional_sources,action_count=length(x$actions))
+    sources=x$sources,additional_sources=x$additional_sources,action_count=length(x$actions),
+    entry_windows_complete=all(!is.na(rows$valid_from)&!is.na(rows$valid_until)),
+    collection_ended_at=x$collection_ended_at,
+    transit_conditions=lapply(Filter(function(a)!is.null(a$transit_condition),x$actions),
+      function(a)a[c('ch99_code','valid_from','valid_until','transit_condition')]))
   selected[[rev]]<-active
   con<-gzfile(file.path(args[1],paste0(rev,'.json.gz')),'wt')
   writeLines(jsonlite::toJSON(x,auto_unbox=TRUE,pretty=TRUE,null='null',na='null',digits=NA),con);close(con)

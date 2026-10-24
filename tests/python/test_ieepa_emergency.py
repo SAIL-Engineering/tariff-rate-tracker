@@ -18,7 +18,7 @@ def test_amendment_reconstructs_both_intervals(current):
     rows=[a for a in current['actions'] if a['ch99_code']=='9903.01.24']
     assert [(a['rate'],a['valid_from'],a['valid_until']) for a in rows]==[
         (.2,'2025-03-04T00:01:00-05:00','2025-11-10T00:01:00-05:00'),
-        (.1,'2025-11-10T00:01:00-05:00',None)]
+        (.1,'2025-11-10T00:01:00-05:00','2026-02-24T00:00:00-05:00')]
     assert all(a['amendment_source_id']=='FR-2025-19825' for a in rows)
     assert all(a['country_names']==['China','Hong Kong'] for a in rows)
     assert all(a['native_duty_expression'].endswith('10%') for a in rows)
@@ -64,9 +64,34 @@ def test_canada_ordinary_and_conditional_windows_come_from_distinct_sections(cur
     ordinary=[a for a in current['actions'] if a['country_names']==['Canada'] and a['entry_type']=='general']
     assert [(a['rate'],a['valid_from'],a['valid_until']) for a in ordinary]==[
         (.25,'2025-03-04T00:01:00-05:00','2025-08-01T00:01:00-04:00'),
-        (.35,'2025-08-01T00:01:00-04:00',None)]
+        (.35,'2025-08-01T00:01:00-04:00','2026-02-24T00:00:00-05:00')]
     assert all(a['amendment_source_id']=='FR-2025-14999' for a in ordinary)
     conditional=next(a for a in current['actions'] if a['entry_type']=='conditional_replacement')
     assert conditional['valid_from']=='2025-08-01T00:01:00-04:00'
     assert 'Sec. 3. Transshipment' in conditional['amendment_clause']
     assert 'CBP' in conditional['amendment_clause']
+
+
+def test_relief_commencement_uses_original_notice_and_presidential_order(current):
+    for code in ('9903.01.04','9903.01.05','9903.01.14','9903.01.15'):
+        a=next(a for a in current['actions'] if a['ch99_code']==code)
+        assert a['valid_from']=='2025-03-07T00:01:00-05:00'
+        assert len(a['inception_source_ids'])==2
+    assert all(a['valid_from'] and a['valid_until'] for a in current['actions'])
+
+
+def test_transit_loading_cutoff_is_not_its_entry_cutoff(current):
+    a=next(a for a in current['actions'] if a['ch99_code']=='9903.01.23')
+    assert a['valid_from']=='2025-02-04T00:01:00-05:00'
+    assert a['valid_until']=='2025-03-07T00:01:00-05:00'
+    assert 'February 1, 2025' in a['transit_condition']
+    assert 'or in transit on the final mode' in a['transit_condition']
+
+
+def test_collection_termination_has_independent_evidence_and_midnight_boundary(current):
+    assert current['collection_ended_at']=='2026-02-24T00:00:00-05:00'
+    for a in current['actions']:
+        assert a['termination_source_ids']==['FR-2026-03832','CBP-CSMS-67834313']
+        assert a['valid_until']<=current['collection_ended_at']
+    broken=copy.deepcopy(current);broken['actions'][0]['valid_from']=None
+    with pytest.raises(ValueError,match='commencement'):p.close_collection_windows(broken)

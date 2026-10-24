@@ -22,6 +22,8 @@ for r in csv.DictReader((ROOT/'config/revision_dates.csv').open()):
     malformed_references=sorted(set(__import__('re').findall(r'(?<![\d.])\d{3}\.\d{2}\.\d{2}',text))))
  rows.append(row);print(rev,'source checked',flush=True)
 a.output.parent.mkdir(parents=True,exist_ok=True)
-a.output.write_text(json.dumps(dict(revisions=rows,history=load_history()['periods'],
+history=load_history()
+a.output.write_text(json.dumps(dict(revisions=rows,history=history['periods'],
+ independent_interactions=history['independent_interactions'],
  compiler_sha256=sha((ROOT/'src/section122_rules.py').read_bytes()),
  scope='Source extraction and bounded rule compilation, not a timeseries rebuild or full stack validation.'),indent=2)+'\n')

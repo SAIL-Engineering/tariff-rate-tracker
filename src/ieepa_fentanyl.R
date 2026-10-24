@@ -30,6 +30,7 @@ load_ieepa_emergency_source <- function(revision_id,root=here::here()) {
 emergency_source_rows <- function(x,country_lookup) {
   empty <- tibble::tibble(ch99_code=character(),rate=double(),country_name=character(),
     census_code=character(),entry_type=character(),valid_from=character(),valid_until=character(),
+    collection_ended_at=character(),termination_source_ids=character(),
     source_description=character(),duty_expression=character(),source_heading_sha256=character(),
     source_note_sha256=character(),note_locator=character(),amendment_source_id=character(),
     amendment_source_sha256=character(),amendment_effective_from=character())
@@ -39,6 +40,8 @@ emergency_source_rows <- function(x,country_lookup) {
     tibble::tibble(ch99_code=a$ch99_code,rate=a$rate,country_name=origins$country_name,
       census_code=origins$census_code,entry_type=a$entry_type,
       valid_from=a$valid_from %||% NA_character_,valid_until=a$valid_until %||% NA_character_,
+      collection_ended_at=a$collection_ended_at %||% NA_character_,
+      termination_source_ids=paste(unlist(a$termination_source_ids),collapse=';'),
       source_description=a$source_description,duty_expression=a$duty_expression,
       source_heading_sha256=a$source_heading_sha256,source_note_sha256=a$source_note_sha256,
       note_locator=a$note_locator,amendment_source_id=a$amendment_source_id %||% NA_character_,
@@ -62,8 +65,21 @@ select_ieepa_emergency_actions <- function(rows,entry_at,daily=FALSE) {
     if(length(at)!=1L||is.na(at)) stop('Explicit offset entry timestamp required')
   }
   active <- (is.na(from)|at>=from)&(is.na(until)|at<until)
+  if(anyNA(rows$valid_from)||anyNA(rows$valid_until)) stop('Missing emergency source entry window')
   if(any(!is.na(rows$valid_from)&is.na(from))||any(!is.na(rows$valid_until)&is.na(until))) stop('Invalid emergency source window')
   result <- unique(rows[active & rows$entry_type!='exemption',])
+  # Retained headings cease at the independently sourced CBP collection
+  # boundary. An empty match alone is not evidence of zero duty.
+  if(nrow(rows)&&'collection_ended_at'%in%names(rows)&&
+     !anyNA(rows$collection_ended_at)&&length(unique(rows$collection_ended_at))==1L&&
+     all(nzchar(rows$termination_source_ids))) {
+    end<-if(daily) as.Date(substr(rows$collection_ended_at[[1]],1,10)) else parse(rows$collection_ended_at[[1]])
+    if(is.na(end)) stop('Invalid emergency collection boundary')
+    if(at>=end) {
+      if(nrow(result)) stop('Emergency action survives collection termination')
+      return(result)
+    }
+  }
   general <- result[result$entry_type=='general',]
   if(any(duplicated(general$census_code))) stop('Overlapping ordinary emergency actions; source reconciliation required')
   # An expired retained heading cannot silently supply a different origin's

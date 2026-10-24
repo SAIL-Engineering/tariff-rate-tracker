@@ -1,0 +1,264 @@
+{
+  "recorded_at": "2026-10-24T04:32:31.110758+00:00",
+  "tracker_base": "6f6a9bccde4a6060c790297e7b8f6cc8ab2c2724",
+  "branch": "wjr_dev",
+  "complete_legal_coverage": false,
+  "motherduck_written": false,
+  "timeseries_rebuilt": false,
+  "production_qualified": false,
+  "checks": [
+    {
+      "command": "/usr/bin/python3 -m pytest -q tests/python",
+      "exit_code": 0,
+      "passed": 335,
+      "log": "python-all.log"
+    },
+    {
+      "command": "node --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 305,
+      "log": "node-all.log"
+    },
+    {
+      "command": "Rscript tests/run_all_tests.R --require-data",
+      "exit_code": 1,
+      "suites": 39,
+      "ok": 37,
+      "error": 1,
+      "skip": 1,
+      "counted_passing_assertions": 402,
+      "log": "r-all.log",
+      "limitations": [
+        "312 missing/stale normalized partitions; parity cannot proceed",
+        "TPC input data/tpc/tariff_by_flow_day.csv is absent"
+      ]
+    },
+    {
+      "command": "Rscript tests/test_s122_rules.R --emit",
+      "exit_code": 0,
+      "cases": 43,
+      "log": "r-section122.log"
+    },
+    {
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0,
+      "cases": 49,
+      "log": "r-legacy-metals.log"
+    },
+    {
+      "command": "Rscript tests/test_ieepa_emergency.R",
+      "exit_code": 0,
+      "log": "r-emergency.log"
+    },
+    {
+      "command": "Rscript scripts/audit_ieepa_emergency.R NEW_OUTPUT_DIR",
+      "exit_code": 0,
+      "revisions": 55,
+      "log": "emergency-source-sweep.log"
+    },
+    {
+      "command": "python3 scripts/audit_section122_interactions.py NEW_REPORT.json",
+      "exit_code": 0,
+      "revisions": 55,
+      "revisions_with_section122": 18,
+      "log": "section122-source-sweep.log"
+    },
+    {
+      "command": "python3 scripts/audit_section232_legacy.py NEW_OUTPUT_DIR",
+      "exit_code": 0,
+      "revisions": 55,
+      "compiled_regimes": 34,
+      "compiled_rules": 26016,
+      "log": "legacy-metal-source-sweep.log"
+    },
+    {
+      "command": "node frontend/scripts/audit-ieepa-emergency-motherduck.mjs .env NEW_EXPORT.json",
+      "exit_code": 0,
+      "access_mode": "READ_ONLY",
+      "log": "motherduck-read-only.log"
+    },
+    {
+      "command": "Rscript scripts/audit_ieepa_emergency.R NEW_OUTPUT_DIR READ_ONLY_EXPORT.json",
+      "exit_code": 0,
+      "discrepancy_groups": 108,
+      "log": "motherduck-reconciliation.log"
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "cwd": "frontend",
+      "exit_code": 0,
+      "log": "tracker-typecheck.log"
+    },
+    {
+      "command": "node node_modules/vite/bin/vite.js build --outDir /tmp/authority-tracker-build-20261024",
+      "cwd": "frontend",
+      "exit_code": 0,
+      "log": "tracker-build.log",
+      "warnings": [
+        "Existing large-bundle warning",
+        "Outdated Browserslist database warning"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "frontend/server/generated/shipmentRules.js",
+      "sha256": "27618e7b78ed9a14ddba3a4c5ea07b41af50890c20dce28c1108e168d4316d34"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03900/notice.txt",
+      "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03900/source.json",
+      "sha256": "5b57be588e639291c03b6e776350b0bdb66db41c475c6869698f6a726ae1c72d"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03901/notice.txt",
+      "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03901/source.json",
+      "sha256": "ec7f9673186d3f29de507c26784f4e8ace0868e55d474f354caa89c1384ca64e"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03990/notice.txt",
+      "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03990/source.json",
+      "sha256": "be4782fec8ed5f0224ea633c98daafac318ebd91fc01cc3722a9a91c06d4e9d0"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03991/notice.txt",
+      "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+    },
+    {
+      "path": "resources/legal_evidence/2025-03991/source.json",
+      "sha256": "c22a1232aeeb5181b83386d60e9f00cb5ad726543d06e068b70a6b752becd07f"
+    },
+    {
+      "path": "resources/legal_evidence/2026-03832/notice.txt",
+      "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+    },
+    {
+      "path": "resources/legal_evidence/2026-03832/source.json",
+      "sha256": "531e5415ac0072b00dc2daeb39c5411e831734041e85d8ce656b2ba5a07e7b78"
+    },
+    {
+      "path": "resources/legal_evidence/CSMS-67834313/notice.txt",
+      "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+    },
+    {
+      "path": "resources/legal_evidence/CSMS-67834313/source.json",
+      "sha256": "e12859e84f3975ad9f453e3d31618c954b47d1acc41c4fcb1143257da7f214bd"
+    },
+    {
+      "path": "resources/legal_evidence/section122/interactions/review.json",
+      "sha256": "4fec6364f33de4b460e89570b4339bb5d399a81dbbfdd69cc58c88f52d9a7a87"
+    },
+    {
+      "path": "scripts/audit_ieepa_emergency.R",
+      "sha256": "1da883b28b31d4110b25a78b8046455be04cb528cd94dc6ffa027083b6ef641b"
+    },
+    {
+      "path": "scripts/audit_section122_interactions.py",
+      "sha256": "6b71c62e55758975bc88db7c0a63f60dff8b8acd4e7e04d48790d833db817051"
+    },
+    {
+      "path": "src/ieepa_fentanyl.R",
+      "sha256": "5ff04bcfb425ff86036ea02b4a231743891354f412fa9949a4bfd1a2dcef0b6d"
+    },
+    {
+      "path": "src/ieepa_fentanyl_sources.py",
+      "sha256": "0165f2e48685c369747e0180d27df6802cad6072b43e1d1c2bb5bb667f3cc20e"
+    },
+    {
+      "path": "src/section122_rules.py",
+      "sha256": "5f59384b5faf970d115a1adf9220df9503b16893a8954be6b716638b3dcff109"
+    },
+    {
+      "path": "src/section232_legacy_rules.py",
+      "sha256": "d9c517c24f2b62414a7eb09d3caa25e728369fe3780f7950e8310471e36f75d8"
+    },
+    {
+      "path": "tests/fixtures/shipment/legacy-metals.json",
+      "sha256": "da51285687103e64c0f4f8df63bf911ee9628ec95f78d1ec773618c2f67b8027"
+    },
+    {
+      "path": "tests/fixtures/shipment/section122.json",
+      "sha256": "fdc8d186b2fe814774eb73c95d6b32c4c34f53666273d13b5d5fcb4e17e6e431"
+    },
+    {
+      "path": "tests/test_ieepa_emergency.R",
+      "sha256": "9c6bb129521481912ec5914916e526daaec08faf34d30ca4f85e64ba0f5c72ab"
+    },
+    {
+      "path": "tests/test_s122_rules.R",
+      "sha256": "ccd5e979696148f1f34d4bff534573d7e33351c4a9aaed9bbd862ee9c76c307a"
+    },
+    {
+      "path": "tests/test_s232_legacy_rules.R",
+      "sha256": "5e09d5ab5d6d18f5be09548db586e29e23b31e208b86f3d7a5284cce2ba89517"
+    }
+  ],
+  "logs": [
+    {
+      "path": "python-all.log",
+      "sha256": "4bcf7fb23eae2a24c31e12503adcc6e59e721cf28e776e830e5b5eebfc737c84"
+    },
+    {
+      "path": "node-all.log",
+      "sha256": "5b7314c72cde0acf9cffb087b99d794082ec67c708ca1f8e00debfde7db87a59"
+    },
+    {
+      "path": "r-all.log",
+      "sha256": "ca394857b255b769c958afc726f3e093df5f458367efa3b66f5614bd918c0848"
+    },
+    {
+      "path": "r-emergency.log",
+      "sha256": "a14341b26a1d11bd4776f00bdd43265af687621965fed4a6ef84febccb1797ac"
+    },
+    {
+      "path": "r-section122.log",
+      "sha256": "88501cc97f0ee1bbca6187245614e5af6be3c91a94f73b2f3f12543d8db7d362"
+    },
+    {
+      "path": "r-legacy-metals.log",
+      "sha256": "7419c6cb7bfa3404ada15b9d1b05525819fec5492d8eaaf008392775565e1b4e"
+    },
+    {
+      "path": "emergency-source-sweep.log",
+      "sha256": "2e2bbbd7a4ee93c4aaf5b88a5bbf77a5be2c04caac836ecb3ad9913ace5ec720"
+    },
+    {
+      "path": "section122-source-sweep.log",
+      "sha256": "d9942a1eb9ced8ad75f4929891ca50616b66d5b4db3dabc511d7ebce395af1f9"
+    },
+    {
+      "path": "legacy-metal-source-sweep.log",
+      "sha256": "8dd99755a5653343923d20912cac8e60859002b8ee452bd0a7e5c1f01ebc529f"
+    },
+    {
+      "path": "motherduck-read-only.log",
+      "sha256": "3720189558df528ec413158c05d7c898890daa40b3adb96a105d988665f98833"
+    },
+    {
+      "path": "motherduck-reconciliation.log",
+      "sha256": "2e2bbbd7a4ee93c4aaf5b88a5bbf77a5be2c04caac836ecb3ad9913ace5ec720"
+    },
+    {
+      "path": "tracker-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tracker-build.log",
+      "sha256": "a78ce7d1fa3b302a15ac637fdb8f468bb97b561b364d47e5809c7508802b0aca"
+    }
+  ],
+  "not_run": [
+    "SAIL UI checks: no UI/SAIL code changes",
+    "Full timeseries/revision rebuild: reserved for WJR",
+    "Live MotherDuck deployment smoke test: no deployment approved/performed"
+  ]
+}

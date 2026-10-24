@@ -43,7 +43,7 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         citation=f'USITC {x["revision"]}, U.S. notes 16 and 19; individual subdivision and heading retained on each decision.')
         for i,(id,s) in enumerate(zip(ids,x['sources']))]
     artifacts=[dict(source_id=id,path=s['path'],sha256=s['sha256']) for id,s in zip(ids,x['sources'])]
-    for doc in ('2025-02832','2025-02833','2025-09066','2025-10524'):
+    for doc in ('2025-02832','2025-02833','2025-09066','2025-10524','2025-14999'):
         p=ROOT/f'resources/legal_evidence/{doc}/notice.txt';m=json.loads(p.with_name('source.json').read_bytes())
         if m['sha256']!=sha(p.read_bytes()):raise ValueError('Amendment hash mismatch '+doc)
         id='FR-'+doc;ids.append(id)
@@ -98,14 +98,6 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         rules.append(r)
         decisions.append(dict(rule_id=id,legal_locator=loc,reporting_codes=r['reporting_codes'],
             status='requires_source_reconciliation' if error else 'compiled',reason=error))
-        # Proclamation 10947 clause 5 changes precedence for the named metal
-        # actions, not only the abbreviated heading list in the note. CBP's
-        # implementation notice footnote 1 expressly includes Proclamation
-        # 10522's Russian-aluminum 200-percent action. US-metal zero relief
-        # cannot trigger positive-duty precedence.
-        if code and headings[code]['rate']>0 and after_june:
-            relations.append(dict(id=id+'_emergency',effect='suppress',when_rule_applies=id,
-                trigger_test='positive_duty',target_reporting_codes=['9903.01.10','9903.01.01'],source_ids=list(ids)))
     def gap(reason,code=None):return dict(error=reason,code=code)
     def leaf(code,chapter,metal):
         h=headings[code];basis=h['valuation_basis']
@@ -200,8 +192,22 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         and re.search(r'[1-9][\d.]*%',r.get('general',''))})
     from ieepa_fentanyl_sources import extract as emergency_extract
     emergency=emergency_extract(Path(x['sources'][0]['path']),Path(x['sources'][1]['path']),x['revision'])
+    # EO 14289 identifies presidential actions, not two abbreviated ordinary
+    # headings. Energy and potash carveouts remain under EO 14193/14194 as
+    # amended. EO 14325 sec. 2(d) preserves stacking for its sec. 2 ordinary
+    # rate change; the separate sec. 3 anti-evasion charge expressly retains
+    # other applicable duties and cannot inherit that ordinary exemption.
     triggers=sorted({a['ch99_code'] for a in emergency['actions'] if a['rate']>0 and
+        a['entry_type'] in ('general','carveout') and
         set(a['country_names']) & {'Canada','Mexico'}})
+    if after_june and triggers:
+        for r in rules:
+            if r['reporting_codes'] and r['reporting_codes'][0] in charged_codes:
+                # Bind individual rules so the one-minute June predecessor
+                # keeps its own ordering. Russian aluminum is explicitly
+                # included by 90 FR 21487 footnote 1; zero relief is not.
+                relations.append(dict(id=r['id']+'_emergency',effect='suppress',when_rule_applies=r['id'],
+                    trigger_test='positive_duty',target_reporting_codes=triggers,source_ids=list(ids)))
     if auto_codes and charged_codes:
         relations.append(dict(id='legacy_auto_precedence_'+x['revision'],effect='suppress_by_reporting_codes',
             trigger_reporting_codes=auto_codes,trigger_test='positive_duty',target_reporting_codes=sorted(set(charged_codes+triggers)),source_ids=ids))

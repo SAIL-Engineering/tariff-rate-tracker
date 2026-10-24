@@ -22,26 +22,68 @@ DATE = r'([A-Z][a-z]+ \d{1,2}, \d{4})'
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def verified_source(doc):
+    path=ROOT/'resources/legal_evidence'/doc/'notice.txt'
+    meta=json.loads(path.with_name('source.json').read_bytes())
+    if sha(path.read_bytes())!=meta['sha256']:raise ValueError('Emergency notice hash mismatch: '+doc)
+    return path.read_text(),dict(path=str(path),**meta)
+
+
 def inception_sources():
     sources = []; dates = {}
-    for doc in ('2025-02293', '2025-03664', '2025-03665'):
-        path = ROOT/'resources/legal_evidence'/doc/'notice.txt'
-        meta = json.loads(path.with_name('source.json').read_bytes())
-        if sha(path.read_bytes()) != meta['sha256']:
-            raise ValueError('Emergency inception notice hash mismatch')
-        text = path.read_text()
+    for doc in ('2025-02293', '2025-03664', '2025-03665', '2025-03901', '2025-03900'):
+        text,meta=verified_source(doc)
         dates_clause = unique_span(text, r'^DATES:', r'^FOR FURTHER INFORMATION')
         window = windows(dates_clause)
         if not window['valid_from']:
             raise ValueError('Unresolved emergency inception time')
-        inserted = re.findall(r'by inserting the following new heading ('+HEADING+r')', ' '.join(text.split()))
+        directives=re.findall(r'by inserting (?:the following )?new headings? (.*?) in numerical sequence', ' '.join(text.split()))
+        inserted=[code for directive in directives for code in re.findall(HEADING,directive)]
         if not inserted:
             raise ValueError('Missing inception heading inventory')
+        table_codes=re.findall(r'^`*('+HEADING+r')\.{2,}',text,re.M)
+        if set(inserted)!=set(table_codes):raise ValueError('Emergency insertion and heading table disagree')
+        source_ids=[meta['id']]
+        # The March relief's effective date is confirmed by the independent
+        # presidential amendment. Do not obtain it from later HTS prose, or
+        # from the malformed Canada paragraph 1 replacement operands.
+        if doc in ('2025-03901','2025-03900'):
+            order,source=verified_source('2025-03990' if doc=='2025-03901' else '2025-03991')
+            operative=unique_span(order,r'^Sec\. 2\. Product Coverage\.',r'^Sec\. 3\.')
+            if windows(operative)['valid_from']!=window['valid_from']:
+                raise ValueError('Presidential and CBP commencement disagree')
+            sources.append(source);source_ids.append(source['id'])
         for code in inserted:
             if code in dates: raise ValueError('Conflicting inception notices')
-            dates[code] = dict(valid_from=window['valid_from'],source_id=meta['id'])
-        sources.append(dict(path=str(path),**meta))
+            dates[code] = dict(valid_from=window['valid_from'],source_id=meta['id'],source_ids=source_ids)
+        sources.append(meta)
     return dates,sources
+
+
+def collection_termination():
+    order,eo=verified_source('2026-03832');notice,cbp=verified_source('CSMS-67834313')
+    flat=' '.join(notice.split())
+    stop=re.search(r'will no longer be collected for goods entered for consumption or withdrawn from warehouse for consumption, on or after 12:00 a\.m\. eastern time on '+DATE,flat)
+    if not stop or 'shall no longer be in effect' not in ' '.join(order.split()):
+        raise ValueError('Unreviewed emergency termination instruction')
+    if not all('Executive Order '+n in flat and 'Executive Order '+n in ' '.join(order.split()) for n in ('14193','14194','14195')):
+        raise ValueError('Emergency termination action inventory incomplete')
+    end=datetime.strptime(stop[1],'%B %d, %Y').replace(tzinfo=ZoneInfo('America/New_York')).isoformat()
+    return end,[eo,cbp]
+
+
+def close_collection_windows(result):
+    end,sources=collection_termination()
+    for action in result['actions']:
+        if not action['valid_from']:raise ValueError('Missing emergency action commencement: '+action['ch99_code'])
+        if not action['valid_until'] or datetime.fromisoformat(action['valid_until'])>datetime.fromisoformat(end):
+            action['native_valid_until']=action['valid_until'];action['valid_until']=end
+        if datetime.fromisoformat(action['valid_from'])>=datetime.fromisoformat(action['valid_until']):
+            raise ValueError('Empty/conflicting emergency entry interval')
+        action['collection_ended_at']=end
+        action['termination_source_ids']=[s['id'] for s in sources]
+    result['additional_sources']+=sources
+    result['collection_ended_at']=end
 
 
 def rate_replacement_source():
@@ -247,12 +289,23 @@ def extract(pdf: Path, hts: Path, revision: str) -> dict:
             rate = 0
             kind = 'exemption'
             temporal = dict(valid_from=None, valid_until=None, temporal_clauses=[])
+            # A transit heading contains BOTH a loading cutoff and an entry
+            # cutoff. Parse only its expressly numbered entry condition into
+            # the entry window; retain the loading condition separately.
+            if 'were loaded onto a vessel' in description:
+                transit=re.search(r'\(1\) (.*?)\(2\) (are entered for consumption.*)',description,re.S)
+                if not transit:raise ValueError('Unparsed emergency transit conditions')
+                temporal=windows(transit[2])
+                if not temporal['valid_from'] or not temporal['valid_until']:
+                    raise ValueError('Missing emergency transit entry window')
+                temporal['transit_condition']=transit[1].strip()
         else:
             raise ValueError('Unparsed emergency duty expression: ' + code)
         inception = inceptions.get(code)
         if inception and temporal['valid_from'] is None:
             temporal['valid_from'] = inception['valid_from']
             temporal['inception_source_id'] = inception['source_id']
+            temporal['inception_source_ids'] = inception['source_ids']
         result['actions'].append(dict(ch99_code=code, country_names=origin.split(' and '),
             rate=rate, entry_type=kind, source_description=description, duty_expression=expression,
             note_locator=f'U.S. note 2({label})' if label else 'U.S. note 2; heading and explicit parent references',
@@ -262,6 +315,7 @@ def extract(pdf: Path, hts: Path, revision: str) -> dict:
         raise ValueError('Duplicate emergency heading')
     reconcile_rate_replacement(result)
     reconcile_canada_replacement(result)
+    close_collection_windows(result)
     return result
 
 

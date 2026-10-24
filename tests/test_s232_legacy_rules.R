@@ -81,8 +81,6 @@ for(c in cases) {
  }
  stopifnot(is.null(r$complete_total),r$status=='unresolved_source')
 }
-if('--emit' %in% commandArgs(trailingOnly=TRUE)) jsonlite::write_json(list(bundles=bundles,cases=cases),
- 'tests/fixtures/shipment/legacy-metals.json',auto_unbox=TRUE,null='null',digits=NA)
 cat(length(cases),'source-backed historical metal decisions passed; complete coverage is not attested\n')
 # Composition fixtures exercise action dependencies; the added charge itself is
 # synthetic and is not an oracle for a real automobile or emergency rate.
@@ -146,3 +144,48 @@ for(at in c('2025-06-04T00:00:59-04:00','2025-06-04T00:01:00-04:00')) {
  stopifnot(r$known_subtotal==if(grepl('00:00:59',at))25 else 200)
 }
 cat('Russian-aluminum action follows the source-confirmed precedence transition\n')
+# All source-defined ordinary CA/MX emergency treatments participate; the
+# energy/potash rates are not silently omitted by an abbreviated heading list.
+# Synthetic amounts isolate ordering, and do not attest real product scope.
+base$rules<-list(emergency);base$rules[[1]]$scope$countries<-list('1220','2010')
+base$valid_from<-june_fragment$supported_from;base$valid_until<-june_fragment$supported_until
+q<-steel;q$privileged_ftz_before_20250312<-FALSE
+record_interaction<-function(name,b,facts,subtotal,codes,at,country) {
+ r<-evaluate_shipment_bundle(b,'7318158085',country,at,facts)
+ got<-unique(unlist(lapply(Filter(function(x)x$status=='applied',r$components),`[[`,'reporting_codes')))
+ stopifnot(r$known_subtotal==subtotal,setequal(got,codes),!length(r$missing_inputs),
+           !any(grepl('cyclic',r$source_errors)),is.null(r$complete_total))
+ key<-paste0('interaction_',length(bundles)+1L);bundles[[key]]<<-b
+ add(name,'7318158085',country,facts,subtotal,codes,period=key,entry=at)
+}
+for(code in c('9903.01.01','9903.01.05','9903.01.10','9903.01.13','9903.01.15')) {
+ base$rules[[1]]$reporting_codes<-list(code)
+ b<-compose_shipment_rules(base,list(june_fragment))
+ country<-if(code %in% c('9903.01.01','9903.01.05')) '2010' else '1220'
+ for(at in c('2025-06-04T00:00:59-04:00','2025-06-04T00:01:00-04:00')) {
+  before<-grepl('00:00:59',at)
+  record_interaction(paste('ordinary emergency priority',code,at),b,q,if(before)25 else 10,
+    if(before)code else '9903.81.90',at,country)
+ }
+ zero<-q;zero$steel_content_value<-0
+ record_interaction(paste('zero metal does not suppress',code),b,zero,25,c(code,'9903.81.90'),
+   '2025-06-04T00:01:00-04:00',country)
+}
+# A different authority and a later conditional anti-evasion action must not
+# inherit ordinary CA/MX exemptions. This is a relation test, not a rate oracle.
+august_fragment<-compile_s232_legacy_fragment(load_s232_legacy_source('2025_rev_18'),products)
+base$valid_from<-august_fragment$supported_from;base$valid_until<-august_fragment$supported_until
+for(code in c('9903.01.16','9903.01.24','9903.88.01')) {
+ base$rules[[1]]$reporting_codes<-list(code)
+ country<-if(code=='9903.01.16') '1220' else '5700'
+ base$rules[[1]]$authority<-if(code=='9903.88.01') 'section_301' else 'ieepa_fentanyl'
+ base$rules[[1]]$scope$countries<-list(country)
+ b<-compose_shipment_rules(base,list(august_fragment))
+ record_interaction(paste('independent action remains cumulative',code),b,q,35,c(code,'9903.81.90'),
+   '2025-08-08T12:00:00-04:00',country)
+}
+cat('All ordinary CA/MX headings follow exact June ordering; other actions remain independent\n')
+
+if('--emit' %in% commandArgs(trailingOnly=TRUE)) jsonlite::write_json(list(bundles=bundles,cases=cases),
+ 'tests/fixtures/shipment/legacy-metals.json',auto_unbox=TRUE,null='null',digits=NA)
+cat(length(cases),'total historical metal R/TypeScript fixtures passed\n')

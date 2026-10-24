@@ -61,3 +61,12 @@ class LegacyMetalSources(unittest.TestCase):
  def test_uncovered_product_has_no_manufactured_rules_or_claims(self):
   f=compile_legacy(self.late,['7202115000'],self.origins)
   self.assertEqual(f['rules'],[]);self.assertEqual(f['claim_definitions'],[]);self.assertEqual(f['coverage'],[])
+ def test_all_ordinary_emergency_actions_follow_metal_priority(self):
+  f=compile_legacy(self.late,['7318158085'],self.origins)
+  edges=[e for e in f['relations'] if e['id'].endswith('_emergency')]
+  self.assertTrue(edges)
+  for e in edges:
+   self.assertEqual(set(e['target_reporting_codes']),{'9903.01.01','9903.01.05','9903.01.10','9903.01.13','9903.01.15'})
+   self.assertEqual(e['trigger_test'],'positive_duty')
+  self.assertFalse(any('9903.01.16' in e['target_reporting_codes'] for e in f['relations']))
+  self.assertTrue(any(s['id']=='FR-2025-14999' for s in f['sources']))

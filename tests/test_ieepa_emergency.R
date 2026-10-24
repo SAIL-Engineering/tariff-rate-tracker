@@ -58,3 +58,19 @@ stopifnot(.compute_authority_rate(winner,acr,NULL,'1220')$rate==.1)
 winner$ch99_code<-'9903.01.99'
 stopifnot(is.na(.compute_authority_rate(winner,acr,NULL,'1220')$rate))
 cat('Normalized emergency projection selects the same legal action and cannot replace a missing heading with a maximum\n')
+# A later snapshot may reconstruct the original entry window, but cannot make
+# March 7 potash relief available on March 4. Exact entry clocks stay separate
+# from the daily aggregate convention.
+for(at in c('2025-03-07T00:00:59-05:00','2025-03-07T00:01:00-05:00')) {
+ selected<-select_ieepa_emergency_actions(late,at)
+ potash<-selected$ch99_code %in% c('9903.01.05','9903.01.15')
+ stopifnot(sum(potash)==if(grepl('00:00:59',at))0 else 2)
+}
+stopifnot(nrow(select_ieepa_emergency_actions(late,'2026-02-23T23:59:59-05:00'))>0,
+          nrow(select_ieepa_emergency_actions(late,'2026-02-24T00:00:00-05:00'))==0,
+          nrow(select_ieepa_emergency_actions(late,'2026-03-01',daily=TRUE))==0)
+missing<-late;missing$valid_from[[1]]<-NA_character_
+stopifnot(inherits(try(select_ieepa_emergency_actions(missing,'2025-03-07T00:01:00-05:00'),silent=TRUE),'try-error'))
+missing<-late;missing$termination_source_ids<-''
+stopifnot(inherits(try(select_ieepa_emergency_actions(missing,'2026-02-24T00:00:00-05:00'),silent=TRUE),'try-error'))
+cat('March relief commencement, transit expiry and sourced midnight collection end passed\n')

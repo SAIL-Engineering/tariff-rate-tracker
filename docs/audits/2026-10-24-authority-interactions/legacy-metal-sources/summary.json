@@ -1,0 +1,1157 @@
+[
+  {
+    "revision": "2025_basic",
+    "regime": "pre_march_2025",
+    "source_sha256": "6335071e3159a916c57fe8a71f3c6b6dd11eae2c13b88a54941e94b915c45d6d",
+    "products": 19613,
+    "scope_matches": 842,
+    "candidate_products": 835,
+    "description_limited_matches": 34,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_basic.pdf",
+        "sha256": "ee46a05fd679f0b2758d8a110dad62acb66262886a1087d37379ce105fcd618b"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_basic.json",
+        "sha256": "fe9de40662e7ab4d263f3dfb2d9090f8f78892bf881ce521628bbb5440829d01"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_1",
+    "regime": "pre_march_2025",
+    "source_sha256": "7f239a24eb25202b1aa1352c1aa5c3d54bd0afc707b33cac3e2e4ac4d4cb9630",
+    "products": 19615,
+    "scope_matches": 842,
+    "candidate_products": 835,
+    "description_limited_matches": 34,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_1.pdf",
+        "sha256": "aeac15b98ce09c94e2388c2a8fff33693acaf67c0c7997a2f5fa1b8110555c13"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_1.json",
+        "sha256": "c1fcdf003066f6e0471ae82068cee3289ff26bc74c75ee00c75fcf1ba06c159f"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_2",
+    "regime": "pre_march_2025",
+    "source_sha256": "eed9c9ee9407f4b0458c3d0747dc7989606931e2d564cc83b8df7b2a9e23a8e1",
+    "products": 19615,
+    "scope_matches": 842,
+    "candidate_products": 835,
+    "description_limited_matches": 34,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_2.pdf",
+        "sha256": "2d05a923e33329322bdf84fad315d1ec935f991d7ef56a0176e18d4186825e5a"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_2.json",
+        "sha256": "a25ac13d6442f3c4bf075440cb26f4cfdeaa6be655e9e923a2ac7a01064a12fc"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_3",
+    "regime": "pre_march_2025",
+    "source_sha256": "fe2614fe53468f905ac7a4f6e5308c05e8624e6bad3d73108a87f03022f42e67",
+    "products": 19615,
+    "scope_matches": 842,
+    "candidate_products": 835,
+    "description_limited_matches": 34,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_3.pdf",
+        "sha256": "cb188f75fd8f12f76a7a1efab2a19bb04e8eddb0d011e247686bb58029a0b302"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_3.json",
+        "sha256": "6177777ed76cf40b2c00b2835f74e8f9486ecae4851e50ca98128848c959c108"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_4",
+    "regime": "march_2025_metals",
+    "source_sha256": "449359759d44b5123389e9cfa9f2ab73a620b5c8b75b621a9d28adbeb5b42815",
+    "products": 19615,
+    "scope_matches": 1337,
+    "candidate_products": 1309,
+    "description_limited_matches": 34,
+    "compiled_rules": 7428,
+    "fragment_sha256": "95ab3145ea470b4850eedb877b0565ab3d99c591f5f6eaa8597f0f9bd4a95879",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_4.pdf",
+        "sha256": "ad2db5f58b0acc29f21939b31bd8a5c037f30cb3ea4ae28d438cad790ef1da19"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_4.json",
+        "sha256": "e164aeccdc9cb948b6f351f3d05997024e45b26a834ad53d72ec8bf880c3a772"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_5",
+    "regime": "march_2025_metals",
+    "source_sha256": "da2a25f8aca62b573b48dbd64740cde89a9a3380578f4edc215774d6d9b8d161",
+    "products": 19615,
+    "scope_matches": 1337,
+    "candidate_products": 1309,
+    "description_limited_matches": 34,
+    "compiled_rules": 195,
+    "fragment_sha256": "5014fa9c510cc3af4456e4d72524bc9e438e8f38cbbea48398a23dca56410535",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_5.pdf",
+        "sha256": "6135096c205abec026c66dfcb20d4e5acb0f54bdf98a71e037faf318c3eb534b"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_5.json",
+        "sha256": "ca15d92fddaeb48e32547f983c8376ac7e40d238e275964f73eca73d0a67bf05"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_6",
+    "regime": "march_2025_metals",
+    "source_sha256": "627d672b36589e0b5a2ba54e59822345246493681bb6a8189c0bf0cde5eb3af6",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "9b49c24d5b17bc5b90565f91043acda07cece5fb8b1ffe91fcffca684c4091d5",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_6.pdf",
+        "sha256": "248c068dcfdae57abced19f4dff4081c1745853e424867b87268c50e627ddd44"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_6.json",
+        "sha256": "1d078537a8ab86bc22ce9221e838511b5246151a66a04d23e95d9b4149fd485e"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_7",
+    "regime": "march_2025_metals",
+    "source_sha256": "81c8610f092be3b745e9550133ad09bd7f5fa3001470eea3d649a32ab08c407e",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "610dfcc5891eb2ddbdf54bcd26a74c3b2d03deed107891782fd9f0be9d00f485",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_7.pdf",
+        "sha256": "d538442589a10c91073613548ef4205f223be038855942982ec08e0bcb117ff2"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_7.json",
+        "sha256": "99caf1e37916595d19f385ba02cefc205964216e253adb73c30756877a2ced13"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_8",
+    "regime": "march_2025_metals",
+    "source_sha256": "73825ad1447106113a7e22792e3b27eb0a1afd8f7468b14d58428c7c71e6e591",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "76ec5b34ac5b326e78b9c40fe1217d4d4d5497a6fde04ac51bac3e0c45e965ac",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_8.pdf",
+        "sha256": "69945534443f537cd74156555a4f87436e4569ea5eb6ded2f9ef84c9434e6711"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_8.json",
+        "sha256": "84d998126e8bb0aafe9f287a511fd25742474874720033db342ca9cf083ab41b"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_9",
+    "regime": "march_2025_metals",
+    "source_sha256": "fc872362af56d5f7c398bc227492408e3fdef9745dd542d29bd27850c0eca12b",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "7beb7862bcc453690d7b62e8948d9929b23225f1707b15329c4929386fb3a6e4",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_9.pdf",
+        "sha256": "f9087541d2a3951284c800bd5cd33938e118df8d266761e41df51eff46ae1eb0"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_9.json",
+        "sha256": "a36d2079ac19f9d5a051aee175d379fa2eb57353ee56c8cf158ec9b9a77a644e"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_10",
+    "regime": "march_2025_metals",
+    "source_sha256": "ca3d55fc85ef7da3e0f3b987e05e58d9249795f2f9fd177f8bb8503004e99345",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "1f70c9317e1ef14a3bb7b96e1eb00049577ae8cfb3aa00503a3f481b3ae2a443",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_10.pdf",
+        "sha256": "a860fa5830f6d8aa98043ad0a8cd606c60e283eb06c5226e0695c8bc88aede1f"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_10.json",
+        "sha256": "90d50a0433456141452826469638303a3e928601e20e6f1554172b53f60bfadc"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_11",
+    "regime": "march_2025_metals",
+    "source_sha256": "eb44a3f04f812d588040f9d8c8faab118e9213fc13ab07a53b95521083ad2fb8",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "4258e53ca71053e1e27307c3ce97a3b436beb1158235f7f69eef41c96a43cfb2",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_11.pdf",
+        "sha256": "66a800d06a300d85a5444449183bfad0eb50a994140279456c06472740640e75"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_11.json",
+        "sha256": "4ea6932ffbb8106dd2c7a2199d85475d07a3f486c68ff40068c9a0ce81a793a9"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_12",
+    "regime": "march_2025_metals",
+    "source_sha256": "5943308641e28cbf06e24cffd87a812b8e12449514f44c8292a23469d1093e6f",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "3650d008c55b2d6ff34b749a84cca4d81d20fb679e443f6addf93c741e8c29d4",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_12.pdf",
+        "sha256": "52b985f3ad550ccd70bcbd70946ef0f2b64cb52b1a0fb559587feb14c4afc5f2"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_12.json",
+        "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_13",
+    "regime": "march_2025_metals",
+    "source_sha256": "c91ba8258a8b45bc0a0d3693c963b17c85133a4eedb43426e7ef2ad125f73d8c",
+    "products": 19615,
+    "scope_matches": 1343,
+    "candidate_products": 1315,
+    "description_limited_matches": 34,
+    "compiled_rules": 202,
+    "fragment_sha256": "2bd34312ea3d0409b1360ae7d22d36c578de3742b323bba2550080abbc27451c",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_13.pdf",
+        "sha256": "e6a2756923b74a7c9b666d9e72164983a3dc5362c3a01d3cf3a6f7bd4b6765c8"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_13.json",
+        "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_14",
+    "regime": "march_2025_metals",
+    "source_sha256": "9b1f9266255d10bdc11d237f2bad8718eed24f95ff432105a3e2e936d28012c1",
+    "products": 19615,
+    "scope_matches": 2688,
+    "candidate_products": 1317,
+    "description_limited_matches": 68,
+    "compiled_rules": 558,
+    "fragment_sha256": "55481ea36fe86df9b6b00c28633505b30692d44c2d3da600b4c79b32e9e0df90",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_14.pdf",
+        "sha256": "009d30d94dc48b5a624161d073acf474765cd163fe25b4554142c476516f4bf6"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_14.json",
+        "sha256": "0eb0ebeeff04d260ba6b05a16b23350eff4b93d38863ca8387d3b9555eaea43f"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_15",
+    "regime": "march_2025_metals",
+    "source_sha256": "eab7be7c78bacda8626ca919dc82ff60f4929a0d03e3272efc2f919d2e562c4b",
+    "products": 19615,
+    "scope_matches": 2746,
+    "candidate_products": 1345,
+    "description_limited_matches": 68,
+    "compiled_rules": 383,
+    "fragment_sha256": "42cfbbe4041b83525105c55f964ea5ff2eefc25e16738d1cd24f7aabd7c493eb",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_15.pdf",
+        "sha256": "6b97e556b3d924e32cb22f50ab69ad005330e1efd017f60f16c66f7f66f118ea"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_15.json",
+        "sha256": "83e5fc468a032b72c7f3759add0290b6bd2ba53fca40f73a5da0c59f9511a444"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_16",
+    "regime": "march_2025_metals",
+    "source_sha256": "dfbaa32756ccd974d170d5f6861842ca93b83cee4da030911c05af7ac5f40a1b",
+    "products": 19651,
+    "scope_matches": 2754,
+    "candidate_products": 1349,
+    "description_limited_matches": 68,
+    "compiled_rules": 383,
+    "fragment_sha256": "e22214b89a230d298f2acb4827977925050fb68f5abe70ab09d9d214c3de1b56",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_16.pdf",
+        "sha256": "1418c8c09c4ce03d82a8aa4913680799ada319d36f2e3939e3c9d39b78bf5651"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_16.json",
+        "sha256": "69a3ddee24ff58342dbfcc74cc9eb2be8c405cf6fff72eb5407bdea66c2c503e"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_17",
+    "regime": "march_2025_metals",
+    "source_sha256": "f05722c4dc8d4c9c0fcd096dfb6ba5157c7a4f0015579c8e63e75026cf0f8289",
+    "products": 19650,
+    "scope_matches": 2754,
+    "candidate_products": 1349,
+    "description_limited_matches": 68,
+    "compiled_rules": 383,
+    "fragment_sha256": "035d59a142cb732445cb37db4fd64d6bb43dfc27648a586b23cc53017f494752",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_17.pdf",
+        "sha256": "6660f9364d1cb57d264df219a8cd0bd1a3308af754795b80e98519f4a5f91a53"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_17.json",
+        "sha256": "7940afb35ab29c4c09903d9fbe4f5ef0f99ee0a4fa7983976bc2c5ce5e6acba2"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_18",
+    "regime": "march_2025_metals",
+    "source_sha256": "a712576ee22a841f1153f78ef2d43ef28e563a9c82edae1391c08d586dd32cab",
+    "products": 19650,
+    "scope_matches": 2754,
+    "candidate_products": 1349,
+    "description_limited_matches": 68,
+    "compiled_rules": 383,
+    "fragment_sha256": "85b101e2d9cacd1354a7d24e2033ddf8b9b3e3e04e3d773db1ed1d8534d58a80",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_18.pdf",
+        "sha256": "722f44071fc4ee1a1460cd21151593a4dc979c9084fb419dca77b3653cfcb0af"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_18.json",
+        "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_19",
+    "regime": "march_2025_metals",
+    "source_sha256": "d4ed7737ba14914ee80b3ff9d1e59984640c2441bba02374e6c37eed1c17fa9d",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "5a85164dfd5c8733d8cc3bad714c429e04260dd0509fd983146eaab5ac75a584",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_19.pdf",
+        "sha256": "ddf1a41670aea688cd696ee79d33b0ac353f7fbd33b03fb639f6061ca97c03e3"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_19.json",
+        "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_20",
+    "regime": "march_2025_metals",
+    "source_sha256": "0379db8a5312de8396cf831ef8d5862f8aaf82421e5225a19920e1a0fd6389c3",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "9ed428be02a5f92b8737cdf67d8dcea4565e0116de972d4e59a17ef15153121f",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_20.pdf",
+        "sha256": "090e2893efe2368e11fc61a36ed66cc2e80e0187985133b133542de75ac947e5"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_20.json",
+        "sha256": "cf8694ac954664df3eaf978cf27243e684520301ebc42ec39cebade38596f4ef"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_21",
+    "regime": "march_2025_metals",
+    "source_sha256": "31146ba7a01fadf3b2ee6348d7e15d7982129b7d3125baeb9432dcff21862cef",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "939bda7cebd96beee1d897eb9df941be67d9e04a3000efcc2400ac54a454ec0d",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_21.pdf",
+        "sha256": "9121364f3f7ed4d1c9ebf6b7bb339f5c4cf82bac745494085f36a7d3c8fb4180"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_21.json",
+        "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_22",
+    "regime": "march_2025_metals",
+    "source_sha256": "3b79d22e64f5b58fdd07be8da9ef00408df5431418e3ad485e7e99e53a570c42",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "d8fb814d19e79fe5e3af9c91f7103f3f8ed3d27e2586405721a8ee5ddf7a67fa",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_22.pdf",
+        "sha256": "07e52f8cea995f56c051c906c20cddd4d386ef2e5e96f566a27c9f332d28f749"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_22.json",
+        "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_23",
+    "regime": "march_2025_metals",
+    "source_sha256": "681b1ea82dfdaf8d47907b958f47c63d1438f6aef12aaf64b53852f00de30726",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "082eaf64e4bbf63d19132b990b2f03a0cb7428c49ea0941c23b7003ce9854248",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_23.pdf",
+        "sha256": "0f7d793901cc5eade4ebb45c425e3d8fed995a80b01db79dc24f3cb3f28997d0"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_23.json",
+        "sha256": "2520132cb2eeb5efd3ecbafab739f04be1875482991d1128098ec0bd047e2e07"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_24",
+    "regime": "march_2025_metals",
+    "source_sha256": "8f9c69c63c50a15ae62bd8e2bae4ccf92eda086924118d213f57d3dbc291bfaf",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "3c192888bf7e666a29e8714e86ab7cbdf370f0de914b3cb96a3267100151d3e2",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_24.pdf",
+        "sha256": "a73c04fe8bda1593440faabc4cd2ea55866e783ffac239807bfcefbaa5552255"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_24.json",
+        "sha256": "284be76a38366f798012b99e351d226213d77098c2dd97349e3f1a16951f2034"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_25",
+    "regime": "march_2025_metals",
+    "source_sha256": "271eb5cc398551d1ab685ed5f2b93fb099582171d1f5830591e3e72eb41641de",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "31082d02ca29553519b3a8ecb1400423037e1a33facc8057464f52acd5ebe8d4",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_25.pdf",
+        "sha256": "41f693213d034cf34d7e898a791b83f9990340f1016763a2d42279511dc7a71f"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_25.json",
+        "sha256": "c86beb392418c2db581fae8bb1b6243db90c3c25e2bfda01214b8aef8fbd10f8"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_26",
+    "regime": "march_2025_metals",
+    "source_sha256": "8af7937db1d6f9e44e640aa82fbea97e0ef9dfaa3408633a8fb39522781c9aa1",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "3e4135012030210b77cc8aa961fc330e3372e42326f7d8eaa9e1bef2de474a75",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_26.pdf",
+        "sha256": "78d85e72d2f710b0ab49dd4bb1f1d92ca345df251f9fca44e4bad42694838161"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_26.json",
+        "sha256": "b0721d6da3ba653e30ea11832c0ea8ddb34d7f3a92e32a4004f3d574ad45a6fe"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_27",
+    "regime": "march_2025_metals",
+    "source_sha256": "ca2ad1bcf99d26c249cbf4d33ba6d134edc3f0364911d8ca4edd07a2aa1809ef",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "e2ea533bfff1cbfe40d7a8ea26d09e23a8a22e8ee1615dde11e7eea10d90ea0f",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_27.pdf",
+        "sha256": "563bbc156ca19a27570d9bb4c8be81987de7d7c71b69ce027c544ccdb05ddb10"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_27.json",
+        "sha256": "29b8eba1b5a1bfeeb421e2b99cf880f6c0748abf6265986ac299c524579488c9"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_28",
+    "regime": "march_2025_metals",
+    "source_sha256": "2dc954675d67e118dce26a245deacd00dccda02f194946e8696b3faebe25f3ea",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "51bb0ec5bfca2a97b4e578f3f7322e5df8358697e1fa9560b54c70eb59aa4627",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_28.pdf",
+        "sha256": "41a65d97264b7aa77b13e94d648d134d6c6a656ae5da7a4fab787154eca917da"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_28.json",
+        "sha256": "98973df36de2f2cc02cef868a2e9fc943eff08f0177dbbe3e2a3b3d02f5d1872"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_29",
+    "regime": "march_2025_metals",
+    "source_sha256": "85dba634c6f726194e2830908663464a1ab25cc72c70131b5524f40ef0d5e304",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "21a198e560c075f16cb2fae46feabe0992ced68b8993ca19ae97e9b37b3643d3",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_29.pdf",
+        "sha256": "b7b63de1f24302ba1308477ff5abbaaf1ad391fcecf5b8e05bb4f064d55f66c8"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_29.json",
+        "sha256": "3e02879465307fe177c8f1e5e6f94f1e9c4a4b7e7a1b47dfa43019f132a70749"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_30",
+    "regime": "march_2025_metals",
+    "source_sha256": "6e42c27a32dbfcbd0b0fffaff6ec9a9ebfbd59f514c7990915cfe0116108c226",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "ba70df78a5c5ef90ef3e20e2be457387b7af86ee38a1530443dff7c456f3ee6b",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_30.pdf",
+        "sha256": "6307d24f2b21ee5fdec6b77571ccfad31f5e3f71a828c8d71b2131ff4b71fb90"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_30.json",
+        "sha256": "5a72090f3e975c04af388bb9e27601738308393db595aa5ce731d042be5224f7"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_31",
+    "regime": "march_2025_metals",
+    "source_sha256": "dd9295d02d13cfc2023164d064c3e9d108a0955e671b20faff934430e69f560f",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "44fe3de7b2f0094e399d9e6adb4447e4f816a9d2919af9f31228c08ada4a21f7",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_31.pdf",
+        "sha256": "d9e92b959e6ae9924e53aa2c77dca13fd54bf8cf650f26f719f01197cd88bc3e"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_31.json",
+        "sha256": "c3d74cae8cb2a5993963ac6699d65444722544f6e2043aedcc2199f52b6b5d12"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_32",
+    "regime": "march_2025_metals",
+    "source_sha256": "983b2d552da754d5c247645c435b8eb111a8bd48581ab6a09a3d7842ecc8a238",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "05c1ef444b49a656099b22d74096d21b9bd1cc84327c9c4582b8ce0f0c8db04d",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_32.pdf",
+        "sha256": "2c03f410b370127eca27db9188f9d37d12de7709069204602b693d4036d11509"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_32.json",
+        "sha256": "aa2056b68dc18a815fb8f467453dbdf457d73f2b495d3cb2499b3028527743d3"
+      }
+    ]
+  },
+  {
+    "revision": "2026_basic",
+    "regime": "march_2025_metals",
+    "source_sha256": "2e7f30ee4eb495228473f7f4869e3b08d73cbca0df2e9d1096ad668f3a421fee",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "55046ca5cd1f49153d8e434d7624c47811b4d3a8479f8d26483332cd95ca515a",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_basic.pdf",
+        "sha256": "e7ed46e46bb38275c167ca5106acaca18aabb65772f03a8699eefc5bc030be63"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_basic.json",
+        "sha256": "a718007c8455c93a88ddc68f15f036cee10e9a820065a4c356da1481f4131858"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_1",
+    "regime": "march_2025_metals",
+    "source_sha256": "b88b9c4c1643bfecdb24cca778cc62a8f7de008eef53c1e21d3f5416a744c7d3",
+    "products": 19650,
+    "scope_matches": 4510,
+    "candidate_products": 2053,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "4432bdcdacd1ea7bfa2e000c149247feaa3ab56ed6f7809442a234e803ab7b8a",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_1.pdf",
+        "sha256": "951d37a5f9446aace6263a87f192151e7b315c3bf39315a5c0d7bc97ee48341a"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_1.json",
+        "sha256": "8d258c60f75c09f2f61c8e184aa8f38b5a3f7ba0e0edcfc608282ca51cbc8ef2"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_2",
+    "regime": "march_2025_metals",
+    "source_sha256": "9e59a5b6ce03f4529815d841efe0b0e3a65544d43b962d12e8507779e35d66a4",
+    "products": 19737,
+    "scope_matches": 4518,
+    "candidate_products": 2058,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "4edbf6eccb9179251e21806ea18642f3eb7c07c064fec14e59d4c48b14b93364",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_2.pdf",
+        "sha256": "83eac54025d24c71eb0f53356bb05f7c1f7f73160e1a6af37b0aa335ff633762"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_2.json",
+        "sha256": "b56567588ca6165772d409d7ad097e7b96327fa7f19d18b6a95f70317ad864a1"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_3",
+    "regime": "march_2025_metals",
+    "source_sha256": "4bc73c95a4121fe28e2a83516a1381b8fab1c47903907389aa31ed3165c3114d",
+    "products": 19738,
+    "scope_matches": 4518,
+    "candidate_products": 2058,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "91ccec8e93fb47437b2ae3fe9312c90a7f43b76591b4b870666c82f607f1d450",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_3.pdf",
+        "sha256": "c151029926c51ec3300a47f687c592e7cab6f56d0a9903651f0ac7c247b68cdc"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_3.json",
+        "sha256": "fae12fab3c47b54cfb5db7325478d222409adbcfa8a10812fa2af0d213dff07e"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_4",
+    "regime": "march_2025_metals",
+    "source_sha256": "aaf1cd8f621fd0dab6bf7d3627411202ab4cc8c78f442ca5cea026b0ec83eea3",
+    "products": 19738,
+    "scope_matches": 4518,
+    "candidate_products": 2058,
+    "description_limited_matches": 68,
+    "compiled_rules": 773,
+    "fragment_sha256": "8f74d6d6842522bd8c96de38b0d6319a4666bba5ccf0ac11692dacfde79c44ce",
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_4.pdf",
+        "sha256": "52fde6da5cde366ec8f643016a78fcbd02abd8e4115c76ef98480132939c48e0"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_4.json",
+        "sha256": "0273ec6e6251479a3fc5056e2ed1d4f737fa7ee0675bc37c122364cc7a5732a3"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_5",
+    "regime": "note16_replaced",
+    "source_sha256": "998a9131b0d99330c2679488f5931a93df24e929c074e9e173e23c90eace0215",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_5.pdf",
+        "sha256": "7f178b357edb4b7cb087f5d2ca92e5e59ccb403e6dbc88a4ba5872a3b8537699"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_5.json",
+        "sha256": "0e6117efc73e98a8b0203205e8e7f09e6a6a9aa2c793f15def3680d447d68448"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_6",
+    "regime": "note16_replaced",
+    "source_sha256": "dabde2a5e1db2d947ed40f6558eb932c14f7d5059cec8c6c778464c42d36d0d7",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_6.pdf",
+        "sha256": "12e1d36a73c321ed69e61ec164b72f94ceaed28e33ea3e5483b3a2424b6639b3"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_6.json",
+        "sha256": "8258abee12b65e04a1c5b04519377040c711b8c31653d2b069fbf5e87a00e4d8"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_7",
+    "regime": "note16_replaced",
+    "source_sha256": "e21da5bba3d23df7be267be1bc7bca75e5ed39ca0d7fa4ef8f6e4bb11c05248e",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_7.pdf",
+        "sha256": "1472963223b470252178704ad9b3ad4c5f9f1502972a63ac5b01abc8845f56e1"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_7.json",
+        "sha256": "0a8789f5a540f69117b74855c348ce2aaa62b6e57efe80ef46b45248053e9c37"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_8",
+    "regime": "note16_replaced",
+    "source_sha256": "1a8f76de2e01b37661d3eb755ad026ed8b7cbedfa80333555e212311a5b9150b",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_8.pdf",
+        "sha256": "4be0b0f44d98ddf75398de7d7649016a7c9893c3ca60f8c814d60355600bb201"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_8.json",
+        "sha256": "04f4ddda584823a954097b65cd8ca3a5aa1982317c344c582aa4cc3d5021433a"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_9",
+    "regime": "note16_replaced",
+    "source_sha256": "cafc4e628d754d7c5d453f6ad3c98f0f280a71749573f14f8906371cb1824636",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_9.pdf",
+        "sha256": "9e51ba86334d76fce4c9c3a8bec2f688298243f6651d2226fd3e27e38507b1ee"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_9.json",
+        "sha256": "2dc811962b6809736e2e30c8753d0d0bc3fb3f1c65bbb15728663959247957ae"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_10",
+    "regime": "note16_replaced",
+    "source_sha256": "020c24b72faf50a3caacaac36f74c89c8a92d62612207248833e0faa9d9b9524",
+    "products": 19738,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_10.pdf",
+        "sha256": "eec925800663851d0133317a412ff236aa938235c305d87b42d97e6de9bc5405"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_10.json",
+        "sha256": "66375d1cc8e56cae00bbf8327c400e62586eefe128cad7c8e4d936dc3d4eda2f"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_11",
+    "regime": "note16_replaced",
+    "source_sha256": "09c3302a7e8907fda04528ddb7cf2877415820a3eebe29f6ebb4884ad557ab68",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_11.pdf",
+        "sha256": "05124f75836d3145b9d6661e29020de0f3b27fe26422a46f8121ab86f021ff53"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_11.json",
+        "sha256": "bf6e76f0fdb3909ac8fd080b50a46d4affad050cfafa8a20579f7714f83ab441"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_12",
+    "regime": "note16_replaced",
+    "source_sha256": "8acc85d5c67d4707e4d03c8c769b57450bf2ef7ffb347a8437dde5c1f375c792",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_12.pdf",
+        "sha256": "a760524501f35a6a5256c4bfa1ea6ac66db101fbf74c05b71d367130468ba89e"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_12.json",
+        "sha256": "c2df18de026f8ba78178a10dff5033b153c7a48fd66b5f218f529c1369fa0c72"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_13",
+    "regime": "note16_replaced",
+    "source_sha256": "e7159aed0213a8951fd366b2c437da888df74bcc5b08da043eae31dddc53fce6",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_13.pdf",
+        "sha256": "cff368d7d80724781afa3fd7ebe4ffbbf6dfd68b8e0a9c9c7c6ce54b95c9cecc"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_13.json",
+        "sha256": "3b4057c56e3bfaa48285b5371f771007840ea007c5094772f04c4754b6e3c6a5"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_14",
+    "regime": "note16_replaced",
+    "source_sha256": "bf8087cc70c263e7cf31d33667ea543796a15b0f06cb6a7c97dc48f3dba0321b",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_14.pdf",
+        "sha256": "a8d97896814b3338857e83795fe6082c65f4932da6661e5ace9aa487171b4129"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_14.json",
+        "sha256": "a99da87129ebfd71352b9a747b2a36045a45f7f838ce8d4b9b02e157b78392ef"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_15",
+    "regime": "note16_replaced",
+    "source_sha256": "5fefa91fe2bf9a42ae2d79ce85c7b67f9043c204a4c378819ffcfe9df69848b3",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_15.pdf",
+        "sha256": "92822e8f38873a7275c4cf9bd5341f96f5834dbea964623e7a7aa7b2cd02f225"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_15.json",
+        "sha256": "59a76c12e28d7a28975f31a8876bfb08e64927b922fe2b4f88801ff4459181e6"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_16",
+    "regime": "note16_replaced",
+    "source_sha256": "34da56e41e9bbbee6f48f5302430ea035b267ccc01b5eaa6e1281e47599a19db",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_16.pdf",
+        "sha256": "58b2a00dcae593f4dd6dd21c3ccc9a570c162f276c9063a89e440c0038b38144"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_16.json",
+        "sha256": "d95564c9ca2eccc9727e7797c0ee9f7f47af5e53d342fd4c0f3ff908d70427a4"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_17",
+    "regime": "note16_replaced",
+    "source_sha256": "27ce9bc6873f90ebff2f6d891e0e20262bba80847227227ade68e1f717cb88ca",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_17.pdf",
+        "sha256": "0a267cc2d607a44a89a0b9faab70af47699c15991e3d45bc771ee570856df917"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_17.json",
+        "sha256": "8ee8cdc2575a74ed1795a3b354bbefd308b857921c3a4901c744dce00a443294"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_18",
+    "regime": "note16_replaced",
+    "source_sha256": "76bafb7b495ac3c42cd5108f825c3bb8ddf0be3495ea310ed5fabdc0e1824f48",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_18.pdf",
+        "sha256": "83ca2c46697de2042d13db6be88c9fd2ec7a9edf5835468eb1efa8103c54bbe4"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_18.json",
+        "sha256": "c6beeedc5d675896c9a1f89c3b8d18fd92834075fef0e377cc7f6a684f114809"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_19",
+    "regime": "note16_replaced",
+    "source_sha256": "e9bb21a6b6d66c39ccd1dc4a5a2a71c314c233aa231ebd52b8a6c0c5f61da894",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_19.pdf",
+        "sha256": "5f2b3ef1f9ece214d2a9bfd8ce523413fb2bd8f5e8298dd1c56b3a36c979ba15"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_19.json",
+        "sha256": "b83a0e40640e0fd36c434a37d0317c51e1d466ce9160613f7384609665128e28"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_20",
+    "regime": "note16_replaced",
+    "source_sha256": "f3b36451df8449d91f30ea16685154f10476bb3c21188ea4341c980b04255155",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_20.pdf",
+        "sha256": "53c7858d3c70583537684f7e78b9fc1bd222a51a857d5f331f67d2468d48986c"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_20.json",
+        "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+      }
+    ]
+  },
+  {
+    "revision": "2026_rev_21",
+    "regime": "note16_replaced",
+    "source_sha256": "2f131b77a09ee862702bb3ea55230f2c8e75a10c194cde99feafcd07556ff2f0",
+    "products": 19831,
+    "scope_matches": 0,
+    "candidate_products": 0,
+    "description_limited_matches": 0,
+    "compiled_rules": 0,
+    "fragment_sha256": null,
+    "source_files": [
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_21.pdf",
+        "sha256": "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad"
+      },
+      {
+        "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_21.json",
+        "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+      }
+    ]
+  }
+]

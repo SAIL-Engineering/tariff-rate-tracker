@@ -19,7 +19,7 @@
       "path": "resources/legal_evidence/section122/interactions/2026-10571.txt",
       "sha256": "81a9c0148f3b7e744b95064849e7385cd4f2335be179659a3b06dfe79e6adb41",
       "url": "https://www.govinfo.gov/content/pkg/FR-2026-05-28/html/2026-10571.htm",
-      "citation": "Taiwan implementation, Annex introduction and paragraphs 6-7; original malformed 903.94.67 is retained."
+      "citation": "Taiwan implementation, Annex introduction, paragraphs 1 and 3 (note 33(u) and valid auto-parts heading table), paragraphs 6-7; original malformed 903.94.67 is retained."
     },
     {
       "id": "FR-2026-06960",
@@ -67,7 +67,7 @@
       "clause_sha256": "a4e821ded5a780b34130ef3dd0f8a72e3fe728208c198702034f7a2598aa8066"
     }
   ],
-  "review": "Original February, April 6, April 23 and June annex chain reconciled with native notes; literal malformed operands retained. Taiwan insertion reference remains unresolved. Known later snapshots cannot rewrite historical windows.",
+  "review": "Original February, April 6, April 23 and June annex chain reconciled with native notes; literal malformed operands retained. Taiwan interaction independently established by Proclamation 11012 paragraph 4 and 2026-10571 Annex paragraphs 1 and 3. Known later snapshots cannot rewrite historical windows.",
   "malformed_deletion_review": {
     "source_id": "FR-2026-07987-txt",
     "locator": "Annex paragraph 3, note 2(aa)(v)(1)",
@@ -84,5 +84,15 @@
     "a671735f401405fbf04d2f98db03e77eeb4fd852c24dd18f17730cd280408763",
     "c08f509c11436469efebbd1a7bcf524899cbf48eae8947cd6f173803f529d1c1",
     "ce317f2ad9c3244031b05924d6a00306bb01cc98ee321b27593745df278d26f9"
-  ]
+  ],
+  "independent_taiwan_review": {
+    "source_ids": [
+      "FR-2026-03824-text",
+      "FR-2026-10571"
+    ],
+    "published_malformed_reference": "903.94.67",
+    "decision": "Do not execute or repair the malformed note 2 reference. The original Section 122 proclamation applies to later Section 232 actions. Parse and reconcile the valid auto-parts heading inventory independently established by note 33(u) and the inserted heading table. Apply whole-article relief only to a matched Section 232 rule for Taiwan at or after the original May 1 entry instant. Chapter 98 and FTZ remain separate unresolved branches.",
+    "status": "reviewed_independent_operative_basis",
+    "limitations": "This resolves the Section 122 interaction, not all underlying auto-parts scope, offset, or valuation predicates. It does not declare the published reference corrected."
+  }
 }

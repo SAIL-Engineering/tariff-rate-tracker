@@ -2,7 +2,7 @@ import copy,sys
 from pathlib import Path
 import pytest
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'src'))
-from section122_rules import load_history,interaction_rows,compile_rules,ROOT
+from section122_rules import load_history,interaction_rows,compile_rules,taiwan_interaction_basis,ROOT,EVIDENCE
 from section122_sources import extract
 
 @pytest.fixture(scope='module')
@@ -30,6 +30,20 @@ def test_original_malformed_token_not_silently_repaired(history):
  assert any('9903.94.66' in r['codes'] for r in after['rows'])
  assert not any('9903.94.67' in r['codes'] for r in after['rows'])
  assert any('903.94.67' in r['malformed_references'] for r in after['rows'])
+ independent=history['independent_interactions'][0]
+ assert independent['codes']==['9903.94.66','9903.94.67','9903.94.68','9903.94.69']
+ assert independent['country_names']==['Taiwan']
+ assert independent['from_']==after['from_']
+ assert independent['source_ids']==['FR-2026-03824-text','FR-2026-10571']
+
+def test_independent_reconciliation_needs_both_operative_sources():
+ p=(EVIDENCE/'2026-03824.txt').read_text();t=(EVIDENCE/'2026-10571.txt').read_text()
+ with pytest.raises(ValueError,match='portion rule'):
+  taiwan_interaction_basis(p.replace('shall not apply in addition','shall apply in addition'),t)
+ with pytest.raises(ValueError,match='inventory disagree'):
+  taiwan_interaction_basis(p,t.replace('9903.94.67...........','903.94.67...........'))
+ with pytest.raises(ValueError,match='scope/valuation'):
+  taiwan_interaction_basis(p,t.replace('products\nof Taiwan','products\nof another country'))
 
 def test_unknown_clause_fails():
  with pytest.raises(ValueError,match='Unreviewed'):
