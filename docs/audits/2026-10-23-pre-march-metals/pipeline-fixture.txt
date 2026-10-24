@@ -140,15 +140,15 @@ Warning messages:
 1: One or more parsing issues, call `problems()` on your data frame for details,
 e.g.:
   dat <- vroom(...)
-  problems(dat) 
-2: §201: no staged schedule available for 2025-01-01 — falling back to the config constant (0%), which goes stale by construction. Run scripts/extract_note_rules.R to regenerate resources/ch99_staged_rates.csv. 
+  problems(dat)
+2: §201: no staged schedule available for 2025-01-01 — falling back to the config constant (0%), which goes stale by construction. Run scripts/extract_note_rules.R to regenerate resources/ch99_staged_rates.csv.
 3: In validate_denorm_state(denorm_state, revision_id = revision_id,  :
   denorm_state contract violated (revision=2025_basic):
   - slot country_ieepa — NULL (expected tibble or NULL from the IEEPA-inactive branch)
 4: One or more parsing issues, call `problems()` on your data frame for details,
 e.g.:
   dat <- vroom(...)
-  problems(dat) 
+  problems(dat)
 Extracting Section 232 blanket rates...
   Aluminum derivative 232: 10% (1 Ch99 entries)
   Steel derivative 232: 25% (1 Ch99 entries)

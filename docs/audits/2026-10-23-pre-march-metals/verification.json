@@ -82,5 +82,6 @@
     "push",
     "workflow dispatch",
     "production SAIL deployment"
-  ]
+  ],
+  "log_normalization": "Trailing whitespace removed from pipeline-fixture.txt and r-all-tests.txt; test output content and exit results unchanged."
 }
