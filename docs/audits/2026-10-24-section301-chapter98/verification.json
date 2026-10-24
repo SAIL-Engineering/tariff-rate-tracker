@@ -1,0 +1,136 @@
+{
+  "base_commit": "f21d50b7",
+  "branch": "wjr_dev",
+  "checks": [
+    {
+      "name": "python",
+      "command": "/usr/bin/python3 -m pytest -q tests/python",
+      "exit_code": 0,
+      "passed": 343,
+      "log": "verification/python.log.gz",
+      "log_sha256": "70a31171353c260739e9dc456e31c25b140ef0a57d175e63454e1a52027d19d9",
+      "compressed_sha256": "a21e632f30d6d9935bd737d06f0b1243efee02f708e90244d23e16535f6382ba"
+    },
+    {
+      "name": "node",
+      "command": "node --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 378,
+      "log": "verification/node.log.gz",
+      "log_sha256": "749a943a491c371f9124b9c3126084e0c09f703df66010f32f6317fb17cd8157",
+      "compressed_sha256": "a620f78476ba92c4ea3f23d2165fee4075ee01142afec66c31b4dc0d77cd2088"
+    },
+    {
+      "name": "full_r",
+      "command": "Rscript tests/run_all_tests.R --require-data",
+      "exit_code": 1,
+      "suites": 41,
+      "counted_passed": 402,
+      "counted_failed": 0,
+      "suite_errors": [
+        "test_normalized_parity.R"
+      ],
+      "missing_or_stale_partitions": 312,
+      "skipped_suites": [
+        "test_tpc_comparison.R"
+      ],
+      "missing_external_input": "data/tpc/tariff_by_flow_day.csv",
+      "log": "verification/full_r.log.gz",
+      "log_sha256": "0ab11d427d536fb3743acc0f75e59d177578fe45866d8c39b31abc4d2df7f826",
+      "compressed_sha256": "36e2ac19399547db841a773b496e7c2b452bcfb67c960861d2874d4e04b8fb65"
+    },
+    {
+      "name": "section301_r",
+      "command": "Rscript tests/test_section301_revision.R",
+      "exit_code": 0,
+      "conformance_cases": 31,
+      "log": "verification/section301_r.log.gz",
+      "log_sha256": "7b4598e71f63984087bfee59fe186fade7df627ffd8d0091e41b4f1845217842",
+      "compressed_sha256": "0cd469c6ea52516e27ebfed784ab2b0774b71ee4c3cd0bbba1bc0e71214a1649"
+    },
+    {
+      "name": "source_sweep",
+      "command": "python3 scripts/audit_section301_chapter98.py docs/audits/2026-10-24-section301-chapter98/source-sweep",
+      "exit_code": 0,
+      "revisions": 55,
+      "action_valuations": 827,
+      "log": "verification/source_sweep.log.gz",
+      "log_sha256": "462d93a927538077e302f18e2637d81ec4f46eea731b697dcc3178d24526cc77",
+      "compressed_sha256": "85a2dcdf250d126bbaf079cf8aac539586e70ba399b590333088eb6d6ecb585a"
+    },
+    {
+      "name": "note16_claims",
+      "command": "Rscript tests/test_s232_heading_resolution.R --emit",
+      "exit_code": 0,
+      "log": "verification/note16_claims.log.gz",
+      "log_sha256": "c4a28174f291156393aa4a3366b9dc64c47e59a02591fdf707194d6f63f4d895",
+      "compressed_sha256": "ac688208c03a5bb01fa094038b9999a8df5115aafe09d747ec6b268adf7965ae"
+    },
+    {
+      "name": "legacy232_claims",
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0,
+      "log": "verification/legacy232_claims.log.gz",
+      "log_sha256": "7419c6cb7bfa3404ada15b9d1b05525819fec5492d8eaaf008392775565e1b4e",
+      "compressed_sha256": "fce0151de36c4d6025e11219e5e42e1889a58e20fbf479b3169c2d8f6c048056"
+    },
+    {
+      "name": "pre_march_claims",
+      "command": "Rscript tests/test_s232_pre_march.R --emit",
+      "exit_code": 0,
+      "log": "verification/pre_march_claims.log.gz",
+      "log_sha256": "db39ed1a5b480475e8083e3d15b8d4d4b98600ad0154ad915e2aa152d4a09edf",
+      "compressed_sha256": "4e10a74744cd4af7a928b35aeaf1a44a389554601ba9288a792e1cfb2b21ad65"
+    },
+    {
+      "name": "section122",
+      "command": "Rscript tests/test_s122_rules.R --emit",
+      "exit_code": 0,
+      "cases": 58,
+      "log": "verification/section122.log.gz",
+      "log_sha256": "2fb9973bf71274c8e24e149f71afb318d7a246172ca89334b46b5bf6b4ba172b",
+      "compressed_sha256": "7ec0c7c9aacd736d0faffd6fe0c2e4e7600bbf720e08f7e34175758f8968477a"
+    },
+    {
+      "name": "section338",
+      "command": "Rscript tests/test_s338_rules.R --emit",
+      "exit_code": 0,
+      "cases": 41,
+      "log": "verification/section338.log.gz",
+      "log_sha256": "86b4428cf9bd7b4a1336fa09e890f59133301ee454a315cc4346066837b270da",
+      "compressed_sha256": "d304200accd0a07ad9bd3195985573ab35e5f1e52f77896d21b17a3fe533ce92"
+    },
+    {
+      "name": "parquet",
+      "command": "Rscript /tmp/verify-301-claim-parquet.R",
+      "exit_code": 0,
+      "rows": 38204,
+      "log": "verification/parquet.log.gz",
+      "log_sha256": "f8aab722389d2f6b66a327b61b30a1bb637f473c47c872782917ae75e641e011",
+      "compressed_sha256": "bd39a208f22e440dea30ffbe506bf7027581b2ecfd356f2c805911fc8a1b49e0"
+    },
+    {
+      "name": "local_duckdb",
+      "command": "Native Node in-memory DuckDB read_parquet and JSON-column assertions",
+      "exit_code": 0,
+      "rows": 38204,
+      "chapter98_rows": 36174,
+      "cross_origin_rows": 3,
+      "unresolved_source_rows": 14,
+      "log": "verification/local_duckdb.log.gz",
+      "log_sha256": "dc374814c8fbe99e6f29df07fbfbfb70f3908d47439c742b8ad65827c4bc88f0",
+      "compressed_sha256": "94fef896ca5ce1616ad97afc27bbb574b2f0f849f6ba8540aeb67d334cb5a4b9"
+    }
+  ],
+  "full_r_gate_passed": false,
+  "all_55_valuation_digests_unchanged_after_final_parser_guards": true,
+  "timeseries_rebuilt": false,
+  "motherduck_written": false,
+  "complete_legal_coverage": false,
+  "notes": [
+    "The full R gate preceded the final strict source-paragraph/qualifier guards. The complete Python suite, focused R301 suite and all55 source/compiler audit were repeated afterward. All827 compiled valuation digests are unchanged on the retained sources.",
+    "The 402 counted R assertions exclude suites without numeric totals. A data-parity error and TPC skip still make the full command unsuccessful.",
+    "Frontend runtime and TypeScript implementation were unchanged from f21d50b7, whose typecheck/build passed; the full Node/API suite was rerun on the new conformance fixtures.",
+    "Local fixtures and in-memory DuckDB do not qualify a deployed MotherDuck/API release."
+  ]
+}

@@ -9,16 +9,33 @@ import re
 from section232_note16_rules import val, fact, op, both, either, negate
 
 
-def treatment(clause):
+def treatment(clause, family='cbp_agreed'):
     text=' '.join(clause.split())
-    m=re.search(r'The additional dut(?:y|ies) imposed.*?shall not apply to goods for which entry is properly claimed under a provision of chapter 98.*?except for goods entered under (.*?)(?=For subheadings)',text)
-    if not m or 'whenever CBP agrees' not in m[0]:
+    wording = 'shall not' if family == 'cbp_agreed' else 'do not'
+    if family not in ('cbp_agreed','section301'):
+        raise ValueError('Unreviewed Chapter 98 authority family')
+    m=re.search(r'The additional dut(?:y|ies) imposed.*?'+wording+r' apply to goods for which entry is properly claimed under a provision of chapter 98.*?except for goods entered under (.*?)(?=For subheadings)',text)
+    if not m or (family=='cbp_agreed' and 'whenever CBP agrees' not in m[0]):
         raise ValueError('Unreviewed Chapter 98 claim predicate')
+    if family=='section301' and not re.search(r'chapter 98 of the HTSUS, except',m[0]):
+        raise ValueError('Unreviewed Section 301 Chapter 98 claim predicate')
     exceptions=sorted(set(re.findall(r'9802\.00\.\d{2}',m[1])))
     repairs=re.search(r'For subheadings (.*?), the additional dut(?:y|ies) appl(?:y|ies) to the value of repairs, alterations,? or processing performed',text)
-    assembly=re.search(r'For heading (9802\.00\.\d{2}), the additional dut(?:y|ies) appl(?:y|ies) to the value of the article assembled abroad, less the cost or value of such products of the United States',text)
+    assembly_wording = 'article assembled abroad,' if family=='cbp_agreed' else 'article'
+    assembly=re.search(r'For heading (9802\.00\.\d{2}), the additional dut(?:y|ies) appl(?:y|ies) to the value of the '+assembly_wording+r' less the cost or value of such products of the United States',text)
     if not repairs or not assembly:
         raise ValueError('Unreviewed Chapter 98 valuation clause')
+    if family=='section301':
+        # A changed jurisdiction, intervening exception or valuation qualifier
+        # must not disappear merely because the same four provision numbers
+        # still occur. Match the complete operative valuation sentences.
+        tail=text[repairs.start():]
+        grammar=(r'For subheadings (?:9802\.00\.\d{2}|[, ]|and)+, the additional duties apply to the value of '
+                 r'repairs, alterations,? or processing performed abroad, as described in the applicable subheading\. '
+                 r'For heading (9802\.00\.\d{2}), the additional duties apply to the value of the article '
+                 r'less the cost or value of such products of the United States, as described in heading \1\.')
+        if not re.fullmatch(grammar,tail):
+            raise ValueError('Unreviewed Section 301 Chapter 98 valuation qualifier')
     repaired=sorted(set(re.findall(r'9802\.00\.\d{2}',repairs[1])))
     if exceptions!=sorted(repaired+[assembly[1]]) or len(repaired)!=3:
         raise ValueError('Chapter 98 exceptions and valuation do not reconcile')
@@ -31,16 +48,18 @@ def treatment(clause):
                 subchapter_xxiii_full_value=xxiii)
 
 
-def compile_valuation(clause, hts, define, claimed, cv):
-    policy=treatment(clause)
+def compile_valuation(clause, hts, define, claimed, cv, family='cbp_agreed'):
+    policy=treatment(clause,family)
     provisions=sorted(set(r['htsno'].replace('.','')[:8] for r in hts
                          if re.fullmatch(r'98\d{2}\.\d{2}\.\d{2}(?:\.\d{2})?',r.get('htsno',''))))
     if not provisions or not set(policy['repairs']+[policy['assembly']]) <= set(provisions):
         raise ValueError('Revision lacks required Chapter 98 provisions')
     code=define('chapter98_provision','Chapter 98 provision (eight digits)','string',
                 description='Actual provision claimed, valid in this HTS revision. A declaration alone does not establish eligibility.',choices=provisions)
-    accepted=define('chapter98_properly_claimed_and_cbp_agreed',
-                    'Entry properly claimed under Chapter 98 and CBP agrees the provision is appropriate')
+    accepted=(define('chapter98_properly_claimed_and_cbp_agreed',
+                     'Entry properly claimed under Chapter 98 and CBP agrees the provision is appropriate')
+              if family=='cbp_agreed' else define('chapter98_properly_claimed',
+                     'Entry properly claimed under the selected Chapter 98 provision'))
     claimed=either(claimed,{'claim':'CHAPTER_98'})
     active=op('if',claimed,accepted,val(False))
     valid=op('eq',code,code)  # fact enum validates identity without repeating the entire HTS inventory in each rule

@@ -134,9 +134,19 @@ interaction<-base;interaction$sources<-c(interaction$sources,list(claim_source))
 interaction$rules<-list(list(id='synthetic-exclusion',authority='section_301',action_id='synthetic-exclusion',kind='duty',
  verification='verified',scope=list(hts_exact=list('7318158085'),countries=list('5700')),
  when=list(claim='section301:test'),formula=list(value=0),reporting_codes=list('9903.88.69'),source_ids=list(claim_source$id)))
+interaction$rules[[1]]$exclusion_claim_id<-'section301:test'
 interaction$claim_definitions<-list(list(id='section301:test',label='Synthetic exclusion',rule_ids=list('synthetic-exclusion'),
  candidate_rule_ids=list('synthetic-exclusion'),source_ids=list(claim_source$id)))
 interaction<-compose_shipment_rules(interaction,list(fragment));q<-steel;q$claims<-list('section301:test')
 r<-evaluate_shipment_bundle(interaction,'7318158085','5700',cases[[1]]$entry_at,q)
 stopifnot(r$known_subtotal==50,!any(grepl('claim_not_priced',r$source_errors)))
+# A different claim attached to a Section 301 rule is not an exclusion review.
+unreviewed<-base;unreviewed$sources<-c(unreviewed$sources,list(claim_source))
+unreviewed$rules<-list(interaction$rules[[which(vapply(interaction$rules,function(r) r$id=='synthetic-exclusion',logical(1)))]] )
+unreviewed$rules[[1]]$exclusion_claim_id<-NULL
+unreviewed$claim_definitions<-list(list(id='section301:test',label='Synthetic exclusion',rule_ids=list('synthetic-exclusion'),
+ candidate_rule_ids=list('synthetic-exclusion'),source_ids=list(claim_source$id)))
+unreviewed<-compose_shipment_rules(unreviewed,list(fragment))
+r<-evaluate_shipment_bundle(unreviewed,'7318158085','5700',cases[[1]]$entry_at,q)
+stopifnot(r$known_subtotal==0,any(grepl('claim_not_priced',r$source_errors)))
 cat('Note 16 and registered Section 301 exclusion independence passed\n')

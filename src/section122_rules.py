@@ -338,7 +338,7 @@ def compile_rules(x,products):
         supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',sources=history['sources'],source_artifacts=history['source_artifacts'],
         rules=rules,coverage=[],fact_definitions=facts,claim_definitions=claims,relations=[],interaction_history=history['periods'],
         independent_interactions=history['independent_interactions'],
-        unchanged_claims=[dict(id='s122_301_independence_'+x['revision'],claim_authority='section_301',target_rule_ids=all_ids,source_ids=ids),
+        unchanged_claims=[dict(id='s122_301_independence_'+x['revision'],claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=all_ids,source_ids=ids),
           dict(id='s122_232_reevaluation_'+x['revision'],effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=all_ids,source_ids=ids)],
         limitations=['No complete authority coverage attestation. FTZ and import-adjustment offsets remain unresolved. Chapter 98 entitlement requires proper claim and CBP agreement; intersecting adjusted and Section 232 values requires shipment evidence.',
           'Taiwan auto-parts interaction uses independent operative provisions; malformed annex text is retained, not repaired. Underlying Section 232 applicability must still be established.',

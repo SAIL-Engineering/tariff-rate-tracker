@@ -27,7 +27,7 @@ b <- list(contract_version='sail.shipment-rules/v1',dataset_version='test-source
   evidence_snapshot_id='source-test',revision='2026_rev_21',valid_from='2026-10-09T00:00:00-04:00',
   valid_until='2026-10-23T00:00:00-04:00',products=new$products,countries=list('5700','1220'),
   coverage_requirements=list('section_301'),rules=f$rules,sources=f$sources,
-  fact_definitions=f$fact_definitions,coverage=list())
+  fact_definitions=f$fact_definitions,claim_definitions=f$claim_definitions,coverage=list())
 evaluate <- function(code,facts=list(customs_value=100),country='5700',bundle=b)
   .evaluate_shipment_bundle(bundle,code,country,at,facts)
 source('src/compile_shipment_rules.R')
@@ -93,7 +93,7 @@ stopifnot(.compound_exemption_share(ex,'section_301','8426190000','5700','s301_m
 fr <- compile_s301_revision_fragment(retro$extraction,unlist(retro$products))
 br <- b;br$revision<-'2026_rev_11';br$products<-retro$products
 br$valid_from<-'2026-07-01T00:00:00-04:00';br$valid_until<-'2026-07-21T00:00:00-04:00'
-br$rules<-list();br$sources<-list();br$fact_definitions<-list()
+br$rules<-list();br$sources<-list();br$fact_definitions<-list();br$claim_definitions<-list()
 br <- compose_shipment_rules(br,list(fr))
 claim <- list(customs_value=100,claims=list('section301:9903.88.69'))
 pump <- names(Filter(function(d) identical(d$description,'Pump casings and bodies'),br$fact_definitions))
@@ -115,9 +115,15 @@ stopifnot(rr('8479909591',facts=claimed_shredder)$known_subtotal==0)
 effects <- s301_claim_effects_table(fr,'2026_rev_11')
 stopifnot(nrow(effects)>0,!any(effects$target_reporting_code %in% c('9903.88.69','9903.88.70')),
   all(effects$rule_id %in% vapply(fr$rules,`[[`,character(1),'id')))
-stopifnot(length(rr('8413919039',facts=list(customs_value=100))$claim_options)==1,
-  rr('8413919039',facts=list(customs_value=100))$claim_options[[1]]$id=='section301:9903.88.69',
-  length(evaluate('8542310015')$claim_options)==0)
+chapter98_effects<-effects[effects$claim_id=='CHAPTER_98',]
+stopifnot(nrow(chapter98_effects)>0,all(chapter98_effects$effect=='conditional_valuation'),
+  all(nzchar(chapter98_effects$formula_json)),all(nzchar(chapter98_effects$input_constraints_json)),
+  all(nzchar(chapter98_effects$source_scope_sha256)),
+  all(chapter98_effects$verification %in% c('verified','unresolved_source')),
+  any(chapter98_effects$verification=='verified'),any(chapter98_effects$verification=='unresolved_source'))
+stopifnot(setequal(vapply(rr('8413919039',facts=list(customs_value=100))$claim_options,`[[`,character(1),'id'),
+  c('section301:9903.88.69','CHAPTER_98')),
+  evaluate('8542310015')$claim_options[[1]]$id=='CHAPTER_98')
 # A model share does not change an exclusion; unknown claims stay unpriced.
 modeled<-claimed_pump;modeled$modeled_s301_scope_share<-0;modeled$assembly_credit<-999
 stopifnot(rr('8413919039',facts=modeled)$known_subtotal==0,
@@ -128,7 +134,7 @@ seed<-br;seed$rules<-list();seed$sources<-list();seed$fact_definitions<-list();s
 reordered<-compose_shipment_rules(seed,list(permuted))
 stopifnot(identical(.shipment_canonical(.evaluate_shipment_bundle(reordered,'8413919039','5700',
   '2026-07-02T12:00:00-04:00',claimed_pump)),.shipment_canonical(rr('8413919039',facts=claimed_pump))))
-bc<-bm;bc$rules<-list();bc$sources<-list();bc$fact_definitions<-list()
+bc<-bm;bc$rules<-list();bc$sources<-list();bc$fact_definitions<-list();bc$claim_definitions<-list()
 bc<-compose_shipment_rules(bc,list(fm))
 crane_fact<-names(Filter(function(d) grepl('Importer certification:',d$description %||% '',fixed=TRUE),bc$fact_definitions))
 stopifnot(length(crane_fact)==1)
@@ -188,6 +194,46 @@ fixture <- list(bundles=list(current=reduce(b,c('6307909891','6307909870','85423
   case('retroactive shredder code before publication','exclusions','8479909591','5700','2026-07-02T12:00:00-04:00',claimed_shredder,0),
   case('claimed amendment boundary remains unresolved','exclusions','8413919039','5700','2026-07-01T00:30:00-04:00',claimed_pump,0),
   case('crane contract exclusion removes both named investigations','maritime','8426190000','5700','2025-11-09T12:00:00-05:00',crane_claim,0)))
+
+# Chapter 98 follows the source-enumerated investigation targets, not an
+# authority-wide reduction. Full entitlement remains an explicit shipment fact.
+cf<-list(customs_value=100,claims=list('CHAPTER_98'),chapter98_properly_claimed=TRUE,
+  chapter98_provision='98020040',chapter98_repairs_alterations_processing_value=30)
+add98<-function(name,facts,amount,code='8542310015',bundle='current',entry=at) {
+  result<-.evaluate_shipment_bundle(fixture$bundles[[bundle]],code,'5700',entry,facts)
+  if(!identical(result$known_subtotal,amount)) print(result[c('known_subtotal','missing_inputs','source_errors')])
+  stopifnot(result$known_subtotal==amount,is.null(result$complete_total),result$status=='unresolved_source')
+  fixture$cases[[length(fixture$cases)+1L]]<<-case(name,bundle,code,'5700',entry,facts,amount)
+  invisible(result)
+}
+for(code in c('98020040','98020050','98020060')) {
+  x<-cf;x$chapter98_provision<-code
+  add98(paste('semiconductor adjusted value',code),x,15)
+}
+add98('List 4A repair value uses its own rate',cf,2.25,'6307909891')
+x<-cf;x$chapter98_provision<-'98020080';x$chapter98_us_products_value<-40
+add98('assembly excludes qualifying US product value',x,30)
+x$chapter98_us_products_value<-101
+stopifnot('chapter98_us_products_value' %in% add98('inconsistent assembly value remains incomplete',x,0)$missing_inputs)
+x<-cf;x$chapter98_provision<-'98010010';x$customs_value<-NULL
+stopifnot(length(add98('proper Chapter 98 exemption needs no value',x,0)$missing_inputs)==0)
+x<-cf;x$chapter98_properly_claimed<-FALSE
+add98('rejected Chapter 98 claim retains charge',x,50)
+x<-cf;x$chapter98_properly_claimed<-NULL
+stopifnot('chapter98_properly_claimed' %in% add98('unsubstantiated Chapter 98 claim remains incomplete',x,0)$missing_inputs)
+x<-cf;x$chapter98_provision<-'98029999'
+stopifnot('chapter98_provision' %in% add98('invalid Chapter 98 provision is not exemption',x,0)$missing_inputs)
+x<-cf;x$chapter98_repairs_alterations_processing_value<-101
+add98('repair value cannot exceed article value',x,0)
+x<-modifyList(mf,cf)
+add98('amended Chapter 98 list includes cumulative maritime duty',x,37.5,'8426190000','maritime','2025-11-09T12:00:00-05:00')
+add98('suspension leaves only technology-transfer adjusted duty',x,7.5,'8426190000','maritime','2025-11-10T00:01:00-05:00')
+x$chapter98_provision<-'98010010'
+add98('amended maritime Chapter 98 exemption',x,0,'8426190000','maritime','2025-11-09T12:00:00-05:00')
+x<-cf;x$modeled_s301_scope_share<-0;x$assembly_credit<-999
+add98('model assumptions cannot change Chapter 98 value',x,15)
+x<-claimed_pump;x$claims<-c(x$claims,list('CHAPTER_98'))
+add98('named product exclusion survives concurrent Chapter 98 request',x,0,'8413919039','exclusions','2026-07-02T12:00:00-04:00')
 destination <- Sys.getenv('S301_CONFORMANCE_OUTPUT','')
 if(nzchar(destination)) jsonlite::write_json(fixture,destination,auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
 committed <- 'tests/fixtures/shipment/section301-reconstruction.json'

@@ -223,7 +223,7 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         rules=rules,fact_definitions=facts,relations=relations,reporting_decisions=decisions,coverage=[],
         claim_definitions=[dict(id='USMCA',label='USMCA',rule_ids=[r['id'] for r in rules],source_ids=ids)] if rules else [],
         unchanged_claims=[dict(id='s232_legacy_'+x['revision']+'_section301_claims',
-            claim_authority='section_301',target_rule_ids=[r['id'] for r in rules],source_ids=list(ids))] if rules else [],
+            claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=[r['id'] for r in rules],source_ids=list(ids))] if rules else [],
         limitations=['Only the identified revision and ordinary metal/US-material/Russian-material decisions are compiled.',
             'Pre-March quotas, exclusion grants, civil-aircraft/Chapter 98 and other Section 232 precedence require separate rules.',
             'No all-authority coverage or complete total is attested. Section 301 remains cumulative; its exclusion does not erase metal duties.'])

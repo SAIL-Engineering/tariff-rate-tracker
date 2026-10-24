@@ -3,10 +3,14 @@ import hashlib
 import importlib.util
 import json
 import os
+import sys
 from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'src'))
+from section301_chapter98 import compile_valuations
+from chapter98_rules import treatment
 spec = importlib.util.spec_from_file_location('s301', ROOT/'src/section301_sources.py')
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
@@ -108,6 +112,38 @@ class SourceTests(unittest.TestCase):
             module.verify_revision_header('Harmonized Tariff Schedule Revision 20 (2026)','2026_rev_21')
         with self.assertRaisesRegex(ValueError,'header does not match'):
             module.verify_revision_header('Harmonized Tariff Schedule Revision 21 (2026)','2026_basic')
+
+    def test_chapter98_targets_follow_amended_note_not_authority_name(self):
+        for source in (self.old,self.new,self.maritime,self.retroactive):
+            x=source[2];compiled=compile_valuations(x)
+            self.assertTrue(set(['98010010','98020040','98020050','98020060','98020080'])<=set(x['chapter98_provisions']))
+            for action in x['actions']:
+                c=action['chapter98'];self.assertIn(action['reporting_code'],c['target_reporting_codes'])
+                policy=compiled['valuations'][action['reporting_code']]['policy']
+                self.assertEqual(policy['repairs'],['98020040','98020050','98020060'])
+                self.assertFalse(policy['subchapter_xxiii_full_value'])
+            self.assertIn('chapter98_properly_claimed',compiled['fact_definitions'])
+            self.assertNotIn('chapter98_properly_claimed_and_cbp_agreed',compiled['fact_definitions'])
+        self.assertIn('9903.91.14',compile_valuations(self.maritime[2])['valuations'])
+        self.assertNotIn('9903.91.14',compile_valuations(self.new[2])['valuations'])
+
+    def test_chapter98_changed_or_missing_policy_cannot_be_ordinary_duty(self):
+        text,data,_=self.new
+        with self.assertRaisesRegex(ValueError,'Chapter 98 clause'):
+            module.extract(text.replace('properly claimed','automatically qualified'),data['headings'],'2026_rev_21')
+        c=self.action('9903.88.01')['chapter98']['source_text']
+        with self.assertRaisesRegex(ValueError,'valuation'):
+            treatment(c.replace('less the cost or value','including the cost or value'),'section301')
+        with self.assertRaisesRegex(ValueError,'claim predicate'):
+            treatment(c)
+        with self.assertRaisesRegex(ValueError,'valuation qualifier'):
+            treatment(c.replace('performed abroad','performed in Canada'),'section301')
+        with self.assertRaisesRegex(ValueError,'valuation qualifier'):
+            treatment(c+' A further valuation exception applies.','section301')
+        altered=text.replace('as described in heading 9802.00.80.',
+            'as described in heading 9802.00.80. A further valuation exception applies.')
+        with self.assertRaisesRegex(ValueError,'valuation qualifier'):
+            compile_valuations(module.extract(altered,data['headings'],'2026_rev_21'))
 
     def test_maritime_is_distinct_cumulative_and_cross_origin(self):
         a={r['reporting_code']:r for r in self.maritime[2]['actions']}

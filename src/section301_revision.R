@@ -101,7 +101,7 @@ s301_revision_lookup <- function(matches) {
 # Executable source fragment for the shared R/TypeScript interpreter. This is
 # emitted by the ordinary normalized build, not maintained as copied constants.
 # It deliberately does not attest complete Section 301 coverage (other actions
-# and exclusion/Chapter-98 claim effects must be composed separately).
+# and unlisted claim effects must be composed separately).
 compile_s301_revision_fragment <- function(extraction, products) {
   revision <- extraction$revision
   source_ids <- paste0('USITC-',revision,c('-chapter99','-hts'))
@@ -119,8 +119,16 @@ compile_s301_revision_fragment <- function(extraction, products) {
     artifacts[[length(artifacts)+1L]] <- list(source_id=s$id,path=s$path,sha256=s$sha256)
     source_ids <- c(source_ids,s$id)
   }
+  input<-tempfile(fileext='.json');output<-tempfile(fileext='.json')
+  on.exit(unlink(c(input,output)),add=TRUE)
+  jsonlite::write_json(extraction,input,auto_unbox=TRUE,null='null',digits=NA)
+  status<-system2('python3',c(shQuote(here::here('src/section301_chapter98.py')),shQuote(input),shQuote(output)))
+  if(status!=0L) stop('Source-defined Section 301 Chapter 98 compilation failed')
+  chapter98<-jsonlite::fromJSON(output,simplifyVector=FALSE)
+  chapter98_ids<-list()
   rules <- list(); facts <- list(customs_value=list(type='number',minimum=0,unit='USD',
     label='Customs value (USD)',source_ids=as.list(source_ids)))
+  facts<-c(facts,chapter98$fact_definitions)
   for(action in extraction$actions) {
     one <- extraction; one$actions <- list(action)
     at <- if(is.null(action$valid_from)) '2025-01-01T00:00:00-05:00' else action$valid_from
@@ -146,6 +154,25 @@ compile_s301_revision_fragment <- function(extraction, products) {
         facts[[name]] <- list(type='boolean',label=paste0('Product meets ',action$reporting_code,' description'),
           description=group$condition_text[1],source_ids=as.list(source_ids))
       }
+      valuation<-chapter98$valuations[[action$reporting_code]]
+      if(!is.null(valuation)) {
+        condition<-rule$when %||% list(value=TRUE)
+        exempt<-rule;exempt$id<-paste0(rule$id,'_chapter98')
+        exempt$when<-list(op='and',args=list(condition,valuation$exempt))
+        exempt$formula<-list(value=0);exempt$reporting_codes<-list()
+        exempt$legal_locator<-action$chapter98$locator
+        exempt$chapter98_target_reporting_code<-action$reporting_code
+        exempt$chapter98_clause_sha256<-action$chapter98$source_text_sha256
+        exempt$input_constraints<-valuation$constraints
+        rule$when<-list(op='and',args=list(condition,list(op='not',args=list(valuation$exempt))))
+        rule$formula<-list(op='multiply',args=list(valuation$basis,list(value=action$rate)))
+        rule$input_constraints<-valuation$constraints
+        rule$valuation_locator<-action$chapter98$locator
+        rule$chapter98_target_reporting_code<-action$reporting_code
+        rule$chapter98_clause_sha256<-action$chapter98$source_text_sha256
+        rules[[length(rules)+1L]]<-exempt
+        chapter98_ids<-c(chapter98_ids,list(rule$id,exempt$id))
+      }
       rules[[length(rules)+1L]] <- rule
       if(!is.null(action$start_time_conflict)) {
         gap <- rule
@@ -166,7 +193,15 @@ compile_s301_revision_fragment <- function(extraction, products) {
   claim_definitions <- lapply(exclusions$claim_definitions,function(c) {
     c$rule_ids <- lapply(rules,`[[`,'id'); c
   })
+  if(length(chapter98_ids)) claim_definitions<-c(claim_definitions,list(list(id='CHAPTER_98',
+    label='Chapter 98',source_ids=as.list(source_ids[1:2]),
+    candidate_rule_ids=chapter98_ids,
+    rule_ids=c(chapter98_ids,lapply(exclusions$rules,`[[`,'id')))))
   list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('s301_china_',revision),
+    compiler_sha256=digest::digest(file=here::here('src/section301_revision.R'),algo='sha256'),
+    compiler_dependencies=setNames(lapply(c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py'),
+      function(p) digest::digest(file=here::here(p),algo='sha256')),
+      c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py')),
     supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
     sources=sources,source_artifacts=artifacts,
     rules=rules,fact_definitions=facts,claim_definitions=claim_definitions,
@@ -272,6 +307,7 @@ compile_s301_exclusion_rules <- function(extraction, products, revision_source_i
       first$source_ids<-sources;first$legal_locator<-paste(sort(unique(unlist(lapply(records,`[[`,'locator')))),collapse='; ')
       first$source_scope_records<-records;first$source_text_sha256<-NULL
       first$source_scope_sha256<-digest::digest(canonical_json(records),algo='sha256',serialize=FALSE)
+      first$exclusion_claim_id<-paste0('section301:',first$reporting_codes[[1]])
       merged[[length(merged)+1L]]<-first
       edge<-relations[[idx[active[1]]]];edge$id<-paste0(id,'_effect');edge$when_rule_applies<-id;edge$source_ids<-sources
       edges[[length(edges)+1L]]<-edge
@@ -318,16 +354,30 @@ s301_claim_effects_table <- function(fragment, revision) {
     rule<-rules[[edge$when_rule_applies]]
     if(is.null(rule)) stop('Unknown exclusion relation rule')
     for(code in unlist(edge$target_reporting_codes)) rows[[length(rows)+1L]]<-data.frame(
-      revision=revision,claim_id=paste0('section301:',rule$reporting_codes[[1]]),
+      revision=revision,claim_id=paste0('section301:',rule$reporting_codes[[1]]),verification=rule$verification,
       rule_id=rule$id,authority=rule$authority,effect=edge$effect,target_reporting_code=code,
       hts10=unlist(rule$scope$hts_exact),country='5700',valid_from=rule$scope$from,valid_until=rule$scope$until,
       source_ids_json=as.character(jsonlite::toJSON(rule$source_ids,auto_unbox=FALSE)),
       condition_json=as.character(jsonlite::toJSON(rule$when,auto_unbox=TRUE,null='null')),
-      source_locator=rule$legal_locator,source_scope_sha256=rule$source_scope_sha256)
+      source_locator=rule$legal_locator,source_scope_sha256=rule$source_scope_sha256,
+      formula_json=as.character(jsonlite::toJSON(rule$formula,auto_unbox=TRUE,null='null')),
+      input_constraints_json='[]')
   }
-  if(!length(rows)) return(data.frame(revision=character(),claim_id=character(),rule_id=character(),
+  for(rule in fragment$rules) {
+    if(is.null(rule$chapter98_target_reporting_code)) next
+    rows[[length(rows)+1L]]<-data.frame(revision=revision,claim_id='CHAPTER_98',verification=rule$verification,rule_id=rule$id,
+      authority=rule$authority,effect='conditional_valuation',target_reporting_code=rule$chapter98_target_reporting_code,
+      hts10=unlist(rule$scope$hts_exact),country=rule$scope$countries[[1]] %||% NA_character_,
+      valid_from=rule$scope$from %||% fragment$supported_from,valid_until=rule$scope$until %||% fragment$supported_until,
+      source_ids_json=as.character(jsonlite::toJSON(rule$source_ids,auto_unbox=FALSE)),
+      condition_json=as.character(jsonlite::toJSON(rule$when,auto_unbox=TRUE,null='null')),
+      source_locator=rule$valuation_locator %||% rule$legal_locator,source_scope_sha256=rule$chapter98_clause_sha256,
+      formula_json=as.character(jsonlite::toJSON(rule$formula,auto_unbox=TRUE,null='null')),
+      input_constraints_json=as.character(jsonlite::toJSON(rule$input_constraints,auto_unbox=TRUE,null='null')))
+  }
+  if(!length(rows)) return(data.frame(revision=character(),claim_id=character(),verification=character(),rule_id=character(),
     authority=character(),effect=character(),target_reporting_code=character(),hts10=character(),country=character(),
     valid_from=character(),valid_until=character(),source_ids_json=character(),condition_json=character(),
-    source_locator=character(),source_scope_sha256=character()))
+    source_locator=character(),source_scope_sha256=character(),formula_json=character(),input_constraints_json=character()))
   do.call(rbind,rows)
 }

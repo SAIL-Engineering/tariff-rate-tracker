@@ -34,7 +34,7 @@ test('source-derived Section 301 survives stored JSON/Arrow/batch serving',async
     const routes=new Map();
     registerShipmentRoutes({get:(p,...handlers)=>routes.set(p,handlers.at(-1)),post:(p,...handlers)=>routes.set(p,handlers.at(-1))},
       {connection:()=>c,requireAuth:(_q,_s,next)=>next()});
-    const cases=fixture.cases.filter(c=>['China crane cumulative investigations','Taiwan crane qualifying Chinese components or ownership','semiconductor heading rate','neighboring non-mask remains List 4A','retroactive pump code and alternative descriptions','claimed amendment boundary remains unresolved','crane contract exclusion removes both named investigations'].includes(c.name));
+    const cases=fixture.cases.filter(c=>['China crane cumulative investigations','Taiwan crane qualifying Chinese components or ownership','semiconductor heading rate','neighboring non-mask remains List 4A','retroactive pump code and alternative descriptions','claimed amendment boundary remains unresolved','crane contract exclusion removes both named investigations','semiconductor adjusted value 98020060','assembly excludes qualifying US product value','unsubstantiated Chapter 98 claim remains incomplete','amended Chapter 98 list includes cumulative maritime duty','suspension leaves only technology-transfer adjusted duty'].includes(c.name));
     const shipments=cases.map(c=>({...c,dataset_version:b.dataset_version}));
     const request=async format=>{
       let body,status=200;

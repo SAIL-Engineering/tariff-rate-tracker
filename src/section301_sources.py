@@ -522,10 +522,38 @@ def extract(text: str, hts: list[dict], revision: str) -> dict:
                               from_date=date(after[1]) if after else None))
     exclusions = extract_exclusions(note20,headings,note31)
     additional_sources += exclusions['sources']
+    # The valuation clauses enumerate their own target headings. In particular,
+    # note 31(a) is not a blanket waiver for every later maritime investigation.
+    chapter98 = {}
+    for number,note in [(20,note20),(31,note31)]:
+        flat = ' '.join(note.split())
+        pattern = (r'The additional duties imposed by (headings? (?:9903\.\d{2}\.\d{2}|[ ,]|and|subheading)+) do not apply to goods for which entry is '
+                   r'properly claimed under a provision of chapter 98 of the HTSUS, except for goods entered under '
+                   r'.*?(?= Products of China)')
+        for m in re.finditer(pattern,flat):
+            # Preserve the entire paragraph up to the following ordinary-duty
+            # paragraph. A new qualifier after the assembly sentence must reach
+            # the valuation grammar, not disappear at a familiar sentence end.
+            clause=m[0].strip()
+            targets=sorted(set(re.findall(r'9903\.\d{2}\.\d{2}',m[1])))
+            for code in targets:
+                if code in chapter98: raise ValueError('Duplicate Chapter 98 clause for '+code)
+                chapter98[code]=dict(source_text=clause,source_text_sha256=sha(clause.encode()),
+                    locator=f'U.S. note {number}: Chapter 98 clause for '+', '.join(targets),
+                    target_reporting_codes=targets)
+    for action in actions:
+        code=action['reporting_code']
+        if action['program']=='china_technology_transfer' and code not in chapter98:
+            raise ValueError('Missing source-defined Chapter 98 clause: '+code)
+        action['chapter98']=chapter98.get(code)
+    provisions=sorted(set(r['htsno'].replace('.','')[:8] for r in hts
+        if re.fullmatch(r'98\d{2}\.\d{2}\.\d{2}(?:\.\d{2})?',r.get('htsno',''))))
+    if not provisions: raise ValueError('Missing revision Chapter 98 inventory')
     return dict(contract_version='sail.section301-extraction/v1', revision=revision, actions=actions, exclusions=exclusions,
+                chapter98_provisions=provisions,
                 charge_inventory=inventory,audit_cutoff='2026-10-22',
                 additional_sources=additional_sources,
-                limitations=['Notes 20/31 charge scopes, note 20(vvv)/(www) and headings 9903.91.09/.10 claims; other exclusions, Chapter 98 and other Section 301 investigations require additional rules.'])
+                limitations=['Notes 20/31 charge scopes, their expressly named Chapter 98 valuation targets, note 20(vvv)/(www) and headings 9903.91.09/.10 claims; other exclusions and investigations require additional rules. Chapter 98 entitlement is not inferred from a code.'])
 
 
 def main() -> None:

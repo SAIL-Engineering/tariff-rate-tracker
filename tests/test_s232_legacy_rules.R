@@ -104,11 +104,16 @@ base$rules[[1]]$formula<-list(value=0);b<-compose_shipment_rules(base,list(fragm
 stopifnot(evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',steel)$known_subtotal==10)
 # A named Section 301 exclusion changes that authority alone.
 c301<-fixture_rule('synthetic-301-exclusion','9903.88.69','section_301',0,list(claim='section301:test'))
+c301$exclusion_claim_id<-'section301:test'
 base$rules<-list(c301);base$claim_definitions<-list(list(id='section301:test',label='Synthetic Section 301 exclusion',
  rule_ids=list(c301$id),candidate_rule_ids=list(c301$id),source_ids=list('synthetic-composition')))
 b<-compose_shipment_rules(base,list(fragment));q<-steel;q$claims<-list('section301:test')
 r<-evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',q)
 stopifnot(r$known_subtotal==10,!any(grepl('claim_not_priced',r$source_errors)))
+base$rules[[1]]$exclusion_claim_id<-NULL
+unreviewed<-compose_shipment_rules(base,list(fragment))
+r<-evaluate_shipment_bundle(unreviewed,'7318158085','1220','2026-03-01T12:00:00-05:00',q)
+stopifnot(r$known_subtotal==0,any(grepl('claim_not_priced',r$source_errors)))
 cat('Auto precedence, zero-duty floor, USMCA reevaluation and Section 301 exclusion independence passed\n')
 # The actual emergency amount is deliberately synthetic; these tests isolate
 # the verified change of ordering and claim reevaluation, not a complete stack.

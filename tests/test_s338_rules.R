@@ -70,6 +70,7 @@ f$chapter98_properly_claimed_and_cbp_agreed<-NULL;add('pending Chapter98 determi
 f<-q;f$modeled_share<-1;f$assembly_credit<-99999;add('model inputs cannot change statutory result',f)
 # Independent 301 charge remains, and a source-bound 301 exclusion leaves 338 unchanged.
 bb<-b;rr<-mk('301','9903.05.21',12.5);rr$authority<-'section_301';rr$when<-list(op='not',args=list(list(claim='fixture301')))
+rr$exclusion_claim_id<-'fixture301'
 bb$rules<-list(rr);bb$claim_definitions<-list(list(id='fixture301',label='Synthetic 301 relief',candidate_rule_ids=list('301'),rule_ids=list('301'),source_ids=list(sid)))
 bb$coverage<-list(list(authority='section_232',status='verified',source_ids=list(sid),determination='no_applicable_rules',rule_ids=list()))
 bundles$s301<-compose_shipment_rules(bb,list(fragment))

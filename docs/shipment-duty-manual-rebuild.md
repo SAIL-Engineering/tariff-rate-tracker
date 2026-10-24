@@ -384,3 +384,23 @@ The last command uses four products in temporary local output. It is not a
 revision rebuild. See the [evidence, findings and limits](audits/2026-10-24-section338-valuation/README.md).
 No live MotherDuck publication is authorized. The full R gate still requires
 rebuilt normalized partitions and the actual TPC input.
+
+## Section 301 Chapter 98 and claim identity follow-up
+
+The normal emitter now adds source-defined Chapter 98 valuation and exemption
+rules to `section301_rules.json`; no additional timeseries command is needed.
+`claim_effects.parquet` retains the formulas, constraints and verification state.
+Select `CHAPTER_98` explicitly and provide the applicable revision-valid
+`chapter98_provision`, `chapter98_properly_claimed`, and requested valuation facts.
+Sections 122/338 retain their separately required CBP-agreement fact. Unreviewed
+effects on another action remain `claim_not_priced`. A Section 301 exclusion
+identity must not be reused to bypass another claim's missing effect.
+
+```sh
+python3 scripts/audit_section301_chapter98.py NEW_301_CHAPTER98_AUDIT_DIR
+Rscript tests/test_section301_revision.R
+node --test frontend/tests/section301-reconstruction.test.mjs
+```
+
+The audit checks all 55 revisions without rebuilding rates or writing MotherDuck.
+See [the legal and verification report](audits/2026-10-24-section301-chapter98/README.md).

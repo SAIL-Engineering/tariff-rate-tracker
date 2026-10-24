@@ -107,7 +107,7 @@ def compile_rules(revision, products):
     rule_ids=[r['id'] for r in rules]
     unchanged=[]
     if rule_ids:
-        unchanged=[dict(id='s338_'+revision+'_301_independent',claim_authority='section_301',target_rule_ids=rule_ids,source_ids=ids),
+        unchanged=[dict(id='s338_'+revision+'_301_independent',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=rule_ids,source_ids=ids),
           dict(id='s338_'+revision+'_232_reevaluate',effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=rule_ids,source_ids=ids)]
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='section338_'+revision,
         compiler_sha256=sha(Path(__file__).read_bytes()),

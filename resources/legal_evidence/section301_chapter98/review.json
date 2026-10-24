@@ -1,0 +1,62 @@
+{
+  "role": "Historical primary-source corroboration. The executable compiler consumes each revision note and retains the existing action entry windows; no new 2018 entry window is asserted for the 2025-2026 audit.",
+  "sources": [
+    {
+      "id": "FR-2018-17709",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2018-08-16/pdf/2018-17709.pdf",
+      "artifact": "2018-17709.pdf",
+      "sha256": "6ddcd8f932e25e199867a5449337d7a691e3647d6b126bd1cd676dff622f5a77",
+      "text_artifact": "2018-17709-raw.txt",
+      "text_sha256": "beb71430abe61fb908f1af9af184c85739dcefa22763066833d74f19ec2428ab",
+      "review": "Original note20(c) and Annex C replacement of note20(a) effective August23 2018",
+      "pdf_pages_one_based": [
+        3,
+        4,
+        16
+      ]
+    },
+    {
+      "id": "FR-2018-21303",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2018-09-28/pdf/2018-21303.pdf",
+      "artifact": "2018-21303.pdf",
+      "sha256": "111edca2e28c91a3593bf0f5e317a28742ad94fa6a53e8b96f41d6e60f480dbb",
+      "text_artifact": "2018-21303-raw.txt",
+      "text_sha256": "7f4282e748334a724a288cdd00d48a8ebef72137711c945445fa24e4b3cc0622",
+      "review": "Annex B corrects missing under in note20(a)",
+      "pdf_pages_one_based": [
+        3
+      ],
+      "ocr_artifact": "2018-21303-page3-ocr.txt",
+      "ocr_sha256": "89e3766cefbf216685697b949f98b2c68cbd5c4b3821c2cd9e029e65e57d3717",
+      "extraction_warning": "PDF text layer omits Annex B. The original page3 was visually reviewed; retained OCR provides the omitted replacement text."
+    },
+    {
+      "id": "FR-2024-21217",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2024-09-18/pdf/2024-21217.pdf",
+      "artifact": "2024-21217.pdf",
+      "sha256": "e83f46c0039b8e647eb9197b48aac363b272f36d6775940389a767d8f2841917",
+      "text_artifact": "2024-21217-raw.txt",
+      "text_sha256": "3e62d4ac4ed625fa441d65d0dc74e2b963517443450f7c335fb9e64e86b3f8b0",
+      "review": "Annex A4 inserts note31(a) with named heading list and Chapter98 valuation",
+      "pdf_pages_one_based": [
+        22
+      ]
+    },
+    {
+      "id": "FR-2025-19568",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-16/pdf/2025-19568.pdf",
+      "artifact": "2025-19568.pdf",
+      "sha256": "9c68f54aa99562c04978188280a043fee6a0214d1b74522c265094d162d9524c",
+      "text_artifact": "2025-19568-raw.txt",
+      "text_sha256": "19dacaff9f224145223b12f12b7074b437b44fe02e9e375f62e9a8eb77daa1f1",
+      "review": "Annex V.A.2 adds maritime headings to note31(a) wherever old target wording appears",
+      "pdf_pages_one_based": [
+        7
+      ]
+    }
+  ],
+  "limitations": [
+    "Original complete List3 and List4A notice chronology is outside this corroboration set. Their operative Chapter98 clauses are independently extracted from all55 revision codifications.",
+    "Proper entitlement under Chapter98 is a required fact, not inferred from the selected code."
+  ]
+}
