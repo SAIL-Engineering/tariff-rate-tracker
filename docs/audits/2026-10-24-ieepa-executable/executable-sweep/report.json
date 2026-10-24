@@ -1,0 +1,4721 @@
+{
+  "revision_count": 55,
+  "compiled_rules": 1094,
+  "revisions": [
+    {
+      "revision": "2025_basic",
+      "products": 19613,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "USITC-2025_basic-ieepa-emergency-headings",
+          "sha256": "fe9de40662e7ab4d263f3dfb2d9090f8f78892bf881ce521628bbb5440829d01"
+        },
+        {
+          "id": "USITC-2025_basic-ieepa-emergency-note2",
+          "sha256": "ee46a05fd679f0b2758d8a110dad62acb66262886a1087d37379ce105fcd618b"
+        }
+      ],
+      "supported_from": "2025-01-01T00:00:00-05:00",
+      "supported_until": "2025-02-04T00:00:00-05:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_1",
+      "products": 19615,
+      "rule_count": 8,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_1-ieepa-emergency-headings",
+          "sha256": "c1fcdf003066f6e0471ae82068cee3289ff26bc74c75ee00c75fcf1ba06c159f"
+        },
+        {
+          "id": "USITC-2025_rev_1-ieepa-emergency-note2",
+          "sha256": "aeac15b98ce09c94e2388c2a8fff33693acaf67c0c7997a2f5fa1b8110555c13"
+        }
+      ],
+      "supported_from": "2025-02-04T00:00:00-05:00",
+      "supported_until": "2025-02-05T00:00:00-05:00",
+      "rule_sha256": "d60594304698b2f7ec1534817bfbd1d78ed3fcf31b05c8b6206532c677d3888c",
+      "windows": [
+        [
+          "2025-02-04T00:01:00-05:00",
+          "2025-02-05T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.20",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.23"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_2",
+      "products": 19615,
+      "rule_count": 8,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_2-ieepa-emergency-headings",
+          "sha256": "a25ac13d6442f3c4bf075440cb26f4cfdeaa6be655e9e923a2ac7a01064a12fc"
+        },
+        {
+          "id": "USITC-2025_rev_2-ieepa-emergency-note2",
+          "sha256": "2d05a923e33329322bdf84fad315d1ec935f991d7ef56a0176e18d4186825e5a"
+        }
+      ],
+      "supported_from": "2025-02-05T00:00:00-05:00",
+      "supported_until": "2025-03-04T00:00:00-05:00",
+      "rule_sha256": "3657dd7c24ad2fe59b1d33c94a21604d978ba3220735e84286b4c9269b8d6c6d",
+      "windows": [
+        [
+          "2025-02-05T00:00:00-05:00",
+          "2025-03-04T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.20",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.23"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_3",
+      "products": 19615,
+      "rule_count": 33,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_3-ieepa-emergency-headings",
+          "sha256": "6177777ed76cf40b2c00b2835f74e8f9486ecae4851e50ca98128848c959c108"
+        },
+        {
+          "id": "USITC-2025_rev_3-ieepa-emergency-note2",
+          "sha256": "cb188f75fd8f12f76a7a1efab2a19bb04e8eddb0d011e247686bb58029a0b302"
+        }
+      ],
+      "supported_from": "2025-03-04T00:00:00-05:00",
+      "supported_until": "2025-03-07T00:00:00-05:00",
+      "rule_sha256": "a5c159107f834e52a7030e01c4323c9cc3ac0e65eeb56e41c49ff7abb8a1e669",
+      "windows": [
+        [
+          "2025-03-04T00:00:00-05:00",
+          "2025-03-04T00:01:00-05:00"
+        ],
+        [
+          "2025-03-04T00:01:00-05:00",
+          "2025-03-07T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.20",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.23",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_4",
+      "products": 19615,
+      "rule_count": 53,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_4-ieepa-emergency-headings",
+          "sha256": "e164aeccdc9cb948b6f351f3d05997024e45b26a834ad53d72ec8bf880c3a772"
+        },
+        {
+          "id": "USITC-2025_rev_4-ieepa-emergency-note2",
+          "sha256": "ad2db5f58b0acc29f21939b31bd8a5c037f30cb3ea4ae28d438cad790ef1da19"
+        }
+      ],
+      "supported_from": "2025-03-07T00:00:00-05:00",
+      "supported_until": "2025-03-14T00:00:00-04:00",
+      "rule_sha256": "003031f123e567f2f34066b113d37941351e086996ec7a98da3189c756b64b3b",
+      "windows": [
+        [
+          "2025-03-07T00:00:00-05:00",
+          "2025-03-07T00:01:00-05:00"
+        ],
+        [
+          "2025-03-07T00:01:00-05:00",
+          "2025-03-14T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.23",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_5",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_5-ieepa-emergency-headings",
+          "sha256": "ca15d92fddaeb48e32547f983c8376ac7e40d238e275964f73eca73d0a67bf05"
+        },
+        {
+          "id": "USITC-2025_rev_5-ieepa-emergency-note2",
+          "sha256": "6135096c205abec026c66dfcb20d4e5acb0f54bdf98a71e037faf318c3eb534b"
+        }
+      ],
+      "supported_from": "2025-03-14T00:00:00-04:00",
+      "supported_until": "2025-04-03T00:00:00-04:00",
+      "rule_sha256": "309f0bfab340a06fc0309f8799f54246277ea5b9aaba218bd293f0ffe25aca06",
+      "windows": [
+        [
+          "2025-03-14T00:00:00-04:00",
+          "2025-04-03T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_6",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_6-ieepa-emergency-headings",
+          "sha256": "1d078537a8ab86bc22ce9221e838511b5246151a66a04d23e95d9b4149fd485e"
+        },
+        {
+          "id": "USITC-2025_rev_6-ieepa-emergency-note2",
+          "sha256": "248c068dcfdae57abced19f4dff4081c1745853e424867b87268c50e627ddd44"
+        }
+      ],
+      "supported_from": "2025-04-03T00:00:00-04:00",
+      "supported_until": "2025-04-05T00:00:00-04:00",
+      "rule_sha256": "c473e2a4834c8030d048c88fef72947e2e660b9e4fbb606bb0f5660c364441f2",
+      "windows": [
+        [
+          "2025-04-03T00:00:00-04:00",
+          "2025-04-05T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_7",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_7-ieepa-emergency-headings",
+          "sha256": "99caf1e37916595d19f385ba02cefc205964216e253adb73c30756877a2ced13"
+        },
+        {
+          "id": "USITC-2025_rev_7-ieepa-emergency-note2",
+          "sha256": "d538442589a10c91073613548ef4205f223be038855942982ec08e0bcb117ff2"
+        }
+      ],
+      "supported_from": "2025-04-05T00:00:00-04:00",
+      "supported_until": "2025-04-09T00:00:00-04:00",
+      "rule_sha256": "3022c135736d40e0b0463832dec14c9280f45262d3187f1961c2959e0aeb3ed2",
+      "windows": [
+        [
+          "2025-04-05T00:00:00-04:00",
+          "2025-04-09T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_8",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_8-ieepa-emergency-headings",
+          "sha256": "84d998126e8bb0aafe9f287a511fd25742474874720033db342ca9cf083ab41b"
+        },
+        {
+          "id": "USITC-2025_rev_8-ieepa-emergency-note2",
+          "sha256": "69945534443f537cd74156555a4f87436e4569ea5eb6ded2f9ef84c9434e6711"
+        }
+      ],
+      "supported_from": "2025-04-09T00:00:00-04:00",
+      "supported_until": "2025-04-10T00:00:00-04:00",
+      "rule_sha256": "2800dac2df3e48f3d6894253ef31e35bcd55e65c0d8e5c734622ae02aba299d1",
+      "windows": [
+        [
+          "2025-04-09T00:00:00-04:00",
+          "2025-04-10T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_9",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_9-ieepa-emergency-headings",
+          "sha256": "a36d2079ac19f9d5a051aee175d379fa2eb57353ee56c8cf158ec9b9a77a644e"
+        },
+        {
+          "id": "USITC-2025_rev_9-ieepa-emergency-note2",
+          "sha256": "f9087541d2a3951284c800bd5cd33938e118df8d266761e41df51eff46ae1eb0"
+        }
+      ],
+      "supported_from": "2025-04-10T00:00:00-04:00",
+      "supported_until": "2025-04-15T00:00:00-04:00",
+      "rule_sha256": "7f1fccf8a893968fbfa2e876531eb172c769da8f0538eababf5510855c561f8a",
+      "windows": [
+        [
+          "2025-04-10T00:00:00-04:00",
+          "2025-04-15T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_10",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_10-ieepa-emergency-headings",
+          "sha256": "90d50a0433456141452826469638303a3e928601e20e6f1554172b53f60bfadc"
+        },
+        {
+          "id": "USITC-2025_rev_10-ieepa-emergency-note2",
+          "sha256": "a860fa5830f6d8aa98043ad0a8cd606c60e283eb06c5226e0695c8bc88aede1f"
+        }
+      ],
+      "supported_from": "2025-04-15T00:00:00-04:00",
+      "supported_until": "2025-05-03T00:00:00-04:00",
+      "rule_sha256": "fb4a39aa178e37e94b6779725fcd35efe50028287a81464aac145295c206f9d1",
+      "windows": [
+        [
+          "2025-04-15T00:00:00-04:00",
+          "2025-05-03T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_11",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_11-ieepa-emergency-headings",
+          "sha256": "4ea6932ffbb8106dd2c7a2199d85475d07a3f486c68ff40068c9a0ce81a793a9"
+        },
+        {
+          "id": "USITC-2025_rev_11-ieepa-emergency-note2",
+          "sha256": "66a800d06a300d85a5444449183bfad0eb50a994140279456c06472740640e75"
+        }
+      ],
+      "supported_from": "2025-05-03T00:00:00-04:00",
+      "supported_until": "2025-05-14T00:00:00-04:00",
+      "rule_sha256": "a409b78c5c08ff63ad67e1783f35d5b3599b612a8110e85270dfe4ff10d2cfed",
+      "windows": [
+        [
+          "2025-05-03T00:00:00-04:00",
+          "2025-05-14T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_12",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_12-ieepa-emergency-headings",
+          "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+        },
+        {
+          "id": "USITC-2025_rev_12-ieepa-emergency-note2",
+          "sha256": "52b985f3ad550ccd70bcbd70946ef0f2b64cb52b1a0fb559587feb14c4afc5f2"
+        }
+      ],
+      "supported_from": "2025-05-14T00:00:00-04:00",
+      "supported_until": "2025-05-16T00:00:00-04:00",
+      "rule_sha256": "8cbb4409f6c00239659183be28178cfaa06e17888ba4fdb92178ec9ac0392b28",
+      "windows": [
+        [
+          "2025-05-14T00:00:00-04:00",
+          "2025-05-16T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_13",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_13-ieepa-emergency-headings",
+          "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad"
+        },
+        {
+          "id": "USITC-2025_rev_13-ieepa-emergency-note2",
+          "sha256": "e6a2756923b74a7c9b666d9e72164983a3dc5362c3a01d3cf3a6f7bd4b6765c8"
+        }
+      ],
+      "supported_from": "2025-05-16T00:00:00-04:00",
+      "supported_until": "2025-06-04T00:00:00-04:00",
+      "rule_sha256": "7cda5d95af1b98b526d1d0b1a8f2205e3bf40da0c79ae42ca66c4436754cd691",
+      "windows": [
+        [
+          "2025-05-16T00:00:00-04:00",
+          "2025-06-04T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_14",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_14-ieepa-emergency-headings",
+          "sha256": "0eb0ebeeff04d260ba6b05a16b23350eff4b93d38863ca8387d3b9555eaea43f"
+        },
+        {
+          "id": "USITC-2025_rev_14-ieepa-emergency-note2",
+          "sha256": "009d30d94dc48b5a624161d073acf474765cd163fe25b4554142c476516f4bf6"
+        }
+      ],
+      "supported_from": "2025-06-04T00:00:00-04:00",
+      "supported_until": "2025-06-23T00:00:00-04:00",
+      "rule_sha256": "378bc57c87c8ceab7987a6d21ed38e0efe311d5bdf334461d8cc3c5a4e2dc1fb",
+      "windows": [
+        [
+          "2025-06-04T00:00:00-04:00",
+          "2025-06-23T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_15",
+      "products": 19615,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_15-ieepa-emergency-headings",
+          "sha256": "83e5fc468a032b72c7f3759add0290b6bd2ba53fca40f73a5da0c59f9511a444"
+        },
+        {
+          "id": "USITC-2025_rev_15-ieepa-emergency-note2",
+          "sha256": "6b97e556b3d924e32cb22f50ab69ad005330e1efd017f60f16c66f7f66f118ea"
+        }
+      ],
+      "supported_from": "2025-06-23T00:00:00-04:00",
+      "supported_until": "2025-07-01T00:00:00-04:00",
+      "rule_sha256": "952dbc484c92f2581e0e3025234ec99e95006fdb4d14ae724226235f02e43cf2",
+      "windows": [
+        [
+          "2025-06-23T00:00:00-04:00",
+          "2025-07-01T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_16",
+      "products": 19651,
+      "rule_count": 28,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_16-ieepa-emergency-headings",
+          "sha256": "69a3ddee24ff58342dbfcc74cc9eb2be8c405cf6fff72eb5407bdea66c2c503e"
+        },
+        {
+          "id": "USITC-2025_rev_16-ieepa-emergency-note2",
+          "sha256": "1418c8c09c4ce03d82a8aa4913680799ada319d36f2e3939e3c9d39b78bf5651"
+        }
+      ],
+      "supported_from": "2025-07-01T00:00:00-04:00",
+      "supported_until": "2025-08-01T00:00:00-04:00",
+      "rule_sha256": "28e3ea254290f5a7031464c0362b3213228a2b4134259fdb78092f75e4df05b9",
+      "windows": [
+        [
+          "2025-07-01T00:00:00-04:00",
+          "2025-08-01T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_17",
+      "products": 19650,
+      "rule_count": 40,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_17-ieepa-emergency-headings",
+          "sha256": "7940afb35ab29c4c09903d9fbe4f5ef0f99ee0a4fa7983976bc2c5ce5e6acba2"
+        },
+        {
+          "id": "USITC-2025_rev_17-ieepa-emergency-note2",
+          "sha256": "6660f9364d1cb57d264df219a8cd0bd1a3308af754795b80e98519f4a5f91a53"
+        }
+      ],
+      "supported_from": "2025-08-01T00:00:00-04:00",
+      "supported_until": "2025-08-07T00:00:00-04:00",
+      "rule_sha256": "fa45c31e75a7382190245b7611bf165e815876d817cd824d0d07a3addd91cd72",
+      "windows": [
+        [
+          "2025-08-01T00:00:00-04:00",
+          "2025-08-01T00:01:00-04:00"
+        ],
+        [
+          "2025-08-01T00:00:00-04:00",
+          "2025-08-07T00:00:00-04:00"
+        ],
+        [
+          "2025-08-01T00:01:00-04:00",
+          "2025-08-07T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_18",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_18-ieepa-emergency-headings",
+          "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+        },
+        {
+          "id": "USITC-2025_rev_18-ieepa-emergency-note2",
+          "sha256": "722f44071fc4ee1a1460cd21151593a4dc979c9084fb419dca77b3653cfcb0af"
+        }
+      ],
+      "supported_from": "2025-08-07T00:00:00-04:00",
+      "supported_until": "2025-08-18T00:00:00-04:00",
+      "rule_sha256": "eeb9097a543cf51b568e1811fcce9752670c62d955e3148be656abdacf728bf0",
+      "windows": [
+        [
+          "2025-08-07T00:00:00-04:00",
+          "2025-08-18T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_19",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_19-ieepa-emergency-headings",
+          "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12"
+        },
+        {
+          "id": "USITC-2025_rev_19-ieepa-emergency-note2",
+          "sha256": "ddf1a41670aea688cd696ee79d33b0ac353f7fbd33b03fb639f6061ca97c03e3"
+        }
+      ],
+      "supported_from": "2025-08-18T00:00:00-04:00",
+      "supported_until": "2025-08-27T00:00:00-04:00",
+      "rule_sha256": "cbd880d8061a8ecca3bcb65064f9d9ee01a0a664a293856ba06f60ad16bd80c2",
+      "windows": [
+        [
+          "2025-08-18T00:00:00-04:00",
+          "2025-08-27T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_20",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_20-ieepa-emergency-headings",
+          "sha256": "cf8694ac954664df3eaf978cf27243e684520301ebc42ec39cebade38596f4ef"
+        },
+        {
+          "id": "USITC-2025_rev_20-ieepa-emergency-note2",
+          "sha256": "090e2893efe2368e11fc61a36ed66cc2e80e0187985133b133542de75ac947e5"
+        }
+      ],
+      "supported_from": "2025-08-27T00:00:00-04:00",
+      "supported_until": "2025-09-02T00:00:00-04:00",
+      "rule_sha256": "85cab5238adcb00a763283ec2d47de8c199b3636d531c80bfe36bdb1c08aaf1e",
+      "windows": [
+        [
+          "2025-08-27T00:00:00-04:00",
+          "2025-09-02T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_21",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_21-ieepa-emergency-headings",
+          "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+        },
+        {
+          "id": "USITC-2025_rev_21-ieepa-emergency-note2",
+          "sha256": "9121364f3f7ed4d1c9ebf6b7bb339f5c4cf82bac745494085f36a7d3c8fb4180"
+        }
+      ],
+      "supported_from": "2025-09-02T00:00:00-04:00",
+      "supported_until": "2025-09-08T00:00:00-04:00",
+      "rule_sha256": "a33378e6f036742e124f1a6880c8942a25bbfa568ddd0fe3c8eeea356b633e4b",
+      "windows": [
+        [
+          "2025-09-02T00:00:00-04:00",
+          "2025-09-08T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_22",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_22-ieepa-emergency-headings",
+          "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc"
+        },
+        {
+          "id": "USITC-2025_rev_22-ieepa-emergency-note2",
+          "sha256": "07e52f8cea995f56c051c906c20cddd4d386ef2e5e96f566a27c9f332d28f749"
+        }
+      ],
+      "supported_from": "2025-09-08T00:00:00-04:00",
+      "supported_until": "2025-09-16T00:00:00-04:00",
+      "rule_sha256": "9360b624b19d1017a91b42b544f7797aade0b5a5934ac7defdbdf3f5c6cd3bf4",
+      "windows": [
+        [
+          "2025-09-08T00:00:00-04:00",
+          "2025-09-16T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_23",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_23-ieepa-emergency-headings",
+          "sha256": "2520132cb2eeb5efd3ecbafab739f04be1875482991d1128098ec0bd047e2e07"
+        },
+        {
+          "id": "USITC-2025_rev_23-ieepa-emergency-note2",
+          "sha256": "0f7d793901cc5eade4ebb45c425e3d8fed995a80b01db79dc24f3cb3f28997d0"
+        }
+      ],
+      "supported_from": "2025-09-16T00:00:00-04:00",
+      "supported_until": "2025-09-25T00:00:00-04:00",
+      "rule_sha256": "18d1737c78fbaa0a9c273421e29dc70259525ff4c561a506f86be4db9976f414",
+      "windows": [
+        [
+          "2025-09-16T00:00:00-04:00",
+          "2025-09-25T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_24",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_24-ieepa-emergency-headings",
+          "sha256": "284be76a38366f798012b99e351d226213d77098c2dd97349e3f1a16951f2034"
+        },
+        {
+          "id": "USITC-2025_rev_24-ieepa-emergency-note2",
+          "sha256": "a73c04fe8bda1593440faabc4cd2ea55866e783ffac239807bfcefbaa5552255"
+        }
+      ],
+      "supported_from": "2025-09-25T00:00:00-04:00",
+      "supported_until": "2025-10-14T00:00:00-04:00",
+      "rule_sha256": "322a454293684dad0a916d3de1d45692c86ed743c326938f2688b6353cbc35c5",
+      "windows": [
+        [
+          "2025-09-25T00:00:00-04:00",
+          "2025-10-14T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_25",
+      "products": 19650,
+      "rule_count": 58,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_25-ieepa-emergency-headings",
+          "sha256": "c86beb392418c2db581fae8bb1b6243db90c3c25e2bfda01214b8aef8fbd10f8"
+        },
+        {
+          "id": "USITC-2025_rev_25-ieepa-emergency-note2",
+          "sha256": "41f693213d034cf34d7e898a791b83f9990340f1016763a2d42279511dc7a71f"
+        }
+      ],
+      "supported_from": "2025-10-14T00:00:00-04:00",
+      "supported_until": "2025-11-01T00:00:00-04:00",
+      "rule_sha256": "9e5fb2e8cc2e570e06b1e0fe9934264ad26901e6812a57c3ece0079da171d0ba",
+      "windows": [
+        [
+          "2025-10-14T00:00:00-04:00",
+          "2025-10-14T00:01:00-04:00"
+        ],
+        [
+          "2025-10-14T00:01:00-04:00",
+          "2025-11-01T00:00:00-04:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_26",
+      "products": 19650,
+      "rule_count": 58,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_26-ieepa-emergency-headings",
+          "sha256": "b0721d6da3ba653e30ea11832c0ea8ddb34d7f3a92e32a4004f3d574ad45a6fe"
+        },
+        {
+          "id": "USITC-2025_rev_26-ieepa-emergency-note2",
+          "sha256": "78d85e72d2f710b0ab49dd4bb1f1d92ca345df251f9fca44e4bad42694838161"
+        }
+      ],
+      "supported_from": "2025-11-01T00:00:00-04:00",
+      "supported_until": "2025-11-09T00:00:00-05:00",
+      "rule_sha256": "52bd87dac951587dc2dbbbfebe092159c52e71c84dd0b8dbbcfe75cf033e30be",
+      "windows": [
+        [
+          "2025-11-01T00:00:00-04:00",
+          "2025-11-01T00:01:00-04:00"
+        ],
+        [
+          "2025-11-01T00:01:00-04:00",
+          "2025-11-09T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_27",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_27-ieepa-emergency-headings",
+          "sha256": "29b8eba1b5a1bfeeb421e2b99cf880f6c0748abf6265986ac299c524579488c9"
+        },
+        {
+          "id": "USITC-2025_rev_27-ieepa-emergency-note2",
+          "sha256": "563bbc156ca19a27570d9bb4c8be81987de7d7c71b69ce027c544ccdb05ddb10"
+        }
+      ],
+      "supported_from": "2025-11-09T00:00:00-05:00",
+      "supported_until": "2025-11-10T00:00:00-05:00",
+      "rule_sha256": "cdb09cc6e09c005568478b60c0ebfc880aaf69ea8fa5b24706a2afd02d1b57d4",
+      "windows": [
+        [
+          "2025-11-09T00:00:00-05:00",
+          "2025-11-10T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_28",
+      "products": 19650,
+      "rule_count": 36,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_28-ieepa-emergency-headings",
+          "sha256": "98973df36de2f2cc02cef868a2e9fc943eff08f0177dbbe3e2a3b3d02f5d1872"
+        },
+        {
+          "id": "USITC-2025_rev_28-ieepa-emergency-note2",
+          "sha256": "41a65d97264b7aa77b13e94d648d134d6c6a656ae5da7a4fab787154eca917da"
+        }
+      ],
+      "supported_from": "2025-11-10T00:00:00-05:00",
+      "supported_until": "2025-11-13T00:00:00-05:00",
+      "rule_sha256": "00e613012ff05bfe3eba1d89af155435d85905d199ee35ba2575d115c82a76af",
+      "windows": [
+        [
+          "2025-11-10T00:00:00-05:00",
+          "2025-11-10T00:01:00-05:00"
+        ],
+        [
+          "2025-11-10T00:00:00-05:00",
+          "2025-11-13T00:00:00-05:00"
+        ],
+        [
+          "2025-11-10T00:01:00-05:00",
+          "2025-11-13T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_29",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_29-ieepa-emergency-headings",
+          "sha256": "3e02879465307fe177c8f1e5e6f94f1e9c4a4b7e7a1b47dfa43019f132a70749"
+        },
+        {
+          "id": "USITC-2025_rev_29-ieepa-emergency-note2",
+          "sha256": "b7b63de1f24302ba1308477ff5abbaaf1ad391fcecf5b8e05bb4f064d55f66c8"
+        }
+      ],
+      "supported_from": "2025-11-13T00:00:00-05:00",
+      "supported_until": "2025-11-21T00:00:00-05:00",
+      "rule_sha256": "dec618117336c6f58a9f97e484d53c0aa4aa70882264e08b8ed2609b6d143cc7",
+      "windows": [
+        [
+          "2025-11-13T00:00:00-05:00",
+          "2025-11-21T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_30",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_30-ieepa-emergency-headings",
+          "sha256": "5a72090f3e975c04af388bb9e27601738308393db595aa5ce731d042be5224f7"
+        },
+        {
+          "id": "USITC-2025_rev_30-ieepa-emergency-note2",
+          "sha256": "6307d24f2b21ee5fdec6b77571ccfad31f5e3f71a828c8d71b2131ff4b71fb90"
+        }
+      ],
+      "supported_from": "2025-11-21T00:00:00-05:00",
+      "supported_until": "2025-11-30T00:00:00-05:00",
+      "rule_sha256": "2ccce6084902d39c87c7eb5849fec8d0daedaf4f2463d873db92f3c14c178d47",
+      "windows": [
+        [
+          "2025-11-21T00:00:00-05:00",
+          "2025-11-30T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_31",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_31-ieepa-emergency-headings",
+          "sha256": "c3d74cae8cb2a5993963ac6699d65444722544f6e2043aedcc2199f52b6b5d12"
+        },
+        {
+          "id": "USITC-2025_rev_31-ieepa-emergency-note2",
+          "sha256": "d9e92b959e6ae9924e53aa2c77dca13fd54bf8cf650f26f719f01197cd88bc3e"
+        }
+      ],
+      "supported_from": "2025-11-30T00:00:00-05:00",
+      "supported_until": "2025-12-05T00:00:00-05:00",
+      "rule_sha256": "211b438fa131fa3bda3129e55959c7dadc2c98f9bd9eae16724f5c30295c3371",
+      "windows": [
+        [
+          "2025-11-30T00:00:00-05:00",
+          "2025-12-05T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2025_rev_32",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2025_rev_32-ieepa-emergency-headings",
+          "sha256": "aa2056b68dc18a815fb8f467453dbdf457d73f2b495d3cb2499b3028527743d3"
+        },
+        {
+          "id": "USITC-2025_rev_32-ieepa-emergency-note2",
+          "sha256": "2c03f410b370127eca27db9188f9d37d12de7709069204602b693d4036d11509"
+        }
+      ],
+      "supported_from": "2025-12-05T00:00:00-05:00",
+      "supported_until": "2026-01-01T00:00:00-05:00",
+      "rule_sha256": "4c058b06d4b34543ccd6cd1c53a75b986e6a8bc7f5f83c45153536dd0c6206dc",
+      "windows": [
+        [
+          "2025-12-05T00:00:00-05:00",
+          "2026-01-01T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_basic",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_basic-ieepa-emergency-headings",
+          "sha256": "a718007c8455c93a88ddc68f15f036cee10e9a820065a4c356da1481f4131858"
+        },
+        {
+          "id": "USITC-2026_basic-ieepa-emergency-note2",
+          "sha256": "e7ed46e46bb38275c167ca5106acaca18aabb65772f03a8699eefc5bc030be63"
+        }
+      ],
+      "supported_from": "2026-01-01T00:00:00-05:00",
+      "supported_until": "2026-01-15T00:00:00-05:00",
+      "rule_sha256": "14d1040041ee1ff5cf1d0520168b5238575441fe818bad3fd50870f8c688786c",
+      "windows": [
+        [
+          "2026-01-01T00:00:00-05:00",
+          "2026-01-15T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_1",
+      "products": 19650,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_1-ieepa-emergency-headings",
+          "sha256": "8d258c60f75c09f2f61c8e184aa8f38b5a3f7ba0e0edcfc608282ca51cbc8ef2"
+        },
+        {
+          "id": "USITC-2026_rev_1-ieepa-emergency-note2",
+          "sha256": "951d37a5f9446aace6263a87f192151e7b315c3bf39315a5c0d7bc97ee48341a"
+        }
+      ],
+      "supported_from": "2026-01-15T00:00:00-05:00",
+      "supported_until": "2026-02-01T00:00:00-05:00",
+      "rule_sha256": "2de8652aaa8bdd34507e09420241b468819b5e57e239bac41b93f23c2b138394",
+      "windows": [
+        [
+          "2026-01-15T00:00:00-05:00",
+          "2026-02-01T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_2",
+      "products": 19737,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_2-ieepa-emergency-headings",
+          "sha256": "b56567588ca6165772d409d7ad097e7b96327fa7f19d18b6a95f70317ad864a1"
+        },
+        {
+          "id": "USITC-2026_rev_2-ieepa-emergency-note2",
+          "sha256": "83eac54025d24c71eb0f53356bb05f7c1f7f73160e1a6af37b0aa335ff633762"
+        }
+      ],
+      "supported_from": "2026-02-01T00:00:00-05:00",
+      "supported_until": "2026-02-07T00:00:00-05:00",
+      "rule_sha256": "9eb28765c8f9d66d19c2ea6c807853a9425ee9bd6708090d8b004cea34cc68e7",
+      "windows": [
+        [
+          "2026-02-01T00:00:00-05:00",
+          "2026-02-07T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_3",
+      "products": 19738,
+      "rule_count": 29,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_3-ieepa-emergency-headings",
+          "sha256": "fae12fab3c47b54cfb5db7325478d222409adbcfa8a10812fa2af0d213dff07e"
+        },
+        {
+          "id": "USITC-2026_rev_3-ieepa-emergency-note2",
+          "sha256": "c151029926c51ec3300a47f687c592e7cab6f56d0a9903651f0ac7c247b68cdc"
+        }
+      ],
+      "supported_from": "2026-02-07T00:00:00-05:00",
+      "supported_until": "2026-02-24T00:00:00-05:00",
+      "rule_sha256": "466e29a7457006b497e15b4ca557313606218ca3804fdcdacb0c41f8498db8b0",
+      "windows": [
+        [
+          "2026-02-07T00:00:00-05:00",
+          "2026-02-24T00:00:00-05:00"
+        ]
+      ],
+      "reportable_headings": [
+        "9903.01.01",
+        "9903.01.02",
+        "9903.01.03",
+        "9903.01.04",
+        "9903.01.05",
+        "9903.01.10",
+        "9903.01.11",
+        "9903.01.12",
+        "9903.01.13",
+        "9903.01.14",
+        "9903.01.15",
+        "9903.01.16",
+        "9903.01.21",
+        "9903.01.22",
+        "9903.01.24"
+      ],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_4",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_4-ieepa-emergency-headings",
+          "sha256": "0273ec6e6251479a3fc5056e2ed1d4f737fa7ee0675bc37c122364cc7a5732a3"
+        },
+        {
+          "id": "USITC-2026_rev_4-ieepa-emergency-note2",
+          "sha256": "52fde6da5cde366ec8f643016a78fcbd02abd8e4115c76ef98480132939c48e0"
+        }
+      ],
+      "supported_from": "2026-02-24T00:00:00-05:00",
+      "supported_until": "2026-04-06T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_5",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_5-ieepa-emergency-headings",
+          "sha256": "0e6117efc73e98a8b0203205e8e7f09e6a6a9aa2c793f15def3680d447d68448"
+        },
+        {
+          "id": "USITC-2026_rev_5-ieepa-emergency-note2",
+          "sha256": "7f178b357edb4b7cb087f5d2ca92e5e59ccb403e6dbc88a4ba5872a3b8537699"
+        }
+      ],
+      "supported_from": "2026-04-06T00:00:00-04:00",
+      "supported_until": "2026-04-23T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_6",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_6-ieepa-emergency-headings",
+          "sha256": "8258abee12b65e04a1c5b04519377040c711b8c31653d2b069fbf5e87a00e4d8"
+        },
+        {
+          "id": "USITC-2026_rev_6-ieepa-emergency-note2",
+          "sha256": "12e1d36a73c321ed69e61ec164b72f94ceaed28e33ea3e5483b3a2424b6639b3"
+        }
+      ],
+      "supported_from": "2026-04-23T00:00:00-04:00",
+      "supported_until": "2026-04-29T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_7",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_7-ieepa-emergency-headings",
+          "sha256": "0a8789f5a540f69117b74855c348ce2aaa62b6e57efe80ef46b45248053e9c37"
+        },
+        {
+          "id": "USITC-2026_rev_7-ieepa-emergency-note2",
+          "sha256": "1472963223b470252178704ad9b3ad4c5f9f1502972a63ac5b01abc8845f56e1"
+        }
+      ],
+      "supported_from": "2026-04-29T00:00:00-04:00",
+      "supported_until": "2026-05-01T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_9",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_9-ieepa-emergency-headings",
+          "sha256": "2dc811962b6809736e2e30c8753d0d0bc3fb3f1c65bbb15728663959247957ae"
+        },
+        {
+          "id": "USITC-2026_rev_9-ieepa-emergency-note2",
+          "sha256": "9e51ba86334d76fce4c9c3a8bec2f688298243f6651d2226fd3e27e38507b1ee"
+        }
+      ],
+      "supported_from": "2026-05-01T00:00:00-04:00",
+      "supported_until": "2026-05-22T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_8",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_8-ieepa-emergency-headings",
+          "sha256": "04f4ddda584823a954097b65cd8ca3a5aa1982317c344c582aa4cc3d5021433a"
+        },
+        {
+          "id": "USITC-2026_rev_8-ieepa-emergency-note2",
+          "sha256": "4be0b0f44d98ddf75398de7d7649016a7c9893c3ca60f8c814d60355600bb201"
+        }
+      ],
+      "supported_from": "2026-05-22T00:00:00-04:00",
+      "supported_until": "2026-06-08T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_10",
+      "products": 19738,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_10-ieepa-emergency-headings",
+          "sha256": "66375d1cc8e56cae00bbf8327c400e62586eefe128cad7c8e4d936dc3d4eda2f"
+        },
+        {
+          "id": "USITC-2026_rev_10-ieepa-emergency-note2",
+          "sha256": "eec925800663851d0133317a412ff236aa938235c305d87b42d97e6de9bc5405"
+        }
+      ],
+      "supported_from": "2026-06-08T00:00:00-04:00",
+      "supported_until": "2026-07-01T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_11",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_11-ieepa-emergency-headings",
+          "sha256": "bf6e76f0fdb3909ac8fd080b50a46d4affad050cfafa8a20579f7714f83ab441"
+        },
+        {
+          "id": "USITC-2026_rev_11-ieepa-emergency-note2",
+          "sha256": "05124f75836d3145b9d6661e29020de0f3b27fe26422a46f8121ab86f021ff53"
+        }
+      ],
+      "supported_from": "2026-07-01T00:00:00-04:00",
+      "supported_until": "2026-07-21T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_12",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_12-ieepa-emergency-headings",
+          "sha256": "c2df18de026f8ba78178a10dff5033b153c7a48fd66b5f218f529c1369fa0c72"
+        },
+        {
+          "id": "USITC-2026_rev_12-ieepa-emergency-note2",
+          "sha256": "a760524501f35a6a5256c4bfa1ea6ac66db101fbf74c05b71d367130468ba89e"
+        }
+      ],
+      "supported_from": "2026-07-21T00:00:00-04:00",
+      "supported_until": "2026-07-24T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_13",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_13-ieepa-emergency-headings",
+          "sha256": "3b4057c56e3bfaa48285b5371f771007840ea007c5094772f04c4754b6e3c6a5"
+        },
+        {
+          "id": "USITC-2026_rev_13-ieepa-emergency-note2",
+          "sha256": "cff368d7d80724781afa3fd7ebe4ffbbf6dfd68b8e0a9c9c7c6ce54b95c9cecc"
+        }
+      ],
+      "supported_from": "2026-07-24T00:00:00-04:00",
+      "supported_until": "2026-07-31T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_14",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_14-ieepa-emergency-headings",
+          "sha256": "a99da87129ebfd71352b9a747b2a36045a45f7f838ce8d4b9b02e157b78392ef"
+        },
+        {
+          "id": "USITC-2026_rev_14-ieepa-emergency-note2",
+          "sha256": "a8d97896814b3338857e83795fe6082c65f4932da6661e5ace9aa487171b4129"
+        }
+      ],
+      "supported_from": "2026-07-31T00:00:00-04:00",
+      "supported_until": "2026-08-03T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_15",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_15-ieepa-emergency-headings",
+          "sha256": "59a76c12e28d7a28975f31a8876bfb08e64927b922fe2b4f88801ff4459181e6"
+        },
+        {
+          "id": "USITC-2026_rev_15-ieepa-emergency-note2",
+          "sha256": "92822e8f38873a7275c4cf9bd5341f96f5834dbea964623e7a7aa7b2cd02f225"
+        }
+      ],
+      "supported_from": "2026-08-03T00:00:00-04:00",
+      "supported_until": "2026-08-14T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_16",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_16-ieepa-emergency-headings",
+          "sha256": "d95564c9ca2eccc9727e7797c0ee9f7f47af5e53d342fd4c0f3ff908d70427a4"
+        },
+        {
+          "id": "USITC-2026_rev_16-ieepa-emergency-note2",
+          "sha256": "58b2a00dcae593f4dd6dd21c3ccc9a570c162f276c9063a89e440c0038b38144"
+        }
+      ],
+      "supported_from": "2026-08-14T00:00:00-04:00",
+      "supported_until": "2026-08-24T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_17",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_17-ieepa-emergency-headings",
+          "sha256": "8ee8cdc2575a74ed1795a3b354bbefd308b857921c3a4901c744dce00a443294"
+        },
+        {
+          "id": "USITC-2026_rev_17-ieepa-emergency-note2",
+          "sha256": "0a267cc2d607a44a89a0b9faab70af47699c15991e3d45bc771ee570856df917"
+        }
+      ],
+      "supported_from": "2026-08-24T00:00:00-04:00",
+      "supported_until": "2026-09-02T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_18",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_18-ieepa-emergency-headings",
+          "sha256": "c6beeedc5d675896c9a1f89c3b8d18fd92834075fef0e377cc7f6a684f114809"
+        },
+        {
+          "id": "USITC-2026_rev_18-ieepa-emergency-note2",
+          "sha256": "83ca2c46697de2042d13db6be88c9fd2ec7a9edf5835468eb1efa8103c54bbe4"
+        }
+      ],
+      "supported_from": "2026-09-02T00:00:00-04:00",
+      "supported_until": "2026-09-15T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_19",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_19-ieepa-emergency-headings",
+          "sha256": "b83a0e40640e0fd36c434a37d0317c51e1d466ce9160613f7384609665128e28"
+        },
+        {
+          "id": "USITC-2026_rev_19-ieepa-emergency-note2",
+          "sha256": "5f2b3ef1f9ece214d2a9bfd8ce523413fb2bd8f5e8298dd1c56b3a36c979ba15"
+        }
+      ],
+      "supported_from": "2026-09-15T00:00:00-04:00",
+      "supported_until": "2026-09-29T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_20",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_20-ieepa-emergency-headings",
+          "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+        },
+        {
+          "id": "USITC-2026_rev_20-ieepa-emergency-note2",
+          "sha256": "53c7858d3c70583537684f7e78b9fc1bd222a51a857d5f331f67d2468d48986c"
+        }
+      ],
+      "supported_from": "2026-09-29T00:00:00-04:00",
+      "supported_until": "2026-10-09T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    },
+    {
+      "revision": "2026_rev_21",
+      "products": 19831,
+      "rule_count": 0,
+      "source_versions": [
+        {
+          "id": "CBP-CSMS-67834313",
+          "sha256": "a841f70875b563cf85a1e28231e4a4e4cd353436657d4c2f6f0f198cdb7e3002"
+        },
+        {
+          "id": "FR-2025-02293",
+          "sha256": "07c7a2bd2cc86adf6606a536356d4d1afd89ccfa43bb762a7ec9a784bdee7d1a"
+        },
+        {
+          "id": "FR-2025-03664",
+          "sha256": "857f94af3efdf4b03a7fbf37c9ecee7aa9af1ed4a58aad599ee00695aa564f5b"
+        },
+        {
+          "id": "FR-2025-03665",
+          "sha256": "f8539af28dec0a51e4d5edc01c88e6ae1b9740bbf81ceb14a510129bed518325"
+        },
+        {
+          "id": "FR-2025-03900",
+          "sha256": "ad6371952e6033a82852a5cd78256389f02e9dc1067317f945f1c6ff4a604091"
+        },
+        {
+          "id": "FR-2025-03901",
+          "sha256": "f688230c14488b09829505b307cc3cf0154df8c26d1095cef6403cd9f42025e1"
+        },
+        {
+          "id": "FR-2025-03990",
+          "sha256": "f4fb4d1b30b9fa45d0ed6d107ca4759a535a0cad3613ff41a0e08d98e5fad698"
+        },
+        {
+          "id": "FR-2025-03991",
+          "sha256": "6fb85d13086a09cb878054c39991a10f17e0f550f3c49cbbf414b629db8a8b80"
+        },
+        {
+          "id": "FR-2025-14999",
+          "sha256": "6dd81ef557760dbd17af8619bbcacaaf6b8876af884aae1573fd7c48ec7cbda4"
+        },
+        {
+          "id": "FR-2025-19482",
+          "sha256": "75be0d2ef5de8b670c61864ce68acfbe1c6b7e2d64ff927e933c32bd67155d96"
+        },
+        {
+          "id": "FR-2025-19639",
+          "sha256": "82b2ff130ac3b275a042bfc4357ac9df5d92ca4b22e1009d330903d6d544dc8e"
+        },
+        {
+          "id": "FR-2025-19825",
+          "sha256": "c9b3f54d488d9987f87c3749324fd04aa4a73b99266ea959eccac33b175d0c5d"
+        },
+        {
+          "id": "FR-2026-03832",
+          "sha256": "df2c6ad96c27e200ae1164d5a0db5e8f74a2d14be6f1c94b14e167333f6eaf86"
+        },
+        {
+          "id": "USITC-2026_rev_21-ieepa-emergency-headings",
+          "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09"
+        },
+        {
+          "id": "USITC-2026_rev_21-ieepa-emergency-note2",
+          "sha256": "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad"
+        }
+      ],
+      "supported_from": "2026-10-09T00:00:00-04:00",
+      "supported_until": "2026-10-23T00:00:00-04:00",
+      "rule_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "windows": [],
+      "reportable_headings": [],
+      "no_full_coverage_attestation": true
+    }
+  ],
+  "compiler_versions": {
+    "src/ieepa_emergency_rules.py": "d9a264c933f377fbc0fb42ef8dfc1780c7b9025a9df29a2932f4ac96d20c6bb4",
+    "src/ieepa_fentanyl_sources.py": "0165f2e48685c369747e0180d27df6802cad6072b43e1d1c2bb5bb667f3cc20e",
+    "src/chapter98_rules.py": "2cbcfe2cd9a6e1b00f9ddab3dc4f5f032373cb32f1fcd13654cf322e4ec97f91",
+    "src/section232_stacking.py": "be8671dc1b58d4ba766c637b5dcc8e022ad5bef9d518003f7b885050648cfd4f",
+    "resources/legal_evidence/ieepa-emergency/reviewed-semantics.json": "c7846de2d106ac0276efb14d4d2bc005f893d61315cf874b6025fd956767106c"
+  },
+  "timeseries_rebuilt": false,
+  "complete_legal_coverage": false
+}

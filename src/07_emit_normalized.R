@@ -1282,6 +1282,11 @@ emit_normalized_revision <- function(
     attach_emergency_evidence(ieepa_evidence_fragment(ieepa_evidence,revision_id),denorm_state$fentanyl_evidence),
     file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+  emergency_source <- attr(denorm_state$fentanyl_evidence,'emergency_source')
+  if(!is.null(emergency_source)) jsonlite::write_json(
+    compile_ieepa_emergency_fragment(emergency_source,products$hts10),
+    file.path(output_dir,revision_id,'ieepa_emergency_rules.json'),
+    auto_unbox=TRUE,null='null',digits=NA)
 
   if(!is.null(denorm_state$s122$source)) {
     jsonlite::write_json(

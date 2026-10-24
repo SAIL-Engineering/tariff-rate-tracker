@@ -1,7 +1,8 @@
 # =============================================================================
 # stacking_rules.yaml — how duties combine, by era
 # =============================================================================
-# The engine's single source of truth for stacking, exclusion and replacement.
+# Legacy aggregate-model stacking, exclusion and replacement configuration.
+# Executable shipment decisions are compiled from source-bound rule fragments.
 # The reviewed legal reading behind every rule here is docs/stacking_legal_model.md
 # — change that document first, then this file, then the code.
 #
@@ -10,10 +11,14 @@
 #   excludes    higher-precedence action applies; the other is NOT owed at all
 #   replaces    the duty substitutes for the base rate (not additional)
 #
-# "subject to" is defined by CBP as: duty of MORE THAN 0% is owed and payable on
+# The ORIGINAL "subject to" test was defined by CBP as: MORE THAN 0% owed on
 # that action. This definition is load-bearing — it is what makes a
 # USMCA-qualifying auto part (0% under Proc 10908) fall through the auto step to
 # the steel/aluminum step without needing a special case.
+# Proclamation 10984 clause 9 changes the vehicle test from November 1, 2025.
+# src/section232_stacking.py implements that dated shipment decision. This
+# aggregate approximation lacks separately modeled action-applicability inputs
+# and must not be used as a shipment interpreter or evidence of legal absence.
 # =============================================================================
 
 version: 2

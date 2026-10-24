@@ -404,3 +404,28 @@ node --test frontend/tests/section301-reconstruction.test.mjs
 
 The audit checks all 55 revisions without rebuilding rates or writing MotherDuck.
 See [the legal and verification report](audits/2026-10-24-section301-chapter98/README.md).
+
+## Executable IEEPA emergency follow-up
+
+The ordinary normalized build now emits `ieepa_emergency_rules.json` beside the
+existing evidence-only fragment. Compose it with the same revision's reviewed
+base, Section 232 and Section 301 fragments. Its rules keep exact amendment
+instants inside the daily revision window. `USMCA` requires actual free entry
+under GN11; Chapter 98 requires its own proper-claim/CBP-agreement and valuation
+facts. FTZ and de minimis paths remain explicitly unresolved.
+
+```sh
+Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json NEW_COMPOSED_BUNDLE.json \
+  output/normalized/REVISION/ieepa_evidence_sources.json \
+  output/normalized/REVISION/ieepa_emergency_rules.json \
+  output/normalized/REVISION/section232_legacy_rules.json \
+  output/normalized/REVISION/section301_rules.json
+python3 scripts/audit_ieepa_executable.py NEW_EXECUTABLE_AUDIT_DIR
+```
+
+Use the appropriate Section 232 fragment for the revision. A synthetic test
+bundle is not a production base bundle. The complete release and broader legal
+coverage remain unfinished; this does not authorize a rebuild, MotherDuck
+write, activation or publication. The existing timeseries commands above remain
+WJR's to run once the remaining logic is ready. See
+[the legal, serving and audit report](audits/2026-10-24-ieepa-executable/README.md).

@@ -452,3 +452,37 @@ test('release compares Section 301 at each legal state and rejects missing or ov
   await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/product-country legal states/);
   assert.equal(await activeShipmentRelease(conn),null);
 }));
+
+test('Chapter 98 valuation preflight preserves formulas and cross-origin NULL scope',()=>withDatabase(async(conn,root)=>{
+ const {file,manifest,bundle}=await manifestFixture(conn,root);
+ const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+ const source=bundle.sources[0],rule={id:'chapter98',action_id:'synthetic-maritime',authority:'section_301',kind:'duty',verification:'verified',
+  scope:{hts_exact:['1234567890'],from:bundle.valid_from,until:bundle.valid_until},
+  when:{claim:'CHAPTER_98'},formula:{op:'multiply',args:[{value:.25},{fact:'repair_value'}]},
+  input_constraints:[{test:{op:'gte',args:[{fact:'repair_value'},{value:0}]},inputs:['repair_value']}],
+  reporting_codes:['9903.91.12'],source_ids:[source.id],legal_locator:'Synthetic source',valuation_locator:'Synthetic Chapter 98 clause',
+  chapter98_target_reporting_code:'9903.91.12',chapter98_clause_sha256:'a'.repeat(64)};
+ bundle.rules.push(rule);bundle.claim_definitions=[{id:'CHAPTER_98',label:'Chapter 98',source_ids:[source.id],rule_ids:[rule.id]}];
+ const encoded=JSON.stringify(bundle),rules=manifest.revisions[0].rules;
+ await fs.writeFile(path.join(root,rules.path),encoded);rules.sha256=crypto.createHash('sha256').update(encoded).digest('hex');
+ await fs.writeFile(file,JSON.stringify(manifest));
+ await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Claim effect inventory/);
+ const row={revision:'test',claim_id:'CHAPTER_98',verification:'verified',rule_id:rule.id,authority:rule.authority,effect:'conditional_valuation',
+  target_reporting_code:rule.chapter98_target_reporting_code,hts10:'1234567890',country:null,valid_from:rule.scope.from,valid_until:rule.scope.until,
+  source_ids_json:JSON.stringify(rule.source_ids),condition_json:JSON.stringify(rule.when),source_locator:rule.valuation_locator,
+  source_scope_sha256:rule.chapter98_clause_sha256,formula_json:JSON.stringify(rule.formula),input_constraints_json:JSON.stringify(rule.input_constraints)};
+ const rewrite=async change=>{
+  const json=path.join(root,'valuation.json'),parquet=path.join(root,'valuation.parquet');
+  await fs.writeFile(json,JSON.stringify([{...row,...change}]));await fs.rm(parquet,{force:true});
+  const columns=Object.fromEntries(Object.keys(row).map(k=>[k,'VARCHAR']));
+  await conn.run(`COPY (SELECT * FROM read_json('${json}',columns=${JSON.stringify(columns)})) TO '${parquet}' (FORMAT PARQUET)`);
+  manifest.revisions[0].claim_effects=[{path:'valuation.parquet',sha256:crypto.createHash('sha256').update(await fs.readFile(parquet)).digest('hex')}];
+  await fs.writeFile(file,JSON.stringify(manifest));return readReleaseManifest(file);
+ };
+ await preflightRelease(conn,await rewrite({}),catalog);
+ for(const change of [{formula_json:'{"value":0}'},{input_constraints_json:'[]'},{formula_json:null},{verification:'unverified'}])
+  await assert.rejects(preflightRelease(conn,await rewrite(change),catalog),/Claim valuation\/bundle/);
+ for(const change of [{country:'5700'},{effect:'suppress'},{source_scope_sha256:'b'.repeat(64)}])
+  await assert.rejects(preflightRelease(conn,await rewrite(change),catalog),/Claim effect\/bundle/);
+ assert.equal(await activeShipmentRelease(conn),null);
+}));

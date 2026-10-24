@@ -99,9 +99,10 @@ r<-evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',q)
 stopifnot(r$known_subtotal==25)
 q$claims<-list('USMCA');r<-evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',q)
 stopifnot(r$known_subtotal==10) # claim removes the auto branch, metal liability is reevaluated
-# A zero-dollar bound/floor is not positive duty under CBP's ordering rule.
+# Proclamation 10984 clause 9 changes CBP's earlier positive-payable test.
+# An applicable vehicle action remains subject to Section 232 at zero payable.
 base$rules[[1]]$formula<-list(value=0);b<-compose_shipment_rules(base,list(fragment))
-stopifnot(evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',steel)$known_subtotal==10)
+stopifnot(evaluate_shipment_bundle(b,'7318158085','1220','2026-03-01T12:00:00-05:00',steel)$known_subtotal==0)
 # A named Section 301 exclusion changes that authority alone.
 c301<-fixture_rule('synthetic-301-exclusion','9903.88.69','section_301',0,list(claim='section301:test'))
 c301$exclusion_claim_id<-'section301:test'

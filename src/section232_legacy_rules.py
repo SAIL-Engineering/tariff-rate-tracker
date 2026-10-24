@@ -11,9 +11,11 @@ from datetime import datetime
 import json
 from pathlib import Path
 import re
+import subprocess
 from zoneinfo import ZoneInfo
 from section232_legacy_sources import ROOT, extract, matches, sha
 from section232_note16_rules import val, fact, op, both, either, negate, choose
+from section232_stacking import amendment, vehicle_predicate
 
 
 def compile_legacy(x, products, jurisdictions, _entry_window=None):
@@ -64,6 +66,15 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         if description:d['description']=description
         facts[key]=d;return fact(key)
     cv=f('customs_value','Customs value (USD)','number')
+    vehicle_amendment=amendment();s=vehicle_amendment['source']
+    ids.append(s['id']);sources.append({k:s[k] for k in ('id','sha256','url','citation')}|dict(status='verified'))
+    artifacts.append(dict(source_id=s['id'],path=s['path'],sha256=s['sha256']))
+    vehicle_schedule=json.loads(Path(x['sources'][1]['path']).read_bytes())
+    vehicle_raw=subprocess.check_output(['pdftotext','-layout',x['sources'][0]['path'],'-'],text=True)
+    vehicle_tests={}
+    def auto_test(after):
+        if after not in vehicle_tests:vehicle_tests[after]=vehicle_predicate(vehicle_schedule,vehicle_raw,f,after)
+        return vehicle_tests[after]
     headings={h['code']:h for h in x['headings']}
     scopes={s['id']:s for s in x['lists']}
     grouped=defaultdict(list);membership=defaultdict(set)
@@ -95,9 +106,18 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         if metal=='aluminum':
             russian_test=val(True) if russian_coo else fact('aluminum_primary_smelted_or_cast_russia')
             r['grant_material_condition']=russian_test if r['section232_treatment']=='russian_aluminum' else negate(russian_test)
-        rules.append(r)
-        decisions.append(dict(rule_id=id,legal_locator=loc,reporting_codes=r['reporting_codes'],
-            status='requires_source_reconciliation' if error else 'compiled',reason=error))
+        # Clause 9 changes the meaning of "subject to" at an exact instant.
+        # Preserve the first minute of the November revision and do not use
+        # a positive-rate filter for zero-payable qualifying vehicle decisions.
+        at=vehicle_amendment['effective_from']
+        windows=[(scope['from'],scope['until'])]
+        if scope['from']<at<scope['until']:windows=[(scope['from'],at),(at,scope['until'])]
+        for begin,end in windows:
+            rr=dict(r,id=f's232_legacy_{metal}_{len(rules)}',scope=dict(scope,**{'from':begin,'until':end}))
+            if code and headings[code]['rate']>0:rr['suppressed_when']=auto_test(begin>=at)
+            rules.append(rr)
+            decisions.append(dict(rule_id=rr['id'],legal_locator=loc,reporting_codes=rr['reporting_codes'],
+                status='requires_source_reconciliation' if error else 'compiled',reason=error))
     def gap(reason,code=None):return dict(error=reason,code=code)
     def leaf(code,chapter,metal):
         h=headings[code];basis=h['valuation_basis']
@@ -208,16 +228,16 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
                 # included by 90 FR 21487 footnote 1; zero relief is not.
                 relations.append(dict(id=r['id']+'_emergency',effect='suppress',when_rule_applies=r['id'],
                     trigger_test='positive_duty',target_reporting_codes=triggers,source_ids=list(ids)))
-    if auto_codes and charged_codes:
+    if auto_codes and triggers:
         relations.append(dict(id='legacy_auto_precedence_'+x['revision'],effect='suppress_by_reporting_codes',
-            trigger_reporting_codes=auto_codes,trigger_test='positive_duty',target_reporting_codes=sorted(set(charged_codes+triggers)),source_ids=ids))
+            trigger_reporting_codes=auto_codes,trigger_test='positive_duty',target_reporting_codes=triggers,source_ids=ids))
     if not after_june:
         if triggers and charged_codes:relations.append(dict(id='legacy_emergency_precedence_'+x['revision'],effect='suppress_by_reporting_codes',
             trigger_reporting_codes=triggers,trigger_test='positive_duty',target_reporting_codes=charged_codes,source_ids=ids))
     result=dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_legacy_'+x['revision'],
         compiler_sha256=sha(Path(__file__).read_bytes()),extractor_sha256=x['extractor_sha256'],
         compiler_dependencies={name:sha(Path(__file__).with_name(name).read_bytes()) for name in
-            ('section232_note16_rules.py','ieepa_fentanyl_sources.py','section301_sources.py','section232_pre_march.py')},
+            ('section232_note16_rules.py','ieepa_fentanyl_sources.py','section301_sources.py','section232_pre_march.py','section232_stacking.py')},
         semantic_review_sha256=sha(grammar.read_bytes()),
         supported_from=start,supported_until=until,sources=sources,source_artifacts=artifacts,
         rules=rules,fact_definitions=facts,relations=relations,reporting_decisions=decisions,coverage=[],

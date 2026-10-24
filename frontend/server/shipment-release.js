@@ -262,21 +262,42 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       for (const hts10 of rule.scope.hts_exact) for (const country of rule.scope.countries)
         for (const target of rule.target_reporting_codes) {
           const key = [rule.id, hts10, country, target].join('|');
-          expectedClaims.set(key, { rule, hts10, country, target });
+          expectedClaims.set(key, { rule, hts10, country, target, claimId:rule.claim_id,
+            effect:'suppress',locator:rule.legal_locator,scopeHash:rule.source_scope_sha256 });
         }
+    }
+    // Chapter 98 is an executable valuation path, not an exclusion-only row.
+    // Cross-origin maritime rules intentionally retain a NULL country scope.
+    for (const rule of revision.bundle.rules.filter(r => r.chapter98_target_reporting_code)) {
+      const definition=revision.bundle.claim_definitions?.find(c=>c.id==='CHAPTER_98');
+      if(!definition?.rule_ids?.includes(rule.id) || !rule.scope?.hts_exact?.length
+        || !/^[a-f0-9]{64}$/.test(rule.chapter98_clause_sha256 ?? '') || !rule.formula)
+        throw new Error('Incomplete Chapter 98 valuation provenance');
+      for(const hts10 of rule.scope.hts_exact) for(const country of rule.scope.countries?.length ? rule.scope.countries : [null]) {
+        const target=rule.chapter98_target_reporting_code,key=[rule.id,hts10,country,target].join('|');
+        if(expectedClaims.has(key))throw new Error('Ambiguous claim effect identity');
+        expectedClaims.set(key,{rule,hts10,country,target,claimId:'CHAPTER_98',effect:'conditional_valuation',
+          locator:rule.valuation_locator ?? rule.legal_locator,scopeHash:rule.chapter98_clause_sha256,valuation:true});
+      }
     }
     if (claimRows.length !== expectedClaims.size) throw new Error('Claim effect inventory mismatch');
     for (const row of claimRows) {
       const key = [row.rule_id, row.hts10, row.country, row.target_reporting_code].join('|');
       const expected = expectedClaims.get(key), rule = expected?.rule;
-      if (!rule || row.claim_id !== rule.claim_id || row.authority !== rule.authority || row.effect !== 'suppress'
-        || row.valid_from !== rule.scope.from || row.valid_until !== rule.scope.until
-        || row.source_locator !== rule.legal_locator || row.source_scope_sha256 !== rule.source_scope_sha256
+      if (!rule || row.claim_id !== expected.claimId || row.authority !== rule.authority || row.effect !== expected.effect
+        || row.country !== expected.country
+        || row.valid_from !== (rule.scope.from ?? revision.bundle.valid_from) || row.valid_until !== (rule.scope.until ?? revision.bundle.valid_until)
+        || row.source_locator !== expected.locator || row.source_scope_sha256 !== expected.scopeHash
         || !revision.bundle.products.includes(row.hts10)
         || canonical(JSON.parse(row.source_ids_json)) !== canonical(rule.source_ids)
         || canonical(JSON.parse(row.condition_json)) !== canonical(rule.when)
         || !rule.source_ids.every(id => revision.bundle.sources.some(s => s.id === id)))
         throw new Error('Claim effect/bundle relationship mismatch');
+      if(expected.valuation && (row.verification!==rule.verification
+        || typeof row.formula_json!=='string' || typeof row.input_constraints_json!=='string'
+        || canonical(JSON.parse(row.formula_json))!==canonical(rule.formula)
+        || canonical(JSON.parse(row.input_constraints_json))!==canonical(rule.input_constraints ?? [])))
+        throw new Error('Claim valuation/bundle relationship mismatch');
       expectedClaims.delete(key);
     }
 

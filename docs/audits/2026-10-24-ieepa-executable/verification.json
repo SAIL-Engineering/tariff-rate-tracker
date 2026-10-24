@@ -1,0 +1,138 @@
+{
+  "base_sha": "694f4b33675e225e26ba1ad8b783ee78bacef548",
+  "branch": "wjr_dev",
+  "checks": [
+    {
+      "name": "python",
+      "command": "/usr/bin/python3 -m pytest -q tests/python",
+      "exit_code": 0,
+      "details": {
+        "passed": 351
+      },
+      "log": "verification/python.log.gz",
+      "uncompressed_sha256": "4d122717c24f53acd76e3cc0a8d192172b228d9e54b046421a259ef31a121bcc"
+    },
+    {
+      "name": "node",
+      "command": "node --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "details": {
+        "passed": 428,
+        "failed": 0
+      },
+      "log": "verification/node.log.gz",
+      "uncompressed_sha256": "e7c9b2ce3804bd96a2f6362f3230ebff1b15adeb9527b4b3811bf5b05b31a23e"
+    },
+    {
+      "name": "r-emergency",
+      "command": "Rscript tests/test_ieepa_emergency_rules.R --emit",
+      "exit_code": 0,
+      "details": {
+        "cases": 48,
+        "note": "Final source, FTZ claim-priority and separately emitted evidence-fragment composition verified."
+      },
+      "log": "verification/r-emergency.log.gz",
+      "uncompressed_sha256": "50a2008f1b870cc8a894e12399d4749619b03accec05c2fd037e4f057e981c2d"
+    },
+    {
+      "name": "r-legacy",
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0,
+      "details": {
+        "fixture_cases": 49
+      },
+      "log": "verification/r-legacy.log.gz",
+      "uncompressed_sha256": "7419c6cb7bfa3404ada15b9d1b05525819fec5492d8eaaf008392775565e1b4e"
+    },
+    {
+      "name": "r-full",
+      "command": "Rscript tests/run_all_tests.R --require-data",
+      "exit_code": 1,
+      "details": {
+        "suites": 42,
+        "passed_suites": 40,
+        "error_suites": [
+          "test_normalized_parity.R"
+        ],
+        "skipped_suites": [
+          "test_tpc_comparison.R"
+        ],
+        "reported_numbered_assertions_passed": 402,
+        "missing_stale_normalized_partitions": 312,
+        "missing_input": "data/tpc/tariff_by_flow_day.csv",
+        "note": "Run before final FTZ guard-priority refinement and three additional cases. The affected emergency R suite was rerun afterward; final full Python/Node gates and compiler sweep use final sources. This is not a successful full R gate.",
+        "emergency_compiler_sha256": "caca87f149eb30e229eae3a05ec059c8fd1260365f52e15a46767a86c72783f0"
+      },
+      "log": "verification/r-full.log.gz",
+      "uncompressed_sha256": "140f1c6d1b676fb0f16c07782264ca658ea2505af80f0a0cc52e66758a92928e"
+    },
+    {
+      "name": "typecheck",
+      "command": "cd frontend && node node_modules/typescript/bin/tsc --noEmit",
+      "exit_code": 0,
+      "details": {},
+      "log": "verification/typecheck.log.gz",
+      "uncompressed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build",
+      "command": "cd frontend && node node_modules/vite/bin/vite.js build --outDir /tmp/tracker-ieepa-build-20261024",
+      "exit_code": 0,
+      "details": {
+        "warning": "Existing large bundle chunk warning."
+      },
+      "log": "verification/build.log.gz",
+      "uncompressed_sha256": "2fb3f8b84f5ede10e59ce21653cf28ab731ef9e55f8f7c68f66007b1220d12c8"
+    },
+    {
+      "name": "source-compiler-sweep",
+      "command": "python3 scripts/audit_ieepa_executable.py /tmp/ieepa-compiler-ftz-20261024",
+      "exit_code": 0,
+      "details": {
+        "revisions": 55,
+        "compiled_rules": 1094,
+        "revision_product_memberships": 1082971
+      },
+      "log": "verification/source-compiler-sweep.log.gz",
+      "uncompressed_sha256": "932acbd74cc23163be1b50591f769a297402c8d5045a9d6c50cf16cfb43c96f2"
+    },
+    {
+      "name": "motherduck-readonly",
+      "command": "node frontend/scripts/audit-ieepa-emergency-motherduck.mjs .env /tmp/ieepa-motherduck-20261024.json",
+      "exit_code": 0,
+      "details": {
+        "target": "duty_calculator",
+        "writes": false
+      },
+      "log": "verification/motherduck-readonly.log.gz",
+      "uncompressed_sha256": "2ca62f4fa14508798e7d751de51cc796293905bea35d6daed99b33e284c4eeaa"
+    },
+    {
+      "name": "motherduck-source-reconciliation",
+      "command": "Rscript scripts/audit_ieepa_emergency.R docs/audits/2026-10-24-ieepa-executable/motherduck-source-audit /tmp/ieepa-motherduck-20261024.json",
+      "exit_code": 0,
+      "details": {
+        "revisions": 55
+      },
+      "log": "verification/motherduck-source-reconciliation.log.gz",
+      "uncompressed_sha256": "2e2bbbd7a4ee93c4aaf5b88a5bbf77a5be2c04caac836ecb3ad9913ace5ec720"
+    }
+  ],
+  "timeseries_rebuilt": false,
+  "motherduck_written": false,
+  "pushed": false,
+  "complete_legal_coverage": false,
+  "source_versions": {
+    "src/ieepa_emergency_rules.py": "d9a264c933f377fbc0fb42ef8dfc1780c7b9025a9df29a2932f4ac96d20c6bb4",
+    "src/ieepa_fentanyl_sources.py": "0165f2e48685c369747e0180d27df6802cad6072b43e1d1c2bb5bb667f3cc20e",
+    "src/chapter98_rules.py": "2cbcfe2cd9a6e1b00f9ddab3dc4f5f032373cb32f1fcd13654cf322e4ec97f91",
+    "src/section232_stacking.py": "be8671dc1b58d4ba766c637b5dcc8e022ad5bef9d518003f7b885050648cfd4f",
+    "resources/legal_evidence/ieepa-emergency/reviewed-semantics.json": "c7846de2d106ac0276efb14d4d2bc005f893d61315cf874b6025fd956767106c",
+    "src/ieepa_fentanyl.R": "dd3a39d86c9f9caae0de0798ba97870e81d5e8df69565901d490308d61412a69",
+    "src/07_emit_normalized.R": "b0fb6047346b9b5926dadd36f4298550cc686d60402524fd10ff04401606a2ab",
+    "src/section232_legacy_rules.py": "ef5c1956a48c6417372755320f218b96c87ac916ad797dd0e9b5dc6bb9b612ce",
+    "frontend/server/shipment-release.js": "bf6795cbd17380e17faf8478ee30ebd19a35505bcfed994539abff812fd09a84",
+    "tests/test_ieepa_emergency_rules.R": "4c7369d8bda006442f26b0ce9d4c690321540ee124738e97af6bf8b549d0c726",
+    "tests/fixtures/shipment/ieepa-emergency.json": "5534cac97464ea6a86377bc89834cf07f3605def3b2616adaa0c00d4f3a9ce87"
+  }
+}

@@ -100,7 +100,7 @@ authority must not silently erase the existing action precedence. Exact entry
 timestamps respect the 00:01 boundary. A date-only revision is a daily model
 snapshot, not evidence about the first minute of an entry day.
 
-### The definition that makes it work
+### Original positive-payable definition, before the vehicle amendment
 
 CSMS #65054270, verbatim:
 
@@ -119,8 +119,33 @@ CBP states the same outcome as a direct carve-out:
 > subject to** the 232 Auto/Auto Parts tariff or the IEEPA Canada or IEEPA Mexico
 > tariff."
 
-The two readings agree on the result. We encode only the >0% threshold and do
-**not** add a separate USMCA branch — one rule, not two that can drift apart.
+The two readings agree for that historical period. The original aggregate
+adapter encoded this as a positive-rate threshold.
+
+### November 2025 vehicle amendment
+
+[Proclamation 10984, clause 9](https://www.govinfo.gov/content/pkg/FR-2025-10-22/html/2025-19639.htm)
+changes that interpretation for the automobile and medium/heavy vehicle actions.
+USMCA qualification, an import-adjustment offset, or an implemented trade
+agreement can reduce the payable duty to zero without removing the article from
+the action for stacking purposes. Clause 8 identifies the proclamation's
+effective date by reference to clause 1: November 1, 2025 at 00:01 Eastern;
+Annex I.A independently gives that instant for the HTS modifications.
+
+The executable compiler applies the positive-payable test before that instant
+and the source-qualified applicability test afterwards. A reporting code alone
+is insufficient: note 33(c) also covers non-automobiles and note 33(h) also
+covers non-automotive parts. Those uses do not acquire a stacking exemption.
+The mixed-heading predicates, actual entry window, and source reference are
+compiled in `src/section232_stacking.py` and used by both the historical metal
+and emergency fragments. A Section 301 exclusion leaves these liabilities
+unchanged; a separately verified Section 232 grant triggers reevaluation.
+
+This correction is in the declarative shipment path. The legacy wide aggregate
+adapter's positive-rate approximation is not an implementation of this later
+rule. Its replacement requires separately emitted action-applicability modeling
+inputs; do not interpret its zero rate or aggregate share as a shipment fact.
+See [the executable-rule audit](audits/2026-10-24-ieepa-executable/README.md).
 
 ### §3(b), §3(c), §4 — what stays cumulative
 

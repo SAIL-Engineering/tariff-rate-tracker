@@ -1,0 +1,1507 @@
+{
+  "description": "Reviewed emergency heading and note variants. Allows only the compiled decisions; FTZ, low-value and conflicting-origin paths remain unresolved. Later deletion of de minimis language is not a retroactive zero-duty decision.",
+  "entries": [
+    {
+      "heading": "9903.01.01",
+      "description_sha256": "9ee19b7eef3faef8ba44dfef876aaff7dd62be4ba4b01a0db7af0c9241ee5a62",
+      "note_sha256": "4877345a00e86eed0e7322e3c5f4a4c57d672d97ae0ad1a2ea7a5fe0d9f2d49c",
+      "role": "general",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.01",
+      "description_sha256": "9ee19b7eef3faef8ba44dfef876aaff7dd62be4ba4b01a0db7af0c9241ee5a62",
+      "note_sha256": "4ee580c86077772a8d8e5d8f26b16a598411e03fdd546b15adae133075125cc0",
+      "role": "general",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.01",
+      "description_sha256": "9ee19b7eef3faef8ba44dfef876aaff7dd62be4ba4b01a0db7af0c9241ee5a62",
+      "note_sha256": "9fc5954b7e6d76ee7f68bc3725e64558f178660aff7f52963ca7a03321b8a72e",
+      "role": "general",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.01",
+      "description_sha256": "9ee19b7eef3faef8ba44dfef876aaff7dd62be4ba4b01a0db7af0c9241ee5a62",
+      "note_sha256": "f552af14653ff46fedf14c73888b4032feebe714fff45267bbefe50e3b176d61",
+      "role": "general",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.01",
+      "description_sha256": "eb857ecbf4487de6b21fa7bb282460d7cb6601adee43ec4719da4ee052b3dbef",
+      "note_sha256": "840af0f5e45d441bedf3ddb734c7d0d7863d332a7fd66c2429e3c907d94ebdcb",
+      "role": "general",
+      "revisions": [
+        "2025_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.02",
+      "description_sha256": "6c32adffd05703f8360275023d1821fa3bc3ea99d0699b9ad31a47e539ab0270",
+      "note_sha256": "51fc203abffefd51b758adfe08a5edde1040df03ee3bc3125a7c500ceeb84b7c",
+      "role": "donation",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_3",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_2",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_3",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "3bbc31582683525ea0ec16ee95fd649a4588616a2a33477c97cf4c65d949e19a",
+      "role": "information",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "5e056b6e10640c5ed6cc3de8e4f75f423ada4901704dc2138299f287bac86eac",
+      "role": "information",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "840af0f5e45d441bedf3ddb734c7d0d7863d332a7fd66c2429e3c907d94ebdcb",
+      "role": "information",
+      "revisions": [
+        "2025_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "90885c1571cd42fb59ec1fb799e7aaaba2ebc964280e875643fd34e88f1993ce",
+      "role": "information",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "c8cae211834303640e3c3e1e40c7114b495a542418dde98e7f3baf5f13125cca",
+      "role": "information",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.03",
+      "description_sha256": "8ff696d85b7344e9842fbb1199e30e0b79f85f55f7135e9cc022a8bebb354e5f",
+      "note_sha256": "f72a20c0419f7a0560d0e7bfe5aa2379127783024d830ae2e4de05387ebcb48f",
+      "role": "information",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "0ebf559c3421b6c9c7e65857323c4967e6628b317c1d37d96de2b0fed52cb95b",
+      "note_sha256": "3bbc31582683525ea0ec16ee95fd649a4588616a2a33477c97cf4c65d949e19a",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "0ebf559c3421b6c9c7e65857323c4967e6628b317c1d37d96de2b0fed52cb95b",
+      "note_sha256": "5e056b6e10640c5ed6cc3de8e4f75f423ada4901704dc2138299f287bac86eac",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "0ebf559c3421b6c9c7e65857323c4967e6628b317c1d37d96de2b0fed52cb95b",
+      "note_sha256": "90885c1571cd42fb59ec1fb799e7aaaba2ebc964280e875643fd34e88f1993ce",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "0ebf559c3421b6c9c7e65857323c4967e6628b317c1d37d96de2b0fed52cb95b",
+      "note_sha256": "c8cae211834303640e3c3e1e40c7114b495a542418dde98e7f3baf5f13125cca",
+      "role": "usmca",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "0ebf559c3421b6c9c7e65857323c4967e6628b317c1d37d96de2b0fed52cb95b",
+      "note_sha256": "f72a20c0419f7a0560d0e7bfe5aa2379127783024d830ae2e4de05387ebcb48f",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.04",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "fed4b05cebc3d688f9960b0e4944639b7fb3a2b96e80172f9c6853fbe4a2bdda",
+      "role": "usmca",
+      "revisions": [
+        "original-March-7-insertion"
+      ]
+    },
+    {
+      "heading": "9903.01.05",
+      "description_sha256": "85b947b3c9b40c26c59fa022f36a2ac21378d6cf3563df85cbaa7fead42775c6",
+      "note_sha256": "376352c52db03878d7b07d21ac20b9344f8e7f9b7cfd1f3dba5e0a99faab9ae7",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.05",
+      "description_sha256": "85b947b3c9b40c26c59fa022f36a2ac21378d6cf3563df85cbaa7fead42775c6",
+      "note_sha256": "c7591077aee0d03ea856aca8d393fcb261f6e5c5fc454ceb75b7519b95ca0774",
+      "role": "potash",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.05",
+      "description_sha256": "85b947b3c9b40c26c59fa022f36a2ac21378d6cf3563df85cbaa7fead42775c6",
+      "note_sha256": "ce2d88a2de317b1524b0f3880b3eb5a778001985b44be2c3f0e8254872793dae",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.05",
+      "description_sha256": "85b947b3c9b40c26c59fa022f36a2ac21378d6cf3563df85cbaa7fead42775c6",
+      "note_sha256": "cf208c98488dba6aa07952b14fffdd87d4175833053210e26ce37a1fbe409677",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.05",
+      "description_sha256": "b19302a4a5086b396b98dec2c4d3828d398ec31b4395bf9d4ab33a3d661349e5",
+      "note_sha256": "fed4b05cebc3d688f9960b0e4944639b7fb3a2b96e80172f9c6853fbe4a2bdda",
+      "role": "potash",
+      "revisions": [
+        "original-March-7-insertion"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "1d17ab9305d971b0566e088998a5bfd4e7f98492d9ccfca28f061824c320f70f",
+      "note_sha256": "198c8fcbd093517215e4e405f4a9e11520c718a261e62f4828d34b70c4caacab",
+      "role": "general",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "1d17ab9305d971b0566e088998a5bfd4e7f98492d9ccfca28f061824c320f70f",
+      "note_sha256": "461c85075667a6966bdb3bdf91534543c928e7f7d1ae5705a4875e7726cb1a38",
+      "role": "general",
+      "revisions": [
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "1d17ab9305d971b0566e088998a5bfd4e7f98492d9ccfca28f061824c320f70f",
+      "note_sha256": "54e1895467c6726fb8b8e7c66f04912bad7a05a40d8506d6bf6d58ee40a12252",
+      "role": "general",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "1d17ab9305d971b0566e088998a5bfd4e7f98492d9ccfca28f061824c320f70f",
+      "note_sha256": "959f139ddf466ac7c854a0c7fa811d9aa524e7badc31b05054da5871efceba0b",
+      "role": "general",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "1d17ab9305d971b0566e088998a5bfd4e7f98492d9ccfca28f061824c320f70f",
+      "note_sha256": "f929298cf20098a72650c21370eb3fecba66b0e92751f12b9a8343e051223f71",
+      "role": "general",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.10",
+      "description_sha256": "d94ed19c7c328e3d07790868f6eeed535c40915b14c86474b25334518dbd5cd0",
+      "note_sha256": "b082734cc6793a64cfef76c6c0239417270b6e34546048beaec44b939fbc57c4",
+      "role": "general",
+      "revisions": [
+        "2025_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.11",
+      "description_sha256": "f44675fb1f95849dae9e9df2e5fb1650817574f83a6e8ccbc945ce2367c9e3fc",
+      "note_sha256": "a862445250f8286033d09ff7b7499539f40c1ac4729561ea52c54592216d9e06",
+      "role": "donation",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_3",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_2",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_3",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "275f98f920db3924c43961b1dd25bd606b28c04825a8a08c7520da0dd5eb6e24",
+      "role": "information",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "984bebc8c6cb5016cb01266b187d0021b4be95f1a5df78a86591ec67e5b9d1ab",
+      "role": "information",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "a455a4b65838c995f84c413a12b586e7c8ddecf69fb7bb16728befabe8d10f0f",
+      "role": "information",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "b082734cc6793a64cfef76c6c0239417270b6e34546048beaec44b939fbc57c4",
+      "role": "information",
+      "revisions": [
+        "2025_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "b1f163d554440809202b39d1293778b1db6c7ecdc851a754969b3d9ce3710f41",
+      "role": "information",
+      "revisions": [
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "db7183b2950a3e8a50cc342d0720e8de4f216405e8e3f63e0d2496004999fe56",
+      "role": "information",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.12",
+      "description_sha256": "b2be78abfd88ba78d70681103299f7665bc4493199664513ea709beabfcf0ee3",
+      "note_sha256": "dd7dfffea07ca371a346a7c1e17b66b6988c35d150d9d826e7232db7839cb29f",
+      "role": "information",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "198c8fcbd093517215e4e405f4a9e11520c718a261e62f4828d34b70c4caacab",
+      "role": "energy",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "461c85075667a6966bdb3bdf91534543c928e7f7d1ae5705a4875e7726cb1a38",
+      "role": "energy",
+      "revisions": [
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "54e1895467c6726fb8b8e7c66f04912bad7a05a40d8506d6bf6d58ee40a12252",
+      "role": "energy",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "959f139ddf466ac7c854a0c7fa811d9aa524e7badc31b05054da5871efceba0b",
+      "role": "energy",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "b082734cc6793a64cfef76c6c0239417270b6e34546048beaec44b939fbc57c4",
+      "role": "energy",
+      "revisions": [
+        "2025_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.13",
+      "description_sha256": "3136dd44cc68d82094965650f31f629d3a8d94bb3959657145db41b08e9bf248",
+      "note_sha256": "f929298cf20098a72650c21370eb3fecba66b0e92751f12b9a8343e051223f71",
+      "role": "energy",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "275f98f920db3924c43961b1dd25bd606b28c04825a8a08c7520da0dd5eb6e24",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "43ef60df1247eb3e22861ec438e7ce84ba26b2dd4cb0ecb220bd7e6eca4be6fb",
+      "role": "usmca",
+      "revisions": [
+        "original-March-7-insertion"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "984bebc8c6cb5016cb01266b187d0021b4be95f1a5df78a86591ec67e5b9d1ab",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "a455a4b65838c995f84c413a12b586e7c8ddecf69fb7bb16728befabe8d10f0f",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "b1f163d554440809202b39d1293778b1db6c7ecdc851a754969b3d9ce3710f41",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "db7183b2950a3e8a50cc342d0720e8de4f216405e8e3f63e0d2496004999fe56",
+      "role": "usmca",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.14",
+      "description_sha256": "9dae685f643281b64e2dae281943d417ecb3108bd19ec5511f4632fc70b8f8f2",
+      "note_sha256": "dd7dfffea07ca371a346a7c1e17b66b6988c35d150d9d826e7232db7839cb29f",
+      "role": "usmca",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.15",
+      "description_sha256": "2dd1a5224cd91ecb2ac29f1449fae3c0a6d31506d751cd377318d1af19fb55f1",
+      "note_sha256": "219a4c16049f25a0f244dea96a1caa04c55ddd4b3efdf73d43bbbfbfa746e6d2",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_13"
+      ]
+    },
+    {
+      "heading": "9903.01.15",
+      "description_sha256": "2dd1a5224cd91ecb2ac29f1449fae3c0a6d31506d751cd377318d1af19fb55f1",
+      "note_sha256": "35fa3a1ad79ff1b6d0200138d428fc09d54817b400b77ff3b048e37b35fddb4b",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.15",
+      "description_sha256": "2dd1a5224cd91ecb2ac29f1449fae3c0a6d31506d751cd377318d1af19fb55f1",
+      "note_sha256": "a7eff1a7b9c60f294cc91109ce5240ff543456b08cac7cc69617e75b1aa8f24c",
+      "role": "potash",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.15",
+      "description_sha256": "2dd1a5224cd91ecb2ac29f1449fae3c0a6d31506d751cd377318d1af19fb55f1",
+      "note_sha256": "aa49548736fcd544ccf54943124a9e5c86d8c1c5e03560a3502459c478b0778e",
+      "role": "potash",
+      "revisions": [
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.15",
+      "description_sha256": "d973c41dcde64f7b7bb21d81835592415817c02ff40bf0480c9a9f04da14d125",
+      "note_sha256": "43ef60df1247eb3e22861ec438e7ce84ba26b2dd4cb0ecb220bd7e6eca4be6fb",
+      "role": "potash",
+      "revisions": [
+        "original-March-7-insertion"
+      ]
+    },
+    {
+      "heading": "9903.01.16",
+      "description_sha256": "eb32cf7bcc3e823d00f6bf5d86ddf39e19be5b57cf49fc6e285d122921501a47",
+      "note_sha256": "0d02d882dcacf13e975b6e94b09e505ba1303f7f8bf56605e438445cc4d12e39",
+      "role": "evasion",
+      "revisions": [
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24"
+      ]
+    },
+    {
+      "heading": "9903.01.16",
+      "description_sha256": "eb32cf7bcc3e823d00f6bf5d86ddf39e19be5b57cf49fc6e285d122921501a47",
+      "note_sha256": "5401f5a03d593bef328727da0162d7ff61ec26a8beee45463ca004199357e54d",
+      "role": "evasion",
+      "revisions": [
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.16",
+      "description_sha256": "eb32cf7bcc3e823d00f6bf5d86ddf39e19be5b57cf49fc6e285d122921501a47",
+      "note_sha256": "b524892c08db384a1c199ba8aba8c289d4962480bfc6a4de584e4833d8869d63",
+      "role": "evasion",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.20",
+      "description_sha256": "9e99f4e8a5cdaaeeaf86f48e0967ce5f3d00e59948c2caa1b43c2a5908983b18",
+      "note_sha256": "01d3fcf4d823ceaa536977674c29663f7c35b03d98a09b67fda68cd8746a3c8e",
+      "role": "general",
+      "revisions": [
+        "2025_rev_1"
+      ]
+    },
+    {
+      "heading": "9903.01.20",
+      "description_sha256": "9e99f4e8a5cdaaeeaf86f48e0967ce5f3d00e59948c2caa1b43c2a5908983b18",
+      "note_sha256": "16c27583dbb3d033fac31380c703c832b387b9b0413666dfddbe80430b6fb6ab",
+      "role": "general",
+      "revisions": [
+        "2025_rev_2"
+      ]
+    },
+    {
+      "heading": "9903.01.20",
+      "description_sha256": "9e99f4e8a5cdaaeeaf86f48e0967ce5f3d00e59948c2caa1b43c2a5908983b18",
+      "note_sha256": "7ef2dc3127b634591eb92750ccd99acdcb956689eee7e4e0111fc90663e89b85",
+      "role": "general",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_3",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_2",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_3",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.21",
+      "description_sha256": "a038cfaf80083badd6d97588877dbc4aee4c93762534170e92118ca8b3193dab",
+      "note_sha256": "e03a06240562d83c8508490883e060f1a66ce64b1020c95cc80609d4c1335b9b",
+      "role": "donation",
+      "revisions": [
+        "2025_rev_1",
+        "2025_rev_10",
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_2",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26",
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_3",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_2",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_3",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "01d3fcf4d823ceaa536977674c29663f7c35b03d98a09b67fda68cd8746a3c8e",
+      "role": "information",
+      "revisions": [
+        "2025_rev_1"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "12c5f80e5461c3aac0d9e25e033828b42205bf33c5fbff6a8f169f7e1dd7f370",
+      "role": "information",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_3",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "16c27583dbb3d033fac31380c703c832b387b9b0413666dfddbe80430b6fb6ab",
+      "role": "information",
+      "revisions": [
+        "2025_rev_2"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "4d2f4c628f8ae3b6842dd5e99ed908edd65a5b9980e807b1d5933144a56ce426",
+      "role": "information",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "70cacd98d3ad80f89f37f8eaf7ce64ffbfcba6269a6b248ce8117ede22d0051a",
+      "role": "information",
+      "revisions": [
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26"
+      ]
+    },
+    {
+      "heading": "9903.01.22",
+      "description_sha256": "37b5a07deea1de56d4c06dd0fba20ca56600c9950fd75cfbfd361d35d46ff92c",
+      "note_sha256": "d83080163de72e924736355d081698cf22fcace98d8b2723cae6d9ac0f21f650",
+      "role": "information",
+      "revisions": [
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "01d3fcf4d823ceaa536977674c29663f7c35b03d98a09b67fda68cd8746a3c8e",
+      "role": "transit",
+      "revisions": [
+        "2025_rev_1"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "12c5f80e5461c3aac0d9e25e033828b42205bf33c5fbff6a8f169f7e1dd7f370",
+      "role": "transit",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_3",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "16c27583dbb3d033fac31380c703c832b387b9b0413666dfddbe80430b6fb6ab",
+      "role": "transit",
+      "revisions": [
+        "2025_rev_2"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "4d2f4c628f8ae3b6842dd5e99ed908edd65a5b9980e807b1d5933144a56ce426",
+      "role": "transit",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "70cacd98d3ad80f89f37f8eaf7ce64ffbfcba6269a6b248ce8117ede22d0051a",
+      "role": "transit",
+      "revisions": [
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26"
+      ]
+    },
+    {
+      "heading": "9903.01.23",
+      "description_sha256": "f7512d54e94cfa482799112b89677e33058839f68fb2004c05b566f90d8909e9",
+      "note_sha256": "d83080163de72e924736355d081698cf22fcace98d8b2723cae6d9ac0f21f650",
+      "role": "transit",
+      "revisions": [
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.24",
+      "description_sha256": "8227dadf1f2e8da8083a634488cae282d88f5b024f5f2f38f80700c502c4e13c",
+      "note_sha256": "a8cf592c551b7c3a6eeda1744432b84923f200b23957008943dcba932635f8a3",
+      "role": "general",
+      "revisions": [
+        "2025_rev_10",
+        "2025_rev_3",
+        "2025_rev_4",
+        "2025_rev_5",
+        "2025_rev_6",
+        "2025_rev_7",
+        "2025_rev_8",
+        "2025_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.24",
+      "description_sha256": "c94bb2fa503116ba968892372e89e1c28c72ab76765ed5e7ab39dbea83f738de",
+      "note_sha256": "88a836e0b46faf2444348d867f70403c794d061a4b7a282eea851992c9afc075",
+      "role": "general",
+      "revisions": [
+        "2026_rev_10",
+        "2026_rev_11",
+        "2026_rev_12",
+        "2026_rev_13",
+        "2026_rev_14",
+        "2026_rev_15",
+        "2026_rev_16",
+        "2026_rev_17",
+        "2026_rev_18",
+        "2026_rev_19",
+        "2026_rev_20",
+        "2026_rev_21",
+        "2026_rev_4",
+        "2026_rev_5",
+        "2026_rev_6",
+        "2026_rev_7",
+        "2026_rev_8",
+        "2026_rev_9"
+      ]
+    },
+    {
+      "heading": "9903.01.24",
+      "description_sha256": "c94bb2fa503116ba968892372e89e1c28c72ab76765ed5e7ab39dbea83f738de",
+      "note_sha256": "9d1f4ccf7ebcb4e6ce36f4ec00cae186950d7fde6547bf6559af7abaa2498fba",
+      "role": "general",
+      "revisions": [
+        "2025_rev_27",
+        "2025_rev_28",
+        "2025_rev_29",
+        "2025_rev_30",
+        "2025_rev_31",
+        "2025_rev_32",
+        "2026_basic",
+        "2026_rev_1",
+        "2026_rev_2",
+        "2026_rev_3"
+      ]
+    },
+    {
+      "heading": "9903.01.24",
+      "description_sha256": "df97a04c07a4ddf90f01537910db81e1fbde5749b7ff9bd6fdda89f8392f143d",
+      "note_sha256": "af17ecc9f4405585d51a2a3eee6adf109c4a0a20d00d87d877b5ed17018a30ff",
+      "role": "general",
+      "revisions": [
+        "2025_rev_11",
+        "2025_rev_12",
+        "2025_rev_13",
+        "2025_rev_14",
+        "2025_rev_15",
+        "2025_rev_16",
+        "2025_rev_17",
+        "2025_rev_18",
+        "2025_rev_19",
+        "2025_rev_20",
+        "2025_rev_21",
+        "2025_rev_22",
+        "2025_rev_23",
+        "2025_rev_24",
+        "2025_rev_25",
+        "2025_rev_26"
+      ]
+    }
+  ]
+}

@@ -135,3 +135,15 @@ attach_emergency_evidence <- function(fragment,extracted) {
   }
   fragment
 }
+
+# Executable source-derived emergency decisions. This produces a local fragment;
+# release preparation still requires all-action coverage and the other programs.
+compile_ieepa_emergency_fragment <- function(x,products) {
+  input<-tempfile(fileext='.json');output<-tempfile(fileext='.json')
+  on.exit(unlink(c(input,output)),add=TRUE)
+  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products)))),input,
+    auto_unbox=TRUE,null='null',digits=NA)
+  status<-system2('python3',c(shQuote(here::here('src/ieepa_emergency_rules.py')),shQuote(input),shQuote(output)))
+  if(status!=0L) stop('IEEPA emergency executable-rule compilation failed')
+  jsonlite::fromJSON(output,simplifyVector=FALSE)
+}
