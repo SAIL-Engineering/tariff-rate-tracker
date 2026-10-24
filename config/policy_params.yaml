@@ -248,7 +248,7 @@ section_232_headings:
 # applies_to: which 232 programs this exemption covers
 # expiry_date: when the exemption was revoked (null = still active)
 section_232_country_exemptions:
-  # Canada and Mexico: USMCA-related exemption
+  # Canada/Mexico model country relief; shipment melt/smelt exceptions are evaluated separately
   - countries: ['1220', '2010']
     rate: 0
     applies_to: ['steel', 'aluminum']
@@ -263,35 +263,35 @@ section_232_country_exemptions:
     rate: 0
     applies_to: ['steel', 'aluminum']
     expiry_date: '2025-03-12'
-  # Japan: TRQ agreement
+  # Japan: TRQ agreement (steel only; HTS U.S. notes 16 and 19)
   - countries: ['5880']
     rate: 0
-    applies_to: ['steel', 'aluminum']
+    applies_to: ['steel']
     expiry_date: '2025-03-12'
-  # South Korea: Quota agreement
+  # South Korea: Quota agreement (steel only; HTS U.S. notes 16 and 19)
   - countries: ['5800']
     rate: 0
-    applies_to: ['steel', 'aluminum']
+    applies_to: ['steel']
     expiry_date: '2025-03-12'
   # Australia: Full exemption
   - countries: ['6021']
     rate: 0
     applies_to: ['steel', 'aluminum']
     expiry_date: '2025-03-12'
-  # Brazil: Quota agreement
+  # Brazil: Quota agreement (steel only; HTS U.S. notes 16 and 19)
   - countries: ['3510']
     rate: 0
-    applies_to: ['steel', 'aluminum']
+    applies_to: ['steel']
     expiry_date: '2025-03-12'
   # Argentina: Quota agreement
   - countries: ['3570']
     rate: 0
     applies_to: ['steel', 'aluminum']
     expiry_date: '2025-03-12'
-  # Ukraine: Exemption
+  # Ukraine: Exemption (steel only; HTS U.S. notes 16 and 19)
   - countries: ['4623']
     rate: 0
-    applies_to: ['steel', 'aluminum']
+    applies_to: ['steel']
     expiry_date: '2025-03-12'
   # Russia: 200% per 2023 Proclamation 10522 (permanent override).
   # ALUMINUM ONLY — Proc 10522 is a 2023 aluminum action; listing steel here

@@ -201,3 +201,26 @@ objects. Each decision must match a wide legal state, an exact-grain candidate,
 and the bundle's source hashes. Conditional metal scope cannot carry a numeric
 wide statutory Section 232 rate. A v5 release is unsupported; do not manufacture
 missing dates at read time. Preparing v6 is local and does not activate a release.
+
+The pre-March 2025 metal fragment is now emitted through the same v6 release
+path. It retains all 196 archived quota categories, exact statistical exceptions,
+and the general approved exclusion tables. The fragment distinguishes tariff-rate
+quota admission from absolute-quota admission. A rejected absolute quota supplies
+no lawful over-quota duty alternative and cannot produce a complete total.
+Partial quota allocation requires separate entry lines; a utilization share is
+never used as a shipment allocation.
+
+Country, melt/smelt, Ukrainian certificate, TRQ eligibility, Russian-material,
+and exclusion decisions are evaluated before choosing a reporting heading. A
+source-backed zero may correctly have no Section 232 heading. General approved
+exclusions are claims, expire at the operative March transition, and do not erase
+base, Section 301 or emergency duties. Individual Commerce grants remain
+unpriced pending verified party/scope/date/quantity evidence. An irrelevant grant
+claim does not block independently established country relief.
+
+`unchanged_claims` composition may name explicit `claim_ids` and
+`target_authorities` instead of `target_rule_ids`. It still requires source IDs
+and verifies the candidate rules' authority. This resolves against the actual
+assembled rules; it does not recognize a claim by its string prefix. The public
+result and rule bundle remain v1; no runtime expression was added. New dataset
+versions and newly composed bundles are required before preparing a release.

@@ -1,0 +1,86 @@
+{
+  "base_sha": "661b570fd14616a367be79385b55a95b7a71230d",
+  "branch": "wjr_dev",
+  "recorded_at": "2026-10-24T00:57:35.566010+00:00",
+  "checks": [
+    {
+      "command": "/usr/bin/python3 -m pytest tests/python -q",
+      "exit_code": 0,
+      "passed": 307,
+      "log": "python-tests.txt"
+    },
+    {
+      "command": "native Node v22.22.3 --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 219,
+      "log": "node-tests.txt"
+    },
+    {
+      "command": "Rscript tests/run_all_tests.R",
+      "exit_code": 1,
+      "suite_results": {
+        "OK": 35,
+        "ERROR": 1,
+        "SKIP": 1,
+        "FAIL": 0
+      },
+      "log": "r-all-tests.txt",
+      "limits": "Normalized parity fails on 312 missing/stale partitions; TPC comparison missing data. Not a green full-data gate."
+    },
+    {
+      "command": "Rscript tests/test_s232_pre_march.R --emit",
+      "exit_code": 0,
+      "real_source_cases": 35,
+      "log": "pre-march-rules.txt",
+      "limits": "Plus synthetic cross-authority composition cases; no all-authority coverage attestation."
+    },
+    {
+      "command": "Rscript tests/test_s232_pre_march_pipeline.R",
+      "exit_code": 0,
+      "log": "pipeline-fixture.txt",
+      "limits": "Six products and seven origins; temporary normalized/ledger output only."
+    },
+    {
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0,
+      "log": "legacy-rules.txt"
+    },
+    {
+      "command": "native Node tsc --noEmit",
+      "exit_code": 0,
+      "log": "typecheck.txt"
+    },
+    {
+      "command": "native Node vite build --outDir /tmp/pre-march-vite-build",
+      "exit_code": 0,
+      "log": "build.txt",
+      "limits": "Existing large-chunk warning; no deployment or production SAIL browser qualification."
+    },
+    {
+      "command": "python3 scripts/audit_section232_pre_march.py NEW_OUTPUT --motherduck READ_ONLY_EXPORT.json",
+      "exit_code": 0,
+      "log": "source-audit.txt",
+      "revisions": 5,
+      "origins": 240,
+      "limits": "Source extraction/compilation only. Not an exhaustive shipment-fact evaluation."
+    },
+    {
+      "command": "node frontend/scripts/audit-legacy-metals-motherduck.mjs .env NEW_OUTPUT.json --pre-march",
+      "exit_code": 0,
+      "access_mode": "READ_ONLY",
+      "output": "motherduck.json.gz",
+      "sha256": "13fec9cf9803c04525c06cadc5d2c3b257a8c341bc9e778c41b026085def77ad"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "not_performed": [
+    "timeseries/revision rebuild",
+    "MotherDuck write or activation",
+    "push",
+    "workflow dispatch",
+    "production SAIL deployment"
+  ]
+}

@@ -5,8 +5,9 @@ import crypto from 'node:crypto';
 import dotenv from 'dotenv';
 import {DuckDBInstance} from '@duckdb/node-api';
 import {getMotherDuckDatabase} from '../server/config.js';
-const [envFile,outputFile]=process.argv.slice(2);
-if(!envFile||!outputFile||process.argv.length!==4) throw new Error('Usage: ENV_FILE NEW_OUTPUT.json');
+const [envFile,outputFile,mode]=process.argv.slice(2);
+const preMarch=mode==='--pre-march';
+if(!envFile||!outputFile||process.argv.length!==(preMarch?5:4)||(mode&&!preMarch)) throw new Error('Usage: ENV_FILE NEW_OUTPUT.json [--pre-march]');
 try {await fs.access(outputFile);throw new Error('Output exists');} catch(e) {if(e.code!=='ENOENT') throw e;}
 dotenv.config({path:envFile,quiet:true});
 process.env.motherduck_token=process.env.MOTHERDUCK_TOKEN;
@@ -29,6 +30,17 @@ const queries={
     FROM rates WHERE valid_from>=DATE '2025-03-12' AND valid_from<DATE '2026-04-06'
     GROUP BY ALL ORDER BY revision,country,ch99_code_232`
 };
+if(preMarch) {
+  for(const key of ['primary_chapter_scope','metal_components']) queries[key]=queries[key].replaceAll(
+    "valid_from>=DATE '2025-03-12' AND valid_from<DATE '2026-04-06'",
+    "valid_from<DATE '2025-03-12' AND (valid_until IS NULL OR valid_until>=DATE '2025-01-01')");
+  queries.shipment_candidates=`SELECT revision,hts10,country,valid_from::VARCHAR valid_from,valid_until::VARCHAR valid_until,
+    rate_232::DOUBLE rate_232,rate_232_steel::DOUBLE rate_232_steel,rate_232_aluminum::DOUBLE rate_232_aluminum,
+    statutory_rate_232::DOUBLE statutory_rate_232,ch99_code_232,duty_basis_232
+    FROM rates WHERE valid_from<DATE '2025-03-12' AND (valid_until IS NULL OR valid_until>=DATE '2025-01-01')
+    AND hts10 IN ('7208101500','7202115000','7210706030','7317005503','7317005590','7604101000','7605290000')
+    ORDER BY revision,hts10,country`;
+}
 const started_at=new Date().toISOString();
 const instance=await DuckDBInstance.create(`md:${database}`,{access_mode:'READ_ONLY'}),c=await instance.connect();
 try {

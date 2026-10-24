@@ -1,0 +1,457 @@
+[
+  {
+    "revision": "2025_basic",
+    "source_sha256": "5d84c0a5bb49a7e26e72d3b4c683f0c7f581cb57ac3105c6b65d975171ad9941",
+    "products": 19613,
+    "origins": 240,
+    "scope_memberships": 842,
+    "candidate_products": 835,
+    "quota_categories": 196,
+    "general_exclusions": {
+      "steel": 76,
+      "aluminum": 5
+    },
+    "compiled_rules": 7233,
+    "fragment_sha256": "7296d4a41c623856af6c7b1a9215d5981c7b968045df1c642994f8f2e3583606",
+    "quota_references_without_current_products": [
+      {
+        "heading": "9903.81.07",
+        "prefix": "92139145"
+      },
+      {
+        "heading": "9903.81.66",
+        "prefix": "92139145"
+      }
+    ],
+    "primary_products_without_quota_category": [
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7606116000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7606126000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_eu"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_japan_uk"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_1",
+    "source_sha256": "c9b399255cad104943ce387701a2ccd47cab7e3ec86a825aacda85c9ce3ac855",
+    "products": 19615,
+    "origins": 240,
+    "scope_memberships": 842,
+    "candidate_products": 835,
+    "quota_categories": 196,
+    "general_exclusions": {
+      "steel": 76,
+      "aluminum": 5
+    },
+    "compiled_rules": 7233,
+    "fragment_sha256": "347fe72947ae3d12c96215077fb0b2db1b97358f0a4628a11ab914b3c061ffea",
+    "quota_references_without_current_products": [
+      {
+        "heading": "9903.81.07",
+        "prefix": "92139145"
+      },
+      {
+        "heading": "9903.81.66",
+        "prefix": "92139145"
+      }
+    ],
+    "primary_products_without_quota_category": [
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7606116000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7606126000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_eu"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_japan_uk"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_2",
+    "source_sha256": "fa9ee1c4585e1fab8d11b8958e5babe8d0c4c063a7998a4725f42220e491082d",
+    "products": 19615,
+    "origins": 240,
+    "scope_memberships": 842,
+    "candidate_products": 835,
+    "quota_categories": 196,
+    "general_exclusions": {
+      "steel": 76,
+      "aluminum": 5
+    },
+    "compiled_rules": 7233,
+    "fragment_sha256": "d0520699f664ab1ce6007696a88f4bbca0d414d332f1c6d2b9fb93073d9d1ddd",
+    "quota_references_without_current_products": [
+      {
+        "heading": "9903.81.07",
+        "prefix": "92139145"
+      },
+      {
+        "heading": "9903.81.66",
+        "prefix": "92139145"
+      }
+    ],
+    "primary_products_without_quota_category": [
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7606116000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7606126000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_eu"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_japan_uk"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_3",
+    "source_sha256": "b32d7919084e6947a3547ea5625c4a238915af5238b142622a37659204dc5721",
+    "products": 19615,
+    "origins": 240,
+    "scope_memberships": 842,
+    "candidate_products": 835,
+    "quota_categories": 196,
+    "general_exclusions": {
+      "steel": 76,
+      "aluminum": 5
+    },
+    "compiled_rules": 7233,
+    "fragment_sha256": "586fe2974ac5eb99acd32d505c3f4bfdbb57a862e3fb779fc41465ba3cee1ff2",
+    "quota_references_without_current_products": [
+      {
+        "heading": "9903.81.07",
+        "prefix": "92139145"
+      },
+      {
+        "heading": "9903.81.66",
+        "prefix": "92139145"
+      }
+    ],
+    "primary_products_without_quota_category": [
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7606116000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7606126000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_eu"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_japan_uk"
+      }
+    ]
+  },
+  {
+    "revision": "2025_rev_4",
+    "source_sha256": "a8e79aa22e88d5bd80d2362337da12d06593332ba76cf3b8b1047e2a927d5d13",
+    "products": 19615,
+    "origins": 240,
+    "scope_memberships": 842,
+    "candidate_products": 835,
+    "quota_categories": 196,
+    "general_exclusions": {
+      "steel": 76,
+      "aluminum": 5
+    },
+    "compiled_rules": 7428,
+    "fragment_sha256": "eb258c54de88dc423de33de331f433aa409d131f54386fad184dc580de1ae599",
+    "quota_references_without_current_products": [
+      {
+        "heading": "9903.81.07",
+        "prefix": "92139145"
+      },
+      {
+        "heading": "9903.81.66",
+        "prefix": "92139145"
+      }
+    ],
+    "primary_products_without_quota_category": [
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_eu"
+      },
+      {
+        "hts10": "7606116000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7606126000",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995120",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995130",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995140",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995150",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995175",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7616995190",
+        "group": "aluminum_uk"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_eu"
+      },
+      {
+        "hts10": "7213914500",
+        "group": "steel_japan_uk"
+      }
+    ]
+  }
+]

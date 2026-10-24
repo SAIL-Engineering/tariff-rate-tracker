@@ -267,3 +267,31 @@ chronology, exhaustive parity and downstream consumers remain release gates.
 No live deployment or release activation has occurred. To undo the local code,
 revert its commit on `wjr_dev`; after an eventual deployment, rollback across v6
 requires both the compatible previous reader and its validated release.
+
+## Pre-March quotas, exemptions and exclusions
+
+The local implementation now also covers source-defined pre-March metal scopes,
+quota/reporting decisions and general approved exclusions, including the old/new
+heading transition inside 2025 revision 4. The aggregate country configuration
+now restricts Japan/South Korea/Brazil/Ukraine relief to steel; an extracted-source
+check rejects unsupported zero country overrides for either metal. These are
+versioned scope/parameter corrections, with aggregate weighting methods retained.
+
+Source-only audit and read-only MotherDuck comparison (no rebuild/publication):
+
+```sh
+node frontend/scripts/audit-legacy-metals-motherduck.mjs \
+  .env output/pre-march-read-only.json --pre-march
+python3 scripts/audit_section232_pre_march.py \
+  output/pre-march-source-audit --motherduck output/pre-march-read-only.json
+Rscript tests/test_s232_pre_march.R
+Rscript tests/test_s232_pre_march_pipeline.R
+node --test frontend/tests/shipment-pre-march.test.mjs
+```
+
+Choose unused output paths. The pipeline test writes only its bounded fixture to
+a temporary directory. The all-55 manual rebuild command above remains the
+required route for regenerating rates, normalized outputs and downstream data.
+Individual Commerce grants and inconsistent published quota references remain
+unresolved; do not treat a passing source audit as all-authority qualification.
+See `docs/audits/2026-10-23-pre-march-metals/README.md` for evidence and limits.

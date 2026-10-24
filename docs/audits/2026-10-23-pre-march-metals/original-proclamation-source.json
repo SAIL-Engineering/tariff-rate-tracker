@@ -1,0 +1,10 @@
+{
+  "url": "https://www.govinfo.gov/content/pkg/FR-2022-04-01/pdf/2022-07136.pdf",
+  "citation": "Proclamation 10356, March 31, 2022; 87 FR 19351-19365, annex heading 9903.81.66",
+  "retrieved_at": "2026-10-23",
+  "method": "gstack browse public PDF retrieval; pdftotext -layout; no correction inferred",
+  "files": {
+    "FR-2022-07136.pdf": "566ff62bb432c6a387503fb87fb6ef5ab5c0d83d0ead50a59ac7b7798e7c908b",
+    "FR-2022-07136.txt": "0e2f6703e4a8350d756e6e18b5f3a0e5119320c240cc2bcaff7d496d74d84022"
+  }
+}

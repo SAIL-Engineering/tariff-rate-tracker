@@ -1,0 +1,538 @@
+QB 25-621 2025 First Quarter Tariff Rate Quota (TRQ) for Steel Articles of Japan or the United Kingdom
+Skip to body content
+Trade
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+Trade
+Skip to body content
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+QB 25-621 2025 First Quarter Tariff Rate Quota (TRQ) for Steel Articles of Japan or the United Kingdom
+Commodity:
+Steel Articles as specified in Presidential Proclamations
+Quota Period:
+January 1, 2025 through March 31, 2025
+Opening:
+January 2, 2025 12:01 AM Local Port time.
+Entries submitted prior to opening day local port time will not be counted towards the opening.
+For shipments to be processed for quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port of unlading’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+All entries submitted after 12:01 am local port time and prior to 8:30 am local port time and on the opening date will receive an entry time of 08:30 for quota qualification purposes.  If the total for any HTS group exceeds the limit all accepted entries will be prorated.
+Countries Covered:
+Japan or the United Kingdom, with special provision for goods melted and poured in the UK with a country of origin of specified additional EU countries.
+Reporting Instructions:
+For quota merchandise, use entry type code 02, 06, 07, 12, 23, 32, 38, or 52.
+Merchandise subject to this tariff rate quota may also be subject to antidumping and countervailing duty.
+A presentation date/time is determined for the entry summary when the last of the following conditions is met:
+Error-free entry summary on file.
+Entry summary payment or statement scheduled information transmitted to ACE.
+Shipment arrival information at the intended port of unlading transmitted to ACE.
+Section 232 steel products from Japan or the UK that are in-quota will enter free of any Section 232 duty.
+Steel imports from Japan must be melted and poured in Japan to be eligible for the Japan TRQ.
+Steel imports from the UK and the specified eligible countries must be melted and poured in the UK to be eligible for the UK TRQ.
+Any imports of steel articles from Japan that were admitted into a U.S. foreign trade zone under "privileged foreign status" as defined in 19 CFR 146.41, prior to 12:01 a.m. eastern daylight time on April 1, 2022, shall be subject upon entry for consumption made on or after 12:01 a.m. eastern daylight time on April 1, 2022, to the provisions of the tariff-rate quota in effect at the time of the entry for consumption.
+Any imports of steel articles from the United Kingdom and steel articles that are melted and poured in the United Kingdom that are further processed in a member country of the European Union, conferring country of origin in a member country of the European Union, that were admitted into a U.S. foreign trade zone under "privileged foreign status" as defined in 19 CFR 146.41, prior to 12:01 a.m. eastern daylight time on June 1, 2022, shall be subject upon entry for consumption made on or after 12:01 a.m. eastern daylight time on June 1, 2022, to the provisions of the tariff-rate quota in effect at the time of the entry for consumption.
+Entry Methods:
+Quota eligible / combination entries:  Filers must use an appropriate 9903.81.25 through 9903.81.78 quota HTS number for the first HTS number, followed by the Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  Quota entries will be processed in “first-come, first-served” fashion based on presentation date/time until the limit for that quota ID HTS group is reached.  If multiple entries are submitted filling the quota with the same presentation date/time, each entry will be automatically prorated.  (See note below.)  Quantities above the apportioned amount must be entered using another method listed below.  Exclusion lines and over-quota lines can be combined on a quota entry.
+Individual Importer Product Exclusion ID entries:  All entries with an importer-specific Department of Commerce (DOC) approved product exclusion ID must be filed using quota entry type code 02, 06, 07, 12, 23, 32, 38, or 52.  Filers must use HTS 9903.81.80 as the first HTS number only for countries of origin Japan or United Kingdom.  Any additional required Ch 99 HTS numbers come next, followed by the Ch 72/Ch 73 classification HTS number of their goods.  Filers with a DOC approved exclusion must include their Product Exclusion ID number on the entry.  Exclusion entries are limited by the date and volume listed in the DOC information provided to the importer.  Exclusion lines can be combined on a quota entry.
+For exclusions on imported steel products with a UK melt/pour and a country of origin of specified EU countries, see the EU steel quota bulletin for exclusion filing instructions.
+General Approved Exclusion (GAE) entries:  For HTS Statistical Reporting Numbers listed in the GAE table found at the end of this bulletin, all entries must be filed using entry type code 02, 06, 07, 12, 23, 32, 38, or 52.  Filers must use HTS 9903.81.80 as the first HTS number only for countries of origin Japan or United Kingdom.  Any additional required Ch 99 HTS numbers come next, followed by the Ch 72/Ch 73 classification HTS number of their goods.  There are no limits on GAE entries.  Please see the list of GAE HTS numbers at the end of this bulletin.  Exclusion lines can be combined on a quota entry.
+For GAEs on imported steel products with a UK melt/pour and a country of origin of specified EU countries, see the EU steel quota bulletin for exclusion filing instructions.
+Over-quota entries:  All non-exclusion entries submitted after a quota ID HTS group country limit is reached can be combined on a quota entry or filed using a non-quota entry type (e.g., type 01, type 03, etc.)  Filers must use HTS 9903.80.01 as the first HTS number for section 232 duties, followed by any additional Ch 99 HTS numbers (if required), then the Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  There is no limitation on over-quota entries.  Over -quota lines can be combined on a quota entry.
+Special Provision for specified EU countries to utilize UK quota for goods melted/poured in the UK:  The limit table linked in this document includes commodities from Belgium, Germany, Italy, Netherlands, Portugal, Spain, and Sweden.  Steel melted and poured in the United Kingdom with a country of origin of the specified EU countries is eligible to use the listed UK TRQ quantities for that country.  Goods imported under this special provision must filed using entry type code 02, 06, 07, 12, 23, 32, 38, or 52.  Filers must use HTS 9903.81.81 as the first HTS number followed by the Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  Special provision lines can be combined with other types on a quota entry.  Exclusion holders under this provision must follow the EU exclusion process.  See the EU steel quota bulletin for filing instructions.
+Note to Filers – If you receive a “Quota Apportioned” message:
+When one or more entries are submitted that would overfill a country’s quota limit, ACE will automatically apportion each line of those entries to exactly reach the quota limit for that commodity group and country of origin.  To claim these apportioned quantities, filers must re-transmit the same line number and HTS combinations as the initial request for quota.  Any lines split into exclusion or over-quota lines must be numbered higher than the highest original line number.  For example, on a 3-line entry where lines 1, 2, and 3 are apportioned by ACE the re-transmitted entry data must show the same HTS combination for lines 1, 2, and 3 with the apportioned quantities.  The remaining quantities must be placed on new line numbers 4, 5, and 6.  For examples that have more than three lines, any over-quota lines must be placed on lines not previously used on the initial transmission.  (NEW LINES at the bottom of your entry.)  Any changes to the line number designations or the HTS numbers on that designated line will result in an ACE/Quota rejection.
+Special Instructions:
+TRQ entries are processed daily, Monday to Friday (excluding holidays).  For shipments to be processed for the TRQ on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.  Quota entries are processed on a “first-come, first served” basis.  Daily final batch processing occurs at 8:15 pm ET ensuring all port business is included.
+The trade may track the status of quotas provided in the weekly Commodity Status Report at https://www.cbp.gov/trade/quota/tariff-rate-quotas
+Derivatives:
+Effective April 1, 2022, imports of steel derivatives from Japan, as referenced in Proclamation 9980, will no longer be subject to additional duties under HTSUS subheading 9903.80.03 in accordance with Proclamation 10356 on Japan steel.
+Effective June 1, 2022, imports of steel derivatives from the UK, as referenced in Proclamation 9980, will no longer be subject to additional duties under HTSUS subheading 9903.80.03 in accordance with Proclamation 10406 on UK Steel.
+Guidance:
+The HTS Chapter 99 Subsection III, US Note 16(g) below for Section 232 quota states:
+“Subheadings 9903.81.25 through 9903.81.78 and headings 9903.81.80 and 9903.81.81, inclusive, set forth the ordinary customs duty treatment for the iron or steel products (as enumerated in subdivision (b) of this note) of Japan or of the United Kingdom. The aggregate annual import volume under subheadings 9903.81.25 through 9903.81.78 and heading 9903.81.80 for such products of Japan shall be limited to 1,250,000 metric tons; and the aggregate import volume under subheadings 9903.81.25 through 9903.81.78 and heading 9908.81.80 for such products of the United Kingdom shall be limited to 500,000 metric tons; and heading 9903.81.81 for such products of the European Union that are melted and poured in the UK shall be limited to 37,800 metric tons.  Subheadings 9903.81.25 through 9903.81.80 shall also be subject to any aggregate annual quantity established for each such subheading, including any allocations or other limitations that may be announced, all as set forth on the Internet site of the Department of Commerce at the following link: https://bis.doc.gov/232-steel. No shipments of such iron or steel products shall be allowed to enter in an aggregate quantity under any such subheading, during any of the periods January through March, April through June, July through September, or October through December in any 12-month period, that is in excess of the quantity that is made available to Japan or the United Kingdom during any such period by the Department of Commerce, as set forth on the Internet site of such Department as noted herein. The Department of Commerce is authorized to carry forward any unused quantity of such product from one or more such countries from the first quarter of any calendar year to the third quarter of such year, from the second quarter of any calendar year to the fourth quarter of such year. Entries of any product of Japan or the United Kingdom that may be described in an exclusion granted by the Department of Commerce shall be eligible to utilize such exclusion upon proper claim therefor, and such entries shall be counted against the annual aggregate quantitative limitation set forth in this subdivision.”
+This means there are annual quota limits for Section 232 steel imports from Japan or the UK on HTS 9903.81.25 – 9903.81.78 that are managed on a quarterly basis with limits and carry forward amounts set by the Department of Commerce.  A special provision allows part of the UK annual limit to be entered from specified EU countries of origin for steel melted and poured in the UK using HTS 9903.81.81.
+Administration of UK Quarterly Tariff Rate Quota Limits
+Each quarter has initial limit of 25% of the annual country limit for each HTS group established by DOC.  Unused TRQ from the first quarter of the year will be combined into the third quarter, according to the quantity determined by DOC.  Unused TRQ from the second quarter of the year will be combined into the fourth quarter, according to the quantity determined by DOC.  The TRQ will be allocated on a first-come, first-served basis for each product category from Japan or the UK.
+Background:
+Presidential Proclamation 9704 of March 8, 2018 provided for tariffs in Section 232 Steel and Aluminum.
+Presidential Proclamation 9777 of August 29, 2018 provided for relief from Section 232 limitation on an individual basis via a Department of Commerce issued exclusion.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Section 232 Steel and Aluminum Tariff Exclusions Process” 2020-27110 established General Approved Exclusions (GAEs) for specific HTS numbers to be used by any importing entity.  This rule was updated effective December 27, 2021 by FRN 2021-26634 to remove 26 GAEs from the section 232 steel list and 4 GAEs from the section 232 aluminum list.  Notes at the bottom of this document have been updated to reflect this change.
+Presidential Proclamation 10356 of March 31, 2022 established a Tariff Rate Quota for Japan and provided for quarterly limits on Section 232 Steel commodities of 9903.81.25 – 9903.81.78.
+Presidential Proclamation 10406 of May 31, 2022 includes the United Kingdom as an eligible country for the steel Tariff Rate Quota and provides quarterly limits on Section 232 steel commodities of 9903.81.25 – 9903.81.78 and a special provision for UK melt/pour steel from specified EU countries of origin using 9903.81.81.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Section 232 Steel and Aluminum Tariff Exclusions Process” 2020-27110 established General Approved Exclusions (GAEs) for specific HTS numbers to be used by any importing entity.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Removal of Certain General Approved Exclusions (GAEs) Under the Section 232 Steel and Aluminum Tariff Exclusions Process” 2021-26634 will go into effect December 27, 2021.  This document removes 26 GAEs from the section 232 steel list and 4 GAEs from the section 232 aluminum list.
+Department of Commerce Bureau of Industry and Security Final Rule “Revisions of the Section 232 Steel and Aluminum Tariff Exclusions Process” 2024-10725 removes 6 GAEs from the section 232 steel list and 6 GAESs from the section 232 aluminum list. Notes at the bottom of this document have been updated to reflect this change.
+Exclusions:
+Effect of Approved Section 232 Quota Exclusions for Japan or the UK on Quota Availability:
+Importers may apply for exclusions from the Department of Commerce.  The DOC provides exclusion effective dates and quantity limits for each approved exclusion.
+When utilizing the Department of Commerce GAE HTS numbers, an additional individual exclusion number is not required and GAEs are not retroactive for goods entered prior to December 29, 2020.
+All quota exclusion entries utilize 9903.81.80 in place of 9903.81.25 through 9903.81.78 but continue to reference the appropriate chapter 72 or 73 harmonized tariff schedule (HTS) classification.
+For exclusions on imported steel products with a UK melt/pour and a country of origin of specified EU countries, see the EU steel quota bulletin for exclusion filing instructions.
+Quota exclusion entries are charged against the quarterly limit that is in place at the time of entry and count towards the annual limit.  Exclusion entries are exempt from the annual and quarterly quota limit ceilings.  These entries “use up” quota limits, but they continue to be accepted until the close of the annual quota period regardless of whether the quarterly or annual limits have been reached.  Importers holding Department of Commerce quota exclusions for a particular HTS can enter goods at any time during the quota year, regardless of whether quota thresholds have been met.
+Exclusion quantity that is over the quarterly or annual limit is tracked by CBP as “exclusion quota overflow” using the distinct quota STXC suffix.
+For questions related to the quota process, contact the Quota Branch at HQQUOTA@cbp.dhs.gov.
+In the event of a technical issue with system operation, please create a ticket with the ACE help desk at ACE.SUPPORT@cbp.dhs.gov.
+Steel TRQ First Quarter Limits:
+Japan/United Kingdom steel data tables organized by CH 99 HTS Quota ID group are displayed here.
+Sec 232 Steel Tariff Rate Quota Quantitative Limitations for Japan or the UK
+*Indicates HTS Classifications within this category are listed in the Department of Commerce General Approved Exclusion Table and must be entered using HTS 9903.81.80.  See the list of 10-digt GAE HTS numbers at the end of this bulletin.
+Quota ID
+Article Description
+Japan Annual Limit (kg)
+Japan Jan 1 – Mar 31 Limit (kg)
+UK Annual Limit (kg)
+UK Jan 1 – Mar 31 Limit (kg)
+9903.81.25
+Hot-rolled sheet (provided for in subheading 7208.10.60, 7208.26.00, 7208.27.00, 7208.38.00, 7208.39.00, 7208.40.60, 7208.53.00, 7208.54.00, 7208.90.00, 7225.30.70 or 7225.40.70)
+199,990,348.00
+49,997,587.00
+12,992.00
+3,248.00
+9903.81.26
+Hot-rolled strip (provided for in subheading 7211.19.15, 7211.19.20, 7211.19.30, 7211.19.45, 7211.19.60, 7211.19.75, 7226.91.70 or 7226.91.80)
+1,388,552.00
+347,138.00
+7,885.00
+1,971.25
+9903.81.27
+Hot-rolled plate, in coils (provided for in subheading 7208.10.15, 7208.10.30, 7208.25.30, 7208.25.60, 7208.36.00, 7208.37.00, 7211.14.00* (except for statistical reporting number 7211.14.0030 or 7211.14.0045) or 7225.30.30)
+25,521,524.00
+6,380,381.00
+27,807.00
+6,951.75
+9903.81.28
+Cold-rolled sheet (provided for in subheading 7209.15.00, 7209.16.00, 7209.17.00, 7209.18.15, 7209.18.60, 7209.25.00, 7209.26.00, 7209.27.00, 7209.28.00, 7209.90.00, 7210.70.30, 7225.50.70, 7225.50.80 or 7225.99.00)
+23,923,466.00
+5,980,866.50
+122,758,876.00
+30,689,719.00
+-
+9903.81.81 Goods listed in 9903.81.28 melted/poured in the UK, with a country of origin of the Netherlands
+0.00
+0.00
+4,445,324.10
+1,111,331.03
+9903.81.29
+Cold-rolled strip (provided for in subheading 7211.23.15, 7211.23.20, 7211.23.30, 7211.23.45*, 7211.23.60, 7211.29.20, 7211.29.45, 7211.29.60, 7211.90.00, 7212.40.10, 7212.40.50, 7226.92.50, 7226.92.70, 7226.92.80* or 7226.99.01 (except for statistical reporting number 7226.99.0110 or 7226.99.0130)
+1,374,311.00
+343,577.75
+3,055,671.00
+763,917.75
+9903.81.30
+Cold-rolled black plate (provided for in subheading 7209.18.25)
+0.00
+0.00
+0.00
+0.00
+9903.81.31
+Plate in cut lengths (provided for in subheading 7208.40.30, 7208.51.00, 7208.52.00, 7210.90.10, 7211.13.00, 7211.14.00 (except for statistical reporting number 7211.14.0090), 7225.40.30, 7225.50.60* or 7226.91.50)
+1,378,230.00
+344,557.50
+1,496,951.00
+374,237.75
+9903.81.32
+Flat-rolled products, hot-dipped (provided for in subheading 7210.41.00, 7210.49.00, 7210.70.60 (except for statistical reporting number 7210.70.6030 or 7210.70.6090), 7212.30.10, 7212.30.30, 7212.30.50, 7225.92.00 or 7226.99.01 (except for statistical reporting number 7226.99.0110 or 7226.99.0180))
+34,520,029.00
+8,630,007.25
+427,428.00
+106,857.00
+9903.81.33
+Flat-rolled products, coated (provided for in subheading 7210.20.00, 7210.61.00, 7210.69.00, 7210.70.60 (except for statistical reporting number 7210.70.6030 or 7210.70.6060), 7210.90.60, 7210.90.90, 7212.50.00 or 7212.60.00*)
+36,480,940.00
+9,120,235.00
+6,259,620.00
+1,564,905.00
+9903.81.34
+Tin-free steel (provided for in subheading 7210.50.00)
+50,823,023.00
+12,705,755.75
+30,170,200.00
+7,542,550.00
+-
+9903.81.81 Goods listed in 9903.81.34 melted/poured in the UK, with a country of origin of the Netherlands
+0.00
+0.00
+4,936,560.22
+1,234,140.06
+9903.81.35
+Tin plate (provided for in subheading 7210.11.00, 7210.12.00 or 7212.10.00)
+87,509.00
+21,877.25
+4,799,223.00
+1,199,805.75
+9903.81.36
+Silicon electrical steel sheets and strip (provided for in subheading 7225.11.00, 7225.19.00, 7226.11.10, 7226.11.90, 7226.19.10 or 7226.19.90)
+11,979,339.00
+2,994,834.75
+2,840,082.00
+710,020.50
+9903.81.37
+Sheets and strip electrolytically coated or plated with zinc (provided for in subheading 7210.30.00, 7210.70.60 (except for statistical reporting number 7210.70.6060* or 7210.70.6090), 7212.20.00, 7225.91.00 or 7226.99.01* (except for statistical reporting number 7226.99.0130 or 7226.99.0180))
+10,192,140.00
+2,548,035.00
+157,910.00
+39,477.50
+9903.81.38
+Oil country pipe and tube goods (provided for in subheading 7304.23.30, 7304.23.60, 7304.29.10, 7304.29.20, 7304.29.31, 7304.29.41, 7304.29.50, 7304.29.61, 7305.20.20, 7305.20.40, 7305.20.60, 7305.20.80, 7306.29.10, 7306.29.20, 7306.29.31, 7306.29.41, 7306.29.60 or 7306.29.81)
+68,687,643.00
+17,171,910.75
+21,766,344.00
+5,441,586.00
+9903.81.39
+Line pipe exceeding 406.4 mm in outside diameter (provided for in subheading 7304.19.10 (except for statistical reporting number 7304.19.1020, 7304.19.1030, 7304.19.1045 or 7304.19.1060), 7304.19.50 (except for statistical reporting number 7304.19.5020 or 7304.19.5050), 7305.11.10, 7305.11.50, 7305.12.10, 7305.12.50, 7305.19.10 or 7305.19.50)
+51,774,464.00
+12,943,616.00
+57,306,641.00
+14,326,660.25
+9903.81.40
+Line pipe not exceeding 406.4 mm in outside diameter (provided for in subheading 7304.19.10 (except for statistical reporting number 7304.19.1080), 7304.19.50 (except for statistical reporting number 7304.19.5080), 7306.19.10 (except for statistical reporting number 7306.19.1050) or 7306.19.51 (except for statistical reporting number 7306.19.5150))
+24,835,207.00
+6,208,801.75
+1,002,117.00
+250,529.25
+9903.81.41
+Other line pipe (provided for in subheading 7306.19.10 (except for statistical reporting number 7306.19.1010) or 7306.19.51 (except for statistical reporting number 7306.19.5110))
+15,545,759.00
+3,886,439.75
+35,769,286.00
+8,942,321.50
+9903.81.42
+Standard pipe (provided for in subheading 7304.39.00* (except for statistical reporting number 7304.39.0002, 7304.39.0004, 7304.39.0006, 7304.39.0008, 7304.39.0028, 7304.39.0032, 7304.39.0040, 7304.39.0044, 7304.39.0052, 7304.39.0056, 7304.39.0068 or 7304.39.0072), 7304.59.80* (except for statistical reporting number 7304.59.8020, 7304.59.8025, 7304.59.8035, 7304.59.8040, 7304.59.8050, 7304.59.8055, 7304.59.8065 or 7304.59.8070) or 7306.30.50 (except for statistical reporting number 7306.30.5010, 7306.30.5015, 7306.30.5020 or 7306.30.5035))
+7,528,299.00
+1,882,074.75
+517,014.00
+129,253.50
+9903.81.43
+Structural pipe and tube (provided for in subheading 7304.90.10*, 7304.90.30, 7305.31.20, 7305.31.40, 7305.31.60* (except for statistical reporting number 7305.31.6010), 7306.30.30, 7306.50.30, 7306.61.10, 7306.61.30, 7306.69.10 or 7306.69.30)
+9,139,715.00
+2,284,928.75
+1,342,748.00
+335,687.00
+9903.81.44
+Mechanical tubing (provided for in subheading 7304.31.30, 7304.31.60 (except for statistical reporting number 7304.31.6010), 7304.39.00 (except for statistical reporting number 7304.39.0002, 7304.39.0004, 7304.39.0006, 7304.39.0008, 7304.39.0016, 7304.39.0020, 7304.39.0024, 7304.39.0036, 7304.39.0048, 7304.39.0062, 7304.39.0076 or 7304.39.0080), 7304.51.10, 7304.51.50 (except for statistical reporting number 7304.51.5005, 7304.51.5015 or 7304.51.5045), 7304.59.10, 7304.59.60, 7304.59.80 (except for statistical reporting number 7304.59.8010, 7304.59.8015, 7304.59.8030, 7304.59.8045, 7304.59.8060 or 7304.59.8080), 7304.90.50*, 7304.90.70, 7306.30.10, 7306.30.50 (except for statistical reporting number 7306.30.5010, 7306.30.5025, 7306.30.5028, 7306.30.5032, 7306.30.5040, 7306.30.5055, 7306.30.5085 or 7306.30.5090), 7306.50.10, 7306.50.50 (except for statistical reporting number 7306.50.5010), 7306.61.50, 7306.61.70* (except for statistical reporting number 7306.61.7030), 7306.69.50* or 7306.69.70* (except for statistical reporting number 7306.69.7030))
+20,788,099.00
+5,197,024.75
+935,948.00
+233,987.00
+-
+9903.81.81 Goods listed in 9903.81.44 melted/poured in the UK, with a country of origin of Spain
+0.00
+0.00
+478,771.00
+119,692.75
+-
+9903.81.81 Goods listed in 9903.81.44 melted/poured in the UK, with a country of origin of Sweden
+0.00
+0.00
+1,254.00
+313.50
+9903.81.45
+Pressure tubing (provided for in subheading 7304.31.60 (except for statistical reporting number 7304.31.6050), 7304.39.00* (except for statistical reporting number 7304.39.0016, 7304.39.0020, 7304.39.0024, 7304.39.0028, 7304.39.0032, 7304.39.0036, 7304.39.0040, 7304.39.0044, 7304.39.0048, 7304.39.0052, 7304.39.0056, 7304.39.0062, 7304.39.0068, 7304.39.0072, 7304.39.0076 or 7304.39.0080), 7304.51.50 (except for statistical reporting number 7304.51.5005 or 7304.51.5060), 7304.59.20*, 7306.30.50 (except for statistical reporting number 7306.30.5015, 7306.30.5020, 7306.30.5025, 7306.30.5028, 7306.30.5032, 7306.30.5035, 7306.30.5040, 7306.30.5055, 7306.30.5085 or 7306.30.5090) or 7306.50.50 (except for statistical reporting number 7306.50.5030, 7306.50.5050 or 7306.50.5070)
+744,327.00
+186,081.75
+113,430.00
+28,357.50
+9903.81.46
+Tubes or pipes for piling (provided for in subheading 7305.39.10* or 7305.39.50)
+2,692,488.00
+673,122.00
+12,271.00
+3,067.75
+9903.81.47
+Pipes and tubes, not specially provided for (provided for in subheading 7304.51.50 (except for statistical reporting number 7304.51.5015, 7304.51.5045 or 7304.51.5060), 7305.90.10*, 7305.90.50, 7306.90.10 or 7306.90.50)
+372,822.00
+93,205.50
+123,345.00
+30,836.25
+9903.81.48
+Hot-rolled sheet of stainless steel (provided for in subheading 7219.13.00*, 7219.14.00, 7319.23.00 or 7219.24.00)
+1,580,845.00
+395,211.25
+3,016.00
+754.00
+9903.81.49
+Hot-rolled strip of stainless steel (provided for in subheading 7220.12.10* or 7220.12.50*)
+10,788.00
+2,697.00
+3,122,937.00
+780,734.25
+9903.81.50
+Hot-rolled plate of stainless steel, in coils (provided for in subheading 7219.11.00* or 7219.12.00*)
+6,819,374.00
+1,704,843.50
+0.00
+0.00
+9903.81.51
+Cold-rolled sheet of stainless steel (provided for in subheading 7219.32.00, 7219.33.00, 7219.34.00, 7219.35.00 or 7219.90.00*)
+508,726.00
+127,181.50
+135,889.00
+33,972.25
+-
+9903.81.81 Goods listed in 9903.81.51 melted/poured in the UK, with a country of origin of Germany
+0.00
+0.00
+53,065.30
+13,266.33
+9903.81.52
+Cold-rolled strip of stainless steel (provided for in subheading 7220.20.10, 7220.20.60*, 7220.20.70*, 7220.20.80*, 7220.20.90 or 7220.90.00)
+2,709,633.00
+677,408.25
+0.00
+0.00
+-
+9903.81.81 Goods listed in 9903.81.52 melted/poured in the UK, with a country of origin of Germany
+102,841.00
+25,710.25
+9903.81.53
+Cold-rolled plate of stainless steel, in coils (provided for in subheading 7219.31.00* (except for statistical reporting number 7219.31.0050))
+0.00
+0.00
+0.00
+0.00
+9903.81.54
+Wire of stainless steel, drawn (provided for in subheading 7223.00.10, 7223.00.50* or 7223.00.90)
+1,255,251.00
+313,812.75
+0.00
+0.00
+-
+9903.81.81 Goods listed in 9903.81.54 melted/poured in the UK, with a country of origin of Sweden
+0.00
+0.00
+409,899.00
+102,474.75
+9903.81.55
+Pipes and tubes of stainless steel (provided for in subheading 7304.41.30*, 7304.41.60, 7304.49.00, 7305.31.60 (except for statistical reporting number 7305.31.6090), 7306.40.10*, 7306.40.50, 7306.61.70 (except statistical reporting number 7306.61.7060) or 7306.69.70 (except for statistical reporting number 7306.69.7060))
+6,817,838.00
+1,704,459.50
+630,113.00
+157,528.25
+9903.81.56
+Line pipe of stainless steel (provided for in subheading 7304.11.00 or 7306.11.00)
+168,590.00
+42,147.50
+236,603.00
+59,150.75
+9903.81.57
+Bars and rods of stainless steel, cold finished (provided for in subheading 7222.20.00 or 7222.30.00)
+60,897.00
+15,224.25
+850,000.00
+212,500.00
+-
+9903.81.81 Goods listed in 9903.81.57 melted/poured in the UK, with a country of origin of Italy
+0.00
+0.00
+100,000.00
+25,000.00
+-
+9903.81.81 Goods listed in 9903.81.57 melted/poured in the UK, with a country of origin of Portugal
+0.00
+0.00
+599,000.00
+149,750.00
+9903.81.58
+Bars and rods of stainless steel, hot-rolled (provided for in heading 7221.00.00 (except for statistical reporting number 7221.00.0017, 7221.00.0018 or 7221.00.0030) or subheading 7222.11.00, 7222.19.00 or 7222.40.30* (except for statistical reporting numbers 7222.40.3025 and 7222.40.3045)
+134,272.00
+33,568.00
+1,100,000.00
+275,000.00
+-
+9903.81.81 Goods listed in 9903.81.58 melted/poured in the UK, with a country of origin of Germany
+0.00
+0.00
+351,351.00
+87,837.75
+-
+9903.81.81 Goods listed in 9903.81.58 melted/poured in the UK, with a country of origin of Portugal
+0.00
+0.00
+2,129,400.00
+532,350.00
+-
+9903.81.81 Goods listed in 9903.81.58 melted/poured in the UK, with a country of origin of Sweden
+0.00
+0.00
+1,068,249.00
+267,062.25
+9903.81.59
+Blooms, billets and slabs of stainless steel (provided for in subheading 7218.91.00* and 7218.99.00)
+5,800.00
+1,450.00
+44,329,281.00
+11,082,320.25
+-
+9903.81.81 Goods listed in 9903.81.59 melted/poured in the UK, with a country of origin of Sweden
+0.00
+0.00
+16,195,429.35
+4,048,857.34
+9903.81.60
+Oil country pipe and tube goods of stainless steel (provided for in subheading 7304.22.00, 7304.24.30*, 7304.24.40*, 7304.24.60*, 7306.21.30*, 7306.21.40 or 7306.21.80)
+21,777,791.00
+5,444,447.75
+29,122.00
+7,280.50
+9903.81.61
+Ingot and other primary forms of stainless steel (provided for in subheading 7218.10.00)
+1,800.00
+450.00
+704,724.00
+176,181.00
+9903.81.62
+Flat-rolled products of stainless steel (provided for in subheading 7219.21.00, 7219.22.00*, 7219.31.00 (except for statistical reporting number 7219.31.0010) or 7220.11.00)
+4,515,252.00
+1,128,813.00
+140,753.00
+35,188.25
+9903.81.63
+Bars and rods, hot-rolled, in irregularly wound coils, of stainless steel (provided for in heading 7221.00.00 (except for statistical reporting number 7221.00.0005, 7221.00.0045 or 7221.00.0075))
+219,105.00
+54,776.25
+8,245,606.00
+2,061,401.50
+9903.81.64
+Angles, shapes, and sections of stainless steel (provided for in subheading 7222.40.30* (except for statistical reporting number 7222.40.3065 or 7222.40.3085) or 7222.40.60*)
+59,779.00
+14,944.75
+291,907.00
+72,976.75
+9903.81.65
+Angles, shapes, and sections (provided for in subheading 7216.31.00, 7216.32.00, 7216.33.00, 7216.40.00, 7216.50.00, 7216.99.00, 7228.70.30 (except for statistical reporting number 7228.70.3060 or 7228.70.3081) or 7228.70.60)
+9,724,587.00
+2,431,146.75
+43,167,435.00
+10,791,858.75
+9903.81.66
+Bars and rods, hot-rolled, in irregularly wound coils (provided for in subheading 7213.91.30*, 7213.91.45, 7213.91.60, 7213.99.00 (except for statistical reporting number 7213.99.0060), 7227.20.00* (except for statistical reporting number 7227.20.0080) or 7227.90.60* (except for statistical reporting number 7227.90.6005, 7227.90.6010, 7227.90.6040 or 7227.90.6090))
+175,304,861.00
+43,826,215.25
+12,432,104.00
+3,108,026.00
+9903.81.67
+Wire (other than of stainless steel) (provided for in subheading 7217.10.10, 7217.10.20, 7217.10.30, 7217.10.40*, 7217.10.50, 7217.10.60*, 7217.10.70, 7217.10.80*, 7217.10.90, 7217.20.15*, 7217.20.30, 7217.20.45*, 7217.20.60, 7217.20.75, 7217.30.15, 7217.30.30, 7217.30.45, 7217.30.60, 7217.30.75, 7217.90.10, 7217.90.50*, 7229.20.00, 7229.90.10, 7229.90.50* or 7229.90.90)
+37,781,664.00
+9,445,416.00
+1,421,409.00
+355,352.25
+-
+9903.81.81 Goods listed in 9903.81.67 melted/poured in the UK, with a country of origin of Belgium
+0.00
+0.00
+1,455,137.00
+363,784.25
+9903.81.68
+Bars, hot-rolled, not of stainless steel (provided for in subheading 7213.20.00*, 7213.99.00 (except for statistical reporting number 7213.99.0030 or 7213.99.0090), 7214.10.00, 7214.30.00, 7214.91.00, 7214.99.00, 7215.90.10, 7227.20.00 (except for statistical reporting number 7227.20.0030), 7227.90.60 (except for statistical reporting number 7227.90.6020, 7227.90.6030 or 7227.90.6035), 7228.20.10, 7228.30.80 (except for statistical reporting number 7228.30.8010), 7228.40.00, 7228.60.60 or 7228.80.00)
+165,284,445.00
+41,321,111.25
+37,008,053.00
+9,252,013.25
+-
+9903.81.81 Goods listed in 9903.81.68 melted/poured in the UK, with a country of origin of the Netherlands
+0.00
+0.00
+492,601.63
+123,150.41
+9903.81.69
+Bars, cold-finished, not of stainless steel (provided for in subheading 7215.10.00, 7215.50.00*, 7215.90.30, 7215.90.50, 7228.20.50, 7228.50.50 or 7228.60.80)
+5,162,490.00
+1,290,622.50
+11,488,275.00
+2,872,068.75
+-
+9903.81.81 Goods listed in 9903.81.69 melted/poured in the UK, with a country of origin of Spain
+0.00
+0.00
+152,371.69
+38,092.92
+9903.81.70
+Angles, shapes, and sections of a type known as “light-shaped bars” (provided for in subheading 7216.10.00, 7216.21.00, 7216.22.00 or 7228.70.30 (except for statistical reporting number 7228.70.3010, 7228.70.3020 or 7228.70.3041))
+3,509.00
+877.25
+58,602.00
+14,650.50
+9903.81.71
+Reinforcing bars (provided for in subheading 7213.10.00, 7214.20.00 or 7228.30.80 (except for statistical reporting number 7228.30.8005, 7228.30.8015, 7228.30.8041, 7228.30.8045 or 7228.30.8070))
+0.00
+0.00
+178,192.00
+44,548.00
+9903.81.72
+Sheet piling (provided for in subheading 7301.10.00)
+0.00
+0.00
+16,233.00
+4,058.25
+9903.81.73
+Non-enumerated railroad good (provided for in subheading 7302.40.00, 7302.90.10 or 7302.90.90)
+2,751.00
+687.75
+1,167,735.00
+291,933.75
+9903.81.74
+Rails other than those known as “standard rails” (provided for in subheading 7302.10.10 (except for statistical reporting number 7302.10.1010, 7302.10.1035, 7302.10.1065 or 7302.10.1075)
+256,089.00
+64,022.25
+22,351.00
+5,587.75
+9903.81.75
+Rails known as “standard rails” (provided for in subheading 7302.10.10 (except for statistical reporting number 7302.10.1015, 7302.10.1025, 7302.10.1045 or 7302.10.1055) or 7302.10.50*)
+103,931,161.00
+25,982,790.25
+54,357.00
+13,589.25
+9903.81.76
+Products of tool steel (provided for in subheading 7224.10.00 (except for statistical reporting number 7224.10.0005 or 7224.10.0075), 7224.90.00 (except for statistical reporting number 7224.90.0005, 7224.90.0045, 7224.90.0055, 7224.90.0065 or 7224.90.0075), 7225.30.11, 7225.30.51, 7225.40.11, 7225.40.51, 7225.50.11, 7226.20.00, 7226.91.05, 7226.91.15, 7226.91.25, 7226.92.10, 7226.92.30*, 7227.10.00, 7227.90.10, 7227.90.20, 7228.10.00, 7228.30.20, 7228.30.40, 7228.30.60, 7228.50.10, 7228.60.10 or 7229.90.05)
+42,836,253.00
+10,709,063.25
+793,561.00
+198,390.25
+9903.81.77
+Blooms, billets and slabs, semi-finished (provided for in subheading 7207.11.00, 7207.12.00, 7207.19.00, 7207.20.00 or 7224.90.00 (except for statistical reporting number 7224.90.0015, 7224.90.0025 or 7224.90.0035))
+63,185,085.00
+15,796,271.25
+7,953,542.00
+1,988,385.50
+9903.81.78
+Ingots (provided for in subheading 7206.10.00, 7206.90.00 or 7224.10.00* (except for statistical reporting number 7224.10.0045))
+113,481.00
+28,370.25
+543,113.00
+135,778.25
+General Approved Exclusion HTS Numbers:
+GAE HTS Numbers are found in the Department of Commerce’s Bureau of Industry and Security “Section 232 Steel and Aluminum Tariff Exclusions Process” Interim Final Rule: FRN 2020-27110
+Effective December 27, 2021 26 GAEs were removed from the Department of Commerce list: FRN 2021-26634
+Effective July 1, 2024, 6 additional GAEs were removed from the Department of Commerce list: FRN 2024-10725
+GAEs are subject to change by Department of Commerce.
+Current GAE HTS list as of July 1, 2024:
+7210.70.60.30; 7211.14.00.90; 7211.23.45.00; 7212.60.00.00; 7213.20.00.80; 7213.91.30.20; 7215.50.00.90; 7217.10.40.45; 7217.10.40.90; 7217.10.60.00; 7217.10.80.25; 7217.10.80.60; 7217.20.15.00; 7217.20.45.50; 7217.90.50.30; 7217.90.50.60; 7217.90.50.90; 7218.91.00.30; 7219.11.00.30; 7219.11.00.60; 7219.12.00.21; 7219.12.00.26; 7219.12.00.51; 7219.12.00.71; 7219.12.00.81; 7219.13.00.81; 7219.22.00.05; 7219.22.00.35; 7219.31.00.10; 7219.90.00.60; 7220.12.10.00; 7220.12.50.00; 7220.20.60.60; 7220.20.60.80; 7220.20.70.60; 7220.20.80.00; 7222.40.30.45; 7222.40.30.85; 7222.40.60.00; 7223.00.50.00; 7224.10.00.05; 7225.50.60.00; 7226.92.30.30; 7226.92.30.60; 7226.92.80.05; 7226.99.01.10; 7227.20.00.30; 7227.90.60.20; 7229.90.50.16; 7229.90.50.31; 7302.10.10.45; 7302.10.50.20; 7304.24.30.10; 7304.24.30.20; 7304.24.30.40; 7304.24.40.40; 7304.24.40.60; 7304.24.60.30; 7304.39.00.02; 7304.39.00.16; 7304.41.30.05; 7304.59.20.30; 7304.59.20.80; 7304.59.80.10; 7304.59.80.45; 7304.59.80.60; 7304.90.10.00; 7304.90.50.00; 7305.31.60.90; 7305.39.10.00; 7306.21.30.00; 7306.40.10.90; 7306.61.70.60; 7306.69.50.00; 7306.69.70.60; 7306.90.10.00
+Last Modified: Dec 12, 2024

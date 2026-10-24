@@ -127,11 +127,18 @@ compose_shipment_rules <- function(bundle, fragments) {
   # a claim-name prefix alone is not evidence of its meaning.
   passthrough <- merge_by_id(unlist(lapply(fragments,`[[`,'unchanged_claims'),recursive=FALSE),'claim relation')
   for(edge in passthrough) {
+    if(length(edge$target_authorities)) {
+      if(length(edge$target_rule_ids)||!length(edge$claim_ids)) stop('Authority claim relation requires explicit claims')
+      edge$target_rule_ids<-as.list(ids[vapply(bundle$rules,function(r) r$authority %in% unlist(edge$target_authorities),logical(1))])
+      # An independent fragment need not contain the other authorities yet.
+      if(!length(edge$target_rule_ids)) next
+    }
     if(!length(edge$target_rule_ids)||!all(unlist(edge$target_rule_ids)%in%ids)||
        !length(edge$source_ids)||!all(unlist(edge$source_ids)%in%source_ids)||
        is.null(edge$claim_authority)) stop('Invalid unchanged-claim relation')
     for(i in seq_along(bundle$claim_definitions)) {
       claim<-bundle$claim_definitions[[i]];candidates<-unlist(claim$candidate_rule_ids)
+      if(length(edge$claim_ids) && !claim$id %in% unlist(edge$claim_ids)) next
       if(!length(candidates)) next
       crules<-bundle$rules[match(candidates,ids)]
       if(anyNA(match(candidates,ids)) || !all(vapply(crules,function(r) identical(r$authority,edge$claim_authority),logical(1)))) next

@@ -115,7 +115,14 @@ def extract(pdf: Path, hts: Path, revision: str) -> dict:
     # Retain the earlier quota/exclusion regimes for investigation. Do not
     # manufacture an unconditional zero or reuse the March compiler for them.
     x['notes']=[dict(number=n,text=t,sha256=sha(t.encode())) for n,t in notes.items()]
-    if x['regime']=='pre_march_2025':return x
+    from section232_pre_march import precedes_march_transition
+    if precedes_march_transition(revision):
+        from section232_pre_march import extract_pre_march
+        x['pre_march']=extract_pre_march(x)
+        x['pre_march_dependency_sha256']=sha(Path(__file__).with_name('section232_pre_march.py').read_bytes())
+    if x['regime']=='pre_march_2025':
+        x['lists']=x['pre_march']['lists']
+        return x
     # Note 19(m) expressly dates the new treatment; cross-checked against
     # Proclamations 10895/10896. Mere presence in a pre-effective HTS release
     # does not start the action earlier.

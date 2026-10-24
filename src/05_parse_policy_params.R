@@ -587,6 +587,9 @@ extract_section232_rates <- function(ch99_data,effective_date=NULL) {
       c('9903.85.02','9903.85.04','9903.85.07','9903.85.08','9903.85.09','9903.85.12','9903.85.13','9903.85.14','9903.85.15'))
   }
 
+  pre_march_2025 <- !is.null(effective_date) && as.Date(effective_date)>=as.Date('2025-01-01') &&
+    as.Date(effective_date)<as.Date('2025-03-12')
+
   # --- Single-country STEEL surtaxes routed by Ch99 code ---
   # A few 9903.80 entries target ONE country at a rate above the all-country
   # blanket — notably Turkey 50% steel (9903.80.02, Proc 9772, in force Aug
@@ -664,7 +667,12 @@ extract_section232_rates <- function(ch99_data,effective_date=NULL) {
   # forced resolve_ch99_codes() to reconstruct it later by searching for a
   # heading whose published rate matched — which cannot distinguish two headings
   # sharing a rate, and silently picked the alphabetically first.
-  if (nrow(steel_increase) > 0) {
+  if (pre_march_2025) {
+    primary <- steel_entries %>% filter(ch99_code=='9903.80.01')
+    if(nrow(primary)!=1L || is.na(primary$rate)) stop('Missing or ambiguous pre-March primary steel parameter')
+    steel_rate <- primary$rate; steel_rate_ch99 <- primary$ch99_code
+    steel_exempt <- unique(unlist(primary$exempt_countries))
+  } else if (nrow(steel_increase) > 0) {
     steel_rate <- steel_increase$rate[1]
     steel_rate_ch99 <- steel_increase$ch99_code[1]
     steel_exempt <- character(0)
@@ -720,7 +728,12 @@ extract_section232_rates <- function(ch99_data,effective_date=NULL) {
     aluminum_country_override_ch99[['4120']] <- alum_uk$ch99_code[.i]
   }
 
-  if (nrow(alum_increase) > 0) {
+  if (pre_march_2025) {
+    primary <- aluminum_entries %>% filter(ch99_code=='9903.85.01')
+    if(nrow(primary)!=1L || is.na(primary$rate)) stop('Missing or ambiguous pre-March primary aluminum parameter')
+    aluminum_rate <- primary$rate; aluminum_rate_ch99 <- primary$ch99_code
+    aluminum_exempt <- unique(unlist(primary$exempt_countries))
+  } else if (nrow(alum_increase) > 0) {
     aluminum_rate <- alum_increase$rate[1]
     aluminum_rate_ch99 <- alum_increase$ch99_code[1]
     aluminum_exempt <- character(0)
@@ -752,7 +765,7 @@ extract_section232_rates <- function(ch99_data,effective_date=NULL) {
   # These entries cover aluminum-containing articles outside chapter 76.
   # Extract derivative rate for use in 06_calculate_rates.R step 3a.
   alum_deriv <- aluminum_entries %>%
-    filter(ch99_code %in% c('9903.85.04', '9903.85.07', '9903.85.08'))
+    filter(ch99_code %in% if(pre_march_2025) '9903.85.03' else c('9903.85.04', '9903.85.07', '9903.85.08'))
   if(nrow(alum_deriv)>0 && (anyNA(alum_deriv$rate)||dplyr::n_distinct(alum_deriv$rate)!=1L))
     stop('Distinct aluminum derivative rates require per-action model allocation')
   aluminum_derivative_rate <- if (nrow(alum_deriv) > 0) unique(alum_deriv$rate) else aluminum_rate
@@ -775,7 +788,7 @@ extract_section232_rates <- function(ch99_data,effective_date=NULL) {
   # TODO(issue-3): Not modeled — requires product-condition exemption support.
   # See docs/analysis/section_232_review_memo_2026-04-06.md, Issue 3.
   # 9903.81.93 is a FTZ transitional entry.
-  steel_deriv_codes <- c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93')
+  steel_deriv_codes <- if(pre_march_2025) '9903.80.03' else c('9903.81.89', '9903.81.90', '9903.81.91', '9903.81.93')
   steel_deriv <- steel_entries %>%
     filter(ch99_code %in% steel_deriv_codes, !is.na(rate), rate > 0)
   if(nrow(steel_deriv)>0 && dplyr::n_distinct(steel_deriv$rate)!=1L)

@@ -1,0 +1,103 @@
+QB 25-711 2025 First and Second Period Tariff Rate Quota (TRQ) for Aluminum Articles of European Union (EU) Member Countries
+Skip to body content
+Trade
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+Trade
+Skip to body content
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+QB 25-711 2025 First and Second Period Tariff Rate Quota (TRQ) for Aluminum Articles of European Union (EU) Member Countries
+Commodity:
+Aluminum Articles as specified in Presidential Proclamations
+Quota Period:
+Period 1:  January 1, 2025 through June 30, 2025
+Period 2:  July 1, 2025 through December 31, 2025
+Opening:
+Period 1:  January 2, 2025 12:01 AM Local Port time.
+Period 2:  July 1, 2025 12:01 AM Local Port time.
+Entries submitted prior to opening day local port time will not be counted towards the opening.
+For shipments to be processed for quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port of unlading’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+All entries submitted after 12:01 am local port time and prior to 8:30 am local port time and on the opening date will receive an entry time of 08:30 for quota qualification purposes.  If the total for any HTS group exceeds the limit all accepted entries will be prorated.
+Countries Covered:
+EU Member Countries:  Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden.
+EU Aluminum Tariff Rate Quota (TRQ) Limits:
+EU Member Country aluminum limit tables organized by CH 99 HTS Quota ID group are displayed in the document linked here: 2025 European Union Tariff Rate Quota Data.
+Reporting Instructions:
+For quota merchandise, use entry type code 02, 06, 07, 12, 23, 32, 38, or 52.
+Merchandise subject to this tariff rate quota may also be subject to antidumping and countervailing duty.
+A presentation date/time is determined for the entry summary when the last of the following conditions is met:
+Error-free entry summary on file.
+Entry summary payment or statement scheduled information transmitted to ACE.
+Shipment arrival information at the intended port of unlading transmitted to ACE.
+Entry Methods:
+Quota eligible / combination entries:  Filers must use an appropriate 9903.85.27 through 9903.85.44 quota ID HTS number for the first HTS number, followed by any additional Ch 99 HTS numbers (if required), and then the Ch 76 classification HTS number of their goods as the next HTS number.  Quota entries will be processed in “first-come, first-served” fashion based on presentation date/time until the country limit for that quota ID HTS group is reached.  If multiple entries are submitted filling the quota with the same presentation date/time, each entry will be automatically prorated. (See note below.)  Quantities above the apportioned amount must be entered using another method listed below.  Exclusion lines and over-quota lines can be combined on a quota entry.
+Individual Importer Product Exclusion ID entries:  All entries with an importer-specific Department of Commerce (DOC) approved product exclusion ID can be combined on a quota entry or filed using quota entry type code 02, 06, 07, 12, 23, 32, 38, or 52.  Filers must use HTS 9903.85.25 as the first HTS number followed by any additional Ch 99 HTS numbers (if required), and then the Ch 76 classification HTS number of their goods as the next HTS number.  Filers with a DOC approved exclusion must include their Product Exclusion ID number on the entry.  Exclusion entries are limited by the date and volume listed in the DOC information provided to the importer.  Exclusion lines and over-quota lines can be combined on a quota entry.
+General Approved Exclusion (GAE) entries:  For HTS Statistical Reporting Numbers listed in the Commerce GAE table, all entries can be combined on a quota entry or filed using entry type code 02, 06, 07, 12, 23, 32, 38, or 52.  Filers must use HTS 9903.85.25 as the first HTS number followed by any additional Ch 99 HTS numbers (if required), and then the Ch 76 classification HTS number of their goods as the next HTS number.  There are no limits on GAE entries.  Please see the list of GAE HTS numbers at the end of this bulletin.  Exclusion lines and over-quota lines can be combined on a quota entry.
+Over-quota entries:  All non-exclusion entries submitted after a quota ID HTS group country limit is reached can be combined on a quota entry or filed using a non-quota entry type (e.g., type 01, type 03, etc.)  Filers must use HTS 9903.85.01 as the first HTS number for section 232 duties, followed by any additional Ch 99 HTS numbers (if required), and then the Ch 76 classification HTS number of their goods as the next HTS number.  There is no limitation on over-quota entries.  Exclusion lines and over-quota lines can be combined on a quota entry.
+Note to Filers – If you receive a “Quota Apportioned” message:
+When one or more entries are submitted that would overfill a country’s quota limit, ACE will automatically apportion each line of those entries to exactly reach the quota limit for that commodity group and country of origin.  To claim these apportioned quantities, filers must re-transmit the same line number and HTS combinations as the initial request for quota.  Any lines split into exclusion or over-quota lines must be numbered higher than the highest original line number.  For example, on a 3-line entry where lines 1, 2, and 3 are apportioned by ACE the re-transmitted entry data must show the same HTS combination for lines 1, 2, and 3 with the apportioned quantities.  The remaining quantities must be placed on new line numbers 4, 5, and 6.  For examples that have more than three lines, any over-quota lines must be placed on lines not previously used on the initial transmission.  (NEW LINES at the bottom of your entry.)  Any changes to the line number designations or the HTS numbers on that designated line will result in an ACE/Quota rejection.
+Special Instructions:
+Aluminum quota is processed daily, Monday to Friday (excluding holidays).  For shipments to be processed for EU quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+Quota Bulletins (QB) are posted on the CBP.gov quota page and updated as determined by future announcements.
+The trade may track the status of quotas provided in the weekly Commodity Status Report.
+Guidance:
+The HTS Chapter 99 Subsection III, US Note 19(a)(v) below for Section 232 quota states:
+“Subheadings 9903.85.25 through 9903.85.44, inclusive, set forth the ordinary customs duty treatment for the aluminum products (as enumerated in subdivision (b) of this note) of any member country of the European Union enumerated in this subdivision.  Subheadings 9903.85.27 through 9903.85.44 shall be subject to any aggregate annual quantity established for each such subheading, including any allocations or other limitations that may be announced, in addition to the aggregate annual quantity set forth in the superior text to any such subheading, all as set forth on the Internet site of the DOC at the following link:  https://bis.doc.gov/232-aluminum.  No such country shall be allowed to import an aggregate quantity under any such subheading during any of the periods January through June, or July through December in any year that is in excess of the quantity that is allocated to such country by the DOC, as set forth on the Internet site of such Department as noted herein.  No more than 60 percent of the tariff-rate quota to be filled in the first half of the year.   Entries of any product of any such member country under heading 9903.85.25, when such product is described in an exclusion granted by the DOC shall be eligible to utilize such exclusion upon proper claim therefor, and such entries shall not be counted against any annual aggregate quantitative limitation provided under this subdivision.  No claim for entry under any provision of chapter 98 or of subchapter II of chapter 99 shall be allowed to reduce or prevent the application of an additional duty provided for under this note.
+The member countries of the European Union that are covered by this subdivision and by subheadings 9903.85.25 through 9903.85.44 shall include the following:  Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden.”
+This means there are annual quota limits for Section 232 aluminum importations from EU member countries on HTS 9903.85.25 – 9903.85.44 that are managed in two semi-annual periods.  The first period is limited to 60% of the annual aluminum country limit.
+Background:
+Presidential Proclamation 9704 of March 8, 2018 provided for tariffs in Section 232 Steel and Aluminum.
+Presidential Proclamation 9777 of August 29, 2018 provided for relief from Section 232 limitation on an individual basis via a DOC issued exclusion.
+DOC Bureau of Industry and Security Interim Final Rule “Section 232 Steel and Aluminum Tariff Exclusions Process” 2020-27110 established General Approved Exclusions (GAEs) for specific HTS numbers to be used by any importing entity.  This rule was updated effective December 27, 2021 by FRN 2021-26634 to remove 26 GAEs from the section 232 steel list and 4 GAEs from the section 232 aluminum list.  Notes at the bottom of this document have been updated to reflect this change.
+Presidential Proclamation 10327 of December 27, 2021 established a Tariff Rate Quota for member countries of the European Union and provided for semi-annual limits on Section 232 Aluminum commodities of 9903.85.25 – 9903.85.44.
+NEW Effective March 10, 2023:  Proclamation 10522 of February 24, 2023 “Adjusting Imports of Aluminum Into the United States” establishes 200% ad valorem additional duties under HTSUS Chapter 99, subchapter III, US note 19(a)by inserting the new subdivision: “(vii)(A) Heading 9903.85.67 and 9903.85.69 provides the ordinary duty treatment of aluminum articles that are products of Russia, as enumerated in subdivision (b) of this note.  For any such goods that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duty provided in such heading shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading, except where prohibited by law. Goods for which entry is claimed under a provision of chapter 98 and which are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (“CBP”) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed for the aluminum products enumerated in subdivision (b) of this note under a provision of chapter 99 that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP, but any additional duty prescribed in any provision of this subchapter or subchapter IV of chapter 99 shall be imposed in addition to the duty in heading 9903.85.67 or 9903.85.69.”
+Effective March 10, 2023, HTS classifications 9903.85.67 and 9903.85.69 apply to goods with Russia as the country of origin.
+Effective April 10, 2023, HTS classifications 9903.85.67 and 9903.85.69 also apply to aluminum articles where any amount of primary aluminum used in the manufacture of the aluminum articles is smelted in Russia and/or the articles are cast in Russia, in addition to aluminum articles with Russia as the country of origin.
+Goods subject to Proclamation 10522 where the country of origin is a quota eligible country must use a non-quota entry type unless the importer uses a valid Product Exclusion ID.
+For quota countries only on/after April 10, 2023 with GAE HTS classifications: All entries with articles subject to Proclamation 10522 will use HTS 9903.85.67 and a non-quota entry type unless a Product Exclusion ID is utilized.  For goods entered into FTZ prior to April 10, 2023 use HTS 9903.85.69 for GAE HTS classifications when entered for consumption.
+Exclusions:
+Effect of Approved Section 232 Quota Exclusions for Member Countries of the EU on Quota Availability:
+Exclusions renewed by the Dec 27, 2021 Presidential Proclamation are valid for the volume and period listed in the renewal information provided to importers by the DOC.
+Importers may apply for additional exclusions from the DOC.  The DOC provides exclusion effective dates and quantity limits to each successful applicant.
+When utilizing the GAE HTS numbers, an additional individual exclusion ID number is not required.
+Aluminum quota exclusion entries are charged against the periodic limit that is in place at the time of entry and count towards the annual limit.  Exclusion entries are exempt from the annual and periodic quota limit ceilings.  These entries “use up” quota limits, but they continue to be accepted until the close of the annual quota period regardless of whether the periodic or annual limits have been reached.  Importers holding DOC quota exclusions for a particular HTS can enter goods at any time during the quota year, regardless of whether TRQ thresholds have been met.
+For questions related to the quota process, contact the QAB at HQQUOTA@cbp.dhs.gov.  In the event of a technical issue with system operation, please create a ticket with the ACE help desk at ACE.SUPPORT@cbp.dhs.gov.
+General Approved Exclusion HTS Numbers:
+GAE HTS Numbers from DOC/Bureau of Industry and Security “Section 232 Steel and Aluminum Tariff Exclusions Process” Interim Final Rule in FRN 2020-27110:
+https://www.govinfo.gov/content/pkg/FR-2020-12-14/pdf/2020-27110.pdf.
+Effective December 27, 2021 26 GAEs are removed from the DOC list.  https://www.govinfo.gov/content/pkg/FR-2021-12-09/pdf/2021-26634.pdf.
+GAEs are subject to change by DOC.
+Current GAE HTS list as of July 1, 2024:
+7605.29.00.00; 7606.11.60.00; 7607.19.10.00; 7607.19.60.00; 7607.20.10.00
+EU Aluminum Tariff Rate Quota (TRQ) Limits:
+EU Member Country aluminum limit tables organized by CH 99 HTS Quota ID group are displayed in the document linked here: 2025 European Union Tariff Rate Quota Data.
+Last Modified: Mar 25, 2025

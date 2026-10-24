@@ -1,0 +1,536 @@
+QB 25-601 2025 First Quarter Absolute Quota for Steel Mill Articles of Argentina, Brazil and South Korea
+Skip to body content
+Trade
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+Trade
+Skip to body content
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+QB 25-601 2025 First Quarter Absolute Quota for Steel Mill Articles of Argentina, Brazil and South Korea
+Steel Mill Articles as specified in Presidential Proclamations
+Quota Period:
+January 1, 2025 through March 31, 2025
+Opening:
+January 2, 2025 12:01 AM Local Port time.
+Entries submitted prior to opening day local port time will not be counted towards the opening.
+For shipments to be processed for absolute quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+All entries submitted after 12:01 am local port time and prior to 8:30 am local port time and on the opening date will receive an entry time of 08:30 for quota qualification purposes.  If the total for any HTS group exceeds the limit all accepted entries will be prorated.
+Reporting Instructions:
+For quota merchandise, use entry type code 02, 06, 07, 12, 23, 32, 38, or 52
+Merchandise subject to absolute quota may also be subject to antidumping and countervailing duty.
+In addition to reporting the chapter 72 or 73 harmonized tariff schedule (HTS) classification for imported merchandise, importers shall report the following HTS classifications for imported merchandise subject to the absolute quota:  9903.80.05 through 9903.80.58.
+Entries utilizing any type of exclusion must use 9903.80.60 for the first HTS and the appropriate CH 1-97 HTS code for the next HTS.  This includes Department of Commerce approved product exclusion IDs as well as the HTS numbers in the General Approved Exclusion (GAE) table.  Please see the list of GAE HTS numbers at the end of this bulletin.  The original published list of GAEs can be found in FRN 2020-27110.  On December 27, 2021 FRN 2021-26634 removed 26 GAEs from the steel list.  On May 20, 2024 FRN 2024-10725 removed 6 GAEs from the steel list.
+Absolute quota merchandise may not be imported into the U.S for consumption after the quota limit is reached, per 19 CFR 132. Options after the quota limit is reached include entry into a foreign trade zone, warehouse entry, re-export, or destruction.  Department of Commerce approved product exclusion IDs are limited only by their individual exclusion quantity level as noted on the Department of Commerce approval document.  Individual exclusions and GAE HTS entries are not limited by quarterly quota limits.
+Absolute quota will be processed on an hourly basis, and absolute quota shipments made available for cargo release, between 11:45am – 7:45pm Eastern Time every business day.
+A presentation date/time is determined for the entry summary when the following conditions are met:
+Entry Summary must be on file
+Entry Summary must be paid or scheduled to be paid on statement
+Shipment must be arrived in the United States at the intended port of unlading
+Countries Covered:
+Argentina, Brazil and South Korea
+Special Instructions:
+As of June 1, 2018, CBP implemented absolute quota processing functionality in ACE.  Absolute quota is processed on a daily basis, Monday to Friday (excluding holidays), and cargo release of shipments subject to the absolute quota will be withheld until the absolute quota is processed and quota amounts are allocated.
+For shipments to be processed for absolute quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+The trade may track the status of quotas provided in the weekly Commodity Status Report at https://www.cbp.gov/trade/quota/tariff-rate-quotas
+Guidance:
+*The HTS Chapter 99 Subsection III, US Note 16(e) below for Section 232 quota states:
+“Subheadings 9903.80.05 through 9903.80.58, inclusive, set forth the ordinary customs duty treatment for the steel mill articles of any country enumerated in the superior text to such subheadings, subject to the annual aggregate quantitative limitations proclaimed for these subheadings.  Beginning on July 1, 2018, imports from any such country in an aggregate quantity under any such subheading during any of the periods January through March, April through June, July through September, or October through December in any year that is in excess of 500,000 kg and 30 percent of the total aggregate quantity provided for a calendar year for such country, as set forth on CBP.gov shall not be allowed.”
+This means there are annual quota limits for Section 232 importations from Argentina, Brazil and the Republic of South Korea on HTS 9903.80.05 – 9903.80.58 that are managed on a quarterly basis unless the total annual limit is 500,000 kg or less for all three countries*.
+Administration of Quarterly Absolute Quota Limits:
+*If the total annual limit on an HTS 9903.80.05 – 9903.80.58 is 500,000 kg or less per country for all three of the provided countries, the quota for that HTS is administered as an annual quota for each country.  The total prescribed limit is available from the first day of the first quota period until the annual limit is allocated.  HTS administered as annual quotas for all three countries are: 9903.80.06, 9903.80.27, 9903.80.29, 9903.80.30, 9903.80.33, 9903.80.37, 9903.80.39, 9903.80.40, 9903.80.41, 9903.80.43, 9903.80.44, 9903.80.52, 9903.80.53, 9903.80.54, 9903.80.55, and 9903.80.58.
+All other HTS 9903.80.05 – 9903.80.58 are administered on a quarterly basis.  The quarterly limit cannot exceed 30% of the annual limit.  When the limit is reached within the quarter, the quota category is closed until it reopens in the next quarter.
+Fourth Quarter quota limits on quarterly managed HTS will be evaluated according to the 30% rule.  Exceptions are (1) where the remaining balance is greater than 500,000 kg and less than 30% of the annual limit, the Q4 limit will be the balance and, (2) where the remaining balance is greater than 500,000 kg and 30% of the annual limit is less than 500,000 kg, the Q4 limit will be 500,000 kg.
+Background:
+Presidential Proclamation 9704 of March 8, 2018 provided for tariffs in Section 232 Steel and Aluminum.
+Presidential Proclamation 9117 of March 22, 2018 exempted Republic of South Korea, Brazil, Argentina, Mexico, and Canada from those tariffs.
+Presidential Proclamation 9740 of April 30, 2018 provided for quarterly limits on Section 232 Steel and Aluminum commodities of 9903.80.05 – 9903.80.58 from the Republic of South Korea, Brazil, and Argentina.
+Presidential Proclamation 9759 of May 31, 2018 advised that quarterly limits in excess of 500,000 kg and 30 percent of the total annual limit by country shall not be allowed.*
+Presidential Proclamation 9777 of August 29, 2018 provided for relief from Section 232 limitation on an individual basis via a Department of Commerce issued exclusion.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Section 232 Steel and Aluminum Tariff Exclusions Process” 2020-27110 established General Approved Exclusions (GAEs) for specific HTS numbers to be used by any importing entity.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Removal of Certain General Approved Exclusions (GAEs) Under the Section 232 Steel and Aluminum Tariff Exclusions Process” 2021-26634 will go into effect December 27, 2021.  This document removes 26 GAEs from the section 232 steel list and 4 GAEs from the section 232 aluminum list.
+Department of Commerce Bureau of Industry and Security Final Rule “Revisions of the Section 232 Steel and Aluminum Tariff Exclusions Process” 2024-10725 removes 6 GAEs from the section 232 steel list and 6 GAESs from the section 232 aluminum list. Notes at the bottom of this document have been updated to reflect this change.
+Effect of Approved Section 232 Quota Exclusions for Country of Origin Republic of South Korea, Brazil, and Argentina on Quota Availability:
+Importers may apply for exclusions from the Department of Commerce.  Approved exclusions are retroactive to the date of their application.  Department of Commerce advises the active date of exclusions to the successful filer.
+When utilizing the DOC General Approved Exclusion (GAE) HTS numbers, an additional individual exclusion number is not required and GAEs are not retroactive.
+All quota exclusion entries utilize 9903.80.60 in place of 9903.80.05 through 9903.80.58 but continue to reference the appropriate chapter 72 or 73 harmonized tariff schedule (HTS) classification.
+Quota exclusion entries are charged against the quarterly limit that is in place at the time of entry and count towards the annual limit.  Exclusion entries are exempt from the annual and quarterly quota limit ceilings.  These entries “use up” quota limits, but they continue to be accepted until the close of the annual quota period regardless of whether the quarterly or annual limits have been reached.  Importers holding Commerce quota exclusions for a particular HTS can enter goods at any time during the quota year, regardless of whether absolute quota thresholds have been filled.
+Exclusion quantity that is over the quarterly or annual limit is tracked by CBP as “exclusion quota overflow” using the distinct quota ALXC suffix.
+For questions related to the quota process, contact the QAB at HQQUOTA@cbp.dhs.gov.  In the event of a technical issue with system operation, please create a ticket with the ACE help desk at ACE.SUPPORT@cbp.dhs.gov.
+*Indicates in table below HTS Classifications within this category are listed in the Department of Commerce General Approved Exclusion Table and must be entered using HTS 9903.80.60.  See the list of 10-digt GAE HTS numbers at the end of this bulletin.
+2024 Absolute Quota Steel First Quarter
+Quota ID
+Article description
+Argentina Annual Limit (kg)
+Argentina 1st Quarter Limit (kg)
+Brazil Annual Limit (kg)
+Brazil 1st Quarter Limit (kg)
+South Korea Annual Limit (kg)
+South Korea 1st Quarter Limit (kg)
+9903.80.05
+Hot-rolled sheet, provided for in subheading 7208.10.60, 7208.26.00, 7208.27.00, 7208.38.00, 7208.39.00, 7208.40.60, 7208.53.00, 7208.54.00, 7208.90.00, 7225.30.70 or 7225.40.70
+6,475,837.00
+1,942,751.10
+108,453,546.00
+32,536,063.80
+404,694,045.00
+121,408,213.50
+9903.80.06
+Hot-rolled strip, provided for in subheading 7211.19.15, 7211.19.20, 7211.19.30, 7211.19.45, 7211.19.60, 7211.19.75, 7226.91.70 or 7226.91.80
+0.00
+0.00
+5,730.00
+5,730.00
+249,173.00
+249,173.00
+9903.80.07
+Hot-rolled plate, in coils, provided for in subheading 7208.10.15, 7208.10.30, 7208.25.30, 7208.25.60, 7208.36.00, 7208.37.00, 7211.14.00* (except for statistical reporting numbers 7211.14.0030 and 7211.14.0045) or 7225.30.30
+3,450,561.00
+1,035,168.30
+21,645,653.00
+6,493,695.90
+125,346,920.00
+37,604,076.00
+9903.80.08
+Cold-rolled sheet, and other products, provided for in subheading 7209.15.00, 7209.16.00, 7209.17.00, 7209.18.15, 7209.18.60, 7209.25.00, 7209.26.00, 7209.27.00, 7209.28.00, 7209.90.00, 7210.70.30, 7225.50.70, 7225.50.80 or 7225.99.00
+4,733,644.00
+1,420,093.20
+51,717,234.00
+15,515,170.20
+90,336,230.00
+27,100,869.00
+9903.80.09
+Cold-rolled strip, and other products, provided for in subheading 7211.23.15, 7211.23.20, 7211.23.30, 7211.23.45*, 7211.23.60, 7211.29.20, 7211.29.45, 7211.29.60, 7211.90.00, 7212.40.10, 7212.40.50, 7226.92.50, 7226.92.70, 7226.92.80* or 7226.99.01 (except for statistical reporting numbers 7226.99.0110 and 7226.99.0130)
+0.00
+0.00
+220,366.00
+66,109.80
+3,207,110.00
+962,133.00
+9903.80.10
+Cold-rolled black plate, provided for in subheading 7209.18.25
+0.00
+0.00
+0.00
+0.00
+34,385,821.00
+10,315,746.30
+9903.80.11
+Plate in cut lengths, provided for in subheading 7208.40.30, 7208.51.00, 7208.52.00, 7210.90.10, 7211.13.00, 7211.14.00 (except for statistical reporting number 7211.14.0090), 7225.40.30, 7225.50.60* or 7226.91.50
+0.00
+0.00
+9,116,198.00
+2,734,859.40
+202,530,628.00
+60,759,188.40
+9903.80.12
+Flat-rolled products, hot-dipped, provided for in subheading 7210.41.00, 7210.49.00, 7210.70.60 (except for statistical reporting numbers 7210.70.6030 and 7210.70.6090), 7212.30.10, 7212.30.30, 7212.30.50, 7225.92.00 or 7226.99.01 (except for statistical reporting numbers 7226.99.0110 and 7226.99.0180)
+701.00
+210.30
+179,284,354.00
+53,785,306.20
+166,310,597.00
+49,893,179.10
+9903.80.13
+Flat-rolled products, coated, provided for in subheading 7210.20.00, 7210.61.00, 7210.69.00, 7210.70.60 (except for statistical reporting numbers 7210.70.6030 and 7210.70.6060), 7210.90.60, 7210.90.90, 7212.50.00 or 7212.60.00*
+0.00
+0.00
+49,974,441.00
+14,992,332.30
+190,840,544.00
+57,252,163.20
+9903.80.14
+Tin-free steel, provided for in subheading 7210.50.00
+0.00
+0.00
+2,428,916.00
+728,674.80
+18,374,353.00
+5,512,305.90
+9903.80.15
+Tin plate, provided for in subheading 7210.11.00, 7210.12.00 or 7212.10.00
+0.00
+0.00
+11,315,455.00
+3,394,636.50
+54,749,093.00
+16,424,727.90
+9903.80.16
+Silicon electrical steel sheets and strip, provided for in subheading 7225.11.00, 7225.19.00, 7226.11.10, 7226.11.90, 7226.19.10 or 7226.19.90
+0.00
+0.00
+2,186,384.00
+655,915.20
+7,505,976.00
+2,251,792.80
+9903.80.17
+Sheets and strip electrolytically coated or plated with zinc, provided for in subheading 7210.30.00, 7210.70.60* (except for statistical reporting numbers 7210.70.6060 and 7210.70.6090), 7212.20.00, 7225.91.00 or 7226.99.01* (except for statistical reporting numbers 7226.99.0130 and 7226.99.0180)
+0.00
+0.00
+687,693.00
+500,000.00
+13,094,743.00
+3,928,422.90
+9903.80.18
+Oil country pipe and tube goods, provided for in subheading 7304.23.30, 7304.23.60, 7304.29.10, 7304.29.20, 7304.29.31, 7304.29.41, 7304.29.50, 7304.29.61, 7305.20.20, 7305.20.40, 7305.20.60, 7305.20.80, 7306.29.10, 7306.29.20, 7306.29.31, 7306.29.41, 7306.29.60 or 7306.29.81
+147,963,294.00
+44,388,988.20
+56,857,548.00
+17,057,264.40
+460,867,818.00
+138,260,345.40
+9903.80.19
+Line pipe exceeding 406.4 mm in outside diameter, provided for in subheading 7304.19.10 (except for statistical reporting numbers 7304.19.1020, 7304.19.1030, 7304.19.1045 and 7304.19.1060), 7304.19.50 (except for statistical reporting numbers 7304.19.5020 and 7304.19.5050), 7305.11.10, 7305.11.50, 7305.12.10, 7305.12.50, 7305.19.10 or 7305.19.50
+0.00
+0.00
+40,712.00
+12,213.60
+125,646,499.00
+37,693,949.70
+9903.80.20
+Line pipe not exceeding 406.4 mm in outside diameter, provided for in subheading 7304.19.10 (except for statistical reporting number 7304.19.1080), 7304.19.50 (except for statistical reporting number 7304.19.5080), 7306.19.10 (except for statistical reporting number 7306.19.1050) or 7306.19.51 (except for statistical reporting number 7306.19.5150)
+4,988,957.00
+1,496,687.10
+21,382,360.00
+6,414,708.00
+51,383,847.00
+15,415,154.10
+9903.80.21
+Other line pipe, provided for in subheading 7306.19.10 (except for statistical reporting number 7306.19.1010) or 7306.19.51 (except for statistical reporting number 7306.19.5110)
+0.00
+0.00
+57,319.00
+17,195.70
+250,007,048.00
+75,002,114.40
+9903.80.22
+Standard pipe, provided for in subheading 7304.39.00* (except for statistical reporting numbers 7304.39.0002, 7304.39.0004, 7304.39.0006, 7304.39.0008, 7304.39.0028, 7304.39.0032, 7304.39.0040, 7304.39.0044, 7304.39.0052, 7304.39.0056, 7304.39.0068 and 7304.39.0072), 7304.59.80* (except for statistical reporting numbers 7304.59.8020, 7304.59.8025, 7304.59.8035, 7304.59.8040, 7304.59.8050, 7304.59.8055, 7304.59.8065 and 7304.59.8070) or 7306.30.50 (except for statistical reporting numbers 7306.30.5010, 7306.30.5015, 7306.30.5020 and 7306.30.5035)
+2,378,183.00
+713,454.90
+987,756.00
+500,000.00
+69,469,685.00
+20,840,905.50
+9903.80.23
+Structural pipe and tube, provided for in subheading 7304.90.10*, 7304.90.30, 7305.31.20, 7305.31.40, 7305.31.60* (except for statistical reporting number 7305.31.6010), 7306.30.30, 7306.50.30, 7306.61.10, 7306.61.30, 7306.69.10 or 7306.69.30
+2,374.00
+712.20
+642,480.00
+500,000.00
+54,003,708.00
+16,201,112.40
+9903.80.24
+Mechanical tubing and other products, provided for in subheading 7304.31.30, 7304.31.60 (except for statistical reporting numbers 7304.31.6010), 7304.39.00 (except for statistical reporting numbers 7304.39.0002, 7304.39.0004, 7304.39.0006, 7304.39.0008, 7304.39.0016, 7304.39.0020, 7304.39.0024, 7304.39.0036, 7304.39.0048, 7304.39.0062, 7304.39.0076 and 7304.39.0080), 7304.51.10, 7304.51.50 (except for statistical reporting numbers 7304.51.5005, 7304.51.5015 and 7304.51.5045), 7304.59.10, 7304.59.60, 7304.59.80 (except for statistical reporting numbers 7304.59.8010, 7304.59.8015, 7304.59.8030, 7304.59.8045, 7304.59.8060 and 7304.59.8080), 7304.90.50*, 7304.90.70, 7306.30.10, 7306.30.50 (except for statistical reporting numbers 7306.30.5010, 7306.30.5025, 7306.30.5028, 7306.30.5032, 7306.30.5040, 7306.30.5055, 7306.30.5085 and 7306.30.5090), 7306.50.10, 7306.50.50 (except for statistical reporting number 7306.50.5010), 7306.61.50, 7306.61.70* (except for statistical reporting number 7306.61.7030), 7306.69.50* or 7306.69.70* (except for statistical reporting number 7306.69.7030)
+8,758,712.00
+2,627,613.60
+1,611,145.00
+500,000.00
+8,438,050.00
+2,531,415.00
+9903.80.25
+Pressure tubing and other products, provided for in subheading 7304.31.60 (except for statistical reporting number 7304.31.6050), 7304.39.00* (except for statistical reporting numbers 7304.39.0016, 7304.39.0020, 7304.39.0024, 7304.39.0028, 7304.39.0032, 7304.39.0036, 7304.39.0040, 7304.39.0044, 7304.39.0048, 7304.39.0052, 7304.39.0056, 7304.39.0062, 7304.39.0068, 7304.39.0072, 7304.39.0076 and 7304.39.0080), 7304.51.50 (except for statistical reporting numbers 7304.51.5005 and 7304.51.5060), 7304.59.20*, 7306.30.50 (except for statistical reporting numbers 7306.30.5015, 7306.30.5020, 7306.30.5025, 7306.30.5028, 7306.30.5032, 7306.30.5035, 7306.30.5040, 7306.30.5055, 7306.30.5085 and 7306.30.5090) or 7306.50.50 (except for statistical reporting numbers 7306.50.5030, 7306.50.5050 and 7306.50.5070)
+128,482.00
+38,544.60
+1,728,024.00
+518,407.20
+1,172,695.00
+500,000.00
+9903.80.26
+Tubes or pipes for piling and other products, provided for in subheading 7305.39.10* or 7305.39.50
+0.00
+0.00
+27.00
+8.10
+4,807,122.00
+1,442,136.60
+9903.80.27
+Pipes and tubes, not specially provided for, provided for in subheading 7304.51.50 (except for statistical reporting numbers 7304.51.5015, 7304.51.5045 and 7304.51.5060), 7305.90.10, 7305.90.50, 7306.90.10* or 7306.90.50
+3,743.00
+3,743.00
+1,231.00
+1,231.00
+449,740.00
+449,740.00
+9903.80.28
+Hot-rolled sheet of stainless steel, provided for in subheading 7219.13.00*, 7219.14.00, 7319.23.00 or 7219.24.00
+0.00
+0.00
+1,051,455.00
+500,000.00
+1,172,992.00
+500,000.00
+9903.80.29
+Hot-rolled strip of stainless steel and other products, provided for in subheading 7220.12.10* or 7220.12.50*
+0.00
+0.00
+0.00
+0.00
+13,346.00
+13,346.00
+9903.80.30
+Hot-rolled plate of stainless steel, in coils, and other products, provided for in subheading 7219.11.00* or 7219.12.00*
+0.00
+0.00
+120,126.00
+120,126.00
+218,649.00
+218,649.00
+9903.80.31
+Cold-rolled sheet of stainless steel, provided for in subheading 7219.32.00, 7219.33.00, 7219.34.00, 7219.35.00 or 7219.90.00*
+0.00
+0.00
+9,982,549.00
+2,994,764.70
+13,460,008.00
+4,038,002.40
+9903.80.32
+Cold-rolled strip of stainless steel, provided for in subheading 7220.20.10, 7220.20.60*, 7220.20.70*, 7220.20.80*, 7220.20.90 or 7220.90.00
+0.00
+0.00
+14,629.00
+4,388.70
+1,649,722.00
+500,000.00
+9903.80.33
+Cold-rolled plate of stainless steel, in coils, provided for in subheading 7219.31.00* (except for statistical reporting number 7219.31.0050)
+0.00
+0.00
+0.00
+0.00
+24,905.00
+24,905.00
+9903.80.34
+Wire of stainless steel, drawn, provided for in subheading 7223.00.10, 7223.00.50* or 7223.00.90
+0.00
+0.00
+63,219.00
+18,965.70
+5,338,007.00
+1,601,402.10
+9903.80.35
+Pipes and tubes of stainless steel, provided for in subheading 7304.41.30*, 7304.41.60, 7304.49.00, 7305.31.60 (except for statistical reporting number 7305.31.6090), 7306.40.10*, 7306.40.50, 7306.61.70 (except 7306.61.7060) or 7306.69.70 (except for statistical reporting number 7306.69.7060)
+0.00
+0.00
+352,216.00
+105,664.80
+12,602,387.00
+3,780,716.10
+9903.80.36
+Line pipe of stainless steel, provided for in subheading 7304.11.00 or 7306.11.00
+0.00
+0.00
+0.00
+0.00
+1,254,097.00
+500,000.00
+9903.80.37
+Bars and rods of stainless steel, cold finished, provided for in subheading 7222.20.00 or 7222.30.00
+0.00
+0.00
+142,452.00
+142,452.00
+224,622.00
+224,622.00
+9903.80.38
+Bars and rods of stainless steel, hot-rolled, provided for in heading 7221.00.00 (except for statistical reporting numbers 7221.00.0017, 7221.00.0018 and 7221.00.0030) or subheading 7222.11.00, 7222.19.00 or 7222.40.30* (except for statistical reporting numbers 7222.40.3025 and 7222.40.3045)
+0.00
+0.00
+1,354,481.00
+500,000.00
+45,391.00
+13,617.30
+9903.80.39
+Blooms, billets and slabs of stainless steel and other products, provided for in subheading 7218.91.00* and 7218.99.00
+0.00
+0.00
+186.00
+186.00
+110,360.00
+110,360.00
+9903.80.40
+Oil country pipe and tube goods of stainless steel and other products, provided for in subheading 7304.22.00, 7304.24.30*, 7304.24.40*, 7304.24.60*, 7306.21.30*, 7306.21.40 or 7306.21.80
+34,298.00
+34,298.00
+11,284.00
+11,284.00
+3,500.00
+3,500.00
+9903.80.41
+Ingot and other primary forms of stainless steel, provided for in subheading 7218.10.00
+0.00
+0.00
+0.00
+0.00
+215,467.00
+215,467.00
+9903.80.42
+Flat-rolled products of stainless steel, provided for in subheading 7219.21.00, 7219.22.00*, 7219.31.00 (except for statistical reporting number 7219.31.0010) or 7220.11.00
+0.00
+0.00
+522,098.00
+500,000.00
+2,329,416.00
+698,824.80
+9903.80.43
+Bars and rods, hot-rolled, in irregularly wound coils, of stainless steel, provided for in heading 7221.00.00 (except for statistical reporting numbers 7221.00.0005, 7221.00.0045 and 7221.00.0075)
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+9903.80.44
+Angles, shapes and sections of stainless steel, provided for in subheading 7222.40.30* (except for statistical reporting numbers 7222.40.3065 and 7222.40.3085) or 7222.40.60*
+209.00
+209.00
+0.00
+0.00
+49.00
+49.00
+9903.80.45
+Angles, shapes and sections, provided for in subheading 7216.31.00, 7216.32.00, 7216.33.00, 7216.40.00, 7216.50.00, 7216.99.00, 7228.70.30 (except for statistical reporting numbers 7228.70.3060 and 7228.70.3081) or 7228.70.60
+0.00
+0.00
+785,743.00
+500,000.00
+106,760,293.00
+32,028,087.90
+9903.80.46
+Bars and rods, hot-rolled, in irregularly wound coils, provided for in subheading 7213.91.30*, 9213.91.45, 7213.91.60, 7213.99.00 (except for statistical reporting number 7213.99.0060), 7227.20.00* (except for statistical reporting number 7227.20.0080) or 7227.90.60* (except for statistical reporting numbers 7227.90.6005, 7227.90.6010, 7227.90.6040 and 7227.90.6090)
+182,555.00
+54,766.50
+94,548,099.00
+28,364,429.70
+56,474,925.00
+16,942,477.50
+9903.80.47
+Wire (other than of stainless steel), provided for in subheading 7217.10.10, 7217.10.20, 7217.10.30, 7217.10.40*, 7217.10.50, 7217.10.60*, 7217.10.70, 7217.10.80*, 7217.10.90, 7217.20.15*, 7217.20.30, 7217.20.45*, 7217.20.60, 7217.20.75, 7217.30.15, 7217.30.30, 7217.30.45, 7217.30.60, 7217.30.75, 7217.90.10, 7217.90.50*, 7229.20.00, 7229.90.10, 7229.90.50* or 7229.90.90
+2076.00
+622.80
+5,683,988.00
+1,705,196.40
+40,508,288.00
+12,152,486.40
+9903.80.48
+Bars, hot-rolled, not of stainless steel, provided for in subheading 7213.20.00*, 7213.99.00 (except for statistical reporting numbers 7213.99.0030 and 7213.99.0090), 7214.10.00, 7214.30.00, 7214.91.00, 7214.99.00, 7215.90.10, 7227.20.00 (except for statistical reporting number 7227.20.0030), 7227.90.60 (except for statistical reporting numbers 7227.90.6020, 7227.90.6030 and 7227.90.6035), 7228.20.10, 7228.30.80 (except for statistical reporting number 7228.30.8010), 7228.40.00, 7228.60.60 or 7228.80.00
+896,377.00
+500,000.00
+19,466,296.00
+5,839,888.80
+32,914,618.00
+9,874,385.40
+9903.80.49
+Bars, cold-finished, not of stainless steel, provided for in subheading 7215.10.00, 7215.50.00*, 7215.90.30, 7215.90.50, 7228.20.50, 7228.50.50 or 7228.60.80
+0.00
+0.00
+892,811.00
+500,000.00
+9,535,366.00
+2,860,609.80
+9903.80.50
+Angles, shapes and sections of a type known as “light-shaped bars” and other products, provided for in subheading 7216.10.00, 7216.21.00, 7216.22.00 or 7228.70.30 (except for statistical reporting numbers 7228.70.3010, 7228.70.3020 and 7228.70.3041)
+0.00
+0.00
+160,604.00
+48,181.20
+1,150,356.00
+500,000.00
+9903.80.51
+Reinforcing bars, provided for in subheading 7213.10.00, 7214.20.00 or 7228.30.80 (except for statistical reporting numbers 7228.30.8005, 7228.30.8015, 7228.30.8041, 7228.30.8045 and 7228.30.8070)
+0.00
+0.00
+22,142,544.00
+6,642,763.20
+4,400,770.00
+1,320,231.00
+9903.80.52
+Sheet piling, provided for in subheading 7301.10.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+9903.80.53
+Non-enumerated railroad goods, provided for in subheading 7302.40.00, 7302.90.10 and 7302.90.90
+0.00
+0.00
+372,848.00
+372848.00
+109,715.00
+109,715.00
+9903.80.54
+Rails other than those known as “standard rails,” provided for in subheading 7302.10.10 (except for statistical reporting numbers 7302.10.1010, 7302.10.1035, 7302.10.1065 and 7302.10.1075)
+0.00
+0.00
+1,089.00
+1,089.00
+467.00
+467.00
+9903.80.55
+Rails known as “standard rails,” provided for in subheading 7302.10.10 (except for statistical reporting numbers 7302.10.1015, 7302.10.1025, 7302.10.1045 and 7302.10.1055) or 7302.10.50*
+0.00
+0.00
+939.00
+939.00
+770.00
+770.00
+9903.80.56
+Products of tool steel and other products, provided for in subheading 7224.10.00 (except for statistical reporting numbers 7224.10.0005 and 7224.10.0075), 7224.90.00 (except for statistical reporting numbers 7224.90.0005, 7224.90.0045, 7224.90.0055, 7224.90.0065 and 7224.90.0075), 7225.30.11, 7225.30.51, 7225.40.11, 7225.40.51, 7225.50.11, 7226.20.00, 7226.91.05, 7226.91.15, 7226.91.25, 7226.92.10, 7226.92.30*, 7227.10.00, 7227.90.10, 7227.90.20, 7228.10.00, 7228.30.20, 7228.30.40, 7228.30.60, 7228.50.10, 7228.60.10 or 7229.90.05
+0.00
+0.00
+9,426,132.00
+2,827,839.60
+849,004.00
+500,000.00
+9903.80.57
+Blooms, billets and slabs, semi-finished, provided for in subheading 7207.11.00, 7207.12.00, 7207.19.00, 7207.20.00 or 7224.90.00 (except for statistical reporting numbers 7224.90.0015, 7224.90.0025, and 7224.90.0035)
+0.00
+0.00
+3,505,707,831.00
+1,051,712,349.30
+1,697,955.00
+509,386.50
+9903.80.58
+Ingots, provided for in subheading 7206.10.00, 7206.90.00 or 7224.10.00* (except for statistical reporting number 7224.10.0045)
+0.00
+0.00
+8,719.00
+8,719.00
+74,667.00
+74,667.00
+General Approved Exclusion HTS Numbers are found in the Department of Commerce’s Bureau of Industry and Security “Section 232 Steel and Aluminum Tariff Exclusions Process” Interim Final Rule: FRN 2020-27110
+Effective December 27, 2021 26 GAEs were removed from the Department of Commerce list: FRN 2021-26634
+Effective July 1, 2024, 6 additional GAEs were removed from the Department of Commerce list: FRN 2024-10725
+GAEs are subject to change by Department of Commerce.
+Current GAE HTS list as of July 1, 2024:
+7210.70.60.30; 7211.14.00.90; 7211.23.45.00; 7212.60.00.00; 7213.20.00.80; 7213.91.30.20; 7215.50.00.90; 7217.10.40.45; 7217.10.40.90; 7217.10.60.00; 7217.10.80.25; 7217.10.80.60; 7217.20.15.00; 7217.20.45.50; 7217.90.50.30; 7217.90.50.60; 7217.90.50.90; 7218.91.00.30; 7219.11.00.30; 7219.11.00.60; 7219.12.00.21; 7219.12.00.26; 7219.12.00.51; 7219.12.00.71; 7219.12.00.81; 7219.13.00.81; 7219.22.00.05; 7219.22.00.35; 7219.31.00.10; 7219.90.00.60; 7220.12.10.00; 7220.12.50.00; 7220.20.60.60; 7220.20.60.80; 7220.20.70.60; 7220.20.80.00; 7222.40.30.45; 7222.40.30.85; 7222.40.60.00; 7223.00.50.00; 7224.10.00.05; 7225.50.60.00; 7226.92.30.30; 7226.92.30.60; 7226.92.80.05; 7226.99.01.10; 7227.20.00.30; 7227.90.60.20; 7229.90.50.16; 7229.90.50.31; 7302.10.10.45; 7302.10.50.20; 7304.24.30.10; 7304.24.30.20; 7304.24.30.40; 7304.24.40.40; 7304.24.40.60; 7304.24.60.30; 7304.39.00.02; 7304.39.00.16; 7304.41.30.05; 7304.59.20.30; 7304.59.20.80; 7304.59.80.10; 7304.59.80.45; 7304.59.80.60; 7304.90.10.00; 7304.90.50.00; 7305.31.60.90; 7305.39.10.00; 7306.21.30.00; 7306.40.10.90; 7306.61.70.60; 7306.69.50.00; 7306.69.70.60; 7306.90.10.00
+Last Modified: Dec 06, 2024

@@ -12,6 +12,8 @@ load_s232_legacy_source <- function(revision_id,root=here::here()) {
     identical(x$revision,revision_id) && identical(x$extractor_sha256,hash(script)) &&
     identical(x$parser_dependency_sha256,hash(dependency)) &&
     identical(x$sources[[1]]$sha256,hash(pdf)) && identical(x$sources[[2]]$sha256,hash(hts)) &&
+    (is.null(x$pre_march) || (identical(x$pre_march_dependency_sha256,hash(file.path(root,'src/section232_pre_march.py'))) &&
+      all(vapply(x$pre_march$bulletins,function(s) file.exists(s$artifact_path)&&identical(s$sha256,hash(s$artifact_path)),logical(1))))) &&
     all(vapply(x$additional_sources,function(s) file.exists(s$path)&&identical(s$sha256,hash(s$path)),logical(1)))
   cache<-file.path(root,'data/processed/s232_legacy_sources',paste0(revision_id,'.json'))
   x<-if(file.exists(cache)) tryCatch(jsonlite::fromJSON(cache,simplifyVector=FALSE),error=function(e) NULL) else NULL
@@ -28,7 +30,8 @@ load_s232_legacy_source <- function(revision_id,root=here::here()) {
   x
 }
 
-s232_legacy_matches <- function(x,products) {
+s232_legacy_matches <- function(x,products,effective_date=NULL) {
+  if(!is.null(effective_date) && !is.null(x$pre_march) && as.Date(effective_date)<as.Date('2025-03-12')) x$lists<-x$pre_march$lists
   products<-sort(unique(as.character(products)))
   if(any(!grepl('^[0-9]{10}$',products))) stop('Invalid HTS10')
   index<-lapply(c(4,6,8,10),function(n) split(products,substr(products,1,n)))

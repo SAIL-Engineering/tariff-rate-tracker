@@ -17,6 +17,8 @@ from section232_note16_rules import val, fact, op, both, either, negate, choose
 
 
 def compile_legacy(x, products, jurisdictions, _entry_window=None):
+    from section232_pre_march import compile_pre_march
+    if x['regime']=='pre_march_2025':return compile_pre_march(x,products,jurisdictions)
     if x['regime']!='march_2025_metals':raise ValueError('Unsupported legacy metal regime')
     grammar=ROOT/'resources/legal_evidence/section232/legacy-reviewed-semantics.json'
     reviewed=json.loads(grammar.read_bytes())
@@ -203,7 +205,7 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
     result=dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_legacy_'+x['revision'],
         compiler_sha256=sha(Path(__file__).read_bytes()),extractor_sha256=x['extractor_sha256'],
         compiler_dependencies={name:sha(Path(__file__).with_name(name).read_bytes()) for name in
-            ('section232_note16_rules.py','ieepa_fentanyl_sources.py','section301_sources.py')},
+            ('section232_note16_rules.py','ieepa_fentanyl_sources.py','section301_sources.py','section232_pre_march.py')},
         semantic_review_sha256=sha(grammar.read_bytes()),
         supported_from=start,supported_until=until,sources=sources,source_artifacts=artifacts,
         rules=rules,fact_definitions=facts,relations=relations,reporting_decisions=decisions,coverage=[],
@@ -260,6 +262,29 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
         for key in ('rules','relations','reporting_decisions','unchanged_claims'):result[key]+=old[key]
         result['temporal_transitions']=[dict(effective_from=transition,source_id='FR-2025-10524',
             previous_revision=previous,reason='Prior metal treatment through the first minute of the daily release')]
+    if x.get('pre_march') and not _entry_window:
+        old=compile_pre_march(x,products,jurisdictions)
+        for key in ('sources','source_artifacts'):
+            idkey='id' if key=='sources' else 'source_id'
+            merged={s[idkey]:s for s in result[key]}
+            for item in old[key]:
+                if item[idkey] in merged and merged[item[idkey]]!=item:raise ValueError('Conflicting March transition source')
+                merged[item[idkey]]=item
+            result[key]=list(merged.values())
+        for key,d in old['fact_definitions'].items():
+            if key in result['fact_definitions']:
+                existing=result['fact_definitions'][key]
+                if any(existing.get(k)!=d.get(k) for k in ('type','unit','minimum','maximum')):raise ValueError('Conflicting March transition fact')
+                d['source_ids']=sorted(set(d['source_ids']+existing['source_ids']))
+            result['fact_definitions'][key]=d
+        for claim in old['claim_definitions']:
+            existing=next((c for c in result['claim_definitions'] if c['id']==claim['id']),None)
+            if existing:
+                for key in ('rule_ids','candidate_rule_ids','source_ids'):existing[key]=sorted(set(existing.get(key,[])+claim.get(key,[])))
+            else:result['claim_definitions'].append(claim)
+        for key in ('rules','relations','reporting_decisions','unchanged_claims'):result[key]+=old[key]
+        result['pre_march_semantic_review_sha256']=old['semantic_review_sha256']
+        result.setdefault('temporal_transitions',[]).append(dict(effective_from=old['supported_until'],reason='Pre-March quotas and headings end at the proclamation instant within this revision'))
     return result
 
 

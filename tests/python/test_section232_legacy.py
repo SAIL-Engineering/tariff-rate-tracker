@@ -36,7 +36,9 @@ class LegacyMetalSources(unittest.TestCase):
   for rev,regime in [('2025_basic','pre_march_2025'),('2026_rev_5','note16_replaced')]:
    x=extract(ROOT/f'data/us_notes/chapter99_{rev}.pdf',ROOT/f'data/hts_archives/hts_{rev}.json',rev)
    self.assertEqual(x['regime'],regime)
-   with self.assertRaises(ValueError):compile_legacy(x,['7318158085'],self.origins)
+   if regime=='note16_replaced':
+    with self.assertRaises(ValueError):compile_legacy(x,['7318158085'],self.origins)
+   else:self.assertEqual(compile_legacy(x,['7318158085'],self.origins)['rules'],[])
  def test_unknown_conditions_fail(self):
   x=copy.deepcopy(self.late);x['clauses'][0]['text']+=' This duty also requires a new condition.'
   with self.assertRaisesRegex(ValueError,'Unreviewed'):compile_legacy(x,['7318158085'],self.origins)

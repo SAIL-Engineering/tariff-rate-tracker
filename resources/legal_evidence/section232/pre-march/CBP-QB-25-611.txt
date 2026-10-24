@@ -1,0 +1,99 @@
+QB 25-611 2025 First Quarter Tariff Rate Quota (TRQ) for Steel Mill Articles of European Union (EU) Member Countries
+Skip to body content
+Trade
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+Trade
+Skip to body content
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+QB 25-611 2025 First Quarter Tariff Rate Quota (TRQ) for Steel Mill Articles of European Union (EU) Member Countries
+Commodity:
+Steel Mill Articles as specified in Presidential Proclamations
+Quota Period:
+Quarter 1:  January 1, 2025 through March 31, 2025
+Opening:
+January 2, 2025 12:01 AM Local Port time.
+Entries submitted prior to opening day local port time will not be counted towards the opening.
+For shipments to be processed for quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port of unlading’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+All entries submitted after 12:01 am local port time and prior to 8:30 am local port time and on the opening date will receive an entry time of 08:30 for quota qualification purposes.  If the total for any HTS group exceeds the limit all accepted entries will be prorated.
+Countries Covered:
+EU Member Countries:  Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden.
+EU Steel TRQ First Quarter Limits:
+EU Member Country steel data tables organized by CH 99 HTS Quota ID group are displayed in the documents stored here:  European Union Tariff Rate Quota Periodic Limits.
+Reporting Instructions:
+For quota merchandise, use entry type code 02, 06, 07, 12, 23, 32, 38, or 52.
+Merchandise subject to this tariff rate quota may also be subject to antidumping and countervailing duty.
+A presentation date/time is determined for the entry summary when the last of the following conditions is met:
+Error-free entry summary on file.
+Entry summary payment or statement scheduled information transmitted to ACE.
+Shipment arrival information at the intended port of unlading transmitted to ACE.
+Entry Methods:
+Quota eligible / combination entries:  Filers must use an appropriate 9903.80.65 through 9903.81.19 quota HTS number for the first HTS number, followed by the Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  Quota entries will be processed on a “first come, first served” fashion based on presentation date/time until the limit for that quota ID HTS group is reached.  If multiple entries are submitted filling the quota with the same presentation date/time, each entry will be automatically prorated.  (See note below.)  Quantities above the apportioned amount must be entered using another method listed below.  Exclusion lines and over-quota lines can be combined on a quota entry.
+Over-quota entries:  All non-exclusion entries submitted after a quota ID HTS group country limit is reached can be combined on a quota entry or filed using a non-quota entry type (e.g., type 01, type 03, etc.)  Filers must use 9903.80.01 as the first HTS number for section 232 duties, followed by any additional CH 99 HTS numbers (if required), and then the Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  There is no limitation on over-quota entries.  Over-quota lines can be combined on a quota entry.
+Individual Importer Product Exclusion ID entries:  All entries with an importer-specific Department of Commerce (DOC) approved product exclusion ID can be combined on a quota entry or filed using a non-quota entry type (type 01, type 03 etc.)  No CH 99 HTS number is required for EU steel TRQ exclusion handling.  If additional CH 99 HTS numbers are required, they must be entered first.  Filers must enter the appropriate Ch 72/Ch73 classification HTS number of their goods as the next HTS number.  Filers with a DOC approved exclusion must include their Product Exclusion ID number on the entry.  Exclusion entries are limited by the data and volume listed in the DOC information provided to the importer.  Exclusion lines can be combined on a quota entry.
+General Approved Exclusion (GAE) entries:  For HTS Statistical Reporting Numbers listed in the Commerce GAE table, all entries can be combined on a quota entry or filed using a non-quota entry type (type 01, type 03, etc.)  No CH 99 HTS number is required for EU GAE steel TRQ handling.  If additional CH 99 HTS numbers are required, they must be entered first.  Filers must enter the appropriate Ch 72/Ch 73 classification HTS number of their goods as the next HTS number.  There are no limits on GAE entries.  Please see the list of GAE HTS numbers at the end of this bulletin.  Exclusion lines can be combined on a quota entry.
+Note to Filers – If you receive a “Quota Apportioned” message:
+When one or more entries are submitted that would overfill a country’s quota limit, ACE will automatically apportion each line of those entries to exactly reach the quota limit for that commodity group and country of origin.  To claim these apportioned quantities, filers must re-transmit the same line number and HTS combinations as the initial request for quota.  Any lines split into exclusion or over-quota lines must be numbered higher than the highest original line number.  For example, on a 3-line entry where lines 1, 2, and 3 are apportioned by ACE the re-transmitted entry data must show the same HTS combination for lines 1, 2, and 3 with the apportioned quantities.  The remaining quantities must be placed on new line numbers 4, 5, and 6.  For examples that have more than three lines, any over-quota lines must be placed on lines not previously used on the initial transmission.  (NEW LINES at the bottom of your entry.)  Any changes to the line number designations or the HTS numbers on that designated line will result in an ACE/Quota rejection.
+Special Instructions:
+Steel quota is processed daily, Monday to Friday (excluding holidays). For shipments to be processed for EU quota on the same day, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.  The trade may track the status of quotas provided in the weekly Commodity Status Report.
+Guidance:
+The HTS Chapter 99 Subsection III, US Note 16(f) below for Section 232 quota states:
+“Subheadings 9903.80.65 through 9903.81.19, inclusive, set forth the ordinary customs duty treatment for the iron or steel products (as enumerated in subdivision (b) of this note) of any member country of the European Union enumerated in this subdivision.  The aggregate annual import volume under all such subheadings shall be limited to 3,300,170 metric tons.  Subheadings 9903.80.65 through 9903.81.19 shall also be subject to any aggregate annual quantity established for each such subheading, including any allocations or other limitations that may be announced, all as set forth on the Internet site of the Department of Commerce at the following link: https://bis.doc.gov/232-steel.  No such country shall be allowed to import an aggregate quantity under any such subheading during any of the periods January through March, April through June, July through September or October through December in any year that is in excess of the quantity that is allocated to such country by the Department of Commerce, as set forth on the Internet site of such Department as noted herein.  The Department of Commerce is authorized to carry forward any unused quantity of such product from one or more such countries from the first quarter of any calendar year to the third quarter of such year, or from the second quarter of any calendar year to the fourth quarter of such year.  Entries of any product of any such member country that may be described in an exclusion granted by the Department of Commerce shall be eligible to utilize such exclusion upon proper claim therefor, and such entries shall not be counted against the annual aggregate quantitative limitation set forth in this subdivision.
+The member countries of the European Union that are covered by this subdivision and by subheadings 9903.80.65 through 9903.81.19 shall include the following:  Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden.”
+This means there are annual quota limits for Section 232 steel importations from EU member countries on HTS 9903.80.65 – 9903.81.19 that are managed on a quarterly basis with limits and carry forward amounts set by the Department of Commerce.
+Administration of EU Quarterly Tariff Rate Quota Limits
+Each quarter has initial limit of 25% of the annual country limit for each HTS group established by the DOC.  Unused TRQ from the first quarter of the year will be combined into the third quarter according to the quantity determined by DOC.  Unused TRQ from the second quarter of the year will be combined into the fourth quarter according to the quantity determined by DOC.
+Background:
+Presidential Proclamation 9704 of March 8, 2018 provided for tariffs in Section 232 Steel and Aluminum.
+Presidential Proclamation 9777 of August 29, 2018 provided for relief from Section 232 limitation on an individual basis via a Department of Commerce issued exclusion.
+Presidential Proclamation 10328 of December 27, 2021 established a Tariff Rate Quota for member countries of the European Union and provided for quarterly limits on Section 232 Steel commodities of 9903.80.65 – 9903.81.19.
+January 2024: “A Presidential Proclamation on Adjusting Imports of Steel into the United States” published on December 28, 2023 renewed the TRQ for member countries of the European Union continuing quarterly limits on Section 232 Steel commodities of 9903.80.65 – 9903.81.19.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Section 232 Steel and Aluminum Tariff Exclusions Process” 2020-27110 established General Approved Exclusions (GAEs) for specific HTS numbers to be used by any importing entity.
+Department of Commerce Bureau of Industry and Security Interim Final Rule “Removal of Certain General Approved Exclusions (GAEs) Under the Section 232 Steel and Aluminum Tariff Exclusions Process” 2021-26634 will go into effect December 27, 2021.  This document removes 26 GAEs from the section 232 steel list and 4 GAEs from the section 232 aluminum list.
+Department of Commerce Bureau of Industry and Security Final Rule “Revisions of the Section 232 Steel and Aluminum Tariff Exclusions Process” 2024-10725 removes 6 GAEs from the section 232 steel list and 6 GAESs from the section 232 aluminum list. Notes at the bottom of this document have been updated to reflect this change.
+Exclusions:
+Effect of Approved Section 232 Quota Exclusions for Member Countries of the EU on Quota Availability:
+Exclusions renewed by the Presidential Proclamation published on December 28, 2023 are valid for the volume and period listed in the renewal information provided by the DOC at www.bis.doc.gov/232-steel.
+Importers may apply for additional exclusions from the DOC.  The DOC provides exclusion effective dates and quantity limits to each successful applicant.
+When utilizing GAE HTS numbers, an individual exclusion ID number is not required.
+EU Steel TRQ exclusion entries are exempt from the annual and quarterly steel quota country limits.  Importers holding DOC quota exclusions or using a GAE for a particular HTS can enter goods at any time during the quota year, regardless of whether TRQ thresholds have been met.
+For questions related to the quota process, contact the Quota and Agriculture Branch at HQQUOTA@cbp.dhs.gov.  In the event of a technical issue with system operation, please create a ticket with the ACE help desk at ACE.SUPPORT@cbp.dhs.gov.
+General Approved Exclusion HTS Numbers:
+GAE HTS Numbers are found in the Department of Commerce’s Bureau of Industry and Security “Section 232 Steel and Aluminum Tariff Exclusions Process” Interim Final Rule: FRN 2020-27110
+Effective December 27, 2021 26 GAEs were removed from the Department of Commerce list: FRN 2021-26634
+Effective July 1, 2024, 6 additional GAEs were removed from the Department of Commerce list: FRN 2024-10725
+GAEs are subject to change by Department of Commerce.
+Current GAE HTS list as of July 1, 2024:
+7210.70.60.30; 7211.14.00.90; 7211.23.45.00; 7212.60.00.00; 7213.20.00.80; 7213.91.30.20; 7215.50.00.90; 7217.10.40.45; 7217.10.40.90; 7217.10.60.00; 7217.10.80.25; 7217.10.80.60; 7217.20.15.00; 7217.20.45.50; 7217.90.50.30; 7217.90.50.60; 7217.90.50.90; 7218.91.00.30; 7219.11.00.30; 7219.11.00.60; 7219.12.00.21; 7219.12.00.26; 7219.12.00.51; 7219.12.00.71; 7219.12.00.81; 7219.13.00.81; 7219.22.00.05; 7219.22.00.35; 7219.31.00.10; 7219.90.00.60; 7220.12.10.00; 7220.12.50.00; 7220.20.60.60; 7220.20.60.80; 7220.20.70.60; 7220.20.80.00; 7222.40.30.45; 7222.40.30.85; 7222.40.60.00; 7223.00.50.00; 7224.10.00.05; 7225.50.60.00; 7226.92.30.30; 7226.92.30.60; 7226.92.80.05; 7226.99.01.10; 7227.20.00.30; 7227.90.60.20; 7229.90.50.16; 7229.90.50.31; 7302.10.10.45; 7302.10.50.20; 7304.24.30.10; 7304.24.30.20; 7304.24.30.40; 7304.24.40.40; 7304.24.40.60; 7304.24.60.30; 7304.39.00.02; 7304.39.00.16; 7304.41.30.05; 7304.59.20.30; 7304.59.20.80; 7304.59.80.10; 7304.59.80.45; 7304.59.80.60; 7304.90.10.00; 7304.90.50.00; 7305.31.60.90; 7305.39.10.00; 7306.21.30.00; 7306.40.10.90; 7306.61.70.60; 7306.69.50.00; 7306.69.70.60; 7306.90.10.00
+EU Steel TRQ First Quarter Limits:
+EU Member Country steel data tables organized by CH 99 HTS Quota ID group are displayed in the documents stored at this page:  European Union Tariff Rate Quota Periodic Limits.
+Last Modified: Dec 16, 2024

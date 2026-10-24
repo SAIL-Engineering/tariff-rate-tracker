@@ -713,13 +713,13 @@ calculate_rates_for_revision <- function(
 
   s232_legacy_source <- NULL
   s232_legacy_memberships <- NULL
-  if(grepl('^202[56]_',revision_id) && as.Date(effective_date)>=as.Date('2025-03-12') &&
+  if(grepl('^202[56]_',revision_id) && as.Date(effective_date)>=as.Date('2025-01-01') &&
      as.Date(effective_date)<as.Date('2026-04-06')) {
     source(here('src','section232_legacy.R'))
     s232_legacy_source <- load_s232_legacy_source(revision_id)
-    if(!identical(s232_legacy_source$regime,'march_2025_metals'))
+    if(!s232_legacy_source$regime %in% c('march_2025_metals','pre_march_2025'))
       stop('Applicable historical metal notes unavailable in revision source')
-    s232_legacy_memberships <- s232_legacy_matches(s232_legacy_source,products$hts10)
+    s232_legacy_memberships <- s232_legacy_matches(s232_legacy_source,products$hts10,effective_date)
   }
 
   # 1. Get footnote-based rates from calculate_rates_fast()
@@ -1557,6 +1557,13 @@ calculate_rates_for_revision <- function(
 
       affected <- country_232$country %in% exemption$countries
       if (!any(affected)) next
+      if(!is.null(s232_legacy_source$pre_march) && rev_date<as.Date('2025-03-12') && exemption$rate==0) {
+        for(metal in exemption$applies_to) {
+          allowed<-unlist(s232_legacy_source$pre_march$model_zero_country_candidates[[metal]])
+          if(any(!country_232$country[affected] %in% allowed))
+            stop('Configured zero model rate lacks a source-backed ',metal,' country/quota exception')
+        }
+      }
 
       if ('steel' %in% exemption$applies_to) {
         country_232$steel_rate[affected] <- exemption$rate

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "CBP-QB-25-601",
+    "path": "CBP-QB-25-601.txt",
+    "sha256": "3a699484feb4e5eba0b03ab944c3f9735b51a17ecc8b5c643efb589b808b8240",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-601-2025",
+    "citation": "CBP Quota Bulletin 25-601, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  },
+  {
+    "id": "CBP-QB-25-611",
+    "path": "CBP-QB-25-611.txt",
+    "sha256": "879d1b62e9c2cc97549fce5deb0d00ce2939e8fcd5770652a8cd6d42cb702946",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-611-2025",
+    "citation": "CBP Quota Bulletin 25-611, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  },
+  {
+    "id": "CBP-QB-25-621",
+    "path": "CBP-QB-25-621.txt",
+    "sha256": "cedacd66808c7b873fe076b1c9bc1d77fd1b05cd5210cb48e38bc8a57d5d2e02",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-621-2025",
+    "citation": "CBP Quota Bulletin 25-621, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  },
+  {
+    "id": "CBP-QB-25-701",
+    "path": "CBP-QB-25-701.txt",
+    "sha256": "3178e5510ef14729803c22b2399db14d121e433ce0251308ef3277e8ab6209c1",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-701-2025",
+    "citation": "CBP Quota Bulletin 25-701, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  },
+  {
+    "id": "CBP-QB-25-711",
+    "path": "CBP-QB-25-711.txt",
+    "sha256": "fdae0a07a0c0055934f162b922e3d65b65aca47e8ab862ef84bb666152dd24d4",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-711-2025",
+    "citation": "CBP Quota Bulletin 25-711, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  },
+  {
+    "id": "CBP-QB-25-721",
+    "path": "CBP-QB-25-721.txt",
+    "sha256": "8101dac0553e8111ad1e1dea66f1f77d82b5759851ccab3e758a6724be4ba911",
+    "url": "https://www.cbp.gov/trade/quota/bulletins/qb-25-721-2025",
+    "citation": "CBP Quota Bulletin 25-721, 2025 first quota period, reporting instructions and exclusion tables",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse text"
+  }
+]

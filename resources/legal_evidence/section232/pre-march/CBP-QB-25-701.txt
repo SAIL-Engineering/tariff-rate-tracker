@@ -1,0 +1,88 @@
+QB 25-701 2025 Aluminum Absolute Quota First Quarter Argentina
+Skip to body content
+Trade
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+Trade
+Skip to body content
+Enforce and Protect Act (EAPA)
+Strengthening Customs Enforcement
+eCBP Broker Instruction and Training Resources
+Forced Labor
+Programs and Administration
+ACE: The Import and Export Processing System
+The Truth Behind Counterfeits
+Centers of Excellence and Expertise
+Stakeholder Engagement
+Basic Importing and Exporting
+Priority Trade Issues
+Rulings and Legal Decisions
+Trade Facilitation and Trade Enforcement Act
+Cybersecurity Resiliency
+Frontline Articles
+Section 321 Programs
+QB 25-701 2025 Aluminum Absolute Quota First Quarter Argentina
+On May 31, 2018, the President issued a Presidential Proclamation under Section 232 of the Trade Expansion Act of 1962 providing for an absolute quota for imports of aluminum products from Argentina, effective for goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern daylight time on June 1, 2018.
+Subheadings 9903.85.05 through 9903.85.06, inclusive, set forth the ordinary customs duty treatment for the aluminum products of any country enumerated in the superior text to such subheadings, subject to the annual aggregate quantitative limitations proclaimed for these subheadings.  Beginning on July 1, 2018, imports from any such country in an aggregate quantity under any such subheading during any of the periods January through March, April through June, July through September, or October through December in any year that is in excess of 500,000 kg and 30 percent of the total aggregate quantity provided for a calendar year for such country, as set forth on the Internet site of U.S. Customs and Border Protection (CBP), shall not be allowed.
+Please check the quota page at https://www.cbp.gov/trade/quota/tariff-rate-quotas for weekly commodity status reports and information on remaining absolute quota amounts.
+Commodity:
+Aluminum products as specified in Presidential Proclamation
+Quota Period:
+January 1, 2025 through March 31, 2025
+Opening:
+January 2, 2025 12:01 AM Local Port time.
+Reporting Instructions:
+For quota merchandise, use entry type code 02, 06, 07, 12, 23, 32, 38, or 52
+Merchandise subject to absolute quota may also be subject to antidumping and countervailing duty.
+In addition to reporting the chapter 76 harmonized tariff schedule (HTS) classification for imported merchandise, importers shall report the following HTS classifications for imported merchandise subject to the absolute quota:
+9903.85.05 through 9903.85.06
+Argentina Aluminum entries utilizing any type of exclusion must use 9903.85.11 for the first HTS and the appropriate CH 1-97 HTS code for the next HTS.  This includes Department of Commerce approved product exclusion IDs as well as the HTS numbers in the General Approved Exclusion (GAE) table.  Please see the list of GAE HTS numbers at the end of this bulletin.  The official list of Department of Commerce GAE HTS updates can be viewed at https://www.govinfo.gov/content/pkg/FR-2021-12-09/pdf/2021-26634.pdf.  The original published list of GAEs can be viewed at https://www.govinfo.gov/content/pkg/FR-2020-12-14/pdf/2020-27110.pdf.
+Absolute quota merchandise may not be imported into the U.S for consumption after the quota limit is reached, per [19 CFR 132]. Options after the quota limit is reached include foreign trade zone, warehouse, exportation or destruction.
+Countries Covered:
+Argentina
+Special Instructions:
+Absolute quota is processed on a daily basis, Monday to Friday (excluding holidays), and cargo release of shipments subject to the absolute quota will be withheld until the absolute quota is processed and quota amounts are allocated.
+In order for shipments to be processed for absolute quota, the entry summary must be filed, entry summary payment date must be on file or scheduled for a future statement, and the conveyance arrived by 4:30 pm in the port’s local time zone.  The official hours for quota processing are established by 19 CFR 132.3.
+Quota Bulletins (QB) are posted on the CBP.gov quota page and updated as determined by future announcements.  The trade may track the status of quotas provided in the weekly Commodity Status Report at www.cbp.gov/trade/quota/tariff-rate-quotas.
+For questions related to the quota process, contact the Quota and Agriculture Branch at HQQUOTA@cbp.dhs.gov.  In the event of a technical issue with system operation, please create a ticket with the ACE help desk at ACE.Support@cbp.dhs.gov.
+HTS Classifications within this category are listed in the Department of Commerce General Approved Exclusion Table (https://www.govinfo.gov/content/pkg/FR-2020-12-14/pdf/2020-27110.pdf) and must be entered using HTS 9903.85.11.  See the list of 10-digit GAE HTS numbers at the end of this bulletin.
+Effective March 10, 2023:  Proclamation 10522 of February 24, 2023 “Adjusting Imports of Aluminum Into the United States” establishes 200% ad valorem additional duties under HTSUS Chapter 99, subchapter III, US note 19(a)by inserting the new subdivision: “(vii)(A) Heading 9903.85.67 and 9903.85.69 provides the ordinary duty treatment of aluminum articles that are products of Russia, as enumerated in subdivision (b) of this note.  For any such goods that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duty provided in such heading shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading, except where prohibited by law. Goods for which entry is claimed under a provision of chapter 98 and which are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (“CBP”) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed for the aluminum products enumerated in subdivision (b) of this note under a provision of chapter 99 that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP, but any additional duty prescribed in any provision of this subchapter or subchapter IV of chapter 99 shall be imposed in addition to the duty in heading 9903.85.67 or 9903.85.69.”
+This means that effective March 10, 2023, HTS classifications 9903.85.67 and 9903.85.69 apply to goods with Russia as the country of origin.
+Effective April 10, 2023, HTS classifications 9903.85.67 and 9903.85.69 also apply to aluminum articles where any amount of primary aluminum used in the manufacture of the aluminum articles is smelted in Russia and/or the articles are cast in Russia, in addition to aluminum articles with Russia as the country of origin.
+Goods subject to Proclamation 10522 where the country of origin is a quota eligible country must use a non-quota entry type unless the importer uses a valid Product Exclusion ID.
+For quota countries only on/after April 10, 2023 with GAE HTS classifications:  All entries with articles subject to Proclamation 10522 will use HTS 9903.85.67 and a non-quota entry type unless a Product Exclusion ID is utilized.  For goods entered into FTZ prior to April 10, 2023 use HTS 9903.85.69 for GAE HTS classifications when entered for consumption.
+2025 Aluminum Absolute Quota First Quarter Limits
+Quota ID
+Article Description:  Aluminum products of Argentina enumerated in U.S. note 19(b) to this subchapter,  if entered in aggregate quantities prescribed in subdivision (e) of such note for any calendar year starting on January 1, 2018 and for any portion thereof as prescribed in such subdivision (e):
+Argentina
+Annual Quota Limit Aluminum
+(kg)
+Argentina Quarterly Limit (kg) (30%)
+9903.85.05
+Unwrought aluminum, provided for in heading 7601
+169,658,877.00
+50,897,663.1
+9903.85.06
+Wrought aluminum, provided for in headings 7604, 7605, 7606, 7607, 7608, 7609 and castings and forgings of aluminum provided for in subheading 7616.99.51
+11,279,691.00
+3,383,907.30
+General Approved Exclusion HTS Numbers from Department of Commerce’s Bureau of Industry and Security “Section 232 Steel and Aluminum Tariff Exclusions Process” Interim Final Rule
+https://www.govinfo.gov/content/pkg/FR-2020-12-14/pdf/2020-27110.pdf.  Effective December 27, 2021 26 GAEs are removed from the Department of Commerce list.  https://www.govinfo.gov/content/pkg/FR-2021-12-09/pdf/2021-26634.pdf.
+GAEs are subject to change by Department of Commerce.
+Current GAE HTS list as of July 1, 2024:
+7605.29.00.00; 7606.11.60.00; 7607.19.10.00; 7607.19.60.00; 7607.20.10.00
+Last Modified: Mar 25, 2025
