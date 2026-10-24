@@ -103,8 +103,17 @@ f<-compile_s232_legacy_fragment(load_s232_legacy_source('2025_basic'),products)
 b<-bundles$january;b$rules<-list();b$fact_definitions<-list();b$claim_definitions<-list();b$coverage<-list()
 for(authority in c('base','section_301','ieepa_fentanyl')) {
  z<-rule(authority,'9903.88.01',authority,list(value=5));z$scope<-list(hts_exact=list('7210706030'),countries=list('5700'));b$rules<-c(b$rules,list(z))
+ if(authority=='base') b$rules[[length(b$rules)]]$base_treatment<-'column1_general'
 }
 b<-compose_shipment_rules(b,list(f));q<-list(customs_value=100,claims=list('section232:gae:steel'))
 r<-evaluate_shipment_bundle(b,'7210706030','5700','2025-01-15T12:00:00-05:00',q)
 stopifnot(r$known_subtotal==15,!any(grepl('claim_not_priced',r$source_errors)))
+# A GSP/AGOA or otherwise unreviewed base rule cannot inherit the ordinary-base
+# attestation: exclusion of Section 232 can change preference eligibility.
+b0<-bundles$january;b0$rules<-list(rule('base_sensitive','', 'base',list(value=0)))
+b0$rules[[1]]$scope<-list(hts_exact=list('7210706030'),countries=list('5700'))
+b0$claim_definitions<-list();b0$coverage<-list();b0$fact_definitions<-list()
+b0<-compose_shipment_rules(b0,list(f))
+r<-evaluate_shipment_bundle(b0,'7210706030','5700','2025-01-15T12:00:00-05:00',q)
+stopifnot(any(grepl('claim_not_priced:section232:gae:steel:base_sensitive',r$source_errors)))
 cat('Emergency positive-duty priority, USMCA revival and GAE independence passed\n')

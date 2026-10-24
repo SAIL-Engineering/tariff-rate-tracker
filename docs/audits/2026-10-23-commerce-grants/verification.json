@@ -1,0 +1,217 @@
+{
+  "base_sha": "c0bd77818806e8000e55345c347f2cb9b71af3d8",
+  "branch": "wjr_dev",
+  "timeseries_build_run": false,
+  "production_writes": false,
+  "pushed": false,
+  "checks": [
+    {
+      "command": "/usr/bin/python3 -m pytest tests/python -q",
+      "exit_code": 0,
+      "passed": 322
+    },
+    {
+      "command": "native Node v22.22.3 --test frontend/tests/*.test.mjs",
+      "exit_code": 0,
+      "passed": 243
+    },
+    {
+      "command": "Rscript tests/run_all_tests.R",
+      "exit_code": 1,
+      "suites": 38,
+      "ok": 36,
+      "error": 1,
+      "skipped": 1,
+      "counted_assertions_passed": 402,
+      "limitation": "312 existing missing/stale normalized partitions; missing TPC fixture. Final affected R suites rerun after evidence whitespace normalization and EU origin restriction."
+    },
+    {
+      "command": "Rscript tests/test_s232_grants.R --emit",
+      "exit_code": 0,
+      "scenarios": 23
+    },
+    {
+      "command": "Rscript tests/test_s232_pre_march.R --emit",
+      "exit_code": 0,
+      "scenarios": 35
+    },
+    {
+      "command": "Rscript tests/test_s232_legacy_rules.R --emit",
+      "exit_code": 0
+    },
+    {
+      "command": "native Node typescript/bin/tsc && native Node vite/bin/vite.js build",
+      "exit_code": 0,
+      "warning": "Existing chunk size warning; tracked dist output restored."
+    },
+    {
+      "command": "python3 scripts/audit_section232_pre_march.py OUTPUT --motherduck docs/audits/2026-10-23-pre-march-metals/motherduck.json.gz",
+      "exit_code": 0,
+      "limitation": "Source-only compilation plus comparison with prior retained production snapshot; not new live MotherDuck query or exhaustive shipment evaluation."
+    },
+    {
+      "command": "SECTION232_GRANT_SNAPSHOT=tests/fixtures/section232_grants/snapshot.json Rscript tests/test_s232_pre_march_pipeline.R",
+      "exit_code": 0,
+      "scope": "Six products, seven origins, temporary normalized output; all fragment artifact hashes checked"
+    }
+  ],
+  "log_normalization": "Trailing spaces removed from retained verification log lines. Primary PDFs unchanged; CATAIR derived-text normalization declared in its source manifest.",
+  "files": [
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/FR-2021-28516-layout.txt",
+      "sha256": "5feaed0b63dd5939a035f50ff730c118566803f529b306ad5bee84c8a65b2ff2"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/FR-2021-28516.pdf",
+      "sha256": "fb571432bd19108f7c988732447378d031decd1f4e61d074117b4a3c5437ed27"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/FR-2023-04470.pdf",
+      "sha256": "ed48ca4422e8e57201f4742d218a4c1a1140c772e4a7b8aefc53066449f4bef9"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/FR-2023-04470.txt",
+      "sha256": "dca1dc54ee9cd3fd7f84282722e966f60d9f8c5ae9fe00cba350e80944f14c52"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/README.md",
+      "sha256": "53cc9010e0c8b70a50416132a746d57e4ecc2d5f02fc4a09b1b201163c16d6ea"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/build.log",
+      "sha256": "4c1698e812bcba2ce96065869ff96fd2ce042cc5ec8b680b6784d50bc2b1fc27"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/federal-register-quota-search.json",
+      "sha256": "ea5ba29d5b199ce4ebd10dd0ea9224ca962242e4b2b21f766cbf8ebae7f33d46"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/grant-pipeline.log",
+      "sha256": "4bd3d1d4a7939053fa2ad2227db95c209e7a6ac0673d3801b8773e58b0bf5362"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/grant-r-tests.log",
+      "sha256": "625b29ad122d244fce4a0e23094857f9f7ea830ce9b56407c41d14498e5765e3"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/legacy-r-tests.log",
+      "sha256": "7ce8492d9795e416bed0b2e1ed1927105dcd7d94cdbdca7608375f8f531ec0aa"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/motherduck-scope-recheck.json",
+      "sha256": "c6a5a5003114f3b2e6bb583551253fab94954bb658fb4d8603388c935249f105"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/node-tests.log",
+      "sha256": "0c6324b533da2bc5be20de1156bd7ebdb79b09e8671340ca169e3450c0c43c88"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/pre-march-r-tests.log",
+      "sha256": "db39ed1a5b480475e8083e3d15b8d4d4b98600ad0154ad915e2aa152d4a09edf"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/pre-march-source-summary.json",
+      "sha256": "af6724fa1a0fed67c884b89940845442c30cd524163205137433e3414cc8d47b"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/public-extract-response.txt",
+      "sha256": "1ac910045a44d7e5b6d04cdcb592e004fe7edc8b1fd5ccadea5f3c2ba3fedd8e"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/python-tests.log",
+      "sha256": "e6790a640b3ae7857993ae2a2fdfc4cb59a4980b815e1d8b289752607e9c01fa"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/r-tests.log",
+      "sha256": "c159b3afe2a0e7845cb16850543be7e93026c1fc81ecb8c2b22ed97cda8f1306"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/source-audit.log",
+      "sha256": "3c495264203307de0f033579416aa8e9d845aa0f4fc1a56dcd89ec1d923cfa60"
+    },
+    {
+      "path": "docs/audits/2026-10-23-commerce-grants/sources.json",
+      "sha256": "39dd018de60c688b7af69df6bc4db15d9092742b9c2e5045f691ed7a54efb89d"
+    },
+    {
+      "path": "frontend/server/shipment-release.js",
+      "sha256": "a957b46ac266fbe6eab28c1cf8855c6b10262c8789c0bdaaf127db2ad94708f6"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/BIS-exclusions.txt",
+      "sha256": "490a0ae2227fbcb4db7b08bff0e21e5234e98a3dc1da977f30f7da27c7c88cda"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/CBP-232-FAQ.txt",
+      "sha256": "2ca35b699151f9ee24cd4c3d2ca4638a5df3981c0e33a37badf2cb4716280745"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/CBP-CATAIR-ESF194.txt",
+      "sha256": "9f6ddc5529deb7883ec9c1dbc4eb027af154f978f96e6f51bc5ceb6ab52bc98e"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/CBP-CSMS-64384423.txt",
+      "sha256": "85e32ede6b26f4e52f2f1bb1c15df0026264f193353e6dc066b2050ca424b89d"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/CBP-CSMS-64384496.txt",
+      "sha256": "ec74afea22a9ec4b7a94957a7a13afb054a138029dda5f46f6c64cb973954134"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/FR-2020-27110.txt",
+      "sha256": "c08dff98fffc65df3bdbc9a6c08a9af5d1301e2a5ec9a0583625df03c3467874"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/FR-2025-07676.txt",
+      "sha256": "b9a3be82317d918ef61d35d8268427dd56d4a61d65144f24b9aa9d1dca9b8d02"
+    },
+    {
+      "path": "resources/legal_evidence/section232/grants/sources.json",
+      "sha256": "8fd122376396216f4dc8ea0425308b771607a7c2340259cd352bf02a34b8e1fc"
+    },
+    {
+      "path": "src/compile_shipment_rules.R",
+      "sha256": "8c222738495cd8e1278fb5be9691eee48eb4b371c03fefdea4bf32a4514e67bc"
+    },
+    {
+      "path": "src/section232_grants.py",
+      "sha256": "fb2c80142ceec65896eb5fa39a7e8d98225040353df2a266ec821c3fcd965d73"
+    },
+    {
+      "path": "src/section232_legacy.R",
+      "sha256": "e07716f9ac5da36d643027da673bdc03b1b696966c93bee0ad7136c00341f83f"
+    },
+    {
+      "path": "src/section232_legacy_rules.py",
+      "sha256": "0f97a96ed67525bd3f68b8d5eb19fa1946c60e02e23f61ee33f23fbb8e3447b7"
+    },
+    {
+      "path": "src/section232_pre_march.py",
+      "sha256": "e4bac842ec7d4333a1455aa4e4c1dd1c691920211960f60701adce2624e05ffe"
+    },
+    {
+      "path": "tests/fixtures/section232_grants/decisions.txt",
+      "sha256": "b3b2a9415ac553c129c37b64f005d8e669acc7851816bc5e704268c447e915ee"
+    },
+    {
+      "path": "tests/fixtures/section232_grants/snapshot.json",
+      "sha256": "1d3f09d8061991830f2a95220d423fe787c080d9631ffc4f705a3a09c825782f"
+    },
+    {
+      "path": "tests/fixtures/shipment/commerce-grants.json",
+      "sha256": "aca1d879bcabd239d113fceffef8f71095a543aa22d442873013e739b601f9df"
+    },
+    {
+      "path": "tests/fixtures/shipment/legacy-metals.json",
+      "sha256": "dfaaccdb215aca8048a334feaa72b605ceec9026af9b9732aa5e59b88c433d29"
+    },
+    {
+      "path": "tests/fixtures/shipment/pre-march-metals.json",
+      "sha256": "a65583670c134b92645618f385fb05e076ec0f5b193ebe9802d56fc11499ecf2"
+    },
+    {
+      "path": "tests/test_s232_pre_march_pipeline.R",
+      "sha256": "0052ccf24f97a623c1d82b966f406ac07e841f6eb70c0bc6d7922b820ab07012"
+    }
+  ]
+}

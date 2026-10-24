@@ -130,6 +130,14 @@ compose_shipment_rules <- function(bundle, fragments) {
     if(length(edge$target_authorities)) {
       if(length(edge$target_rule_ids)||!length(edge$claim_ids)) stop('Authority claim relation requires explicit claims')
       edge$target_rule_ids<-as.list(ids[vapply(bundle$rules,function(r) r$authority %in% unlist(edge$target_authorities),logical(1))])
+      if(length(edge$target_base_treatments)) {
+        if(!identical(unlist(edge$target_authorities),'base') ||
+           !all(unlist(edge$target_base_treatments) %in% c('column1_general','column2')))
+          stop('Invalid ordinary-base claim relation')
+        edge$target_rule_ids<-as.list(ids[vapply(bundle$rules,function(r)
+          identical(r$authority,'base') && length(r$base_treatment)==1L &&
+          r$base_treatment %in% unlist(edge$target_base_treatments),logical(1))])
+      }
       # An independent fragment need not contain the other authorities yet.
       if(!length(edge$target_rule_ids)) next
     }
@@ -153,6 +161,12 @@ compose_shipment_rules <- function(bundle, fragments) {
   # Only a separate legal review may attest all-action authority coverage.
   bundle$coverage <- c(bundle$coverage, unlist(lapply(fragments, `[[`, 'coverage'), recursive = FALSE))
   bundle$relation_decisions <- decisions
+  for(fragment in fragments) if(!is.null(fragment$grant_snapshot)) {
+    old<-bundle$evidence_dependencies$section232_grants
+    if(!is.null(old) && !identical(.shipment_canonical(old),.shipment_canonical(fragment$grant_snapshot)))
+      stop('Mixed Commerce grant evidence snapshots')
+    bundle$evidence_dependencies$section232_grants<-fragment$grant_snapshot
+  }
   bundle$compiler <- list(id = 'sail.shipment-rule-composer/v1', fragments = lapply(fragments, `[[`, 'id'))
   bundle
 }

@@ -1,0 +1,103 @@
+SYNTHETIC DECISIONS: interpreter regression only; these are not Commerce grants.
+
+Fixture 0
+id: "TEST_STEEL"
+metal: "steel"
+grant_type: "individual"
+hts10: ["7208101500"]
+countries: ["5700", "2010", "4759", "5880"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["ordinary_metal"]
+superseded_at: null
+revoked_at: null
+
+Fixture 1
+id: "TEST_STX"
+metal: "steel"
+grant_type: "eu_stx"
+hts10: ["7208101500"]
+countries: ["4759"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["ordinary_metal"]
+superseded_at: null
+revoked_at: null
+
+Fixture 2
+id: "TEST_ALUMINUM"
+metal: "aluminum"
+grant_type: "individual"
+hts10: ["7604101000"]
+countries: ["5700", "2010", "4759", "1220"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["ordinary_metal"]
+superseded_at: null
+revoked_at: null
+
+Fixture 3
+id: "TEST_RUSSIAN"
+metal: "aluminum"
+grant_type: "individual"
+hts10: ["7604101000"]
+countries: ["5700", "2010", "4759", "4621"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["russian_aluminum"]
+superseded_at: null
+revoked_at: null
+
+Fixture 4
+id: "TEST_CORRECTED"
+metal: "steel"
+grant_type: "individual"
+hts10: ["7208101500"]
+countries: ["5700", "2010", "4759", "5880"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["ordinary_metal"]
+superseded_at: "2025-01-20T12:30:00-05:00"
+revoked_at: null
+
+Fixture 5
+id: "TEST_REVOKED"
+metal: "steel"
+grant_type: "individual"
+hts10: ["7208101500"]
+countries: ["5700", "2010", "4759", "5880"]
+importers: ["Synthetic Importer"]
+product_description: "Synthetic test slab; all limits in this fixture must be satisfied."
+activated_at: "2025-01-15T00:00:00-05:00"
+entry_from: "2025-01-10T00:00:00-05:00"
+entry_until: "2026-01-01T00:00:00-05:00"
+quantity: 100
+quantity_unit: "metric_ton"
+actions: ["ordinary_metal"]
+superseded_at: null
+revoked_at: "2025-01-21T09:00:00-05:00"

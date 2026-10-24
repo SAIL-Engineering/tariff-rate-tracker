@@ -1,0 +1,653 @@
+[Federal Register Volume 90, Number 84 (Friday, May 2, 2025)]
+[Rules and Regulations]
+[Pages 18780-18785]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2025-07676]
+[[Page 18780]]
+=======================================================================
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+Bureau of Industry and Security
+15 CFR Part 705
+[Docket No. 250428-0073]
+RIN 0694-AK13
+Adoption and Procedures of the Section 232 Steel and Aluminum
+Tariff Inclusions Process
+AGENCY: Bureau of Industry and Security, U.S. Department of Commerce.
+ACTION: Interim final rule.
+-----------------------------------------------------------------------
+SUMMARY: On February 10, 2025, the President issued Proclamations
+10895, ``Adjusting Imports of Aluminum into The United States''
+(Aluminum Proclamation), and 10896, ``Adjusting Imports of Steel into
+the United States'' (Steel Proclamation), imposing specified rates of
+duty on imports of aluminum and steel articles and certain derivative
+steel and aluminum articles, respectively (collectively, the Inclusions
+Proclamations). The Inclusions Proclamations also required the
+Secretary of Commerce to establish a process for including additional
+derivative aluminum and steel articles within the scope of the ad
+valorem duties. The Bureau of Industry and Security (BIS), in this
+interim final rule (IFR), establishes the process for including
+additional derivative aluminum and steel articles within the scope of
+the ad valorem duties authorized by the President under Section 232 of
+the Trade Expansion Act of 1962, as amended (Section 232). This IFR
+also removes the aluminum and steel exclusions process authorized by
+clause 3 of the March 18, 2018, Presidential Proclamations 9704 and
+9705 (collectively, the Exclusions Proclamations).
+DATES: This rule is effective April 30, 2025. Comments on this interim
+final rule must be received by BIS no later than June 16, 2025.
+ADDRESSES: Public comments are to be made via https://www.regulations.gov/docket/BIS-2025-0023. The regulations.gov ID for
+this rule is: BIS-2025-0023. Please refer to RIN 0694-AK13 in all
+comments. All filers submitting comments in regulations.gov should use
+the name of the person or entity submitting the comments as the name of
+their files, in accordance with the instructions below. Anyone
+submitting business confidential information should clearly identify
+the business confidential portion at the time of submission, file a
+statement justifying nondisclosure and referring to the specific legal
+authority claimed, and provide a non-confidential version of the
+submission.
+For comments submitted electronically containing business
+confidential information, the file name of the business confidential
+version should begin with the characters ``BC.'' Any page containing
+business confidential information must be clearly marked ``BUSINESS
+CONFIDENTIAL'' on the top of that page. The corresponding non-
+confidential version of those comments must be clearly marked
+``PUBLIC.'' The file name of the non-confidential version should begin
+with the character ``P.'' Any submissions with file names that do not
+begin with either a ``BC'' or a ``P'' will be assumed to be public and
+will be made publicly available at: https://www.regulations.gov.
+Commenters submitting business confidential information are encouraged
+to scan a hard copy of the non-confidential version to create an image
+of the file, rather than submitting a digital copy with redactions
+applied, to avoid inadvertent redaction errors which could enable the
+public to read business confidential information.
+FOR FURTHER INFORMATION CONTACT: For questions regarding this interim
+final rule, contact Stephen Astle at 202-482-2533, or email
+Steel232@bis.doc.gov regarding provisions in this rule specific to
+steel inclusion requests and Aluminum232@bis.doc.gov regarding
+provisions in this rule specific to aluminum inclusion requests.
+SUPPLEMENTARY INFORMATION:
+I. Background
+A. Section 232 and Adjustments of Imports of Aluminum and Steel
+On February 10, 2025, the President issued Proclamation 10895
+``Adjusting Imports of Aluminum into the United States'', and
+Proclamation 10896 ``Adjusting Imports of Steel into the United
+States'' which imposed a 25 percent ad valorem tariff on imports of
+aluminum and steel articles and certain derivative steel and aluminum
+articles, respectively. These Inclusions Proclamations terminated the
+aluminum and steel exclusions process as authorized in the clause 3 of
+Proclamation 9705, clause 1 of Proclamation 9777, and clause 2 of
+Proclamation 9980, as well as a number of country exemptions and
+alternative arrangements to the steel and aluminum duties implemented
+in subsequent Presidential Proclamations. The Inclusions Proclamations
+also required the Secretary of Commerce (the Secretary) to establish
+within 90 days a process for including additional derivative aluminum
+and steel articles within the scope of the ad valorem duties proclaimed
+in Exclusion Proclamations, Presidential Proclamation 9704,
+Proclamation 9705, Proclamation 9980, clause 4 of the Proclamation
+10896, and clause 5 of Proclamation 10895, respectively.
+Section 232 of the Trade Expansion Act of 1962, as amended (19
+U.S.C. 1862), provides authority for the Department of Commerce
+(Commerce) to conduct investigations to determine the effects of
+imports of an article on the national security of the United States and
+authorizes the President to adjust the imports of the article and its
+derivatives based on such an investigation and affirmative
+determination by the Department of Commerce that the article is being
+importing into the United States in such quantities or under such
+circumstances as to threaten to impair the national security of the
+United States. The Department of Commerce previously concluded Section
+232 investigations into imports of steel and aluminum articles in 2018
+that led to the implementation of the Section 232 Steel and Aluminum
+Duties in the Exclusions Proclamations. These duties were extended to
+apply to imports of certain derivative steel and aluminum articles in
+Presidential Proclamation 9980 of January 29, 2020, as well as
+Presidential Proclamations 10895 and 10896 of February 10, 2025.
+Presidential Proclamations 10895 and 10896 set several requirements
+for the Department of Commerce to include certain derivative articles
+of steel and aluminum under the Section 232 Steel and Aluminum Duties
+established by the Exclusions Proclamations. It authorizes the
+Secretary to include additional derivative steel or aluminum articles
+within the scope of the tariffs unilaterally, or at the request of a
+producer of steel or aluminum articles or derivative articles within
+the United States, or an industry association representing one or more
+such producers. Applications for the inclusion of derivative articles
+must establish that imports of a derivative article have increased in a
+manner that threatens to impair the national security of the United
+States or otherwise undermine the objectives set forth in the 2018
+Section 232 investigations or any Proclamations issued pursuant
+thereto. The Inclusions Proclamations direct that the Secretary of
+Commerce shall issue a determination on any such request within 60 days
+of its receipt by the Department.
+[[Page 18781]]
+B. Purpose of This IFR
+BIS is publishing this IFR to establish the Section 232 inclusions
+process, as required by the Inclusions Proclamations. The Inclusions
+Proclamations direct that this process shall be established within 90
+days, meaning no later than May 10, 2025.
+This interim final rule serves two functions. First, this IFR
+establishes the Section 232 inclusions process. Second, this IFR makes
+conforming edits to remove the Section 232 aluminum and steel
+exclusions process regulatory provisions because that process is no
+longer in effect as of February 10, 2025, so those regulatory
+provisions are no longer needed.
+C. Submitting Public Comments on This Interim Final Rule
+The comment submission process on this IFR is separate and distinct
+from the comment submission process for the inclusion requests. For
+submitting comments on this IFR in regulations.gov, follow the
+instructions as specified in the ADDRESSES section of this IFR. For
+submitting comments on inclusion requests, please follow the
+instructions as provided in the regulatory text.
+II. Amendments To Establish the Section 232 Inclusions Process
+A. Submission Phase
+BIS will establish a submissions window to receive aluminum and
+steel derivative inclusion requests from industry during two-week
+submission windows opening three times annually at the beginning of
+each May, September, and January, with the first such window to open on
+May 1, 2025. Submissions of inclusions requests must be submitted in
+PDF format via the Defense Industrial Base Programs inbox at
+DIBPrograms@bis.doc.gov. For the request to be considered valid, the
+requestor must provide the following in their request:
+Clear identification of the applicant (i.e., individual,
+company, or trade association);
+A precise definition of the derivative article;
+The eight or ten-digit HTSUS classification requested to
+be included in the scope of the ad valorem tariffs;
+An explanation of why the article is a steel or aluminum
+derivative article, including, to the extent practicable, information
+on the total value of the article's steel and/or aluminum content as a
+share of the derivative article's total value;
+Pertinent information on the domestic industry affected;
+Statistics on imports and domestic production;
+A description of how and to what extent imports of the
+derivative article threaten to impair the national security or
+otherwise undermine the objectives set forth in the 2018 Steel and
+Aluminum Section 232 investigation reports or related Inclusions
+Proclamations;
+Any business confidential submissions must also include a
+non-confidential public version; and
+All information submitted must be limited to 30 pages
+inclusive of all attachments.
+BIS will review the received requests on a rolling basis during the
+two-week submission window to validate that the received requests
+contain all the required elements and do not exceed the page
+limitation. In the instance where the requestor did not include all the
+required elements or improperly filed the submission, at the discretion
+of the Under Secretary for Industry and Security, the requestor will be
+granted a 48-hour window to ensure a proper filing. The use of fixed
+submission windows will provide predictability to industry and will be
+the most efficient use of BIS resources given the short timeframes to
+secure and process public comments and provide recommendations.
+B. Review and Public Comment Phase
+BIS will publicly post non-confidential versions of all valid
+requests for a 14-day public comment window on regulations.gov after
+the conclusion of the two-week submission window. Collecting public
+comments will ensure a transparent, complete, and legally robust
+process for conducting analysis and making final determinations of
+derivative inclusion requests. This action will also represent
+confirmation of receipt and acceptance by the Department of Commerce,
+initiating the 60-day timeline for processing derivative inclusion
+requests as directed in the Inclusions Proclamations. BIS will begin
+analysis of each accepted inclusion request concurrent with the start
+of the public comment window. Each inclusion request will be assessed
+for: (1) whether the described product at the eight- or ten-digit HTSUS
+classification is a derivative steel or aluminum article; and (2)
+whether such derivative article imports have increased in a manner that
+threatens to impair the national security or otherwise undermine the
+objectives set forth in the Section 232 investigation reports or
+related Inclusions Proclamations.
+C. Where and How To Submit Public Comments
+Public comments on inclusion requests are to be submitted through
+the regulations.gov, ID BIS-2025-0023, at: https://www.regulations.gov/docket/BIS-2025-0023, through the Federal eRulemaking website at:
+https://www.regulations.gov, within the 14-day public comment window.
+No other submission methods are being used for submitting public
+comments for the inclusions process. This comment submission process
+for inclusion requests is separate and distinct from the process for
+submitting public comments on this IFR. To submit comments on this IFR,
+follow the instructions as specified in the ADDRESSES section of this
+IFR.
+D. Decision Phase
+With respect to each request, the Secretary or designee will sign a
+positive or negative determination. After the determination and
+signature, BIS will generate and publicly post a determination
+memorandum in regulations.gov for each inclusions request within 60
+days of receiving the requests that: (1) states whether the request was
+approved or denied; and (2) summarizes the rationale for making this
+determination. The date of signature on the determination memorandum
+must be prior to the close of the respective 60-day derivative
+inclusion processing period, as directed in the Inclusions
+Proclamations. A Federal Register notice will then be issued that
+modifies the Annexes to the Inclusions Proclamations with the included
+derivative products at the eight- to ten-digit HTSUS subheading. Duties
+on newly included derivative articles will take effect shortly
+thereafter through coordination with U.S. Customs and Border
+Protection.
+III. Removal of the Section 232 Exclusions Process and Related
+Provisions
+Since March 19, 2018, BIS has published five interim final rules
+(IFRs) that established and made various revisions to the Section 232
+exclusions process, as well as several Notices of Inquiry seeking
+public comment on certain aspects of the Section 232 exclusions
+process.
+On March 19, 2018, BIS issued an IFR, ``Requirements for
+Submissions Requesting Exclusions from the Remedies Instituted in
+Presidential Proclamations Adjusting Imports of Steel into the United
+States and Adjusting Imports of Aluminum into the United States; and
+the Filing of
+[[Page 18782]]
+Objections to Submitted Exclusion Requests for Steel and Aluminum'' (83
+FR 12106), establishing the Section 232 exclusions process in
+supplements no. 1 and 2 to 15 CFR part 705.
+On September 11, 2018, BIS issued a second IFR, ``Submissions of
+Exclusion Requests and Objections to Submitted Requests for Steel and
+Aluminum'' (83 FR 46026), which revised the exclusions process to
+increase transparency, fairness, and efficiency.
+On June 10, 2019, BIS issued a third IFR, ``Implementation of New
+Commerce Section 232 Exclusions Portal'' (84 FR 26751), that revised
+the two supplements to part 705 to grant the public the ability to
+submit new exclusion requests through the Section 232 Exclusions Portal
+while still allowing the opportunity for public comment on the portal.
+On May 26, 2020, BIS issued a notice of inquiry with request for
+comment, ``Notice of Inquiry Regarding the Exclusions Process for
+Section 232 Steel and Aluminum Import Tariffs and Quotas'' (85 FR
+31441), that sought public comment on the appropriateness of the
+information requested and considered in applying the exclusion criteria
+and the efficiency and transparency of the process employed.
+On December 14, 2020, BIS issued a fourth IFR, ``Section 232 Steel
+and Aluminum Tariff Exclusions Process'' (85 FR 81060), which
+established General Approved Exclusions (GAEs) to reduce the number of
+exclusion requests for products consistently found not to be produced
+in the United States, reducing the submission burden on both industry
+and the Section 232 exclusions process. This IFR identified 123 GAEs
+that had generally never received an objection or very few objections
+via the Section 232 exclusions process. GAEs are available to all
+would-be requestors for steel and aluminum products imported under 10-
+digit HTSUS classifications without quantity limit or expiration date.
+On December 9, 2021, BIS subsequently suspended 30 GAEs in its
+fifth IFR, ``Removal of Certain General Approved Exclusions Under the
+Section 232 Steel and Aluminum Tariff Exclusion Process'' (86 FR
+70003), on the Section 232 exclusions process because they were
+determined by BIS to no longer fit the criteria of a GAE.
+On January 3, 2022, Presidential Proclamations 10327 (87 FR 1) and
+10328 (87 FR 11) were published. These Proclamations implemented an
+understanding reached between the United States and the European Union
+including the establishment of tariff rate quotas for steel and
+aluminum articles imported from the European Union member countries.
+Proclamation 10328 also directed the Secretary of Commerce to seek
+public comment on the Section 232 exclusions process, including the
+responsiveness of the exclusions process to market demand and enhanced
+consultation with U.S. firms and labor organizations.
+On February 10, 2022, BIS published the notice, ``Request for
+Public Comments on the Section 232 Exclusions Process'' (87 FR 7777)
+(February 2022 Notice), as directed by Presidential Proclamation 10328.
+The February 2022 Notice sought public comment on a variety of topics
+regarding the responsiveness of the exclusions process to market demand
+and enhanced consultation with U.S. firms and labor organizations. The
+comment period closed in March 2022 and BIS received nearly 100
+comments.
+On August 28, 2023, BIS published its proposed rule, ``Revisions of
+the Section 232 Steel and Aluminum Exclusions Process'' (88 FR 58525)
+(August 2023 Proposed Rule). The August 2023 Proposed Rule proposed
+several revisions to the Section 232 exclusions process, including
+adjustments to the current criteria for identifying GAEs, the
+introduction of new General Denied Exclusions (GDEs), and the
+introduction of new certification requirements for both Requestors and
+Objectors. This proposed rule was not finalized prior to the issuance
+of the Inclusion Proclamations.
+Pursuant to the Inclusion Proclamations, this IFR makes conforming
+edits to remove the Section 232 aluminum and steel exclusions process
+regulatory provisions because that process is no longer in effect as of
+February 10, 2025, so those regulatory provisions are no longer needed.
+As additional conforming changes for the termination of the Section
+232 exclusions process, this IFR also removes supplement no. 2 to part
+705 (General Approved Exclusions (GAEs) for Steel Articles Under the
+Section 232 Exclusions Process) and supplement no. 3 (General Approved
+Exclusions (GAEs) for Aluminum Articles Under the Section 232
+Exclusions Process). These two supplements are no longer needed because
+of the termination of the Section 232 exclusions process.
+IV. Regulatory Changes
+The following revisions are made to supplement no.1 to part 705:
+An introductory paragraph is created explaining the
+background and establishment of the Section 232 aluminum and steel
+derivative inclusion process;
+Paragraph (a) is added to explain the scope of the
+aluminum and steel derivative process;
+Paragraph (b) is added to provide information on who may
+submit an inclusion request;
+Paragraph (c) is added to provide the timeframes for
+submitting inclusion requests. New paragraph (c) provides requestors
+with information on the submission windows of when to submit their
+requests;
+Paragraph (d) is added providing requestors information on
+where to submit inclusion requests, the general requirements for
+submitting an inclusion request, and the information required in the
+request;
+Paragraph (e) is added explaining to requestors the review
+process of received requests and the process for correcting invalid
+submissions;
+Paragraph (f) is added providing information on where and
+how to submit public comments;
+Paragraph (g) is added to provide information to
+requestors and commenters on the review and public comment phase;
+Paragraph (h) is added detailing the procedures BIS takes
+with determinations made regarding the inclusion requests; and
+Supplements nos. 2 and 3 are removed because they are no
+longer needed due to the termination of the Section 232 exclusions
+process.
+Rulemaking Requirements
+1. Executive Orders 13563 and 12866 direct agencies to assess all
+costs and benefits of available regulatory alternatives and, if
+regulation is necessary, to select regulatory approaches that maximize
+net benefits (including potential economic, environmental, public
+health and safety effects, distributive impacts, and equity). Executive
+Order 13563 emphasizes the importance of quantifying both costs and
+benefits, of reducing costs, of harmonizing rules, and of promoting
+flexibility. This IFR has been determined to be a ``significant
+regulatory action,'' although not economically significant, under
+section 3(f)(1) of Executive Order 12866. Pursuant to Proclamations
+10895 and 10896 of February 10, 2025, the establishment of procedures
+for an inclusions process under each Proclamation shall be published in
+the Federal Register. This IFR is exempt from Executive Order 14192
+because it is being issued with respect to a national security function
+of the United States.
+2. The Paperwork Reduction Act of 1995 (44 U.S.C. 3501 et seq.)
+(PRA)
+[[Page 18783]]
+provides that an agency generally cannot conduct or sponsor a
+collection of information, and no person is required to respond to nor
+be subject to a penalty for failure to comply with a collection of
+information, unless that collection has obtained Office of Management
+and Budget (OMB) approval and displays a currently valid OMB Control
+Number.
+The Department of Commerce requested and OMB authorized emergency
+processing of one information collection involved in this rule,
+consistent with 5 CFR 1320.13. Presidential Proclamations 10895 and
+10896 also required the Secretary of Commerce to establish within 90
+days a process for including additional derivative aluminum and steel
+articles within the scope of the ad valorem duties proclaimed in
+Proclamations 9704, 9705, 9980, and clause 4 of the Steel Proclamation
+and clause 5 of the Aluminum Proclamation, respectively and this
+interim final rule fulfills that direction. Presidential Proclamations
+10895 and 10896 set several requirements for the Department of Commerce
+to process petitions requesting the inclusion of certain derivative
+articles of steel and aluminum under the Section 232 Steel and Aluminum
+Duties established by Presidential Proclamations 9704 and 9705 in March
+2018. They state that the process shall provide for including
+additional derivative articles at the direction of the Secretary
+unilaterally, or at the request of a producer of steel or aluminum
+articles or derivative articles within the United States or an industry
+association representing one or more such producers. Applications for
+the inclusion of derivative articles must establish that imports of a
+derivative article have increased in a manner that threatens to impair
+the national security of the United States or otherwise undermine the
+objectives set forth in the 2018 Section 232 investigations or any
+Proclamations issued pursuant thereto. The Inclusions Proclamations
+direct that the Secretary of Commerce shall issue a determination on
+any such request within 60 days of its receipt by the Department of
+Commerce. The immediate implementation of an effective inclusions
+request process, consistent with the intent of the Inclusion
+Proclamations, also requires creating a process to allow any individual
+or organization in the United States to submit derivative inclusion
+requests and to submit comments in response to such derivative
+inclusion requests submitted by the public. The Department has
+determined the following conditions have been met:
+a. The collection of information is needed prior to the expiration
+of time periods normally associated with a routine submission for
+review under the provisions of the Paperwork Reduction Act in view of
+the Inclusions Proclamations, https://www.federalregister.gov/documents/2025/02/18/2025-02833/adjusting-imports-of-steel-into-the-united-states, and https://www.federalregister.gov/documents/2025/02/18/2025-02832/adjusting-imports-of-aluminum-into-the-united-states.
+b. The collection of information is essential to the mission of the
+Department, in particular to the adjudication of derivative inclusion
+requests.
+c. The use of normal clearance procedures would prevent the
+collection of information of derivative inclusions requests, for
+national security purposes, as discussed under section 232 of the Trade
+Expansion Act of 1962 as amended and the Inclusions Proclamations.
+Agency: Commerce Department.
+Type of Information Collection: New Collection.
+Title of the Collection: Inclusions to the Section 232 National
+Security Adjustments to Imports.
+Affected Public: Private Sector--Businesses.
+Total Estimated Number of Respondents: [100].
+Average Responses per Year: [1].
+Total Estimated Number of Responses: [100].
+Average Time per Response: 8 hours.
+Total Annual Time Burden: [800].
+Type of Information Collection: [New Collection].
+OMB Control Number: [0694-0146].
+3. This rule does not contain policies with Federalism implications
+as that term is defined in Executive Order 13132.
+4. The provisions of the Administrative Procedure Act (APA) (5
+U.S.C. 553) requiring notice of proposed rulemaking, the opportunity
+for public comment, and a delay in effective date are inapplicable
+because this regulation involves a military function of the United
+States (5 U.S.C. 553(a)(1)) because steel and aluminum, as well as
+certain steel and aluminum derivatives, are essential products for
+producing U.S. weapons that are vital for protecting U.S. national
+security. As explained in the reports submitted by the Secretary to the
+President, steel and aluminum are being imported into the United States
+in such quantities or under such circumstances as to threaten to impair
+the national security of the United States, and therefore the President
+is implementing these remedial actions (as described in the Inclusions
+Proclamations) to protect U.S. national security interests by
+identifying and imposing tariffs on derivative products to protect the
+U.S. defense industrial base. The U.S. defense industrial base is
+critical to protecting U.S. national security interests. For example,
+if there is only one defense contractor in the U.S. that makes a
+specialized aluminum derivative product used in nuclear submarines, and
+if there is a surge of imports of these aluminum derivative products or
+are dumped in the U.S. by an adversary, and if these imports are not
+subject to the tariffs for aluminum derivatives, these imports of
+aluminum derivatives may endanger the existence of this U.S. defense
+contractor. This poses a detriment to U.S. national security by
+potentially eliminating a supplier of items needed for U.S. defense
+purposes.
+That implementation includes the creation of an effective process
+by which affected domestic parties can submit inclusion requests based
+upon imports that ``threaten to impair the national security'' of the
+United States. BIS started this process with the publication of the
+imposition of the tariffs on steel and aluminum to protect critical
+U.S. national security interests. The tariffs have been implemented to
+ensure imports of steel and aluminum including certain derivative
+products do not impair the national security. The immediate
+implementation of this inclusion process, as directed by the President,
+is necessary to identify additional derivatives that warrant tariffs to
+protect U.S. national security interests. Specifically, delaying the
+adoption of these changes to solicit public comments would further
+delay the identification and imposition of tariffs on derivative
+products to protect U.S. national security, and ensure that steel and
+aluminum producers in the United States are able to supply the current
+and projected needs of the U.S. military and avoid the risk caused by
+overreliance on steel and aluminum manufacturers located outside of the
+United States.
+The Department of Commerce also finds that there is good cause to
+exempt this rule from the APA requirements for public notice and
+comment under 5 U.S.C. 553(b)(B) and delayed effective date under 5
+U.S.C. 553(d)(3) because it would be contrary to the public interest to
+have a notice and comment period or other delay prior to this action
+taking effect. Specifically, delaying adoption of
+[[Page 18784]]
+this inclusion process would further harm U.S. manufacturers by further
+delaying their ability to request relief from these imports that are
+damaging their companies and the U.S. defense industrial base in the
+process. The U.S. defense industrial base is critical to protecting
+U.S. national security and implementation of this inclusions process
+needs to be adopted as soon as possible in order to mitigate any
+potential national security threat that acts as a detriment to the
+public interest.
+5. Because neither the APA nor any other law requires an
+opportunity for public comment be given for this rule, the analytical
+requirements of the Regulatory Flexibility Act (5 U.S.C. 601 et seq.)
+are not applicable. Accordingly, no Final Regulatory Flexibility
+Analysis is required and none has been prepared.
+List of Subjects in 15 CFR Part 705
+Administrative practice and procedure, Business and industry,
+Classified information, Confidential business information, Imports,
+Investigations, National security.
+For the reasons set forth in the preamble, part 705 of subchapter A
+of 15 CFR chapter VII is amended as follows:
+PART 705--EFFECT OF IMPORTED ARTICLES ON THE NATIONAL SECURITY
+0
+1. The authority citation for part 705 continues to read as follows:
+Authority:  Section 232 of the Trade Expansion Act of 1962, as
+amended (19 U.S.C. 1862) and Reorg. Plan No. 3 of 1979 (44 FR 69273,
+December 3, 1979).
+0
+2. Supplement no. 1 to part 705 is revised to read as follows:
+Supplement No. 1 to Part 705--Requirements for Submissions Requesting
+Inclusions to the Adjustment of Imports of Aluminum and Steel Imposed
+Pursuant to Section 232 of the Trade Expansion Act of 1962, as Amended
+On March 8, 2018, the President issued Proclamations 9704 and 9705
+concurring with the findings of the January 11, 2018 reports of the
+Secretary of Commerce on the effects of imports of aluminum and steel
+mill articles (steel articles) on the national security and determining
+that adjusting aluminum and steel imports through the imposition of
+duties is necessary so that their imports will no longer threaten to
+impair the national security. On February 10, 2025, the President
+issued Proclamations 10895 ``Adjusting Imports of Aluminum into The
+United States'' (Aluminum Proclamation), and 10896 ``Adjusting Imports
+of Steel into the United States'' (Steel Proclamation), imposing
+specified rates of duty on imports of aluminum and steel, respectively
+(collectively, the Inclusions Proclamations). The Inclusions
+Proclamations also required the Secretary of Commerce to establish
+within 90 days a process for including additional derivative aluminum
+and steel articles within the scope of the ad valorem duties proclaimed
+in Proclamations 9704, 9705, 9980, and clause 4 of the Steel
+Proclamation and clause 5 of the Aluminum Proclamation, respectively.
+Presidential Proclamations 10895 and 10896 set several requirements for
+the Department of Commerce to process petitions requesting the
+inclusion of certain derivative articles of steel and aluminum under
+the Section 232 Steel and Aluminum Duties established by Presidential
+Proclamations 9704 and 9705 in March 2018. They state that the process
+shall provide for including additional derivative articles at the
+direction of the Secretary unilaterally, or at the request of a
+producer of steel or aluminum articles or derivative articles within
+the United States or an industry association representing one or more
+such producers. Applications for the inclusion of derivative articles
+must establish that imports of a derivative article have increased in a
+manner that threatens to impair the national security of the United
+States or otherwise undermine the objectives set forth in the 2018
+Section 232 investigations or any Proclamations issued pursuant
+thereto. The Inclusions Proclamations direct that the Secretary of
+Commerce shall issue a determination on any such request within 60 days
+of its receipt by the Department.
+(a) Scope. This supplement specifies the requirements and process
+for how directly affected parties located in the United States may
+submit requests for inclusions to the duties imposed by the President.
+This supplement also specifies the requirements and process for how
+parties in the United States may submit inclusion requests (both
+business confidential and public versions) and public comments in
+response to submitted inclusion requests for inclusion of aluminum and
+steel derivative articles in the duties or quantitative limitations
+imposed by the President (collectively, 232 submissions). This
+supplement also identifies the time periods for such submissions, the
+methods of submission, and the information that must be included in
+such submissions. This supplement also identifies the process for
+analysis of the submissions and public comments and the action taken
+upon the final determinations by the Secretary or designee.
+(b) Inclusion requests. Who may submit an inclusion request?
+(1) Producers of steel or aluminum articles or derivative articles
+within the United States; or
+(2) An industry association representing one or more such producers
+may submit inclusion requests.
+(c) Timeframe of submitting requests. The Bureau of Industry and
+Security (BIS) will open a submissions window to receive aluminum and
+steel derivative inclusion requests from industry during two-week
+submission windows three times annually at the beginning of each May,
+September, and January, with the first such window to open on May 1,
+2025.
+(d) Inclusion request requirements. For the request to be
+considered a valid request, the requestor must adhere to the following
+general requirements and provide the following:
+(1) Submission through Defense Industrial Base Programs inbox at
+DIBPrograms@bis.doc.gov;
+(2) Requests must be submitted in PDF format;
+(3) Limited to 30 pages inclusive of all attachments;
+(4) Any business confidential submissions must also include a non-
+confidential public version;
+(5) Clear identification of the applicant (i.e., individual,
+company, or trade association);
+(6) A precise definition of the derivative article;
+(7) The eight or ten-digit HTSUS designation that serves as the
+basis for the determination;
+(8) An explanation of why the article is a steel or aluminum
+derivative article; including, to the extent practicable, information
+on the total value of the article's steel and/or aluminum content as a
+share of the derivative article's total value;
+(9) Pertinent information on the domestic industry affected;
+(10) Statistics on imports and domestic production; and
+(11) A description of how and to what extent imports of the
+derivative article threaten to impair the national security or
+otherwise undermine the objectives set forth in the 2018 Steel and
+Aluminum Section 232 investigation reports or related Inclusions
+Proclamations.
+(e) BIS review of inclusion petition requests. BIS will review the
+received requests on a rolling basis during the two-week submission
+window to
+[[Page 18785]]
+validate that the received requests contain all the required elements
+and do not exceed the page limitation. In the instance where the
+requestor did not include all the required elements or improperly filed
+the submission, at the discretion of the Under Secretary for Industry
+and Security, the requestor will be granted a 48-hour window to
+resubmit a proper filing.
+(f) Where and how to submit public comments. (1) Where to submit?
+Public comments are to be made via regulations.gov via the
+regulations.gov ID BIS-2025-0023 at https://www.regulations.gov/docket/BIS-2025-0023. You may submit business confidential and public version
+public comments, identified by the regulations.gov ID BIS-2025-0023
+through the Federal eRulemaking website: https://www.regulations.gov.
+No other submission methods are being used for submitting public
+comments for the inclusions process. Follow the instructions for
+submitting public comments. All filers using the regulations.gov should
+use the name of the person or entity submitting the comments as the
+name of their files, in accordance with the instructions below. Anyone
+submitting business confidential information should clearly identify
+the business confidential portion at the time of submission, file a
+statement justifying nondisclosure and referring to the specific legal
+authority claimed, and provide a non-confidential version of the
+submission.
+(2) Business confidential submissions. For comments submitted
+electronically containing business confidential information, the file
+name of the business confidential version should begin with the
+characters ``BC.'' Any page containing business confidential
+information must be clearly marked ``BUSINESS CONFIDENTIAL'' on the top
+of that page. The corresponding non-confidential version of the
+comments must be clearly marked ``PUBLIC.'' The file name of the non-
+confidential version should begin with the character ``P.'' The ``BC''
+and ``P'' should be followed by the name of the person or entity
+submitting the comments. Any submissions with file names that do not
+begin with a ``BC'' or ``P'' will be assumed to be public and will be
+made publicly available through https://www.regulations.gov. Commenters
+submitting business confidential information are encouraged to scan a
+hard copy of the non-confidential version to create an image of the
+file, rather than submitting a digital copy with redactions applied, to
+avoid inadvertent redaction errors which could enable the public to
+read business confidential information.
+(g) Review and Public Comment Phase. BIS will publicly post non-
+confidential versions of all valid requests for a 14-day public comment
+window on https://regulations.gov after the conclusion of the two-week
+submission window. Members of the public will have the opportunity to
+comment on the inclusion requests submitted by parties. Collecting
+public comments ensures a transparent, complete, and legally robust
+process for conducting analysis and making final determinations of
+derivative inclusion requests. BIS will review all accepted inclusion
+requests and public comments.
+(h) Decision Phase. The Secretary or designee will sign a positive
+or negative determination. After the determination, BIS will, for each
+inclusions request, and, within 60 days of receiving the request,
+generate and publicly post on regulations.gov a determination
+memorandum that:
+(1) States whether the request was approved or denied, and
+(2) Summarizes the rationale for making this determination.
+(3) The date of signature on the determination memorandum must be
+prior to the close of the respective 60-day derivative inclusion
+processing period, as directed in the Inclusions Proclamations. A
+Federal Register notice will then be issued that modifies the Annexes
+to the Inclusions Proclamations with the included derivative products
+at the eight- to ten-digit HTSUS subheading. Duties on newly included
+derivative articles will take effect shortly thereafter through
+consultation with U.S. Customs and Border Protection.
+Supplement Nos. 2 and 3 to Part 705 [Removed]
+0
+3. Remove Supplement no. 2 and 3 to part 705.
+Eric Longnecker,
+Deputy Assistant Secretary for Technology Security.
+[FR Doc. 2025-07676 Filed 4-30-25; 8:45 am]
+BILLING CODE 3510-33-P

@@ -189,6 +189,15 @@ def compile_pre_march(outer, products, jurisdictions):
         r=dict(id=id,action_id='s232_pre_march_'+locator['metal'],authority='section_232',kind='duty',verification='verified',scope=scope,when=path,formula=tree['formula'],reporting_codes=[code] if code else [],source_ids=ids,legal_locator=locator['locator'])
         if code:r['published_expression']=hs[code]['duty_expression']
         if tree.get('constraints'):r['input_constraints']=tree['constraints']
+        r['section232_metal']=locator['metal']
+        r['section232_country_group']=country
+        r['section232_treatment']=tree.get('section232_treatment','russian_aluminum' if code in ('9903.85.67','9903.85.68','9903.85.69','9903.85.70') else 'ordinary_metal')
+        if (tree.get('reason') or '').startswith('Country exempt under the archived note'):
+            r['section232_treatment']='independent_country_relief'
+        r['grant_reporting_codes']=[grant_code] if grant_code else []
+        if locator['metal']=='aluminum':
+            russian_test=val(True) if country=='Russia' else fact('aluminum_primary_smelted_or_cast_russia')
+            r['grant_material_condition']=russian_test if r['section232_treatment']=='russian_aluminum' else negate(russian_test)
         rules.append(r);decisions.append(dict(rule_id=id,reporting_codes=r['reporting_codes'],legal_locator=locator['locator'],status='requires_source_reconciliation' if 'unresolved_source' in tree['formula'] else 'compiled',reason=tree.get('reason')))
     def quota_tree(metal, group, candidates, standard):
         qs=[q for q in candidates if q['group']==group]
@@ -232,6 +241,10 @@ def compile_pre_march(outer, products, jurisdictions):
         groups['eu']=sorted(eu&all_c);used={c for cs in groups.values() for c in cs};groups['ordinary']=sorted(all_c-used)
         for country,cc in groups.items():
           if not cc:continue
+          # CBP's country-specific quota bulletins distinguish the exclusion
+          # reporting identity from the original quota category. Reuse this
+          # decision for both GAEs and reviewed individual grants.
+          grant_code=(('9903.80.60' if country in ('Argentina','Brazil','South Korea') else '9903.81.80' if country in ('Japan','United Kingdom') else None) if metal=='steel' else ('9903.85.11' if country=='Argentina' else '9903.85.25' if country=='eu' else '9903.85.50' if country=='United Kingdom' else None)) if not derivative else None
           standard=leaf(ordinary);tree=standard
           exemption=['Canada','Australia','United States of America']
           if derivative:exemption+=['Argentina','eu','United Kingdom']+(['Brazil','South Korea','Japan'] if metal=='steel' else [])
@@ -262,8 +275,7 @@ def compile_pre_march(outer, products, jurisdictions):
           # claims and do not suppress the distinct Russian action.
           gae_claim='section232:gae:'+metal
           if metal in gae and country!='Russia' and not (isinstance(tree,dict) and tree.get('formula')==val(0) and not tree.get('code')):
-            code=('9903.80.60' if country in ('Argentina','Brazil','South Korea') else '9903.81.80' if country in ('Japan','United Kingdom') else None) if metal=='steel' else ('9903.85.11' if country=='Argentina' else '9903.85.25' if country=='eu' else '9903.85.50' if country=='United Kingdom' else None)
-            tree=choose({'claim':gae_claim},leaf(code,'General Approved Exclusion, exact HTS10 and pre-March interval'),tree)
+            tree=choose({'claim':gae_claim},leaf(grant_code,'General Approved Exclusion, exact HTS10 and pre-March interval'),tree)
           if metal=='aluminum':
             russian=val(True) if country=='Russia' else f('aluminum_primary_smelted_or_cast_russia','Any primary aluminum smelted in Russia or article cast in Russia')
             rtree=choose(f('privileged_ftz_before_20230410','Privileged foreign status before April 10, 2023 at 00:01 Eastern'),leaf('9903.85.70' if derivative else '9903.85.69'),leaf('9903.85.68' if derivative else '9903.85.67'))
@@ -274,7 +286,9 @@ def compile_pre_march(outer, products, jurisdictions):
           def grant_effect(branch):
               if isinstance(branch,tuple):return choose(branch[1],grant_effect(branch[2]),grant_effect(branch[3]))
               if branch.get('formula')==val(0) and not branch.get('code') and not branch.get('constraints'):return branch
-              return choose({'claim':grant},gap('individual_commerce_grant_requires_verified_party_scope_entry_window_quantity_and_reporting'),branch)
+              missing=gap('individual_commerce_grant_requires_verified_party_scope_entry_window_quantity_and_reporting')
+              missing['section232_treatment']='russian_aluminum' if branch.get('code') in ('9903.85.67','9903.85.68','9903.85.69','9903.85.70') else 'ordinary_metal'
+              return choose({'claim':grant},missing,branch)
           tree=grant_effect(tree)
           begin=len(rules)
           emit(tree,cond,dict(hts_exact=sorted(htss),countries=sorted(cc),**{'from':start,'until':until}),s)
@@ -288,4 +302,4 @@ def compile_pre_march(outer, products, jurisdictions):
     # action (not on a country flag) reevaluates USMCA and zero-duty outcomes.
     charged=sorted({r['reporting_codes'][0] for r in rules if r['reporting_codes'] and hs[r['reporting_codes'][0]]['rate']>0})
     if charged:relations.append(dict(id='pre_march_emergency_precedence_'+outer['revision'],effect='suppress_by_reporting_codes',trigger_reporting_codes=['9903.01.10','9903.01.01'],trigger_test='positive_duty',target_reporting_codes=charged,source_ids=ids))
-    return dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_pre_march_'+outer['revision'],compiler_sha256=sha(Path(__file__).read_bytes()),extractor_sha256=outer['extractor_sha256'],semantic_review_sha256=sha((EVIDENCE/'reviewed-semantics.json').read_bytes()),compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('resources/census_codes.csv','src/section232_legacy_sources.py','config/revision_dates.csv')},supported_from=start,supported_until=until,sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,relations=relations,reporting_decisions=decisions,coverage=[],claim_definitions=claims,unchanged_claims=[dict(id='pre_march_301_claims_'+outer['revision'],claim_authority='section_301',target_rule_ids=all_ids,source_ids=ids),dict(id='pre_march_exclusion_independence_'+outer['revision'],claim_authority='section_232',claim_ids=sorted(claim_candidates),target_authorities=['base','section_301','ieepa_fentanyl'],source_ids=ids)] if rules else [],limitations=['Individual Commerce grants require a verified grant inventory; claim remains unpriced without it.','Quota allocation is an entry-line input; partially apportioned lines must be split. Absolute quota rejection is not a tariff alternative.','No all-authority coverage attestation. Chapter 98 and other authority claim effects require separate compilation.'])
+    return dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_pre_march_'+outer['revision'],compiler_sha256=sha(Path(__file__).read_bytes()),extractor_sha256=outer['extractor_sha256'],semantic_review_sha256=sha((EVIDENCE/'reviewed-semantics.json').read_bytes()),compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('resources/census_codes.csv','src/section232_legacy_sources.py','config/revision_dates.csv')},supported_from=start,supported_until=until,sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,relations=relations,reporting_decisions=decisions,coverage=[],claim_definitions=claims,unchanged_claims=[dict(id='pre_march_301_claims_'+outer['revision'],claim_authority='section_301',target_rule_ids=all_ids,source_ids=ids),dict(id='pre_march_exclusion_independence_'+outer['revision'],claim_authority='section_232',claim_ids=sorted(claim_candidates),target_authorities=['section_301','ieepa_fentanyl'],source_ids=ids),dict(id='pre_march_exclusion_ordinary_base_'+outer['revision'],claim_authority='section_232',claim_ids=sorted(claim_candidates),target_authorities=['base'],target_base_treatments=['column1_general','column2'],source_ids=ids)] if rules else [],limitations=['Individual Commerce grants require a verified grant inventory; claim remains unpriced without it.','Quota allocation is an entry-line input; partially apportioned lines must be split. Absolute quota rejection is not a tariff alternative.','No all-authority coverage attestation. Chapter 98 and other authority claim effects require separate compilation.'])

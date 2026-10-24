@@ -1,0 +1,2851 @@
+[Federal Register Volume 85, Number 240 (Monday, December 14, 2020)]
+[Rules and Regulations]
+[Pages 81060-81084]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2020-27110]
+[[Page 81059]]
+Vol. 85
+Monday,
+No. 240
+December 14, 2020
+Part IV
+Department of Commerce
+-----------------------------------------------------------------------
+Bureau of Industry and Security
+-----------------------------------------------------------------------
+15 Part 705
+Section 232 Steel and Aluminum Tariff Exclusions Process; Final Rule
+Federal Register / Vol. 85 , No. 240 / Monday, December 14, 2020 /
+Rules and Regulations
+[[Page 81060]]
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+Bureau of Industry and Security
+15 CFR Part 705
+[Docket No. 201203-0323]
+RIN 0694-AH55
+Section 232 Steel and Aluminum Tariff Exclusions Process
+AGENCY: Bureau of Industry and Security, U.S. Department of Commerce.
+ACTION: Interim final rule.
+-----------------------------------------------------------------------
+SUMMARY: This interim final rule revises aspects of the process for
+requesting exclusions from the duties and quantitative limitations on
+imports of aluminum and steel discussed in three previous Department of
+Commerce (``Commerce'') interim final rules implementing the exclusion
+process authorized by the President under Section 232 of the Trade
+Expansion Act of 1962, as amended (``232''). These changes are also
+informed by a notice of inquiry with request for comments on the 232
+exclusions process that was published by Commerce on May 26, 2020.
+Based on public comments on the current process for submissions to
+Commerce, Commerce is publishing this interim final rule to make
+additional revisions to the 232 exclusion process, including to the 232
+Exclusions Portal.
+DATES:
+Effective date: This interim final rule is effective December 14,
+2020, except for amendatory instructions 3 and 5 that are effective
+December 29, 2020.
+Comments: Comments on this interim final rule must be received by
+BIS no later than February 12, 2021.
+ADDRESSES: See SUPPLEMENTARY INFORMATION section for information on
+submitting exclusion requests, objections thereto, rebuttals, and
+surrebuttals. You may submit comments, identified by docket number BIS-
+2020-0022 or RIN 0694-AH55, through the Federal eRulemaking website:
+http://www.regulations.gov. No other submission methods are being used
+for submitting comments on this interim final rule. Follow the
+instructions for submitting comments.
+All filers using the portal should use the name of the person or
+entity submitting comments as the name of their files, in accordance
+with the instructions below. Anyone submitting business confidential
+information should clearly identify the business confidential portion
+at the time of submission, file a statement justifying nondisclosure
+and referring to the specific legal authority claimed, and provide a
+non-confidential version of the submission.
+For comments submitted electronically containing business
+confidential information, the file name of the business confidential
+version should begin with the characters ``BC.'' Any page containing
+business confidential information must be clearly marked ``BUSINESS
+CONFIDENTIAL'' on the top of that page. The corresponding non-
+confidential version of those comments must be clearly marked
+``PUBLIC.'' The file name of the non-confidential version should begin
+with the character ``P.'' The ``BC'' and ``P'' should be followed by
+the name of the person or entity submitting the comments or rebuttal
+comments. Any submissions with file names that do not begin with a
+``BC'' or ``P'' will be assumed to be public and will be made publicly
+available through http://www.regulations.gov.
+FOR FURTHER INFORMATION CONTACT: For questions regarding this interim
+final rule, contact Erika Maynard at 202-482-5572 or via email
+Erika.Maynard@bis.doc.gov, or email Steel232@bis.doc.gov regarding
+provisions in this rule specific to steel exclusion requests and
+Aluminum232@bis.doc.gov regarding provisions in this rule specific to
+aluminum exclusion requests.
+SUPPLEMENTARY INFORMATION:
+Background
+On March 8, 2018, President Trump issued Proclamations 9704 and
+9705, imposing duties on imports of aluminum and steel. The
+Proclamations also authorized the Secretary of Commerce to grant
+exclusions from the duties if the Secretary determines the steel or
+aluminum article for which the exclusion is requested is not ``produced
+in the United States in a sufficient and reasonably available amount or
+of a satisfactory quality'' or should be excluded ``based upon specific
+national security considerations,'' and provided authority for the
+Secretary to issue procedures for exclusion requests. On April 30,
+2018, Proclamations 9739 and 9740, and on May 31, 2018, Proclamations
+9758 and 9759, set quantitative limitations on the import of steel and
+aluminum from certain countries in lieu of the duties. On August 29,
+2018, in Proclamations 9776 and 9777, President Trump also authorized
+the Secretary to grant exclusions from quantitative limitations based
+on the same standards applicable to exclusions from the tariffs.
+Implementing and Improving the 232 Exclusions Process
+On March 19, 2018, Commerce first issued an interim final rule,
+Requirements for Submissions Requesting Exclusions from the Remedies
+Instituted in Presidential Proclamations Adjusting Imports of Steel
+into the United States and Adjusting Imports of Aluminum into the
+United States; and the filing of Objections to Submitted Exclusion
+Requests for Steel and Aluminum (83 FR 12106) (the ``March 19 rule''),
+laying out procedures for the 232 exclusions process, including one
+supplement for the procedures for steel and a second supplement for the
+procedures for aluminum.
+On September 11, 2018, Commerce issued a second interim final rule,
+Submissions of Exclusion Requests and Objections to Submitted Requests
+for Steel and Aluminum (83 FR 46026) (the ``September 11 rule''), that
+revised the two supplements added by the March 19 rule with
+improvements designed to ensure a transparent, fair, and efficient
+exclusion and objection process.
+On June 10, 2019, Commerce issued a third interim final rule,
+Implementation of New Commerce Section 232 Exclusions Portal (84 FR
+26751) (the ``June 10 rule''), that revised the two supplements added
+by the March 19 and September 11 rules to grant the public the ability
+to submit new exclusion requests through the 232 Exclusions Portal
+while still allowing the opportunity for public comment on the portal.
+On May 26, 2020, Commerce issued a notice of inquiry with request
+for comment, Notice of Inquiry Regarding the Exclusion Process for
+Section 232 Steel and Aluminum Import Tariffs and Quotas (85 FR 31441)
+(the ``May 26 notice''), that sought public comment on the
+appropriateness of the information requested and considered in applying
+the exclusion criteria, and the efficiency and transparency of the
+process employed.
+Why is Commerce publishing this interim final rule?
+Commerce is publishing this interim final rule to implement
+additional changes the Department has determined will further improve
+the 232 exclusions process. Commerce believes these changes will make
+important improvements, but is also requesting public comments to
+evaluate how effective these changes will be in further improving the
+232 exclusions process. This process is consistent with the
+Department's approach since the
+[[Page 81061]]
+beginning of implementing the 232 exclusion process. The public has
+supported this approach.
+What are some of the key changes included in this interim final rule?
+This interim final rule is being published at this time, in
+particular, to make the following three key changes to the 232
+exclusions process.
+First, it addresses the need to create a more efficient method for
+approving exclusions where objections have not been received in the
+past for certain steel or aluminum articles. Commerce has determined
+creating general approved exclusions that may be used by any importing
+entity is warranted. This has been noted by commenters who submit
+exclusion requests, and by trade associations that represent those
+companies, as one of the most important changes that could be made to
+improve the efficiency of the 232 exclusion process. As described in
+much greater detail below, this interim final rule addresses this issue
+with the adoption of General Approved Exclusions (GAEs). This change
+will result in an estimated immediate decrease of 5,000 exclusion
+requests annually, resulting in a significant improvement in
+efficiency, with the possibility of more in the future. Unlike
+exclusion requests, GAEs do not include quantity limits.
+Second, it addresses a trend identified by commenters and validated
+in data reviewed by Commerce--that certain exclusion requesters may
+have requested more volume than they may have needed for their own
+business purposes compared to past usage. Submitting large numbers of
+unneeded exclusion requests decreases the efficiency of the 232
+exclusions process for potential objectors and Commerce. It also
+creates issues for potential objectors. As described in greater detail
+below, this issue is addressed by adding a new certification
+requirement for volumes requested. Along the same lines, the rule also
+adds a note to remind all parties submitting 232 submissions of the
+prohibition against making false statements to the U.S. Government and
+the consequences that may occur for such false statements.
+Third, the rule addresses an objector concern they were being held
+to a higher standard than foreign suppliers because of the
+interpretation that ``immediately'' meant the objector needed to be
+able to provide the steel or aluminum articles within 8 weeks, even
+though a foreign supplier may not be able to provide the same steel or
+aluminum article until much longer than 8 weeks. With this rule the
+term ``immediately,'' is retained but language has been modified to
+apply the same time standard to U.S. objectors and foreign suppliers
+for when the steel or aluminum articles need to be provided to the
+exclusion requester.
+What changes are not being addressed in this interim final rule?
+While this rule addresses the remaining comments from the September
+11 rule, it also addresses some of the comments received on the 232
+Exclusions Portal from the June 10 rule. However, comments requesting
+changes requiring software modification or involving additional cost
+and time to implement are still under consideration and not addressed
+here. Some examples of comments still under consideration include the
+following. There is a comment to allow confidential business
+information (CBI) submissions in the 232 Exclusions Portal which would
+require software changes and additional certifications. Another
+commenter requested two separate portals for the steel and aluminum
+exclusion processes. There are also several comments regarding the
+usability and search functionality of the 232 Exclusions Portal
+including adding a filter for steel and aluminum on the main portal
+page; adding product classes to the main portal screen with a filtering
+function; improving search functionality by adding a simple ``find
+all'' type of search capability; adding the capability to be able to
+download individual submissions and all data; making it easier to
+extract data for queried databases; adding the ability to cross search
+with multiple criteria; providing an easier way to identify exclusion
+requests by HTSUS classification and other criteria; including the
+actual due date for filing submissions, not just days remaining; adding
+a withdraw feature to the dashboard; adding a notification feature when
+objections are posted; and adding the ability to refresh without
+resetting the filters. Commerce is continuing to evaluate these
+comments and may implement additional changes to further improve the
+232 Exclusions Portal at a later date.
+This interim final rule does not summarize or respond to the
+comments included in the May 26 notice. Commerce will address these
+comments in the next rule. However, as noted below, there is
+significant overlap in the comments received on the September 11 and
+June 10 rules, so some of the comments received on the May 26 notice
+are also being addressed in this interim final rule. For example, the
+three key changes to the 232 exclusions process described above being
+made in this interim final rule will also be responsive to comments
+received on the May 26 notice.
+The following are some examples of comments from the May 26 notice
+that are still being reviewed. Additional changes to the 232 Exclusions
+Portal were requested by some commenters based on their additional
+experience, e.g., the portal being programmed to flag for special
+attention those exclusion requests that have been waiting a certain
+number of days/months for a determination. Some comments addressed the
+role of objections in the 232 exclusions process and whether objections
+have an outsized influence on the process, in particular on how long
+the Commerce decision-making process takes and whether an exclusion
+will be granted. Some comments requested creating a process to give
+preferential treatment for products further manufactured or
+substantially transformed in the United States, because such producers
+are an essential part of the U.S. steel and aluminum industry. Other
+commenters requested a 60-day window for submitting exclusion requests
+on a bi-annual basis and only product exclusion requests submitted
+during these bi-annual periods would be considered.
+Additional Improvements to the 232 Exclusions Process
+As noted above, the interim final rule being published today
+addresses the remaining comments from the September 11 rule and
+highlights what comments have been addressed from the June 10 rule.
+There is some significant overlap among those comments and comments
+received in response to the May 26 notice, so the revisions to the 232
+exclusions process described below will also be responsive to some of
+the same comments received in response to the May 26 notice. Commerce
+intends to publish at least one subsequent interim final rule that will
+describe the unaddressed comments received on the May 26 notice and any
+additional revisions Commerce will make to the 232 exclusions process
+as a result of those comments. The comments on the May 26 notice also
+included various comments on the 232 Exclusions Portal, certain of
+which are addressed below. Other comments will be summarized and
+addressed with the remaining comments on the June 10 rule that are not
+included in today's rule. Because of the programming cost and time
+involved with making changes to the 232 Exclusions Portal, Commerce
+requires more time to review and respond to those comments, in
+particular for comments where Commerce agrees that
+[[Page 81062]]
+changes to the 232 Exclusions Portal may be warranted.
+Commerce is focused on improving the 232 exclusions process as
+quickly as possible. As additional revisions are ready to be made, such
+as those being made in this rule, Commerce will publish those changes
+as quickly as possible to improve the 232 exclusions process. This
+approach of publishing a series of interim final rules has allowed
+Commerce to improve the 232 exclusions process on an ongoing basis,
+allowing the public to submit additional comments on whether the most
+recently made changes have helped to improve the process.
+This rule makes various edits to supplement no. 1 to part 705 to
+improve the 232 exclusions process. This rule also removes the
+provisions from supplement no. 2 to part 705 and consolidates those
+into supplement no. 1. This rule also adds new supplements no. 2 and
+no. 3 for identifying General Approved Exclusions (GAEs) for steel and
+aluminum articles under the 232 exclusions process and the first
+approved tranches of GAEs for steel and aluminum articles. GAEs address
+a long-standing request from public comments of exclusion requesters to
+create a more efficient process to approve certain exclusions for use
+by all importers where Commerce has determined that no objections will
+be received and where it is warranted to approve an exclusion for all
+importers to use. This rule also removes Annex 1 to supplements no. 1
+and 2, since this guidance is no longer needed with this rule's removal
+of references to www.regulations.gov from the 232 exclusions process.
+Finally, this rule makes some non-substantive edits to supplement no. 1
+to part 705 to improve readability of the supplement.
+Public Comments and BIS Responses
+The public comment period on the May 26 notice closed on July 10,
+2020. BIS received eighty-two public comments on the notice of inquiry.
+Many commenters referenced the imposition of duties and quantitative
+limitations, questioning whether or not such regulations were
+beneficial. Those comments are outside the scope of the May 26 notice
+that solicited comments on the 232 exclusions process; thus Commerce is
+generally not summarizing or providing responses to those general
+comments on the duties and quantitative limitations. Certain comments
+described and addressed below are those received in response to the
+September 11 and June 10 rules. However, some of the comments in
+responses below address issues that also were raised in some of the
+comments received in response to the May 26 notice. As a result, the
+responses below are responsive in part to comments on the May 26
+notice, and also are responsive to comments on the September 11 and
+June 10 rules.
+Improving Tracking and Transparency
+Comment (a)(1): Develop an adequate tracking system that supplies
+relevant information (more than is available now) for 232 submissions.
+Commenters requested that Commerce provide stakeholders a way to more
+easily review the Harmonized Tariff Schedule of the United States
+(HTSUS) code and product information, country of origin, volume, and
+alloys of posted exclusions--preferably, in a searchable database.
+Commenters indicated that having to open each file to identify this
+information places a burden on potential objectors, which the
+commenters suggested could be addressed with a searchable database.
+BIS response: Commerce has made changes to allow for easier
+tracking and searching of information in the 232 Exclusions Portal, as
+described in greater detail below for the improvements that have been
+made to the 232 Exclusions Portal (see BIS response to Comment (g)(2)
+below).
+Comment (a)(2): Exclusion rejection for incomplete submissions
+should be more transparent. A commenter noted that, while they do not
+expect Commerce to customize each individual response, the commenter
+believes that additional steps can be taken to help U.S. businesses
+understand the reason for a rejection. This commenter requested that
+Commerce should include on the rejection form that is posted online a
+list of common reasons for rejection. The commenter believes this would
+provide invaluable guidance to the countless small businesses
+attempting to navigate this difficult process. This commenter believes
+the current rejection form leaves manufacturers guessing as to why the
+government rejected their applications, especially when that business
+for years used the identical HTSUS code accepted by U.S. Customs and
+Border Protection (CBP) to import that product.
+BIS response: Commerce agrees that greater transparency benefits
+all applicants to the 232 exclusions process. Commerce moved its HTSUS
+administrability review to the start of the process in early 2019,
+reducing sharply the number of exclusion denials due to incomplete
+submissions identified later in the review process. Incomplete
+submissions now receive a rejection notification that includes the
+specific reasons for a rejection. Commerce does plan to update the
+rejection form used in the 232 Exclusions Portal to include a list of
+common reasons for rejection. Commerce agrees that providing this
+additional information will make the process more efficient, because
+those receiving rejections will more easily understand what was wrong
+with their exclusion request that resulted in a rejection. This may
+reduce the overall number of 232 exclusion submissions submitted.
+Confidential Business Information (CBI)
+Comment (b)(1): Supportive of the new CBI provisions. A commenter
+asserted that one of the most significant changes is the BIS decision
+to allow companies to submit CBI during the rebuttal and surrebuttal
+process. This same commenter also believes that further changes can
+improve the process beyond what BIS has already proposed.
+BIS response: Commerce agrees that adding the CBI process has
+helped to improve the 232 exclusions process. As described below,
+Commerce is open to improving the CBI process, but that must be done in
+accordance with the larger purpose of allowing CBI in the 232 exclusion
+process, as well as the current technical limitations in the 232
+Exclusions Portal.
+Comment (b)(2): Allow CBI to also be submitted for exclusions and
+objections. Commenters urged Commerce to expand the CBI provision by
+allowing companies to submit CBI within their original exclusion
+request. These commenters asserted that, given the amount of detail
+required to complete the exclusion request form, companies may be
+hesitant to submit exclusion requests for fear of sharing CBI with
+their competitors.
+BIS response: Commerce does not agree. The information required on
+the exclusion request form does not require revealing CBI in order to
+adequately complete the form, so allowing CBI in support of the initial
+exclusion request is not needed. Moreover, exclusion requesters can
+indicate they have CBI, allowing Commerce reviewers to request that CBI
+if needed for their review of the request and objections.
+Comment (b)(3): Allowing CBI in exclusions and objections would
+alleviate some concerns over short seven-day rebuttal and surrebuttal
+periods. One commenter asserted that, given the short seven-day window
+of the rebuttal process, allowing companies to submit CBI at the time
+of the application would relieve the unnecessary burdens placed on
+filers by the short rebuttal window.
+[[Page 81063]]
+BIS response: Commerce acknowledges the shortness of the seven-day
+rebuttal and surrebuttal period, but does not agree with the commenter
+that allowing CBI in the exclusion request or in objections would
+alleviate the burden on exclusion requesters or objectors during the
+rebuttal and surrebuttal period. The most appropriate time in the 232
+exclusion review process for CBI is during the rebuttal and surrebuttal
+phase when information that goes beyond what is included in the
+exclusion and objection forms may be needed to properly evaluate an
+exclusion request. Allowing CBI in exclusion requests and objections
+would slow the Commerce review process without adding any real benefit
+to the review process. As noted above, exclusion requesters and
+objectors can indicate they have CBI and Commerce reviewers can request
+that information if needed for review.
+Comment (b)(4): Process to submit CBI needs to be further
+clarified. A commenter believes the current CBI process is confusing
+because parties must submit the exclusion request form with a vague,
+yet somewhat detailed summary of the CBI and then supplement the form
+by sending a separate email to BIS with the actual confidential
+information. This same commenter was also concerned that parties risk
+the possibility that Commerce will reject their exclusion request for
+being an incomplete submission before Commerce has even received their
+confidential information.
+BIS response: Commerce understands the point being made by the
+commenter but does not agree that this requirement is unreasonable.
+Because the 232 Exclusion Process is a public process, there needs to
+be transparency to allow the other public parties involved in the
+process (objector(s) and exclusion requesters) to have an idea of the
+scope and type of CBI information that is being provided to supplement
+a rebuttal or a surrebuttal.
+Comment (b)(5): Section 301 exclusion request process uses a clear
+and simple method by which parties can submit CBI--Commerce should
+adopt same process to allow submission of public and private version. A
+commenter encouraged Commerce to implement a method similar to that of
+the Section 301 exclusion process for the Section 232 exclusion request
+process, allowing parties to submit both public and confidential
+versions of the exclusion request form.
+BIS response: Commerce sees the benefit of adopting the same type
+of approach as used under the Section 301 process. However, the
+security needed to protect such information in the 232 Exclusions
+Portal would require additional programming and certifications.
+Therefore, at the current time Commerce will not be making these
+changes. If the 232 Exclusions Portal can accommodate CBI at a future
+date, Commerce will revisit this issue.
+Exclusion Requests
+Comment (c)(1): Standard Commerce applies to exclusion requests
+remains unclear--need to specify whether in aggregate or for a specific
+requester. A commenter was concerned that it is unclear whether a
+specific requester's lack of availability and quality of material is
+the relevant consideration, or whether analysis of material quantities
+in the aggregate U.S. market provides a better metric. The commenter
+believes the proper standard should be the availability of material to
+the requesting company in the needed quality and quantity because this
+is largely in the control of the objecting supplier.
+BIS response: Commerce confirms here that exclusion requests are
+being reviewed based on the availability of material to the requesting
+company in the needed quality and quantity by U.S. suppliers. This rule
+clarifies that the standard applied to the review of an exclusion
+request is a case-by-case review to determine whether the requester has
+shown that the article is not produced in the United States in a
+sufficiently and reasonably available amount or of a satisfactory
+quality, or that there are specific national security considerations to
+grant the exclusion. In general, if no U.S. supplier submits an
+objection, absent a national security concern, Commerce approves such
+exclusion requests because a determination can be made that a U.S.
+supplier is not available to supply to the exclusion requester the
+needed quality and quantity of steel or aluminum described in the
+exclusion request.
+Comment (c)(2): Inconsistencies in the posted exclusion requests
+make it difficult for objectors to adequately review and respond.
+Commenters in this area are concerned whether exclusion requesters are
+consistently filling out the forms, and whether Commerce is adequately
+ensuring that the exclusion forms being posted meet the required
+standards of the form. For example, one commenter noted that hundreds
+of exclusion requests include no alloy designation (Question 4.b), but
+instead reference the HTSUS code or simply leave that field blank. This
+commenter asserted that an alloy designation is an important identifier
+for assessing the validity of an exclusion request, so its omission in
+many exclusion requests makes it difficult for potential objectors.
+Another commenter noted that many exclusion requests--including those
+that have already been approved--fail to indicate a volume associated
+with the included countries of origin.
+BIS response: Commerce acknowledges that, in certain cases, there
+has been some variability in how exclusion requesters or objectors have
+filled out the respective forms. Commerce has revised its standard
+operating procedures (SOPs) and conducted training for those reviewing
+232 submissions at Commerce to emphasize the importance of ensuring
+that the exclusion and objection forms are being completed in
+accordance with the information required on the forms. As a result of
+this comment, Commerce has highlighted these issues to the Commerce
+reviewers of the 232 submissions to ensure consistency and warns that
+submissions that do not meet the standards of the information required
+on the forms will be rejected.
+Comment (c)(3): ``Size ranges'' clarification was helpful in the
+September 11 rule, but additional clarification needed. A commenter
+noted that the September 11 rule offers some additional information on
+acceptable ranges but could be improved. The BIS response to Comment
+(g)(3) in the September 11 rule states that the exclusion request form
+allows for a product that may be within a specific range but not for
+products across a wide range. A permissible range must be within the
+minimum and maximum range that is specified in the tariff provision and
+applicable legal notes for the provision. This commenter believes that
+this suggests that products identical in all aspects, with the
+exception of a dimensional characteristic, and classified within the
+same HTSUS statistical reporting number, could be included within a
+single request. However, the commenter was concerned that the
+regulatory text under paragraph (c)(2) suggests that separate exclusion
+requests must be submitted for steel products with ``distinct critical
+dimensions'' covered by a common HTSUS statistical reporting number,
+and examples provided in the rule are for specific sizes of products,
+which does not appear inconsistent with Comment (g)(3) from the
+September 11 rule.
+BIS response: Commerce agrees a clarification to paragraph (c)(2)
+is warranted. This interim final rule, as described below in the
+regulatory changes, removes the word ``distinct'' before ``critical''
+in the example
+[[Page 81064]]
+provided under paragraph (c)(2). This change is made to avoid any
+potential confusion on the scope of ranges that are permissible under
+an exclusion request. Commerce clarifies that products identical in all
+aspects, with the exception of a dimensional characteristic, and that
+are classified within the same HTSUS statistical reporting number, may
+be included within a single request. However, objections that indicate
+the ability to produce one or more products within the range, even if
+not the entire range, will be considered to be valid objections to an
+exclusion request.
+Comment (c)(4): Concerned that Commerce is not adequately reviewing
+exclusion requests. A commenter requested that Commerce fully evaluate
+all exclusion requests--including those for which no objections are
+filed--to ensure that the volumes requested are proportional to the
+U.S. market. This commenter was concerned that, generally, it seems
+Commerce is not evaluating whether there is actually demand in the
+market for these large volumes, and has granted requests based simply
+on the absence of any objections.
+BIS response: Commerce recognizes that there are exclusion requests
+for volumes that exceed prior years' consumption but that often receive
+no objections. Commerce also recognizes that there are objections that,
+in total, exceed the objectors' total capacity. Commerce is reviewing
+this issue to determine whether there is an approach to factor volumes
+requested and objected to in an objective, transparent, and efficient
+way. As an initial step to address this issue, this interim final rule
+makes regulatory changes to the 232 exclusions process, as described
+below under the 232 exclusion request volume certification heading to
+require a certification from exclusion requesters for volume requested
+and, when applicable, a certification for volume requested but
+unfulfilled due to legitimate circumstances when submitting exclusion
+requests in the 232 Exclusions Portal.
+Comment (c)(5): Does not believe Commerce has implemented an
+expedited approval process for exclusions that receive no objections--
+contrary to what was stated in the September 11 rule and in statements
+by Commerce in other venues that Commerce would adopt such an expedited
+process. One commenter noted that Commerce does not yet appear to be
+adjudicating requests faster as a result of the updated exclusion
+process with some exclusion requests.
+BIS response: Commerce believes this comment was likely made as
+Commerce was working to address the initial backlog of exclusion
+requests that did receive objections and does not reflect the current
+status. At this time, the expedited review process for exclusions that
+do not receive objections is functioning well, with an average response
+time, as of July 20, 2020, of approximately 60 days, less than half the
+average processing time for exclusions that receive objections and a
+significant decrease in overall response times compared to earlier in
+the process.
+Comment (c)(6): Product descriptions in exclusion requests and
+approval decisions need to be more specific to ensure CBP can determine
+what is approved. A commenter noted that Commerce has granted a number
+of exclusion requests where the ``product description'' on both the
+request and Commerce's decision document is only the name for a general
+category of products and any detail regarding the size, chemistry, and
+other characteristics that may indicate that particular product at
+issue is not available from domestic sources are not carried over from
+the application. This commenter noted that greater specificity was
+needed in the approved exclusions.
+BIS response: Commerce works closely with CBP. Additional
+information is provided to CBP to ensure that CBP is able to
+effectively implement approved exclusions. CBP consults as needed with
+Commerce if any questions arise regarding the scope of a specific
+approved exclusion request.
+Comment (c)(7): Need to specify when the validity of an approved
+exclusion request begins. A commenter noted that there has been a
+number of exclusions granted where shipments were entered after the
+posting of the request but before the decision. The commenter asked for
+clarification if the one-year timeframe begins once the decision is
+made or if some other point is used to start the one-year timeframe.
+BIS response: Commerce clarifies that, as specified in paragraph
+(h)(2)(iii)(A) (Effective date for approved exclusions), an approved
+exclusion will be effective five business days after publication of the
+Commerce response granting an exclusion in the 232 Exclusions Portal.
+If granted, exclusions are generally effective for one year from the
+date of signature on the Decision Memo. Companies may also file Post-
+Summary Corrections with CBP on unliquidated entries to recoup any
+tariffs paid on products that made entry between the submission date
+and the date of signature. Companies are able to receive retroactive
+relief on granted requests dating back to the date of the request's
+submission on unliquidated entries. However, requesters should note
+that where retroactive relief is granted, the quantities granted
+retroactive relief are still counted against the total quantity granted
+in the exclusion. The exclusion request expires when either the
+quantity granted has been exhausted or the exclusion reaches the end of
+the effective period specified in the decision memo (generally one year
+from the date of the decision), whichever comes first, and no pro-rata
+additional quantity is provided for retroactive relief. Given that
+duties do not apply for countries with quotas, retroactive relief is
+not applicable for exclusions from quotas.
+Once the exclusion becomes effective, the steel or aluminum
+articles specified in the approved decision memo in entries that have
+not been liquidated by CBP are those eligible for tariff refunds or
+tariff exclusions.
+Comment (c)(8): Product exclusions should be permanent not
+temporary (and on a universal basis). A commenter noted that temporary
+exclusions inject significant uncertainty into the business planning of
+companies and therefore recommended permanent exclusions.
+BIS response: Commerce does not agree that all product exclusions
+should be permanent and issued on a universal basis because that would
+defeat the purpose of the duties. Commerce does agree that for certain
+steel and aluminum articles, a more efficient approval mechanism is
+warranted and that the approval should be universal. Specifically, for
+certain steel and aluminum articles, Commerce has created General
+Approved Exclusions (GAEs) under the new supplements no. 2 and 3 to
+part 705 being added to this rule, which will be available to all
+importers.
+Comment (c)(9): Create streamlined process to allow one company
+seeking an exclusion for the same product already approved to a second
+company to quickly obtain an approved exclusion. A commenter requested
+that Commerce provide a streamlined process whereby a second company
+seeking to use an exclusion already granted to a U.S. company can
+quickly obtain the right to use the same product exclusion.
+BIS response: Commerce does not agree. The exclusion process is
+intended to be specific to each requester and each request must be
+reviewed on its own merits, allowing for potential objections and
+permitting rebuttal and surrebuttal process to play out as needed. As
+referenced in the previous comment, the GAEs are also responsive to
+some of what this commenter is requesting in
+[[Page 81065]]
+terms of creating a more efficient approval process where Commerce
+determines that relief is warranted in a particular circumstance for
+all importers.
+Comment (c)(10): Commerce should use its discretion to make
+exclusions available to all importers. A commenter requested that if a
+product is not made in the United States or is not made in sufficient
+quantity or quality, Commerce must grant a broader product exclusion
+(not just on a company-by-company, product-by-product basis). Another
+commenter noted that the Secretary and others at Commerce have
+repeatedly denied associations the ability to submit exclusion requests
+on behalf of their industries for widely used goods, because Commerce
+sought to identify those products receiving the most requests. However,
+the Secretary has yet to exercise this authority to grant general
+exclusions despite the same HTSUS codes receiving multiple requests.
+BIS response: As noted above, in this rule, Commerce is creating
+GAEs with the additions of supplement no. 2 and 3 to part 705. The
+creation of GAEs addresses this comment and will create a more
+efficient 232 exclusion process and reduce the burdens on exclusion
+requesters.
+Comment (c)(11): Explain circumstances under which BIS will approve
+broader product exclusions and how U.S. companies may request such an
+exclusion. A commenter noted that Commerce continues to state that it
+is considering approving broader exclusion requests, which can apply to
+multiple importers. However, no additional guidance has been provided
+as to how groups of companies can ask for such a broader exclusion.
+BIS response: This rule explains the circumstances when Commerce
+will approve broader product exclusions. These provisions are described
+in the new supplements no. 2 and 3 to part 705 with the addition of
+GAEs. The introductory text of the new supplements explain the process
+of how Commerce will approve these GAEs. As previously noted, these
+determinations for what steel or aluminum articles warrant being
+included in a GAE will be made by Commerce, in consultation with the
+other agencies referenced in the new supplements. The public will not
+be involved in requesting new or revised GAEs, but Commerce will use
+the information provided in exclusion requests to inform its review
+process for what additional GAE should be added or what revisions
+should be made to existing GAEs.
+Comment (c)(12): Process for making changes to an approved
+exclusion request. A commenter requested guidance be provided for how
+to make a correction to an application for exclusion after the
+exclusion has been approved.
+BIS response: This is a feature under consideration, but until that
+revision can be implemented, a new exclusion request will need to be
+submitted in the event of such circumstances. Commerce does clarify
+that BIS will make, when warranted in the 232 Exclusions Portal,
+technical corrections and a few other forms of ``non-substantive
+changes'' including: Importer of record (IOR) changes; supplier/
+manufacturer changes; corrections to match product descriptions with
+product specifications; and corrections to organization information
+(i.e., accidental transposition of fields).
+Objections
+Comment (d)(1): Concerned that Commerce has too much leeway to
+interpret the criteria ``not produced in the United States in a
+sufficient and reasonably available amount'' and ``not produced in the
+United States in a satisfactory quality.'' A commenter was concerned
+that this broad interpretation by Commerce could lead to the negation
+of exclusion requests in situations where one company files an
+objection that claims that it in theory could make that product in
+sufficient quantity or quality. The commenter noted that rebuttals to
+these claims are difficult to make without more detailed information
+from objectors on how they could make products in sufficient quantity
+or quality.
+BIS response: The criteria comes from the underlying Proclamations
+that authorize the creation of the 232 exclusions process. Therefore,
+Commerce does not have the discretion to change the criteria. Commerce
+added the rebuttal process, as well as the surrebuttal process, to
+allow requesters and objectors to further address the representations
+made in objections and rebuttals. Ultimately, if an exclusion request
+is not approved because of an objection, the exclusion requester will
+be able to determine definitively whether an objector is in fact able
+to provide the steel or aluminum article in question by attempting to
+obtain the product from the objector. Should all objectors be unable to
+produce a requested product as they represented in their objections,
+the requester may submit a new request with documentation evidencing
+this refusal. Commerce understands that time is vital to an exclusion
+requester and seeks to ensure that objectors provide sufficient
+information for a thorough evaluation of the request and objection.
+Moreover, objectors must certify their ability to manufacture the
+products described within their objections.
+Comment (d)(2): Objections should be reviewed cumulatively. A
+commenter is concerned that Commerce is not considering the cumulative
+impact of objections to exclusions. This commenter noted that U.S.
+producers that are filing objections to exclusion requests are
+routinely stating that the objector can and would fill the demand for
+the subject product. This commenter noted that while it may be true
+that the objector could reasonably expect to fill the needs of an
+individual company making an exclusion request, it is possible (or
+likely) that the objector could not fill the full demand for that
+product from all companies requesting an exclusion let alone all of the
+demand from other customers in the U.S.
+BIS response: Commerce is aware of this concern and has evaluated
+statistics on the 232 exclusions process, determining that, although
+there may be some anecdotal examples of where this occurred, as a
+general trend, the statistics do not support that this is a significant
+issue with objections in the 232 exclusions process. In the past year,
+BIS has received objections to exclusion requests for approximately 19
+million metric tons of steel products, or roughly 16% of total U.S.
+steel production capacity. None of the companies with publicly
+available capacity figures objected to more than their total capacity.
+When factoring in that multiple companies often object to the same
+exclusion request, volume objected to as a percentage of total capacity
+was significantly lower. Exclusion requesters are encouraged to provide
+documentation in their requests or rebuttal filings that objectors are
+unable to supply the products being requested because of insufficient
+capacity.
+Comment (d)(3): Exclusion process guidelines are unclear about the
+obligations that come with filing an objection. A commenter asked for
+clarification from Commerce about whether producers should be
+submitting objections if they have the capability to make a product,
+but not the immediate capacity, or if they can only produce a fraction
+of the requested volume for a specific manufacturer. For example, the
+commenter noted that aluminum producers have expressed a concern that
+filing an objection will obligate that producer to offer for sale the
+full scope and volume of imports included in a request--which, if
+importers are
+[[Page 81066]]
+requesting massive volumes, might be impossible.
+BIS response: Commerce agrees this should be clarified in the
+regulations and makes changes to paragraph (c)(6)(i), as described
+below, to address this issue. Commerce has the ability to deny a part
+of an exclusion request when an objector demonstrates sufficiently in
+the objection and any potential surrebuttal that they are able to
+produce a portion of the requested quantity of a steel or aluminum
+article within the required time needed by the importer. Therefore,
+objectors should not be deterred from submitting objections when they
+may not be able to fulfill 100% of the requested exclusion. Over time,
+as more of their domestic capacity comes back online or is added, these
+same objectors may be able to fulfill larger percentages of the
+exclusion requests, which would help to better achieve the stated
+purposes of the duties in helping to support the domestic production
+capabilities and capacity that are critical to protecting U.S. national
+security. Commerce is reviewing this issue to determine whether there
+is an objective, transparent, and efficient approach to take into
+consideration volumes requested and objected to under the 232
+exclusions process.
+Comment (d)(4): Modify the objection form (and the rebuttal and
+surrebuttal form) to clarify whether companies can object on the
+ostensible grounds that they have the capability to make a product. A
+commenter requested guidance on how Commerce will consider objections
+from producers that have the capability to make a product but do not
+have immediately available capacity to meet the importer's stated
+needs.
+BIS response: Commerce does not agree that the objection form, or
+the rebuttal or surrebuttal form need to be updated to address this
+commenter's concern. The information required on rebuttal and
+surrebuttal forms, as well as the objection criteria specified in
+paragraph (d), provides a clear standard that Commerce may apply. After
+reviewing an objection, rebutters may also inform the Commerce review
+process by evaluating and commenting on whether an objector will be
+able to provide the needed steel or aluminum article in the quantity
+and quality and to make that ``immediately available'' from an
+exclusion requester's perspective. As described below, this rule makes
+additional changes for what constitutes being ``immediately
+available,'' and these changes will further clarify the application of
+this criteria to make sure that U.S. producers are being held to the
+same standard as potential foreign competitors in meeting the time
+required for delivery of the steel or aluminum article for which they
+are requesting an exclusion.
+Comment (d)(5): Objecting parties should be required to fill
+orders. A commenter noted that this would prevent the objection process
+from becoming a lever for business competition with domestic parties
+objecting to an exclusion request and then refusing to fill orders or
+only filling orders at inflated prices. This commenter also asked that
+companies that were denied an exclusion requested on the basis of an
+objection be permitted to show evidence of an inability to secure
+material and gain an exception if the objecting party cannot fill
+orders.
+BIS response: Commerce understands the reasoning behind this
+comment but is also mindful that it is not the role of Commerce to
+dictate whether an objector must sell the steel or aluminum article, or
+whether the exclusion requester must purchase the steel or aluminum
+article from the objector. For example, as the commenter noted, the
+objector may be able to provide the steel or aluminum but at a price
+that is not tenable for the exclusion requester or at a price that does
+not justify the exclusion requester switching suppliers of the steel or
+aluminum article. Commerce believes that these types of business
+decisions should be left to the two companies involved so as to not
+unduly influence the functioning of the market. As for the request to
+allow an exclusion requester to subsequently reference in a new
+exclusion request that an objector was not able to provide the steel or
+aluminum in a previous exclusion request, the current process already
+addresses that sufficiently. First, the exclusion requester may submit
+a new exclusion request. The earlier objector may choose not to object
+to the new exclusion request based on their past experience of not
+being able to provide the steel or aluminum article. Assuming no other
+objector comes forward, the exclusion request will be reviewed under
+the expedited process. If the same objector objects to the new
+exclusion request, the rebuttal process allows the exclusion requester
+to document in the rebuttal the past activity with that objector.
+Comment (d)(6): Objections should also be rejected for
+incompleteness. If Commerce is rejecting requests based on
+incompleteness, we believe it should extend the same scrutiny to
+objections.
+BIS response: Commerce agrees and does reject objections for
+incompleteness when warranted. BIS does review objections (and
+rebuttals/surrebuttals) for completeness, but a rejection is rare for
+these filings in the 232 Exclusions Portal. The Portal has mandatory
+fields that ensure most filings are complete. However, there is a
+different standard of what is necessary for a complete submission of an
+exclusion request versus an objection. The former generally must meet
+more specific review criteria. At this time, objectors may list
+capacity, utilization, manufacturing, or delivery time data as CBI on
+the objection form. Commerce's International Trade Administration
+(ITA), on behalf of BIS and Commerce, will then request this
+information if needed.
+Comment (d)(7): Delivery times are getting much longer because of
+the tariffs and U.S. producers are approaching maximum capacity
+utilization rates. A commenter noted that prior to the imposition of
+tariffs for non-specialty metals, many steel users reported roughly
+six-week to eight-week lead times. Since the steel tariffs took effect,
+those same members report the doubling of delivery times, creating
+significant delays and interruptions in the manufacturing supply chain
+that could lead Original Equipment Manufacturers (OEMs) to source their
+inputs from non[hyphen]U.S. sources that experience less volatility due
+to government interference.
+BIS response: To the extent there has been an increase in delivery
+times related to the tariffs, importers seeking exclusions can always
+import the article and pay the tariffs while their exclusion requests
+are pending. In addition, an objector must have the article
+``immediately available'' in the needed quantity and quality. As
+referenced below in the clarifications being made to ``immediately
+available,'' the previous criteria were holding U.S. producers in many
+cases to shorter delivery times than foreign competitors, a discrepancy
+that is being addressed in this rule. Commerce believes that the
+``immediately available'' criterion, which is being refined in this
+rule, provides a reasonable standard that should not result in a
+lengthening of the time period for delivery of steel and aluminum
+articles for U.S. users.
+Comment (d)(8): Producers should be held accountable. A commenter
+requested that Commerce hold organizations that file objections to the
+highest of standards. Commerce should require specificity before
+considering the objection and should question and verify the assertions
+made by the objectors or claims made in surrebuttals.
+BIS response: Commerce agrees that all parties, both objectors and
+requesters, should be held to the
+[[Page 81067]]
+standards set forth in the regulations. Accordingly, parties making
+submissions to Commerce with regard to an exclusion request are
+required to legally certify the veracity of the submission. These
+standards are specified on the objection and surrebuttal forms, in the
+criteria specified in paragraphs (d) and (g), on the exclusion request
+and rebuttal forms, and in the criteria specified in paragraphs (c) and
+(f) of supplement no. 1 to part 705.
+Comment (d)(9): U.S. steel producers are approaching maximum
+capacity utilization rates. A commenter noted that one objector
+reported its facility is currently operating at an 89% capacity
+utilization rate, well above the 80% target set by Commerce and at
+levels not seen since prior to the Great Recession. This commenter also
+noted that the American Iron and Steel Institute reported that for the
+week ending November 10, 2018, domestic raw steel production saw a
+capacity utilization rate of 81.7%, also above the 80% threshold.
+BIS response: As stated in the 232 report, the 80 percent figure is
+an ``average'' rate for financial viability of the industry which is
+``necessary to sustain adequate profitability and continued capital
+investment, research, and development, and workforce enhancement in the
+steel sector.'' The U.S. steel industry's capacity utilization rates
+have not been sustained. That said, making changes to the duties being
+imposed and/or quotas implemented are outside the scope of this rule.
+Criteria Defining What Is Meant by Available ``immediately''
+Comment (e)(1): September 11 rule defining what was meant by
+available ``immediately'' was a positive step that improved the 232
+process. A commenter noted that setting a clear definition of
+``available immediately'' at eight weeks is a reasonable timeline and
+helps provide stability to steel and aluminum[hyphen]using
+manufacturers.
+BIS response: Commerce agrees that providing a definition of
+``immediately available'' was a positive step in providing greater
+transparency and consistency for the 232 exclusion process. However,
+defining ``immediately available'' as eight weeks meant that, in
+certain cases, U.S. producers could be held to a shorter delivery time
+than foreign competitors and was more restrictive than the timeframe
+needed by the importer for their business needs. As described below, to
+address this fairness issue and to create equal treatment, this interim
+final rule revises the criteria for available ``immediately'' and
+specifies that if an objector is asserting that it is not currently
+producing the steel or aluminum identified in an exclusion request but
+can produce the steel or aluminum, the objector must be able to make it
+available in accordance with the commercial needs of the U.S. user of
+the steel or aluminum, as described in the exclusion request. Under
+this revised criteria in paragraph (d)(4), the objector must identify
+how it will be able to produce and deliver the quantity of steel or
+aluminum needed either within eight weeks, or if after eight weeks, by
+a date which is earlier than the date that a named foreign supplier can
+deliver the entire quantity of the requested product. It is incumbent
+on both the exclusion requester and the objecting producers to provide
+supplemental evidence supporting their claimed delivery times.
+Comment (e)(2): Objections that do not clearly meet the
+``immediately'' standard should be rejected. A commenter noted that
+objections to exclusion requests available on the 232 Exclusions Portal
+reveal numerous vague assertions that clearly do not meet the available
+``immediately'' threshold set forth by Commerce. This commenter
+recommends that Commerce reject these objections outright.
+BIS response: Commerce holds objectors to the standard specified in
+the regulations under paragraph (d) and requires objectors to complete
+the objection form, and the surrebuttal form as applicable, fully and
+accurately. If an objector is not able to meet the available
+``immediately'' criteria, Commerce will not deny such an exclusion
+request. Requesters can provide additional information on the rebuttal
+form. In reviewing the exclusion request to make a final determination,
+Commerce takes into account information provided in the rebuttal to
+evaluate whether the objector can produce the article in sufficient
+quantity and quality, and within the time specified in the criteria in
+paragraph (d) of supplement no. 1 to part 705.
+Comment (e)(3): Defining eight weeks as ``immediate delivery'' is
+unrealistic and it would be better to make the standard based on the
+nature of the product. A commenter noted that it is unrealistic to
+require domestic producers to supply a requested product in the volume
+requested within eight weeks as a prerequisite to filing a valid
+objection and that this requirement appears to reflect a
+misunderstanding of how both the steel industry and international
+shipping work. This commenter also noted that in determining that eight
+weeks is the appropriate timeframe, Commerce regrettably rejected a
+suggestion that the time frame should depend on the nature of the
+product--with simpler products subject to a shorter timeframe than more
+sophisticated products--and in any case, should be no shorter than 12
+to 16 weeks.
+BIS response: As described above, Commerce agrees that
+clarification is warranted for use of eight weeks under the available
+``immediately'' criteria. The changes this rule makes will also be
+responsive to this commenter's concerns.
+Comment (e)(4): Allowing foreign suppliers one year to supply the
+steel or aluminum for approved exclusions, but only allowing eight
+weeks for domestic suppliers creates an unfair playing field. A
+commenter noted that granted exclusions are valid for one year and will
+presumably be supplied by foreign producers over the course of that
+year, not all at once. This commenter noted that requiring a U.S.
+producer to supply the consumer within eight weeks makes little sense
+and runs counter to the rationale underlying the adjustments to imports
+ordered by the President.
+BIS response: Commerce agrees and is making changes in the rule for
+how ``immediately'' is defined to create equal treatment for U.S. and
+foreign producers.
+Comment (e)(5): ``Immediately'' should mean being able to provide
+the steel or aluminum as quickly as a foreign supplier. A commenter
+noted that the minimum standard that Commerce should establish for
+objections is 12 weeks (84 days), which they consider a reasonable and
+representative time for a foreign producer to make a simple steel item
+and ship it to the United States. This commenter recommended that
+Commerce should only determine that the domestic product is not
+``immediately'' available when a domestic source cannot provide
+material before offshore suppliers.
+BIS response: Commerce has retained eight weeks as part of the
+available ``immediately'' criteria under paragraph (d)(4) but, as
+described elsewhere in this rule, is also making changes to the
+criteria that are responsive to this commenter's concerns.
+Comment (e)(6): Need to specify the quantity that needs to be
+supplied within the ``immediate delivery'' timeframe. A commenter noted
+that there is no indication in the current version of the regulations
+of the quantity that must be supplied within the ``immediate delivery''
+timeframe. The commenter noted that the current regulations specify
+that if an objector is not currently producing the product at
+[[Page 81068]]
+issue, then ``the objector must identify how it will be able to produce
+the article within eight weeks,'' detailing in writing the timeline to
+start production. This commenter recommends clarifying whether this
+means the production must merely start, shipments of commercial
+quantities must begin, or the total quantity must be delivered within
+the specified time.
+BIS response: Commerce agrees this should be clarified. As
+described below, this rule revises paragraph (d)(4) of supplement no. 1
+to specify the objector must identify how it will be able to produce
+and deliver the quantity of steel or aluminum needed either within
+eight weeks, or if after eight weeks, by a date which is earlier than
+the date that a named foreign supplier can deliver the entire quantity
+of the requested product. The addition of the phrase ``and deliver''
+after the term ``produce'' will address the concern raised by this
+commenter.
+Comment (e)(7): Production capacity for steel and aluminum
+producers must be considered during objection and rebuttal process. As
+Commerce considers objections filed by steel and aluminum companies,
+Commerce must ask the steel and aluminum producers several probing
+questions to truly determine the capabilities of suppliers to meet the
+consuming industries' needs and consider these answers surrounding
+domestic capacity when making exclusion decisions. The commenter noted
+that these questions should include at a minimum: ``Do the steel or
+aluminum companies currently manufacture and supply the product in the
+United States? If so, have their deliveries to their customers been
+timely, and is so, for how long? What is the steel or aluminum
+companies' current manufacturing capacity and timeframe for ramping up
+if they currently do not have the capacity?''
+BIS response: Commerce believes the information required on the
+objection form, surrebuttal form as applicable, and the criteria in
+paragraph (d) to supplement no. 1 that is used by Commerce, is
+sufficiently informative to determine the production capabilities of
+objectors. This information is also supplemented by the evidence
+provided through rebuttals and surrebuttals, and through CBI submitted
+in support of rebuttals and surrebuttals. Commerce does not believe
+additional questions are required to be added to the objection or
+surrebuttal forms in order to make determinations on the production
+capabilities of objectors.
+Rebuttals and Surrebuttals
+Comment (f)(1): Seven days is not enough time for rebuttals and
+surrebuttals. A commenter does not agree that allowing only seven days
+for such comments is appropriate. This commenter noted that considering
+the volumes of new information being submitted in some rebuttals, one
+week is not enough time for a domestic producer to analyze the
+information and offer a meaningful surrebuttal.
+BIS response: Commerce does not agree. The length of time for
+decisions under the 232 exclusions process is a concern for many
+entities, including Commerce. The inclusion of the rebuttal and
+surrebuttal comment periods helps to better inform the 232 exclusion
+process for Commerce, but Commerce is also mindful not to allow these
+additional comment periods to add any more time to the review process
+than is needed. Commerce believes that those parties involved in a 232
+submission that receives an objection or a rebuttal should place a
+priority on reviewing the objection or rebuttal in a timely fashion,
+submitting any warranted rebuttal or surrebuttal. Commerce believes a
+one-week period is sufficient for the review of an objection or
+rebuttal, and allows for the party to conduct any needed follow up
+conversations and to prepare and submit a rebuttal or surrebuttal as
+applicable.
+Comment (f)(2): Allowing unlimited number of refilings of
+exclusions undermines the usefulness of objections, and the rebuttal/
+surrebuttal process. A commenter questioned whether rebuttals and
+surrebuttals are a worthwhile use of resources if requesters remain
+free to submit unlimited numbers of exemption requests. This commenter
+noted that a requester could, in lieu of a rebuttal, file a revised
+request addressing whatever deficiencies were identified in the
+objection. This commenter noted that this would alleviate some of the
+unfairness of requiring domestic producers to respond to untold volumes
+of new information in just a few days and would aid Commerce's analysis
+by promoting thoughtful and complete original application requests
+instead of reviews of hurried rebuttal and surrebuttal comments.
+BIS response: As a general matter, Commerce believes that it is
+important to allow an unlimited number of exclusion requests to be
+submitted. As described above, the ability to submit a successive
+exclusion request is a key way that the 232 exclusion process addresses
+cases where an objection may have resulted in the denial of an
+exclusion request, but then subsequently no objector was able to
+deliver the steel or aluminum in the quantity and quality needed
+``immediately.'' Therefore, Commerce does not agree that a restriction
+should be added to restrict the number of exclusion requests that may
+be submitted.
+Comment (f)(3): Allowing unlimited refilings of exclusions allows
+for the potential to overwhelm potential objectors. A commenter noted
+that if Commerce continues the rebuttal and surrebuttal process, it
+should consider limiting a party's ability to file multiple exclusion
+requests for the same product. This commenter noted that the current
+system provides an incentive for entities seeking exclusions to submit
+them over and over again with only minor modifications in an attempt to
+overwhelm domestic producers so that domestic interests fail to file
+objections because there are simply too many requests or they believe
+an objection to have already been filed.
+BIS response: As noted above, Commerce is reviewing the issue of
+the volume of articles subject to exclusion requests and objections and
+will address this issue in a subsequent IFR.
+232 Exclusions Portal
+Since the launch of the 232 Exclusions Portal, Commerce has
+implemented a number of enhancements that address some of the key
+comments received in response to the June 10 and May 26 rule. Commerce
+has highlighted the changes made to the 232 Exclusions Portal, which
+are responsive to these comments received in response to the June 10
+rule, as well as some of the comments received on the May 26 notice.
+There are additional requested changes to the 232 Exclusions Portal in
+response to the June 10 rule and the May 26 notice that Commerce is
+still reviewing. Commerce will summarize and address those comments in
+at least one subsequent rule, although enhancements in the
+functionality of the 232 Exclusions Portal, similar to the enhancements
+described below, will likely be implemented on an ongoing basis as they
+are ready to be implemented.
+Comment (g)(1): Ability to import previously-filed submissions. A
+commenter noted that allowing the ability to import previously-filed
+submissions would be extremely beneficial for exclusion requesters and
+objectors, reducing the time burdens on repeat users of the 232
+Exclusions Portal. Another commenter noted that the nature of manual
+entry in the new 232 Exclusions Portal is likely to create
+[[Page 81069]]
+significant opportunity for errors and requires significantly more time
+and resource allocation than under the previous system. The ability to
+reuse information included in previously submitted 232 submission forms
+would be very beneficial. A commenter acknowledged that the user guide
+for the 232 Exclusions Portal provides information on creating a
+profile within web-browsers, but a simplified system for importing
+previously-filed submissions by users through their dashboard would be
+immensely beneficial for all users of the system.
+BIS response: Commerce clarifies here that the AutoFill Feature of
+the 232 Exclusions Portal addresses these comments. The AutoFill
+Feature that launched with the 232 Exclusions Portal addresses several
+of the comments submitted in response to the June 10 rule. AutoFill
+enables users to effectively import previous filings by allowing them
+to fill out a filing once and then save that template for reuse in
+future filings. It also allows users to save their in-progress filings
+as templates. A native save/share feature is still under discussion.
+Comment (g)(2): Increasing the search functionality in the 232
+Exclusions Portal. Commerce received a number of comments requesting
+improvements to various aspects of the search functionality in the 232
+Exclusions Portal. A commenter requested that product class should be a
+searchable field, and that product class should be added to the main
+portal screen with a filtering function. Another commenter noted that
+the search functionality needs to be improved by adding a simple ``find
+all'' type of search capability in the 232 Exclusions Portal. One
+commenter noted that the search functionality is not as good as it is
+in www.regulations.gov. Another commenter requested a change be made to
+allow the download of individual submissions and all data in the new
+portal. Specifically, this commenter noted that it is extremely
+important that all users can download both individual submissions
+(exclusion requests, objections, rebuttal, and surrebuttal filings) and
+the information found in the portal in its entirety, as can be done
+currently in www.regulations.gov. Another commenter noted that it is
+difficult to extract data for queried databases, particularly from the
+volume and origin fields. Another commenter requested allowing users to
+refresh the portal without resetting the filters.
+BIS response: Commerce had addressed a number of these concerns
+with the 232 Exclusions Portal by improving the Public Data Extract
+functionality of the portal. The Public Data Extract tool allows users
+to download a filterable and searchable set of all filed data in the
+232 Exclusions Portal, effectively functioning as an advanced search
+feature. Commerce will continue to consider additional measures to
+improve the Public Data Extract tool.
+Comment (g)(3): Improving Dashboard functionality. A commenter
+requested that the dashboard allow organizations to allow others in
+their organizations to view submissions made by others in the same
+organization.
+BIS response: Commerce has made changes under the Dashboard Limit
+to address these types of requests for additional Dashboard
+functionality. Commerce expanded the Dashboard View in the 232
+Exclusions Portal in 2020, improving dashboard functionality by
+allowing users to see all of their filings in one location on the front
+page of their Dashboard.
+Comment (g)(4): Allow extensions of time when 232 Exclusions Portal
+is not accessible. A commenter expressed concern about technical issues
+with accessing the new 232 Exclusions Portal. This commenter requested
+that if documented information technology issues with the portal occur,
+Commerce should be able to extend the time for companies to file
+exclusion requests or objections.
+BIS response: Commerce has taken steps to address technical
+extensions for timelines for 232 submission. Specifically, BIS works
+with users on a case-by-case basis to address any technical issues
+encountered and take necessary corrective action. Occasionally these
+corrective measures may include reopening filing windows during periods
+in which they were inaccessible.
+Changes Made in This Interim Final Rule To Improve the 232 Exclusions
+Process
+Simplification of the Text
+As described further below, this rule makes three changes to
+simplify the text for the 232 exclusions process by removing one of the
+supplements, and making conforming changes to add references to
+aluminum in the steel supplement; removing references to
+www.regulations.gov; and, as a conforming change, removing the Annex
+that provided steps for using www.regulations.gov.
+When Commerce added supplements nos. 1 and 2 to part 705, the
+objective was to create two parallel supplements with one specific to
+the 232 exclusion process for steel under supplement no. 1, and a
+second one specific to the 232 exclusion process for aluminum under
+supplement no. 2. Commerce has reevaluated whether this parallel
+structure is needed because the vast majority of the text is identical
+between the two supplements and, when making updates to improve the
+regulatory provisions, it creates the potential for unintended
+differences between the two supplements and makes updating the two
+supplements more burdensome than necessary. For these reasons, in this
+rule Commerce is removing supplement no. 2 to part 705 and is making
+conforming changes to supplement no. 1 where information that is
+specific to aluminum needs to be added because of the removal of
+supplement no. 2.
+This interim final rule updates and simplifies the text in
+supplement no. 1 by removing various references to www.regulations.gov
+and all text that was previously needed in supplement no. 1 to describe
+the previous process of using www.regulations.gov for submitting 232
+submissions. At this time, there are no longer any more pending 232
+exclusion requests in www.regulations.gov. Therefore, Commerce is
+removing those references to www.regulations.gov from supplement no. 1
+in this rule, thus simplifying and shortening the text in supplement
+no. 1 considerably.
+As an additional conforming change related to the removal of
+references to www.regulations.gov, this rule removes Annex 1 to
+Supplements No. 1 and 2 to Part 705_Steps for Using Regulations.gov to
+File Rebuttals and Surrebuttals. The additional guidance included in
+this Annex is no longer needed because www.regulations.gov is no longer
+being used for the 232 exclusions process. The 232 Exclusions Portal
+does not require guidance on the steps to be included in the
+regulations.
+Adding Reminder Regarding Consequences for False Statements or
+Representations
+This interim final rule adds a new Note 2 to Paragraph (b) to
+remind all parties submitting 232 submissions under supplement no. 1 to
+part 705 that it is a criminal offense to willfully make a false
+statement or representation to any department or agency of the United
+States Government as to any matter within its jurisdiction [18 U.S.C.
+1001(2018)]. As a conforming change, this interim final rule
+redesignates the existing Note to Paragraph (b) as Note 1 to Paragraph
+(b).
+[[Page 81070]]
+Improving the Fairness and Efficiency of the Review Process
+In order to improve the efficiency of the review process, this
+interim final rule reduces the page limit for exclusion requests,
+objections to submitted exclusion requests, rebuttals, and
+surrebuttals. In paragraph (e), this rule removes the 25-page limit for
+exclusions and objections to submitted exclusions requests, and
+replaces that with a 5,000-word limit. In paragraph (f)(2), this rule
+removes the ten-page limit for rebuttals and replaces that with a
+2,500-word limit. In paragraph (g)(2), this rule removes the ten-page
+limit for surrebuttals and replaces that with a 2,500-word limit.
+232 Exclusion Request Volume Certification
+This interim final rule makes changes to ensure that the volume
+request in exclusion requests is consistent with the past use of steel
+or aluminum by an exclusion requester. This interim final rule revises
+paragraph (c)(5) (Substance of exclusion requests) by redesignating the
+existing text of paragraph (c)(5) as a new paragraph (c)(5)(i). This
+interim final rule adds a new paragraph (c)(5)(ii) (Certification for
+volume requested).
+New paragraph (c)(5)(i) specifies that in order to ensure that the
+volume requested in an exclusion request is consistent with legitimate
+business needs for the same steel or aluminum articles obtained (i.e.,
+imported from abroad either directly by the requester or indirectly by
+purchasing from distributors) by the entity requesting an exclusion, a
+certification needs to be made in the 232 Exclusions Portal when
+completing the submission of a 232 exclusion request. The 232
+Exclusions Portal will include the text specified in paragraphs
+(c)(5)(ii)(A)-(E), and this exclusion request certification for volume
+requested must be signed in the 232 Exclusions Portal by an
+organization official specifically authorized to certify the document
+as being accurate and complete to the best of his/her knowledge.
+The person signing the certification under paragraph (c)(5)(ii)(A)
+must attest that the exclusion requester intends to manufacture,
+process, or otherwise transform the imported product for which they
+have filed an exclusion request, or has a purchase order or orders for
+such products.
+Under paragraph (c)(5)(ii)(B), the exclusion requester must certify
+that they do not intend to use the requested exclusion, if granted,
+solely to hedge or arbitrage the price.
+Under paragraph (c)(5)(ii)(C), the exclusion requester must certify
+that they expect to consume, sell, or otherwise use the total volume of
+product across all their active exclusions and pending exclusion
+requests in the course of their organization's business activities
+within the next calendar year.
+Under new paragraph (c)(5)(ii)(D), the exclusion requester is
+submitting an exclusion request for a product for which they previously
+received an exclusion, they must certify that they either imported the
+full amount of their approved exclusion(s) last year, or intended to
+import the full amount but could not due to one of the reasons
+specified in new paragraphs (c)(5)(ii)(D)(1)-(3). The criteria included
+in new paragraphs (c)(5)(ii)(D)(1)-(3) that must be attested to, if
+applicable, are intended to ensure that, if a requester did not import
+the full amount, there were legitimate business reasons justifying that
+outcome. These legitimate business reasons are loss of contract(s);
+business downturns; or other factors that were beyond the
+organization's control that directly resulted in less need for steel or
+aluminum articles.
+Under new paragraph (c)(5)(ii)(E), the exclusion requester
+certifies that the exclusion amount requested this year is in line with
+what their organization expects to import based on their current
+business outlook. Lastly, paragraph (c)(5)(ii)(E) requires the
+exclusion requester to certify that, if contacted by Commerce, their
+organization will provide documentation that justifies the assertions
+in the certification regarding past imports of steel or aluminum
+articles and projections for the current year, as it relates to past
+and current calendar year exclusion requests.
+This interim final rule adds a new Note 2 to paragraphs (c)(5)(i)
+and (ii) to make the public aware that an exclusion request that does
+not include a certification made in accordance with (c)(5)(i) and (ii)
+will be treated as an incomplete submission and will therefore be
+rejected.
+Clarification of Eight Weeks and Available ``Immediately''
+This rule makes changes to clarify when an objector would be
+required to be able to provide the steel or aluminum in the quantity
+and quality to which they were objecting on the basis that they could
+provide that steel or aluminum ``immediately.''
+In the introductory text of paragraph (c)(6), this rule revises the
+criteria to clarify that an objector must be able to provide the steel
+or aluminum ``by a date earlier than the time required for the
+requester to obtain the entire quantity of the product from the
+requester's foreign supplier,'' instead of being strictly limited to
+producing it within eight weeks.
+In paragraph (c)(6)(i), this rule retains the term ``immediately,''
+but clarifies that the aluminum or steel does not need to be produced
+within eight weeks in certain cases. This interim final rule clarifies
+that ``immediately'' now means produced and delivered within eight
+weeks or, if not possible, then produced and delivered within a time
+frame that is equal to or earlier than that needed by the requester as
+demonstrated by the time required to obtain the product from the
+requester's foreign supplier. This change is made to create a more
+equal playing field between U.S. objectors and foreign producers, and
+to ensure that U.S. producers are not given less time to be able to
+meet the steel or aluminum demand being requested in an exclusion
+request. For example, if a requester can obtain foreign-produced steel
+described in an exclusion request in 12 weeks, there is no reason to
+arbitrarily limit the U.S. producer to having to produce the steel
+within eight weeks. The change this interim final rule makes to the
+term ``immediately'' addresses this issue.
+This interim final rule also revises paragraph (c)(6)(i) to address
+the scenario where an objector can produce and deliver a portion of the
+steel or aluminum that is being requested in the exclusion request.
+This new sentence clarifies that, consistent with current practice,
+Commerce may partially approve an exclusion request when an objector
+can produce and deliver a portion, which is less than 100 percent but
+10 percent or more, of the amount of steel or aluminum being requested
+in the exclusion request. In such cases, Commerce may partially approve
+a requested exclusion for that percentage of imported steel or aluminum
+that the objector has demonstrated it can produce and deliver.
+This interim final rule revises paragraph (d)(4) to clarify that,
+if an objector is not currently producing the steel or aluminum but can
+produce the aluminum or steel and make it available ``immediately,''
+the objector still has ground to object to the exclusion request. This
+rule defines the term ``immediately'' to mean that the objector must be
+able to produce and deliver the quantity of steel or aluminum needed
+either within eight weeks, or if after eight weeks, by a date earlier
+than the time required for the requester to obtain the entire quantity
+of the product from the requester's foreign supplier. It is incumbent
+upon both the exclusion requester and objecting producers to
+[[Page 81071]]
+provide supplemental evidence supporting their claimed delivery times.
+General Approved Exclusions (GAEs)
+This rule adds a new Supplement No. 2 to Part 705--General Approved
+Exclusions (GAEs) for Steel Articles Under the 232 Exclusions Process,
+and a new Supplement No. 3 to Part 705--General Approved Exclusions
+(GAEs) for Aluminum Articles under the 232 Exclusions Process. These
+two supplements identify the steel and aluminum articles that have been
+approved for import under a GAE. This rule adds 108 GAEs for steel
+articles under supplement no. 2 part 705 and 15 GAEs for aluminum
+articles under supplement no. 3 to part 705. Each GAE is identified
+under the GAE identifier column, e.g., GAE.1.S: 7304592030 (for the
+first approved GAE for steel) or GAE.1.A: 7609000000 (for the first
+approved GAE for aluminum).
+The Secretary of Commerce, in consultation with the Secretary of
+Defense, the Secretary of the Treasury, the Secretary of State, the
+United States Trade Representative, the Assistant to the President for
+Economic Policy, the Assistant to the President for National Security
+Affairs, and other senior Executive Branch officials as appropriate,
+makes these determinations that certain aluminum and steel articles may
+be authorized under a GAE consistent with the objectives of the 232
+exclusions process as outlined in supplement no. 1 to this part. The
+GAEs described in these supplements may be used by any importer. The
+two new supplements specify that, in order to use a GAE, the importer
+must reference the GAE identifier in the Automated Commercial
+Environment (ACE) system that corresponds to the steel or aluminum
+articles being imported. GAEs do not include quantity limits. The
+effective date for each GAE will be fifteen calendar days after the
+date of publication of a Federal Register notice either adding or
+revising a specific GAE identifier in supplement no. 1 to this part.
+There will be no retroactive relief for GAEs. This interim final rule
+also specifies that relief is only available to steel or aluminum
+articles that are entered for consumption, or withdrawn from warehouse
+for consumption, on or after the effective date of a GAE included in
+supplement no. 1 to this part. These GAEs are indefinite in length, but
+Commerce may at any time issue a Federal Register notice removing,
+revising, or adding to an existing GAE in this supplement as warranted
+to align with the objectives of the 232 exclusions process as described
+in supplement no. 1 to this part. Commerce may periodically publish
+notices of inquiry in the Federal Register soliciting public comments
+on potential removals, revisions, or additions to this supplement.
+Other Changes and Clarifications to the 232 Exclusions Process
+In paragraph (b)(5)(iii), this interim final rule adds a new
+paragraph (b)(5)(iii)(A) and redesignates existing paragraphs
+(b)(5)(iii)(A)-(C) as paragraphs (B) to (D). New paragraph
+(b)(5)(iii)(A) clarifies the process for handling CBI related to
+exclusion requests or objections by directing exclusion requesters and
+objectors to check the appropriate box in the 232 Exclusions Portal to
+indicate that the filer has relevant CBI for consideration when
+applicable. This new paragraph also clarifies the existing practice
+that if Commerce determines after review that the CBI is needed,
+Commerce will directly request the CBI.
+In paragraph (c)(2) (Identification of exclusion requests), this
+rule removes the word ``distinct'' in the phrase ``distinct critical
+dimensions.'' This change is being made to avoid any potential
+confusion on the scope of ranges that are permissible under an
+exclusion request. This change will make clear that, provided the range
+being requested in an exclusion request is within the minimum and
+maximum range that is specified in the HTSUS statistical reporting
+number and applicable notes for the provision, a single exclusion
+request may be requested for that steel or aluminum article. Objections
+that indicate the ability to produce one or more products within the
+range, even if not the entire range, will be considered to be valid
+objections to an exclusion request.
+Also in paragraph (c)(2), this rule removes the Note to paragraph
+(c)(2) because it is no longer needed. The exclusions form on the 232
+Exclusions Portal does not include that block for countries subject to
+a quantitative limitation, so the instructions in the Note to paragraph
+(c)(2) are no longer needed.
+In paragraph (c)(6) (Criteria used to review exclusion requests)
+introductory text, this interim final rule adds one sentence at the end
+for clarification and to alert the public that items for which a
+broader determination has been made will be identified in supplements
+no. 2 or 3 to part 705.
+In paragraph (d)(3) (Time limit for submitting objections to
+submitted exclusions requests), this interim final rule makes revisions
+to specify that the 30-day clock starts at 11:59 p.m. Eastern Time on
+the calendar day an exclusion request is posted in the 232 Exclusions
+Portal.
+In paragraph (h)(1)(i), this interim final rule adds the term
+``rejected'' before the phrase ``or denied'' to clarify that exclusion
+requests that do not satisfy the requirements specified in paragraphs
+(b) and (c) of this supplement may be rejected or denied.
+In paragraph (h)(2)(iv) (Validity period for exclusion requests),
+this interim final rule makes revisions to add the phrase ``from the
+date of the signature on the decision memo'' to clarify that exclusions
+will generally be approved for one year from the date of the signature
+on the decision memo.
+Types of Comments Commerce Is Requesting on This Rule
+Commerce is not seeking comments regarding the duties or
+quantitative limitations themselves or the exclusion and objection
+process overall. Rather, Commerce seeks comments on whether the
+specific changes included in this fourth interim final rule have
+addressed earlier concerns with the 232 exclusions process.
+Specifically, Commerce encourages comments on these 232 exclusions
+process changes and on which features are an improvement and comments
+highlighting any areas of concern or suggestions for improvement.
+Commerce will continue to make improvements to the 232 exclusions
+process, including improvements based on comments received on this
+rule, and parties will be notified of any additional changes to the 232
+exclusions process and of any new features to the 232 Exclusions
+Portal.
+Rulemaking Requirements
+1. Executive Orders 13563 and 12866 direct agencies to assess all
+costs and benefits of available regulatory alternatives and, if
+regulation is necessary, to select regulatory approaches that maximize
+net benefits (including potential economic, environmental, public
+health and safety effects, distributive impacts, and equity). Executive
+Order 13563 emphasizes the importance of quantifying both costs and
+benefits, of reducing costs, of harmonizing rules, and of promoting
+flexibility. This rule has been determined to be a ``significant
+regulatory action,'' although not economically significant, under
+section 3(f) of Executive Order 12866. Pursuant to Proclamations 9704
+and 9705 of March 8, 2018, and Proclamations 9776 and 9777 of August
+29, 2018, the establishment of procedures for an exclusions process
+under each Proclamation shall be published in the
+[[Page 81072]]
+Federal Register and are exempt from Executive Order 13771.
+2. The Paperwork Reduction Act of 1995 (44 U.S.C. 3501 et seq.)
+(PRA) provides that an agency generally cannot conduct or sponsor a
+collection of information, and no person is required to respond to nor
+be subject to a penalty for failure to comply with a collection of
+information, unless that collection has obtained Office of Management
+and Budget (OMB) approval and displays a currently valid OMB Control
+Number.
+This final regulation involves four collections currently approved
+by OMB with the following control numbers
+Exclusions from the Section 232 National Security
+Adjustments of Imports of Steel and Aluminum (control number 0694-
+0139).
+Objections from the Section 232 National Security
+Adjustments of Imports of Steel and Aluminum (control number 0694-
+0138).
+Procedures for Submitting Rebuttals and Surrebuttals
+Requests for Exclusions from and Objections to the Section 232
+Adjustments for Steel and Aluminum (OMB control number 0694-0141).
+Procedures for Submitting Requests for Expedited Relief
+from Quantitative Limits--Existing Contract: Section 232 National
+Security Investigations of Steel Imports (OMB control number 0694-
+0140).
+This rule is expected to reduce the burden hours for one of the
+collections associated with this rule, OMB control number 0694-0139.
+This reduction is expected because of the addition of 108 GAEs for
+steel and 15 GAEs for aluminum, which is expected to result in a
+decrease of 5,000 exclusion request per year. This is expected to be a
+reduction in 5,000 burden hours for a total savings of 740,000 dollars
+to the public. This is also expected to be a reduction in 30,000 burden
+hours for a total savings of 1,170,000 dollars to the U.S. Government.
+The steel and aluminum articles that have been identified as being
+eligible for GAEs have typically not received any objections, so the
+addition of these new GAEs is not estimated to result in a decrease in
+the number of objections, rebuttals, or surrebuttals received by BIS.
+This rule is not expected to increase the burden hours for two of the
+collections associated with this rule, OMB control numbers 0694-0138,
+0694-0141 as minimal changes are anticipated. BIS is making a change to
+the collection for OMB control number 0694-0140 to account for
+certification that needs to be made in the 232 Exclusions Portal under
+paragraph (c)(5)(ii). Any comments regarding the collection of
+information associated with this rule, including suggestions for
+reducing the burden, may be sent to https://www.reginfo.gov/public/do/PRAMain.
+3. This rule does not contain policies with Federalism implications
+as that term is defined in Executive Order 13132.
+4. The provisions of the Administrative Procedure Act (5 U.S.C.
+553) requiring notice of proposed rulemaking, the opportunity for
+public comment, and a delay in effective date are inapplicable because
+this regulation involves a military or foreign affairs function of the
+United States. (See 5 U.S.C. 553(a)(1)). As explained in the reports
+submitted by the Secretary to the President, steel and aluminum are
+being imported into the United States in such quantities or under such
+circumstances as to threaten to impair the national security of the
+United States, and therefore the President is implementing these
+remedial actions (as described Proclamations 9704 and 9705 of March 8,
+2018) to protect U.S. national security interests. That implementation
+includes the creation of an effective process by which affected
+domestic parties can obtain exclusion requests ``based upon specific
+national security considerations.'' Commerce started this process with
+the publication of the March 19 rule and refined the process with the
+publication of the September 11 and June 10 rules and is continuing
+this process with the publication of today's interim final rule. The
+revisions to the exclusion request process are informed by the comments
+received in response to the March 19 rule and Commerce's experience
+with managing the 232 exclusions process. Commenters on the past rules
+(March 19, September 11 and June 10 rules) were generally supportive
+and welcomed the idea of creating an exclusion process, but most of the
+commenters believe the exclusion process, although improving over time,
+still could be significantly improved in order for it to achieve the
+intended purpose. The commenters identified a number of areas where
+transparency, effectiveness, and fairness of the process could be
+improved. Commerce understands the importance of having a transparent,
+fair, and efficient product exclusion request process, consistent with
+the directive provided by the President to create this type of process
+to mitigate any unintended consequences of imposing the tariffs on
+steel and aluminum in order to protect critical U.S. national security
+interests. The publication of today's rule should make further
+improvements in all three respects, but because of the scope of this
+new process, BIS is publishing today's rule as an interim final rule
+with a request for comments.
+In addition, Commerce finds that there is good cause under 5 U.S.C.
+553(b)(B) to waive the provisions of the Administrative Procedure Act
+requiring prior notice and the opportunity for public comment, and that
+there is good cause under 5 U.S.C. 553(d)(3) to waive the delay in
+effective date, because such delays would be either impracticable or
+contrary to the public interest. In order to ensure that the actions
+taken to adjust imports do not undermine users of steel or aluminum
+that are subject to the remedial actions instituted by the
+Proclamations and that are critical to protecting the national security
+of the United States, the Presidential Proclamations authorized the
+Secretary of Commerce, in consultation with the Secretary of Defense,
+the Secretary of the Treasury, the Secretary of State, the United
+States Trade Representative, the Assistant to the President for
+Economic Policy, the Assistant to the President for National Security
+Affairs, and other senior Executive Branch officials as appropriate, to
+grant exclusions for the import of goods not currently available in the
+United States in a sufficient quantity or satisfactory quality, or for
+other specific national security reasons. The Presidential
+Proclamations further directed the Secretary to, within ten days, issue
+procedures for submitting and granting these requests for exclusions--
+this interim final rule fulfills that direction. As described above,
+the Secretary complied with the direction from the President with the
+publication of the March 19 rule, as well as in the improvements made
+in the September 11 and June 10 rules, and is taking the next step in
+improving the 232 exclusions process by making needed changes with the
+publication of today's rule. The immediate implementation of an
+effective exclusion request process, consistent with the intent of the
+Presidential Proclamations, also required creating a process to allow
+any individual or organization in the United States to submit
+objections to submitted exclusion requests. The objection process was
+created with the publication of the March 19 rule, and the rebuttal and
+surrebuttal process was added in the publication of the September 11
+rule to further improve the 232 exclusions process. The publication of
+today's rule makes needed changes in the 232 exclusions process to
+create the type of fair, transparent, and efficient process that
+[[Page 81073]]
+was intended in the March 19, September 11 and June 10 rules, but was
+still found lacking by commenters in several key respects. Today's rule
+makes critical changes to ensure a fair, transparent, and efficient
+exclusion process.
+If this interim final rule were to be delayed to allow for public
+comment or to provide for a thirty day delay in the date of
+effectiveness, companies in the United States would be unable to
+immediately benefit from the improvements made in the exclusion,
+objection, rebuttal, and surrebuttal process and could face significant
+economic hardship, which could potentially create a detrimental effect
+on the general U.S. economy. Whether they were supportive of tariffs or
+against tariffs, the comments received on the March 19, September 11
+and June 10 rules were clear that an efficient exclusion request,
+objection, rebuttal, and surrebuttal process was needed, that the March
+19 rule had not sufficiently created such a process, and that, although
+substantial improvements were made with the publications of the
+September 11 and June 10 rules, additional improvements were needed.
+Commenters noted that, if specific improvements are not made,
+significant economic consequences could occur. Commenters also thought
+the inefficiencies of the process could undermine other critical U.S.
+national security interests. Likewise, our national security could be
+impacted if Commerce lacked adequate information to make a fair,
+transparent and efficient determination for all parties involved and to
+ensure the critical national security considerations are being
+protected.
+Because a notice of proposed rulemaking and an opportunity for
+prior public comment are not required for this rule by 5 U.S.C. 553, or
+by any other law, the analytical requirements of the Regulatory
+Flexibility Act, 5 U.S.C. 601 et seq., are not applicable. Accordingly,
+no regulatory flexibility analysis is required and none has been
+prepared.
+List of Subjects in 15 CFR Part 705
+Administrative practice and procedure, Business and industry,
+Classified information, Confidential business information, Imports,
+Investigations, National security.
+For the reasons set forth in the preamble, part 705 of subchapter A
+of 15 CFR chapter VII is amended as follows:
+PART 705--EFFECT OF IMPORTED ARTICLES ON THE NATIONAL SECURITY
+0
+1. The authority citation for part 705 continues to read as follows:
+Authority: Section 232 of the Trade Expansion Act of 1962, as
+amended (19 U.S.C. 1862) and Reorg. Plan No. 3 of 1979 (44 FR 69273,
+December 3, 1979).
+0
+2. Supplement No. 1 to part 705 is revised to read as follows:
+Supplement No. 1 to Part 705--Requirements for Submissions Requesting
+Exclusions From the Adjustment of Imports of Aluminum and Steel Imposed
+Pursuant to Section 232 of the Trade Expansion Act of 1962, as Amended
+On March 8, 2018, the President issued Proclamations 9704 and 9705
+concurring with the findings of the January 11, 2018 reports of the
+Secretary of Commerce on the effects of imports of aluminum and steel
+mill articles (steel articles) on the national security and determining
+that adjusting aluminum and steel imports through the imposition of
+duties is necessary so that their imports will no longer threaten to
+impair the national security. Clause 3 of Proclamations 9704 and 9705
+also authorized the Secretary of Commerce, in consultation with the
+Secretary of Defense, the Secretary of the Treasury, the Secretary of
+State, the United States Trade Representative, the Assistant to the
+President for Economic Policy, the Assistant to the President for
+National Security Affairs, and other senior Executive Branch officials
+as appropriate, to grant exclusions from the duties at the request of
+directly affected parties located in the United States if the requested
+steel or aluminum article is determined not to be produced in the
+United States in a sufficient and reasonably available amount or of a
+satisfactory quality or based upon specific national security
+considerations. On August 29, 2018, the President issued Proclamation
+9776. Clause 1 of Proclamation 9776, authorizes the Secretary of
+Commerce, in consultation with the Secretary of State, the Secretary of
+the Treasury, the Secretary of Defense, the United States Trade
+Representative, the Assistant to the President for National Security
+Affairs, the Assistant to the President for Economic Policy, and such
+other senior Executive Branch officials as the Secretary deems
+appropriate, to provide relief from the applicable quantitative
+limitations set forth in Proclamation 9740 and Proclamation 9759 for
+steel articles and as set forth in Proclamation 9739 and 9758 for
+aluminum articles and their accompanying annexes, as amended, at the
+request of a directly affected party located in the United States for
+any steel or aluminum article determined by the Secretary to not be
+produced in the United States in a sufficient and reasonably available
+amount or of a satisfactory quality. The Secretary is also authorized
+to provide such relief based upon specific national security
+considerations.
+(a) Scope. This supplement specifies the requirements and process
+for how directly affected parties located in the United States may
+submit requests for exclusions from the duties and quantitative
+limitations imposed by the President. This supplement also specifies
+the requirements and process for how parties in the United States may
+submit objections to submitted exclusion requests for relief from the
+duties or quantitative limitations imposed by the President and the
+process for rebuttals to submitted objections and surrebuttals
+(collectively, ``232 submissions''). This supplement identifies the
+time periods for such submissions, the methods of submission, and the
+information that must be included in such submissions.
+(b) Required forms. The 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations) includes four web-
+based forms that are to be used for submitting exclusion requests,
+objections to exclusion requests, rebuttals, and surrebuttals described
+in this supplement. On the 232 Exclusions Portal, each web-based form
+is available on the portal at the bottom of the preceding filing. For
+example, a party submitting an objection will access the objection form
+by scrolling to the bottom of the exclusion request, a rebuttal filer
+will access the rebuttal form by scrolling to the bottom of the
+objection form, and a surrebuttal filer would access the surrebuttal
+form by scrolling to the bottom of the rebuttal form. The U.S.
+Department of Commerce requires requesters and objectors to use the
+appropriate form as specified under paragraphs (b)(1) and (2) of this
+supplement for submitting exclusion requests and objections to
+submitted exclusion requests and the forms specified under paragraphs
+(b)(3) and (4) of this supplement for submitting rebuttals and
+surrebuttals. In addition, submitters of exclusion requests, objections
+to submitted exclusion requests, rebuttals, and surrebuttals to the 232
+Exclusions Portal will be required to complete a web-based registration
+on the 232 Exclusions Portal prior to submitting any
+[[Page 81074]]
+documents. In order to register, submitters will be required to provide
+an email and establish a password for the account. After completing the
+registration, submitters will be able to login to an account on the 232
+Exclusions Portal and submit exclusion requests, objections, rebuttals,
+and surrebuttal documents.
+(1) Form required for submitting exclusion requests. The full name
+of the form used for submitting steel exclusion requests is Request for
+Exclusion from Remedies: Section 232 National Security Investigation of
+Steel Imports. The full name of the form used for submitting aluminum
+exclusion requests is Request for Exclusion from Remedies: Section 232
+National Security Investigation of Aluminum Imports. The Title of the
+web-based fillable form for both steel and aluminum in the 232
+Exclusions Portal is Exclusion Request.
+(2) Form required for submitting objections to submitted exclusion
+requests. The name of the form used for submitting objections to
+submitted steel exclusion requests is Objection Filing to Posted
+Section 232 Exclusion Request: Steel. The name of the form used for
+submitting objections to submitted aluminum exclusion requests is
+Objection Filing to Posted Section 232 Exclusion Request: Aluminum. The
+Title of the web-based fillable form for both steel and aluminum in the
+232 Exclusions Portal is Objection.
+(3) Form required for submitting rebuttals. The name of the form
+used for submitting rebuttals to steel objections is Rebuttal to
+Objection Received for Section 232 Exclusion Request: Steel. The name
+of the form used for submitting rebuttals to aluminum objections is
+Rebuttal to Objection Received for Section 232 Exclusion Request:
+Aluminum. The Title of the web-based fillable form for both steel and
+aluminum in the 232 Exclusions Portal is Rebuttal.
+(4) Form required for submitting surrebuttals. The name of the form
+used for submitting surrebuttals to steel objections is Surrebuttal to
+Rebuttal Received on Section 232 Objection: Steel. The name of the form
+used for submitting surrebuttals to aluminum objections is Surrebuttal
+to Rebuttal Received on Section 232 Objection: Aluminum. The Title of
+the web-based fillable form for both steel and aluminum in the 232
+Exclusions Portal is Surrebuttal.
+Note to Paragraphs (b)(1) Through (4): On the 232 Exclusions
+Portal, each exclusion request is assigned a distinct ID #, which is
+also used with its associated 232 submissions, but preceded with an
+acronym indicating the file type: Exclusion Requests (ER ID #),
+Objection (OF ID #), Rebuttals (RB ID #) and Surrebuttals (SR ID #).
+For an example of the four possible types of 232 submissions
+associated with a single exclusion request, you could have ER ID
+237, OF ID 237, RB ID 237 and SR ID 237. The 232 Exclusions Portal
+will automatically assign the two letter designator depending on the
+type of web-based form being submitted in the portal and will assign
+an ID number to the original exclusion request and that ID number
+will be common to any objection, rebuttal, or surrebuttal submitted
+pertaining to the same exclusion request.
+(5) Public disclosure and information protected from public
+disclosure. (i) Information submitted in 232 submissions will be
+subject to public review and made available for public inspection and
+copying, except for the information described in paragraph (b)(5)(iii)
+of this supplement. Individuals and organizations must fully complete
+the relevant forms.
+(ii) Information not subject to public disclosure should not be
+submitted. Personally identifiable information, including social
+security numbers and employer identification numbers, should not be
+provided. Information that is subject to government-imposed access and
+dissemination or other specific national security controls, e.g.,
+classified information or information that has U.S. Government
+restrictions on dissemination to non-U.S. citizens or other categories
+of persons that would prohibit public disclosure of the information,
+may not be included in 232 submissions. Individuals and organizations
+that have confidential business information (``CBI'') that they believe
+relevant to the Secretary's consideration of the 232 submission should
+so indicate in the appropriate field of the relevant form, or on the
+rebuttal or surrebuttal submission, following the procedures in
+paragraph (b)(5)(iii) of this supplement.
+(iii) Procedures for identifying, but not disclosing confidential
+or proprietary business information (CBI) in the public version, and
+procedures for submitting CBI. For persons seeking to submit
+confidential or proprietary business information (CBI), the 232
+submission available to the public must contain a summary of the CBI in
+sufficient detail to permit a reasonable understanding of the substance
+of the information. If the submitting person claims that summarization
+is not possible, the claim must be accompanied by a full explanation of
+the reasons supporting that claim. Generally, numerical data will be
+considered adequately summarized if grouped or presented in terms of
+indices or figures within ten percent of the actual figure. If an
+individual portion of the numerical data is voluminous (e.g., five
+pages of numerical data), at least one percent of the numerical data,
+representative of that portion, must be summarized. In order to submit
+CBI that is not for public release as a separate email submission to
+the U.S. Department of Commerce, you must follow the procedures in
+paragraphs (b)(3)(iii)(A)-(D) of this supplement to assist the U.S.
+Department of Commerce in identifying these submissions and associating
+these submissions with the respective 232 submission in the 232
+Exclusions Portal. Submitters with classified information should
+contact the U.S. Department of Commerce for instructions on the
+appropriate methods to send this type of information.
+(A) For CBI related to exclusion requests or objections, check the
+appropriate box in the 232 Exclusions Portal indicating that the filer
+has relevant CBI for consideration. If Commerce determines after review
+that the CBI is needed, Commerce will directly request the CBI from the
+exclusion requester or objector as warranted.
+(B) For CBI related to rebuttals or surrebuttals, on the same day
+that you submit your 232 submission in the 232 Exclusions Portal,
+submit the CBI via email to the U.S. Department of Commerce. The email
+address used is different depending on the type of submission the
+emailed CBI is for, as follows: CBI for rebuttals use
+232rebuttals@doc.gov; and CBI for surrebuttals use
+232surrebuttals@doc.gov.
+(C) For rebuttals and surrebuttals pertaining to 232 submissions
+for exclusion requests the email subject line must only include the
+original 232 Exclusions Portal Exclusion Request (ER) ID # and the body
+of the email must include the 232 Exclusions Portal Rebuttal (RB) ID #,
+or Surrebuttal (SR) ID # you received from the 232 Exclusions Portal
+when you successfully submitted your rebuttal or surrebuttal. These
+naming conventions used in the 232 Exclusions Portal, respectively,
+will assist the U.S. Department of Commerce to associate the CBI that
+will not be posted in the 232 Exclusions Portal with the information
+included in the public submission.
+(D) Submit the CBI as an attachment to that email. The CBI is
+limited to a maximum of five pages per rebuttal or surrebuttal. The
+email is to be limited to sending your CBI. All other information for
+the public submission, and public versions of the CBI, where
+appropriate, for a 232 submission in the 232
+[[Page 81075]]
+Exclusions Portal following the procedures identified in this
+supplement, as appropriate.
+Note 1 to Paragraph (b) for Submissions of Supporting Documents
+(Attachments): Supporting attachments must be emailed as PDF
+documents.
+Note 2 to Paragraph (b): It is a criminal offense to willfully
+make a false statement or representation to any department or agency
+of the United States Government as to any matter within its
+jurisdiction [18 U.S.C. 1001(2018)].
+(c) Exclusion requests. (1) Who may submit an exclusion request?
+Only directly affected individuals or organizations located in the
+United States may submit an exclusion request. An individual or
+organization is ``directly affected'' if they are using steel in
+business activities (e.g., construction, manufacturing, or supplying
+steel product to users) in the United States.
+(2) Identification of exclusion requests. Separate exclusion
+requests must be submitted for steel products with chemistry by
+percentage breakdown by weight, metallurgical properties, surface
+quality (e.g., galvanized, coated), and critical dimensions covered by
+a common HTSUS statistical reporting number. Separate exclusion
+requests must be submitted for aluminum products with critical
+dimensions covered by a common HTSUS statistical reporting number. The
+exclusion request forms allow for minimum and maximum dimensions. A
+permissible range must be within the minimum and maximum range that is
+specified in the HTSUS statistical reporting number and applicable
+notes. Separate exclusion requests must also be submitted for products
+falling in more than one ten-digit HTSUS statistical reporting number.
+The U.S. Department of Commerce will approve exclusions on a product
+basis, and the approvals will be limited to the individual or
+organization that submitted the specific exclusion request, unless
+Commerce approves a broader application of the product-based exclusion
+request to apply to additional importers. Other directly-affected
+individuals or organizations located in the United States that wish to
+submit an exclusion request for a steel or aluminum product that has
+already been the subject of an approved exclusion request may submit an
+exclusion request under this supplement. These additional exclusion
+requests by other directly-affected individuals or organizations in the
+United States are not required to reference the previously approved
+exclusion but are advised to do so, if they want Commerce to take that
+exclusion into account when reviewing a subsequent exclusion request.
+Directly affected individuals and organizations in the United States
+will not be precluded from submitting a request for exclusion of a
+product even though an exclusion request submitted for that product by
+another requester or that requester was denied or is no longer valid.
+(3) Where to submit exclusion requests? All exclusion requests must
+be submitted directly on the 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations).
+(4) No time limit for submitting exclusion requests. Exclusion
+requests may be submitted at any time.
+(5)(i) Substance of exclusion requests. An exclusion request must
+specify the business activities in the United States within which the
+requester is engaged that qualify the individual or organization to be
+directly affected and thus eligible to submit an exclusion request. The
+request should clearly identify, and provide support for, the basis
+upon which the exclusion is sought. An exclusion will only be granted
+if an article is not produced in the United States in a sufficient,
+reasonably available amount, and of a satisfactory quality, or for
+specific national security considerations.
+(ii) Certification for volume requested. In order to ensure that
+the volume requested in an exclusion request is consistent with
+legitimate business needs for the same steel or aluminum articles
+obtained (i.e., imported from abroad either directly by the requester
+or indirectly by purchasing from distributors) by the entity requesting
+an exclusion, the following certification in paragraphs (c)(5)(ii)(A)-
+(E) must be acknowledged in the 232 Exclusions Portal when completing
+the submission of a 232 exclusion request. The exclusion request
+certification for volume requested must be signed by an organization
+official specifically authorized to certify the document (the
+certification being made in the 232 Exclusions Portal) as being
+accurate and complete. The undersigned certifies in the 232 Exclusions
+Portal that the information herein supplied in response to this
+paragraph is complete and correct to the best of his/her knowledge. By
+signing the certification below, I attest that:
+(A) My organization intends to manufacture, process, or otherwise
+transform the imported product for which I have filed an exclusion
+request or I have a purchase order or orders for such products;
+(B) My organization does not intend to use the exclusion for which
+I have filed an exclusion request, if granted, solely to hedge or
+arbitrage the price;
+(C) My organization expects to consume, sell, or otherwise use the
+total volume of product across all my active exclusions and pending
+exclusion requests in the course of my organization's business
+activities within the next calendar year;
+(D) If my organization is submitting an exclusion request for a
+product for which we previously received an exclusion, I certify that
+my organization either imported the full amount of our approved
+exclusion(s) last year or intended to import the full amount but could
+not due to one of the following reasons:
+(1) Loss of contract(s);
+(2) Unanticipated business downturns; or
+(3) Other factors that were beyond my organization's control that
+directly resulted in less need for steel or aluminum articles; and
+(E) I certify that the exclusion amount requested this year is in
+line with what my organization expects to import based on our current
+business outlook. If requested by the Department of Commerce, my
+organization shall provide documentation that justifies its assertions
+in this certification regarding its past imports of steel or aluminum
+articles and its projections for the current year, as it relates to
+past and current calendar year exclusion requests.
+Note to Paragraphs (c)(5)(i) and (ii): Any exclusion request
+that does not include a certification made in accordance with
+(c)(5)(ii) will be treated as an incomplete submission and will
+therefore be rejected.
+(6) Criteria used to review exclusion requests. The U.S. Department
+of Commerce will review each exclusion request to determine whether an
+article described in an exclusion request meets any of the following
+three criteria: The article is not produced in the United States in an
+amount which can be delivered in a time period equal to or less than
+the time needed for the requester to obtain the product from their
+foreign supplier, is not produced in the United States in a
+satisfactory quality, or for specific national security considerations.
+The reviews will be made on a case-by-case basis to determine whether
+the requester has shown that the article is not produced in the United
+States in sufficient and reasonably available amount or of a
+satisfactory quality, or that there are specific national security
+considerations to grant the exclusion. To provide
+[[Page 81076]]
+additional context on the meaning and application of the criteria,
+paragraphs (c)(6)(i)-(iii) of this supplement define keys terms used in
+the review criteria and provide illustrative application examples. The
+U.S. Department of Commerce will use the same criteria identified in
+paragraphs (c)(6)(i)-(iii) of this supplement when determining whether
+it is warranted to approve broader product-based exclusions based on
+trends the Department may see over time with 232 submissions. The
+public is not permitted to request broader product-based exclusions
+that would apply to all importers, because the Department makes these
+determinations over time by evaluating the macro trends in 232
+submissions. Items for which a broader determination has been made will
+be identified in supplements no. 2 or 3 to part 705.
+(i) Not produced in the United States in a sufficient and
+reasonably available amount. The exclusion review criterion ``Not
+produced in the United States in a sufficient and reasonably available
+amount'' means that the amount that is needed by the end user
+requesting the exclusion is not available immediately in the United
+States to meet its specified business activities. Available
+``immediately'' means that a product (whether it is currently being
+produced in the United States, or could be produced in the United
+States) can be delivered by a U.S. producer ``within eight weeks'', or,
+if that is not possible, by a date earlier than the time required for
+the requester to obtain the entire quantity of the product from the
+requester's foreign supplier. Furthermore, to the extent that an
+objector can produce and deliver a portion, which is less than 100
+percent, but ten percent or more, of the amount of steel or aluminum
+needed in the business activities of the user in the United States
+described in the exclusion request, the Department of Commerce may deny
+a requested exclusion for that percentage of imported steel or
+aluminum. It is incumbent upon both the exclusion requester, and
+objecting producers, to provide supplemental evidence supporting their
+claimed delivery times.
+(ii) Not produced in the United States in a satisfactory quality.
+The exclusion review criterion ``not produced in the United States in a
+satisfactory quality'' does not mean the steel or aluminum needs to be
+identical, but it does need to be equivalent as a substitute product.
+``Substitute product'' for purposes of this review criterion means that
+the steel or aluminum being produced by an objector can meet
+``immediately'' (see paragraph (c)(6)(i) of this supplement) the
+quality (e.g., industry specs or internal company quality controls or
+standards), regulatory, or testing standards, in order for the U.S.-
+produced steel to be used in that business activity in the United
+States by that end user.
+(A) Steel application examples. For a steel example, if a U.S.
+business activity requires that steel plates to be provided must meet
+certain military testing and military specification standards in order
+to be used in military combat vehicles, that requirement would be taken
+into account when reviewing the exclusion request and any objections,
+rebuttals, and surrebuttals submitted. As another steel example, if a
+U.S. business activity requires that steel tubing to be provided must
+meet certain Food and Drug Administration (FDA) approvals to be used in
+medical devices, that requirement would be taken into account when
+reviewing the exclusion request and any objections, rebuttals, and
+surrebuttals submitted. Another steel example would be a food
+manufacturer that requires tin-plate approval from the U.S. Department
+of Agriculture (USDA) to make any changes in the tin-plate it uses to
+make cans for fruit juices. An objector would not have to make steel
+for use in making the cans that was identical, but it would have to be
+a ``substitute product,'' meaning it could meet the USDA certification
+standards.
+(B) Aluminum application examples. For an aluminum example, if a
+U.S. business activity requires that aluminum to be provided must meet
+certain military testing and military specification standards in order
+to be used in military aircraft, that requirement would be taken into
+account when reviewing the exclusion request and any objections,
+rebuttals, and surrebuttals submitted. Another aluminum example would
+be a U.S. pharmaceutical manufacturer that requires approval from the
+Food and Drug Administration (FDA) to make any changes in its aluminum
+product pill bottle covers. An objector would not have to make aluminum
+for use in making the product covers that was identical, but it would
+have to be a ``substitute product,'' meaning it could meet the FDA
+certification standards.
+(iii) For specific national security considerations. The exclusion
+review criterion ``or for specific national security considerations''
+is intended to allow the U.S. Department of Commerce, in consultation
+with other parts of the U.S. Government as warranted, to make
+determinations whether a particular exclusion request should be
+approved based on specific national security considerations.
+(A) Steel application examples. For example, if the steel included
+in an exclusion request is needed by a U.S. defense contractor for
+making critical items for use in a military weapons platform for the
+U.S. Department of Defense, and the duty or quantitative limitation
+will prevent the military weapons platform from being produced, the
+exclusion will likely be granted. The U.S. Department of Commerce, in
+consultation with the other parts of the U.S. Government as warranted,
+can consider other impacts to U.S. national security that may result
+from not approving an exclusion, e.g., the unintended impacts that may
+occur in other downstream industries using steel, but in such cases the
+demonstrated concern with U.S. national security would need to be
+tangible and clearly explained and ultimately determined by the U.S.
+Government.
+(B) Aluminum application examples. For example, if the aluminum
+included in an exclusion request is needed by a U.S. defense contractor
+for making critical items for use in a military weapons platform for
+the U.S. Department of Defense, and the duty or quantitative limitation
+will prevent the military weapons platform from being produced, the
+exclusion will likely be granted. The U.S. Department of Commerce, in
+consultation with the other parts of the U.S. Government as warranted,
+can consider other impacts to U.S. national security that may result
+from not approving an exclusion, e.g., the unintended impacts that may
+occur in other downstream industries using aluminum, but in such cases
+the demonstrated concern with U.S. national security would need to be
+tangible and clearly explained and ultimately determined by the U.S.
+Government.
+(d) Objections to submitted exclusion requests. (1) Who may submit
+an objection to a submitted exclusion request? Any individual or
+organization that manufactures steel or aluminum articles in the United
+States may file objections to steel exclusion requests, but the U.S.
+Department of Commerce will only consider information directly related
+to the submitted exclusion request that is the subject of the
+objection.
+(2) Identification of objections to submitted exclusion requests.
+When submitting an objection to a submitted exclusion request, the
+objector must locate the exclusion request and submit the objection in
+response to the request directly in the 232 Exclusions Portal. Once the
+relevant exclusion request has
+[[Page 81077]]
+been located, an individual or organization that would like to submit
+an objection will access the objection form by scrolling to the bottom
+of the exclusion request form and then fill out the web-based form for
+submitting their objection to the exclusion request in the 232
+Exclusions Portal (https://www.commerce.gov/page/section-232-investigations).
+(3) Time limit for submitting objections to submitted exclusions
+requests. All objections to submitted exclusion requests must be
+submitted directly on the 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations) no later than 30 days
+after the related exclusion request is posted, with the 30-day clock
+starting at 11:59 p.m. Eastern Time on the calendar day an exclusion
+request is posted.
+(4) Substance of objections to submitted exclusion requests. The
+objection should clearly identify, and provide support for, its
+opposition to the proposed exclusion, with reference to the specific
+basis identified in, and the support provided for, the submitted
+exclusion request. If the objector is asserting that it is not
+currently producing the steel or aluminum identified in an exclusion
+request but can produce the steel or aluminum and make that steel or
+aluminum available ``immediately'' in accordance with the time required
+for the user of steel or aluminum in the United States to obtain the
+product from its foreign suppliers, the objector must identify how it
+will be able to produce and deliver the quantity of steel or aluminum
+needed either within eight weeks, or if after eight weeks, by a date
+which is earlier than the named foreign supplier would deliver the
+entire quantity of the requested product. It is incumbent on both the
+exclusion requester, and objecting producers, to provide supplemental
+evidence supporting their claimed delivery times. This requirement
+includes specifying in writing to Department of Commerce as part of the
+objection, the timeline the objector anticipates in order to start or
+restart production of the steel included in the exclusion request to
+which it is objecting. For example, a summary timeline that specifies
+the steps that will occur over the weeks needed to produce that steel
+or aluminum would be helpful to include, not only for the Department of
+Commerce review of the objection, but also for the requester of the
+exclusion and its determination whether to file a rebuttal to the
+objection. The U.S. Department of Commerce understands that, in certain
+cases, regulatory approvals, such as from the Environmental Protection
+Agency (EPA) or some approvals at the state or local level, may be
+required to start or restart production and that some of these types of
+approvals may be outside the control of an objector.
+(e) Limitations on the size of submissions. Each exclusion request
+and each objection to a submitted exclusion request is to be limited to
+a maximum of 5,000 words, inclusive of all exhibits and attachments,
+but exclusive of the respective forms and any CBI provided to the U.S.
+Department of Commerce. Each attachment to a submission must be less
+than 10 MB.
+(f) Rebuttal process. Only individuals or organizations that have
+submitted an exclusion request pursuant to this supplement may submit a
+rebuttal to any objection(s) posted in the 232 Exclusions Portal
+(https://www.commerce.gov/page/section-232-investigations). The
+objections to submitted exclusion requests process identified under
+paragraph (d) of this supplement already establish a formal response
+process for steel and aluminum manufacturers in the United States.
+(1) Identification of rebuttals. When submitting a rebuttal, the
+individual or organization that submitted the exclusion request will
+access the rebuttal form by scrolling to the bottom of the objection
+form and then filling out the web-based form for submitting their
+rebuttal to the objection in the 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations).
+(2) Format and size limitations for rebuttals. Similar to the
+exclusions process identified under paragraph (c) of this supplement
+and the objection process identified under paragraph (d) of this
+supplement, the rebuttal process requires the submission of a
+government form as specified in paragraph (b)(3) of this supplement.
+Each rebuttal is to be limited to a maximum of 2,500 words, inclusive
+of all exhibits and attachments, but exclusive of the rebuttal form and
+any CBI provided to the U.S. Department of Commerce. Each attachment to
+a submission must be less than 10 MB.
+(3) Substance of rebuttals. Rebuttals must address an objection to
+the exclusion request made by the requester. If multiple objections
+were received on a particular exclusion, the requester may submit a
+rebuttal to each objector. The most effective rebuttals will be those
+that aim to correct factual errors or misunderstandings in the
+objection(s).
+(4) Time limit for submitting rebuttals. The rebuttal period begins
+on the date the Department opens the rebuttal period after the posting
+of the last objection in the 232 Exclusions Portal. The rebuttal period
+ends seven days after the rebuttal comment period is opened. This
+seven-day rebuttal period allows for the individual or organization
+that submitted an exclusion request pursuant to this supplement to
+submit any written rebuttals that it believes are warranted.
+(g) Surrebuttal process. Only individuals or organizations that
+have a posted objection to a submitted exclusion request pursuant to
+this supplement may submit a surrebuttal to a rebuttal (see paragraph
+(f) of this supplement) posted to their objection to an exclusion
+request in the 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations).
+(1) Identification of surrebuttals. When submitting a surrebuttal,
+the individual or organization that submitted the objection will access
+the surrebuttal form by scrolling to the bottom of the rebuttal form
+and then filling out the web-based form for submitting their
+surrebuttal to the rebuttal in the 232 Exclusions Portal (https://www.commerce.gov/page/section-232-investigations).
+(2) Format and size limitations for surrebuttals. Similar to the
+exclusions process identified under paragraph (c) of this supplement,
+the objection process identified under paragraph (d) of this
+supplement, and the rebuttal process identified under paragraph (f) of
+this supplement, the surrebuttal process requires the submission of a
+government form as specified in paragraph (b)(4) of this supplement.
+The surrebuttal must be submitted in the 232 Exclusions Portal. Each
+surrebuttal is to be limited to a maximum of 2,500 words, inclusive of
+all exhibits and attachments, but exclusive of the surrebuttal form and
+any CBI provided to the U.S. Department of Commerce. Each attachment to
+a submission must be less than 10 MB.
+(3) Substance of surrebuttals. Surrebuttals must address a rebuttal
+to an objection to the exclusion request made by the requester. The
+most effective surrebuttals will be those that aim to correct factual
+errors or misunderstandings in the rebuttal to an objection.
+(4) Time limit for submitting surrebuttals. The surrebuttal period
+begins on the date the Department opens the surrebuttal comment period
+after the posting of the last rebuttal to an objection to an exclusion
+request in
+[[Page 81078]]
+the 232 Exclusions Portal. The surrebuttal period ends seven days after
+the surrebuttal comment period is opened. This seven-day surrebuttal
+period allows for the individual or organization that submitted an
+objection to a submitted exclusion request pursuant to this supplement
+to submit any written surrebuttals that it believes are warranted to
+respond to a rebuttal.
+(h) Disposition of 232 submissions--(1) Disposition of incomplete
+submissions. (i) Exclusion requests that do not satisfy the
+requirements specified in paragraphs (b) and (c) of this supplement
+will be rejected.
+(ii) Objection filings that do not satisfy the requirements
+specified in paragraphs (b) and (d) will not be considered.
+(iii) Rebuttal filings that do not satisfy the requirements
+specified in paragraphs (b) and (f) will not be considered.
+(iv) Surrebuttal filings that do not satisfy the requirements
+specified in paragraphs (b) and (g) will not be considered.
+(2) Disposition of complete submissions--(i) Posting of responses
+in the 232 Exclusions Portal. The U.S. Department of Commerce will post
+responses (decision memos) in the 232 Exclusions Portal to each
+exclusion request. The U.S. Department of Commerce response to an
+exclusion request will also be responsive to any of the objection(s),
+rebuttal(s) and surrebuttal(s) for that submitted exclusion request
+submitted through the 232 Exclusions Portal.
+(ii) Streamlined review process for ``No Objection'' requests. The
+U.S. Department of Commerce will grant properly filed exclusion
+requests which meet the requisite criteria, receive no objections, and
+present no national security concerns. If an exclusion request's 30-day
+comment period in the 232 Exclusions Portal has expired and no
+objections have been submitted, BIS will immediately assess the request
+for any national security concerns. If BIS identifies no national
+security concerns, it will post a decision granting the exclusion
+request in the 232 Exclusions Portal.
+(iii) Effective date for approved exclusions and date used for
+calculating duty refunds--(A) Effective date for approved exclusions.
+Approved exclusions will be effective five business days after
+publication of the U.S. Department of Commerce response granting an
+exclusion in the 232 Exclusions Portal. Starting on that date, the
+requester will be able to rely upon the approved exclusion request in
+calculating the duties owed on the product imported in accordance with
+the terms listed in the approved exclusion request. Companies are able
+to receive retroactive relief on granted requests dating back to the
+date of the request's submission on unliquidated entries.
+(B) Contact for obtaining duty refunds. The U.S. Department of
+Commerce does not provide refunds on tariffs. Any questions on the
+refund of duties should be directed to CBP.
+(iv) Validity period for exclusion requests. Exclusions will
+generally be approved for one year from the date of the signature on
+the decision memo, but may be valid for shorter or longer than one year
+depending on the specifics of the exclusion request; any objections
+filed; and analysis by the U.S. Department of Commerce and other parts
+of the U.S. Government, as warranted, of the current supply and demand
+in the United States, including any limitations or other factors that
+the Department determines should be considered in order to achieve the
+national security objectives of the duties and quantitative
+limitations.
+(A) Examples of what fact patterns may warrant a longer exclusion
+validity period. Individuals or organizations submitting exclusion
+requests or objections may, and are encouraged to specify how long they
+believe an exclusion may be warranted and specify the rationale for
+that recommended time period. For example, an individual or
+organization submitting an exclusion request may request a longer
+validity period if there are factors outside of their control that may
+make it warranted to grant a longer period. These factors may include
+regulatory requirements that make a longer validity period justified,
+e.g., for an aircraft manufacturer that would require a certain number
+of years to make a change to an FAA-approved type certificate or for a
+manufacturer of medical items to obtain FDA approval. Business
+considerations, such as the need for a multi-year contract for steel
+with strict delivery schedules in order to complete a significant U.S.
+project by an established deadline, e.g., a large scale oil and gas
+exploration project, is another illustrative example of the types of
+considerations that a person submitting an exclusion request may
+reference.
+(B) Examples of what criteria may warrant a shorter exclusion
+validity period. Objectors are encouraged to provide their suggestions
+for how long they believe an appropriate validity period should be for
+an exclusion request. In certain cases, this may be an objector
+indicating it has committed to adding new capacity that will be coming
+online within six months, so a shorter six-month period is warranted.
+Conversely, if an objector knows it will take two years to obtain
+appropriate regulatory approvals, financing and/or completing
+construction to add new capacity, the objector may, in responding to an
+exclusion that requests a longer validity period, e.g., three years,
+indicate that although they agree a longer validity period than one
+year may be warranted in this case, that two years is sufficient.
+(C) None of the illustrative fact patterns identified in paragraphs
+(h)(2)(iv)(A) or (B) of this supplement will be determinative in and of
+themselves for establishing the appropriate validity period, but this
+type of information is helpful for the U.S. Department of Commerce to
+receive, when warranted, to help determine the appropriate validity
+period if a period other than one year is requested.
+(3) Review period and implementation of any needed conforming
+changes--(i) Review period. The review period normally will not exceed
+106 days for requests that receive objections, including adjudication
+of objections submitted on exclusion requests and any rebuttals to
+objections, and surrebuttals. The estimated 106-day period begins on
+the day the exclusion request is posted in the 232 Exclusions Portal,
+and ends once a decision to grant or deny is made on the exclusion
+request.
+(ii) Coordination with other agencies on approval and
+implementation. Other agencies of the U.S. Government, such as CBP,
+will take any additional steps needed to implement an approved
+exclusion request. These additional steps needed to implement an
+approved exclusion request are not part of the review criteria used by
+the U.S. Department of Commerce to determine whether to approve an
+exclusion request, but are an important component in ensuring the
+approved exclusion request can be properly implemented. The U.S.
+Department of Commerce will provide CBP with information that will
+identify each approved exclusion request pursuant to this supplement.
+Individuals or organizations whose exclusion requests are approved must
+report information concerning any applicable exclusion in such form as
+CBP may require. These exclusion identifiers will be used by importers
+in the data collected by CBP in order for CBP to determine whether an
+import is within the scope of an approved exclusion request.
+[[Page 81079]]
+(i) For further information. If you have questions on this
+supplement, you may contact the Director, Industrial Studies, Office of
+Technology Evaluation, Bureau of Industry and Security, U.S. Department
+of Commerce, at (202) 482-5642 or Steel232@bis.doc.gov regarding steel
+exclusion requests, or at (202) 482-4757 or Aluminum232@bis.doc.gov
+regarding aluminum exclusion requests. The U.S. Department of Commerce
+website includes FAQs, best practices other companies have used for
+submitting exclusion requests and objections, and helpful checklists.
+The U.S. Department of Commerce has also included a manual providing
+instruction on the 232 Exclusions Portal for exclusion requests
+submitted on or after June 13, 2019, titled 232 Exclusions Portal
+Comprehensive Guide (``232 Exclusions Guide'') and posted online at
+(https://www.commerce.gov/page/section-232-investigations) to assist
+your understanding when making 232 submissions in the 232 Exclusions
+Portal.
+0
+3. Effective December 29, 2020 Supplement No. 2 to part 705 is revised
+to read as follows:
+Supplement No. 2 to Part 705--General Approved Exclusions (GAEs) for
+Steel Articles Under the 232 Exclusions Process
+This supplement identifies steel articles that have been approved
+for import under a General Approved Exclusion (GAE). The Secretary of
+Commerce, in consultation with the Secretary of Defense, the Secretary
+of the Treasury, the Secretary of State, the United States Trade
+Representative, the Assistant to the President for Economic Policy, the
+Assistant to the President for National Security Affairs, and other
+senior Executive Branch officials as appropriate, makes these
+determinations that certain steel articles may be authorized under a
+GAE consistent with the objectives of the 232 Exclusions Process as
+outlined in supplement no. 1 to this part. The GAEs described in this
+supplement may be used by any importer. GAEs do not include quantity
+limits. Each GAE identifier will be effective fifteen calendar days
+after publication of a Federal Register notice either adding or
+revising a specific GAE identifier. There is no retroactive relief for
+GAEs. Relief is only available to steel articles that are entered for
+consumption, or withdrawn from warehouse for consumption, on or after
+the effective date of a GAE included in supplement no. 2 to this part.
+In order to use a GAE, the importer must include the GAE identifier in
+the Automated Commercial Environment (ACE) system that corresponds to
+the steel articles being imported. These GAEs are indefinite in length,
+but the Department of Commerce on behalf of the Secretary of Commerce
+may at any time issue a Federal Register notice removing, revising or
+adding to an existing GAE in this supplement as warranted to align with
+the objectives of the 232 exclusions process as described in supplement
+no. 1 to this part. The Department of Commerce on behalf of the
+Secretary of Commerce may periodically publish notices of inquiry in
+the Federal Register soliciting public comments on potential removals,
+revisions or additions to this supplement.
+----------------------------------------------------------------------------------------------------------------
+Description of steel that
+may be imported (at 10-         Other
+digit harmonized tariff      limitations
+schedule of the United     (e.g., country
+GAE identifier              States (HTSUS) statistical    of import or    Federal Register citation
+reporting number or more       quantity
+narrowly defined at         allowed)
+product level)
+----------------------------------------------------------------------------------------------------------------
+GAE.1.S: 7304592030....................  7304592030. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HLLW PRFLS OTH ALLOY STL,                     NUMBER AND 12/14/2020].
+SMLESS, CIRC CS, NOT COLD-
+TRTD, SUITABLE FOR
+BOILERS ETC, HEAT-
+RESISTING STL.
+GAE.2.S: 7304592080....................  7304592080. TUBES/PIPES/H   ................  85 FR [INSERT FR PAGE
+PRFLS ALLOY STL, SMLSS,                       NUMBER AND 12/14/2020].
+CIRC CS, NOT COLD-TRTD,
+SUIT FOR BOILERS ETC, NOT
+HT-RSST STL, OS DIAM
+>406.4MM.
+GAE.3.S: 7220900060....................  7220900060. OTHER FLAT-     ................  85 FR [INSERT FR PAGE
+ROLLED STAINLESS STL,                         NUMBER AND 12/14/2020].
+WDTH <600MM, FURTH WRKD
+THAN COLD-RLD, /=24% NICKEL, <15%
+CHROMIUM.
+GAE.4.S: 7222406000....................  7222406000. ANGLES SHAPES   ................  85 FR [INSERT FR PAGE
+AND SECTIONS STAINLESS                        NUMBER AND 12/14/2020].
+STEEL, OTHER THAN HOT
+ROLLED, NOT DRILLED, NOT
+PUNCHED, AND NOT
+OTHERWISE ADVANCED.
+GAE.5.S: 7306901000....................  7306901000. OTH TUBES/      ................  85 FR [INSERT FR PAGE
+PIPES/HOLLOW PROFILES                         NUMBER AND 12/14/2020].
+IRON/NONALLOY STL,
+RIVETED/SIMILARLY CLOSED
+(NOT WELDED).
+GAE.6.S: 7212600000....................  7212600000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH                       NUMBER AND 12/14/2020].
+<600MM, CLAD.
+GAE.7.S: 7227901060....................  7227901060. BARS/RODS TOOL  ................  85 FR [INSERT FR PAGE
+STL (NOT HIGH-SPEED), HOT-                    NUMBER AND 12/14/2020].
+RLD, IRR COILS, NOT
+TEMPRD/TREATD/PARTLY
+MFTD, NOT BALL BEARING
+STEEL.
+GAE.8.S: 7220207060....................  7220207060. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, COLD-RLD,
+THICKNESS >0.25MM BUT 0.6%
+CARBON, NOT HEAT-TREATED,
+DIAM <1.0MM.
+GAE.12.S: 7226923060...................  7226923060. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, COLD-RLD, TOOL
+STEEL OTH THAN HIGH-
+SPEED, OTHER THAN BALL-
+BEARING STEEL.
+GAE.13.S: 7229905016...................  7229905016. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+OTHER ALLOY STL, DIAM                         NUMBER AND 12/14/2020].
+<1.0MM.
+GAE.14.S: 7215500018...................  7215500018. OTHER BARS/     ................  85 FR [INSERT FR PAGE
+RODS IRON/NONALLOY STL,                       NUMBER AND 12/14/2020].
+COLD-FORMED/FINISHED, NOT
+COILS, <0.25% CARBON,
+DIAMETER OR CROSS-SECTN >/
+=76MM BUT <228MM.
+GAE.15.S: 7304598060...................  7304598060. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HLLW PRFLS OTH ALLOY STL,                     NUMBER AND 12/14/2020].
+SMLESS, CIRC CS, NOT CLD-
+TRTD, OS DIAMETER
+>285.8MM BUT <406.4MM,
+WALL THK<12.7MM.
+[[Page 81080]]
+GAE.16.S: 7228501040...................  7228501040. OTHER BARS/     ................  85 FR [INSERT FR PAGE
+RODS TOOL STL (NOT HIGH-                      NUMBER AND 12/14/2020].
+SPEED), COLD-FRMD/FNSHD,
+MAX CS <18MM, OTHER THAN
+OF ROUND OR RECTANGULAR
+CROSS SECTION WITH
+SURFACES GROUND, MILLED,
+OR POLISHED.
+GAE.17.S: 7304246030...................  7304246030. TUBING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, OUTSIDE
+DIAM 9.5 MM.
+GAE.18.S: 7229905031...................  7229905031. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+OTHER ALLOY STL, WITH                         NUMBER AND 12/14/2020].
+DIAMETER >/=1.0MM BUT
+<1.5MM.
+GAE.19.S: 7304598010...................  7304598010. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HOLLOW PROFILES OTH ALLOY                     NUMBER AND 12/14/2020].
+STL, SEAMLESS, CIRC CS,
+NOT COLD-TREATED, NOT
+HEAT-RESISTANT, OUTSIDE
+DIAM <38.1MM.
+GAE.20.S: 7219310010...................  7219310010. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, THK >/
+=4.75MM, COILS.
+GAE.21.S: 7304598045...................  7304598045. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HLLW PRFLS OTH ALLOY STL,                     NUMBER AND 12/14/2020].
+SMLESS, CIRC CS, NOT CLD-
+TRTD, NOT HEAT-RESISTANT,
+OS DIAMETER >190.5MM BUT
+<285.8MM, WALL THK<12.7MM.
+GAE.22.S: 7306401090...................  7306401090. OTH TUBES/      ................  85 FR [INSERT FR PAGE
+PIPES/HOLLOW PRFLS                            NUMBER AND 12/14/2020].
+STAINLESS STL, WELDED,
+CIRC CS, WALL THK
+<1.65MM, 1.25MM, >0.5% NICKEL,
+>1.5% BUT <5% BY WEIGHT
+OF MOLYBDENUM.
+GAE.24.S: 7211296080...................  7211296080. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WIDTH                      NUMBER AND 12/14/2020].
+>300MM BUT <600MM, NOT
+CLAD/PLATED/COATED, COLD-
+RLD, >/=0.25% CRBN, THK 1575MM, HOT-RLD, COILS,
+THK >6.8MM BUT <10MM.
+GAE.27.S: 7219320020...................  7219320020. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=1370MM, COLD-RLD,
+THICKNESS >3MM BUT
+<4.75MM, COILS, >0.5%
+NICKEL.
+GAE.28.S: 7304243010...................  7304243010. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, THREADED/
+COUPLED, OUTSIDE DIAM
+<215.9MM, WALL THK
+<12.7MM.
+GAE.29.S: 7219220035...................  7219220035. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, THICKNESS                      NUMBER AND 12/14/2020].
+>/=4.75MM BUT <10MM,
+WIDTH >/=600MM BUT
+<1575MM, HOT-RLD, NOT
+COILS, THK 4.75-10MM,
+>0.5% NICKEL.
+GAE.30.S: 7222403085...................  7222403085. SHAPES/         ................  85 FR [INSERT FR PAGE
+SECTIONS STAINLESS STL,                       NUMBER AND 12/14/2020].
+HOT-RLD, NOT DRILLED/
+PUNCHED/ADVANCED, MAX
+CROSS SECTION <80MM.
+GAE.31.S: 7222403045...................  7222403045. SHAPES/         ................  85 FR [INSERT FR PAGE
+SECTIONS STAINLESS STL,                       NUMBER AND 12/14/2020].
+HOT-RLD, NOT DRILLED/
+PUNCHED/ADVANCED, MAX CS
+>/=80MM.
+GAE.32.S: 7219110060...................  7219110060. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH                           NUMBER AND 12/14/2020].
+>1575MM, HOT-RLD, COILS,
+THK >10MM.
+GAE.33.S: 7304515005...................  7304515005. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HOLLOW PROFILES OTH ALLOY                     NUMBER AND 12/14/2020].
+STL, SEAMLESS, CIRC CS,
+COLD-DRWN/RLD, HIGH-
+NICKEL ALLOY STL.
+GAE.34.S: 7219330025...................  7219330025. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=1370MM, COLD-RLD,
+THICKNESS >1MM BUT <3MM,
+COILS, /                       NUMBER AND 12/14/2020].
+=600MM BUT <1575MM, HOT-
+RLD, COILS, THK >10MM.
+GAE.37.S: 7217108030...................  7217108030. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, NOT                        NUMBER AND 12/14/2020].
+PLATED/COATED, >0.6%
+CARBON, HEAT-TREATED,
+DIAMETER >/=1.0MM BUT
+<1.5MM.
+GAE.38.S: 7212200000...................  7212200000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH                       NUMBER AND 12/14/2020].
+<600MM, ELECTROLYTICALLY
+PLATED/COATED WITH ZINC.
+GAE.39.S: 7217204560...................  7217204560. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, PLATED/                    NUMBER AND 12/14/2020].
+COATED WITH ZINC,
+DIAMETER >/=1.0MM BUT
+<1.5MM, >/=0.6% CARBON.
+GAE.40.S: 7220206060...................  7220206060. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, COLD-RLD, THK
+>1.25MM, 0.6%
+CARBON, HEAT-TREATED,
+DIAM <1.0MM.
+GAE.42.S: 7220121000...................  7220121000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WIDTH >/                       NUMBER AND 12/14/2020].
+=300MM BUT <600MM, HOT-
+RLD, THK <4.75MM.
+GAE.43.S: 7209900000...................  7209900000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH >/                    NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, NOT
+CLAD/PLATED/COATED,
+WHETHER OR NOT IN COILS.
+GAE.44.S: 7213913020...................  7213913020. BARS/RODS IRON/ ................  85 FR [INSERT FR PAGE
+NA STL, IRR COILS, HOT-                       NUMBER AND 12/14/2020].
+RLD, CIRC CS<14MM DIAM,
+NOT TEMPRD/TREATD/PARTLY
+MFTD, WELDING QUALITY
+WIRE ROD.
+GAE.45.S: 7306617060...................  7306617060. OTH TUBES/      ................  85 FR [INSERT FR PAGE
+PIPES/HOLLOW PROFILES OTH                     NUMBER AND 12/14/2020].
+ALLOY STL (NOT
+STAINLESS), WELDED, SQ/
+RECT CS, WALL THK <4MM.
+GAE.46.S: 7216330090...................  7216330090. H SECTIONS      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, HOT-                       NUMBER AND 12/14/2020].
+RLD/DRWN/EXTRD, HEIGHT >/
+=80MM.
+[[Page 81081]]
+GAE.47.S: 7217905030...................  7217905030. WIRE IRON/      ................  85 FR [INSERT FR PAGE
+NONALLOY STL, NOT PLATED/                     NUMBER AND 12/14/2020].
+COATED WITH BASE METALS
+OR PLASTICS, <0.25%
+CARBON.
+GAE.48.S: 7226923030...................  7226923030. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, COLD-RLD, TOOL
+STEEL OTH THAN HIGH-
+SPEED, BALL-BEARING STL.
+GAE.49.S: 7219120051...................  7219120051. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WIDTH >/                       NUMBER AND 12/14/2020].
+=1370MM BUT <1575MM, HOT-
+RLD, COILS, THICKNESS >/
+=4.75MM BUT <6.8MM.
+GAE.50.S: 7227906020...................  7227906020. BARS/RODS       ................  85 FR [INSERT FR PAGE
+OTHER ALLOY STL, IRR                          NUMBER AND 12/14/2020].
+COILS, HOT-RLD, NOT TOOL
+STL, WELDING QUALITY WIRE
+RODS.
+GAE.51.S: 7217905090...................  7217905090. WIRE IRON/      ................  85 FR [INSERT FR PAGE
+NONALLOY STL, NOT PLATED/                     NUMBER AND 12/14/2020].
+COATED WITH BASE METALS
+OR PLASTICS, >/=0.6%
+CARBON.
+GAE.52.S: 7219220040...................  7219220040. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, HOT-RLD,                       NUMBER AND 12/14/2020].
+NOT COILS, THK >/=4.75 MM
+BUT <10MM, NOT HIGH-
+NICKEL ALLOY, >0.5%
+NICKEL, /=5%
+MOLYBDENUM, WIDTH >1575MM
+BUT <1880MM.
+GAE.53.S: 7219320038...................  7219320038. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, COLD-RLD,                      NUMBER AND 12/14/2020].
+THICKNESS >/=3MM BUT
+<4.75MM, COILS, WIDTH
+>600MM BUT <1370MM, NOT
+HIGH-NICKEL ALLOY, >0.5%
+NICKEL, /=5%
+MOLYBDENUM.
+GAE.54.S: 7219320045...................  7219320045. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=1370MM, COLD-RLD,
+THICKNESS >/=3MM BUT
+<4.75MM, NOT COILS.
+GAE.55.S: 7219350005...................  7219350005. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, THK
+<0.5MM, COILS, >0.5% BUT
+<24% NICKEL, >1.5% BUT
+<5% MOLYBDENUM.
+GAE.56.S: 7219320036...................  7219320036. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, COLD-RLD,                      NUMBER AND 12/14/2020].
+THICKNESS >/=3MM BUT
+<4.75MM, COILS, WIDTH
+>600MM BUT <1370MM, NOT
+HIGH-NICKEL ALLOY, >0.5%
+NICKEL, >1.5% BUT <5%
+MOLYBDENUM.
+GAE.57.S: 7304901000...................  7304901000. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HOLLOW PROFILES IRON/                         NUMBER AND 12/14/2020].
+NONALLOY STL, SEAMLESS,
+NONCIRCULAR CROSS
+SECTION, WALL THK >/=4MM.
+GAE.58.S: 7304390002...................  7304390002. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HLLW PRFLS IRON/NA STL,                       NUMBER AND 12/14/2020].
+SMLESS, CIRC CS, NOT COLD-
+TRTD, SUITABLE FOR
+BOILERS ETC, OS DIAM
+<38.1MM.
+GAE.59.S: 7219120071...................  7219120071. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH                           NUMBER AND 12/14/2020].
+>600MM BUT <1370MM, HOT-
+RLD, COILS, THICKNESS >/
+=4.75MM BUT <10MM, NOT
+HIGH-NICKEL ALLOY, >0.5%
+NICKEL, /=5%
+MOLYBDENUM.
+GAE.60.S: 7225501110...................  7225501110. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, TOOL
+STEEL, HIGH-SPEED STL.
+GAE.61.S: 7217905060...................  7217905060. WIRE IRON/      ................  85 FR [INSERT FR PAGE
+NONALLOY STL, PLATED/                         NUMBER AND 12/14/2020].
+COATED, >0.25% BUT <0.6%
+CARBON.
+GAE.62.S: 7220125000...................  7220125000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, HOT-RLD, THK
+<4.75MM.
+GAE.63.S: 7226928005...................  7226928005. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH                           NUMBER AND 12/14/2020].
+<300MM, COLD-RLD, NOT
+TOOL STL, THK >0.25MM,
+HIGH-NICKEL ALLOY STL.
+GAE.64.S: 7217106000...................  7217106000. OTHER WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, NOT                        NUMBER AND 12/14/2020].
+PLATED/COATED, <0.25%
+CARBON.
+GAE.65.S: 7219120021...................  7219120021. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WIDTH >/                       NUMBER AND 12/14/2020].
+=1370MM BUT 6.8MM BUT /=215.9MM BUT /
+=12.7MM.
+GAE.68.S: 7302101015...................  7302101015. OTHER RAILS     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, NEW,                       NUMBER AND 12/14/2020].
+NOT HEAT TREATED, >30KG/M.
+GAE.69.S: 7304413005...................  7304413005. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HOLLOW PRFLS STAINLESS                        NUMBER AND 12/14/2020].
+STL, SEAMLESS, CIRC CS,
+COLD-DRWN/RLD, EXT DIAM
+<19MM, HIGH-NICKEL ALLOY
+STL.
+GAE.70.S: 7215500090...................  7215500090. OTHER BARS/     ................  85 FR [INSERT FR PAGE
+RODS IRON/NONALLOY STL,                       NUMBER AND 12/14/2020].
+COLD-FORMED/FINISHED, NOT
+COILS, >/=0.6% CARBON.
+GAE.71.S: 7217304541...................  7217304541. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, PLATED/                    NUMBER AND 12/14/2020].
+COATED W/OTH BASE METALS,
+DIAMETER >/=1.0MM BUT
+<1.5MM, <0.25% CARBON.
+GAE.72.S: 7227200030...................  7227200030. BARS/RODS       ................  85 FR [INSERT FR PAGE
+SILICO-MANGANESE STL, IRR                     NUMBER AND 12/14/2020].
+COILS, HOT-RLD, WELDING
+QUALITY WIRE RODS, STAT
+NOTE 6.
+GAE.73.S: 7306697060...................  7306697060. OTH TUBES/      ................  85 FR [INSERT FR PAGE
+PIPES/HOLLOW PROFILES OTH                     NUMBER AND 12/14/2020].
+ALLOY STL (NOT
+STAINLESS), WELDED, OTH
+NONCIRCULAR CS, WALL THK
+<4MM.
+GAE.74.S: 7302101045...................  7302101045. OTHER RAILS     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, NEW,                       NUMBER AND 12/14/2020].
+HEAT TREATED, >30KG/M.
+GAE.75.S: 7219210005...................  7219210005. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, HOT-RLD, NOT
+COILS, THK >10MM, HIGH-
+NICKEL ALLOY STL.
+GAE.76.S: 7304293160...................  7304293160. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) OTH ALLOY                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, THREADED/
+COUPLED, OS DIAMETER
+>285.8MM BUT /=12.7MM.
+[[Page 81082]]
+GAE.77.S: 7305316090...................  7305316090. OTHER TUBES/    ................  85 FR [INSERT FR PAGE
+PIPES ALLOY STL, CIRC CS,                     NUMBER AND 12/14/2020].
+EXT DIAM >406.4MM, NOT
+LINE PIPE OR CASING (OIL/
+GAS), LONGITUDINALLY
+WELDED, NOT TAPERED PIPES/
+TUBES, NON-STAINLESS
+ALLOY STEEL.
+GAE.78.S: 7216400010...................  7216400010. L SECTIONS      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, HOT-                       NUMBER AND 12/14/2020].
+ROLLED/DRAWN/EXTRUDED,
+HEIGHT >/=80MM.
+GAE.79.S: 7226990110...................  7226990110. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH                           NUMBER AND 12/14/2020].
+<600MM, ELECTROLYTICALLY
+PLATD/COATD W/ZINC, NOT
+GRAIN ORIENTED, NOT OF
+HIGH-SPEED STEEL, FURTHER
+WORKED THAN HOT-ROLLED OR
+COLD-ROLLED.
+GAE.80.S: 7225506000...................  7225506000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+OTH ALLOY STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, THK >/
+=4.75MM, NOT OF TOOL
+STEEL.
+GAE.81.S: 7304905000...................  7304905000. TUBES/PIPES/    ................  85 FR [INSERT FR PAGE
+HOLLOW PROFILES IRON/                         NUMBER AND 12/14/2020].
+NONALLOY STL, SEAMLESS,
+NOT CIRCULAR CS, WALL THK
+<4MM.
+GAE.82.S: 7219220005...................  7219220005. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WDTH >/                        NUMBER AND 12/14/2020].
+=600MM, HOT-RLD, NOT
+COILS, THICKNESS >/
+=4.75MM BUT 2 KG.
+GAE.84.S: 7209270000...................  7209270000. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH >/                    NUMBER AND 12/14/2020].
+=600MM, COLD-RLD, NOT
+CLAD/PLATED/COATED, NOT
+COILS, THK 0.5-1MM.
+GAE.85.S: 7219900060...................  7219900060. OTHER FLAT-     ................  85 FR [INSERT FR PAGE
+ROLLED STAINLESS STL,                         NUMBER AND 12/14/2020].
+WDTH >/=600MM, FURTHER
+WORKED THAN COLD-RLD, /                       NUMBER AND 12/14/2020].
+=600MM BUT <1370MM, HOT-
+RLD, COILS, NOT HIGH-
+NICKEL ALLOY, THICKNESS >/
+=4.75MM BUT 406.4MM.
+GAE.88.S: 7224100005...................  7224100005. INGOTS AND      ................  85 FR [INSERT FR PAGE
+OTHER PRIMARY FORMS OF                        NUMBER AND 12/14/2020].
+HIGH-NICKEL ALLOY STEEL.
+GAE.89.S: 7213200080...................  7213200080. BARS/RODS IRON/ ................  85 FR [INSERT FR PAGE
+NONALLOY STL, HOT-RLD,                        NUMBER AND 12/14/2020].
+IRR COILS, FREE-CUTTING
+STL, <0.1% LEAD.
+GAE.90.S: 7216100010...................  7216100010. U SECTIONS      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, HOT-                       NUMBER AND 12/14/2020].
+ROLLED/DRAWN/EXTRUDED,
+HEIGHT <80MM.
+GAE.91.S: 7306695000...................  7306695000. OTH TUBES/      ................  85 FR [INSERT FR PAGE
+PIPES/HOLLOW PROFILES                         NUMBER AND 12/14/2020].
+IRON/NONALLOY STL,
+WELDED, OTH NONCIRCULAR
+CS, WALL THK <4MM.
+GAE.92.S: 7208390015...................  7208390015. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NA STL, WDTH >/                          NUMBER AND 12/14/2020].
+=600MM, HOT-RLD, NOT CLAD/
+PLATED/COATED, COILS, THK
+<3MM, HIGH-STRENGTH STL.
+GAE.93.S: 7208380015...................  7208380015. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NA STL, WDTH >/                          NUMBER AND 12/14/2020].
+=600MM, HOT-RLD, NOT CLAD/
+PLATED/COATED, COILS,
+THICKNESS >/=3MM BUT
+<4.75MM, HIGH-STRENGTH
+STL.
+GAE.94.S: 7217104090...................  7217104090. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, NOT                        NUMBER AND 12/14/2020].
+PLATED/COATED, <0.25%
+CARBON, DIAM <1.5MM, NOT
+HEAT-TREATED.
+GAE.95.S: 7302105020...................  7302105020. RAILS OF ALLOY  ................  85 FR [INSERT FR PAGE
+STEEL, NEW.                                   NUMBER AND 12/14/2020].
+GAE.96.S: 7210706030...................  7210706030. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NA STL, WDTH >/                          NUMBER AND 12/14/2020].
+=600MM, PAINTD/VARNSHD/
+COATD W/PLASTICS,
+ELECTROLYTICALLY PLATD/
+COATD W/ZINC.
+GAE.97.S: 7304244060...................  7304244060. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, NOT
+THREADED/COUPLED, OS
+DIAMETER >285.8MM BUT /
+=12.7MM.
+GAE.98.S: 7229200015...................  7229200015. ROUND WIRE SI-  ................  85 FR [INSERT FR PAGE
+MN STL, DIAM 0.9% MN, >0.6%
+SI, FOR ELEC ARC WELDING,
+NOT PLATD/COATD W/COPPER.
+GAE.99.S: 7304243040...................  7304243040. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, THREADED/
+COUPLED, OUTSIDE DIAMETER
+>/=215.9MM BUT /
+=12.7MM.
+GAE.100.S: 7304243020..................  7304243020. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, SEAMLESS, THREADED/
+COUPLED, OUTSIDE DIAM
+<215.9MM, WALL THK >/
+=12.7MM.
+GAE.101.S: 7219130081..................  7219130081. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+STAINLESS STL, WIDTH >/                       NUMBER AND 12/14/2020].
+=600MM BUT <1370MM, HOT-
+RLD, COILS, THICKNESS >/
+=3MM BUT <4.75MM, /=24% NICKEL.
+GAE.102.S: 7211140090..................  7211140090. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH                       NUMBER AND 12/14/2020].
+<600MM, NOT CLAD/PLATED/
+COATED, HOT-RLD, THK >/
+=4.75MM, COILS.
+GAE.103.S: 7218910030..................  7218910030. SEMIFINISHED    ................  85 FR [INSERT FR PAGE
+STAINLESS STL,                                NUMBER AND 12/14/2020].
+RECTANGULAR CROSS
+SECTION, WDTH <4X THK, CS
+AREA >/=232 CM2.
+GAE.104.S: 7306213000..................  7306213000. CASING (OIL/    ................  85 FR [INSERT FR PAGE
+GAS DRILLING) STAINLESS                       NUMBER AND 12/14/2020].
+STL, WELDED, THREADED/
+COUPLED.
+GAE.105.S: 7211234500..................  7211234500. FLAT-ROLLED     ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, WDTH                       NUMBER AND 12/14/2020].
+<300MM, NOT CLAD/PLATED/
+COATED, COLD-RLD, <0.25%
+CRBN, THK 1.25MM, NOT HIGH-NICKEL
+ALLOY, /
+=15% CHROMIUM.
+GAE.107.S: 7305391000..................  7305391000. OTHER TUBES/    ................  85 FR [INSERT FR PAGE
+PIPES IRON/NONALLOY STL,                      NUMBER AND 12/14/2020].
+CIRC CS, EXT DIAM
+>406.4MM, WELDED, OTHER
+THAN LONGITUDALLY WELDED.
+GAE.108.S: 7217204550..................  7217204550. ROUND WIRE      ................  85 FR [INSERT FR PAGE
+IRON/NONALLOY STL, PLATED/                    NUMBER AND 12/14/2020].
+COATED WITH ZINC,
+DIAMETER >/=1.0MM BUT
+<1.5MM, >/=0.25% BUT
+<0.6% CARBON.
+----------------------------------------------------------------------------------------------------------------
+Annex 1 to Supplements No. 1 and 2 to part 705 [Removed]
+0
+4. Annex 1 to Supplements No. 1 and 2 to part 705 is removed.
+0
+5. Effective December 29, 2020. add Supplement No. 3 to part 705 to
+read as follows:
+Supplement No. 3 to Part 705--General Approved Exclusions (GAEs) for
+Aluminum Articles Under the 232 Exclusions Process
+This supplement identifies aluminum articles that have been
+approved for import under a General Approved Exclusion (GAE). The
+Secretary of Commerce, in consultation with the Secretary of Defense,
+the Secretary of the Treasury, the Secretary of State, the United
+States Trade Representative, the Assistant to the President for
+Economic Policy, the Assistant to the President for National Security
+Affairs, and other senior Executive Branch officials as appropriate,
+makes these determinations that certain aluminum articles may be
+authorized under a GAE consistent with the objectives of the 232
+exclusions process as outlined in supplement no. 1 to this part. The
+GAEs described in this supplement may be used by any importer. GAEs do
+not include quantity limits. Each GAE identifier will be effective
+fifteen calendar days after publication of a Federal Register notice
+either adding or revising a specific GAE identifier. There is no
+retroactive relief for GAEs. Relief is only available to aluminum
+articles that are entered for consumption, or withdrawn from warehouse
+for consumption, on or after the effective date of a GAE included in
+supplement no. 2 to this part. In order to use a GAE, the importer must
+reference the GAE identifier in the Automated Commercial Environment
+(ACE) system that corresponds to the aluminum articles being imported.
+These GAEs are indefinite in length, but the Department of Commerce on
+behalf of the Secretary of Commerce may at any time issue a Federal
+Register notice removing, revising or adding to an existing GAE in this
+supplement as warranted to align with the objectives of the 232
+exclusions process as described in supplement no. 1 to this part. The
+Department of Commerce on behalf of the Secretary of Commerce may
+periodically publish notices of inquiry in the Federal Register
+soliciting public comments on potential removals, revisions or
+additions to this supplement.
+----------------------------------------------------------------------------------------------------------------
+Description of aluminum
+that may be imported (at         Other
+10-digit  Harmonized        limitations
+Tariff Schedule of the     (e.g., country
+GAE identifier                 United States (HTSUS)      of  import or   Federal Register citation
+statistical reporting        quantity
+number or more narrowly       allowed)
+defined at product level)
+----------------------------------------------------------------------------------------------------------------
+GAE.1.A: 7609000000....................  7609000000. ALUMINUM TUBE   ................  85 FR [INSERT FR PAGE
+OR PIPE FITTINGS                              NUMBER AND 12/14/2020].
+(COUPLINGS, ELBOWS,
+SLEEVES).
+GAE.2.A: 7607205000....................  7607205000. ALUMINUM FOIL   ................  85 FR [INSERT FR PAGE
+OF THICKNESS.                                 NUMBER AND 12/14/2020].
+GAE.3.A: 7607196000....................  7607196000. ALUMINUM FOIL   ................  85 FR [INSERT FR PAGE
+OF THICKNESS.                                 NUMBER AND 12/14/2020].
+GAE.4.A: 7604210010....................  7604210010. ALUMINUM ALLOY  ................  85 FR [INSERT FR PAGE
+HOLLOW PROFILES OF HEAT-                      NUMBER AND 12/14/2020].
+TREATABLE INDUSTRIAL
+ALLOYS OF A KIND
+DESCRIBED IN NOTE 6 TO
+THIS CHAPTER.
+GAE.5.A: 7604291010....................  7604291010. ALUMINUM ALLOY  ................  85 FR [INSERT FR PAGE
+PROFILES OTHER THAN                           NUMBER AND 12/14/2020].
+HOLLOW PROFILES OF HEAT-
+TREATABLE INDUSTRIAL
+ALLOYS OF A KIND
+DESCRIBED IN NOTE 6 TO
+THIS CHAPTER.
+GAE.6.A: 7607191000....................  7607191000. ALUMINUM FOIL   ................  85 FR [INSERT FR PAGE
+OF THICKNESS.                                 NUMBER AND 12/14/2020].
+GAE.7.A: 7606116000....................  7606116000. ALUMINUM        ................  85 FR [INSERT FR PAGE
+PLATES, SHEETS AND STRIP,                     NUMBER AND 12/14/2020].
+THICKNESS >0.2MM,
+RECTANGULAR (INCLUDING
+SQUARE), NOT ALLOYED,
+CLAD.
+GAE.8.A: 7605290000....................  7605290000. ALUMINUM WIRE   ................  85 FR [INSERT FR PAGE
+ALLOY, MAXIMUM CROSS-                         NUMBER AND 12/14/2020].
+SECTIONAL DIMENSION 0.01 MM AND                     NUMBER AND 12/14/2020].

@@ -1,0 +1,13 @@
+{
+  "source_export_sha256": "52dcf8b0fc52fa3c5e57f18ad90a7023728ffc5d025f905cc0c9a859d1bce6f0",
+  "unreviewed_revisions": [],
+  "positive_metal_rows_outside_scope": 429420,
+  "groups": 2105,
+  "interpretation": "Model components outside both source scopes; not a complete shipment total or monetary exposure. Quota/grant/material facts are absent from these production rows.",
+  "findings_reference": {
+    "path": "docs/audits/2026-10-23-pre-march-metals/motherduck-comparison.json",
+    "sha256": "49abb4df5c34820dc5528f326630b2d0f867b7ca291e6328f96a010b694e92c8",
+    "field": "findings",
+    "comparison": "Every finding equals the previously retained full comparison; source scopes recompiled with current code."
+  }
+}

@@ -25,6 +25,15 @@ stopifnot(all(r$rate_232[r$hts10 %in% c('7202115000','7317005590')]==0))
 stopifnot(all(r$rate_232_aluminum[r$hts10=='7604101000' & r$country %in% c('5880','5800','3510','4623')]==.1))
 stopifnot(all(is.na(r$statutory_rate_232[r$hts10 %in% c('7208101500','7317005503','7604101000','7605290000')])))
 x<-jsonlite::fromJSON(file.path(out,'2025_basic','section232_legacy_rules.json'),simplifyVector=FALSE)
+grant_snapshot<-Sys.getenv('SECTION232_GRANT_SNAPSHOT',unset='')
+if(nzchar(grant_snapshot)) {
+ stopifnot(identical(x$grant_snapshot$snapshot_sha256,digest::digest(file=grant_snapshot,algo='sha256')),
+   any(vapply(x$rules,function(r) !is.null(r$grant_id),logical(1))))
+ source('src/compile_shipment_rules.R')
+ checked<-read_shipment_rule_fragment(file.path(out,'2025_basic','section232_legacy_rules.json'))
+ stopifnot(identical(checked$grant_snapshot,x$grant_snapshot))
+ cat('Configured grant snapshot and all retained evidence verified through normalized emission\n')
+}
 stopifnot(length(x$rules)>0,any(vapply(x$rules,function(z)'9903.81.85'%in%unlist(z$reporting_codes),logical(1))))
 m<-arrow::read_parquet(file.path(out,'2025_basic','section232_scope_decisions.parquet'))
 stopifnot(setequal(m$hts10,c('7208101500','7317005503','7604101000','7605290000')))

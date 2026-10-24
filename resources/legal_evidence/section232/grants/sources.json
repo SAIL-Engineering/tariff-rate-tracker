@@ -1,0 +1,68 @@
+[
+  {
+    "id": "BIS-exclusions",
+    "path": "BIS-exclusions.txt",
+    "url": "https://www.bis.gov/about-bis/bis-leadership-and-offices/SIES/section-232-investigations/section-232-steel-aluminum",
+    "citation": "BIS Section 232 exclusions: February 10 activation cutoff; grant expiry/quantity; March 12 STX termination.",
+    "sha256": "490a0ae2227fbcb4db7b08bff0e21e5234e98a3dc1da977f30f7da27c7c88cda",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "FR-2020-27110",
+    "path": "FR-2020-27110.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2020-12-14/html/2020-27110.htm",
+    "citation": "85 FR 81060; supplement 1 to 15 CFR part 705, paragraphs (c)(2), (h)(2)(iii)-(iv): party, exact statistical product, activation and grant-specific validity.",
+    "sha256": "c08dff98fffc65df3bdbc9a6c08a9af5d1301e2a5ec9a0583625df03c3467874",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "FR-2025-07676",
+    "path": "FR-2025-07676.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2025-05-02/html/2025-07676.htm",
+    "citation": "90 FR 18780; Section III: removal of former exclusion process; no new grants inferred.",
+    "sha256": "b9a3be82317d918ef61d35d8268427dd56d4a61d65144f24b9aa9d1dca9b8d02",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "CBP-232-FAQ",
+    "path": "CBP-232-FAQ.txt",
+    "url": "https://www.cbp.gov/trade/programs-administration/entry-summary/232-tariffs-aluminum-and-steel-faqs",
+    "citation": "CBP Section 232 FAQs, last modified September 21, 2026; GSP/AGOA and Chapter 98 interactions are not blanket unchanged base treatment.",
+    "sha256": "2ca35b699151f9ee24cd4c3d2ca4638a5df3981c0e33a37badf2cb4716280745",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "CBP-CSMS-64384423",
+    "path": "CBP-CSMS-64384423.txt",
+    "sha256": "85e32ede6b26f4e52f2f1bb1c15df0026264f193353e6dc066b2050ca424b89d",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d66da7",
+    "citation": "CBP CSMS 64384423, March 11 2025, continuing ACE-active steel exclusions until expiry or exhausted volume.",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "CBP-CSMS-64384496",
+    "path": "CBP-CSMS-64384496.txt",
+    "sha256": "ec74afea22a9ec4b7a94957a7a13afb054a138029dda5f46f6c64cb973954134",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3d66df0",
+    "citation": "CBP CSMS 64384496, March 11 2025, continuing ACE-active aluminum exclusions until expiry or exhausted volume.",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse primary-source text"
+  },
+  {
+    "id": "CBP-CATAIR-ESF194",
+    "path": "CBP-CATAIR-ESF194.txt",
+    "sha256": "9f6ddc5529deb7883ec9c1dbc4eb027af154f978f96e6f51bc5ceb6ab52bc98e",
+    "url": "https://www.cbp.gov/sites/default/files/2026-09/26_0924_ace_catair_entry_summary_create_update.pdf",
+    "citation": "CBP ACE CATAIR Entry Summary Create/Update, v111, ESF-194, Product Exclusions: 54-record product exclusion identifier replaces the remedy Chapter 99 duty heading. Pre-March quota-specific instructions are retained separately.",
+    "method": "Reuse trade-intelligence retained pypdf page extraction",
+    "corpus_commit": "766334b6b41dd5f45cfd3df583b7c5d53447ae1a",
+    "corpus_artifact": "fixtures/customs_ref/programs/es_pages_excerpt.json",
+    "corpus_artifact_sha256": "dc04db681de563ef93f80560a3b48dd8f2e73eabc87877ccaeb978ef0631a9e0",
+    "normalization": "Trailing spaces removed from extracted page text; original corpus artifact SHA256 is retained separately."
+  }
+]

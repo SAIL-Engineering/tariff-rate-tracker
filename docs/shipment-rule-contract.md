@@ -214,8 +214,9 @@ Country, melt/smelt, Ukrainian certificate, TRQ eligibility, Russian-material,
 and exclusion decisions are evaluated before choosing a reporting heading. A
 source-backed zero may correctly have no Section 232 heading. General approved
 exclusions are claims, expire at the operative March transition, and do not erase
-base, Section 301 or emergency duties. Individual Commerce grants remain
-unpriced pending verified party/scope/date/quantity evidence. An irrelevant grant
+ordinary MFN/column-2 base, Section 301 or emergency duties. Preference-sensitive
+base treatment is not covered by this independence statement. Individual Commerce
+grants remain unpriced without the reviewed snapshot described below. An irrelevant grant
 claim does not block independently established country relief.
 
 `unchanged_claims` composition may name explicit `claim_ids` and
@@ -224,3 +225,11 @@ and verifies the candidate rules' authority. This resolves against the actual
 assembled rules; it does not recognize a claim by its string prefix. The public
 result and rule bundle remain v1; no runtime expression was added. New dataset
 versions and newly composed bundles are required before preparing a release.
+
+Individual Commerce decisions use the [grant evidence contract](section232-grant-evidence.md).
+The legacy compiler accepts a pinned reviewed snapshot and emits ordinary rule
+expressions; no new runtime operator was introduced. Composition and release
+preparation retain and check that evidence dependency. An ordinary base rule
+must explicitly declare `base_treatment: column1_general` or `column2` before a
+metal exclusion's unchanged-base relation can cover it. GSP/AGOA and unreviewed
+base rules remain outside that attestation.

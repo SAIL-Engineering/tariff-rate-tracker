@@ -48,6 +48,7 @@ export async function readReleaseManifest(manifestPath) {
     return { full, data };
   };
   const revisions = [];
+  let commerceGrantPin = null;
   for (const revision of manifest.revisions) {
     const files = {};
     for (const table of Object.keys(TABLES)) {
@@ -62,6 +63,20 @@ export async function readReleaseManifest(manifestPath) {
       throw new Error('Mixed rule/evidence/dataset versions');
     if (!bundle.valid_from || !bundle.valid_until || !(Date.parse(bundle.valid_from) < Date.parse(bundle.valid_until)))
       throw new Error('Invalid rule interval');
+    const grantRules = (bundle.rules ?? []).filter(r => r.grant_id);
+    const grantPin = bundle.evidence_dependencies?.section232_grants;
+    if (grantRules.length && !grantPin) throw new Error('Commerce grant rules require an evidence snapshot');
+    if (grantPin) {
+      if (!grantPin.snapshot_id || !/^[a-f0-9]{64}$/.test(grantPin.snapshot_sha256 ?? '')
+        || !Number.isFinite(Date.parse(grantPin.as_of))
+        || grantRules.some(r => r.grant_snapshot_id !== grantPin.snapshot_id)
+        || !(bundle.sources ?? []).some(s => s.id === `commerce-grant-snapshot-${grantPin.snapshot_sha256}`
+          && s.sha256 === grantPin.snapshot_sha256 && s.status === 'verified'))
+        throw new Error('Invalid Commerce grant evidence pin');
+      const identity = JSON.stringify([grantPin.snapshot_id, grantPin.snapshot_sha256, grantPin.as_of]);
+      if (commerceGrantPin && commerceGrantPin !== identity) throw new Error('Mixed Commerce grant evidence snapshots');
+      commerceGrantPin = identity;
+    }
     revisions.push({ revision: revision.revision, files, bundle, bundleHash: revision.rules.sha256 });
   }
   const ordered = [...revisions].sort((a, b) => Date.parse(a.bundle.valid_from) - Date.parse(b.bundle.valid_from));

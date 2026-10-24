@@ -295,3 +295,31 @@ required route for regenerating rates, normalized outputs and downstream data.
 Individual Commerce grants and inconsistent published quota references remain
 unresolved; do not treat a passing source audit as all-authority qualification.
 See `docs/audits/2026-10-23-pre-march-metals/README.md` for evidence and limits.
+
+## Optional reviewed Commerce grant snapshot
+
+The legacy metal build can now consume reviewed individual decisions through
+`SECTION232_GRANT_SNAPSHOT`. This is not an HTS correction list: each grant must
+retain the original decision and its party/product/action/date/quantity limits.
+The official bulk export is currently unavailable; no production grant snapshot
+has been populated by this change. See `docs/section232-grant-evidence.md`.
+
+Only after a real trade-intelligence snapshot has been exported and reviewed:
+
+```sh
+export SECTION232_GRANT_SNAPSHOT=/absolute/path/to/reviewed-grant-export/snapshot.json
+python3 src/section232_grants.py "$SECTION232_GRANT_SNAPSHOT"
+```
+
+Then run the all-55 build at the top of this document manually, retaining that
+environment variable for every revision. Do not point it at the synthetic test
+fixture. A configured missing/corrupt snapshot fails compilation. The output
+fragment includes the snapshot as a hashed source artifact; recomposition
+retains its identity, and local release preparation rejects missing or mixed
+grant pins. The regular release's trade-intelligence snapshot, new dataset
+version and complete normalized/rate partitions remain required.
+
+Without a reviewed snapshot, individual claims remain unavailable. Broad
+all-authority, post-April-2026 grant and preference/Chapter 98 interactions still
+need review. This option does not change aggregate shares, trigger a build,
+publish a release or write to MotherDuck.

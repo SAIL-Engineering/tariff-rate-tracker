@@ -1,0 +1,65 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 64384496 - UPDATED GUIDANCE: Import Duties on Imports of Aluminum and Aluminum Derivative Products
+U.S. Customs and Border Protection sent this bulletin at 03/11/2025 09:24 PM EDT
+Cargo Systems Messaging Service
+CSMS # 64384496 - UPDATED GUIDANCE: Import Duties on Imports of Aluminum and Aluminum Derivative Products
+This message updates CSMS #64348288 by confirming that the Secretary of Commerce has certified collection of the 25 percent import duty on certain imports of aluminum articles and derivative aluminum articles from all countries effective 12:01 a.m. Eastern Daylight Time on March 12, 2025.
+BACKGROUND
+On February 10, 2025, the President issued Proclamation 10895 on Adjusting Imports of Aluminum into the United States, under Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862), imposing ad valorem tariffs on certain imports of aluminum articles and derivative aluminum articles from all countries, is effective March 12, 2025.  See 90 FR 9807 and 90 FR 11251.
+GUIDANCE
+Effective with respect to aluminum articles and derivative aluminum articles entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on March 12, 2025, the following Harmonized Tariff Schedule of the United States (HTSUS) classifications and 25 percent duty rate apply:
+9903.85.02: Aluminum products except derivative articles listed in subdivision (g).
+9903.85.04: Derivative aluminum products listed in subdivision (i) (existing aluminum derivative articles subject to Section 232).
+9903.85.07: Derivative aluminum products listed in subdivision (j) (new aluminum derivative articles classified in Chapter 76 subject to Section 232).
+Effective with respect to aluminum articles and derivative aluminum articles entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on March 12, 2025, the following HTS classification and 0 percent duty rate applies:
+9903.85.09: Derivative aluminum articles listed in subdivision (j) or (k) (new derivative aluminum articles), where the derivative aluminum products were processed in another country from aluminum articles that were smelted and cast in the United States.
+Effective with respect to aluminum articles and derivative aluminum articles entered for consumption, or withdrawn from warehouse for consumption, on or after March 12, 2025, the following HTS classification and 25 percent duty rate applies to the value of the aluminum content:
+9903.85.08:  Derivative aluminum products listed in subdivision (k) (new aluminum derivative articles not classified in Chapter 76 subject to Section 232):  the import duty is based upon the value of the aluminum content (see instructions below).
+Reporting Instructions for Duties Based on Aluminum Content (HTS 9903.85.08)
+For new aluminum derivatives not classified in Chapter 76, the 25 percent duty is to be reported based upon the value of the aluminum content.
+If the value of the aluminum content is the same as the entered value or is unknown, duty must be reported under 9903.85.08 based on the entire entered value, and on only one entry summary line.
+In the case where the value of the aluminum content is less than the entered value of the imported article, the good must be reported on two lines.  The first line will represent the non-aluminum content, the second line will represent the aluminum content.  Each line should be reported in accordance with the below instructions.
+Non-Aluminum content, first line:
+Ch. 1-97 HTS, this same HTS must be reported on both lines.
+Country of origin, same must be reported on both lines.
+Total entered value of the article less the value of aluminum content.
+Report the total quantity of the imported goods.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties.
+Aluminum content, second line:
+Same Ch. 1-97 HTS reported on the first line.
+Same country of origin reported on the first line.
+Report 0 for quantity for the Ch. 1-97 HTS.
+Report the value of the aluminum content.
+Report the Section 232 duties based on the value of aluminum content with HTS 9903.85.08.
+Report a second quantity (of the aluminum content) in kilograms with the HTS 9903.85.08.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties
+Duties for Aluminum from Russia
+The 200 percent duties on any aluminum products and derivative aluminum products subject to Section 232 that are products of Russia, or where any amount of primary aluminum used in the manufacture of the aluminum articles is smelted in Russia, or where the aluminum articles are cast in Russia, are still in effect.  These duties are to be applied on the entire value of the imported good.  Importers should continue to report HTS heading 9903.85.67 for aluminum products; and heading 9903.85.68 for aluminum derivative products; subject to the 200 percent Russia aluminum duties.
+Smelt and Cast Reporting Requirements
+To report the primary country of smelt, secondary country of smelt, or country of most recent cast importers must report the International Organization for Standardization (ISO) code on aluminum articles and derivative aluminum articles on all countries subject to section 232.
+Filers must report “Y” for primary country of smelt; and/or secondary country of smelt. Filers may not report “N” for both primary country of smelt and secondary country of smelt.
+If the imported aluminum is manufactured only from recycled aluminum, then filers should report “Y” for the secondary country of smelt, and report the country reported as the country of origin of the imported article as the secondary country of smelt code.  Take note that aluminum manufactured only from recycled aluminum is not very common.  Importers must be able to provide manufacturing documents, upon request, to substantiate the manufacturing process for the recycled aluminum product.
+Country of Origin United States is not covered by the countries of smelt and cast reporting requirements.  If the imported product was smelted and cast in the United States, then the importer will report “US” for the country of smelt and “US” for the country of cast.
+Exclusions and Drawback
+Importer-specific product exclusions for Section 232 duties that active in ACE shall remain effective until their expiration date or until excluded product volume is imported, whichever occurs first.  All general approved exclusions (GAEs) shall expire on March 11, 2025, and products will be subject to 25 percent ad valorem duties on March 12, 2025.
+No drawback shall be available with respect to the duties imposed.
+Quota
+All Section 232 tariff rate and absolute quotas shall expire on March 11, 2025.  All Section 232 tariff rate and absolute quotas entries must be presented to CBP during official office hours per 19 CFR 132.3, 8:30 a.m. to 4:30 p.m. local port time, on March 11, 2025. Entries that do not achieve quota status by 4:30 local port time on March 11, 2025, do not qualify for the Section 232 quotas and must be refiled as non-quota entries on March 12, 2025.
+Foreign Trade Zone (FTZ)
+Any aluminum articles or derivative aluminum articles, except those eligible for admission under “domestic status” as defined in 19 CFR 146.43, that is subject to the duty imposed by this proclamation and that is admitted into a U.S. foreign trade zone on or after the Commerce certification date, in accordance with clause 9, may be admitted only under “privileged foreign status” as defined in 19 CFR 146.41, and will be subject upon entry for consumption to any ad valorem rates of duty related to the classification under the applicable HTS subheading.
+The smelt and cast reporting requirements also apply to goods admitted into a U.S. FTZ and withdrawn from the FTZ for consumption, on or after 12:01 a.m. Eastern Daylight Time on March 12, 2025.
+Reporting Multiple HTS Numbers
+For entry summary lines that include multiple HTS numbers, CBP requires that the duty be appropriately associated to the correct HTS. For example, if the entry is subject to 9903.85.02, then the 25 percent duty must be associated to 9903.85.02 when transmitting to ACE and when a printed 7501 is produced.  The 25 percent duty must not be combined with the duty reported on a different HTS within the entry summary line.  Further, duties across several required HTS numbers on a given entry summary line must not be combined and cannot be reported on only one HTS within the entry summary line.
+CBP expects full compliance from the trade community for accurate reporting and payment of the additional duties.  CBP will take enforcement action for non-compliance.
+For reference, a summary of Section 232 Chapter 99 HTSUS classification lists, and chart are attached.
+For questions regarding Section 232 entry filing, contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Related Message: CSMS# 64348288
+Section 232 chart Final.pdf
+aluminumHTSlist final.pdf
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

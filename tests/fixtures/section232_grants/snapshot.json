@@ -1,0 +1,841 @@
+{
+  "contract_version": "sail.section232-grants/v1",
+  "snapshot_id": "synthetic-grants-not-a-production-inventory",
+  "as_of": "2026-10-22T12:00:00-04:00",
+  "sources": [
+    {
+      "id": "synthetic-commerce-grants",
+      "path": "decisions.txt",
+      "sha256": "b3b2a9415ac553c129c37b64f005d8e669acc7851816bc5e704268c447e915ee",
+      "url": "https://example.invalid/synthetic-grant-regression",
+      "citation": "Synthetic grant test records; not Commerce evidence"
+    }
+  ],
+  "grants": [
+    {
+      "id": "TEST_STEEL",
+      "metal": "steel",
+      "grant_type": "individual",
+      "hts10": [
+        "7208101500"
+      ],
+      "countries": [
+        "5700",
+        "2010",
+        "4759",
+        "5880"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "ordinary_metal"
+      ],
+      "superseded_at": null,
+      "revoked_at": null,
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / id",
+            "quote": "id: \"TEST_STEEL\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / metal",
+            "quote": "metal: \"steel\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / grant_type",
+            "quote": "grant_type: \"individual\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / hts10",
+            "quote": "hts10: [\"7208101500\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / countries",
+            "quote": "countries: [\"5700\", \"2010\", \"4759\", \"5880\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / actions",
+            "quote": "actions: [\"ordinary_metal\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / superseded_at",
+            "quote": "superseded_at: null"
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 0 / revoked_at",
+            "quote": "revoked_at: null"
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "d2b16eb2fb9dbaa908947dba8922e7f6800cfa13d91ab3122bd6874e7a2cf50b"
+    },
+    {
+      "id": "TEST_STX",
+      "metal": "steel",
+      "grant_type": "eu_stx",
+      "hts10": [
+        "7208101500"
+      ],
+      "countries": [
+        "4759"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "ordinary_metal"
+      ],
+      "superseded_at": null,
+      "revoked_at": null,
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / id",
+            "quote": "id: \"TEST_STX\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / metal",
+            "quote": "metal: \"steel\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / grant_type",
+            "quote": "grant_type: \"eu_stx\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / hts10",
+            "quote": "hts10: [\"7208101500\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / countries",
+            "quote": "countries: [\"4759\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / actions",
+            "quote": "actions: [\"ordinary_metal\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / superseded_at",
+            "quote": "superseded_at: null"
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 1 / revoked_at",
+            "quote": "revoked_at: null"
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "4a6abeb24b008a87ca2878ba9c1737d55c3692d92d8254f940cd85e7128fafdc"
+    },
+    {
+      "id": "TEST_ALUMINUM",
+      "metal": "aluminum",
+      "grant_type": "individual",
+      "hts10": [
+        "7604101000"
+      ],
+      "countries": [
+        "5700",
+        "2010",
+        "4759",
+        "1220"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "ordinary_metal"
+      ],
+      "superseded_at": null,
+      "revoked_at": null,
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / id",
+            "quote": "id: \"TEST_ALUMINUM\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / metal",
+            "quote": "metal: \"aluminum\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / grant_type",
+            "quote": "grant_type: \"individual\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / hts10",
+            "quote": "hts10: [\"7604101000\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / countries",
+            "quote": "countries: [\"5700\", \"2010\", \"4759\", \"1220\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / actions",
+            "quote": "actions: [\"ordinary_metal\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / superseded_at",
+            "quote": "superseded_at: null"
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 2 / revoked_at",
+            "quote": "revoked_at: null"
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "751d52de301d75074b3e73bb9e282f4443b44683a75b0da8315e81642292adc4"
+    },
+    {
+      "id": "TEST_RUSSIAN",
+      "metal": "aluminum",
+      "grant_type": "individual",
+      "hts10": [
+        "7604101000"
+      ],
+      "countries": [
+        "5700",
+        "2010",
+        "4759",
+        "4621"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "russian_aluminum"
+      ],
+      "superseded_at": null,
+      "revoked_at": null,
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / id",
+            "quote": "id: \"TEST_RUSSIAN\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / metal",
+            "quote": "metal: \"aluminum\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / grant_type",
+            "quote": "grant_type: \"individual\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / hts10",
+            "quote": "hts10: [\"7604101000\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / countries",
+            "quote": "countries: [\"5700\", \"2010\", \"4759\", \"4621\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / actions",
+            "quote": "actions: [\"russian_aluminum\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / superseded_at",
+            "quote": "superseded_at: null"
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 3 / revoked_at",
+            "quote": "revoked_at: null"
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "b2f6501ba562b6b18c097dd4bc0b46ffab4a523038913b0dc2ffdf3ebb76bb10"
+    },
+    {
+      "id": "TEST_CORRECTED",
+      "metal": "steel",
+      "grant_type": "individual",
+      "hts10": [
+        "7208101500"
+      ],
+      "countries": [
+        "5700",
+        "2010",
+        "4759",
+        "5880"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "ordinary_metal"
+      ],
+      "superseded_at": "2025-01-20T12:30:00-05:00",
+      "revoked_at": null,
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / id",
+            "quote": "id: \"TEST_CORRECTED\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / metal",
+            "quote": "metal: \"steel\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / grant_type",
+            "quote": "grant_type: \"individual\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / hts10",
+            "quote": "hts10: [\"7208101500\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / countries",
+            "quote": "countries: [\"5700\", \"2010\", \"4759\", \"5880\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / actions",
+            "quote": "actions: [\"ordinary_metal\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / superseded_at",
+            "quote": "superseded_at: \"2025-01-20T12:30:00-05:00\""
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 4 / revoked_at",
+            "quote": "revoked_at: null"
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "3a6b63fabc1b5a861741304687ad0c8afb355c13def19c8dd2aaef9f1277d36f"
+    },
+    {
+      "id": "TEST_REVOKED",
+      "metal": "steel",
+      "grant_type": "individual",
+      "hts10": [
+        "7208101500"
+      ],
+      "countries": [
+        "5700",
+        "2010",
+        "4759",
+        "5880"
+      ],
+      "importers": [
+        "Synthetic Importer"
+      ],
+      "product_description": "Synthetic test slab; all limits in this fixture must be satisfied.",
+      "activated_at": "2025-01-15T00:00:00-05:00",
+      "entry_from": "2025-01-10T00:00:00-05:00",
+      "entry_until": "2026-01-01T00:00:00-05:00",
+      "quantity": 100,
+      "quantity_unit": "metric_ton",
+      "actions": [
+        "ordinary_metal"
+      ],
+      "superseded_at": null,
+      "revoked_at": "2025-01-21T09:00:00-05:00",
+      "field_evidence": {
+        "id": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / id",
+            "quote": "id: \"TEST_REVOKED\""
+          }
+        ],
+        "metal": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / metal",
+            "quote": "metal: \"steel\""
+          }
+        ],
+        "grant_type": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / grant_type",
+            "quote": "grant_type: \"individual\""
+          }
+        ],
+        "hts10": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / hts10",
+            "quote": "hts10: [\"7208101500\"]"
+          }
+        ],
+        "countries": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / countries",
+            "quote": "countries: [\"5700\", \"2010\", \"4759\", \"5880\"]"
+          }
+        ],
+        "importers": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / importers",
+            "quote": "importers: [\"Synthetic Importer\"]"
+          }
+        ],
+        "product_description": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / product_description",
+            "quote": "product_description: \"Synthetic test slab; all limits in this fixture must be satisfied.\""
+          }
+        ],
+        "activated_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / activated_at",
+            "quote": "activated_at: \"2025-01-15T00:00:00-05:00\""
+          }
+        ],
+        "entry_from": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / entry_from",
+            "quote": "entry_from: \"2025-01-10T00:00:00-05:00\""
+          }
+        ],
+        "entry_until": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / entry_until",
+            "quote": "entry_until: \"2026-01-01T00:00:00-05:00\""
+          }
+        ],
+        "quantity": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / quantity",
+            "quote": "quantity: 100"
+          }
+        ],
+        "quantity_unit": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / quantity_unit",
+            "quote": "quantity_unit: \"metric_ton\""
+          }
+        ],
+        "actions": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / actions",
+            "quote": "actions: [\"ordinary_metal\"]"
+          }
+        ],
+        "superseded_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / superseded_at",
+            "quote": "superseded_at: null"
+          }
+        ],
+        "revoked_at": [
+          {
+            "source_id": "synthetic-commerce-grants",
+            "locator": "Fixture 5 / revoked_at",
+            "quote": "revoked_at: \"2025-01-21T09:00:00-05:00\""
+          }
+        ]
+      },
+      "review_status": "verified",
+      "reviewed_by": "synthetic test harness - not legal review",
+      "review_sha256": "7c58b688953fcda16ed5ab8193c7ff07b4ed59f69775be6e631164775068e1e4"
+    }
+  ]
+}

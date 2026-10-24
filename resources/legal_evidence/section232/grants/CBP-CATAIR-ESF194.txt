@@ -1,0 +1,61 @@
+ACE ABI CATAIR - Customs and Trade Automated Interface Requirements
+
+September 2026                        Entry Summary Create/Update                                      ESF-194
+
+duty in lieu of the normal duty (if any) for the article. For a remedy that imposes an absolute
+quota, there may not be any additional/replacement duty; the relevant remedy HTS chapter 99
+number, however, is still required.
+
+Note that the remedy’s effectiveness is dictated by the effective/expiration date range of the
+remedy’s HTS chapter 99 record. The determination of the relevant date to determine if a
+remedy is in effect can be found in the ‘Duty Rate Date Matrix Hierarchy’ (see section ‘Basic
+Article Classification and Tariff Considerations’ above). The date is chosen from those reported
+(or those determined by CBP).
+
+Product Exclusions
+
+For certain Section 232 remedies partially administered by the U.S. Department of Commerce
+(DOC) a Product Exclusion Identifier may be able to be reported/submitted.
+
+This exclusion ‘number’, obtained from the DOC, is to be used as a means to waive (only) the
+remedy’s duty for that article. When applicable, a Product Exclusion Identifier shall be reported
+in the 54-Record (Importer’s Additional Declaration Detail). Do not submit a Product Exclusion
+in any other scenario (e.g., an absolute quota only remedy). Do not report both the remedy’s
+HTS chapter 99 record and a Product Exclusion 54-Record.
+
+For certain Section 301 remedies, the product exclusion may be in the form of an HTS chapter
+99 number that has a zero rate.
+
+Free Trade Agreement / Special Program Claim Considerations
+
+If applicable for the underlying article, a Trade Agreement / Special Program Claim may be
+accepted. While the claim may waive or reduce the duty on the underlying article, the claim will
+not waive the remedy duty.
+
+Note that the remedy has no effect on the applicability of the Merchandise Processing Fee
+(MPF), AD/CVD duties, IR taxes, Agriculture Fee, or other estimated revenue in the filing.
+
+Origin Country Exceptions
+
+If the Country of Origin is deemed an ‘exception’ country under a remedy, the HTS chapter 99
+remedy number is not allowed. For a Section 232 remedy, while a Product Exclusion Identifier
+is neither required nor expected, it will be accepted if provided.
+
+Entry Type Considerations
+
+The following Entry Type is exempt from the remedy filing requirements:
+
+• 51 (Military - Defense Contract Management Agency – DCMA)
+
+Neither an HTS chapter 99 remedy number, nor Section 301 exemption HTS chapter 99
+number, nor a Section 232 Product Exclusion is allowed for this type.
+
+
+jj) Consolidated Express Filings
+
+An authorized Express Consignment filer can submit an Entry Summary that accounts for one
+or more cargo manifest shipments released at an Express Consignment filer/carrier’s facility.
+
+An eligible cargo manifest released shipment for this type of Entry Summary filing is:
+
+• Valued between $800 and $2,500,

@@ -89,6 +89,12 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
             reporting_codes=[code] if code else [],source_ids=list(ids),legal_locator=loc)
         if code:r['published_expression']=headings[code]['duty_expression']
         if tree.get('constraints'):r['input_constraints']=tree['constraints']
+        r['section232_metal']=metal
+        r['section232_treatment']='russian_aluminum' if code in ('9903.85.67','9903.85.68','9903.85.69','9903.85.70') else 'ordinary_metal'
+        r['grant_reporting_codes']=[]
+        if metal=='aluminum':
+            russian_test=val(True) if russian_coo else fact('aluminum_primary_smelted_or_cast_russia')
+            r['grant_material_condition']=russian_test if r['section232_treatment']=='russian_aluminum' else negate(russian_test)
         rules.append(r)
         decisions.append(dict(rule_id=id,legal_locator=loc,reporting_codes=r['reporting_codes'],
             status='requires_source_reconciliation' if error else 'compiled',reason=error))
@@ -290,4 +296,9 @@ def compile_legacy(x, products, jurisdictions, _entry_window=None):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('input',type=Path);p.add_argument('output',type=Path)
-    a=p.parse_args();a.output.write_text(json.dumps(compile_legacy(**json.loads(a.input.read_bytes())),separators=(',',':'))+'\n')
+    a=p.parse_args();inputs=json.loads(a.input.read_bytes());snapshot=inputs.pop('grant_snapshot',None)
+    result=compile_legacy(**inputs)
+    if snapshot:
+        from section232_grants import load_snapshot,apply_grants
+        result=apply_grants(result,load_snapshot(snapshot))
+    a.output.write_text(json.dumps(result,separators=(',',':'))+'\n')

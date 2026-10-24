@@ -1,0 +1,173 @@
+========================================================================
+Running 38 test suites
+========================================================================
+
+--- run_tests_daily_series.R
+    [OK] 72 passed, 0 failed
+
+--- test_adcvd_layer.R
+    [OK] (exit 0, no test count reported)
+
+--- test_adcvd_notice.R
+    [OK] 11 passed, 0 failed
+
+--- test_ch99_attribution.R
+    [OK] 19 passed, 0 failed
+
+--- test_ch99_rules.R
+    [OK] 28 passed, 0 failed
+
+--- test_citations.R
+    [OK] 14 passed, 0 failed
+
+--- test_country_scope.R
+    [OK] 18 passed, 0 failed
+
+--- test_duty_ledger_intervals.R
+    [OK] (exit 0, no test count reported)
+
+--- test_ieepa_actions.R
+    [OK] (exit 0, no test count reported)
+
+--- test_ieepa_emergency.R
+    [OK] (exit 0, no test count reported)
+
+--- test_legal_intervals.R
+    [OK] (exit 0, no test count reported)
+
+--- test_normalized_parity.R
+    [OK]    2026_rev_9/authority_country_rates.parquet: 257 rows, 10 cols
+    [OK]    2026_rev_9/authority_product_applicability.parquet: 14604 rows, 16 cols
+    [OK]    2026_rev_9/authority_exemptions.parquet: 65234 rows, 13 cols
+    [FAIL]  2026_rev_9/section301_scope_decisions.parquet missing
+    [FAIL]  2026_rev_9/section232_scope_decisions.parquet missing
+    [FAIL]  2026_rev_9/ieepa_action_decisions.parquet missing
+    [FAIL]  2026_rev_9/claim_effects.parquet missing
+    [OK]    static revisions.parquet present
+    [OK]    static product_metal_content.parquet present
+    [OK]    static country_group_membership.parquet present
+
+    Stage 1 FAILED with 312 errors. Stopping before parity.
+    [ERROR] (exit 1, no test count reported)
+
+--- test_note_scope_extraction.R
+    [OK] (exit 0, no test count reported)
+
+--- test_note_scope.R
+    [OK] 13 passed, 0 failed
+
+--- test_product_inheritance.R
+    [OK] (exit 0, no test count reported)
+
+--- test_product_scope.R
+    [OK] 11 passed, 0 failed
+
+--- test_rate_calculation.R
+    [OK] 151 passed, 0 failed
+
+--- test_s122_conditions.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s201_quartz.R
+    [OK] 14 passed, 0 failed
+
+--- test_s232_attribution.R
+    [OK] 11 passed, 0 failed
+
+--- test_s232_grants.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_heading_resolution.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_legacy_pipeline.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_legacy_rules.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_model_separation.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_note16_revision.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_pre_march_pipeline.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_pre_march.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s232_scope_sources.R
+    [OK] (exit 0, no test count reported)
+
+--- test_s338_amendments.R
+    [OK] (exit 0, no test count reported)
+
+--- test_section301_revision.R
+    [OK] (exit 0, no test count reported)
+
+--- test_shipment_action_composition.R
+    [OK] (exit 0, no test count reported)
+
+--- test_shipment_duty_expression.R
+    [OK] (exit 0, no test count reported)
+
+--- test_shipment_rules.R
+    [OK] (exit 0, no test count reported)
+
+--- test_stacking_temporal.R
+    [OK] 13 passed, 0 failed
+
+--- test_staged_rates.R
+    [OK] 12 passed, 0 failed
+
+--- test_statutory_totals.R
+    [OK] 15 passed, 0 failed
+
+--- test_tpc_comparison.R
+    [SKIP] (exit 1, no test count reported)
+
+========================================================================
+  run_tests_daily_series.R         OK     72/72
+  test_adcvd_layer.R               OK
+  test_adcvd_notice.R              OK     11/11
+  test_ch99_attribution.R          OK     19/19
+  test_ch99_rules.R                OK     28/28
+  test_citations.R                 OK     14/14
+  test_country_scope.R             OK     18/18
+  test_duty_ledger_intervals.R     OK
+  test_ieepa_actions.R             OK
+  test_ieepa_emergency.R           OK
+  test_legal_intervals.R           OK
+  test_normalized_parity.R         ERROR
+  test_note_scope_extraction.R     OK
+  test_note_scope.R                OK     13/13
+  test_product_inheritance.R       OK
+  test_product_scope.R             OK     11/11
+  test_rate_calculation.R          OK     151/151
+  test_s122_conditions.R           OK
+  test_s201_quartz.R               OK     14/14
+  test_s232_attribution.R          OK     11/11
+  test_s232_grants.R               OK
+  test_s232_heading_resolution.R   OK
+  test_s232_legacy_pipeline.R      OK
+  test_s232_legacy_rules.R         OK
+  test_s232_model_separation.R     OK
+  test_s232_note16_revision.R      OK
+  test_s232_pre_march_pipeline.R   OK
+  test_s232_pre_march.R            OK
+  test_s232_scope_sources.R        OK
+  test_s338_amendments.R           OK
+  test_section301_revision.R       OK
+  test_shipment_action_composition.R OK
+  test_shipment_duty_expression.R  OK
+  test_shipment_rules.R            OK
+  test_stacking_temporal.R         OK     13/13
+  test_staged_rates.R              OK     12/12
+  test_statutory_totals.R          OK     15/15
+  test_tpc_comparison.R            SKIP
+------------------------------------------------------------------------
+  TOTAL: 402 passed, 0 failed
+  SKIPPED (needs built data): test_tpc_comparison.R
+========================================================================

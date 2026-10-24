@@ -107,6 +107,36 @@ test('release v6 rejects old manifests and missing Section 301 evidence', () => 
   assert.equal(await activeShipmentRelease(conn),null);
 }));
 
+test('release rejects unpinned or partially refreshed Commerce grant evidence', () => withDatabase(async (conn,root)=>{
+  const {file,manifest,bundle}=await manifestFixture(conn,root);
+  const save=async(b,r)=>{
+    const bytes=JSON.stringify(b);
+    await fs.writeFile(path.join(root,r.rules.path),bytes);
+    r.rules.sha256=crypto.createHash('sha256').update(bytes).digest('hex');
+    await fs.writeFile(file,JSON.stringify(manifest));
+  };
+  const revision=manifest.revisions[0];
+  bundle.rules[0].grant_id='synthetic';bundle.rules[0].grant_snapshot_id='test-grant-snapshot';
+  await save(bundle,revision);
+  await assert.rejects(readReleaseManifest(file),/require an evidence snapshot/);
+  bundle.evidence_dependencies={section232_grants:{snapshot_id:'test-grant-snapshot',snapshot_sha256:'a'.repeat(64),as_of:'2026-10-22T00:00:00Z'}};
+  await save(bundle,revision);
+  await assert.rejects(readReleaseManifest(file),/Invalid Commerce grant evidence pin/);
+  bundle.sources.push({id:`commerce-grant-snapshot-${'a'.repeat(64)}`,sha256:'a'.repeat(64),status:'verified',url:'urn:sha256:test',citation:'Synthetic pin'});
+  await save(bundle,revision);
+  const read=await readReleaseManifest(file);
+  assert.equal(read.revisions[0].bundle.evidence_dependencies.section232_grants.snapshot_sha256,'a'.repeat(64));
+  const second=structuredClone(bundle), r2=structuredClone(revision);
+  second.revision='test2';second.valid_from=bundle.valid_until;second.valid_until='2028-01-01T05:01:00Z';
+  second.evidence_dependencies.section232_grants.snapshot_sha256='b'.repeat(64);
+  second.sources.at(-1).id=`commerce-grant-snapshot-${'b'.repeat(64)}`;second.sources.at(-1).sha256='b'.repeat(64);
+  r2.revision='test2';r2.rules.path='test2-rules.json';
+  manifest.required_revisions.push('test2');manifest.revisions.push(r2);
+  await save(second,r2);
+  await assert.rejects(readReleaseManifest(file),/Mixed Commerce grant evidence snapshots/);
+  assert.equal(await activeShipmentRelease(conn),null);
+}));
+
 test('release preflight rejects unattributed Section 301 wide rates', () => withDatabase(async (conn,root)=>{
   const {file,manifest}=await manifestFixture(conn,root);
   const a=manifest.revisions[0].rates[0], original=path.join(root,a.path), changed=path.join(root,'unattributed.parquet');

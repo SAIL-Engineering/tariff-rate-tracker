@@ -1,0 +1,69 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 64384423 - UPDATED GUIDANCE: Import Duties on Imports of Steel and Steel Derivative Products
+U.S. Customs and Border Protection sent this bulletin at 03/11/2025 09:05 PM EDT
+Cargo Systems Messaging Service
+CSMS # 64384423 - UPDATED GUIDANCE: Import Duties on Imports of Steel and Steel Derivative Products
+This message updates CSMS #64348411 by confirming that the Secretary of Commerce has certified collection of the 25 percent import duty on certain imports of steel articles and derivative steel articles from all countries effective 12:01 a.m. Eastern Daylight Time on March 12, 2025.
+BACKGROUND
+On February 10, 2025, the President issued Proclamation 10896 on Adjusting Imports of Steel into the United States, under Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862), imposing 25 percent ad valorem tariffs on certain imports of steel articles and derivative steel articles from all countries, is effective March 12, 2025.  See 90 FR 9817 and 90 FR 11249.
+GUIDANCE
+Effective with respect to steel articles and derivative steel articles entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on March 12, 2025, the following Harmonized Tariff Schedule of the United States (HTSUS) classifications and 25 percent duty rate apply:
+9903.81.87: Iron or steel products listed in subdivision j (except derivative articles)
+9903.81.88: Iron or steel products except for derivative articles listed in subdivision (l), (m) and (n) that are admitted to a U.S. foreign trade zone under “privileged foreign status” before March 12, 2025, and entered for consumption on or after March 12, 2025.
+9903.81.89: Derivative iron or steel products listed in subdivision (l) (existing steel derivative articles subject to Section 232).
+9903.81.90: Derivative iron or steel products listed in subdivision (m) (new steel derivative articles classified in Chapter 73 subject to Section 232).
+9903.81.93: Derivative products of iron or steel, as specified in subdivisions (l) and (m) (existing derivative steel products, and new derivative steel products in Chapter 73) admitted to a U.S. foreign trade zone under “privileged foreign status” before March 12, 2025, and entered for consumption on or after March 1, 2025.
+Effective with respect to steel articles and derivative steel articles entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on March 12, 2025, the following HTSUS classification and 0 percent duty rate applies:
+9903.81.92: Derivative steel or iron products listed in subdivision (m) or (n) (new derivative steel articles) where the derivative iron or steel product was processed in another country from steel articles that were melted and poured in the United States.
+HTS 9903.81.92 also applies to such goods that were admitted to a U.S. foreign trade zone and granted “privileged foreign status” before March 12, 2025, and entered for consumption, or withdrawn from warehouse for consumption, on or after March 12 (see Foreign Trade Zone section below).
+Effective with respect to steel articles and derivative steel articles entered for consumption, or withdrawn from warehouse for consumption, on or after March 12, 2025, the following HTS classification and 25 percent duty rate applies to the value of the steel content:
+9903.81.91: Derivative iron or steel products listed in subdivision (n) (new steel derivative articles not classified in Chapter 73 subject to Section 232):  the import duty is on the value of the steel content (see instructions below).
+9903.81.91 also applies to such goods that were admitted to a U.S. foreign trade zone and granted “privileged foreign status” before March 12, 2025, and entered for consumption, or withdrawn from warehouse for consumption, on or after a date to be certified in the Federal Register by the Secretary of Commerce (see Foreign Trade Zone section below).
+Reporting Instructions for Duties Based on Steel Content
+For new steel derivatives outside of Chapter 73, the 25 percent duty is to be reported with HTS 9903.81.91 based upon the value of the steel content.
+If the value of the steel content is the same as the entered value or is unknown, the duty must be reported under HTS 9903.81.91 based on the entire entered value, and report on only one entry summary line.
+In the case where the value of the steel content is less than the entered value of the imported article, the good must be reported on two lines.  The first line will represent the non-steel content while the second line will represent the steel content.  Each line should be reported in accordance with the below instructions.
+Non-Steel content, first line:
+Ch 1-97 HTS, this same HTS must be reported on both lines.
+Country of origin, same must be reported on both lines.
+Total entered value of the article less the value of steel content.
+Report the total quantity of the imported goods.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties.
+Steel content, second line:
+Same Ch. 1-97 HTS reported on the first line.
+Same country of origin reported on the first line.
+Report 0 for quantity for the Ch. 1- 97 HTS.
+Report the value of steel content.
+Report the Section 232 duties based on the value of steel content with HTS 9903.81.91.
+Report a second quantity (of the steel content) in kilograms with the HTS 9903.81.91.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties.
+Melt and Pour Reporting Requirements
+The reporting of the country of melt and pour and applicability code is mandatory for both steel and steel derivatives.  To report the country of melt and pour, importers must report the International Organization for Standardization (ISO) code on steel articles and derivative steel articles subject to Section 232.  For steel articles, importer must report the ISO code where the steel was originally melted and poured.  For steel derivatives, importers must report the ISO code where the steel was originally melted or “OTH” (for other countries).  For products melted and poured in the United States, importers must indicate “US” as the country of melt and pour.
+Exclusions and Drawback
+Importer-specific product exclusions for Section 232 duties that are active in the Automated Commercial Environment (ACE) shall remain effective until their expiration date or until excluded product volume is imported, whichever occurs first.  All general approved exclusions (GAEs) shall expire on March 11, 2025, and products will be subject to 25 percent ad valorem duties on March 12, 2025.
+No drawback shall be available with respect to the duties imposed.
+Quotas
+All Section 232 tariff rate and absolute quotas shall expire on March 11, 2025.  All Section 232 tariff rate and absolute quotas entries must be presented to CBP during official office hours per 19 CFR 132.3, 8:30 a.m. to 4:30 p.m. local port time, on March 11, 2025.  Entries that do not achieve quota status by 4:30 p.m. local port time on March 11, 2025, do not qualify for the Section 232 quotas and must be refiled as non-quota entries on March 12, 2025.
+Foreign Trade Zone (FTZ)
+Any steel article or derivative steel article, except those eligible for admission under “domestic status” as defined in 19 CFR 146.43, that is subject to the duty imposed by this proclamation and that is admitted into a U.S. FTZ on or after 12:01 a.m. eastern daylight time on March 12, 2025, must be admitted and granted as “privileged foreign status” as defined in 19 CFR 146.41, and will be subject upon entry for consumption to any ad valorem rates of duty related to the classification under the applicable HTS subheading.
+Any steel article or derivative steel article, except those eligible for admission under “domestic status” as defined in 19 CFR 146.43, that is subject to the duty imposed by this proclamation, and that was admitted into a U.S. FTZ and granted “privileged foreign status” as defined in 19 CFR 146.41, prior to 12:01 a.m. eastern daylight time on March 12, 2025, will likewise be subject upon entry for consumption to any ad valorem rates of duty related to the classification under the applicable HTS subheading added by this proclamation.
+For steel and steel derivative articles admitted into a U.S. foreign trade zone and granted “privileged foreign status” as defined in 19 CFR 146.41, prior to 12:01 a.m. eastern daylight time on March 12, 2025, and entered on or after 12:01 a.m. eastern daylight time on March 12, 2025, use the HTS classification below corresponding to the type of imported good:
+9903.81.88: Iron or steel products (including those classified under GAEs).
+9903.81.93: Iron or steel derivative products, except as noted below:
+9903.81.91: Iron or steel derivative products classified outside of Chapter 73.
+9903.81.92: Iron or steel derivative products with a melt and pour of United States.
+Reporting Multiple HTS Numbers
+For entry summary lines that include multiple HTS numbers, CBP requires that the duty be appropriately associated to the correct HTS. For example, if the entry is subject to 9903.81.87, then the 25 percent duty must be associated to 9903.81.87 when transmitting to ACE and when a printed 7501 is produced.  The 25 percent duty must not be combined with the duty reported on a different HTS within the entry summary line.  Further, duties across several required HTS numbers on a given entry summary line must not be combined and cannot be reported on only one HTS within the entry summary line.
+CBP expects full compliance from the trade community for accurate reporting and payment of the additional duties.  CBP will take enforcement action on non-compliance.
+For reference, a summary of Section 232 Chapter 99 HTSUS classification lists, and chart are attached.
+For questions regarding Section 232 entry filing, contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Related Message: CSMS# 64348411
+steelHTSlist final (1).pdf
+Section 232 chart Final (1).pdf
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

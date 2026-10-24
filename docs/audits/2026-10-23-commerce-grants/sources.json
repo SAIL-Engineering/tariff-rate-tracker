@@ -1,0 +1,50 @@
+[
+  {
+    "path": "FR-2021-28516.pdf",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2022-01-03/pdf/2021-28516.pdf",
+    "citation": "Proclamation 10328, original EU steel TRQ annex, heading 9903.81.07: original also prints 9213.91.45.",
+    "sha256": "fb571432bd19108f7c988732447378d031decd1f4e61d074117b4a3c5437ed27",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  },
+  {
+    "path": "FR-2021-28516-layout.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2022-01-03/pdf/2021-28516.pdf",
+    "citation": "Local pdftotext -layout extraction of original EU annex.",
+    "sha256": "5feaed0b63dd5939a035f50ff730c118566803f529b306ad5bee84c8a65b2ff2",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  },
+  {
+    "path": "FR-2023-04470.pdf",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2023-03-02/pdf/2023-04470.pdf",
+    "citation": "Proclamation 10522, Russian aluminum, including clauses 6-8 and annex.",
+    "sha256": "ed48ca4422e8e57201f4742d218a4c1a1140c772e4a7b8aefc53066449f4bef9",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  },
+  {
+    "path": "FR-2023-04470.txt",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2023-03-02/html/2023-04470.htm",
+    "citation": "Primary Federal Register text, Proclamation 10522.",
+    "sha256": "dca1dc54ee9cd3fd7f84282722e966f60d9f8c5ae9fe00cba350e80944f14c52",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  },
+  {
+    "path": "public-extract-response.txt",
+    "url": "https://232apppublicextract.azurewebsites.net/data/BIS232Data.zip",
+    "citation": "Official BIS-linked extract HEAD returned 403; host root returned this stopped-application page. Acquisition unavailable, not an empty grant inventory.",
+    "sha256": "1ac910045a44d7e5b6d04cdcb592e004fe7edc8b1fd5ccadea5f3c2ba3fedd8e",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  },
+  {
+    "path": "federal-register-quota-search.json",
+    "url": "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=%229213.91.45%22&per_page=100",
+    "citation": "Exact-reference search returned zero; this is not proof that a corrective document does not exist, because annex images need not be indexed.",
+    "sha256": "ea5ba29d5b199ce4ebd10dd0ea9224ca962242e4b2b21f766cbf8ebae7f33d46",
+    "retrieved_at": "2026-10-23",
+    "method": "gstack browse; local PDF text extraction where noted"
+  }
+]

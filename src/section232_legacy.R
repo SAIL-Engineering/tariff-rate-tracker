@@ -57,13 +57,15 @@ s232_legacy_derivative_projection <- function(matches) {
   unique(data.frame(hts_prefix=rows$hts10,ch99_code=rows$reporting_code,derivative_type=rows$metal))
 }
 
-compile_s232_legacy_fragment <- function(x,products) {
+compile_s232_legacy_fragment <- function(x,products,grant_snapshot=Sys.getenv('SECTION232_GRANT_SNAPSHOT',unset='')) {
   input<-tempfile(fileext='.json');output<-tempfile(fileext='.json')
   on.exit(unlink(c(input,output)),add=TRUE)
   jurisdictions<-list(all=as.list(as.character(read.csv(here::here('resources/census_codes.csv'))$Code)),
     uk=as.list(as.character(resolve_country_name('United Kingdom'))),
     russia=as.list(as.character(resolve_country_name('Russian Federation'))))
-  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions),
+  if(nzchar(grant_snapshot) && !file.exists(grant_snapshot)) stop('Configured Commerce grant snapshot is missing')
+  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions,
+    grant_snapshot=if(nzchar(grant_snapshot)) normalizePath(grant_snapshot,mustWork=TRUE) else NULL),
     input,auto_unbox=TRUE,null='null',digits=NA)
   script<-here::here('src/section232_legacy_rules.py')
   status<-system2('python3',c(shQuote(script),shQuote(input),shQuote(output)))
