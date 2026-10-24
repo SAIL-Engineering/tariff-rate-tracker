@@ -1,0 +1,21 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Extracting IEEPA fentanyl/initial rates...
+  Fentanyl/initial entries found: 1
+  Section 232 reporting codes: 0 unresolved; rate/chapter/broadest-heading inference is disabled
+Emergency chronology, conditional replacements, source integrity, ambiguity and heading attribution passed
+Retained emergency evidence is marked retired after CBP collection ends
+Normalized emergency projection selects the same legal action and cannot replace a missing heading with a maximum
+March relief commencement, transit expiry and sourced midnight collection end passed
