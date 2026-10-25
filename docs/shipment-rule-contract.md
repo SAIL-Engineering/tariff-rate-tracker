@@ -264,6 +264,25 @@ The matching source chronology is pinned in the rule bundle's
 `evidence_dependencies.reciprocal_scope`. The ordinary emitter supplies an
 evidence fragment for composition; this is not a reciprocal coverage attestation.
 
+The additional `ieepa_reciprocal_initial_rules.json` fragment supplies original
+reciprocal country/claim decisions from April 5 through June 30, 2025 (exclusive,
+00:01 Eastern), including the June 4 metal-value amendment. It uses the existing
+rule DSL and does not change release v7 or result v1. Its revision support window
+is not a legal-coverage declaration: `legal_horizon` and each rule's exact scope
+bound the implemented decisions; `coverage` remains empty. Later policy requires
+additional verified rules. An empty fragment must never become a zero-duty
+coverage record.
+
+`RECIPROCAL_US_CONTENT` and `RECIPROCAL_TRANSIT` are action-specific claims.
+Their effects leave other authorities unchanged; Section 232 claims instead
+reevaluate reciprocal reporting dependencies. Chapter 98 claims are evaluated
+across the stack. The evaluator requests actual content values and intersections
+only on applicable branches. In particular, it must not infer metal value from a
+Section 232 charge, deduct U.S. content twice, or substitute modeled shares.
+FTZ and de minimis paths remain explicitly unresolved in this fragment. These
+limits survive bundle composition and serving; they cannot be cured by a numeric
+aggregate column or by setting an unsupported authority's coverage to verified.
+
 Preflight reconstructs the complete exact-product inventory from that pin and
 compares every column before loading. Missing rows, extra rows, widened scope,
 changed descriptions, mixed revisions, absent sources and changed dates fail.

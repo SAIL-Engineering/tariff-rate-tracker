@@ -1,0 +1,718 @@
+{
+  "query": {
+    "sql": "SELECT table_schema, table_name, column_name, data_type FROM information_schema.columns\n      WHERE table_catalog = ? ORDER BY table_schema,table_name,ordinal_position",
+    "params": [
+      "duty_calculator"
+    ]
+  },
+  "rows": [
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "hts10",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "revision",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "base_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "statutory_base_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rate_column2",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rate_column2_raw",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rate_special",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rate_special_raw",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "special_programs_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rate_basis",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "specific_amount",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "specific_rate_unit",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "reported_unit_1",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "reported_unit_2",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "duty_basis_unit",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "is_qty_duty_relevant",
+      "data_type": "BOOLEAN"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "quantity_source",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "rounding_rule",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "calc_status",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "effective_date",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "valid_from",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "product_base_rates",
+      "column_name": "valid_until",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "hts10",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "country",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "base_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_base_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_301",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_ieepa_recip",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_ieepa_fent",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_s122",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_section_201",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_s301fl",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_s301br",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_s338",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_other",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_adcvd",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "adcvd_candidates_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232_auto",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232_steel",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232_aluminum",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232_copper",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_232_other",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232_auto",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232_steel",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232_aluminum",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232_copper",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232_other",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_s301fl",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_s301br",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_s338",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_total_additional",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_total_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_alternatives_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_232",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_301",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_ieepa_recip",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_ieepa_fent",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_s122",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_s201",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "metal_share",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "s232_annex",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "s232_metal",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "duty_basis_232",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "total_additional",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "total_rate",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "usmca_eligible",
+      "data_type": "BOOLEAN"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_special",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_special_raw",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "special_programs_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_column2",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_column2_raw",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "column2_status",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "s232_suppressed_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "pending_activation_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rate_basis",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "specific_amount",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "specific_rate_unit",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "reported_unit_1",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "reported_unit_2",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "duty_basis_unit",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "is_qty_duty_relevant",
+      "data_type": "BOOLEAN"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "quantity_source",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "rounding_rule",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "calc_status",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "base_rate_source",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "duty_provenance_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_rules_json",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "effective_date",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "calc_status.x",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_232",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "deriv_type",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "deriv_ch99_code",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "deriv_content_scaled",
+      "data_type": "BOOLEAN"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "steel_share",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "aluminum_share",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "copper_share",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "other_metal_share",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "is_copper_heading",
+      "data_type": "BOOLEAN"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_ieepa_recip",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_ieepa_fent",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_301",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_s122",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_section_201",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "statutory_rate_other",
+      "data_type": "DOUBLE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "calc_status.y",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "valid_from",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "valid_until",
+      "data_type": "DATE"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_src_232",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_src_s201",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_src_ieepa_recip",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ieepa_recip_ch99",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "revision",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_s301fl",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_s301br",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_code_s338",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_src_301",
+      "data_type": "VARCHAR"
+    },
+    {
+      "table_schema": "main",
+      "table_name": "rates",
+      "column_name": "ch99_src_s338",
+      "data_type": "VARCHAR"
+    }
+  ]
+}

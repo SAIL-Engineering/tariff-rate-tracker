@@ -1,0 +1,105 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 64680374 - GUIDANCE – Reciprocal Tariffs, April 5 and April 9, 2025, Effective Dates
+U.S. Customs and Border Protection sent this bulletin at 04/08/2025 10:11 AM EDT
+Cargo Systems Messaging Service
+CSMS # 64680374 - GUIDANCE – Reciprocal Tariffs, April 5 and April 9, 2025, Effective Dates
+The purpose of this message is to provide further guidance on the additional duties due on imported merchandise which were imposed by Executive Order 14257, issued April 2, 2025, and published in the Federal Register Notice, “Regulating Imports with a Reciprocal Tariff to Rectify Trade Practices that Contribute to Large and Persistent Annual United States Goods Trade Deficits,” 90 FR 15041 (Apr. 7, 2025).  The implementing annexes, with the country-specific rates listed in Annex I, the product-specific exclusions listed in Annex II, and the Harmonized Tariff Schedule of the United States (HTSUS) modifications listed in Annex III, are published in the Federal Register along with the text of the Executive Order.
+The amended rates and Chapter 99 headings were published as part of Revision 7 to the 2025 Basic Edition of the HTSUS on April 4, 2025 (https://hts.usitc.gov/).
+This guidance is an update to CSMS # 64649265 issued April 4, 2025, “GUIDANCE – Reciprocal Tariffs, April 5, 2025, Effective Date”, adding the actions that are effective April 9, 2025, along with those effective on April 5, 2025.
+GUIDANCECHAPTER 99 SECONDARY CLASSIFICATION REQUIREDWith the implementation of the above Executive Order, effective April 5, 2025, filers must report at least one HTSUS Chapter 99 secondary classification related to the reciprocal tariffs.  All imported merchandise must be reported with either the HTSUS classification under which the reciprocal tariff applies or one of the HTSUS classifications pursuant to which the merchandise is excepted from the reciprocal tariff.
+APPLICATION OF ADDITIONAL DUTY RATESThe additional rates of duty established by reciprocal tariffs are in addition to any other duties, taxes, fees, exactions and charges that apply to imported articles.
+All imported goods, other than those that fall within the identified exceptions, entered for consumption, or withdrawn from warehouse for consumption on or after 12:01 a.m. eastern daylight time (EDT) on April 5, 2025, are subject to the following HTSUS secondary classification and duty rate:9903.01.25:  Additional ad valorem duty rate of 10%
+Effective April 9, 2025, a country-specific ad valorem rate of duty will apply to imported goods of 83 countries and will replace the 10% additional ad valorem duty rate under 9903.01.25. Imported goods of the countries identified below in 9903.01.43 – 9903.01.76, other than those that fall within the identified exceptions, entered for consumption, or withdrawn from warehouse for consumption on or after 12:01 a.m. EDT on April 9, 2025, are subject to the following HTSUS classifications and additional ad valorem duty rates.
+9903.01.43:  Articles the product of Cameroon or the Democratic Republic of the Congo will be assessed an additional ad valorem rate of duty of 11%.
+9903.01.44:  Articles the product of Chad or Equatorial Guinea will be assessed an additional ad valorem rate of duty of 13%.
+9903.01.45:  Articles the product of Nigeria will be assessed an additional ad valorem rate of duty of 14%.
+9903.01.46:  Articles the product of Norway or Venezuela will be assessed an additional ad valorem rate of duty of 15%.
+9903.01.47:  Articles the product of Mozambique will be assessed an additional ad valorem rate of duty of 16%.
+9903.01.48:  Articles the product of Israel, Malawi, Philippines, or Zambia will be assessed an additional ad valorem rate of date of 17%.
+9903.01.49:  Articles the product of Nicaragua or Zimbabwe will be assessed an additional ad valorem rate of duty of 18%.
+9903.01.50:  Articles the product of Jordan or the European Union (Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden) will be assessed an additional ad valorem rate of duty of 20%.
+9903.01.51:  Articles the product of Côte d`Ivoire or Namibia will be assessed an additional ad valorem rate of duty of 21%.
+9903.01.52:  Articles the product of Vanuatu will be assessed an additional ad valorem rate of duty of 22%.
+9903.01.53:  Articles the product of Brunei, Japan, or Malaysia will be assessed an additional ad valorem rate of duty of 24%.
+9903.01.54:  Articles the product of South Korea will be assessed an additional ad valorem rate of duty of 25%.
+9903.01.55:  Articles the product of India will be assessed an additional ad valorem rate of duty of 26%.
+9903.01.56:  Articles the product of Kazakhstan will be assessed an additional ad valorem rate of duty of 27%.
+9903.01.57:  Articles the product of Tunisia will be assessed an additional ad valorem rate of duty of 28%.
+9903.01.58:  Articles the product of Pakistan will be assessed an additional ad valorem rate of duty of 29%.
+9903.01.59:  Articles the product of Algeria, Nauru, or South Africa will be assessed an additional ad valorem rate of duty of 30%.
+9903.01.60:  Articles the product of Libya, Moldova, or Switzerland will be assessed an additional ad valorem rate of duty of 31%.
+9903.01.61:  Articles the product of Angola, Fiji, Indonesia, or Taiwan will be assessed an additional ad valorem rate of duty of 32%.
+9903.01.62:  Articles the product of North Macedonia will be assessed an additional ad valorem rate of duty of 33%.
+9903.01.63:  Articles the product of China, including Hong Kong and Macau, will be assessed an additional ad valorem rate of duty of 34%.
+9903.01.64:  Articles the product of Bosnia and Herzegovina will be assessed an additional ad valorem rate of duty of 35%.
+9903.01.65:  Articles the product of Thailand will be assessed an additional ad valorem rate of duty of 36%.
+9903.01.66:  Articles the product of Bangladesh, Botswana, Liechtenstein, or Serbia will be assessed an additional ad valorem rate of duty of 37%.
+9903.01.67:  Articles the product of Guyana will be assessed an additional ad valorem rate of duty of 38%.
+9903.01.68:  Articles the product of Iraq will be assessed an additional ad valorem rate of duty of 39%.
+9903.01.69:  Articles the product of Mauritius will be assessed an additional ad valorem rate of duty of 40%.
+9903.01.70:  Articles the product of Falkland Islands or Syria will be assessed an additional ad valorem rate of duty of 41%.
+9903.01.71:  Articles the product of Myanmar (Burma) or Sri Lanka will be assessed an additional ad valorem rate of duty of 44%.
+9903.01.72:  Articles the product of Vietnam will be assessed an additional ad valorem rate of duty of 46%.
+9903.01.73:  Articles the product of Madagascar will be assessed an additional ad valorem rate of duty of 47%.
+9903.01.74:  Articles the product of Laos will be assessed an additional ad valorem rate of duty of 48%.
+9903.01.75:  Articles the product of Cambodia will be assessed an additional ad valorem rate of duty of 49%.
+9903.01.76:  Articles the product of Lesotho will be assessed an additional ad valorem rate of duty of 50%.
+EXCEPTIONSUntil further notice, for all imported merchandise that is
+a)   entered for consumption, or withdrawn from warehouse for consumption on or after 12:01 a.m. EDT on April 5, 2025, and for which an HTSUS classification is required to be declared, if the secondary classification under heading 9903.01.25 is not declared, or
+b)   entered for consumption, or withdrawn from warehouse for consumption on or after 12:01 a.m. EDT on April 9, 2025, and for which an HTSUS classification is required to be declared, if heading 9903.01.43 – 9903.01.76 is not declared,
+then one of the following HTSUS secondary classifications must be declared, to specify the particular exception pursuant to which the reciprocal tariff in heading 9903.01.25 or 9903.01.43 – 9903.01.76 does not apply to the imported articles that are excluded from the additional ad valorem duties:
+9903.01.26:   Articles the product of Canada, including those products of Canada entered free of duty as under the United States-Mexico-Canada Agreement, including any treatment set forth in subchapter XXIII of chapter 98 and subchapter XXII of chapter 99 of the HTSUS.  Articles properly classified in 9903.01.10 through 9903.01.15 should declare a secondary classification under 9903.01.26 in order to be excepted from the reciprocal tariff.
+9903.01.27:   Articles the product of Mexico, including those products of Mexico entered free of duty as under the United States-Mexico-Canada Agreement, including any treatment set forth in subchapter XXIII of chapter 98 and subchapter XXII of chapter 99 of the HTSUS.  Articles properly classified in 9903.01.01 through 9903.01.05 should declare a secondary classification under 9903.01.27 in order to be excepted from the reciprocal tariff.
+9903.01.28:   Articles the product of any country that were (1) loaded onto a vessel at the port of loading and in transit on the final mode of transport prior to entry into the United States before 12:01 a.m. EDT on April 5, 2025, AND (2) are entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. EDT on April 5, 2025, and before 12:01 a.m. EDT on May 27, 2025.
+NOTE:   Articles the product of the countries that have an additional country-specific rate of duty, identified in 9903.01.43 – 9903.01.76, that were (1) loaded onto a vessel at the port of loading and in transit on the final mode of transport on or after 12:01 a.m. EDT April 5, 2025, and before 12:01 a.m. EDT April 9, 2025, and (2) are entered for consumption, or withdrawn from warehouse for consumption, before 12:01 a.m. EDT on May 27 2025, are subject to the 10% additional rate in lieu of the country-specific rate of duty.  Articles to which this in transit scenario applies must be reported under 9903.01.25.
+To prevent importers from abusing the exceptions for goods that were in transit before April 5, 2025 or April 9, 2025, as applicable, CBP will permit heading 9903.01.28, or heading 9903.01.25 for products of countries covered by headings 9903.01.43 – 9903.01.76, as applicable, to be declared only for goods that are entered for consumption, or withdrawn from warehouse for consumption, before 12:01 a.m. EDT on May 27, 2025, after which time the exceptions would no longer realistically apply due to the passage of time.
+9903.01.29:  Articles the product of any Column 2 rate country identified in general note 3(b); currently limited to Belarus, Cuba, North Korea and Russia.
+9903.01.30:  Articles that are donations, by persons subject to the jurisdiction of the United States, of articles, such as food, clothing, and medicine, intended to be used to relieve human suffering.
+9903.01.31:  Articles that are informational materials, including but not limited to, publications, films, posters, phonograph records, photographs, microfilms, microfiche, tapes, compact disks, CD ROMs, artworks, and news wire feeds.
+9903.01.32:  Articles of any country, classified in the subheadings enumerated in the subdivision (v)(iii) of U.S. note 2, identified in Annex II.  The only merchandise that is eligible for this exception is that which is listed in Annex II.
+9903.01.33:  Articles of iron or steel, derivative articles of iron or steel, articles of aluminum, derivative articles of aluminum, passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans, and cargo vans) and light trucks and parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans, and cargo vans) and light trucks, of any country, subject to Section 232. actions.
+9903.01.34:  For articles in which at least 20% of the value of article is U.S. originating, the U.S. content will not be subject to the reciprocal tariff. The reciprocal tariff will be assessed on the non-U.S. content. (See below for reporting instructions.)
+CHAPTER 98The additional duties imposed by the headings above shall not apply to goods for which entry is properly claimed under a provision of chapter 98 of the HTSUS pursuant to applicable U.S. Customs and Border Protection (CBP) regulations, and whenever CBP agrees that entry under such a provision is appropriate, except for goods entered under heading 9802.00.80; and subheadings 9802.00.40, 9802.00.50, and 9802.00.60. For subheadings 9802.00.40, 9802.00.50, and 9802.00.60, the additional duties apply to the value of repairs, alterations, or processing performed, as described in the applicable subheading. For heading 9802.00.80, the additional duties apply to the value of the article assembled abroad, less the cost or value of such products of the United States, as described.
+FOREIGN TRADE ZONESubject articles, excluding those encompassed by 50 U.S.C. 1702(b), except those that are eligible for admission to a foreign trade zone under "domestic status" as defined in 19 CFR 146.43, and are admitted into a United States foreign trade zone on or after 12:01 a.m. EDT on April 9, 2025, must be admitted as "privileged foreign status" as defined in 19 CFR 146.41. Such articles will be subject, upon entry for consumption, to the duties imposed by this order and the rates of duty related to the classification under the applicable HTSUS subheading in effect at the time of admission into the United States foreign trade zone.
+DRAWBACKDrawback is available with respect to the additional duties imposed pursuant to this Executive Order.
+DE MINIMISUntil further notice, except as otherwise provided in Executive Order 14256, issued  April 2, 2025, “Further Amendment to Duties Addressing the Synthetic Opioid Supply Chain in the People’s Republic of China as Applied to Low-Value Imports,” 90 FR 14899 (Apr. 7, 2025), which is effective May 2, 2025, the administrative exemption from duty and certain taxes at 19 U.S.C. 1321(a)(2)(C), known as the de minimis exemption, continues to be available for articles covered by headings 9903.01.25 and 9903.01.43 – 9903.01.76 and that are otherwise eligible for the exemption, including eligible articles sent to the United States through the international postal network.
+REPORTINGFor entry summary lines that include multiple HTSUS numbers, CBP requires that the duty be appropriately associated to the correct HTSUS. For example, if the entry is subject to 9903.01.25, then the 10% duty must be associated to 9903.01.25 within the entry summary line when transmitting to ACE and when a printed 7501 is produced. The 10% duty must not be combined with the duty reported on a different HTSUS within the entry summary line. Further, duties across several required HTSUS numbers on a given entry summary line must not be combined and cannot be reported on only one HTSUS within the entry summary line.
+For articles that have a U.S. content of at least 20% and are subject to 9903.01.34, the article must be broken up onto two entry summary lines to accurately report and pay the applicable rate of duty.  The reciprocal tariff additional duty is to be reported based on the non-U.S. content.
+The first line will include the U.S. content while the second line will include the non-U.S. content. Each line should be reported in accordance with the below instructions.
+In the first line, for U.S. content, report:
+Ch 1-97 HTSUS, this same HTSUS must be reported on both lines.
+Country of origin, same must be reported on both lines.
+HTSUS 9903.01.34.
+Total entered value of the article less the value of the non-U.S. content.
+Total quantity of the product.
+All applicable duties.
+In the second line, for non-U.S. content, report:
+Same Ch. 1-97 HTSUS reported on the first line.
+Same country of origin reported on the first line.
+HTSUS 9903.01.25 or 9903.01.43 – 9903.01.76.
+Total entered value of non-U.S. content of the article.
+Zero for quantity for the product.
+All applicable duties.
+HTSUS SEQUENCEFor entry summary lines including multiple HTSUS numbers, the following sequence must be followed.
+1. Chapter 98 (if applicable)
+2. Chapter 99 number(s) for additional duties (if applicable)
+3. For trade remedies,
+first report the Chapter 99 number for Section 301,
+followed by the Chapter 99 number for IEEPA Fentanyl for China, Canada or Mexico,
+followed by the Chapter 99 number for IEEPA Reciprocal,
+followed by the Chapter 99 number for Section 232 or 201 duties (if applicable),
+followed by the Chapter 99 number for Section 201 or 232 quota (if applicable)
+4. Chapter 99 number(s) for REPLACEMENT duty or other use (i.e., MTB or other provisions)
+5. Chapter 99 number for other quota (not covered by #3) (if applicable)
+6. Chapter 1 to 97 Commodity Tariff
+The entered value of the commodity being imported on the entry summary line should be reported on the Chapter 1-97 HTSUS classification for the commodity being imported, except if Chapter 98 reporting provisions require the entered value to be reported differently.
+CBP will provide additional guidance to the trade community through CSMS messages as appropriate.
+Any person or business that plans to import a particular product into the United States may request a binding ruling from CBP with respect to tariff classification, origin, preferential tariff treatment under free trade agreements (FTAs), valuation, and other subject matters, as identified by CBP’s rulings program.  Further guidance is available at https://www.cbp.gov/document/publications/us-customs-and-border-protection-rulings-program.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Questions regarding this message should be directed to Trade Remedy at traderemedy@cbp.dhs.gov.
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

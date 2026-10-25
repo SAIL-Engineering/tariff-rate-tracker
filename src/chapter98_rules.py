@@ -50,8 +50,7 @@ def treatment(clause, family='cbp_agreed'):
     repaired=sorted(set(re.findall(r'9802\.00\.\d{2}',repairs[1])))
     if exceptions!=sorted(repaired+[assembly[1]]) or len(repaired)!=3:
         raise ValueError('Chapter 98 exceptions and valuation do not reconcile')
-    other=re.sub(r'(?:subheadings?|heading)|9802\.00\.\d{2}|\band\b|[, .]', '',m[1])
-    if family=='ieepa_emergency':other=other.replace(';','')
+    other=re.sub(r'(?:subheadings?|heading)|9802\.00\.\d{2}|\band\b|[,; .]', '',m[1])
     xxiii='subchapter XXIII of chapter 98 of the tariff schedule' in m[1]
     if xxiii:other=other.replace('subchapterXXIIIofchapter98ofthetariffschedule','')
     if other:

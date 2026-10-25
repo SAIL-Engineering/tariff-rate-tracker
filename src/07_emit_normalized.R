@@ -1277,6 +1277,8 @@ emit_normalized_revision <- function(
   if(!is.null(reciprocal)) {
     jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)
     jsonlite::write_json(reciprocal_scope_fragment(reciprocal),file.path(output_dir,revision_id,'ieepa_reciprocal_scope_evidence.json'),auto_unbox=TRUE,null='null',digits=NA)
+    jsonlite::write_json(compile_reciprocal_initial_fragment(reciprocal,products$hts10),
+      file.path(output_dir,revision_id,'ieepa_reciprocal_initial_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
   }
   ieepa_evidence <- denorm_state$ieepa_evidence
   decisions <- dplyr::bind_rows(

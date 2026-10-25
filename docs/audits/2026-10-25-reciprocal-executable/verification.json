@@ -1,0 +1,107 @@
+{
+  "tracker_base": "d68c0526616e26420ac561681ba4013c3ea3766f",
+  "branch": "wjr_dev",
+  "python": {
+    "command": "/usr/bin/python3 -m pytest -q tests/python",
+    "exit_code": 0,
+    "passed": 374
+  },
+  "node": {
+    "command": "node --test frontend/tests/*.test.mjs",
+    "exit_code": 0,
+    "passed": 504
+  },
+  "r_targeted": {
+    "command": "Rscript tests/test_ieepa_reciprocal_rules.R --emit",
+    "exit_code": 0,
+    "cases": 74
+  },
+  "r_full": {
+    "command": "Rscript tests/run_all_tests.R --require-data",
+    "exit_code": 1,
+    "suites": {
+      "run_tests_daily_series.R": "OK",
+      "test_adcvd_layer.R": "OK",
+      "test_adcvd_notice.R": "OK",
+      "test_ch99_attribution.R": "OK",
+      "test_ch99_rules.R": "OK",
+      "test_citations.R": "OK",
+      "test_country_scope.R": "OK",
+      "test_duty_ledger_intervals.R": "OK",
+      "test_ieepa_actions.R": "OK",
+      "test_ieepa_emergency_rules.R": "OK",
+      "test_ieepa_emergency.R": "OK",
+      "test_ieepa_reciprocal_rules.R": "OK",
+      "test_ieepa_reciprocal_scope.R": "OK",
+      "test_legal_intervals.R": "OK",
+      "test_normalized_parity.R": "ERROR",
+      "test_note_scope_extraction.R": "OK",
+      "test_note_scope.R": "OK",
+      "test_product_inheritance.R": "OK",
+      "test_product_scope.R": "OK",
+      "test_rate_calculation.R": "OK",
+      "test_reciprocal_pipeline.R": "OK",
+      "test_s122_conditions.R": "OK",
+      "test_s122_rules.R": "OK",
+      "test_s201_quartz.R": "OK",
+      "test_s232_attribution.R": "OK",
+      "test_s232_grants.R": "OK",
+      "test_s232_heading_resolution.R": "OK",
+      "test_s232_legacy_pipeline.R": "OK",
+      "test_s232_legacy_rules.R": "OK",
+      "test_s232_model_separation.R": "OK",
+      "test_s232_note16_revision.R": "OK",
+      "test_s232_pre_march_pipeline.R": "OK",
+      "test_s232_pre_march.R": "OK",
+      "test_s232_scope_sources.R": "OK",
+      "test_s338_amendments.R": "OK",
+      "test_s338_pipeline.R": "OK",
+      "test_s338_rules.R": "OK",
+      "test_section301_revision.R": "OK",
+      "test_shipment_action_composition.R": "OK",
+      "test_shipment_duty_expression.R": "OK",
+      "test_shipment_rules.R": "OK",
+      "test_stacking_temporal.R": "OK",
+      "test_staged_rates.R": "OK",
+      "test_statutory_totals.R": "OK",
+      "test_tpc_comparison.R": "SKIP"
+    }
+  },
+  "normalized_parity": {
+    "command": "Rscript tests/test_normalized_parity.R",
+    "exit_code": 1,
+    "missing_required_artifacts": 526,
+    "numeric_parity_ran": false
+  },
+  "source_only_sweep": {
+    "revisions": 55,
+    "products": [
+      "0106199120"
+    ],
+    "exit_code": 0,
+    "timeseries_or_revision_build": false
+  },
+  "production_writes": false,
+  "timeseries_rebuild": false,
+  "complete_legal_coverage": false,
+  "retained_log_hashes": {
+    "full-products.log.gz": "53d17e88200f12c69dacbeedf90a54a8002a2e205a1aab8376224864720b915e",
+    "node-tests.log.gz": "f6e85b1b388440aac0f5d570a01e9bc70819a6fbf7b23224e00233c7a700b894",
+    "normalized-parity.log.gz": "7612273936619220e1ed168c0aff9784c8e87218df79367c58f9d20957db689c",
+    "python-tests.log.gz": "7f3226e1a1cda04196f4364aaac46bb36121604e65e61e4dd6446ee49e846340",
+    "r-full-gate.log.gz": "e11b54caaebf6b3f5c4bea2cd02a2518190c1efc5619d1a653758d0ee9f3105b",
+    "r-reciprocal-tests.log.gz": "e9da476308a5d40988abc8fb2006b1599c188c88eaf4eaaf0e98a0a69d79162b",
+    "serving-test.log.gz": "599642032657587c5b2d705240d90b25697bc4ed1402eb7bf6149a24213e89c4",
+    "source-sweep.log.gz": "9ef3ddb09cb6b07f960142b5ce34b9022e5e86eedbb5b3128b674abed0a4eb35"
+  },
+  "full_product_compilation": {
+    "kind": "source-only complete product inventory compilation, not a rates build",
+    "revision": "2025_rev_8",
+    "products": 20206,
+    "rules": 526,
+    "coverage_count": 0,
+    "elapsed_seconds": 8.215,
+    "compiler_sha256": "476192dc9ea254a7a91efd248d309d731a82e8b15a256e2d15464e4f3287a0a6",
+    "exit_code": 0
+  }
+}

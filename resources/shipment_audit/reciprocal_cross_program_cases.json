@@ -1,0 +1,72 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "USITC-2025_rev_13-chapter99",
+      "status": "verified",
+      "sha256": "e6a2756923b74a7c9b666d9e72164983a3dc5362c3a01d3cf3a6f7bd4b6765c8",
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev13&filename=Chapter%2099",
+      "citation": "USITC 2025_rev_13: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description.",
+      "path": "data/us_notes/chapter99_2025_rev_13.pdf",
+      "locator": "Chapter 99 notes 2, 16 and 20 and corresponding reporting headings; exact HTS10 scope",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "USITC-2025_rev_13-hts",
+      "status": "verified",
+      "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad",
+      "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev13&exportFormat=JSON",
+      "citation": "USITC 2025_rev_13: Chapter 99 notes 20/31 and headings 9903.88, 9903.91, 9903.92.10. Charge scope only; see the rule source locator and description.",
+      "path": "data/hts_archives/hts_2025_rev_13.json",
+      "locator": "Chapter 99 notes 2, 16 and 20 and corresponding reporting headings; exact HTS10 scope",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "china-fastener-cross-program-may20",
+      "hts10": "7318158085",
+      "country": "5700",
+      "entry_date": "2025-05-20",
+      "assumptions": "Ordinary consumption entry; steel article; no US-metal, Chapter 98, Section 301 exclusion, FTZ or other claim. Actual-source rules resolve Section 232 at 25%, China drug-emergency IEEPA at 20%, Section 301 at 25%, and zero reciprocal liability. Wide rate_ieepa_recip is the pre-stacking 10% parameter, not payable reciprocal duty. Compare named program parameters only; base, AD/CVD and a complete total are not certified. May entry uses full-article steel basis, not modeled metal share.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": 0.25,
+          "source_ids": [
+            "USITC-2025_rev_13-chapter99",
+            "USITC-2025_rev_13-hts"
+          ],
+          "verification": "primary_source_verified"
+        },
+        {
+          "field": "statutory_rate_ieepa_fent",
+          "value": 0.2,
+          "source_ids": [
+            "USITC-2025_rev_13-chapter99",
+            "USITC-2025_rev_13-hts"
+          ],
+          "verification": "primary_source_verified"
+        },
+        {
+          "field": "statutory_rate_301",
+          "value": 0.25,
+          "source_ids": [
+            "USITC-2025_rev_13-chapter99",
+            "USITC-2025_rev_13-hts"
+          ],
+          "verification": "primary_source_verified"
+        },
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "USITC-2025_rev_13-chapter99",
+            "USITC-2025_rev_13-hts"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    }
+  ]
+}

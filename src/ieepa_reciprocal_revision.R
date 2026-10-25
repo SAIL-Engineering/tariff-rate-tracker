@@ -84,3 +84,43 @@ reciprocal_scope_fragment <- function(x) {
     rules=list(),coverage=list(),relations=list(),fact_definitions=list(),
     limitations=list('Product exemption chronology only; does not attest reciprocal country, FTZ, valuation or cross-program completeness.'))
 }
+
+# Compile original reciprocal country/valuation decisions using the same
+# jurisdiction resolver as ingestion. Never read a calculated rate column.
+compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
+  paths<-replicate(3,tempfile(fileext='.json'));on.exit(unlink(paths),add=TRUE)
+  status<-system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_initial.py')),shQuote(paths[1])))
+  if(status!=0L) stop('Original reciprocal history extraction failed')
+  h<-jsonlite::fromJSON(paths[1],simplifyVector=FALSE)
+  if(!exists('match_countries',mode='function')) source(file.path(root,'src/05_parse_policy_params.R'))
+  lookup<-build_country_lookup(file.path(root,'resources/census_codes.csv'))
+  actions<-setNames(lapply(h$actions,function(a) {
+    names<-extract_countries_from_description(paste('articles the product of',a$country_text,'as provided for in subdivision (v)'))
+    resolved<-lapply(names,resolve_country_name)
+    if(any(lengths(resolved)==0L)) stop('Unresolved original reciprocal country token: ',paste(names[lengths(resolved)==0L],collapse=', '))
+    found<-unlist(resolved)
+    if(!length(found)||anyNA(found)) stop('Unresolved original reciprocal origin: ',a$country_text)
+    as.list(sort(unique(found)))
+  }),vapply(h$actions,`[[`,character(1),'code'))
+  # No carry-forward of an absent country inventory for executable decisions.
+  gn_path<-file.path(root,'resources/gn3_column2_countries.csv')
+  gn<-read.csv(gn_path,colClasses='character')
+  gn<-gn[gn$revision==x$revision,]
+  if(!nrow(gn)||any(is.na(gn$source_url)|!nzchar(gn$source_url))) stop('Missing revision-bound GN3 country evidence')
+  excluded<-lapply(gn$country_name,resolve_country_name)
+  if(any(lengths(excluded)==0L)) stop('Unresolved GN3 country')
+  files<-c('resources/gn3_column2_countries.csv','resources/census_codes.csv','config/policy_params.yaml')
+  # Country resolver uses the policy EU membership; preserve both its input
+  # and implementation version with the derived jurisdiction inventory.
+  files<-c(files,'src/helpers.R','src/05_parse_policy_params.R')
+  evidence<-lapply(files,function(p) list(id=paste0('reciprocal-jurisdiction-',gsub('[^a-zA-Z0-9]','-',p)),
+    path=normalizePath(file.path(root,p),mustWork=TRUE),sha256=digest::digest(file=file.path(root,p),algo='sha256'),
+    url=paste0('https://hts.usitc.gov/reststop/file?release=',build_release_name(x$revision),'&filename=General%20Note%203'),
+    citation=paste('Derived jurisdiction mapping; General Note 3 and versioned Census/EU country resolution:',p)))
+  jurisdictions<-list(all=as.list(sort(unique(read.csv(file.path(root,'resources/census_codes.csv'),colClasses='character')$Code))),non_ntr=as.list(sort(unique(unlist(excluded)))),
+    actions=actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),sources=evidence)
+  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions),paths[2],auto_unbox=TRUE,null='null',digits=NA)
+  status<-system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_rules.py')),shQuote(paths[2]),shQuote(paths[3])))
+  if(status!=0L) stop('Reciprocal executable compilation failed')
+  jsonlite::fromJSON(paths[3],simplifyVector=FALSE)
+}

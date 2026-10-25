@@ -1,0 +1,261 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "FR-2025-06063-ANNEX",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/pdf/2025-06063.pdf",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4884253adfe9727eb38adc8a467f5d59f8d867c0fd66aaed186f34a94c326994",
+      "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+      "original_pdf_sha256": "3a4df0606c889ae072c030c8ca698adb1d373506d2e53881546874efad9fa2ca",
+      "path": "resources/legal_evidence/2025-06063/annex.txt",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-06063",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/html/2025-06063.htm",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4959b45d016c168e72d75b6f7ca10dc00110588447583be3f459eb8b19c5a7b3",
+      "extraction": "gstack browse text of official GovInfo HTML",
+      "path": "resources/legal_evidence/2025-06063/notice.txt",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-06378",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-14/html/2025-06378.htm",
+      "citation": "EO 14259 section 2; China reciprocal amendment",
+      "sha256": "7aa2bcc0e770d2ac3ffaa3cd0af28c0b2190cf13425e6d7e9f5a77bd4afef8ba",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text",
+      "path": "resources/legal_evidence/2025-06378/notice.txt",
+      "locator": "EO 14259 section 2; China reciprocal amendment",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-06462",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-15/html/2025-06462.htm",
+      "sha256": "609db328197401325d61aa6f7240085b2c32bbf7fcaf00555fde25824c1d2411",
+      "retrieved_at": "2026-10-23",
+      "citation": "Federal Register 2025-06462, EO 14266 sections 2-3",
+      "locator": "Federal Register 2025-06462, EO 14266 sections 2-3",
+      "path": "resources/legal_evidence/2025-06462/notice.txt",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-09297",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-05-21/html/2025-09297.htm",
+      "citation": "EO 14298 sections 2-3; China reciprocal suspension",
+      "sha256": "305911455d7a27a639863069af597a4a4b76aa0917f0e04a8df333347b89092b",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text",
+      "path": "resources/legal_evidence/2025-09297/notice.txt",
+      "locator": "EO 14298 sections 2-3; China reciprocal suspension",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "CBP-CSMS-64680374",
+      "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3daf1b6",
+      "citation": "CBP CSMS 64680374; original reciprocal entry and reporting instructions",
+      "sha256": "3b1db8ae814a6db9a6a820f00e1d93d42f20a4c34d170f4f7fba9aea35ff8212",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text",
+      "path": "resources/legal_evidence/CSMS-64680374/notice.txt",
+      "locator": "CBP CSMS 64680374; original reciprocal entry and reporting instructions",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "CBP-CSMS-65201773",
+      "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/3e2e66d",
+      "citation": "CBP CSMS 65201773; original reciprocal entry and reporting instructions; supersedes prior transit entry cutoff",
+      "sha256": "81a159128eecc5c631623a8976e73beee6a918a21a8e555e0c6b1b18df254000",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text",
+      "path": "resources/legal_evidence/CSMS-65201773/notice.txt",
+      "locator": "CBP CSMS 65201773; original reciprocal entry and reporting instructions; supersedes prior transit entry cutoff",
+      "verification": "primary_source_verified"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-06-09/html/2025-10524.htm",
+      "sha256": "a4aa1ca6cd3fac60e8ce6f4a583bfdb5f9077221eff39c810de4a46709765d61",
+      "retrieved_at": "2026-10-23",
+      "method": "gstack browse text",
+      "citation": "Proclamation 10947, clauses 1-7, 90 FR 24199-24202",
+      "id": "FR-2025-10524",
+      "path": "resources/legal_evidence/2025-10524/notice.txt",
+      "locator": "Proclamation 10947, clauses 1-7, 90 FR 24199-24202",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "au-original",
+      "hts10": "0106199120",
+      "country": "6021",
+      "entry_date": "2025-04-06",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "eu-april9",
+      "hts10": "0106199120",
+      "country": "4279",
+      "entry_date": "2025-04-09",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.2,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "cn-april9",
+      "hts10": "0106199120",
+      "country": "5700",
+      "entry_date": "2025-04-09",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.84,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06378"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "cn-april10",
+      "hts10": "0106199120",
+      "country": "5700",
+      "entry_date": "2025-04-10",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 1.25,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "hk-april10",
+      "hts10": "0106199120",
+      "country": "5820",
+      "entry_date": "2025-04-10",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 1.25,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "macau-april10",
+      "hts10": "0106199120",
+      "country": "5660",
+      "entry_date": "2025-04-10",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 1.25,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "eu-suspension",
+      "hts10": "0106199120",
+      "country": "4279",
+      "entry_date": "2025-04-10",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "cn-may14",
+      "hts10": "0106199120",
+      "country": "5700",
+      "entry_date": "2025-05-14",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-09297"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "ca-excluded",
+      "hts10": "0106199120",
+      "country": "1220",
+      "entry_date": "2025-04-10",
+      "assumptions": "Ordinary commercial consumption entry at noon Eastern; no FTZ, Chapter 98, de minimis, transit, U.S.-content or statutory exemption claim. Reciprocal component only, not full shipment total.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    }
+  ]
+}

@@ -87,6 +87,45 @@ Local preparation is available with `frontend/scripts/prepare-shipment-release.m
 using an explicit manifest and local DuckDB path; it cannot connect to MotherDuck.
 No live synchronization/activation command is authorized by this runbook.
 
+## Reciprocal country, claim and metal-portion rules
+
+The normal normalized emitter now also writes
+`ieepa_reciprocal_initial_rules.json` for every configured 2025/2026 revision.
+This source-derived fragment implements the original April 5, April 9 and April
+10 actions, the May 14 China suspension, the corrected June 16 transit deadline,
+and the June 4 metal-portion interaction. Its legal horizon ends **exclusively at
+June 30, 2025, 00:01 Eastern**, when the next UK sector amendment begins. Empty
+rules outside that horizon mean unsupported coverage, never zero liability.
+
+Compose this fragment together with the same revision's other reviewed authority
+fragments and `ieepa_reciprocal_scope_evidence.json`. Section 232 reporting
+dependencies must be bound in the same composition; missing Section 232 coverage
+keeps the reciprocal result unresolved. Use a reviewed base bundle, not fixtures.
+The emitter and tests do not construct a production-ready all-authority bundle.
+The existing release v7 and result v1 contracts are unchanged by this addition.
+
+Run its source and cross-program regressions without a timeseries rebuild:
+
+```sh
+python3 -m pytest -q tests/python/test_ieepa_reciprocal_initial.py
+Rscript tests/test_ieepa_reciprocal_rules.R
+Rscript tests/test_reciprocal_pipeline.R
+node --test frontend/tests/shipment-ieepa-reciprocal.test.mjs
+```
+
+The pipeline test uses a small, temporary product/origin fixture and deletes its
+outputs. Full builds remain the manual commands above. A repeat read-only live
+comparison of the original-action cases is:
+
+```sh
+node frontend/scripts/audit-shipment-motherduck.mjs \
+  --out output/reciprocal-initial-motherduck-AFTER \
+  --cases resources/shipment_audit/reciprocal_initial_cases.json
+```
+
+See the [executable reciprocal audit](audits/2026-10-25-reciprocal-executable/README.md)
+for source discrepancies, valuation assumptions and remaining coverage boundaries.
+
 
 ## Conditional-action contract dependency
 

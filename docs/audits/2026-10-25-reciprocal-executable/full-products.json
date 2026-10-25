@@ -1,0 +1,9 @@
+{
+  "kind": "source-only complete product inventory compilation, not a rates build",
+  "revision": "2025_rev_8",
+  "products": 20206,
+  "rules": 526,
+  "coverage_count": 0,
+  "elapsed_seconds": 8.215,
+  "compiler_sha256": "476192dc9ea254a7a91efd248d309d731a82e8b15a256e2d15464e4f3287a0a6"
+}
