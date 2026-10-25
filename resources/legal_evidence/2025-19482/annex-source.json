@@ -1,0 +1,8 @@
+{
+  "id": "FR-2025-19482-ANNEX",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-06/pdf/2025-19482.pdf",
+  "citation": "Proclamation 10976 Annex I paragraph 6(iii), 90 FR 48139-48140; exact Chapter 44 deletions implement clause 12.",
+  "sha256": "bc476153ff1ccc5f2ad38c57f90cdcb6566904cc6c60a78b965999e28d28cf31",
+  "original_pdf_sha256": "11329f9fbc48ee56a19cefd8596d9b00d4d5dedbea452e837f1aa7ee76de8e9d",
+  "extraction": "Tesseract 5 psm 6 on 180dpi pdftoppm pages 13-14; every deletion visually checked against original page images and independently reconciled with HTS revision 25."
+}

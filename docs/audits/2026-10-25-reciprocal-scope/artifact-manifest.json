@@ -1,0 +1,74 @@
+{
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "3f2b8a54d8ed930da456140e7fc4906632faa71b87f6566f57acaa735cec48d0"
+    },
+    {
+      "path": "build.txt",
+      "sha256": "b937620a1e0870d50368f0a83a4c409d4039f2dba410d605f24d934b12e3800c"
+    },
+    {
+      "path": "motherduck-case-specification.json",
+      "sha256": "1d0b1ccfa31fd2d052bcc6d2f2e8879a3250122f9edf8aec50b9a5941d1e8161"
+    },
+    {
+      "path": "motherduck-cases.json.gz",
+      "sha256": "8d4155a76562be97e30deea9046d9e2385605b8a30801c5c1880ea4e439d8ec8"
+    },
+    {
+      "path": "motherduck-findings.json",
+      "sha256": "5b04de7625ef28ff5b3def59a260e73fe373372c376d8806166926785c7ab184"
+    },
+    {
+      "path": "motherduck-manifest.json",
+      "sha256": "086bf7b91cd450d338c3325cd4b8899dbf2f06c7475ecd324f48d8d9114b9d16"
+    },
+    {
+      "path": "motherduck-revisions.json",
+      "sha256": "282c5f23211dcaf7501d5c878a048c59160a23aab04ad652d869bcfdc2f477e1"
+    },
+    {
+      "path": "motherduck-schema.json",
+      "sha256": "4a95963508cfc27a76bc817605e9c60488cab6551332c8e1d49e45b20fec12ce"
+    },
+    {
+      "path": "node-tests.txt",
+      "sha256": "193c895a6430149bd0f12710042c85d841219e4f7b8dff3c31b17bf11c8fce97"
+    },
+    {
+      "path": "normalized-inventory.txt",
+      "sha256": "5f0a4b86e446324f902f25df08d8db6c6a6e268a1514e57be2b5e2455e5ba9a6"
+    },
+    {
+      "path": "python-tests.txt",
+      "sha256": "02f5ca2a240d08b108a136ef30585358e6403c5a6fb559de5d667fe44695e512"
+    },
+    {
+      "path": "r-bounded-pipeline.txt",
+      "sha256": "08bc69c7435fda3c6eb8f8737850a714f75020250cd79cc41b386e92d0817e47"
+    },
+    {
+      "path": "r-full-gate.txt",
+      "sha256": "140f1c6d1b676fb0f16c07782264ca658ea2505af80f0a0cc52e66758a92928e"
+    },
+    {
+      "path": "r-reciprocal-scope.txt",
+      "sha256": "e3d24b50464617e63b2d350e977fdb5572227e881af3f001c4151e7bccd37005"
+    },
+    {
+      "path": "scope-differences.csv.gz",
+      "sha256": "7bdd16fa51513a470c311df9be75f571cf5cf35fb635ba279b79eecb40685fa0"
+    },
+    {
+      "path": "scope-summary.json",
+      "sha256": "95fa08020accd07f7c234ef5beca41916a2805f767b101787fd3a9373503df06"
+    },
+    {
+      "path": "source-reconciliation.json",
+      "sha256": "818b85ec6ad9fbbb22dd0f89ee12ab6dce64c820ca00bc1b6833c436523dc20d"
+    }
+  ],
+  "production_write": false,
+  "timeseries_rebuild": false
+}

@@ -1,0 +1,7 @@
+{
+  "id": "FR-2025-17507",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/html/2025-17507.htm",
+  "citation": "EO 14346 Annex I and separate Potential Tariff Adjustments for Aligned Partners Annex",
+  "sha256": "14d29c7b83e35dae28d730dad87ae09507e65ab1ba461b6a035278e2ba8d96f4",
+  "extraction": "gstack browse text of official GovInfo HTML"
+}

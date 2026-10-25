@@ -1,0 +1,8 @@
+{
+  "id": "FR-2025-06063-ANNEX",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/pdf/2025-06063.pdf",
+  "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+  "sha256": "4884253adfe9727eb38adc8a467f5d59f8d867c0fd66aaed186f34a94c326994",
+  "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+  "original_pdf_sha256": "3a4df0606c889ae072c030c8ca698adb1d373506d2e53881546874efad9fa2ca"
+}

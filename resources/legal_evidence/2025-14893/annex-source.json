@@ -1,0 +1,8 @@
+{
+  "id": "FR-2025-14893-ANNEX",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-05/pdf/2025-14893.pdf",
+  "citation": "Proclamation 10962 copper: clause 1 and Annex paragraphs 3-4",
+  "sha256": "7ad027849170f166fd6721985441de475c99a35d8335f8b9760bf2f4267c1aa4",
+  "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+  "original_pdf_sha256": "0d67408fd824cab816d7427975f615d827b4f57df6ead15d63c4addb74f6d1b1"
+}

@@ -481,3 +481,28 @@ semiconductor rows do. The aggregate rates retain their modeling methodology.
 Existing `shipment_232_*` fields identify the unresolved scope; they are not an
 exhaustive evaluated fact request when actions overlap. Use the rule evaluator's
 `required_facts` and action decisions for actual shipment requests.
+
+### Reciprocal original-annex scope (release v7)
+
+`denorm_state$reciprocal_scope_source` carries the revision's extracted native
+inventory, original-annex history, reconciliation and source hashes. The normal
+calculator supplies it; the emitter fails if a 2025/2026 state omits it.
+`ieepa_reciprocal_scope_decisions.parquet` expands the retained legal prefix at
+its original grain against that revision's products. Overlapping prefixes are
+OR alternatives; they are not cumulative charges. Every revision, including
+inactive ones, emits a typed partition. Exact legal windows are independent of
+the daily aggregate state's interval and are not truncated during state merging.
+
+Fields: `revision`, `hts10`, `scope_code`, INTEGER `scope_grain`, `condition`,
+`condition_text`, `reporting_code`, `source_id`, `source_locator`,
+`source_scope_sha256`, `valid_from`, `valid_until`, `termination_source_id`,
+`pdf_sha256`, `hts_sha256`. All fields except `scope_grain` are strings. Windows
+are timestamp strings with explicit offsets; `valid_until` is exclusive.
+Only `condition=none` feeds the unconditional aggregate exemption projection.
+Description-limited matches retain the condition and cannot establish a complete
+shipment total from an HTS code alone.
+
+`ieepa_reciprocal_source.json` preserves extraction/reconciliation, and
+`ieepa_reciprocal_scope_evidence.json` is the composable source/history pin.
+Release preflight compares the complete partition against that pin. It does
+not interpret this evidence inventory as complete executable reciprocal coverage.

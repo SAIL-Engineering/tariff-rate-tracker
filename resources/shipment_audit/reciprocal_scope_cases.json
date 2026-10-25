@@ -1,0 +1,154 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "FR-2025-06063",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/html/2025-06063.htm",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4959b45d016c168e72d75b6f7ca10dc00110588447583be3f459eb8b19c5a7b3",
+      "extraction": "gstack browse text of official GovInfo HTML",
+      "path": "resources/legal_evidence/2025-06063/notice.txt",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-06063-ANNEX",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/pdf/2025-06063.pdf",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4884253adfe9727eb38adc8a467f5d59f8d867c0fd66aaed186f34a94c326994",
+      "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+      "original_pdf_sha256": "3a4df0606c889ae072c030c8ca698adb1d373506d2e53881546874efad9fa2ca",
+      "path": "resources/legal_evidence/2025-06063/annex.txt",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-17507-ANNEX",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17507.pdf",
+      "citation": "EO 14346 Annex I and separate Potential Tariff Adjustments for Aligned Partners Annex",
+      "sha256": "12c31d93ea445d681b6b46304de1a83183da3920d083f9679dcd93e4d5213fe9",
+      "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+      "original_pdf_sha256": "9a446f76bcf1ecf1201c00fb2f2ccfc7b5abdb0a557839c7459451408def5361",
+      "path": "resources/legal_evidence/2025-17507/annex.txt",
+      "locator": "EO 14346 Annex I and separate Potential Tariff Adjustments for Aligned Partners Annex",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-19482-ANNEX",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-06/pdf/2025-19482.pdf",
+      "citation": "Proclamation 10976 Annex I paragraph 6(iii), 90 FR 48139-48140; exact Chapter 44 deletions implement clause 12.",
+      "sha256": "bc476153ff1ccc5f2ad38c57f90cdcb6566904cc6c60a78b965999e28d28cf31",
+      "original_pdf_sha256": "11329f9fbc48ee56a19cefd8596d9b00d4d5dedbea452e837f1aa7ee76de8e9d",
+      "extraction": "Tesseract 5 psm 6 on 180dpi pdftoppm pages 13-14; every deletion visually checked against original page images and independently reconciled with HTS revision 25.",
+      "path": "resources/legal_evidence/2025-19482/annex.txt",
+      "locator": "Proclamation 10976 Annex I paragraph 6(iii), 90 FR 48139-48140; exact Chapter 44 deletions implement clause 12.",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "WH-2025-04-11-reciprocal-electronics",
+      "url": "https://www.whitehouse.gov/presidential-actions/2025/04/clarification-of-exceptions-under-executive-order-14257-of-april-2-2025-as-amended/",
+      "citation": "April 11 presidential memorandum; listed headings and retroactive April 5 commencement",
+      "sha256": "1b3761ded1da7b136c6374de8f16b79bcce771b268be0a91d58053f2aeabb7aa",
+      "extraction": "gstack browse text, presidential action only",
+      "path": "resources/legal_evidence/2025-04-11-reciprocal-electronics/notice.txt",
+      "locator": "April 11 presidential memorandum; listed headings and retroactive April 5 commencement",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "australian-commercial-dog",
+      "hts10": "0106199120",
+      "country": "6021",
+      "entry_date": "2025-06-01",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "retroactive-electronics",
+      "hts10": "8528520000",
+      "country": "6021",
+      "entry_date": "2025-04-06",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0,
+          "source_ids": [
+            "WH-2025-04-11-reciprocal-electronics"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "exact-magnet-exemption",
+      "hts10": "8505110070",
+      "country": "6021",
+      "entry_date": "2025-09-09",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0,
+          "source_ids": [
+            "FR-2025-17507-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "adjacent-magnet-not-universal",
+      "hts10": "8505110030",
+      "country": "6021",
+      "entry_date": "2025-09-09",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": []
+    },
+    {
+      "id": "timber-retained-teak",
+      "hts10": "4403420000",
+      "country": "6021",
+      "entry_date": "2025-10-15",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0,
+          "source_ids": [
+            "FR-2025-06063-ANNEX",
+            "FR-2025-19482-ANNEX"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "timber-removed-plywood",
+      "hts10": "4412310620",
+      "country": "6021",
+      "entry_date": "2025-10-15",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": []
+    },
+    {
+      "id": "conditional-religious-bread",
+      "hts10": "1905901070",
+      "country": "6021",
+      "entry_date": "2025-11-14",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, Chapter 98, de minimis, transit, US-content or humanitarian/baggage exception. Only the reciprocal component is checked.",
+      "expectations": []
+    }
+  ]
+}

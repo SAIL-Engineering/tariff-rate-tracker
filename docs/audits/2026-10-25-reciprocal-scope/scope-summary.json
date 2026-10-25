@@ -1,0 +1,813 @@
+[
+  {
+    "revision": "2025_basic",
+    "entry_day": "2025-01-01",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_1",
+    "entry_day": "2025-02-04",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_2",
+    "entry_day": "2025-02-05",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_3",
+    "entry_day": "2025-03-04",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_4",
+    "entry_day": "2025-03-07",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_5",
+    "entry_day": "2025-03-14",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_6",
+    "entry_day": "2025-04-03",
+    "native_codes": 0,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "pre_reciprocal_snapshot",
+      "matched_states": []
+    }
+  },
+  {
+    "revision": "2025_rev_7",
+    "entry_day": "2025-04-05",
+    "native_codes": 1039,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00-original"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_8",
+    "entry_day": "2025-04-09",
+    "native_codes": 1039,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00-original"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_9",
+    "entry_day": "2025-04-10",
+    "native_codes": 1039,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00-original"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_10",
+    "entry_day": "2025-04-15",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_11",
+    "entry_day": "2025-05-03",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_12",
+    "entry_day": "2025-05-14",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_13",
+    "entry_day": "2025-05-16",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_14",
+    "entry_day": "2025-06-04",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_15",
+    "entry_day": "2025-06-23",
+    "native_codes": 1048,
+    "unconditional_products": 1833,
+    "conditional_products": 0,
+    "extra_legacy": 1639,
+    "missing_legacy": 35,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_16",
+    "entry_day": "2025-07-01",
+    "native_codes": 1048,
+    "unconditional_products": 1838,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-04-05T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_17",
+    "entry_day": "2025-08-01",
+    "native_codes": 972,
+    "unconditional_products": 1725,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-08-01T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_18",
+    "entry_day": "2025-08-07",
+    "native_codes": 972,
+    "unconditional_products": 1725,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-08-01T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_19",
+    "entry_day": "2025-08-18",
+    "native_codes": 972,
+    "unconditional_products": 1725,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-08-01T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_20",
+    "entry_day": "2025-08-27",
+    "native_codes": 972,
+    "unconditional_products": 1725,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-08-01T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_21",
+    "entry_day": "2025-09-02",
+    "native_codes": 972,
+    "unconditional_products": 1725,
+    "conditional_products": 0,
+    "extra_legacy": 1648,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-08-01T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_22",
+    "entry_day": "2025-09-08",
+    "native_codes": 1003,
+    "unconditional_products": 1756,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-09-08T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_23",
+    "entry_day": "2025-09-16",
+    "native_codes": 1003,
+    "unconditional_products": 1756,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-09-08T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_24",
+    "entry_day": "2025-09-25",
+    "native_codes": 1003,
+    "unconditional_products": 1756,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-09-08T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_25",
+    "entry_day": "2025-10-14",
+    "native_codes": 845,
+    "unconditional_products": 1356,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-10-14T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_26",
+    "entry_day": "2025-11-01",
+    "native_codes": 845,
+    "unconditional_products": 1356,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-10-14T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_27",
+    "entry_day": "2025-11-09",
+    "native_codes": 845,
+    "unconditional_products": 1356,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-10-14T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_28",
+    "entry_day": "2025-11-10",
+    "native_codes": 845,
+    "unconditional_products": 1356,
+    "conditional_products": 0,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-10-14T00:01:00-04:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_29",
+    "entry_day": "2025-11-13",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_30",
+    "entry_day": "2025-11-21",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_31",
+    "entry_day": "2025-11-30",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2025_rev_32",
+    "entry_day": "2025-12-05",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_basic",
+    "entry_day": "2026-01-01",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_1",
+    "entry_day": "2026-01-15",
+    "native_codes": 1093,
+    "unconditional_products": 1752,
+    "conditional_products": 63,
+    "extra_legacy": 1652,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_2",
+    "entry_day": "2026-02-01",
+    "native_codes": 1093,
+    "unconditional_products": 1807,
+    "conditional_products": 65,
+    "extra_legacy": 1659,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_3",
+    "entry_day": "2026-02-07",
+    "native_codes": 1093,
+    "unconditional_products": 1807,
+    "conditional_products": 65,
+    "extra_legacy": 1659,
+    "missing_legacy": 34,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_4",
+    "entry_day": "2026-02-24",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_5",
+    "entry_day": "2026-04-06",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_6",
+    "entry_day": "2026-04-23",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_7",
+    "entry_day": "2026-04-29",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_9",
+    "entry_day": "2026-05-01",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_8",
+    "entry_day": "2026-05-22",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_10",
+    "entry_day": "2026-06-08",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_11",
+    "entry_day": "2026-07-01",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_12",
+    "entry_day": "2026-07-21",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_13",
+    "entry_day": "2026-07-24",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_14",
+    "entry_day": "2026-07-31",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_15",
+    "entry_day": "2026-08-03",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_16",
+    "entry_day": "2026-08-14",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_17",
+    "entry_day": "2026-08-24",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_18",
+    "entry_day": "2026-09-02",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_19",
+    "entry_day": "2026-09-15",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_20",
+    "entry_day": "2026-09-29",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  },
+  {
+    "revision": "2026_rev_21",
+    "entry_day": "2026-10-09",
+    "native_codes": 1093,
+    "unconditional_products": 0,
+    "conditional_products": 0,
+    "extra_legacy": 0,
+    "missing_legacy": 0,
+    "reconciliation": {
+      "status": "reconciled_original_annex",
+      "matched_states": [
+        "2025-11-13T00:01:00-05:00"
+      ]
+    }
+  }
+]

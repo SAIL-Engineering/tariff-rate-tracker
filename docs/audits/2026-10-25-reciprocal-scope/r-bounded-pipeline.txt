@@ -1,0 +1,290 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+here() starts at /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Reading HTS JSON from: /tmp/RtmpHYgp8Q/file4adbfa44.json
+  Total items: 1683
+  Parsed products: 1051
+  8-digit leaf lines retained (padded to 10): 0
+  With Chapter 99 refs: 465
+  With complex rates: 8
+  Inherited parent rate: 533 (50.7%)
+  With NA base_rate: 29
+  Rate basis: ad_valorem = 422, free = 592, specific = 37
+  Qty duty-relevant: 37
+  With special rates: 459
+  With Column 2 rates: 992
+  Calc status: base_ad_valorem_only = 37, ok = 1014
+Reading HTS JSON from: data/hts_archives/hts_2025_rev_7.json
+  Total items: 35938
+  Chapter 99 entries: 523
+  Country scope via parent-line inheritance: 262 heading(s)
+  Scope: 6 heading(s) state "any country" -> all origins
+  Scope recovered from hierarchy for 257 heading(s) previously unresolved (56 carrying a rate)
+
+=== Chapter 99 Summary [2025_rev_7] ===
+  Total entries: 523
+  With parsed rates: 160
+  By authority:
+# A tibble: 6 × 2
+  authority            n
+  <chr>            <int>
+1 section_232        236
+2 section_301        103
+3 other              102
+4 ieepa_reciprocal    46
+5 section_201         20
+6 ieepa_fentanyl      16
+
+  By country type:
+# A tibble: 4 × 2
+  country_type     n
+  <chr>        <int>
+1 specific       369
+2 unknown         93
+3 all_except      39
+4 all             22
+[2026-10-25 00:05:41] [WARN] Ch99 country scope [2025_rev_7]: 93 entries with unknown country_type (76 not_duty_relevant_trq, 6 handled_by_s232_extractor, 4 unresolved_s201, 3 handled_by_s201_extractor, 2 handled_by_fentanyl_extractor, 2 ieepa_exclusion_no_rate)
+[2026-10-25 00:05:41] [WARN] Truly unresolved entries (4):
+[2026-10-25 00:05:41] [WARN]   9903.45.01 [section_201]: "If entered in an aggregate quantity, in any quarterly period specified in note 1..."
+[2026-10-25 00:05:41] [WARN]   9903.45.02 [section_201]: "Other..."
+[2026-10-25 00:05:41] [WARN]   9903.45.05 [section_201]: "If entered in an annual aggregate quantity not exceeding the quantity specified ..."
+[2026-10-25 00:05:41] [WARN]   9903.45.06 [section_201]: "Other..."
+
+  By resolution status:
+# A tibble: 7 × 2
+  resolution_status                 n
+  <chr>                         <int>
+1 resolved_by_parser              428
+2 not_duty_relevant_trq            76
+3 handled_by_s232_extractor         6
+4 handled_by_s201_extractor         5
+5 unresolved_s201                   4
+6 handled_by_fentanyl_extractor     2
+7 ieepa_exclusion_no_rate           2
+Calculating rates for revision: 2025_rev_7 (2025-04-06)
+  Dropping 3 Ch99 entries not yet legally active at 2025-04-06 (earliest activation: 2026-01-01)
+  Dropping 17 Ch99 entries suspended or expired per the U.S. notes at 2025-04-06 (17 carried a rate)
+  Section 301 exclusion candidates: 144 hts10 across 2 in-window heading(s) at 2025-04-06 (9903.88.69, 9903.88.70)
+Calculating rates (fast mode)...
+  Product-country combinations: 0
+  Product-Ch99 ref pairs: 0
+  Product-Ch99 pairs with rates: 0
+  Full expansion: 0
+  After country filtering: 0
+  No footnote-linked rates for 2025_rev_7 — blanket authorities will seed rows
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 34
+  Expanding 1 EU entries to 27 member states each...
+  Country-rate pairs extracted: 85
+  Phase 1 (Apr 9, terminated): 85
+  Phase 2 (Aug 7, active): 0
+  Rate types (Phase 2): 
+  Source-backed unconditional reciprocal exemptions: 1
+  No per-revision floor exemptions for 2025_rev_7; using static fallback
+  Loaded 3817 floor exempt products (1691 unique HTS8)
+  Loaded USMCA H2 average (value-weighted): 20015 product-country pairs (6 months, Jul-Dec 2025); HS8 fallback table: 12924 pairs
+  Loaded MFN exemption shares: 4695 HS2-country pairs
+  Adding 2 product-country pairs for IEEPA-only duties
+Extracting Section 232 blanket rates...
+  Steel 232: 25% (all countries, June 2025 increase)
+  Aluminum 232: 25% (all countries, June 2025 increase)
+  Aluminum derivative 232: 25% (3 Ch99 entries)
+  Steel derivative 232: 25% (4 Ch99 entries)
+  Auto 232: 25% (all countries)
+  232 coverage: steel/aluminum + autos
+  Skipping 232 heading "copper" — Ch99 entries not in this revision
+  Skipping 232 heading "softwood" — Ch99 entries not in this revision
+  Skipping 232 heading "wood_furniture" — Ch99 entries not in this revision
+  Skipping 232 heading "kitchen_cabinets" — Ch99 entries not in this revision
+  Skipping 232 heading "mhd_vehicles" — Ch99 entries not in this revision
+  Skipping 232 heading "auto_parts" — Ch99 entries not in this revision
+  Skipping 232 heading "mhd_parts" — Ch99 entries not in this revision
+  Skipping 232 heading "buses" — Ch99 entries not in this revision
+  Skipping 232 heading "semiconductors" — Ch99 entries not in this revision
+  Section 232 coverage: 0 steel + 0 aluminum + 0 auto + 0 copper + 0 wood + 0 MHD + 0 semi products
+  Steel: 1 countries, aluminum: 1, auto: 1
+  ch99_src_232: 2 §232 program heading(s) unusable in this revision — autos_passenger[4120]->9903.94.31 (absent_in_revision); autos_light_trucks[4120]->9903.94.31 (absent_in_revision)
+  Metal content: no derivative products to adjust
+  Section 301: 1 exact products from 2025_rev_7; 0 require product facts
+Extracting Section 122 rates...
+  No Section 122 entries found
+Extracting Section 201 (safeguard) rates...
+  Solar 201 active: 2 Ch99 entries (HTS Rates-of-Duty column shows the FIRST stage: 30 %)
+  Section 201 (solar): 0% on 0 product-country pairs (3 HTS10 covered, Canada exempt)
+  MFN exemption shares: adjusted base_rate for 0 product-country pairs
+  Section 301 forced labor not yet effective (2026-07-24) — not applied
+  Section 301 Brazil not yet effective (2026-07-22) — not applied
+  Section 338 Canada not applicable to this revision (effective 2026-08-22)
+  EO 14289 (eo14289): 0 row(s) had a lower-precedence action suppressed; aggregate rate_232 +0.0000
+  Statutory totals: mean statutory_total_rate NaN vs trade-weighted total_rate 0.0500
+  §201: 7 of 14 safeguard heading(s) dropped — country scope did not parse (fail-closed; duty NOT applied)
+  Section 232 reporting codes: 0 unresolved; rate/chapter/broadest-heading inference is disabled
+  ch99_code_301: 0 rated rows attributed from the recorded source; 0 left NA (100 §301 headings active)
+  [denorm_state] unknown slots present (ok for forward compat): ieepa_evidence, reciprocal_scope_source, fentanyl_evidence, country_eo_exemptions, s232_note16_source, s232_legacy_source, s232_legacy_memberships, s232_note16_matches, s232_note16_projection, s301_source, s301_matches, heading_candidates
+  Loaded 308 fentanyl carve-out product prefixes (3 categories)
+  Metal content: no derivative products to adjust
+  Products-countries: 2
+  With IEEPA reciprocal: 1
+  With Section 232: 0
+  With Section 301: 0
+  With Section 122: 0
+  USMCA eligible: 0
+  Duty ledger: 6 step(s) recorded -> output/provenance/duty_steps_2025_rev_7_2025-04-06.csv
+Warning messages:
+1: There was 1 warning in `summarise()`.
+ℹ In argument: `rate = max(rate)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+2: §201: no staged schedule available for 2025-04-06 — falling back to the config constant (0%), which goes stale by construction. Run scripts/extract_note_rules.R to regenerate resources/ch99_staged_rates.csv. 
+Reading HTS JSON from: /tmp/RtmpHYgp8Q/file4108009e5.json
+  Total items: 2996
+  Parsed products: 1869
+  8-digit leaf lines retained (padded to 10): 0
+  With Chapter 99 refs: 760
+  With complex rates: 76
+  Inherited parent rate: 994 (53.2%)
+  With NA base_rate: 74
+  Rate basis: ad_valorem = 725, compound = 21, free = 994, specific = 129
+  Qty duty-relevant: 150
+  With special rates: 875
+  With Column 2 rates: 1493
+  Calc status: base_ad_valorem_only = 150, ok = 1719
+Reading HTS JSON from: data/hts_archives/hts_2025_rev_28.json
+  Total items: 36136
+  Chapter 99 entries: 668
+  Country scope via parent-line inheritance: 262 heading(s)
+  Scope: 7 heading(s) state "any country" -> all origins
+  Scope recovered from hierarchy for 257 heading(s) previously unresolved (56 carrying a rate)
+
+=== Chapter 99 Summary [2025_rev_28] ===
+  Total entries: 668
+  With parsed rates: 269
+  By authority:
+# A tibble: 6 × 2
+  authority            n
+  <chr>            <int>
+1 section_232        283
+2 ieepa_reciprocal   138
+3 section_301        108
+4 other              102
+5 section_201         20
+6 ieepa_fentanyl      17
+
+  By country type:
+# A tibble: 4 × 2
+  country_type     n
+  <chr>        <int>
+1 specific       421
+2 all_except     111
+3 unknown        110
+4 all             26
+[2026-10-25 00:06:33] [WARN] Ch99 country scope [2025_rev_28]: 110 entries with unknown country_type (76 not_duty_relevant_trq, 23 handled_by_s232_extractor, 4 unresolved_s201, 3 handled_by_s201_extractor, 2 handled_by_fentanyl_extractor, 2 ieepa_exclusion_no_rate)
+[2026-10-25 00:06:33] [WARN] Truly unresolved entries (4):
+[2026-10-25 00:06:33] [WARN]   9903.45.01 [section_201]: "If entered in an aggregate quantity, in any quarterly period specified in note 1..."
+[2026-10-25 00:06:33] [WARN]   9903.45.02 [section_201]: "Other..."
+[2026-10-25 00:06:33] [WARN]   9903.45.05 [section_201]: "If entered in an annual aggregate quantity not exceeding the quantity specified ..."
+[2026-10-25 00:06:33] [WARN]   9903.45.06 [section_201]: "Other..."
+
+  By resolution status:
+# A tibble: 7 × 2
+  resolution_status                 n
+  <chr>                         <int>
+1 resolved_by_parser              556
+2 not_duty_relevant_trq            76
+3 handled_by_s232_extractor        23
+4 handled_by_s201_extractor         5
+5 unresolved_s201                   4
+6 handled_by_fentanyl_extractor     2
+7 ieepa_exclusion_no_rate           2
+Calculating rates for revision: 2025_rev_28 (2025-11-13)
+  Dropping 8 Ch99 entries not yet legally active at 2025-11-13 (earliest activation: 2026-01-01)
+  Dropping 17 Ch99 entries suspended or expired per the U.S. notes at 2025-11-13 (17 carried a rate)
+  Section 301 exclusion candidates: 144 hts10 across 2 in-window heading(s) at 2025-11-13 (9903.88.69, 9903.88.70)
+Calculating rates (fast mode)...
+  Product-country combinations: 1
+  Product-Ch99 ref pairs: 1
+  Product-Ch99 pairs with rates: 1
+  Full expansion: 1
+  After country filtering: 0
+  No footnote-linked rates for 2025_rev_28 — blanket authorities will seed rows
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 123
+  Dropping 6 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83, 9903.01.85, 9903.01.87, 9903.02.76
+  Expanding 6 EU entries to 27 member states each...
+  Country-rate pairs extracted: 298
+  Phase 1 (Apr 9, terminated): 88
+  Phase 2 (Aug 7, active): 205
+  Rate types (Phase 2): floor=28, passthrough=109, surcharge=68
+  Source-backed unconditional reciprocal exemptions: 3
+  Country-EO exempt products active at 2025-11-13: 952 (HS8, ch99) pairs across 1 EOs
+  No per-revision floor exemptions for 2025_rev_28; using static fallback
+  Loaded 3817 floor exempt products (1691 unique HTS8)
+  Loaded USMCA H2 average (value-weighted): 20015 product-country pairs (6 months, Jul-Dec 2025); HS8 fallback table: 12924 pairs
+  Loaded MFN exemption shares: 4695 HS2-country pairs
+  Adding 4 product-country pairs for IEEPA-only duties
+Extracting Section 232 blanket rates...
+  Steel 232: 50% (all countries, June 2025 increase)
+  Steel 232 country overrides: 4120 = 25 %
+  Aluminum 232: 50% (all countries, June 2025 increase)
+  Aluminum 232 country overrides: 4120 = 25 %
+  Aluminum derivative 232: 50% (3 Ch99 entries)
+  Steel derivative 232: 50% (4 Ch99 entries)
+  Auto 232: 25% (all countries)
+  Auto deal rates: 9 country-specific entries (4120, 5880, 4330)
+  Softwood 232: 10%
+  Wood furniture/cabinets 232: 25%
+  Wood deal rates: 3 country-specific entries (4120, 5880, 4330)
+  MHD vehicles 232: 25%
+  Copper 232: 50%
+  232 coverage: steel/aluminum + autos + wood + MHD + copper
+  Skipping 232 heading "semiconductors" — Ch99 entries not in this revision
+  Section 232 coverage: 0 steel + 0 aluminum + 0 auto + 0 copper + 0 wood + 0 MHD + 0 semi products
+  Steel: 1 countries, aluminum: 1, auto: 1
+  ch99_src_232: 4 §232 program heading(s) unusable in this revision — wood_furniture[5800]->9903.76.23 (absent_in_revision); wood_furniture[5830]->9903.76.24 (absent_in_revision); kitchen_cabinets[5800]->9903.76.23 (absent_in_revision); kitchen_cabinets[5830]->9903.76.24 (absent_in_revision)
+  Metal content: no derivative products to adjust
+  Section 301: 3 exact products from 2025_rev_28; 0 require product facts
+Extracting Section 122 rates...
+  No Section 122 entries found
+Extracting Section 201 (safeguard) rates...
+  Solar 201 active: 2 Ch99 entries (HTS Rates-of-Duty column shows the FIRST stage: 30 %)
+  Section 201 (solar): 0% on 0 product-country pairs (3 HTS10 covered, Canada exempt)
+  MFN exemption shares: adjusted base_rate for 1 product-country pairs
+  Section 301 forced labor not yet effective (2026-07-24) — not applied
+  Section 301 Brazil not yet effective (2026-07-22) — not applied
+  Section 338 Canada not applicable to this revision (effective 2026-08-22)
+  EO 14289 (proc10962): 0 row(s) had a lower-precedence action suppressed; aggregate rate_232 +0.0000
+  Statutory totals: mean statutory_total_rate NaN vs trade-weighted total_rate 0.0271
+  §201: 7 of 14 safeguard heading(s) dropped — country scope did not parse (fail-closed; duty NOT applied)
+  Section 232 reporting codes: 0 unresolved; rate/chapter/broadest-heading inference is disabled
+  ch99_code_301: 0 rated rows attributed from the recorded source; 0 left NA (100 §301 headings active)
+  [denorm_state] unknown slots present (ok for forward compat): ieepa_evidence, reciprocal_scope_source, fentanyl_evidence, country_eo_exemptions, s232_note16_source, s232_legacy_source, s232_legacy_memberships, s232_note16_matches, s232_note16_projection, s301_source, s301_matches, heading_candidates
+  Loaded 308 fentanyl carve-out product prefixes (3 categories)
+  Metal content: no derivative products to adjust
+  Products-countries: 4
+  With IEEPA reciprocal: 1
+  With Section 232: 0
+  With Section 301: 0
+  With Section 122: 0
+  USMCA eligible: 0
+  Duty ledger: 6 step(s) recorded, 1 wrote duty with NO citation -> output/provenance/duty_steps_2025_rev_28_2025-11-13.csv
+Warning messages:
+1: There was 1 warning in `summarise()`.
+ℹ In argument: `rate = max(rate)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+2: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+3: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+4: §201: no staged schedule available for 2025-11-13 — falling back to the config constant (0%), which goes stale by construction. Run scripts/extract_note_rules.R to regenerate resources/ch99_staged_rates.csv. 
+Tests: 7 passed, 0 failed

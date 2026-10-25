@@ -765,26 +765,14 @@ generate_ieepa_reciprocal_yaml <- function(snapshot, date, policy_params, output
 
   config <- list(headline_rates = headline_rates)
 
-  # Exempt products (Annex A). The list is date-windowed (see
-  # scripts/build_annex_ii_dates.R) — filter to entries active at `date`.
-  exempt_file <- here::here('resources', 'ieepa_exempt_products.csv')
-  if (file.exists(exempt_file)) {
-    exempt <- read_csv(exempt_file, show_col_types = FALSE,
-                        col_types = cols(.default = col_character()))
-    if ('effective_date_start' %in% names(exempt)) {
-      exempt <- exempt %>%
-        filter(is.na(effective_date_start) |
-                 as.Date(effective_date_start) <= date)
-    }
-    if ('effective_date_end' %in% names(exempt)) {
-      exempt <- exempt %>%
-        filter(is.na(effective_date_end) |
-                 as.Date(effective_date_end) >= date)
-    }
-    config$exempt_products <- as.list(exempt$hts10)
-    message(sprintf('  IEEPA exempt products: %d (active at %s)',
-                    length(config$exempt_products), format(date)))
-  }
+  # Use the same original-annex chronology as the calculator. This exporter
+  # is aggregate modeling; its unconditional list cannot establish claim facts.
+  if(!exists('load_reciprocal_scope',mode='function')) source(here::here('src/ieepa_reciprocal_revision.R'))
+  revisions <- unique(snapshot$revision)
+  if(length(revisions)!=1L || is.na(revisions)) stop('Reciprocal ETR export requires one identified source revision')
+  scope <- load_reciprocal_scope(revisions)
+  matched <- reciprocal_scope_decisions(scope,unique(snapshot$hts10),date,daily_model=TRUE)
+  config$exempt_products <- as.list(reciprocal_exempt_projection(matched)$hts10)
 
   if (length(target_total_rules) > 0) {
     config$target_total_rules <- target_total_rules

@@ -197,7 +197,7 @@ source discrepancies and rejects unknown legal condition grammar. The fragment's
 limited revision horizon and absent authority attestation prevent its being
 misrepresented as complete Section 232 chronology or all-action coverage.
 
-The current release contract is **`sail.tariff-release/v6`**. It preserves v5's
+The v6 release contract, now superseded by v7, It preserves v5's
 wide/normalized legal-state grid validation and adds DATE `state_valid_from` and
 `state_valid_until` to every `section232_scope_decisions` partition. Historical
 notes 16/19 and post-April note 16 share one column/type schema, including empty
@@ -253,3 +253,20 @@ Claim relations may explicitly `reevaluate` dependent actions. This records a
 reviewed interaction, rather than a claim leaving liability unchanged. Required
 candidate metadata can restrict the relation to independently verified Commerce
 grants; a claim-name prefix or any arbitrary Section 232 claim is insufficient.
+
+
+The current release contract is **`sail.tariff-release/v7`**. It additionally
+requires `ieepa_reciprocal_scope_decisions` with revision, exact HTS10, original
+scope code/grain, condition and full condition text, reporting code, source ID,
+locator/hash, exact exclusive entry window, termination source ID, and revision
+PDF/HTS hashes. `scope_grain` is INTEGER; the remaining fields are VARCHAR.
+The matching source chronology is pinned in the rule bundle's
+`evidence_dependencies.reciprocal_scope`. The ordinary emitter supplies an
+evidence fragment for composition; this is not a reciprocal coverage attestation.
+
+Preflight reconstructs the complete exact-product inventory from that pin and
+compares every column before loading. Missing rows, extra rows, widened scope,
+changed descriptions, mixed revisions, absent sources and changed dates fail.
+The prepared release stores both the typed table and the bundle pin. The API
+rule/result contract remains v1; dataset/release identifiers continue to control
+cache isolation. Readers reject v6 rather than synthesize missing decisions.

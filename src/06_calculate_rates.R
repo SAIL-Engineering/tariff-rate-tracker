@@ -841,41 +841,21 @@ calculate_rates_for_revision <- function(
             ' (DIAGNOSTIC — produces legally-incorrect output)')
   }
 
-  # Load IEEPA product exemptions. The list is date-windowed: Annex II has
-  # been amended repeatedly (electronics Apr 5 2025, EO 14346 metals Sept 8,
-  # agricultural expansion Nov 13; copper/wood REMOVED when their 232
-  # programs began Aug 1 / Oct 14). effective_date_start/_end columns are
-  # stamped by scripts/build_annex_ii_dates.R from the chapter-99 US-notes
-  # text per revision; blank = always active. Without the filter the static
-  # list applied amendments retroactively (upstream extreme-eta review item
-  # 3: pre-Apr-5-2025 revisions exempted electronics).
-  ieepa_exempt_path <- here('resources', 'ieepa_exempt_products.csv')
-  ieepa_exempt_tbl <- if (file.exists(ieepa_exempt_path)) {
-    read_csv(ieepa_exempt_path, col_types = cols(.default = col_character()))
-  } else {
-    if(has_active_ieepa) stop('Missing IEEPA reciprocal exemption source; refusing blanket taxation')
-    tibble(hts10 = character(0))
-  }
-  n_exempt_before <- nrow(ieepa_exempt_tbl)
-  ieepa_exempt_tbl <- filter_ieepa_exempt_window(ieepa_exempt_tbl, effective_date)
-  if (nrow(ieepa_exempt_tbl) < n_exempt_before) {
-    message('  IEEPA exempt list: ', n_exempt_before - nrow(ieepa_exempt_tbl),
-            ' entries outside their effective window at ', effective_date)
-  }
+  # Universal Annex II scope comes from original legal annexes, reconciled
+  # against this revision's notes. Country-alignment annexes, claims, and
+  # description-limited exemptions are not unconditional product exemptions.
+  reciprocal_scope_source <- NULL
+  reciprocal_scope_matches <- data.frame()
+  ieepa_exempt_tbl <- data.frame(hts10=character(),source=character())
+  if(grepl('^202[56]_',revision_id)) {
+    if(!exists('load_reciprocal_scope',mode='function')) source(here('src','ieepa_reciprocal_revision.R'))
+    reciprocal_scope_source <- load_reciprocal_scope(revision_id)
+    reciprocal_scope_matches <- reciprocal_scope_decisions(reciprocal_scope_source,products$hts10,effective_date,daily_model=TRUE)
+    ieepa_exempt_tbl <- reciprocal_exempt_projection(reciprocal_scope_matches)
+  } else if(has_active_ieepa) stop('Unsupported reciprocal exemption source revision')
   ieepa_exempt_products <- ieepa_exempt_tbl$hts10
-  # Provenance per code (annex_ii / ita / ch98 / berman) → drives the duty
-  # citation reason. Tolerate a pre-migration file lacking the column by
-  # deriving it from the same classifier the regen script uses.
-  ieepa_exempt_source_map <- if ('source' %in% names(ieepa_exempt_tbl)) {
-    setNames(ieepa_exempt_tbl$source, ieepa_exempt_tbl$hts10)
-  } else if (length(ieepa_exempt_products) > 0) {
-    setNames(classify_exempt_source(ieepa_exempt_products), ieepa_exempt_products)
-  } else {
-    setNames(character(0), character(0))
-  }
-  if (length(ieepa_exempt_products) > 0) {
-    message('  IEEPA exempt products loaded: ', length(ieepa_exempt_products))
-  }
+  ieepa_exempt_source_map <- setNames(ieepa_exempt_tbl$source,ieepa_exempt_tbl$hts10)
+  message('  Source-backed unconditional reciprocal exemptions: ',length(ieepa_exempt_products))
 
   # Load country-specific EO product exemptions.
   # Country EOs (Brazil 9903.01.77, India 9903.01.84, etc.) carry their own
@@ -1222,24 +1202,9 @@ calculate_rates_for_revision <- function(
       rates$ch99_src_ieepa_fent[!is.na(ix)] <- carveout_lookup$carveout_ch99[ix[!is.na(ix)]]
     }
 
-    # Apply Ch98 exemption (US Note 2(v)(i)) to fentanyl rate.
-    # Annex II (Note 2(v)(iii)) lists only reciprocal-related ch99 codes
-    # and does NOT extend to fentanyl (9903.01.01-.24); the broader Annex II
-    # list must therefore not be applied to rate_ieepa_fent. But the Ch98
-    # carve-out under (v)(i) IS legally separate and does cover fentanyl.
-    # The 4 Ch98 exceptions (9802.00.40/50/60/80) are already excluded
-    # from ieepa_exempt_products.csv by expand_ieepa_exempt.R Fix 2.
-    ch98_exempt_products <- ieepa_exempt_products[
-      substr(ieepa_exempt_products, 1, 2) == '98']
-    if (length(ch98_exempt_products) > 0) {
-      ch98_mask <- rates$hts10 %in% ch98_exempt_products
-      n_zeroed <- sum(ch98_mask & rates$rate_ieepa_fent > 0)
-      if (n_zeroed > 0) {
-        rates$rate_ieepa_fent[ch98_mask] <- 0
-        message('  Ch98 fentanyl exemption: zeroed rate_ieepa_fent for ',
-                n_zeroed, ' product-country pairs')
-      }
-    }
+    # Chapter 98 entitlement and valuation belong to the source-backed
+    # shipment rules. Annex II product membership cannot establish that claim
+    # or suppress a separate emergency action.
 
     n_with_fent <- sum(rates$rate_ieepa_fent > 0)
     message('  With IEEPA fentanyl: ', n_with_fent)
@@ -3348,6 +3313,14 @@ calculate_rates_for_revision <- function(
     rates <- mark_s232_note16_scope(rates,s232_note16_projection)
   }
   if(!is.null(s232_legacy_memberships)) rates <- mark_s232_legacy_scope(rates,s232_legacy_memberships)
+  # HTS alone cannot establish the November description-limited relief.
+  # Do this after all model/stacking passes so an aggregate zero cannot fill it.
+  if(nrow(reciprocal_scope_matches)) {
+    conditional <- setdiff(reciprocal_scope_matches$hts10[reciprocal_scope_matches$condition!='none'],ieepa_exempt_products)
+    exposed_countries <- if(exists('country_ieepa',inherits=FALSE))
+      country_ieepa$census_code[country_ieepa$ieepa_country_rate>0] else character()
+    rates$statutory_rate_ieepa_recip[rates$hts10 %in% conditional & rates$country %in% exposed_countries] <- NA_real_
+  }
   rates <- compute_statutory_totals(rates, cty_china = CTY_CHINA,
                                     stacking_method = stacking_method,
                                     apply_eo = .eo_applies, threshold = .thr,
@@ -3557,6 +3530,7 @@ calculate_rates_for_revision <- function(
         # the variables captured here without touching the emitter.
         denorm_state <- list(
           ieepa_evidence = denorm_ieepa_evidence,
+          reciprocal_scope_source = reciprocal_scope_source,
           fentanyl_evidence = denorm_fentanyl_evidence,
           country_eo_exemptions = country_eo_exempt,
           s232_note16_source = s232_note16_source,

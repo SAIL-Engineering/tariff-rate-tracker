@@ -165,3 +165,11 @@ value of `calculate_rates_for_revision` instead of a bag of locals.
 - Triage tooling — `scripts/triage_parity_failures.R`
 - Contract validator — `src/denorm_state_contract.R`
 - Edge case catalog — `tests/ir/parity-cases.md`
+
+The reciprocal correction adds `reciprocal_scope_source`: a list containing the
+revision-native scope and original-annex chronology (NULL only for older,
+non-2025/2026 revisions). `calculate_rates_for_revision` computes it once for
+both the unconditional rate projection and normalized emission. The emitter
+requires it for supported revisions, writes the exact-grain decision table and
+evidence pin, and does not reconstruct decisions from aggregate zeros or a
+static exemption CSV. See `docs/normalized-schema.md` for the v7 table contract.

@@ -142,12 +142,12 @@ Section 301 coverage: the implemented note 20 and direct-heading exclusions do n
 complete the other investigations, claims and Chapter 98 interactions. Do not substitute a test bundle. Source hash artifacts
 must exist during composition; serving subsequently uses the stored bundle.
 
-Release manifests now require `sail.tariff-release/v6`, the decision and claim-effect partitions,
+Release manifests now require `sail.tariff-release/v7`, the decision and claim-effect partitions,
 and the new rate fields. Preparation validates their relationships locally and
-does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3/v4/v5
+does not activate anything. The rule/result API contract remains v1. An old v1/v2/v3/v4/v5/v6
 release is not accepted by the new reader: rollback across this boundary requires
 the compatible previous code and release, not only an active-ID change. Within
-v6, retain the previous validated release for the existing atomic rollback path.
+v7, retain the previous validated release for the existing atomic rollback path.
 
 
 The source-backed exclusions and five retroactive amendments are part of this
@@ -429,3 +429,42 @@ coverage remain unfinished; this does not authorize a rebuild, MotherDuck
 write, activation or publication. The existing timeseries commands above remain
 WJR's to run once the remaining logic is ready. See
 [the legal, serving and audit report](audits/2026-10-24-ieepa-executable/README.md).
+
+## Reciprocal Annex II correction (release v7)
+
+The ordinary rebuild now uses original-annex chronology through
+`src/ieepa_reciprocal_sources.py` and `src/ieepa_reciprocal_history.py` for every
+2025/2026 revision. It does not read the legacy universal CSV. The two old
+regeneration scripts deliberately fail with a replacement command; they must
+not reconstruct legal dates from first appearances or widen HTS10 to HTS8.
+The ETR YAML exporter uses the same source-derived unconditional list.
+
+A source-only audit, which does **not** rebuild the timeseries, is:
+
+```sh
+python3 scripts/audit_reciprocal_scope.py --out output/reciprocal-scope-audit-NEW
+```
+
+Every normalized revision now needs `ieepa_reciprocal_scope_decisions.parquet`,
+`ieepa_reciprocal_source.json`, and `ieepa_reciprocal_scope_evidence.json`.
+Include the evidence fragment when composing that revision's rule bundle:
+
+```sh
+Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json COMPOSED_BUNDLE.json \
+  output/normalized/REVISION/ieepa_reciprocal_scope_evidence.json
+```
+
+This fragment pins product-exemption chronology and primary sources; it does
+not supply the remaining reciprocal charge/claim/FTZ rules or grant coverage.
+Release **v7** requires the new decision partition and its matching chronology
+pin in `bundle.evidence_dependencies.reciprocal_scope`. Preparation persists
+the partition and pin with the immutable release and rejects missing/altered
+scope, conditions, dates, sources and revision membership. Use the normal local
+preparation tool only after the full rule bundle has passed legal qualification.
+A v6 release is unsupported by the v7 reader. A later approved rollback across
+this boundary requires matching v6 code and the previous validated release.
+No activation or MotherDuck write has been performed.
+
+The legacy artifact gate now also checks missing revision directories, including
+20 and 21; undiscovered directories can no longer disappear from its count.
+See the [source audit and current limits](audits/2026-10-25-reciprocal-scope/README.md).

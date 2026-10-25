@@ -92,6 +92,17 @@ if (!is.null(revision_filter)) {
   }
 }
 
+# An absent directory cannot disappear from a completeness gate merely because
+# list.dirs() did not discover it. The approved cutoff inventory includes 20/21.
+if(is.null(revision_filter)) {
+  inventory <- 'docs/audits/2026-10-23-motherduck/rebuild-revisions.txt'
+  expected <- strsplit(trimws(paste(readLines(inventory),collapse='')),',',fixed=TRUE)[[1]]
+  for(rev in setdiff(expected,basename(revision_dirs))) {
+    log_fail(paste0(rev,'/ missing configured normalized revision'))
+    fail_count <- fail_count+1L
+  }
+}
+
 REQUIRED_LAYERS <- c(
   'products_base.parquet',
   'authority_country_rates.parquet',
@@ -103,10 +114,10 @@ for (rd in revision_dirs) {
   rev_id <- basename(rd)
   layers <- REQUIRED_LAYERS
   if(grepl('^202[56]_',rev_id)) {
-    layers <- c(layers,'section301_scope_decisions.parquet','section232_scope_decisions.parquet', 'ieepa_action_decisions.parquet','claim_effects.parquet')
-    for(file in c('section301_source.json','section301_rules.json')) {
+    layers <- c(layers,'section301_scope_decisions.parquet','section232_scope_decisions.parquet', 'ieepa_action_decisions.parquet','claim_effects.parquet','ieepa_reciprocal_scope_decisions.parquet')
+    for(file in c('section301_source.json','section301_rules.json','ieepa_reciprocal_source.json','ieepa_reciprocal_scope_evidence.json')) {
       if(!file.exists(file.path(rd,file))) {
-        log_fail(paste0(rev_id,'/',file,' missing; corrected Section 301 rebuild required'))
+        log_fail(paste0(rev_id,'/',file,' missing; corrected source-backed rebuild required'))
         fail_count <- fail_count+1L
       }
     }

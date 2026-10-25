@@ -23,6 +23,7 @@ const TABLES = {
   claim_effects: ['revision', 'claim_id', 'rule_id', 'authority', 'effect', 'target_reporting_code', 'hts10', 'country', 'valid_from', 'valid_until', 'source_ids_json', 'condition_json', 'source_locator', 'source_scope_sha256'],
   section301_scope_decisions: ['revision', 'authority', 'program', 'country_scope', 'hts10', 'ch99_code', 'rate', 'condition_text', 'source_locator', 'source_text_sha256', 'pdf_sha256', 'hts_sha256', 'valid_from', 'valid_until'],
   ieepa_action_decisions: ['revision','authority','country','ch99_code','rate','rate_type','phase','terminated','decision','source_description','duty_expression','source_heading_sha256','hts_sha256','amendment_source_id','amendment_source_sha256','amendment_effective_from','pdf_sha256','source_note_locator','source_note_sha256','source_note','entry_valid_from','entry_valid_until','state_valid_from','state_valid_until'],
+  ieepa_reciprocal_scope_decisions: ['revision','hts10','scope_code','scope_grain','condition','condition_text','reporting_code','source_id','source_locator','source_scope_sha256','valid_from','valid_until','termination_source_id','pdf_sha256','hts_sha256'],
   section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256','state_valid_from','state_valid_until'],
 };
 
@@ -100,6 +101,7 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
       if (TABLES[table].some(k => !have.has(k))) throw new Error(`Missing required ${table} fields`);
       if (table === 'claim_effects' && TABLES[table].some(k => have.get(k) !== 'VARCHAR'))
         throw new Error('Invalid claim_effects field types');
+      if(table==='ieepa_reciprocal_scope_decisions' && TABLES[table].some(k=>have.get(k)!==(k==='scope_grain'?'INTEGER':'VARCHAR'))) throw new Error('Invalid reciprocal scope field types');
       if(table==='ieepa_action_decisions' && TABLES[table].some(k=>have.get(k)!==
         (k==='rate'?'DOUBLE':k==='terminated'?'BOOLEAN':k.startsWith('state_valid_')?'DATE':'VARCHAR'))) throw new Error('Invalid IEEPA action field types');
       if(['rates','products_base','authority_country_rates','authority_product_applicability','authority_exemptions'].includes(table)
@@ -153,6 +155,45 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
         OR (reciprocal_parameter>0 AND NOT regexp_full_match(coalesce(reciprocal_ch99,''),'9903[.](01|02)[.][0-9]{2}'))
         OR (country_eo_parameter>0 AND NOT regexp_full_match(coalesce(country_eo_ch99,''),'9903[.]01[.][0-9]{2}')))`)).getRowObjects()[0].n;
     if(Number(invalidParameters)) throw new Error('Incomplete IEEPA action parameters');
+    const reciprocal = `read_parquet([${revision.files.ieepa_reciprocal_scope_decisions.map(literal).join(',')}], hive_partitioning=false)`;
+    const sourceIds = revision.bundle.sources.filter(s=>s.status==='verified').map(s=>s.id);
+    const sourceSet = sourceIds.length ? sourceIds.map(literal).join(',') : "''";
+    const invalidReciprocal = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${reciprocal} d WHERE
+      NOT regexp_full_match(coalesce(d.hts10,''),'[0-9]{10}')
+      OR d.scope_grain NOT IN (4,6,8,10) OR d.scope_grain IS NULL
+      OR length(coalesce(d.scope_code,''))<>d.scope_grain OR NOT regexp_full_match(coalesce(d.scope_code,''),'[0-9]+')
+      OR NOT starts_with(d.hts10,d.scope_code)
+      OR coalesce(d.condition,'') NOT IN ('none','article_description')
+      OR (d.condition='article_description' AND coalesce(d.condition_text,'')='')
+      OR (d.condition='none' AND d.reporting_code IS DISTINCT FROM '9903.01.32')
+      OR (d.condition='article_description' AND d.reporting_code IS DISTINCT FROM '9903.02.78')
+      OR coalesce(d.source_id,'') NOT IN (${sourceSet}) OR coalesce(d.termination_source_id,'') NOT IN (${sourceSet})
+      OR coalesce(d.source_locator,'')='' OR NOT regexp_full_match(coalesce(d.source_scope_sha256,''),'[a-f0-9]{64}')
+      OR NOT regexp_full_match(coalesce(d.pdf_sha256,''),'[a-f0-9]{64}') OR NOT regexp_full_match(coalesce(d.hts_sha256,''),'[a-f0-9]{64}')
+      OR TRY_CAST(d.valid_from AS TIMESTAMPTZ) IS NULL OR TRY_CAST(d.valid_until AS TIMESTAMPTZ) IS NULL
+      OR TRY_CAST(d.valid_from AS TIMESTAMPTZ)>=TRY_CAST(d.valid_until AS TIMESTAMPTZ)
+      OR NOT EXISTS(SELECT 1 FROM ${products} p WHERE p.hts10=d.hts10)`)).getRowObjects()[0].n;
+    if(Number(invalidReciprocal)) throw new Error('Invalid or unsubstantiated reciprocal product scope');
+    const scopePin=revision.bundle.evidence_dependencies?.reciprocal_scope;
+    if(scopePin?.contract_version!=='sail.ieepa-reciprocal-history/v1' || scopePin.revision!==revision.revision || !Array.isArray(scopePin.products))
+      throw new Error('Missing reciprocal source chronology pin');
+    const expectedReciprocal=[];
+    const scopesByPrefix=new Map();
+    for(const scope of scopePin.products) {
+      if(!scopesByPrefix.has(scope.scope_code)) scopesByPrefix.set(scope.scope_code,[]);
+      scopesByPrefix.get(scope.scope_code).push(scope);
+    }
+    for(const hts10 of revision.bundle.products) for(const grain of [4,6,8,10]) for(const scope of scopesByPrefix.get(hts10.slice(0,grain))??[]) {
+      expectedReciprocal.push({...scope,hts10,revision:revision.revision,pdf_sha256:scopePin.pdf_sha256,hts_sha256:scopePin.hts_sha256});
+    }
+    const actualReciprocal=(await conn.runAndReadAll(`SELECT * FROM ${reciprocal}`)).getRowObjects();
+    const signatureReciprocal=r=>JSON.stringify(TABLES.ieepa_reciprocal_scope_decisions.map(k=>r[k]??null));
+    const expectedKeys=expectedReciprocal.map(signatureReciprocal).sort();
+    if(JSON.stringify(expectedKeys)!==JSON.stringify(actualReciprocal.map(signatureReciprocal).sort()))
+      throw new Error('Reciprocal scope/source chronology inventory mismatch');
+    const duplicateReciprocal = (await conn.runAndReadAll(`SELECT count(*) AS n FROM
+      (SELECT hts10,scope_code,condition,valid_from,count(*) n FROM ${reciprocal} GROUP BY ALL HAVING count(*)>1)`)).getRowObjects()[0].n;
+    if(Number(duplicateReciprocal)) throw new Error('Duplicate reciprocal scope decision');
     const ieepa = `read_parquet([${revision.files.ieepa_action_decisions.map(literal).join(',')}], hive_partitioning=false)`;
     const invalidIEEPA = (await conn.runAndReadAll(`SELECT count(*) AS n FROM ${ieepa} d WHERE
       coalesce(d.authority,'') NOT IN ('ieepa_reciprocal','ieepa_fentanyl') OR coalesce(d.country,'')=''

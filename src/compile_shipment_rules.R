@@ -76,6 +76,14 @@ compose_shipment_rules <- function(bundle, fragments) {
     for(k in c('when','suppressed_when','formula','input_constraints')) if(!is.null(r[[k]])) r[[k]]<-bind_reporting(r[[k]],r$scope)
     r
   })
+  for(fragment in fragments) if(!is.null(fragment$reciprocal_scope)) {
+    scope <- fragment$reciprocal_scope
+    if(!identical(scope$contract_version,'sail.ieepa-reciprocal-history/v1') || !identical(scope$revision,bundle$revision))
+      stop('Reciprocal scope/revision mismatch')
+    old <- bundle$evidence_dependencies$reciprocal_scope
+    if(!is.null(old) && !identical(.shipment_canonical(old),.shipment_canonical(scope))) stop('Conflicting reciprocal scope evidence')
+    bundle$evidence_dependencies$reciprocal_scope <- scope
+  }
   claims <- list()
   for (claim in c(bundle$claim_definitions,unlist(lapply(fragments,`[[`,'claim_definitions'),recursive=FALSE))) {
     if (is.null(claim$id) || !nzchar(claim$id) || !length(claim$source_ids) || !length(claim$rule_ids))

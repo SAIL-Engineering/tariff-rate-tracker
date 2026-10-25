@@ -41,7 +41,6 @@ OPTIONAL_CONFIGS <- c(
 REQUIRED_RESOURCES <- c(
   'resources/census_codes.csv',
   'resources/country_partner_mapping.csv',
-  'resources/ieepa_exempt_products.csv',
   'resources/floor_exempt_products.csv',
   'resources/s301_product_lists.csv',
   'resources/s232_derivative_products.csv',

@@ -1,0 +1,7 @@
+{
+  "id": "WH-2025-04-11-reciprocal-electronics",
+  "url": "https://www.whitehouse.gov/presidential-actions/2025/04/clarification-of-exceptions-under-executive-order-14257-of-april-2-2025-as-amended/",
+  "citation": "April 11 presidential memorandum; listed headings and retroactive April 5 commencement",
+  "sha256": "1b3761ded1da7b136c6374de8f16b79bcce771b268be0a91d58053f2aeabb7aa",
+  "extraction": "gstack browse text, presidential action only"
+}

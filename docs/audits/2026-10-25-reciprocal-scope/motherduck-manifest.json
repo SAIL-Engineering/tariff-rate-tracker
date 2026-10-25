@@ -1,0 +1,34 @@
+{
+  "contract_version": "sail.shipment-data-audit/v1",
+  "database": "duty_calculator",
+  "started_at": "2026-10-25T03:58:53.037Z",
+  "finished_at": "2026-10-25T04:00:48.815Z",
+  "access_mode": "READ_ONLY",
+  "from": "2025-01-01",
+  "through": "2026-10-22",
+  "sweep": false,
+  "source_case_sha256": "1d0b1ccfa31fd2d052bcc6d2f2e8879a3250122f9edf8aec50b9a5941d1e8161",
+  "legal_stack_status": "not_certified",
+  "artifacts": [
+    {
+      "path": "schema.json",
+      "sha256": "4a95963508cfc27a76bc817605e9c60488cab6551332c8e1d49e45b20fec12ce"
+    },
+    {
+      "path": "revisions.json",
+      "sha256": "282c5f23211dcaf7501d5c878a048c59160a23aab04ad652d869bcfdc2f477e1"
+    },
+    {
+      "path": "cases.json",
+      "sha256": "98a9fd1e145afc59cd1cbec826f73277a9c6330a062039fcbb10efddf53f4ea9"
+    },
+    {
+      "path": "findings.json",
+      "sha256": "5b04de7625ef28ff5b3def59a260e73fe373372c376d8806166926785c7ab184"
+    },
+    {
+      "path": "case-specification.json",
+      "sha256": "1d0b1ccfa31fd2d052bcc6d2f2e8879a3250122f9edf8aec50b9a5941d1e8161"
+    }
+  ]
+}

@@ -1009,7 +1009,7 @@ emit_authority_exemptions <- function(ieepa_exempt_products, floor_exempt_produc
       exemption_type  = 'annex_a',
       exemption_share = 1.0,
       rate_override   = NA_real_,
-      source          = 'ieepa_exempt_products.csv',
+      source          = 'ieepa_reciprocal_scope_decisions.parquet',
       valid_from      = vf,
       valid_until     = vu
     )
@@ -1268,6 +1268,16 @@ emit_normalized_revision <- function(
 
   source(if(requireNamespace('here',quietly=TRUE)) here::here('src/ieepa_actions.R') else 'src/ieepa_actions.R')
   if(!exists('emergency_action_decisions',mode='function')) source(here::here('src/ieepa_fentanyl.R'))
+  if(!exists('reciprocal_scope_decisions',mode='function')) source(here::here('src/ieepa_reciprocal_revision.R'))
+  reciprocal <- denorm_state$reciprocal_scope_source
+  if(is.null(reciprocal) && grepl('^202[56]_',revision_id))
+    stop('Missing original-annex reciprocal scope in normalized state')
+  decisions <- reciprocal_scope_decisions(reciprocal,products$hts10)
+  .write_parquet_safe(decisions,file.path(output_dir,revision_id,'ieepa_reciprocal_scope_decisions.parquet'))
+  if(!is.null(reciprocal)) {
+    jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)
+    jsonlite::write_json(reciprocal_scope_fragment(reciprocal),file.path(output_dir,revision_id,'ieepa_reciprocal_scope_evidence.json'),auto_unbox=TRUE,null='null',digits=NA)
+  }
   ieepa_evidence <- denorm_state$ieepa_evidence
   decisions <- dplyr::bind_rows(
     ieepa_action_decisions(ieepa_evidence,denorm_state$country_ieepa,revision_id),

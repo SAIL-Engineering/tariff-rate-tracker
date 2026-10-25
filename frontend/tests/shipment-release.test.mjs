@@ -32,6 +32,7 @@ async function withDatabase(fn) {
 async function manifestFixture(conn, root, version = 'test-v1') {
   const bundle = structuredClone(fixtures[0].bundle);
   bundle.dataset_version = version; bundle.evidence_snapshot_id = '0'.repeat(64);
+  bundle.evidence_dependencies={...bundle.evidence_dependencies,reciprocal_scope:{contract_version:'sail.ieepa-reciprocal-history/v1',revision:'test',products:[]}};
   const revision = { revision: 'test' };
   const statements = {
     rates: "SELECT '1234567890'::VARCHAR hts10, 'TEST'::VARCHAR country, 'test'::VARCHAR revision, 0.05::DOUBLE statutory_base_rate, 0.25::DOUBLE statutory_rate_232, 0::DOUBLE rate_301, 0::DOUBLE statutory_rate_301, 0::DOUBLE rate_s301_maritime, 0::DOUBLE statutory_rate_s301_maritime",
@@ -40,6 +41,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
     authority_product_applicability: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'action-a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, NULL::VARCHAR hts_prefix",
     authority_product_candidates: "SELECT 'test'::VARCHAR revision, 'synthetic'::VARCHAR authority, 'a'::VARCHAR AS \"program\", '1234567890'::VARCHAR hts10, '1234567890'::VARCHAR scope_code, 'exact_hts10'::VARCHAR scope_grain, 'fixture'::VARCHAR source_path, repeat('0',64)::VARCHAR source_sha256, 'candidate_requires_legal_predicates'::VARCHAR status",
     ieepa_action_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR country,''::VARCHAR ch99_code,0::DOUBLE rate,''::VARCHAR rate_type,''::VARCHAR phase,FALSE::BOOLEAN terminated,''::VARCHAR decision,''::VARCHAR source_description,''::VARCHAR duty_expression,''::VARCHAR source_heading_sha256,''::VARCHAR hts_sha256,NULL::VARCHAR amendment_source_id,NULL::VARCHAR amendment_source_sha256,NULL::VARCHAR amendment_effective_from,NULL::VARCHAR pdf_sha256,NULL::VARCHAR source_note_locator,NULL::VARCHAR source_note_sha256,NULL::VARCHAR source_note,NULL::VARCHAR entry_valid_from,NULL::VARCHAR entry_valid_until,NULL::DATE state_valid_from,NULL::DATE state_valid_until WHERE FALSE",
+    ieepa_reciprocal_scope_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR hts10,''::VARCHAR scope_code,0::INTEGER scope_grain,''::VARCHAR condition,''::VARCHAR condition_text,''::VARCHAR reporting_code,''::VARCHAR source_id,''::VARCHAR source_locator,''::VARCHAR source_scope_sha256,''::VARCHAR valid_from,''::VARCHAR valid_until,''::VARCHAR termination_source_id,''::VARCHAR pdf_sha256,''::VARCHAR hts_sha256 WHERE FALSE",
     section232_scope_decisions: "SELECT ''::VARCHAR revision,''::VARCHAR authority,''::VARCHAR hts10,''::VARCHAR scope_code,0::INTEGER scope_grain,''::VARCHAR list_id,''::VARCHAR metal,FALSE::BOOLEAN derivative,''::VARCHAR source_locator,''::VARCHAR source_text_sha256,''::VARCHAR pdf_sha256,''::VARCHAR hts_sha256,NULL::DATE state_valid_from,NULL::DATE state_valid_until WHERE FALSE",
     section301_scope_decisions: "SELECT 'test'::VARCHAR revision, 'section_301'::VARCHAR authority, 'china_technology_transfer'::VARCHAR AS \"program\", '5700'::VARCHAR country_scope, '1234567890'::VARCHAR hts10, '9903.88.01'::VARCHAR ch99_code, 0.25::DOUBLE rate, NULL::VARCHAR condition_text, 'fixture'::VARCHAR source_locator, repeat('0',64)::VARCHAR source_text_sha256, repeat('0',64)::VARCHAR pdf_sha256, repeat('0',64)::VARCHAR hts_sha256, NULL::VARCHAR valid_from, NULL::VARCHAR valid_until WHERE FALSE",
     claim_effects: "SELECT ''::VARCHAR revision,''::VARCHAR claim_id,''::VARCHAR rule_id,''::VARCHAR authority,''::VARCHAR effect,''::VARCHAR target_reporting_code,''::VARCHAR hts10,''::VARCHAR country,''::VARCHAR valid_from,''::VARCHAR valid_until,''::VARCHAR source_ids_json,''::VARCHAR condition_json,''::VARCHAR source_locator,''::VARCHAR source_scope_sha256 WHERE FALSE",
@@ -56,7 +58,7 @@ async function manifestFixture(conn, root, version = 'test-v1') {
   const rules = `${version}-rules.json`;
   await fs.writeFile(path.join(root, rules), JSON.stringify(bundle));
   revision.rules = await hashFile(rules);
-  const manifest = { contract_version: 'sail.tariff-release/v6', dataset_version: version,
+  const manifest = { contract_version: 'sail.tariff-release/v7', dataset_version: version,
     evidence_snapshot_id: bundle.evidence_snapshot_id, required_revisions: ['test'], revisions: [revision] };
   const file = path.join(root, `${version}-manifest.json`);
   await fs.writeFile(file, JSON.stringify(manifest));
@@ -95,12 +97,12 @@ test('local Parquet release prepares atomically, validates target and preserves 
 
 test('release v6 rejects old manifests and missing Section 301 evidence', () => withDatabase(async (conn, root) => {
   const {file,manifest}=await manifestFixture(conn,root);
-  for(const version of ['v1','v5']) {
+  for(const version of ['v1','v5','v6']) {
     manifest.contract_version=`sail.tariff-release/${version}`;
     await fs.writeFile(file,JSON.stringify(manifest));
     await assert.rejects(readReleaseManifest(file),/Unsupported release/);
   }
-  manifest.contract_version='sail.tariff-release/v6';
+  manifest.contract_version='sail.tariff-release/v7';
   delete manifest.revisions[0].section301_scope_decisions;
   await fs.writeFile(file,JSON.stringify(manifest));
   await assert.rejects(readReleaseManifest(file),/Missing section301_scope_decisions/);
@@ -485,4 +487,39 @@ test('Chapter 98 valuation preflight preserves formulas and cross-origin NULL sc
  for(const change of [{country:'5700'},{effect:'suppress'},{source_scope_sha256:'b'.repeat(64)}])
   await assert.rejects(preflightRelease(conn,await rewrite(change),catalog),/Claim effect\/bundle/);
  assert.equal(await activeShipmentRelease(conn),null);
+}));
+
+test('release v7 preserves reciprocal scope chronology and rejects widening, lost conditions and missing evidence',()=>withDatabase(async(conn,root)=>{
+  const {file,manifest,bundle}=await manifestFixture(conn,root);
+  const catalog=(await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
+  const table='ieepa_reciprocal_scope_decisions',artifact=manifest.revisions[0][table];
+  delete manifest.revisions[0][table];await fs.writeFile(file,JSON.stringify(manifest));
+  await assert.rejects(readReleaseManifest(file),/Missing ieepa_reciprocal_scope_decisions/);
+  manifest.revisions[0][table]=artifact;
+  const source=bundle.sources.find(s=>s.status==='verified').id;
+  const row={revision:'test',hts10:'1234567890',scope_code:'1234567890',scope_grain:10,condition:'article_description',
+    condition_text:'Synthetic qualifying product condition',reporting_code:'9903.02.78',source_id:source,
+    source_locator:'Synthetic scope, not legal evidence',source_scope_sha256:'0'.repeat(64),
+    valid_from:'2026-01-01T00:01:00-05:00',valid_until:'2026-02-24T00:00:00-05:00',
+    termination_source_id:source,pdf_sha256:'0'.repeat(64),hts_sha256:'0'.repeat(64)};
+  bundle.evidence_dependencies.reciprocal_scope={contract_version:'sail.ieepa-reciprocal-history/v1',revision:'test',pdf_sha256:row.pdf_sha256,hts_sha256:row.hts_sha256,products:[row]};
+  const rulesFile=path.join(root,manifest.revisions[0].rules.path);
+  await fs.writeFile(rulesFile,JSON.stringify(bundle));
+  manifest.revisions[0].rules.sha256=crypto.createHash('sha256').update(await fs.readFile(rulesFile)).digest('hex');
+  const json=path.join(root,'reciprocal.json'),parquet=path.join(root,'reciprocal.parquet');
+  const rewrite=async rows=>{
+    await fs.writeFile(json,JSON.stringify(rows));await fs.rm(parquet,{force:true});
+    const columns=Object.fromEntries(Object.keys(row).map(k=>[k,k==='scope_grain'?'INTEGER':'VARCHAR']));
+    await conn.run(`COPY (SELECT * FROM read_json('${json}', columns=${JSON.stringify(columns)})) TO '${parquet}' (FORMAT PARQUET)`);
+    artifact[0]={path:path.basename(parquet),sha256:crypto.createHash('sha256').update(await fs.readFile(parquet)).digest('hex')};
+    await fs.writeFile(file,JSON.stringify(manifest));return readReleaseManifest(file);
+  };
+  await preflightRelease(conn,await rewrite([row]),catalog);
+  for(const change of [{scope_code:'12345678',scope_grain:8},{condition_text:'Altered condition'},
+    {condition:'none',condition_text:'',reporting_code:'9903.01.32'},
+    {valid_from:'2026-01-02T00:01:00-05:00'},{source_id:'unverified'},{valid_until:row.valid_from}])
+    await assert.rejects(preflightRelease(conn,await rewrite([{...row,...change}]),catalog),/reciprocal|Reciprocal/);
+  await assert.rejects(preflightRelease(conn,await rewrite([]),catalog),/Reciprocal scope\/source chronology inventory/);
+  await assert.rejects(preflightRelease(conn,await rewrite([row,row]),catalog),/Reciprocal scope\/source chronology inventory|Duplicate/);
+  assert.equal(await activeShipmentRelease(conn),null);
 }));

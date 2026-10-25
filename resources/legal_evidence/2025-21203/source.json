@@ -1,0 +1,7 @@
+{
+  "id": "FR-2025-21203",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-11-25/html/2025-21203.htm",
+  "citation": "EO 14360 Annex I unconditional and description-limited agricultural exemptions",
+  "sha256": "aae32ab91f857c98173ee8d11353c4d40f5264da6757cda0aa83e2cd62529e01",
+  "extraction": "gstack browse text of official GovInfo HTML"
+}

@@ -165,6 +165,8 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
   if(grepl('^202[56]_',revision_id)) {
     if(!exists('load_s301_revision_source',mode='function')) source(here::here('src/section301_revision.R'))
     source_events$section301 <- load_s301_revision_source(revision_id,download=FALSE)
+    if(!exists('load_reciprocal_scope',mode='function')) source(here::here('src/ieepa_reciprocal_revision.R'))
+    source_events$reciprocal_scope <- load_reciprocal_scope(revision_id)$history
     if(!exists('load_s232_legacy_source',mode='function')) source(here::here('src/section232_legacy.R'))
     source_events$section232_legacy <- load_s232_legacy_source(revision_id)
   }
