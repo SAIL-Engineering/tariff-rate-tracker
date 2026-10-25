@@ -1237,6 +1237,13 @@ emit_normalized_revision <- function(
 ) {
   output_dir <- output_dir %||% .default_normalized_dir()
   .ensure_dir(file.path(output_dir, revision_id))
+  inventory_fragments <- character()
+  write_rule_fragment <- function(fragment,filename) {
+    path <- file.path(output_dir,revision_id,filename)
+    jsonlite::write_json(fragment,path,auto_unbox=TRUE,null='null',digits=NA)
+    inventory_fragments <<- c(inventory_fragments,path)
+    invisible(path)
+  }
 
   emit_products_base(products, revision_id, effective_date,
                      valid_from = valid_from, valid_until = valid_until,
@@ -1277,8 +1284,8 @@ emit_normalized_revision <- function(
   if(!is.null(reciprocal)) {
     jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)
     jsonlite::write_json(reciprocal_scope_fragment(reciprocal),file.path(output_dir,revision_id,'ieepa_reciprocal_scope_evidence.json'),auto_unbox=TRUE,null='null',digits=NA)
-    jsonlite::write_json(compile_reciprocal_initial_fragment(reciprocal,products$hts10),
-      file.path(output_dir,revision_id,'ieepa_reciprocal_initial_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
+    write_rule_fragment(compile_reciprocal_initial_fragment(reciprocal,products$hts10),
+      'ieepa_reciprocal_initial_rules.json')
   }
   ieepa_evidence <- denorm_state$ieepa_evidence
   decisions <- dplyr::bind_rows(
@@ -1295,21 +1302,19 @@ emit_normalized_revision <- function(
     file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
   emergency_source <- attr(denorm_state$fentanyl_evidence,'emergency_source')
-  if(!is.null(emergency_source)) jsonlite::write_json(
+  if(!is.null(emergency_source)) write_rule_fragment(
     compile_ieepa_emergency_fragment(emergency_source,products$hts10),
-    file.path(output_dir,revision_id,'ieepa_emergency_rules.json'),
-    auto_unbox=TRUE,null='null',digits=NA)
+    'ieepa_emergency_rules.json')
 
   if(!is.null(denorm_state$s122$source)) {
     jsonlite::write_json(
     denorm_state$s122$source,file.path(output_dir,revision_id,'section122_source.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
-    jsonlite::write_json(compile_s122_fragment(denorm_state$s122$source,products$hts10),
-      file.path(output_dir,revision_id,'section122_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
+    write_rule_fragment(compile_s122_fragment(denorm_state$s122$source,products$hts10),'section122_rules.json')
   }
 
   source(here::here('src/section338_revision.R'))
-  emit_s338_rules(revision_id,products$hts10,output_dir)
+  inventory_fragments <- c(inventory_fragments,emit_s338_rules(revision_id,products$hts10,output_dir))
 
   candidates <- denorm_state$heading_candidates %||% list()
   source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')
@@ -1329,8 +1334,7 @@ emit_normalized_revision <- function(
     jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_legacy_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
     fragment232 <- compile_s232_legacy_fragment(evidence,products$hts10)
-    jsonlite::write_json(fragment232,file.path(output_dir,revision_id,'section232_legacy_rules.json'),
-      auto_unbox=TRUE,null='null',digits=NA)
+    write_rule_fragment(fragment232,'section232_legacy_rules.json')
   }
   if (!is.null(denorm_state$s232_note16_source)) {
     evidence <- denorm_state$s232_note16_source
@@ -1345,8 +1349,7 @@ emit_normalized_revision <- function(
     jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
     fragment232 <- compile_s232_note16_fragment(evidence,products$hts10)
-    jsonlite::write_json(fragment232,file.path(output_dir,revision_id,'section232_note16_rules.json'),
-      auto_unbox=TRUE,null='null',digits=NA)
+    write_rule_fragment(fragment232,'section232_note16_rules.json')
   }
   # One stable Parquet schema across historical, revised and empty regimes.
   # Additional historical predicates/headings stay in the source/rule objects.
@@ -1367,9 +1370,12 @@ emit_normalized_revision <- function(
     fragment <- compile_s301_revision_fragment(denorm_state$s301_source,products$hts10)
     .write_parquet_safe(s301_claim_effects_table(fragment,revision_id),
       file.path(output_dir,revision_id,'claim_effects.parquet'))
-    jsonlite::write_json(fragment,
-      file.path(output_dir,revision_id,'section301_rules.json'),
-      auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    write_rule_fragment(fragment,'section301_rules.json')
+  }
+
+  if(grepl('^202[56]_',revision_id)) {
+    source(here::here('src/chapter99_inventory.R'))
+    emit_chapter99_inventory(revision_id,file.path(output_dir,revision_id),inventory_fragments)
   }
 
   # product_metal_content is revision-independent but this is the only path

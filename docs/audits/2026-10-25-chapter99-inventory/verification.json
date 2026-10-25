@@ -1,0 +1,13 @@
+{
+  "tracker_base": "c0320c90bb8d5e69f4dba16946dfaf83a5ff523c",
+  "branch": "wjr_dev",
+  "full_python_suite": {"command": "/usr/bin/python3 -m pytest -q tests/python", "exit_code": 0, "passed": 385},
+  "inventory_python_suite": {"cases": 11, "red_green_verified": true},
+  "typed_parquet_test": {"command": "Rscript tests/test_chapter99_inventory.R", "exit_code": 0},
+  "bounded_normal_emitter_test": {"command": "Rscript tests/test_reciprocal_pipeline.R", "exit_code": 0, "reported_assertions": 13},
+  "source_only_census": {"revisions": 55, "native_revision_provision_records": 182851, "including_references": 183933, "coverage_granted": false},
+  "full_legal_coverage": false,
+  "full_timeseries_build": false,
+  "production_writes": false,
+  "release_preparation_or_activation": false
+}

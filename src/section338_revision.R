@@ -22,6 +22,7 @@ emit_s338_rules <- function(revision,products,output_dir) {
     auto_unbox=TRUE,null='null',digits=NA)
   jsonlite::write_json(compile_s338_fragment(revision,products),
     file.path(output_dir,revision,'section338_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
+  invisible(file.path(output_dir,revision,'section338_rules.json'))
 }
 
 s338_normalized_applicability <- function(revision,effective_date,valid_from,valid_until) {

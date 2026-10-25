@@ -1,0 +1,1766 @@
+{
+  "contract_version": "sail.chapter99-inventory-audit/v1",
+  "kind": "source-only census; no rates build or legal completeness attestation",
+  "revisions": [
+    {
+      "revision": "2025_basic",
+      "counts": {
+        "native_provisions": 3372,
+        "referenced_provisions": 3381,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3381
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_basic-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_basic.pdf",
+          "sha256": "ee46a05fd679f0b2758d8a110dad62acb66262886a1087d37379ce105fcd618b",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSBasic&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_basic-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_basic.json",
+          "sha256": "fe9de40662e7ab4d263f3dfb2d9090f8f78892bf881ce521628bbb5440829d01",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSBasic&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "f15ea95e002fa4d01d940571c005c70d284c65594ca360e951ace1500bb78541",
+      "file": "2025_basic.json.gz",
+      "compressed_sha256": "268dea0780bc48d6fbd3ae6f2949d17472f3fbd62e0cdbed33aa9c69acf214ec",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_1",
+      "counts": {
+        "native_provisions": 3376,
+        "referenced_provisions": 3385,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3385
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_1-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_1.pdf",
+          "sha256": "aeac15b98ce09c94e2388c2a8fff33693acaf67c0c7997a2f5fa1b8110555c13",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev1&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_1-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_1.json",
+          "sha256": "c1fcdf003066f6e0471ae82068cee3289ff26bc74c75ee00c75fcf1ba06c159f",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev1&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "b205ef53bb96d0bb7e1af9e2f025d743d9268b5defe81918088bc5cfb030900b",
+      "file": "2025_rev_1.json.gz",
+      "compressed_sha256": "92f54f84f29bd62a6d82dad31d5423c6bccdadb74f7c4cc4dd949db8fc6fcb11",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_2",
+      "counts": {
+        "native_provisions": 3376,
+        "referenced_provisions": 3385,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3385
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_2-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_2.pdf",
+          "sha256": "2d05a923e33329322bdf84fad315d1ec935f991d7ef56a0176e18d4186825e5a",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev2&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_2-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_2.json",
+          "sha256": "a25ac13d6442f3c4bf075440cb26f4cfdeaa6be655e9e923a2ac7a01064a12fc",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev2&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "57000414658ea85cae31a5381b64ee9e3af0a7f33339ed067703a47a15218657",
+      "file": "2025_rev_2.json.gz",
+      "compressed_sha256": "ac9c5fb473c2b60eb66d5360991605f5f18eb9f2fb263b0a6263f8be1c70c8bb",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_3",
+      "counts": {
+        "native_provisions": 3384,
+        "referenced_provisions": 3394,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3394
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_3-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_3.pdf",
+          "sha256": "cb188f75fd8f12f76a7a1efab2a19bb04e8eddb0d011e247686bb58029a0b302",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev3&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_3-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_3.json",
+          "sha256": "6177777ed76cf40b2c00b2835f74e8f9486ecae4851e50ca98128848c959c108",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev3&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "7391f04674ab04947238dd2606795756aff9a802e02904b7788e44735f45d7fb",
+      "file": "2025_rev_3.json.gz",
+      "compressed_sha256": "b7450fe729d66a4e611749be09b372bf6e4baa26ec9f53a9d92dedadde3e2c20",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_4",
+      "counts": {
+        "native_provisions": 3400,
+        "referenced_provisions": 3409,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3409
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_4-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_4.pdf",
+          "sha256": "ad2db5f58b0acc29f21939b31bd8a5c037f30cb3ea4ae28d438cad790ef1da19",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev4&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_4-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_4.json",
+          "sha256": "e164aeccdc9cb948b6f351f3d05997024e45b26a834ad53d72ec8bf880c3a772",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev4&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "68a5156c8e1f153df0fd3c88d93ab49dcb99a0fc6cb6dd876482568990d5288e",
+      "file": "2025_rev_4.json.gz",
+      "compressed_sha256": "f839d75a11f35372daf83482a7d9e1307a5028ea020b5f512099a890e3ce04af",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_5",
+      "counts": {
+        "native_provisions": 3400,
+        "referenced_provisions": 3409,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3409
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_5-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_5.pdf",
+          "sha256": "6135096c205abec026c66dfcb20d4e5acb0f54bdf98a71e037faf318c3eb534b",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev5&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_5-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_5.json",
+          "sha256": "ca15d92fddaeb48e32547f983c8376ac7e40d238e275964f73eca73d0a67bf05",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev5&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "818c0ab23dbe2a20293da45c6db489af5f8f8890b6b33f863084457ccaff597b",
+      "file": "2025_rev_5.json.gz",
+      "compressed_sha256": "d9a2870a5bbe3f032d00c4689db5bcd1bb078dab1f3d8e6ef17091e32317c82a",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_6",
+      "counts": {
+        "native_provisions": 3404,
+        "referenced_provisions": 3413,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3413
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_6-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_6.pdf",
+          "sha256": "248c068dcfdae57abced19f4dff4081c1745853e424867b87268c50e627ddd44",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev6&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_6-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_6.json",
+          "sha256": "1d078537a8ab86bc22ce9221e838511b5246151a66a04d23e95d9b4149fd485e",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev6&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "5e56850a630488f84bf89b48fbfcda28a531c97fcceec098078dcef51c64e016",
+      "file": "2025_rev_6.json.gz",
+      "compressed_sha256": "6daa04796bb8bb8842c73e807ee907ab648348232c129c7920127ab208005803",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_7",
+      "counts": {
+        "native_provisions": 3448,
+        "referenced_provisions": 3460,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3460
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_7-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_7.pdf",
+          "sha256": "d538442589a10c91073613548ef4205f223be038855942982ec08e0bcb117ff2",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev7&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_7-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_7.json",
+          "sha256": "99caf1e37916595d19f385ba02cefc205964216e253adb73c30756877a2ced13",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev7&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "a24e4176304a0c8412a28fe4a9adf84dd0f8f3e283c67d98d6b2d436241c7697",
+      "file": "2025_rev_7.json.gz",
+      "compressed_sha256": "6d2a78462f63b820f4b46f97f70bf9882bcff8c3b2bfb255521d641b6cc50848",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_8",
+      "counts": {
+        "native_provisions": 3448,
+        "referenced_provisions": 3460,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3460
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_8-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_8.pdf",
+          "sha256": "69945534443f537cd74156555a4f87436e4569ea5eb6ded2f9ef84c9434e6711",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev8&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_8-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_8.json",
+          "sha256": "84d998126e8bb0aafe9f287a511fd25742474874720033db342ca9cf083ab41b",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev8&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "b3ebe8bc8c013ff7bf9b8995971ad8db6e5bbeb7b5dc6ab865b8a4ef4a916c59",
+      "file": "2025_rev_8.json.gz",
+      "compressed_sha256": "0e6920967c23a415870184abc794115d878cdc504a95b975201686b0c0b3860b",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_9",
+      "counts": {
+        "native_provisions": 3448,
+        "referenced_provisions": 3460,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3460
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_9-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_9.pdf",
+          "sha256": "f9087541d2a3951284c800bd5cd33938e118df8d266761e41df51eff46ae1eb0",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev9&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_9-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_9.json",
+          "sha256": "a36d2079ac19f9d5a051aee175d379fa2eb57353ee56c8cf158ec9b9a77a644e",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev9&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "78a373c04391171bbbea2927aea423369adbcdf7746d4a60e2f6ca36e592db8e",
+      "file": "2025_rev_9.json.gz",
+      "compressed_sha256": "25f8ef0a81ff309538581ac9f93481a4790b1833814b1e512dbd62c47c57931e",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_10",
+      "counts": {
+        "native_provisions": 3448,
+        "referenced_provisions": 3460,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3460
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_10-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_10.pdf",
+          "sha256": "a860fa5830f6d8aa98043ad0a8cd606c60e283eb06c5226e0695c8bc88aede1f",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev10&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_10-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_10.json",
+          "sha256": "90d50a0433456141452826469638303a3e928601e20e6f1554172b53f60bfadc",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev10&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "6077ce516a4b6ddb8e46be29ac0c6b2d0f058ed7896778589ddd910516b8c6c0",
+      "file": "2025_rev_10.json.gz",
+      "compressed_sha256": "8ad4b99e74c0dc6e1d6e983a1ba0b5e9bbb67611b811e8c860c758d61dd34ce7",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_11",
+      "counts": {
+        "native_provisions": 3450,
+        "referenced_provisions": 3461,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3461
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_11-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_11.pdf",
+          "sha256": "66a800d06a300d85a5444449183bfad0eb50a994140279456c06472740640e75",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev11&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_11-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_11.json",
+          "sha256": "4ea6932ffbb8106dd2c7a2199d85475d07a3f486c68ff40068c9a0ce81a793a9",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev11&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "4d730bf577d719843c5dbcabf5831063d8a832de44fc4ea3932306999f755ace",
+      "file": "2025_rev_11.json.gz",
+      "compressed_sha256": "8652231fe8614abb93a3fac735679bf12e223dc1e7a4d524ce59ba61bf4891c4",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_12",
+      "counts": {
+        "native_provisions": 3450,
+        "referenced_provisions": 3461,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3461
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_12-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_12.pdf",
+          "sha256": "52b985f3ad550ccd70bcbd70946ef0f2b64cb52b1a0fb559587feb14c4afc5f2",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev12&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_12-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_12.json",
+          "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev12&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "936f60d5b6179e67099bc6984184d707f5f050e99a37e01a6cd80f2396a1de16",
+      "file": "2025_rev_12.json.gz",
+      "compressed_sha256": "9aceeccb378ba0e54d6ba81884edaaa62205ea5805527560d3013b9c8a4399d4",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_13",
+      "counts": {
+        "native_provisions": 3450,
+        "referenced_provisions": 3461,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3461
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_13-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_13.pdf",
+          "sha256": "e6a2756923b74a7c9b666d9e72164983a3dc5362c3a01d3cf3a6f7bd4b6765c8",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev13&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_13-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_13.json",
+          "sha256": "5e8ed076fdde81f65b17b1df38e905dd5a79c22f7619d7784a8153eacae523ad",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev13&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "d0966a747b09a616f8c4aace7148c9f213ffcf5c2037c5b217e1a67946931d2d",
+      "file": "2025_rev_13.json.gz",
+      "compressed_sha256": "e4366b5eea5108b62f5f50e2812e42291bd0ff2bb459868741af32ffa7d9177b",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_14",
+      "counts": {
+        "native_provisions": 3460,
+        "referenced_provisions": 3471,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3471
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_14-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_14.pdf",
+          "sha256": "009d30d94dc48b5a624161d073acf474765cd163fe25b4554142c476516f4bf6",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev14&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_14-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_14.json",
+          "sha256": "0eb0ebeeff04d260ba6b05a16b23350eff4b93d38863ca8387d3b9555eaea43f",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev14&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "7b77c493f64f37fc6e3d3804b717250f5e51729827f78185bf20060e5b5244cd",
+      "file": "2025_rev_14.json.gz",
+      "compressed_sha256": "79b68ec045c21d86bc91e6dd26b8fe3b8bb177d4c09570439c348e698babbba3",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_15",
+      "counts": {
+        "native_provisions": 3460,
+        "referenced_provisions": 3471,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3471
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_15-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_15.pdf",
+          "sha256": "6b97e556b3d924e32cb22f50ab69ad005330e1efd017f60f16c66f7f66f118ea",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev15&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_15-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_15.json",
+          "sha256": "83e5fc468a032b72c7f3759add0290b6bd2ba53fca40f73a5da0c59f9511a444",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev15&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "f1b530ee3c16bc729c08b0befae92c6837fdb372cb2980445438580717b0fa6e",
+      "file": "2025_rev_15.json.gz",
+      "compressed_sha256": "4928ae4519cab88421134c87e96d46ca00c8edc0abb6a9601f0863d8b0410932",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_16",
+      "counts": {
+        "native_provisions": 3463,
+        "referenced_provisions": 3474,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3474
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_16-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_16.pdf",
+          "sha256": "1418c8c09c4ce03d82a8aa4913680799ada319d36f2e3939e3c9d39b78bf5651",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev16&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_16-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_16.json",
+          "sha256": "69a3ddee24ff58342dbfcc74cc9eb2be8c405cf6fff72eb5407bdea66c2c503e",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev16&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "9bcf12a14be25c7b935807493ca54fdbdd84be38a580e7ae912c2e26757574ec",
+      "file": "2025_rev_16.json.gz",
+      "compressed_sha256": "192e7928fc30e6e7744d055dbd0eb2d05bad5ca5205978e5f69570e1c20b81ae",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_17",
+      "counts": {
+        "native_provisions": 3466,
+        "referenced_provisions": 3476,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3476
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_17-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_17.pdf",
+          "sha256": "6660f9364d1cb57d264df219a8cd0bd1a3308af754795b80e98519f4a5f91a53",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev17&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_17-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_17.json",
+          "sha256": "7940afb35ab29c4c09903d9fbe4f5ef0f99ee0a4fa7983976bc2c5ce5e6acba2",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev17&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "4a566db0372fc01c49a4f2e36310ece5beeaf26372db7e62a5d52f1810e56617",
+      "file": "2025_rev_17.json.gz",
+      "compressed_sha256": "2dcd487723ce81fe41267de11c044c572e1c45eda7161c99c8d1c0cb38ce4834",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_18",
+      "counts": {
+        "native_provisions": 3544,
+        "referenced_provisions": 3554,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3554
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_18-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_18.pdf",
+          "sha256": "722f44071fc4ee1a1460cd21151593a4dc979c9084fb419dca77b3653cfcb0af",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev18&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_18-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_18.json",
+          "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev18&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "69e914cb40c1024d59c3b3eed59fd916f61656603354c261c793c22965733122",
+      "file": "2025_rev_18.json.gz",
+      "compressed_sha256": "da8f18f9c9310f548670791b3b16587edd3e46313f5307014886a402c95c4161",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_19",
+      "counts": {
+        "native_provisions": 3544,
+        "referenced_provisions": 3554,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3554
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_19-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_19.pdf",
+          "sha256": "ddf1a41670aea688cd696ee79d33b0ac353f7fbd33b03fb639f6061ca97c03e3",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev19&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_19-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_19.json",
+          "sha256": "f03008f78466bdbe4130790b9341a03ff14248f54c82e682d4287901a7307d12",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev19&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "81ff0b3b5de78edf012865c92c77e0392d1b0053031d4bab0fad823c4c6b4f23",
+      "file": "2025_rev_19.json.gz",
+      "compressed_sha256": "d786496ac339f202a4e1ea30c0be2791bafa69b95591392d0ca2870536191093",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_20",
+      "counts": {
+        "native_provisions": 3550,
+        "referenced_provisions": 3560,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3560
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_20-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_20.pdf",
+          "sha256": "090e2893efe2368e11fc61a36ed66cc2e80e0187985133b133542de75ac947e5",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev20&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_20-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_20.json",
+          "sha256": "cf8694ac954664df3eaf978cf27243e684520301ebc42ec39cebade38596f4ef",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev20&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "7a100daf78b8c493f3fd0f2ef25a98a83c13f684fed48238be912ea1e3b49d35",
+      "file": "2025_rev_20.json.gz",
+      "compressed_sha256": "c13d93d0c1f49e953f635e0589802273d0c43f0257f2643b545e68f3b3f9907f",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_21",
+      "counts": {
+        "native_provisions": 3550,
+        "referenced_provisions": 3560,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3560
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_21-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_21.pdf",
+          "sha256": "9121364f3f7ed4d1c9ebf6b7bb339f5c4cf82bac745494085f36a7d3c8fb4180",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev21&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_21-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_21.json",
+          "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev21&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "a8390ba4c901fc8081865a9c462327f630aa8e9bb2835298788e0d990d49940d",
+      "file": "2025_rev_21.json.gz",
+      "compressed_sha256": "450ceb02437b768389245289a26b7e5db17201dd5af6ddb7dc7addb49ddc3381",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_22",
+      "counts": {
+        "native_provisions": 3550,
+        "referenced_provisions": 3560,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3560
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_22-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_22.pdf",
+          "sha256": "07e52f8cea995f56c051c906c20cddd4d386ef2e5e96f566a27c9f332d28f749",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev22&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_22-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_22.json",
+          "sha256": "dd2ecdfc045eedfcd7080bf9ddbd3741c08ccee412e0c109f5edccbd772a13dc",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev22&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "13a7e20ffff26f05b4dcebb1f844ecd48488f98dfbe01c0d9aa24260f9ae4e34",
+      "file": "2025_rev_22.json.gz",
+      "compressed_sha256": "9ed74519b5fafe681b780c7bb52f3af5b9dd742c2bd68dde1678acb60998917c",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_23",
+      "counts": {
+        "native_provisions": 3557,
+        "referenced_provisions": 3567,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3567
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_23-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_23.pdf",
+          "sha256": "0f7d793901cc5eade4ebb45c425e3d8fed995a80b01db79dc24f3cb3f28997d0",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev23&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_23-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_23.json",
+          "sha256": "2520132cb2eeb5efd3ecbafab739f04be1875482991d1128098ec0bd047e2e07",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev23&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "15cba912556703727b42050da84c1b0cad9918771edf645855b5342bebad4d3c",
+      "file": "2025_rev_23.json.gz",
+      "compressed_sha256": "3ecb00ede1569c853ba4abaf350465ca9436e2442ed60deebdf99e1592153d66",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_24",
+      "counts": {
+        "native_provisions": 3565,
+        "referenced_provisions": 3575,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3575
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_24-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_24.pdf",
+          "sha256": "a73c04fe8bda1593440faabc4cd2ea55866e783ffac239807bfcefbaa5552255",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev24&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_24-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_24.json",
+          "sha256": "284be76a38366f798012b99e351d226213d77098c2dd97349e3f1a16951f2034",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev24&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "64d5959737b0006c19cb1f3b3c69c526f3bd2fdfd2add86f69908f0c294f559b",
+      "file": "2025_rev_24.json.gz",
+      "compressed_sha256": "5d2594c7b1e69ad8928d4aa631798d6937c17f6d6db8c447004a37f192ae8e99",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_25",
+      "counts": {
+        "native_provisions": 3572,
+        "referenced_provisions": 3582,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3582
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_25-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_25.pdf",
+          "sha256": "41f693213d034cf34d7e898a791b83f9990340f1016763a2d42279511dc7a71f",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev25&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_25-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_25.json",
+          "sha256": "c86beb392418c2db581fae8bb1b6243db90c3c25e2bfda01214b8aef8fbd10f8",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev25&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "e6bb17c5344b138b252f96ca83ebfb883133a711f4acf096280c46caca5f6aea",
+      "file": "2025_rev_25.json.gz",
+      "compressed_sha256": "4c2a1b2b8a953016fdf1af5ffac555fb37d0ca699d38fd2fe6f5e11bde29bef2",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_26",
+      "counts": {
+        "native_provisions": 3588,
+        "referenced_provisions": 3598,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3598
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_26-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_26.pdf",
+          "sha256": "78d85e72d2f710b0ab49dd4bb1f1d92ca345df251f9fca44e4bad42694838161",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev26&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_26-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_26.json",
+          "sha256": "b0721d6da3ba653e30ea11832c0ea8ddb34d7f3a92e32a4004f3d574ad45a6fe",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev26&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "4914f58fb1296900e5cfcb5f41ce2df09fabbbf352efb7786a047edbea1e3dd2",
+      "file": "2025_rev_26.json.gz",
+      "compressed_sha256": "9323ce69e40782fc1cc8d0dc260caaab75369f0502dc4deccb3d9d06f523c83a",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_27",
+      "counts": {
+        "native_provisions": 3593,
+        "referenced_provisions": 3603,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3603
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_27-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_27.pdf",
+          "sha256": "563bbc156ca19a27570d9bb4c8be81987de7d7c71b69ce027c544ccdb05ddb10",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev27&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_27-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_27.json",
+          "sha256": "29b8eba1b5a1bfeeb421e2b99cf880f6c0748abf6265986ac299c524579488c9",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev27&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "3d5336fb2cb1f659e256349a4f3cbb04de2335ccb0020c619327eccbd89fd993",
+      "file": "2025_rev_27.json.gz",
+      "compressed_sha256": "2c10ab4610894ec804a797597e796fc43a5adbaca9a2dfa8a60e945488f8e219",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_28",
+      "counts": {
+        "native_provisions": 3593,
+        "referenced_provisions": 3603,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3603
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_28-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_28.pdf",
+          "sha256": "41a65d97264b7aa77b13e94d648d134d6c6a656ae5da7a4fab787154eca917da",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev28&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_28-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_28.json",
+          "sha256": "98973df36de2f2cc02cef868a2e9fc943eff08f0177dbbe3e2a3b3d02f5d1872",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev28&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "0c4f751d77a66f8c8552490624186d074910956bdf76cad0a5688272fc5a6e3a",
+      "file": "2025_rev_28.json.gz",
+      "compressed_sha256": "2f64473922fae77c919dbfe96b076162510309e7ce33cd93759bd027c1c7c480",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_29",
+      "counts": {
+        "native_provisions": 3594,
+        "referenced_provisions": 3604,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3604
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_29-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_29.pdf",
+          "sha256": "b7b63de1f24302ba1308477ff5abbaaf1ad391fcecf5b8e05bb4f064d55f66c8",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev29&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_29-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_29.json",
+          "sha256": "3e02879465307fe177c8f1e5e6f94f1e9c4a4b7e7a1b47dfa43019f132a70749",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev29&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "8fd1e3444bb3b8ece469921bc37863235dde72db9f5ac5539656869f3b00b956",
+      "file": "2025_rev_29.json.gz",
+      "compressed_sha256": "70a4fb6f074e9b0414b09b3aff9547ae995c5ccef28bb70a0390f8214e6e3853",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_30",
+      "counts": {
+        "native_provisions": 3595,
+        "referenced_provisions": 3605,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3605
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_30-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_30.pdf",
+          "sha256": "6307d24f2b21ee5fdec6b77571ccfad31f5e3f71a828c8d71b2131ff4b71fb90",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev30&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_30-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_30.json",
+          "sha256": "5a72090f3e975c04af388bb9e27601738308393db595aa5ce731d042be5224f7",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev30&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "104fd2315c3a820aa31019edc413f88f7daaf57c5a723ff37e66b4c1ac68bc32",
+      "file": "2025_rev_30.json.gz",
+      "compressed_sha256": "152b557a1997c28b9e4ed55c3262138ba9c10079c672a9d2bb54d27a98907558",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_31",
+      "counts": {
+        "native_provisions": 3595,
+        "referenced_provisions": 3605,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3605
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_31-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_31.pdf",
+          "sha256": "d9e92b959e6ae9924e53aa2c77dca13fd54bf8cf650f26f719f01197cd88bc3e",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev31&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_31-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_31.json",
+          "sha256": "c3d74cae8cb2a5993963ac6699d65444722544f6e2043aedcc2199f52b6b5d12",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev31&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "a17ac7f990353320def8305f593b144276e3c7f123c4df8851e75f3eb9ea2f23",
+      "file": "2025_rev_31.json.gz",
+      "compressed_sha256": "f3d0a45b038ee42fa0c58946d8d636de2576ab549082084150d0ca91704dcfbe",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2025_rev_32",
+      "counts": {
+        "native_provisions": 3605,
+        "referenced_provisions": 3615,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3615
+      },
+      "snapshot_expired": 1657,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2025_rev_32-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2025_rev_32.pdf",
+          "sha256": "2c03f410b370127eca27db9188f9d37d12de7709069204602b693d4036d11509",
+          "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev32&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2025_rev_32-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2025_rev_32.json",
+          "sha256": "aa2056b68dc18a815fb8f467453dbdf457d73f2b495d3cb2499b3028527743d3",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2025HTSRev32&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "d115193e3e0ba644edb81cffcdd9149c88c5c39bd656f0526400cbb55e7939b2",
+      "file": "2025_rev_32.json.gz",
+      "compressed_sha256": "8e613bfbe1b5a52373259953752af397528dc10cecaa940129d784a911d461ca",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_basic",
+      "counts": {
+        "native_provisions": 3165,
+        "referenced_provisions": 3171,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3171
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_basic-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_basic.pdf",
+          "sha256": "e7ed46e46bb38275c167ca5106acaca18aabb65772f03a8699eefc5bc030be63",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSBasic&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_basic-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_basic.json",
+          "sha256": "a718007c8455c93a88ddc68f15f036cee10e9a820065a4c356da1481f4131858",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSBasic&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "bdd13c0a357a995e049e77af4bf621dbe27c3bc0f35e1ddf8534df78339157fb",
+      "file": "2026_basic.json.gz",
+      "compressed_sha256": "e1dc86b635778e09a3b176cd4fe708081817fea009e48587c97a918e806b32f1",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_1",
+      "counts": {
+        "native_provisions": 3174,
+        "referenced_provisions": 3180,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3180
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_1-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_1.pdf",
+          "sha256": "951d37a5f9446aace6263a87f192151e7b315c3bf39315a5c0d7bc97ee48341a",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev1&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_1-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_1.json",
+          "sha256": "8d258c60f75c09f2f61c8e184aa8f38b5a3f7ba0e0edcfc608282ca51cbc8ef2",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev1&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "75615e90e5782f5d97b95c970dde6b94a52ece05e9380858145072fcf3e8213d",
+      "file": "2026_rev_1.json.gz",
+      "compressed_sha256": "80243e17cae8f15dcb77eb4d18fe749d5ab4ea744b3f24785a5e004af7e9dd73",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_2",
+      "counts": {
+        "native_provisions": 3174,
+        "referenced_provisions": 3180,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3180
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_2-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_2.pdf",
+          "sha256": "83eac54025d24c71eb0f53356bb05f7c1f7f73160e1a6af37b0aa335ff633762",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev2&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_2-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_2.json",
+          "sha256": "b56567588ca6165772d409d7ad097e7b96327fa7f19d18b6a95f70317ad864a1",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev2&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "8612290113725991d92f8e2cf1bdf30ded19bcb6f8c05297cde51944fe389834",
+      "file": "2026_rev_2.json.gz",
+      "compressed_sha256": "32e15a72268c1556b862de1b039f79cde7b6af5a7bff6382e848b6cb3c1657a0",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_3",
+      "counts": {
+        "native_provisions": 3175,
+        "referenced_provisions": 3181,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3181
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_3-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_3.pdf",
+          "sha256": "c151029926c51ec3300a47f687c592e7cab6f56d0a9903651f0ac7c247b68cdc",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev3&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_3-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_3.json",
+          "sha256": "fae12fab3c47b54cfb5db7325478d222409adbcfa8a10812fa2af0d213dff07e",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev3&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "342998278a4ec923de9f989a9beaf80de18f23192555f4ebd57c39f71ba49bcc",
+      "file": "2026_rev_3.json.gz",
+      "compressed_sha256": "f1ea8606d9794840d68bdd2a60dee5b6294c5cb46552fa577a19c759b0a9a31a",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_4",
+      "counts": {
+        "native_provisions": 3186,
+        "referenced_provisions": 3192,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3192
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_4-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_4.pdf",
+          "sha256": "52fde6da5cde366ec8f643016a78fcbd02abd8e4115c76ef98480132939c48e0",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev4&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_4-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_4.json",
+          "sha256": "0273ec6e6251479a3fc5056e2ed1d4f737fa7ee0675bc37c122364cc7a5732a3",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev4&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "2dd8dc322cce1ae11ae637d7fba59259ea91e600c6491de5d558d5642180ba0d",
+      "file": "2026_rev_4.json.gz",
+      "compressed_sha256": "d24309e95f22e38196ea1db9cb4c67927a95d77513b15ed9083a8beaf7457aac",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_5",
+      "counts": {
+        "native_provisions": 2960,
+        "referenced_provisions": 3002,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3002
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_5-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_5.pdf",
+          "sha256": "7f178b357edb4b7cb087f5d2ca92e5e59ccb403e6dbc88a4ba5872a3b8537699",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev5&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_5-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_5.json",
+          "sha256": "0e6117efc73e98a8b0203205e8e7f09e6a6a9aa2c793f15def3680d447d68448",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev5&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "a13d8a1f8d2c9fb8f4b730d0ff194190750f2b607783d9e87ec66dc1d9e2bba7",
+      "file": "2026_rev_5.json.gz",
+      "compressed_sha256": "66ccecf380875f52e016ab1fdd43bdeb3177ba2f9b3becb9821870d2a08e0d5d",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_6",
+      "counts": {
+        "native_provisions": 2962,
+        "referenced_provisions": 3004,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3004
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_6-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_6.pdf",
+          "sha256": "12e1d36a73c321ed69e61ec164b72f94ceaed28e33ea3e5483b3a2424b6639b3",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev6&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_6-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_6.json",
+          "sha256": "8258abee12b65e04a1c5b04519377040c711b8c31653d2b069fbf5e87a00e4d8",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev6&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "c6873c141292bb0f502d759d255f98adba878abeace025831e05fcb83785451c",
+      "file": "2026_rev_6.json.gz",
+      "compressed_sha256": "8485ce7fe4de49f87b8d36ef9277824180c06d7d1bee86ca85cf9c46f3009d42",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_7",
+      "counts": {
+        "native_provisions": 2963,
+        "referenced_provisions": 3005,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3005
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_7-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_7.pdf",
+          "sha256": "1472963223b470252178704ad9b3ad4c5f9f1502972a63ac5b01abc8845f56e1",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev7&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_7-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_7.json",
+          "sha256": "0a8789f5a540f69117b74855c348ce2aaa62b6e57efe80ef46b45248053e9c37",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev7&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "269f1d0491efb189af442bbaf36c533c08e1f55d48868af822c6f3be48f16150",
+      "file": "2026_rev_7.json.gz",
+      "compressed_sha256": "17eca68d5dcf0476f4f9ca39be0ba91fbc899ee6527c72004e822253d1b3868a",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_8",
+      "counts": {
+        "native_provisions": 2963,
+        "referenced_provisions": 3005,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3005
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_8-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_8.pdf",
+          "sha256": "4be0b0f44d98ddf75398de7d7649016a7c9893c3ca60f8c814d60355600bb201",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev8&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_8-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_8.json",
+          "sha256": "04f4ddda584823a954097b65cd8ca3a5aa1982317c344c582aa4cc3d5021433a",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev8&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "193cf66530ab647ab4f2f671214f17ff4c8f5b69e224374ad4b198ff8ff209e5",
+      "file": "2026_rev_8.json.gz",
+      "compressed_sha256": "cff1267dfd9339a807b2866eeac2d88c073483b4e2db1c483786ef85eafd578f",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_9",
+      "counts": {
+        "native_provisions": 2969,
+        "referenced_provisions": 3011,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3011
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_9-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_9.pdf",
+          "sha256": "9e51ba86334d76fce4c9c3a8bec2f688298243f6651d2226fd3e27e38507b1ee",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev9&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_9-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_9.json",
+          "sha256": "2dc811962b6809736e2e30c8753d0d0bc3fb3f1c65bbb15728663959247957ae",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev9&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "1e074123124d51acfa4497117fea12ef168209846115ca8b31ac6d8fbbe9646d",
+      "file": "2026_rev_9.json.gz",
+      "compressed_sha256": "0f0e87bd4d3d5d32778e44dffe59d959f1003923d523505363b4fe601889f27c",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_10",
+      "counts": {
+        "native_provisions": 2976,
+        "referenced_provisions": 3018,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3018
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_10-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_10.pdf",
+          "sha256": "eec925800663851d0133317a412ff236aa938235c305d87b42d97e6de9bc5405",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev10&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_10-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_10.json",
+          "sha256": "66375d1cc8e56cae00bbf8327c400e62586eefe128cad7c8e4d936dc3d4eda2f",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev10&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "eb23f06d39932c343ee41e0db3b9c6386516ccd3c38d7a9408456b9709570f8e",
+      "file": "2026_rev_10.json.gz",
+      "compressed_sha256": "1f6dd8f8c1875d64f7589540c9f25c1adce8fe623b20253e1fc44ba9e980cde4",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_11",
+      "counts": {
+        "native_provisions": 2976,
+        "referenced_provisions": 3018,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3018
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_11-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_11.pdf",
+          "sha256": "05124f75836d3145b9d6661e29020de0f3b27fe26422a46f8121ab86f021ff53",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev11&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_11-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_11.json",
+          "sha256": "bf6e76f0fdb3909ac8fd080b50a46d4affad050cfafa8a20579f7714f83ab441",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev11&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "6b5ecc07e440ea72f7745440efd01603c883658179a20703650f3d44a3ad8448",
+      "file": "2026_rev_11.json.gz",
+      "compressed_sha256": "57d2a70702c992e203ec85c0c664053d974b4be0aa485fcf9bde19a7a2b47082",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_12",
+      "counts": {
+        "native_provisions": 2985,
+        "referenced_provisions": 3027,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3027
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_12-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_12.pdf",
+          "sha256": "a760524501f35a6a5256c4bfa1ea6ac66db101fbf74c05b71d367130468ba89e",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev12&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_12-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_12.json",
+          "sha256": "c2df18de026f8ba78178a10dff5033b153c7a48fd66b5f218f529c1369fa0c72",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev12&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "2b68d8eea3f407c4242ba7fe7df540f7a6443d1ba6521ae7d8d17690116e1afa",
+      "file": "2026_rev_12.json.gz",
+      "compressed_sha256": "c626ed71daa12718a60fd796cff209df2ae67384dc22e3bab2d398f5a827a12b",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_13",
+      "counts": {
+        "native_provisions": 3086,
+        "referenced_provisions": 3128,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3128
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_13-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_13.pdf",
+          "sha256": "cff368d7d80724781afa3fd7ebe4ffbbf6dfd68b8e0a9c9c7c6ce54b95c9cecc",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev13&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_13-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_13.json",
+          "sha256": "3b4057c56e3bfaa48285b5371f771007840ea007c5094772f04c4754b6e3c6a5",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev13&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "f046e8177323426f3a175bc6549f3fb3762657e4beaf2bfb3be5ad1f85469d16",
+      "file": "2026_rev_13.json.gz",
+      "compressed_sha256": "ec17311b5f47734b8e8400d9c30ab879f9a3c65005ccf83dbc6a2cd24926f0de",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_14",
+      "counts": {
+        "native_provisions": 3096,
+        "referenced_provisions": 3138,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3138
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_14-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_14.pdf",
+          "sha256": "a8d97896814b3338857e83795fe6082c65f4932da6661e5ace9aa487171b4129",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev14&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_14-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_14.json",
+          "sha256": "a99da87129ebfd71352b9a747b2a36045a45f7f838ce8d4b9b02e157b78392ef",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev14&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "5b31359eee93d3ce49aa9640445076f2f449f4c37ee70b5185d3dbfd26bbb1fa",
+      "file": "2026_rev_14.json.gz",
+      "compressed_sha256": "1df1dc845a94bd04333471e3952ac1751770f03040a9ddc4ea394dc16eba790e",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_15",
+      "counts": {
+        "native_provisions": 3096,
+        "referenced_provisions": 3138,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3138
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_15-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_15.pdf",
+          "sha256": "92822e8f38873a7275c4cf9bd5341f96f5834dbea964623e7a7aa7b2cd02f225",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev15&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_15-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_15.json",
+          "sha256": "59a76c12e28d7a28975f31a8876bfb08e64927b922fe2b4f88801ff4459181e6",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev15&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "cf92b4bd79add504136db9088aa5914410765f7cf7792a26b1eb4c6a790ceffd",
+      "file": "2026_rev_15.json.gz",
+      "compressed_sha256": "2aa76fb6e1e74a6ca13c5712b9deae3b1062d5930b23ef2c2243c6c16b7185a1",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_16",
+      "counts": {
+        "native_provisions": 3098,
+        "referenced_provisions": 3140,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3140
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_16-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_16.pdf",
+          "sha256": "58b2a00dcae593f4dd6dd21c3ccc9a570c162f276c9063a89e440c0038b38144",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev16&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_16-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_16.json",
+          "sha256": "d95564c9ca2eccc9727e7797c0ee9f7f47af5e53d342fd4c0f3ff908d70427a4",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev16&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "5f4ecaa025c8c40aec99e44cced1eba21809caf625457ec30d7280665a9d5845",
+      "file": "2026_rev_16.json.gz",
+      "compressed_sha256": "528f1c1892ca1d5f25a0235140427b13bc598d4d4d38a7edce5a247f4754115c",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_17",
+      "counts": {
+        "native_provisions": 3103,
+        "referenced_provisions": 3145,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3145
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_17-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_17.pdf",
+          "sha256": "0a267cc2d607a44a89a0b9faab70af47699c15991e3d45bc771ee570856df917",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev17&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_17-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_17.json",
+          "sha256": "8ee8cdc2575a74ed1795a3b354bbefd308b857921c3a4901c744dce00a443294",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev17&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "63b53d86fc0a322c709592e69d74ebe28dda399182b1da74aa566597afd7a61c",
+      "file": "2026_rev_17.json.gz",
+      "compressed_sha256": "3357600cfedbc3026260d38bd0677139a2bbacadbe773a8665a7d138059975b8",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_18",
+      "counts": {
+        "native_provisions": 3111,
+        "referenced_provisions": 3153,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3153
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_18-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_18.pdf",
+          "sha256": "83ca2c46697de2042d13db6be88c9fd2ec7a9edf5835468eb1efa8103c54bbe4",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev18&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_18-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_18.json",
+          "sha256": "c6beeedc5d675896c9a1f89c3b8d18fd92834075fef0e377cc7f6a684f114809",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev18&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "2e05b7601c639c056de0f48f84e60e589ec3c157e1f6c5cea3bd8ef6ff02969f",
+      "file": "2026_rev_18.json.gz",
+      "compressed_sha256": "9ed53fd5042d2f042478ae39f4eb240827c00d1dd61b5b5723693d5597cc6d4d",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_19",
+      "counts": {
+        "native_provisions": 3111,
+        "referenced_provisions": 3153,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3153
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_19-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_19.pdf",
+          "sha256": "5f2b3ef1f9ece214d2a9bfd8ce523413fb2bd8f5e8298dd1c56b3a36c979ba15",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev19&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_19-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_19.json",
+          "sha256": "b83a0e40640e0fd36c434a37d0317c51e1d466ce9160613f7384609665128e28",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev19&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "f0ea5b181de0a3440adbf78f034784f9e94901ca072768bbfed12dda389b9272",
+      "file": "2026_rev_19.json.gz",
+      "compressed_sha256": "7138e9de20d9e4638c0619a665de0f0c5a735fe7a2d13bf39694ed50a03391b9",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_20",
+      "counts": {
+        "native_provisions": 3112,
+        "referenced_provisions": 3154,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3154
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_20-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_20.pdf",
+          "sha256": "53c7858d3c70583537684f7e78b9fc1bd222a51a857d5f331f67d2468d48986c",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev20&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_20-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_20.json",
+          "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev20&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "e0e5ee44125253b97aa0fb048468f5b3046b2e87664cb0cb9dabc13c4e32b456",
+      "file": "2026_rev_20.json.gz",
+      "compressed_sha256": "30fe0ad55cf9619727cd7f0d4a68ec3f3cf4db9f807497a1a9fc0aaa31afdf91",
+      "coverage_granted": false
+    },
+    {
+      "revision": "2026_rev_21",
+      "counts": {
+        "native_provisions": 3112,
+        "referenced_provisions": 3154,
+        "linked_provisions": 0
+      },
+      "states": {
+        "linked_rules_partial": 0,
+        "unresolved_source": 3154
+      },
+      "snapshot_expired": 1702,
+      "compiler_sha256": "fa18ad138330297203a620d251709553c834a03c774496778941359e33406842",
+      "sources": [
+        {
+          "id": "USITC-2026_rev_21-inventory-pdf",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/us_notes/chapter99_2026_rev_21.pdf",
+          "sha256": "07911877d541dce23ddef3f89aa05503faa5acb03fd95715f4ee1ba9ea2a53ad",
+          "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev21&filename=Chapter%2099"
+        },
+        {
+          "id": "USITC-2026_rev_21-inventory-hts",
+          "path": "/home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/data/hts_archives/hts_2026_rev_21.json",
+          "sha256": "bea73f235732215a4bfab973be7495c16c450c65b78e40f58324031ebf092a09",
+          "url": "https://hts.usitc.gov/reststop/exportList?release=2026HTSRev21&exportFormat=JSON"
+        }
+      ],
+      "inventory_sha256": "dfeaef67bc675af75fb963074a5d584173214433641afa0958a42b9daedeb44b",
+      "file": "2026_rev_21.json.gz",
+      "compressed_sha256": "e91295d5538fb6b3ff1d1b2cd971577df5bf048cb637e2f36fee2c40013bdd3a",
+      "coverage_granted": false
+    }
+  ]
+}

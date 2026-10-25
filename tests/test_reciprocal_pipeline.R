@@ -47,6 +47,11 @@ for(spec in list(list(rev='2025_rev_8',day='2025-04-09',expected=c('5700'=.84,'4
   stopifnot(all(abs(r$rate_ieepa_recip-unname(spec$expected[r$country]))<1e-9))
   fragment<-read_shipment_rule_fragment(file.path(out,spec$rev,'ieepa_reciprocal_initial_rules.json'))
   stopifnot(length(fragment$rules)>0,length(fragment$coverage)==0)
+  inventory<-arrow::read_parquet(file.path(out,spec$rev,'chapter99_provisions.parquet'))
+  stopifnot(nrow(inventory)>3000L,any(inventory$status=='linked_rules_partial'),
+    any(inventory$snapshot_status=='source_declares_expired'),
+    file.exists(file.path(out,spec$rev,'chapter99_notes.parquet')),
+    file.exists(file.path(out,spec$rev,'chapter99_inventory_sources.json')))
 }
 unlink(out,recursive=TRUE)
 cat('Tests: 13 passed, 0 failed\n')
