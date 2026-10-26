@@ -5,7 +5,7 @@ import { readReleaseManifest, prepareRelease, preflightRelease } from '../server
 const { values } = parseArgs({ options: {
   manifest: { type: 'string' }, database: { type: 'string' }, preflight: { type: 'boolean' },
 } });
-if (!values.manifest || !values.database || values.database.startsWith('md:'))
+if (!values.manifest || !values.database || values.database !== values.database.trim() || /^md:/i.test(values.database))
   throw new Error('Provide --manifest and a local --database path; cloud preparation requires separate approval');
 const instance = await DuckDBInstance.create(values.database, values.preflight ? { access_mode: 'READ_ONLY' } : {});
 const conn = await instance.connect();

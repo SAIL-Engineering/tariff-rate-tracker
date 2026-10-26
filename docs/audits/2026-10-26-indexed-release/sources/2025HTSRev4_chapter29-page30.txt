@@ -1,0 +1,49 @@
+                                  Harmonized Tariff Schedule of the United States Revision 4 (2025)
+                                                                            Annotated for Statistical Reporting Purposes
+VI
+29-30
+  Heading/ Stat.                                                                                                      Unit                               Rates of Duty
+ Subheading Suf-                                        Article Description                                            of                            1                            2
+             fix                                                                                                     Quantity              General           Special
+
+                      IV. ETHERS, ALCOHOL PEROXIDES, ETHER PEROXIDES,
+                          ACETAL AND HEMIACETAL PEROXIDES, KETONE
+                        PEROXIDES, EPOXIDES WITH A THREE-MEMBERED
+                          RING, ACETALS AND HEMIACETALS, AND THEIR
+                           HALOGENATED, SULFONATED, NITRATED OR
+                                   NITROSATED DERIVATIVES:
+
+2909          Ethers, ether-alcohols, ether-phenols, ether-alcohol- phenols,
+              alcohol peroxides, ether peroxides, acetal and hemiacetal
+              peroxides, ketone peroxides (whether or not chemically
+              defined), and their halogenated, sulfonated, nitrated or
+              nitrosated derivatives
+                   Acyclic ethers and their halogenated, sulfonated, nitrated
+                   or nitrosated derivatives:
+2909.11.00 00          Diethyl ether..................................................................... kg.............. 1%1/                      Free (A, AU, BH, CL, 4%
+                                                                                                                                                      CO, D, E, IL, JO,
+                                                                                                                                                      KR, MA, OM, P,
+                                                                                                                                                      PA, PE, S, SG)
+2909.19                          Other:
+                                    Ethers of monohydric alcohols:
+2909.19.14 00                           Methyl tertiary-butyl ether (MTBE).................. kg.............. 5.5%1/                                 Free (A*, AU, BH, 37%
+                                                                                                                                                      CL, CO, D, E, IL,
+                                                                                                                                                      JO, KR, MA, OM,
+                                                                                                                                                      P, PA, PE, S, SG)
+2909.19.18 00                                Other................................................................... kg.............. 5.5% 1/       Free (A*, AU, BH, 37% /
+                                                                                                                                                      CL, CO, D, E, IL,
+                                                                                                                                                      JO, K, KR, MA,
+                                                                                                                                                      OM, P, PA, PE, S,
+                                                                                                                                                      SG)
+                                       Ethers of polyhydric alcohols:
+2909.19.30 00                             Triethylene glycol dichloride............................. kg.............. Free1/                                             54.5%
+2909.19.60 00                                Other................................................................... kg.............. 5.5%1/        Free (A, AU, BH, CL, 54.5%
+                                                                                                                                                      CO, D, E, IL, JO, K,
+                                                                                                                                                      KR, MA, OM, P,
+                                                                                                                                                      PA, PE, S, SG)
+2909.20.00 00               Cyclanic, cyclenic or cycloterpenic ethers and their
+                            halogenated, sulfonated, nitrated or nitrosated
+                            derivatives............................................................................... kg.............. 3.7%1/       Free (A, AU, BH, CL, 25%
+                                                                                                                                                      CO, D, E, IL, JO, K,
+                                                                                                                                                      KR, MA, OM, P,
+                                                                                                                                                      PA, PE, S, SG)

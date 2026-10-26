@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { validateProjectedIntervals } from './revision-intervals.js';
-import { RELEASE_CONTRACT } from './shipment-store.js';
+import { RELEASE_CONTRACT, INDEX_RELEASE_CONTRACT, readIndexReleaseMetadata } from './shipment-store.js';
 
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const identifier = name => {
@@ -13,7 +13,7 @@ const identifier = name => {
 const literal = value => `'${String(value).replaceAll("'", "''")}'`;
 export const RELEASE_MIGRATION = await fs.readFile(new URL('../migrations/001_shipment_releases.sql', import.meta.url), 'utf8');
 
-const TABLES = {
+export const NORMALIZED_RELEASE_COLUMNS = {
   rates: ['hts10', 'country', 'revision', 'valid_from', 'valid_until', 'statutory_base_rate', 'statutory_rate_232', 'rate_301', 'statutory_rate_301', 'rate_s301_maritime', 'statutory_rate_s301_maritime'],
   products_base: ['hts10', 'revision', 'valid_from', 'valid_until', 'duty_expression_raw', 'rate_column2_raw'],
   authority_country_rates: ['revision', 'valid_from', 'valid_until', 'authority', 'program', 'country','reciprocal_parameter','reciprocal_ch99','country_eo_parameter','country_eo_ch99'],
@@ -26,11 +26,14 @@ const TABLES = {
   ieepa_reciprocal_scope_decisions: ['revision','hts10','scope_code','scope_grain','condition','condition_text','reporting_code','source_id','source_locator','source_scope_sha256','valid_from','valid_until','termination_source_id','pdf_sha256','hts_sha256'],
   section232_scope_decisions: ['revision','authority','hts10','scope_code','scope_grain','list_id','metal','derivative','source_locator','source_text_sha256','pdf_sha256','hts_sha256','state_valid_from','state_valid_until'],
 };
+const TABLES = NORMALIZED_RELEASE_COLUMNS;
 
 export async function readReleaseManifest(manifestPath) {
   const root = await fs.realpath(path.dirname(manifestPath));
   const bytes = await fs.readFile(manifestPath);
   const manifest = JSON.parse(bytes);
+  if(manifest.contract_version===INDEX_RELEASE_CONTRACT)
+    return (await import('./shipment-index-release.js')).readIndexReleaseManifest(manifestPath);
   if (manifest.contract_version !== RELEASE_CONTRACT || !manifest.dataset_version
     || !/^[a-f0-9]{64}$/.test(manifest.evidence_snapshot_id ?? '')
     || !Array.isArray(manifest.required_revisions) || !manifest.required_revisions.length
@@ -90,6 +93,8 @@ export async function readReleaseManifest(manifestPath) {
 
 /** Read-only: no DDL, no table creation, target catalog is explicitly verified. */
 export async function preflightRelease(conn, prepared, expectedCatalog) {
+  if(prepared.manifest.contract_version===INDEX_RELEASE_CONTRACT)
+    return (await import('./shipment-index-release.js')).preflightIndexRelease(conn,prepared,expectedCatalog);
   const catalog = (await conn.runAndReadAll('SELECT current_database() AS name')).getRowObjects()[0].name;
   if (catalog !== expectedCatalog) throw new Error(`Target catalog mismatch: expected ${expectedCatalog}`);
   const types = new Map();
@@ -380,6 +385,8 @@ export async function preflightRelease(conn, prepared, expectedCatalog) {
 }
 
 export async function prepareRelease(conn, prepared, expectedCatalog) {
+  if(prepared.manifest.contract_version===INDEX_RELEASE_CONTRACT)
+    return (await import('./shipment-index-release.js')).prepareIndexRelease(conn,prepared,expectedCatalog);
   const report = await preflightRelease(conn, prepared, expectedCatalog);
   await conn.run(RELEASE_MIGRATION);
   const exists = (await conn.runAndReadAll('SELECT release_id FROM main.tariff_releases WHERE release_id=? OR dataset_version=?',
@@ -419,8 +426,12 @@ export async function prepareRelease(conn, prepared, expectedCatalog) {
 export async function activateRelease(conn, releaseId, expectedActive) {
   await conn.run('BEGIN TRANSACTION');
   try {
-    const release = (await conn.runAndReadAll('SELECT status FROM main.tariff_releases WHERE release_id=?', [releaseId])).getRowObjects();
+    const release = (await conn.runAndReadAll('SELECT status,schema_name,contract_version,manifest_sha256,dataset_version,evidence_snapshot_id FROM main.tariff_releases WHERE release_id=?', [releaseId])).getRowObjects();
     if (release.length !== 1 || release[0].status !== 'validated') throw new Error('Release has not passed validation');
+    if(release[0].contract_version===INDEX_RELEASE_CONTRACT) {
+      const metadata=await readIndexReleaseMetadata(conn,release[0]);
+      if(!metadata||metadata.preparation_mode!=='production')throw new Error('Diagnostic or incomplete indexed releases cannot be activated');
+    } else if(release[0].contract_version!==RELEASE_CONTRACT)throw new Error('Unsupported release contract');
     const active = (await conn.runAndReadAll('SELECT release_id FROM main.tariff_active_release WHERE singleton=1')).getRowObjects();
     const current = active[0]?.release_id ?? null;
     if (current !== expectedActive) throw new Error('Active release changed during review');

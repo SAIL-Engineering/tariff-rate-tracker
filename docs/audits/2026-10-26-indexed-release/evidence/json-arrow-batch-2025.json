@@ -1,0 +1,1 @@
+{"cases":12,"status":"passed","checks":["normal Parquet relationships","R/TypeScript components","JSON","Arrow","batch","dataset invalidation","bundle tampering"],"production_release_preparation":false,"live_motherduck":false}

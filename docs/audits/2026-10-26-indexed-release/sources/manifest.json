@@ -1,0 +1,21 @@
+{
+  "acquisition": "gstack browse official primary chapter PDFs",
+  "sources": [
+    {
+      "release": "2025HTSBasic",
+      "chapter": "20",
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSBasic&filename=Chapter%2020",
+      "path": "2025HTSBasic_chapter20.pdf",
+      "sha256": "4cb26c3ac2f6e3e427831f43c64a2adfd98d3fb7204d5af75b309c4ccd596b39",
+      "text_sha256": "2781a592914f569beb75a7de05dc435aff125bb32a5626843af75470044a3e9b"
+    },
+    {
+      "release": "2025HTSRev4",
+      "chapter": "29",
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev4&filename=Chapter%2029",
+      "path": "2025HTSRev4_chapter29.pdf",
+      "sha256": "3205e1f1f245f6c71f02bfb83614e92472c9246e04b5719b017c7bb3baa379e4",
+      "text_sha256": "6e1caab6e813f46441aa3fdf2defe09863ffd01e366eecac86471beec3215ec9"
+    }
+  ]
+}

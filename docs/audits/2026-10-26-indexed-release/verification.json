@@ -1,0 +1,604 @@
+{
+  "base_sha": "291d49aae93455ebfe3ba66885b446a27fd40485",
+  "branch": "wjr_dev",
+  "python": {
+    "command": "/usr/bin/python3 -m pytest -q tests/python",
+    "passed": 427,
+    "exit_code": 0
+  },
+  "node": {
+    "command": "node --test --experimental-test-isolation=none frontend/tests/*.test.mjs",
+    "passed": 660,
+    "exit_code": 0
+  },
+  "r_full": {
+    "command": "Rscript tests/run_all_tests.R",
+    "exit_code": 1,
+    "suites": 65,
+    "counts": {
+      "OK": 62,
+      "ERROR": 2,
+      "SKIP": 1
+    },
+    "errors": {
+      "test_normalized_parity.R": "685 missing/stale generated artifact errors; parity not reached",
+      "test_shipment_special_pipeline.R": "Test file changed while runner was reading it; that suite result is invalid. Frozen standalone rerun subsequently passed."
+    },
+    "skips": {
+      "test_tpc_comparison.R": "Missing TPC comparison input"
+    },
+    "subsequent_frozen_special_pipeline": {
+      "exit_code": 0,
+      "mixed_grid_cells": 2,
+      "special_only_grid_cells": 1
+    },
+    "complete_gate_success": false
+  },
+  "typescript": {
+    "command": "frontend/node_modules/.bin/tsc --noEmit",
+    "exit_code": 0
+  },
+  "build": {
+    "command": "frontend/node_modules/.bin/vite build --outDir /tmp/shipment-vite-20261026",
+    "exit_code": 0
+  },
+  "browser": {
+    "skill": "gstack/browse",
+    "url": "http://127.0.0.1:4179",
+    "http_status": 200,
+    "status": "static_shell_only",
+    "limitation": "No API connected; not a shipment UI/serving qualification"
+  },
+  "prepared_conformance": {
+    "status": "passed",
+    "cases": 20,
+    "release_id": "5f4c3824ea972780a751c0283e6112020cf86f64d6940db51b38ee11a9ae5e23",
+    "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+    "active_release": null,
+    "production_qualified": false,
+    "observations": [
+      {
+        "hts10": "4009120020",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 27.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 2.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "8471500150",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 25,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 0
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "8471500150",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 0,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 0
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "8703230190",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 27.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobiles",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "8703230190",
+        "country": "2010",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 2.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobiles",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 35,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038815",
+            "amount": 7.5
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 10,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038815",
+            "amount": 7.5
+          }
+        ]
+      },
+      {
+        "hts10": "8471500150",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 50,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 0
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038803",
+            "amount": 25
+          }
+        ]
+      },
+      {
+        "hts10": "8471500150",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 25,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 0
+          },
+          {
+            "authority": "ieepa_reciprocal",
+            "action_id": "ieepa_reciprocal_14257",
+            "amount": 0
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038803",
+            "amount": 25
+          }
+        ]
+      },
+      {
+        "hts10": "8703230190",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 52.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobiles",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038801",
+            "amount": 25
+          }
+        ]
+      },
+      {
+        "hts10": "8703230190",
+        "country": "5700",
+        "entry_at": "2025-05-03T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 27.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobiles",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          },
+          {
+            "authority": "section_301",
+            "action_id": "s301_99038801",
+            "amount": 25
+          }
+        ]
+      },
+      {
+        "hts10": "7320103000",
+        "country": "2010",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 28.2,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 3.2
+          }
+        ]
+      },
+      {
+        "hts10": "7320103000",
+        "country": "2010",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 53.2,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 3.2
+          },
+          {
+            "authority": "section_232",
+            "action_id": "s232_note16_metals",
+            "amount": 50
+          }
+        ]
+      },
+      {
+        "hts10": "7320103000",
+        "country": "2010",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 3.2,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 3.2
+          }
+        ]
+      },
+      {
+        "hts10": "7320103000",
+        "country": "2010",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 28.2,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 3.2
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "4120",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 10,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 10
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "4120",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 27.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 25
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "4120",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 2.5,
+        "complete_total": null,
+        "priced": [
+          {
+            "authority": "section_232",
+            "action_id": "s232_automobile_parts",
+            "amount": 0
+          },
+          {
+            "authority": "base",
+            "action_id": "ordinary_customs_duty",
+            "amount": 2.5
+          }
+        ]
+      },
+      {
+        "hts10": "4009120020",
+        "country": "4120",
+        "entry_at": "2026-09-15T12:00:00-04:00",
+        "status": "unresolved_source",
+        "known_subtotal": 0,
+        "complete_total": null,
+        "priced": []
+      }
+    ]
+  },
+  "release_preparation": {
+    "catalog": "diagnostic",
+    "revisions": 2,
+    "manifest_sha256": "5f4c3824ea972780a751c0283e6112020cf86f64d6940db51b38ee11a9ae5e23",
+    "shipment_verification": [
+      {
+        "contract_version": "sail.shipment-partition-verification/v1",
+        "revision": "2025_rev_11",
+        "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+        "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+        "grid_cells": 6,
+        "membership_rows": 12,
+        "decision_classes": 12,
+        "bundles": 2,
+        "daily_states": 1,
+        "status": "consistent_with_declared_rules",
+        "legal_coverage_complete": false,
+        "production_qualified": false,
+        "aggregate_methodology_qualified": false
+      },
+      {
+        "contract_version": "sail.shipment-partition-verification/v1",
+        "revision": "2026_rev_19",
+        "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+        "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+        "grid_cells": 4,
+        "membership_rows": 4,
+        "decision_classes": 4,
+        "bundles": 1,
+        "daily_states": 1,
+        "status": "consistent_with_declared_rules",
+        "legal_coverage_complete": false,
+        "production_qualified": false,
+        "aggregate_methodology_qualified": false
+      }
+    ],
+    "legal_coverage_complete": false,
+    "release_id": "5f4c3824ea972780a751c0283e6112020cf86f64d6940db51b38ee11a9ae5e23",
+    "schema": "release_5f4c3824ea972780a751c028",
+    "status": "prepared_diagnostic"
+  },
+  "final_preflight": {
+    "catalog": "diagnostic",
+    "revisions": 2,
+    "manifest_sha256": "5f4c3824ea972780a751c0283e6112020cf86f64d6940db51b38ee11a9ae5e23",
+    "shipment_verification": [
+      {
+        "contract_version": "sail.shipment-partition-verification/v1",
+        "revision": "2025_rev_11",
+        "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+        "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+        "grid_cells": 6,
+        "membership_rows": 12,
+        "decision_classes": 12,
+        "bundles": 2,
+        "daily_states": 1,
+        "status": "consistent_with_declared_rules",
+        "legal_coverage_complete": false,
+        "production_qualified": false,
+        "aggregate_methodology_qualified": false
+      },
+      {
+        "contract_version": "sail.shipment-partition-verification/v1",
+        "revision": "2026_rev_19",
+        "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+        "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+        "grid_cells": 4,
+        "membership_rows": 4,
+        "decision_classes": 4,
+        "bundles": 1,
+        "daily_states": 1,
+        "status": "consistent_with_declared_rules",
+        "legal_coverage_complete": false,
+        "production_qualified": false,
+        "aggregate_methodology_qualified": false
+      }
+    ],
+    "legal_coverage_complete": false
+  },
+  "manual_revision_builds_executed": false,
+  "production_writes": false,
+  "pushes": false,
+  "legal_coverage_complete": false
+}

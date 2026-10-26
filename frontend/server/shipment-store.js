@@ -3,6 +3,16 @@ import { evaluateShipmentBundle, unavailableShipment } from './generated/shipmen
 
 export const SHIPMENT_CONTRACT = 'sail.shipment-result/v1';
 export const RELEASE_CONTRACT = 'sail.tariff-release/v7';
+export const INDEX_RELEASE_CONTRACT = 'sail.tariff-release/v8';
+
+export async function readIndexReleaseMetadata(conn,release) {
+  if(!/^release_[a-f0-9]{16,64}$/.test(release.schema_name))return null;
+  const rows=(await conn.runAndReadAll(`SELECT * FROM "${release.schema_name}".release_metadata WHERE singleton=1`)).getRowObjects();
+  if(rows.length!==1)return null;
+  const m=rows[0];
+  if(m.manifest_sha256!==release.manifest_sha256||m.dataset_version!==release.dataset_version||m.evidence_snapshot_id!==release.evidence_snapshot_id)return null;
+  return m;
+}
 
 /** Captured once per request/batch; every read uses this immutable schema. */
 export async function activeShipmentRelease(conn) {
@@ -16,8 +26,15 @@ export async function activeShipmentRelease(conn) {
     const rows = reader.getRowObjects();
     if (rows.length !== 1) return null;
     const row = rows[0];
-    if (row.contract_version !== RELEASE_CONTRACT || row.status !== 'validated'
+    if (![RELEASE_CONTRACT,INDEX_RELEASE_CONTRACT].includes(row.contract_version) || row.status !== 'validated'
       || !/^release_[a-f0-9]{16,64}$/.test(row.schema_name)) return null;
+    if(row.contract_version===INDEX_RELEASE_CONTRACT) {
+      const pin=(await conn.runAndReadAll('SELECT manifest_sha256 FROM main.tariff_releases WHERE release_id=?',[row.release_id])).getRowObjects();
+      if(pin.length!==1)return null;
+      row.manifest_sha256=pin[0].manifest_sha256;
+      const metadata=await readIndexReleaseMetadata(conn,row);
+      if(!metadata||metadata.preparation_mode!=='production')return null;
+    }
     return row;
   } catch (error) {
     // Only a genuinely absent release contract is an unsupported schema.
