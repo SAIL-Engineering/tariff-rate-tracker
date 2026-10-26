@@ -1316,6 +1316,19 @@ emit_normalized_revision <- function(
   inventory_fragments <- c(inventory_fragments,emit_s338_rules(revision_id,products$hts10,output_dir))
 
   candidates <- denorm_state$heading_candidates %||% list()
+  if(grepl('^202[56]_',revision_id)) {
+    source(here::here('src/section232_autos.R'))
+    automobiles <- compile_s232_autos_fragment(revision_id,products$hts10,countries)
+    write_rule_fragment(automobiles,'section232_automobile_rules.json')
+    # Retain the original mixed-precision scope even where the aggregate path
+    # selected another sector. Use/claim facts decide actual automobile duty.
+    for(action in c('s232_automobiles','s232_automobile_parts')) {
+      members <- automobiles$candidate_memberships[[action]]
+      if(length(members))candidates[[action]] <- list(scope_matches=bind_rows(members),
+        scope_source=automobiles$candidate_scope_source$path,
+        scope_sha256=automobiles$candidate_scope_source$sha256)
+    }
+  }
   if(grepl('^2026_',revision_id)) {
     source(here::here('src/section232_semiconductors.R'))
     semiconductors <- compile_s232_semiconductors_fragment(revision_id,products$hts10)

@@ -78,6 +78,33 @@ compose_shipment_rules <- function(bundle, fragments) {
     TRUE
   }
   original_rules <- bundle$rules
+  # A source-backed compiler can establish that an older independently asked
+  # input is the same legal decision/value already evaluated by another action.
+  # Expand that expression before interpretation; contradictory caller aliases
+  # cannot override the authoritative facts. No program names live here.
+  derived <- list()
+  known_sources <- vapply(Filter(function(s)identical(s$status,'verified'),bundle$sources),`[[`,character(1),'id')
+  for(fragment in fragments) for(key in names(fragment$derived_facts)) {
+    d <- fragment$derived_facts[[key]]
+    if(!grepl('^[A-Za-z][A-Za-z0-9_]*$',key)||is.null(d$expression)||
+       !length(d$source_ids)||!all(unlist(d$source_ids)%in%known_sources))
+      stop('Unverified derived shipment fact: ',key)
+    if(!is.null(derived[[key]])&&!identical(.shipment_canonical(derived[[key]]),.shipment_canonical(d)))
+      stop('Conflicting derived shipment fact: ',key)
+    derived[[key]] <- d
+  }
+  used_sources <- character()
+  expand_derived <- function(node,visiting=character()) {
+    if(!is.list(node))return(node)
+    if(length(node)==1L&&!is.null(node$fact)&&is.character(node$fact)&&!is.null(derived[[node$fact]])) {
+      key <- node$fact
+      if(key %in% visiting)stop('Cyclic derived shipment fact: ',key)
+      used_sources <<- union(used_sources,unlist(derived[[key]]$source_ids))
+      return(expand_derived(derived[[key]]$expression,c(visiting,key)))
+    }
+    lapply(node,expand_derived,visiting=visiting)
+  }
+  for(key in names(derived))expand_derived(list(fact=key))
   bind_reporting <- function(node,scope) {
     if(!is.list(node)) return(node)
     if(!is.null(node$reporting_predicate)) {
@@ -98,10 +125,15 @@ compose_shipment_rules <- function(bundle, fragments) {
     }
     lapply(node,bind_reporting,scope=scope)
   }
-  bundle$rules <- lapply(bundle$rules,function(r) {
-    for(k in c('when','suppressed_when','formula','input_constraints')) if(!is.null(r[[k]])) r[[k]]<-bind_reporting(r[[k]],r$scope)
+  rewrite_rule <- function(r) {
+    used_sources <<- character()
+    for(k in c('when','suppressed_when','formula','input_constraints')) if(!is.null(r[[k]]))
+      r[[k]]<-bind_reporting(expand_derived(r[[k]]),r$scope)
+    if(length(used_sources))r$source_ids <- as.list(sort(unique(c(unlist(r$source_ids),used_sources))))
     r
-  })
+  }
+  bundle$rules <- lapply(bundle$rules,rewrite_rule)
+  if(length(derived))bundle$derived_fact_decisions <- derived
   for(fragment in fragments) if(!is.null(fragment$reciprocal_scope)) {
     scope <- fragment$reciprocal_scope
     if(!identical(scope$contract_version,'sail.ieepa-reciprocal-history/v1') || !identical(scope$revision,bundle$revision))
@@ -137,18 +169,29 @@ compose_shipment_rules <- function(bundle, fragments) {
   targets <- list()
   for (i in seq_along(bundle$rules)) for (code in unlist(bundle$rules[[i]]$reporting_codes))
     targets[[code]] <- c(targets[[code]], i)
+  action_targets <- split(seq_along(bundle$rules),vapply(bundle$rules,`[[`,character(1),'action_id'))
   decisions <- list()
   for (edge in relations) {
     if (!edge$effect %in% c('suppress','require_predicate','suppress_by_reporting_codes') ||
         (edge$effect == 'suppress' && !edge$when_rule_applies %in% ids) ||
         (edge$effect == 'require_predicate' && is.null(edge$predicate)) ||
         !length(edge$source_ids) || !all(unlist(edge$source_ids) %in% source_ids) ||
-        !length(edge$target_reporting_codes) ||
+        (as.integer(length(edge$target_reporting_codes)>0L)+as.integer(length(edge$target_action_ids)>0L)!=1L) ||
+        (length(edge$target_action_ids)&&any(!vapply(edge$target_action_ids,function(id)
+          is.character(id)&&length(id)==1L&&nzchar(id),logical(1)))) ||
         (!is.null(edge$target_rule_ids) && (!length(edge$target_rule_ids) || !all(unlist(edge$target_rule_ids)%in%ids))) ||
         (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')) ||
         (edge$effect=='suppress_by_reporting_codes' && (!length(edge$trigger_reporting_codes) ||
           (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')))))
       stop('Invalid action relation: ', edge$id)
+    if(!is.null(edge$source_window)) {
+      w <- edge$source_window
+      lower <- .shipment_time(w$from);upper <- .shipment_time(w$until)
+      start <- .shipment_time(bundle$valid_from);end <- .shipment_time(bundle$valid_until)
+      if(anyNA(c(lower,upper,start,end))||lower>=upper)stop('Invalid relation source window: ',edge$id)
+      if(end<=lower||start>=upper)next
+      if(start<lower||end>upper)stop('Source-windowed relation requires exact bundle tiling: ',edge$id)
+    }
     trigger_ids <- character()
     if(edge$effect=='suppress_by_reporting_codes') {
       trigger_ix <- sort(unique(unlist(targets[unlist(edge$trigger_reporting_codes)])))
@@ -158,13 +201,15 @@ compose_shipment_rules <- function(bundle, fragments) {
         trigger_ids <- c(trigger_ids,bundle$rules[[j]]$id)
       }
     }
-    for (i in sort(unique(unlist(targets[unlist(edge$target_reporting_codes)])))) {
+    target_ix <- if(length(edge$target_action_ids))unlist(action_targets[unlist(edge$target_action_ids)]) else
+      unlist(targets[unlist(edge$target_reporting_codes)])
+    for (i in sort(unique(target_ix))) {
       target <- bundle$rules[[i]]
       if(!is.null(edge$target_rule_ids) && !target$id %in% unlist(edge$target_rule_ids)) next
       matches <- intersect(unlist(target$reporting_codes), unlist(edge$target_reporting_codes))
-      if (!length(matches)) next
+      if (!length(matches)&&!length(edge$target_action_ids)) next
       # A rule mixing independent headings must first be split into actions.
-      if (length(setdiff(unlist(target$reporting_codes), matches))) stop('Mixed action reporting codes: ', target$id)
+      if (length(edge$target_reporting_codes)&&length(setdiff(unlist(target$reporting_codes), matches))) stop('Mixed action reporting codes: ', target$id)
       if (edge$effect == 'suppress' && identical(target$id, edge$when_rule_applies)) stop('Self-suppressing action: ', target$id)
       if (edge$effect %in% c('suppress','suppress_by_reporting_codes')) {
         if(edge$effect=='suppress') condition <- if(identical(edge$trigger_test,'positive_duty'))
@@ -188,9 +233,13 @@ compose_shipment_rules <- function(bundle, fragments) {
       bundle$rules[[i]] <- target
       decisions[[length(decisions) + 1L]] <- list(relation_id = edge$id, rule_id = target$id,
         when_rule_applies = edge$when_rule_applies, effect = edge$effect,
-        reporting_codes = as.list(matches), source_ids = edge$source_ids)
+        reporting_codes = as.list(matches), target_action_ids=edge$target_action_ids,
+        source_ids = edge$source_ids,source_window=edge$source_window)
     }
   }
+  # Relations can introduce predicates after initial rule binding. They use
+  # the same source-backed fact identities and reporting lookup as rule bodies.
+  bundle$rules <- lapply(bundle$rules,rewrite_rule)
   # Explicit, source-backed cross-authority claim effects. Recognize only a
   # registered claim whose candidate rules all belong to the stated authority;
   # a claim-name prefix alone is not evidence of its meaning.

@@ -1,0 +1,610 @@
+[Federal Register Volume 90, Number 177 (Tuesday, September 16, 2025)]
+[Notices]
+[Pages 44638-44643]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2025-17908]
+
+
+-----------------------------------------------------------------------
+
+DEPARTMENT OF COMMERCE
+
+International Trade Administration
+
+ [Docket No. 250912-0154; RTID 0625-XC057]
+
+
+Implementing Certain Tariff-Related Elements of the United 
+States-Japan Agreement
+
+AGENCY: International Trade Administration, U.S. Department of 
+Commerce.
+
+ACTION: Notice.
+
+-----------------------------------------------------------------------
+
+SUMMARY: On July 23, 2025, the President announced a framework 
+agreement between the United States and Japan (the Agreement), which 
+lays
+
+[[Page 44639]]
+
+the foundation for a new era of U.S.-Japan trade relations grounded in 
+principles of reciprocity and our shared national interests. On 
+September 4, 2025, the President issued Executive Order 14345, 
+Implementing the United States-Japan Agreement, finding that specified 
+tariff actions are consistent with the national interests of the United 
+States and are necessary and appropriate to address the national 
+emergency declared in Executive Order 14257, as amended, and to reduce 
+or eliminate the threats to national security found in certain 
+proclamations issued under Section 232 of the Trade Expansion Act of 
+1962. Executive Order 14345 also directed and authorized the Secretary 
+of Commerce (Secretary) to publish in the Federal Register changes to 
+the Harmonized Tariff Schedule of the United States (HTSUS) with 
+respect to general tariffs on Japanese goods (in consultation with the 
+United States Trade Representative, the Secretary of Homeland Security 
+acting through the Commissioner of U.S. Customs and Border Protection 
+(CBP), and the Chair of the United States International Trade 
+Commission (ITC)); products of Japan that fall under the World Trade 
+Organization Agreement on Trade in Civil Aircraft, except for unmanned 
+aircraft (in consultation with the Chair of the ITC and the 
+Commissioner of CBP); and products of Japan subject to duties under 
+Proclamation 10908 of March 26, 2025 (Adjusting Imports of Automobiles 
+and Automobile Parts Into the United States) (in consultation with the 
+Chair of the ITC and the Commissioner of CBP). This notice amends the 
+HTSUS to implement these provisions of the Agreement.
+
+DATES: The changes in the Harmonized Tariff Schedule of the United 
+States are effective September 16, 2025 except as otherwise provided 
+for in this notice.
+
+FOR FURTHER INFORMATION CONTACT: Emily Davis, Director for Public 
+Affairs, International Trade Administration, U.S. Department of 
+Commerce, 202-482-3809, [email protected].
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background
+
+    On July 23, 2025, the President announced an Agreement between the 
+United States and Japan (the Agreement), which lays the foundation for 
+a new era of U.S.-Japan trade relations grounded in principles of 
+reciprocity and our shared national interests (https://www.whitehouse.gov/fact-sheets/2025/07/fact-sheet-president-donald-j-trump-secures-unprecedented-u-s-japan-strategic-trade-and-investment-agreement/). On September 4, 2025, the President signed Executive Order 
+14345, which states that the Agreement establishes a tariff framework 
+that levels the playing field for American producers and accounts for 
+American national security needs. 90 FR 43535 (Sept. 9, 2025). The 
+Agreement will reduce the U.S. trade deficit, boost the economy of the 
+United States, and address the consequences of the U.S. trade deficit, 
+including by strengthening the manufacturing and defense industrial 
+base of the United States. In addition to raising billions in revenue, 
+this new tariff framework under the Agreement, combined with expanded 
+U.S. exports and investment-driven production, will help reduce the 
+trade deficit with Japan and restore greater balance to the overall 
+U.S. trade position.
+    Under the Agreement, the United States will apply a baseline 15 
+percent ad valorem tariff on nearly all Japanese imports entering the 
+United States, alongside separate sector-specific treatment for 
+automobiles and automobile parts; aerospace products; generic 
+pharmaceuticals; and natural resources that are not naturally available 
+or produced in the United States.
+    In Executive Order 14345, the President found that the Agreement is 
+necessary and appropriate to address the national emergency declared in 
+Executive Order 14257 of April 2, 2025, Regulating Imports with a 
+Reciprocal Tariff to Rectify Trade Practices That Contribute to Large 
+and Persistent Trade Deficits, as amended, and to reduce or eliminate 
+the threats to national security found in Proclamation 9704 of March 8, 
+2018, Adjusting Imports of Aluminum Into the United States, as amended; 
+Proclamation 9705 of March 8, 2018, Adjusting Imports of Steel Into the 
+United States, as amended; Proclamation 9888 of May 17, 2019, Adjusting 
+Imports of Automobiles and Automobile Parts Into the United States, as 
+amended; and Proclamation 10962 of July 30, 2025, Adjusting Imports of 
+Copper Into the United States.
+    Executive Order 14345 directed the Secretary of Commerce 
+(Secretary), in consultation with the United States Trade 
+Representative; the Secretary of Homeland Security, acting through the 
+Commissioner of CBP; and the Chair of the ITC, to determine whether 
+modifications to the HTSUS are necessary or appropriate to effectuate 
+the order and authorized him to make modifications through notice in 
+the Federal Register. That order requires changes to the additional ad 
+valorem rate of duty applicable to products of Japan, which are to be 
+determined by a product's current ad valorem (or ad valorem equivalent) 
+rate of duty under column 1 of the HTSUS (Column 1 Duty Rate). For a 
+product of Japan with a Column 1 Duty Rate that is less than 15 
+percent, the sum of its Column 1 Duty Rate and the additional ad 
+valorem rate of duty is 15 percent. For a product of Japan with a 
+Column 1 Duty Rate that is at least 15 percent, the additional rate of 
+duty pursuant to Executive Order 14345 is zero. Per Executive Order 
+14345, treatment of specific or compound duty rates is identical to the 
+treatment provided to products of the European Union, as outlined in 
+Executive Order 14326 of July 31, 2025, Further Modifying the 
+Reciprocal Tariff Rates. The duties, which are set forth in Annex 1(a) 
+to this notice, apply in lieu of the additional ad valorem duties 
+previously imposed on products of Japan under Executive Order 14257, as 
+amended. These modifications apply to products of Japan entered for 
+consumption or withdrawn from warehouse for consumption on or after 
+12:01 a.m. eastern daylight time on August 7, 2025.
+    Executive Order 14345 also directed the Secretary, in consultation 
+with the Chair of the ITC and the Commissioner of CBP, to publish a 
+notice in the Federal Register modifying the HTSUS so that tariffs 
+applied under Executive Order 14257, as amended; Proclamation 9704, as 
+amended; Proclamation 9705, as amended; and Proclamation 10962 do not 
+apply to products of Japan that fall under the World Trade Organization 
+Agreement on Trade in Civil Aircraft, except for unmanned aircraft. 
+These modifications are set forth in Annex 1(b) to this notice and are 
+effective for goods entered for consumption, or withdrawn from 
+warehouse for consumption, on or after September 16, 2025.
+    Finally, Executive Order 14345 directed the Secretary, in 
+consultation with the Chair of the ITC and the Commissioner of CBP, to 
+publish a notice in the Federal Register amending the HTSUS to allow 
+for the additional ad valorem rate of duty applicable to an automobile 
+or automobile part that is a product of Japan and subject to duties 
+under Proclamation 10908 to be determined by the product's Column 1 
+Duty Rate. For a product of Japan with a Column 1 Duty Rate that is 
+less than 15 percent, the sum of its Column 1 Duty Rate and the 
+additional automobile or automobile part Proclamation 10908 ad valorem 
+rate of duty are 15 percent. For a product of Japan with a Column 1 
+Duty Rate that is at least 15 percent, the additional automobile or 
+automobile part Proclamation 10908 ad valorem rate of duty imposed is 
+zero. These modifications are set forth in Annex 1(c)
+
+[[Page 44640]]
+
+to this notice and are effective for goods entered for consumption, or 
+withdrawn from warehouse for consumption, on or after September 16, 
+2025.
+
+    Dated: September 12, 2025.
+William Kimmitt,
+Under Secretary for International Trade, United States Department of 
+Commerce.
+
+Annex I
+
+    a. Effective with respect to goods entered for consumption, or 
+withdrawn from warehouse for consumption, on or after 12:01 a.m. 
+eastern time on August 7, 2025, subchapter III of chapter 99 of the 
+Harmonized Tariff Schedule of the United States (HTSUS) is modified 
+as follows:
+    1. Heading 9903.02.30 is hereby terminated.
+    2. U.S. note 2(v)(xv) to subchapter III of chapter 99 of the 
+Harmonized Tariff Schedule of the United States (HTSUS) is modified 
+by inserting the following in lieu thereof:
+    ``As provided in headings 9903.02.19, 9903.02.20, 9903.02.72, 
+and 9903.02.73, for any good of the European Union or Japan subject 
+to a specific or compound rate of duty under column 1--General, the 
+ad valorem equivalent rate of duty of such good shall be determined 
+by dividing the amount of duty payable under column 1--General by 
+the customs value of the good. For example, if a good were subject 
+to a specific duty of 50 cents per kilogram, and one kilogram of the 
+good were entered with a customs value of $10, then the ad valorem 
+equivalent rate of duty would be obtained by dividing 50 cents by 
+$10, yielding 5 percent.''
+    3. New headings 9903.02.72 and 9903.02.73 are inserted in 
+numerical sequence, with the material in the new heading inserted in 
+the columns of the HTSUS labeled ``Heading/Subheading'', ``Article 
+Description'', ``Rates of Duty 1--General'', ``Rates of Duty 1--
+Special'' and ``Rates of Duty 2'', respectively:
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                Rates of duty
+                                                                                    --------------------------------------------------------------------
+         Heading/subheading                        Article description                                     1
+                                                                                    ----------------------------------------------           2
+                                                                                            General                Special
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+``9903.02.72.......................  Except for goods loaded onto a vessel at the    The duty provided in   The duty provided in   No change.
+                                      port of loading and in transit on the final     the applicable         the applicable
+                                      mode of transit before 12:01 a.m. eastern       subheading.            subheading.
+                                      daylight time on August 7, 2025, and entered
+                                      for consumption or withdrawn from warehouse
+                                      for consumption before 12:01 a.m. eastern
+                                      daylight time on October 5, 2025, except for
+                                      products described in headings 9903.01.30-
+                                      9903.01.33, and except as provided for in
+                                      headings 9903.01.34, 9903.02.01, and
+                                      9903.96.02, articles the product of Japan,
+                                      with an ad valorem (or ad valorem equivalent)
+                                      rate of duty under column 1 equal to or
+                                      greater than 15 percent, as provided for in
+                                      subdivision (v) of U.S. note 2 to this
+                                      subchapter.
+9903.02.73.........................  Except for goods loaded onto a vessel at the    15%..................  15%..................  No change''.
+                                      port of loading and in transit on the final
+                                      mode of transit before 12:01 a.m. eastern
+                                      daylight time on August 7, 2025, and entered
+                                      for consumption or withdrawn from warehouse
+                                      for consumption before 12:01 a.m. eastern
+                                      daylight time on October 5, 2025, except for
+                                      products described in headings 9903.01.30-
+                                      9903.01.33, and except as provided for in
+                                      headings 9903.01.34, 9903.02.01, and
+                                      9903.96.02, articles the product of Japan,
+                                      with an ad valorem (or ad valorem equivalent)
+                                      rate of duty under column 1 less than 15
+                                      percent, as provided for in subdivision (v)
+                                      of U.S. note 2 to this subchapter.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    b. Effective with respect to goods entered for consumption, or 
+withdrawn from warehouse for consumption, on or after 12:01 a.m. 
+eastern time on September 16, 2025, subchapter III of chapter 99 of 
+the HTSUS is modified as follows:
+    1. U.S. note 35 is modified by adding in the following 
+subdivision (b):
+    ``As provided in heading 9903.96.02, the additional duties 
+imposed by heading 9903.02.72, 9903.02.73 9903.78.01, 9903.81.87, 
+9903.81.88, 9903.81.89, 9903.81.90, 9903.81.91, 9903.81.93, 
+9903.85.02, 9903.85.04, 9903.85.07, and 9903.85.08, shall not apply 
+to articles of civil aircraft (all aircraft other than military 
+aircraft and unmanned aircraft); their engines, parts, and 
+components; their other parts, components, and subassemblies; and 
+ground flight simulators and their parts and components of Japan, 
+that otherwise meet the criteria of General Note 6 of HTSUS, and 
+classifiable in the following provisions of the HTSUS, but 
+regardless of whether a product is entered under a provision for 
+which the rate of duty ``Free (C)'' appears in the ``Special'' 
+subcolumn: 3917.21.00, 3917.22.00; 3917.23.00; 3917.29.00; 
+3917.31.00; 3917.33.00; 3917.39.00; 3917.40.00; 3926.90.45; 
+3926.90.94; 3926.90.96; 3926.90.99; 4008.29.20; 4009.12.00; 
+4009.22.00; 4009.32.00; 4009.42.00; 4011.30.00; 4012.13.00; 
+4012.20.10; 4016.10.00; 4016.93.50; 4016.99.35; 4016.99.60; 
+4017.00.00; 4504.90.00; 4823.90.10; 4823.90.20; 4823.90.31; 
+4823.90.40; 4823.90.50; 4823.90.60; 4823.90.67; 4823.90.70; 
+4823.90.80; 4823.90.86; 6812.80.90; 6812.99.10; 6812.99.20; 
+6812.99.90; 6813.20.00; 6813.81.00; 6813.89.00; 7007.21.11; 
+7304.31.30; 7304.31.60; 7304.39.00; 7304.41.30; 7304.41.60; 
+7304.49.00; 7304.51.10; 7304.51.50; 7304.59.10; 7304.59.20; 
+7304.59.60; 7304.59.80; 7304.90.10; 7304.90.30; 7304.90.50; 
+7304.90.70; 7306.30.10; 7306.30.30; 7306.30.50; 7306.40.10; 
+7306.40.50; 7306.50.10; 7306.50.30; 7306.50.50; 7306.61.10; 
+7306.61.30; 7306.61.50; 7306.61.70; 7306.69.10; 7306.69.30; 
+7306.69.50; 7306.69.70; 7312.10.05; 7312.10.10; 7312.10.20; 
+7312.10.30; 7312.10.50; 7312.10.60; 7312.10.70; 7312.10.80; 
+7312.10.90; 7312.90.00; 7322.90.00; 7324.10.00; 7324.90.00; 
+7326.20.00; 7413.00.90; 7608.10.00; 7608.20.00; 8108.90.60; 
+8302.10.60; 8302.10.90; 8302.20.00; 8302.42.30; 8302.42.60; 
+8302.49.40; 8302.49.60; 8302.49.80; 8302.60.30; 8307.10.30; 
+8307.90.30; 8407.10.00; 8408.90.90; 8409.10.00; 8411.11.40; 
+8411.11.80; 8411.12.40; 8411.12.80; 8411.21.40; 8411.21.80; 
+8411.22.40; 8411.22.80; 8411.81.40; 8411.82.40; 8411.91.10; 
+8411.91.90; 8411.99.10; 8411.99.90; 8412.10.00; 8412.21.00; 
+8412.29.40; 8412.29.80; 8412.31.00; 8412.39.00; 8412.80.10; 
+8412.80.90; 8412.90.90; 8413.19.00; 8413.20.00; 8413.30.10; 
+8413.30.90; 8413.50.00; 8413.60.00; 8413.70.10; 8413.70.20; 
+8413.81.00; 8413.91.10; 8413.91.20; 8413.91.90; 8414.10.00; 
+8414.20.00; 8414.30.40; 8414.30.80; 8414.51.30; 8414.51.90; 
+8414.59.30; 8414.59.65; 8414.80.05; 8414.80.16; 8414.80.20; 
+8414.80.90; 8414.90.10; 8414.90.30; 8414.90.41; 8414.90.91; 
+8415.10.60; 8415.10.90; 8415.81.01; 8415.82.01; 8415.83.00; 
+8415.90.40; 8415.90.80; 8418.10.00; 8418.30.00; 8418.40.00; 
+8418.61.01; 8418.69.01; 8419.50.10; 8419.50.50; 8419.81.50; 
+8419.81.90; 8419.90.10; 8419.90.20; 8419.90.30; 8419.90.50; 
+8419.90.85; 8421.19.00; 8421.21.00; 8421.23.00; 8421.29.00; 
+8421.31.00; 8421.32.00; 8421.39.01; 8424.10.00; 8425.11.00; 
+8425.19.00;
+
+[[Page 44641]]
+
+8425.31.01; 8425.39.01; 8425.42.00; 8425.49.00; 8426.99.00; 
+8428.10.00; 8428.20.00; 8428.33.00; 8428.39.00; 8428.90.03; 
+8443.31.00; 8443.32.10; 8443.32.50; 8471.41.01; 8471.49.00; 
+8471.50.01; 8471.60.10; 8471.60.20; 8471.60.70; 8471.60.80; 
+8471.60.90; 8471.70.10; 8471.70.20; 8471.70.30; 8471.70.40; 
+8471.70.50; 8471.70.60; 8471.70.90; 8479.89.10; 8479.89.20; 
+8479.89.65; 8479.89.70; 8479.89.95; 8479.90.41; 8479.90.45; 
+8479.90.55; 8479.90.65; 8479.90.75; 8479.90.85; 8479.90.95; 
+8483.10.10; 8483.10.30; 8483.10.50; 8483.30.40; 8483.30.80; 
+8483.40.10; 8483.40.30; 8483.40.50; 8483.40.70; 8483.40.80; 
+8483.40.90; 8483.50.40; 8483.50.60; 8483.50.90; 8483.60.40; 
+8483.60.80; 8483.90.10; 8483.90.20; 8483.90.30; 8483.90.50; 
+8483.90.80; 8484.10.00; 8484.90.00; 8501.20.50; 8501.20.60; 
+8501.31.50; 8501.31.60; 8501.31.81; 8501.32.20; 8501.32.55; 
+8501.32.61; 8501.33.20; 8501.33.30; 8501.33.61; 8501.34.61; 
+8501.40.50; 8501.40.60; 8501.51.50; 8501.51.60; 8501.52.40; 
+8501.52.80; 8501.53.40; 8501.53.60; 8501.61.01; 8501.62.01; 
+8501.63.01; 8501.71.00; 8501.72.10; 8501.72.20; 8501.72.30; 
+8501.72.90; 8501.80.10; 8501.80.20; 8501.80.30; 8502.11.00; 
+8502.12.00; 8502.13.00; 8502.20.00; 8502.31.00; 8502.39.00; 
+8502.40.00; 8504.10.00; 8504.31.20; 8504.31.40; 8504.31.60; 
+8504.32.00; 8504.33.00; 8504.40.40; 8504.40.60; 8504.40.70; 
+8504.40.85; 8504.40.95; 8504.50.40; 8504.50.80; 8507.10.00; 
+8507.20.80; 8507.30.80; 8507.50.00; 8507.60.00; 8507.80.82; 
+8507.90.40; 8507.90.80; 8511.10.00; 8511.20.00; 8511.30.00; 
+8511.40.00; 8511.50.00; 8511.80.20; 8511.80.40; 8511.80.60; 
+8514.20.40; 8516.80.40; 8516.80.80; 8517.13.00; 8517.14.00; 
+8517.61.00; 8517.62.00; 8517.69.00; 8517.71.00; 8518.10.40; 
+8518.10.80; 8518.21.00; 8518.22.00; 8518.29.40; 8518.29.80; 
+8518.30.10; 8518.30.20; 8518.40.10; 8518.40.20; 8518.50.00; 
+8519.81.10; 8519.81.20; 8519.81.25; 8519.81.30; 8519.81.41; 
+8519.89.10; 8519.89.20; 8519.89.30; 8521.10.30; 8521.10.60; 
+8521.10.90; 8522.90.25; 8522.90.36; 8522.90.45; 8522.90.58; 
+8522.90.65; 8522.90.80; 8526.10.00; 8526.91.00; 8526.92.10; 
+8526.92.50; 8528.42.00; 8528.52.00; 8528.62.00; 8529.10.21; 
+8529.10.40; 8529.10.91; 8529.90.04; 8529.90.05; 8529.90.06; 
+8529.90.09; 8529.90.13; 8529.90.16; 8529.90.19; 8529.90.21; 
+8529.90.24; 8529.90.29; 8529.90.33; 8529.90.36; 8529.90.39; 
+8529.90.43; 8529.90.46; 8529.90.49; 8529.90.55; 8529.90.63; 
+8529.90.68; 8529.90.73; 8529.90.77; 8529.90.78; 8529.90.81; 
+8529.90.83; 8529.90.87; 8529.90.88; 8529.90.89; 8529.90.93; 
+8529.90.95; 8529.90.97; 8529.90.98; 8531.10.00; 8531.20.00; 
+8531.80.15; 8531.80.90; 8536.70.00; 8539.10.00; 8539.51.00; 
+8543.70.42; 8543.70.45; 8543.70.60; 8543.70.80; 8543.70.91; 
+8543.70.95; 8543.90.12; 8543.90.15; 8543.90.35; 8543.90.65; 
+8543.90.68; 8543.90.85; 8543.90.88; 8544.30.00; 8801.00.00; 
+8802.11.01; 8802.12.01; 8802.20.01; 8802.30.01; 8802.40.01; 
+8805.29.00; 8807.10.00; 8807.20.00; 8807.30.00; 8807.90.90; 
+9001.90.40; 9001.90.50; 9001.90.60; 9001.90.80; 9001.90.90; 
+9002.90.20; 9002.90.40; 9002.90.70; 9002.90.85; 9002.90.95; 
+9014.10.10; 9014.10.60; 9014.10.70; 9014.10.90; 9014.20.20; 
+9014.20.40; 9014.20.60; 9014.20.80; 9014.90.10; 9014.90.20; 
+9014.90.40; 9014.90.60; 9020.00.40; 9020.00.60; 9025.11.20; 
+9025.11.40; 9025.19.40; 9025.19.80; 9025.80.10; 9025.80.15; 
+9025.80.20; 9025.80.35; 9025.80.40; 9025.80.50; 9025.90.06; 
+9026.10.20; 9026.10.40; 9026.10.60; 9026.20.40; 9026.20.80; 
+9026.80.20; 9026.80.40; 9026.80.60; 9026.90.20; 9026.90.40; 
+9026.90.60; 9029.10.80; 9029.20.40; 9029.90.80; 9030.10.00; 
+9030.20.05; 9030.20.10; 9030.31.00; 9030.32.00; 9030.33.34; 
+9030.33.38; 9030.39.01; 9030.40.00; 9030.84.00; 9030.89.01; 
+9030.90.25; 9030.90.46; 9030.90.66; 9030.90.68; 9030.90.84; 
+9030.90.89; 9031.80.40; 9031.80.80; 9031.90.21; 9031.90.45; 
+9031.90.54; 9031.90.59; 9031.90.70; 9031.90.91; 9032.10.00; 
+9032.20.00; 9032.81.00; 9032.89.20; 9032.89.40; 9032.89.60; 
+9032.90.21; 9032.90.41; 9032.90.61; 9033.00.90; 9104.00.05; 
+9104.00.10; 9104.00.20; 9104.00.25; 9104.00.30; 9104.00.40; 
+9104.00.45; 9104.00.50; 9104.00.60; 9109.10.50; 9109.10.60; 
+9109.90.20; 9401.10.40; 9401.10.80; 9403.20.00; 9403.70.40; 
+9403.70.80; 9405.11.40; 9405.11.60; 9405.11.80; 9405.19.40; 
+9405.19.60; 9405.19.80; 9405.61.20; 9405.61.40; 9405.61.60; 
+9405.69.20; 9405.69.40; 9405.69.60; 9405.92.00; 9405.99.20; 
+9405.99.40; 9620.00.50; 9620.00.60; 9802.00.40; 9802.00.50; 
+9802.00.60; 9802.00.80; 9818.00.05; 9818.00.07''
+    2. U.S. note 2(v) is modified by deleting ``and 9903.02.01-
+9903.02.71'' in each place that it appears and inserting 
+``9903.02.01-9903.02.73'' in lieu thereof.
+    3. U.S. note 2(v)(i) is modified by:
+    i. Deleting ``Except as provided in headings 9903.01.26-
+9903.01.33, in heading 9903.01.34, in heading 9903.96.01,'' and 
+inserting ``Except as provided in headings 9903.01.26-9903.01.33, in 
+heading 9903.01.34, in heading 9903.96.01 and 9903.96.02'' in lieu 
+thereof; and
+    ii. Deleting the last sentence in the first paragraph and 
+inserting ``Products that are eligible for special tariff treatment 
+under general note 3(c)(i) to the tariff schedule, or that are 
+eligible for temporary duty exemptions or reductions under 
+subchapter II to chapter 99, shall be subject to the additional ad 
+valorem rate of duty imposed by these headings except as provided in 
+9903.96.01 and 9903.96.02 with respect to the Agreement on Trade and 
+Civil Aircraft.''
+    4. U.S note 16(i) is modified by inserting ``Except as provided 
+in heading 9903.96.02'' to the beginning of the first sentence.
+    5. U.S. note 16(k) is modified by to inserting ``Except as 
+provided in heading 9903.96.02'' to the beginning of the first 
+sentence.
+    6. U.S. note 19(f) is modified by inserting ``Except as provided 
+in heading 9903.96.02'' to the beginning of the first sentence.
+    7. U.S. note 19(h) is modified by inserting ``Except as provided 
+in heading 9903.96.02'' to the beginning of the first sentence.
+    8. U.S. note 36(a) is modified by inserting ``Except as provided 
+in headings 9903.94.40-9903.94.43, and 9903.96.02'' to the beginning 
+of the first sentence.
+    9. New heading 9903.96.02 is inserted in numerical order, with 
+the material in the new heading inserted in the columns of the HTSUS 
+labeled ``Heading/Subheading'', ``Article Description'', ``Rates of 
+Duty 1--General'', ``Rates of Duty 1--Special'' and ``Rates of Duty 
+2'', respectively:
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                Rates of duty
+                                                                                    --------------------------------------------------------------------
+         Heading/subheading                        Article description                                     1
+                                                                                    ----------------------------------------------           2
+                                                                                            General                Special
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+``9903.96.02.......................  Articles of civil aircraft (all aircraft other  The duty provided in   The duty provided in   No change.
+                                      than military aircraft); their engines,         the applicable         the applicable
+                                      parts, and components; their other parts,       subheading.            subheading.
+                                      components, and subassemblies; and ground
+                                      flight simulators and their parts and
+                                      components of Japan, excluding unmanned
+                                      aircraft, classified in the subheadings
+                                      enumerated in subdivision (b) of U.S. note 35
+                                      to this subchapter.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    c. Effective with respect to goods entered for consumption, or 
+withdrawn from warehouse for consumption, on or after 12:01 a.m. 
+eastern time on September 16, 2025, subchapter III of chapter 99 of 
+the HTSUS is modified as follows:
+    1. U.S. note 33 is modified by adding the following subdivision 
+(k):
+    ``(k) Except as provided for in headings 9903.94.02 and 
+9903.94.04, headings 9903.94.40, 9903.94.41 sets forth the ordinary 
+customs duty treatment for certain passenger
+
+[[Page 44642]]
+
+vehicles and light trucks classifiable in the provisions of the 
+HTSUS enumerated in subdivision (b) of this Note that are products 
+of Japan.
+    Any passenger vehicle or light truck, except those eligible for 
+admission under ``domestic status'' as defined in 19 CFR 146.43, 
+that is subject to the duty imposed by this subdivision and that is 
+admitted into a United States foreign trade zone on or after 12:01 
+a.m. eastern standard time on September 16, 2025, must be admitted 
+as ``privileged foreign status'' as defined in 19 CFR 146.41, and 
+will be subject upon entry for consumption to any ad valorem rates 
+of duty related to the classification under this HTSUS subheading.
+    Goods for which entry is claimed under a provision of chapter 98 
+and which are subject to the additional duties prescribed herein 
+shall be eligible for and subject to the terms of such provision and 
+applicable U.S. Customs and Border Protection (``CBP'') regulations, 
+except that duties under subheading 9802.00.60 shall be assessed 
+based upon the full value of the imported article. No claim for 
+entry or for any duty exemption or reduction shall be allowed for 
+the passenger vehicles and light trucks provided for in this 
+subdivision (k) of this note under a provision of chapter 99 that 
+may set forth a lower rate of duty or provide duty-free treatment, 
+taking into account information supplied by CBP, but any additional 
+duty prescribed in any provision of this subchapter or subchapter IV 
+of chapter 99 shall be imposed in addition to the duty in headings 
+9903.94.40 and 9903.94.41. All antidumping, countervailing, or other 
+duties and charges applicable to such goods shall continue to be 
+imposed in addition to the duty in headings 9903.94.40 and 
+9903.94.41. Entries of passenger vehicles and light trucks described 
+in this subdivision (k) shall not be subject to: (1) the additional 
+duties imposed on entries of semi-finished copper products and 
+copper-intensive derivative products under heading 9903.78.01; (2) 
+the additional duties imposed on entries of products of aluminum 
+under heading 9903.85.02 and 9903.85.12; (3) the additional duties 
+imposed on entries of derivative aluminum products under headings 
+9903.85.04, 9903.85.07, 9903.85.08, 9903.85.13, 9903.85.14, and 
+9903.85.15; (4) the additional duties imposed on entries of iron or 
+steel products under headings 9903.81.87, 9903.81.88, 9903.81.94 and 
+9903.81.95; (5) the additional duties imposed on entries of 
+derivative iron or steel products under headings 9903.81.89, 
+9903.81.90, 9903.81.91, 9903.81.93, 9903.81.96, 9903.81.97, 
+9903.81.98 and 9903.81.99.
+    2. U.S. note 33 is modified by adding the following subdivision 
+(l):
+    ``(l) Except as provided for in headings 9903.94.06, headings 
+9903.94.42, 9903.94.43 sets forth the ordinary customs duty 
+treatment for certain parts of passenger vehicles and light trucks 
+classifiable in the provisions of the HTSUS enumerated in 
+subdivision (g) of this Note that are products of Japan.
+    Any automotive part, except those eligible for admission under 
+``domestic status'' as defined in 19 CFR 146.43, that is subject to 
+the duty imposed by this subdivision and that is admitted into a 
+United States foreign trade zone on or after 12:01 a.m. eastern 
+standard time on September 16, 2025, must be admitted as 
+``privileged foreign status'' as defined in 19 CFR 146.41, and will 
+be subject upon entry for consumption to any ad valorem rates of 
+duty related to the classification under this HTSUS subheading.
+    Goods for which entry is claimed under a provision of chapter 98 
+and which are subject to the additional duties prescribed herein 
+shall be eligible for and subject to the terms of such provision and 
+applicable U.S. Customs and Border Protection (``CBP'') regulations, 
+except that duties under subheading 9802.00.60 shall be assessed 
+based upon the full value of the imported article. No claim for 
+entry or for any duty exemption or reduction shall be allowed for 
+the automotive parts provided for in this subdivision (l) of this 
+note under a provision of chapter 99 that may set forth a lower rate 
+of duty or provide duty-free treatment, taking into account 
+information supplied by CBP, but any additional duty prescribed in 
+any provision of this subchapter or subchapter IV of chapter 99 
+shall be imposed in addition to the duty in headings 9903.94.42 and 
+9903.94.43. All antidumping, countervailing, or other duties and 
+charges applicable to such goods shall continue to be imposed in 
+addition to the duty in headings 9903.94.42 and 9903.94.43. Entries 
+of automotive parts described in this subdivision (l) shall not be 
+subject to: (1) the additional duties imposed on entries of semi-
+finished copper products and copper-intensive derivative products 
+under heading 9903.78.01; (2) the additional duties imposed on 
+entries of products of aluminum under heading 9903.85.02 and 
+9903.85.12; (3) the additional duties imposed on entries of 
+derivative aluminum products under headings 9903.85.04, 9903.85.07, 
+9903.85.08, 9903.85.13, 9903.85.14, and 9903.85.15; (4) the 
+additional duties imposed on entries of iron or steel products under 
+headings 9903.81.87, 9903.81.88, 9903.81.94 and 9903.81.95; (5) the 
+additional duties imposed on entries of derivative iron or steel 
+products under headings 9903.81.89, 9903.81.90, 9903.81.91, 
+9903.81.93, 9903.81.96, 9903.81.97, 9903.81.98 and 9903.81.99.
+    3. U.S. note 33 is modified by adding the following subdivision 
+(m):
+    ``As provided in headings 9903.94.40-9903.94.43, for any good of 
+Japan subject to a specific or compound rate of duty under column 
+1--General, the ad valorem equivalent rate of duty of such good 
+shall be determined by dividing the amount of duty payable under 
+column 1--General by the customs value of the good. For example, if 
+a good were subject to a specific duty of 50 cents per kilogram, and 
+one kilogram of the good were entered with a customs value of $10, 
+then the ad valorem equivalent rate of duty would be obtained by 
+dividing 50 cents by $10, yielding 5 percent.''
+    4. U.S. note 33(a) is modified by:
+    i. Deleting ``Except as provided for in headings 9903.94.02, 
+9903.94.03, 9903.94.04, and 9903.94.31'' and inserting ``Except as 
+provided for in headings 9903.94.02, 9903.94.03, 9903.94.04, 
+9903.94.31, 9903.94.40, and 9903.94.41,'' in lieu thereof.
+    ii. Deleting ``Except as provided in heading 9903.94.31, no 
+claim for entry'', and inserting ``Except as provided in headings 
+9903.94.31, 9903.94.40 and 9903.94.41, no claim for entry'' in lieu 
+thereof.
+    5. U.S. note 33(b) is modified by inserting ``9903.94.40, 
+9903.94.41'' after ``9903.94.04,''.
+    6. U.S. note 33(f) is modified by:
+    i. Deleting ``Except as provided for in heading 9903.94.06 and 
+9903.94.32,'' and replacing with ``Except as provided for in heading 
+9903.94.06, 9903.94.32, 9903.94.42 and 9903.94.43,'' in lieu 
+thereof.
+    ii. Deleting ``Except as provided in heading 9903.94.32, no 
+claim for entry'' and inserting ``Except as provided in headings 
+9903.94.32, 9903.94.42 and 9903.94.43, no claim for entry'' in lieu 
+thereof.
+    7. U.S. note 33(g) is modified by inserting ``, 9903.94.42, and 
+9903.94.43'' after ``9903.94.05''.
+    8. Heading 9903.94.01 is modified by deleting the article 
+description and inserting ``Except for 9903.94.02, 9903.94.03, 
+9903.94.04, 9903.94.31, 9903.94.40 and 9903.94.41, effective with 
+respect to entries on or after April 3, 2025, passenger vehicles 
+(sedans, sport utility vehicles, crossover utility vehicles, 
+minivans, and cargo vans) and light trucks, as specified in note 33 
+to this subchapter, as provided for in subdivision (b) of U.S. note 
+33 to this subchapter''
+    9. Heading 9903.94.05 is modified by deleting the article 
+description and inserting ``Except for 9903.94.06, 9903.94.32, 
+9903.94.42 and 9903.94.43, effective with respect to entries on or 
+after May 3, 2025, automobile parts, as provided for in subdivision 
+(g) of U.S. note 33 to this subchapter''
+    10. New headings 9903.94.40, 9903.94.41, 9903.94.42 and 
+9903.94.43 are inserted in numerical sequence, with the material in 
+the new heading inserted in the columns of the HTSUS labeled 
+``Heading/Subheading'', ``Article Description'', ``Rates of Duty 1--
+General'', ``Rates of Duty 1--Special'' and ``Rates of Duty 2'', 
+respectively:
+
+[[Page 44643]]
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                Rates of duty
+                                                                                    --------------------------------------------------------------------
+         Heading/subheading                        Article description                                     1
+                                                                                    ----------------------------------------------           2
+                                                                                            General                Special
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+``9903.94.40.......................  Passenger vehicles and light trucks that are    The duty provided in   The duty provided in   No change.
+                                      products of Japan as provided for in            the applicable         the applicable
+                                      subdivision (k) of U.S. note 33 to this         subheading.            subheading.
+                                      subchapter, with an ad valorem (or ad valorem
+                                      equivalent) rate of duty under column 1 equal
+                                      to or greater than 15 percent as provided for
+                                      in subdivision (m) of U.S. note 33 to this
+                                      subchapter.
+9903.94.41.........................  Passenger vehicles and light trucks that are    15%..................  15%..................  No change.
+                                      products of Japan provided for in subdivision
+                                      (k) of U.S. note 33 to this subchapter, with
+                                      an ad valorem (or ad valorem equivalent) rate
+                                      of duty under column 1 less than 15 percent
+                                      as provided for in subdivision (m) of U.S.
+                                      note 33 to this subchapter.
+9903.94.42.........................  Parts of passenger vehicles and light trucks    The duty provided in   The duty provided in   No change.
+                                      that are products of Japan as provided for      the applicable         the applicable
+                                      subdivision (l) of U.S. note 33 to this         subheading.            subheading.
+                                      subchapter, with an ad valorem (or ad valorem
+                                      equivalent) rate of duty under column 1 equal
+                                      to or greater than 15 percent as provided for
+                                      in subdivision (m) of U.S. note 33 to this
+                                      subchapter.
+9903.94.43.........................  Parts of passenger vehicles and light trucks    15%..................  15%..................  No change.''
+                                      that are products of Japan as provided for in
+                                      subdivision (l) of U.S. note 33 to this
+                                      subchapter, with an ad valorem (or ad valorem
+                                      equivalent) rate of duty under column 1 less
+                                      than 15 percent as provided for in
+                                      subdivision (m) of U.S. note 33 to this
+                                      subchapter.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[FR Doc. 2025-17908 Filed 9-15-25; 8:45 am]
+BILLING CODE 3510-DS-P

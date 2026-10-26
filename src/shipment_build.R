@@ -208,7 +208,8 @@ assemble_shipment_state <- function(revision,products,countries,valid_from,valid
   instants <- c(start,end)
   for(f in fragments) {
     boundaries <- c(f$supported_from,f$supported_until,f$legal_horizon$from_,f$legal_horizon$until,
-      unlist(lapply(c(f$rules,f$coverage),function(r)c(r$scope$from,r$scope$until))))
+      unlist(lapply(c(f$rules,f$coverage),function(r)c(r$scope$from,r$scope$until))),
+      unlist(lapply(f$relations,function(r)c(r$source_window$from,r$source_window$until))))
     if(length(boundaries)) {
       times <- vapply(boundaries,.shipment_time,numeric(1))
       if(anyNA(times))stop('Invalid source/rule horizon in fragment: ',f$id)

@@ -1,0 +1,154 @@
+{
+  "cutoff_until": "2026-10-23T00:00:00-04:00",
+  "sources": [
+    {
+      "id": "FR-2025-12060-auto-original-text",
+      "path": "resources/legal_evidence/section232/autos/2025-12060.txt",
+      "sha256": "079d9cf1811738cbd5877e45f2e7e086d2d060e7e0bf2f419090ac612478e623",
+      "url": "https://www.federalregister.gov/documents/2025/06/30/2025-12060/imports-of-automobiles-automobile-parts-civil-aircraft-and-civil-aircraft-parts-from-the-united",
+      "citation": "Original operative automobile provisions and annex reporting table in Federal Register 2025-12060",
+      "corpus": {
+        "document_number": "2025-12060",
+        "source_hash": "2f07fc47c8cc7884ed86d9a9b82aa16954d590c0aa02b05d5d0c98415c9df207",
+        "version_no": 1,
+        "raw_object_path": "raw/fr/2025-12060/2f07fc47c8cc7884ed86d9a9b82aa16954d590c0aa02b05d5d0c98415c9df207.json",
+        "raw_text_object_path": "raw/fr/2025-12060/2f07fc47c8cc7884ed86d9a9b82aa16954d590c0aa02b05d5d0c98415c9df207.txt"
+      }
+    },
+    {
+      "id": "FR-2025-17908-auto-original-text",
+      "path": "resources/legal_evidence/section232/autos/2025-17908.txt",
+      "sha256": "d88a39bd8adba00603923fdb20cf0487f323d1ba61870992ed5759b5acc563a5",
+      "url": "https://www.federalregister.gov/documents/2025/09/16/2025-17908/implementing-certain-tariff-related-elements-of-the-united-states-japan-agreement",
+      "citation": "Original operative automobile provisions and annex reporting table in Federal Register 2025-17908",
+      "corpus": {
+        "document_number": "2025-17908",
+        "source_hash": "a58896f9049255a5b509d89658db8aaf5f7b058f9f49ec2d4af1507eaa7fcbc1",
+        "version_no": 1,
+        "raw_object_path": "raw/fr/2025-17908/a58896f9049255a5b509d89658db8aaf5f7b058f9f49ec2d4af1507eaa7fcbc1.json",
+        "raw_text_object_path": "raw/fr/2025-17908/a58896f9049255a5b509d89658db8aaf5f7b058f9f49ec2d4af1507eaa7fcbc1.txt"
+      }
+    },
+    {
+      "id": "FR-2025-18660-auto-original-text",
+      "path": "resources/legal_evidence/section232/autos/2025-18660.txt",
+      "sha256": "52f860a29dfe0550c83c31ebfaebd9095cb841353bc0f31a8a2f3a85d4a4e9d8",
+      "url": "https://www.federalregister.gov/documents/2025/09/25/2025-18660/implementing-certain-tariff-related-elements-of-the-us-eu-framework-on-an-agreement-on-reciprocal",
+      "citation": "Original operative automobile provisions and annex reporting table in Federal Register 2025-18660",
+      "corpus": {
+        "document_number": "2025-18660",
+        "source_hash": "95edcfaf57888c8c85322f0742a82be562b1c3c3d23c7d99b6c8e0084cad00e1",
+        "version_no": 1,
+        "raw_object_path": "raw/fr/2025-18660/95edcfaf57888c8c85322f0742a82be562b1c3c3d23c7d99b6c8e0084cad00e1.json",
+        "raw_text_object_path": "raw/fr/2025-18660/95edcfaf57888c8c85322f0742a82be562b1c3c3d23c7d99b6c8e0084cad00e1.txt"
+      }
+    },
+    {
+      "id": "FR-2025-21940-auto-original-text",
+      "path": "resources/legal_evidence/section232/autos/2025-21940.txt",
+      "sha256": "1fd4fce4f87afb1d600556a0e3347e6ec4c9f7d33938e924f6235129197e221f",
+      "url": "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal",
+      "citation": "Original operative automobile provisions and annex reporting table in Federal Register 2025-21940",
+      "corpus": {
+        "document_number": "2025-21940",
+        "source_hash": "8d885d2e6044f7e8291fb3d68522be21b2824a765c185fc1e0651268f695759e",
+        "version_no": 1,
+        "raw_object_path": "raw/fr/2025-21940/8d885d2e6044f7e8291fb3d68522be21b2824a765c185fc1e0651268f695759e.json",
+        "raw_text_object_path": "raw/fr/2025-21940/8d885d2e6044f7e8291fb3d68522be21b2824a765c185fc1e0651268f695759e.txt"
+      }
+    },
+    {
+      "id": "FR-2026-10571-auto-original-text",
+      "path": "resources/legal_evidence/section122/interactions/2026-10571.txt",
+      "sha256": "81a9c0148f3b7e744b95064849e7385cd4f2335be179659a3b06dfe79e6adb41",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-05-28/html/2026-10571.htm",
+      "citation": "Taiwan Annex paragraphs1 and3: valid note33(u) and reporting table; independent of malformed note2 reference."
+    },
+    {
+      "id": "FR-2025-05930-auto-pdf",
+      "path": "docs/audits/2026-10-26-auto-source-inventory/original/proclamation.pdf",
+      "sha256": "84c26c9856d6bf258712481168f7ce0064833868b9403b7078c3b6e26c0b8973",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+      "citation": "Proclamation10908, 90FR14705-14714; Annex I, printed14709-14714; pdf"
+    },
+    {
+      "id": "FR-2025-05930-auto-annex-extraction",
+      "path": "docs/audits/2026-10-26-auto-source-inventory/original/annex-ocr.txt",
+      "sha256": "3274c0e8287bae4fc11d11f6c62113f4028c798f41df7d5582ab7e0fc95c54e8",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+      "citation": "Proclamation10908, 90FR14705-14714; Annex I, printed14709-14714; annex-extraction"
+    },
+    {
+      "id": "FR-2025-05930-auto-body",
+      "path": "docs/audits/2026-10-26-auto-source-inventory/original/corpus-notice.txt",
+      "sha256": "86eff760389addac3e97c52381a7a20738f733251b9296d9eef55b2aecfbd35e",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+      "citation": "Proclamation10908, 90FR14705-14714; Annex I, printed14709-14714; body"
+    },
+    {
+      "id": "FR-2025-17389-auto-order",
+      "path": "resources/legal_evidence/section232/autos/2025-17389.txt",
+      "sha256": "d5fdf6deb52a5ea6583c6ed8b104dcfbf38dafa920dffee40534da12f6bbb8ec",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-09/html/2025-17389.htm",
+      "citation": "Executive Order14345 sections2(a),4(a)-(b); Japan automobile Column1 duty treatment and implementing-notice commencement. Retrieved with gstack from official GPO HTML."
+    },
+    {
+      "id": "FR-2025-11473-auto-order",
+      "path": "resources/legal_evidence/section232/autos/2025-11473.txt",
+      "sha256": "17badec285d19955827cd38ff6234b72391cb33b40772041117a47deb091dab4",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-06-23/html/2025-11473.htm",
+      "citation": "Executive Order14309 sec2(b)-(c); UK-produced automobile use, combined tariff including MFN, and implementing-notice commencement. Official GPO HTML retrieved through gstack."
+    }
+  ],
+  "baseline_revision": "2025_rev_11",
+  "stable_clause_sha256": {
+    "c": "ab8c072c022b03c46fa4a35f587054a2784d77e7f85eb2f6f80649274a278fc5",
+    "d": "24c82dab5f99719fdc06b8fce1b7825b81552c39818b7bd81630e69b793de82d",
+    "e": "6d205acc3d64ca51d92fd45401822e9295105f1e7b7ae6b7186d83d162a89e33"
+  },
+  "parts_exception_original": "Heading 9903.94.06 applies to all entries of articles classifiable under provisions of the HTSUS enumerated subdivision (g) of this note (i) that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA), other than automobile knock-down kits or parts compilations; or (ii) that are not parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans, and cargo vans) and light trucks.",
+  "baseline_headings": [
+    {
+      "htsno": "9903.94.01",
+      "description": "Except for 9903.94.02, 9903.94.03, and 9903.94.04, effective with respect to entries on or after April 3, 2025, passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans, and cargo vans) and light trucks, as specified in note 33 to this subchapter, as provided for in subdivision (b) of U.S. note 33 to this subchapter.",
+      "general": "The duty provided in the applicable subheading + 25%",
+      "special": "The duty provided in the applicable subheading + 25%",
+      "other": "The duty provided in the applicable subheading + 25%"
+    },
+    {
+      "htsno": "9903.94.02",
+      "description": "Effective with respect to entries on or after April 3, 2025, articles as provided for in subdivision (c) of U.S. note 33 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.94.03",
+      "description": "Effective with respect to entries on or after April 3, 2025, certain passenger vehicles and light trucks, as provided for in subdivision (d) of U.S. note 33 to this subchapter.",
+      "general": "The duty provided in the applicable subheading + a duty of 25% upon the value of the non-U.S. content",
+      "special": "The duty provided in the applicable subheading + a duty of 25% upon the value of the non-U.S. content",
+      "other": "No change"
+    },
+    {
+      "htsno": "9903.94.04",
+      "description": "Effective with respect to entries on or after April 3, 2025, certain passenger vehicles and light trucks, as provided for in subdivision (e) of U.S. note 33 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.94.05",
+      "description": "Except for 9903.94.06, effective with respect to entries on or after May 3, 2025, automobile parts, as provided for in subdivision (g) of U.S. note 33 to this subchapter",
+      "general": "The duty provided in the applicable subheading + 25%",
+      "special": "The duty provided in the applicable subheading + 25%",
+      "other": "The duty provided in the applicable subheading +25%"
+    },
+    {
+      "htsno": "9903.94.06",
+      "description": "Effective with respect to entries on or after May 3, 2025, articles provided for in subdivision (h) of U.S. note 33 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading."
+    }
+  ]
+}

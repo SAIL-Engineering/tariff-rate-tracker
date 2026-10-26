@@ -25,8 +25,9 @@ stopifnot(nrow(app)==101+52+513,all(is.na(app$statutory_rate)),all(app$legal_rat
  all(app$requires_section232_inventory==(app$program=='section338_dairy')),
  all(app$valid_from==as.Date('2026-09-15')))
 # Reconcile the same normal-build bundle at the amendment's exact instant.
-# Before00:01 the 232 interaction is unresolved; afterwards the independent
-# motor action is executable, while a complete total still needs other coverage.
+# Before00:01 the source-listed automobile-parts candidate requires actual use
+# before its 232/338 interaction can be decided. Afterwards the independent motor
+# action is executable, while a complete total still needs other coverage.
 facts <- list(customs_value=100,ieepa_ftz_entry=FALSE,s338_personal_baggage=FALSE,
  s338_chapter98_claimed=FALSE,s338_ftz_entry=FALSE)
 for(at in c('2026-09-15T00:00:59-04:00','2026-09-15T00:01:00-04:00')) {
@@ -35,7 +36,7 @@ for(at in c('2026-09-15T00:00:59-04:00','2026-09-15T00:01:00-04:00')) {
  action <- Filter(function(c)c$authority=='section_338'&&c$status=='applied'&&
    '9903.03.14' %in% unlist(c$reporting_codes),result$components)
  if(grepl('00:00:59',at,fixed=TRUE))stopifnot(length(action)==0L,
-   any(grepl('coverage_dependency_unverified:section_232',result$source_errors,fixed=TRUE)))
+   's232_auto_parts_use' %in% result$missing_inputs)
  else stopifnot(length(action)==1L,action[[1]]$amount==50)
 }
 source('src/legal_intervals.R')

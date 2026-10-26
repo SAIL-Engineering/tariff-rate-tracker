@@ -10,7 +10,7 @@ for(case in fixtures) {
 }
 # All source-generated authority windows, claims and unresolved paths are run
 # through both routes. The index selects scope only; it never prices a duty.
-for(file in c('ieepa-reciprocal-initial.json.gz','semiconductor-history.json.gz')) {
+for(file in c('ieepa-reciprocal-initial.json.gz','semiconductor-history.json.gz','auto-history.json.gz','auto-interactions.json.gz','auto-metals.json.gz')) {
   connection <- gzfile(file.path('tests/fixtures/shipment',file),'rt')
   data <- jsonlite::fromJSON(paste(readLines(connection,warn=FALSE),collapse='\n'),simplifyVector=FALSE)
   close(connection)
