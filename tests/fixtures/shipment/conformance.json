@@ -7119,5 +7119,573 @@
       "applied_rules": [],
       "suppressed_rules": []
     }
+  },
+  {
+    "name": "decimal threshold includes exact twenty percent",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "decimal-charge",
+          "action_id": "decimal-charge",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "if",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "fact": "us_value"
+                  },
+                  {
+                    "op": "multiply",
+                    "args": [
+                      {
+                        "fact": "customs_value"
+                      },
+                      {
+                        "value": 0.2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "multiply",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [
+                      {
+                        "fact": "customs_value"
+                      },
+                      {
+                        "fact": "us_value"
+                      }
+                    ]
+                  },
+                  {
+                    "value": 0.1
+                  }
+                ]
+              },
+              {
+                "op": "multiply",
+                "args": [
+                  {
+                    "fact": "customs_value"
+                  },
+                  {
+                    "value": 0.1
+                  }
+                ]
+              }
+            ]
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "decimal-charge"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "us_value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {
+      "customs_value": 1003,
+      "us_value": 200.6
+    },
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 80.24,
+      "complete_total": 80.24,
+      "missing_inputs": [],
+      "source_errors": []
+    }
+  },
+  {
+    "name": "decimal content sum does not manufacture an overlap",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "decimal-charge",
+          "action_id": "decimal-charge",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "if",
+            "args": [
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "op": "add",
+                    "args": [
+                      {
+                        "value": 0.1
+                      },
+                      {
+                        "value": 0.2
+                      }
+                    ]
+                  },
+                  {
+                    "value": 0.3
+                  }
+                ]
+              },
+              {
+                "value": 10
+              },
+              {
+                "value": 20
+              }
+            ]
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "decimal-charge"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "us_value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 10,
+      "complete_total": 10,
+      "missing_inputs": [],
+      "source_errors": []
+    }
+  },
+  {
+    "name": "decimal division preserves exact equality",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "decimal-charge",
+          "action_id": "decimal-charge",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "if",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "op": "divide",
+                    "args": [
+                      {
+                        "value": 0.3
+                      },
+                      {
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "value": 0.1
+                  }
+                ]
+              },
+              {
+                "value": 10
+              },
+              {
+                "value": 20
+              }
+            ]
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "decimal-charge"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "us_value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 10,
+      "complete_total": 10,
+      "missing_inputs": [],
+      "source_errors": []
+    }
+  },
+  {
+    "name": "cached fractional rule amount retains exact comparison",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "fraction",
+          "action_id": "fraction",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "divide",
+            "args": [
+              {
+                "value": 1
+              },
+              {
+                "value": 3
+              }
+            ]
+          },
+          "verification": "verified"
+        },
+        {
+          "id": "dependent",
+          "action_id": "dependent",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "if",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "op": "multiply",
+                    "args": [
+                      {
+                        "rule_amount": "fraction"
+                      },
+                      {
+                        "value": 3
+                      }
+                    ]
+                  },
+                  {
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "value": 10
+              },
+              {
+                "value": 20
+              }
+            ]
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "fraction",
+            "dependent"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "us_value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "complete",
+      "known_subtotal": 10.333333333333334,
+      "complete_total": 10.333333333333334,
+      "missing_inputs": [],
+      "source_errors": []
+    }
+  },
+  {
+    "name": "unrepresentable positive duty never silently becomes zero",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "decimal-charge",
+          "action_id": "decimal-charge",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "op": "multiply",
+            "args": [
+              {
+                "value": 1e-300
+              },
+              {
+                "value": 1e-100
+              }
+            ]
+          },
+          "verification": "verified"
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "source_ids": [
+            "synthetic"
+          ],
+          "determination": "rules",
+          "rule_ids": [
+            "decimal-charge"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "customs_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "us_value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-06-01T00:00:00Z",
+    "facts": {},
+    "expected": {
+      "status": "unresolved_source",
+      "known_subtotal": 0,
+      "complete_total": null,
+      "missing_inputs": [],
+      "source_errors": [
+        "non_representable_result"
+      ]
+    }
   }
 ]

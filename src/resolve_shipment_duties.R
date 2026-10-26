@@ -1,5 +1,6 @@
 # Declarative shipment evaluation. No aggregate helpers or policy constants.
 # Contract: docs/shipment-rule-contract.md; amounts are USD, not weighted rates.
+source(here::here('src/shipment_exact.R'))
 
 .shipment_result <- function(bundle = list(), errors = character()) {
   list(contract_version = 'sail.shipment-result/v1',
@@ -143,6 +144,7 @@ prepare_shipment_bundle <- function(bundle) {
 
 .evaluate_shipment_bundle <- function(bundle, hts10, country, entry_at, facts = list(), prepared=NULL) {
   fail <- function(message) .shipment_result(bundle, message)
+  if(!requireNamespace('gmp',quietly=TRUE))return(fail('exact_numeric_runtime_unavailable:gmp'))
   at <- .shipment_time(entry_at)
   if (!is.character(hts10) || length(hts10) != 1 || !grepl('^[0-9]{10}$', hts10) ||
       !is.character(country) || length(country) != 1 || is.na(at))
@@ -216,8 +218,10 @@ prepare_shipment_bundle <- function(bundle) {
         c$citations <- unname(Filter(Negate(is.null),sources[unlist(c$source_ids)])); c
       }))
   }
-  val <- function(value = NULL, missing = character(), errors = character())
-    list(value = value, missing = missing, errors = errors)
+  val <- function(value = NULL, missing = character(), errors = character(), exact=NULL) {
+    if(is.numeric(value)&&is.finite(value)&&is.null(exact))exact <- .shipment_rational(value)
+    list(value=value,missing=missing,errors=errors,exact=exact)
+  }
   merge_issue <- function(xs) val(missing = unique(unlist(lapply(xs, `[[`, 'missing'))),
                                   errors = unique(unlist(lapply(xs, `[[`, 'errors'))))
   cache <- new.env(parent = emptyenv()); visiting <- character()
@@ -255,8 +259,8 @@ prepare_shipment_bundle <- function(bundle) {
       okay <- length(value) == 1 && !is.na(value)
       if (okay) okay <- switch(definition$type,
         number = is.numeric(value) && is.finite(value), boolean = is.logical(value), string = is.character(value), FALSE)
-      if (okay && !is.null(definition$minimum)) okay <- value >= definition$minimum
-      if (okay && !is.null(definition$maximum)) okay <- value <= definition$maximum
+      if (okay && !is.null(definition$minimum)) okay <- .shipment_rational(value) >= .shipment_rational(definition$minimum)
+      if (okay && !is.null(definition$maximum)) okay <- .shipment_rational(value) <= .shipment_rational(definition$maximum)
       if (okay && !is.null(definition$enum)) okay <- value %in% unlist(definition$enum)
       return(if (okay) val(value) else val(missing = key))
     }
@@ -266,7 +270,7 @@ prepare_shipment_bundle <- function(bundle) {
     }
     if (keys == 'rule_amount') {
       r <- resolve(x$rule_amount)
-      return(val(r$amount, r$missing, r$errors))
+      return(val(r$amount,r$missing,r$errors,r$exact))
     }
     op <- x$op; args <- x$args
     if (op == 'if') {
@@ -292,13 +296,23 @@ prepare_shipment_bundle <- function(bundle) {
       if (!all(vapply(values, is.logical, logical(1)))) return(val(errors = 'non_boolean_operand'))
     } else if (op != 'eq' && !all(vapply(values, is.numeric, logical(1)))) return(val(errors = 'non_numeric_operand'))
     v <- unlist(values)
-    answer <- switch(op, add = sum(v), subtract = v[1] - v[2], multiply = prod(v),
-      divide = v[1] / v[2], min = min(v), max = max(v), eq = identical(values[[1]], values[[2]]) ||
-        (is.numeric(values[[1]]) && is.numeric(values[[2]]) && values[[1]] == values[[2]]),
-      lt = v[1] < v[2], lte = v[1] <= v[2], gt = v[1] > v[2], gte = v[1] >= v[2],
-      and = all(v), or = any(v), not = !v[1])
-    if (is.numeric(answer) && !is.finite(answer)) return(val(errors = 'non_finite_result'))
-    val(answer)
+    qs <- lapply(xs,`[[`,'exact')
+    numeric_eq <- op=='eq'&&all(vapply(values,is.numeric,logical(1)))
+    if(op %in% c('eq','lt','lte','gt','gte')) {
+      answer <- if(op=='eq'&&!numeric_eq)identical(values[[1]],values[[2]]) else
+        switch(op,eq=qs[[1]]==qs[[2]],lt=qs[[1]]<qs[[2]],lte=qs[[1]]<=qs[[2]],
+          gt=qs[[1]]>qs[[2]],gte=qs[[1]]>=qs[[2]])
+      return(val(as.logical(answer)))
+    }
+    if(op %in% c('and','or','not'))return(val(switch(op,and=all(v),or=any(v),not=!v[1])))
+    if(op=='divide'&&qs[[2]]==0)return(val(errors='non_finite_result'))
+    exact <- switch(op,add=Reduce(`+`,qs),subtract=qs[[1]]-qs[[2]],multiply=Reduce(`*`,qs),
+      divide=qs[[1]]/qs[[2]],min=Reduce(function(a,b)if(a<b)a else b,qs),
+      max=Reduce(function(a,b)if(a>b)a else b,qs))
+    answer <- .shipment_rational_number(exact)
+    if(!is.finite(answer))return(val(errors='non_finite_result'))
+    if(answer==0&&exact!=0)return(val(errors='non_representable_result'))
+    val(answer,exact=exact)
   }
   resolve <- function(id, applicability_only = FALSE) {
     cache_key <- paste0(if (applicability_only) 'applies:' else 'amount:', id)
@@ -309,7 +323,10 @@ prepare_shipment_bundle <- function(bundle) {
     if (cache_key %in% visiting) { blank$errors <- paste0('dependency_cycle:', id); return(blank) }
     visiting <<- c(visiting, cache_key)
     on.exit(visiting <<- setdiff(visiting, cache_key))
-    finish <- function(value) { assign(cache_key, value, envir = cache); value }
+    finish <- function(value) {
+      if(!is.null(value$amount)&&is.null(value$exact))value$exact <- .shipment_rational(value$amount)
+      assign(cache_key,value,envir=cache);value
+    }
     if (!.shipment_scope(r$scope, hts10, country, at)) {
       blank$amount <- 0; blank$state <- 'not_applicable'; return(finish(blank))
     }
@@ -364,10 +381,11 @@ prepare_shipment_bundle <- function(bundle) {
     blank$missing <- amount$missing; blank$errors <- amount$errors
     if (!is.null(amount$value)) {
       if (!is.numeric(amount$value) || amount$value < 0) blank$errors <- c(blank$errors, 'invalid_duty_amount')
-      else { blank$amount <- amount$value; blank$state <- 'applied' }
+      else { blank$amount <- amount$value;blank$exact <- amount$exact;blank$state <- 'applied' }
     }
     finish(blank)
   }
+  subtotal <- .shipment_rational(0);exact_amounts <- list()
   for (id in sort(active_ids)) {
     r <- rules[[id]]; resolved <- resolve(id)
     if (.shipment_scope(r$scope, hts10, country, at)) {
@@ -388,7 +406,14 @@ prepare_shipment_bundle <- function(bundle) {
     result$source_errors <- c(result$source_errors, resolved$errors)
     if (resolved$state == 'applied') result$applied_rules <- c(result$applied_rules, id)
     if (resolved$state == 'suppressed') result$suppressed_rules <- c(result$suppressed_rules, id)
-    if (!is.null(resolved$amount)) result$known_subtotal <- result$known_subtotal + resolved$amount
+    if(!is.null(resolved$amount)) {
+      subtotal <- subtotal+resolved$exact;exact_amounts[[id]] <- resolved$exact
+    }
+  }
+  result$known_subtotal <- .shipment_rational_number(subtotal)
+  if(!is.finite(result$known_subtotal)) {
+    result$known_subtotal <- 0
+    result$source_errors <- c(result$source_errors,'non_finite_subtotal')
   }
   result$missing_inputs <- sort(unique(result$missing_inputs))
   result$required_facts <- bundle$fact_definitions[intersect(result$missing_inputs, names(bundle$fact_definitions))]
@@ -396,6 +421,10 @@ prepare_shipment_bundle <- function(bundle) {
   result$status <- if (length(result$source_errors)) 'unresolved_source' else
     if (length(result$missing_inputs)) 'needs_inputs' else 'complete'
   result['complete_total'] <- list(if (result$status == 'complete') result$known_subtotal else NULL)
+  # Private R build metadata, removed by the wire adapter. Scalar authority
+  # projections must not sum component doubles and reintroduce representation
+  # error or reconstruct recurring fractions from their display approximation.
+  attr(result,'shipment_exact_amounts') <- exact_amounts
   result
 }
 
@@ -413,6 +442,7 @@ evaluate_shipment_prepared <- function(prepared,hts10,country,entry_at,facts=lis
 # character vectors are convenient to callers, but auto_unbox must not change
 # their wire type according to the number of matched rules or missing facts.
 shipment_result_for_json <- function(result) {
+  attr(result,'shipment_exact_amounts') <- NULL
   for(key in c('applied_rules','suppressed_rules','missing_inputs','source_errors'))result[[key]] <- as.list(result[[key]])
   for(key in c('components','rule_decisions'))result[[key]] <- lapply(result[[key]],function(item) {
     for(array in c('missing_inputs','source_errors','reporting_codes','source_ids'))

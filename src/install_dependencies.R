@@ -13,6 +13,7 @@
 
 REQUIRED <- c(
   'tidyverse',   # dplyr, tidyr, readr, ggplot2, stringr, purrr, etc.
+  'gmp',        # Exact shipment arithmetic and legal threshold comparisons
   'jsonlite',    # HTS JSON parsing
   'yaml',        # Policy params and config loading
   'here'         # Project-relative paths

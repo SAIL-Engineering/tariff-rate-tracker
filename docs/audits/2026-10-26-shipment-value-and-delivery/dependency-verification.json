@@ -1,0 +1,11 @@
+{
+  "package": "gmp",
+  "tested_r_package_version": "0.7-4",
+  "distribution": "Ubuntu noble amd64",
+  "distribution_package": "r-cran-gmp_0.7-4-1_amd64.deb",
+  "source_url": "https://us.archive.ubuntu.com/ubuntu/pool/universe/r/r-cran-gmp/r-cran-gmp_0.7-4-1_amd64.deb",
+  "verified_apt_index_sha256": "c3621a4d110990a15dc944bfd163ea6e01c7d85a08bbefee1e32b2a4598c3333",
+  "upstream_documentation": "https://cran.r-project.org/web/packages/gmp/index.html",
+  "installed_into": "existing user R library; system packages unchanged",
+  "installation_portability": "Rscript src/install_dependencies.R installs the declared CRAN dependency; the Debian archive is not a runtime production artifact"
+}

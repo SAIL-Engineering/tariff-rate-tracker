@@ -17,6 +17,9 @@ check <- function(text, facts, expected = NULL, status = 'complete') {
 }
 check('Free', list(), 0)
 check('6.8%', list(customs_value = 1000), 68)
+stopifnot(check('13.7%',list(customs_value=500),68.5)$complete_total==68.5)
+stopifnot(check('0.07%',list(customs_value=1000),.7)$complete_total==.7)
+stopifnot(check('13.7¢/kg',list(quantity_kg=500),68.5)$complete_total==68.5)
 check('4.4¢/kg', list(quantity_kg = 100), 4.4)
 check('$1.104/kg + 14.9%', list(customs_value = 1000, quantity_kg = 100), 259.4)
 check('10¢ each + 2.5%', list(customs_value = 1000, quantity_each = 20), 27)

@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: 2621a3496ce7322f44a905a38781b8893650b290c1edcb233a5ce99ce9d771e1
+// Source SHA256: d77479de8e336a4e22bca1ad67b4d126baa8d8b9204a48a5a26b6bbe9b49961d
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -44,7 +44,53 @@ function canonical(value) {
     return JSON.stringify(value);
 }
 const unique = (items) => [...new Set(items)].sort();
-const val = (value = null, missing = [], errors = []) => ({ value, missing, errors });
+function rational(n, d = 1n) {
+    if (d === 0n)
+        throw new Error('division_by_zero');
+    if (d < 0n) {
+        n = -n;
+        d = -d;
+    }
+    let a = n < 0n ? -n : n, b = d;
+    while (b !== 0n) {
+        const r = a % b;
+        a = b;
+        b = r;
+    }
+    return { n: n / a, d: d / a };
+}
+function decimal(value) {
+    const [mantissa, exponent = '0'] = value.toString().toLowerCase().split('e');
+    const fraction = mantissa.split('.')[1]?.length ?? 0;
+    const power = Number(exponent) - fraction, n = BigInt(mantissa.replace('.', ''));
+    return power >= 0 ? rational(n * 10n ** BigInt(power)) : rational(n, 10n ** BigInt(-power));
+}
+function compare(a, b) {
+    const n = a.n * b.d - b.n * a.d;
+    return n < 0n ? -1 : n > 0n ? 1 : 0;
+}
+function add(a, b) { return rational(a.n * b.d + b.n * a.d, a.d * b.d); }
+function rationalNumber(q) {
+    if (q.n === 0n)
+        return 0;
+    const sign = q.n < 0n ? -1 : 1;
+    let n = q.n < 0n ? -q.n : q.n, d = q.d;
+    let e = n.toString(2).length - d.toString(2).length;
+    if (e >= 0 ? n < d << BigInt(e) : n << BigInt(-e) < d)
+        e--;
+    // Round to nearest, ties to even, including subnormal IEEE numbers.
+    const shift = e < -1022 ? 1074 : 52 - e;
+    if (shift >= 0)
+        n <<= BigInt(shift);
+    else
+        d <<= BigInt(-shift);
+    let integer = n / d;
+    const remainder = n % d;
+    if (2n * remainder > d || 2n * remainder === d && integer % 2n === 1n)
+        integer++;
+    return sign * Number(integer) * 2 ** -shift;
+}
+const val = (value = null, missing = [], errors = [], exact) => ({ value, missing, errors, exact: exact ?? (typeof value === 'number' && Number.isFinite(value) ? decimal(value) : undefined) });
 function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
     const fail = (reason) => unavailableShipment(reason, bundle);
     const at = timestamp(entryAt);
@@ -160,7 +206,7 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         }
         if ('rule_amount' in x) {
             const r = resolve(x.rule_amount);
-            return val(r.amount, r.missing, r.errors);
+            return val(r.amount, r.missing, r.errors, r.exact);
         }
         const { op, args } = x;
         if (op === 'if') {
@@ -193,54 +239,49 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         }
         else if (op !== 'eq' && values.some(v => typeof v !== 'number'))
             return val(null, [], ['non_numeric_operand']);
-        const nums = values;
-        let answer;
+        const qs = xs.map(x => x.exact);
+        if (op === 'and')
+            return val(values.every(Boolean));
+        if (op === 'or')
+            return val(values.some(Boolean));
+        if (op === 'not')
+            return val(!values[0]);
+        if (op === 'eq' && values.some(v => typeof v !== 'number'))
+            return val(values[0] === values[1]);
+        if (['eq', 'lt', 'lte', 'gt', 'gte'].includes(op)) {
+            const c = compare(qs[0], qs[1]);
+            return val(op === 'eq' ? c === 0 : op === 'lt' ? c < 0 : op === 'lte' ? c <= 0 : op === 'gt' ? c > 0 : c >= 0);
+        }
+        if (op === 'divide' && qs[1].n === 0n)
+            return val(null, [], ['non_finite_result']);
+        let exact;
         switch (op) {
             case 'add':
-                answer = nums.reduce((a, b) => a + b);
+                exact = qs.reduce(add);
                 break;
             case 'subtract':
-                answer = nums[0] - nums[1];
+                exact = add(qs[0], { n: -qs[1].n, d: qs[1].d });
                 break;
             case 'multiply':
-                answer = nums.reduce((a, b) => a * b);
+                exact = qs.reduce((a, b) => rational(a.n * b.n, a.d * b.d));
                 break;
             case 'divide':
-                answer = nums[0] / nums[1];
+                exact = rational(qs[0].n * qs[1].d, qs[0].d * qs[1].n);
                 break;
             case 'min':
-                answer = Math.min(...nums);
+                exact = qs.reduce((a, b) => compare(a, b) < 0 ? a : b);
                 break;
             case 'max':
-                answer = Math.max(...nums);
-                break;
-            case 'eq':
-                answer = values[0] === values[1];
-                break;
-            case 'lt':
-                answer = nums[0] < nums[1];
-                break;
-            case 'lte':
-                answer = nums[0] <= nums[1];
-                break;
-            case 'gt':
-                answer = nums[0] > nums[1];
-                break;
-            case 'gte':
-                answer = nums[0] >= nums[1];
-                break;
-            case 'and':
-                answer = values.every(Boolean);
-                break;
-            case 'or':
-                answer = values.some(Boolean);
-                break;
-            case 'not':
-                answer = !values[0];
+                exact = qs.reduce((a, b) => compare(a, b) > 0 ? a : b);
                 break;
             default: return val(null, [], [`invalid_operator_or_arity:${op}`]);
         }
-        return typeof answer === 'number' && !Number.isFinite(answer) ? val(null, [], ['non_finite_result']) : val(answer);
+        const answer = rationalNumber(exact);
+        if (!Number.isFinite(answer))
+            return val(null, [], ['non_finite_result']);
+        if (answer === 0 && exact.n !== 0n)
+            return val(null, [], ['non_representable_result']);
+        return val(answer, [], [], exact);
     }
     function resolve(id, applicabilityOnly = false) {
         const cacheKey = `${applicabilityOnly ? 'applies' : 'amount'}:${id}`;
@@ -254,7 +295,13 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         if (visiting.has(cacheKey))
             return { ...blank, errors: [`dependency_cycle:${id}`] };
         visiting.add(cacheKey);
-        const finish = (value) => { visiting.delete(cacheKey); cache.set(cacheKey, value); return value; };
+        const finish = (value) => {
+            if (value.amount != null && !value.exact)
+                value.exact = decimal(value.amount);
+            visiting.delete(cacheKey);
+            cache.set(cacheKey, value);
+            return value;
+        };
         if (!matches(r.scope, hts10, country, at))
             return finish({ ...blank, amount: 0, state: 'not_applicable' });
         // A claim must have reviewed effects (including unchanged treatment) for
@@ -294,10 +341,11 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         const amount = expr(r.formula);
         if (amount.value != null && (typeof amount.value !== 'number' || amount.value < 0))
             amount.errors.push('invalid_duty_amount');
-        return finish({ amount: typeof amount.value === 'number' && !amount.errors.length ? amount.value : null,
+        return finish({ exact: amount.exact, amount: typeof amount.value === 'number' && !amount.errors.length ? amount.value : null,
             missing: amount.missing, errors: amount.errors,
             state: typeof amount.value === 'number' && !amount.errors.length ? 'applied' : 'unresolved' });
     }
+    let subtotal = decimal(0);
     for (const id of [...rules.keys()].sort()) {
         const r = rules.get(id), resolved = resolve(id);
         if (matches(r.scope, hts10, country, at))
@@ -321,7 +369,12 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         if (resolved.state === 'suppressed')
             result.suppressed_rules.push(id);
         if (resolved.amount != null)
-            result.known_subtotal += resolved.amount;
+            subtotal = add(subtotal, resolved.exact);
+    }
+    result.known_subtotal = rationalNumber(subtotal);
+    if (!Number.isFinite(result.known_subtotal)) {
+        result.known_subtotal = 0;
+        result.source_errors.push('non_finite_subtotal');
     }
     result.missing_inputs = unique(result.missing_inputs);
     result.required_facts = Object.fromEntries(result.missing_inputs

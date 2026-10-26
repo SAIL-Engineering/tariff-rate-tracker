@@ -87,6 +87,9 @@ for(u in c(0,19.99,20,40,100)) {
   add(paste('U.S. content threshold',u),facts=f,subtotal=if(u<20)10 else .1*(100-u),
       codes=if(u<20)'9903.01.25' else c('9903.01.25','9903.01.34'))
 }
+f$customs_value<-1003;f$reciprocal_us_content_value<-200.6
+add('exact decimal 20 percent qualifying content',facts=f,subtotal=80.24,codes=c('9903.01.25','9903.01.34'))
+f$customs_value<-100
 f$reciprocal_us_content_value<-101;add('invalid U.S. value is not clamped',facts=f,subtotal=0,missing=c('reciprocal_us_content_value','customs_value'))
 f<-q;f$claims<-list('CHAPTER_98');f$chapter98_properly_claimed_and_cbp_agreed<-TRUE;f$chapter98_provision<-'98010010';f$reciprocal_chapter98_nonpreference<-TRUE
 add('proper Chapter 98 exemption',facts=f,subtotal=0,codes=character())

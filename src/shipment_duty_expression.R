@@ -34,7 +34,7 @@ parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
       return(list(op = 'add', args = parsed))
     }
     percent <- match(paste0('^(', number, ')%$'), expression)
-    if (length(percent)) return(op('multiply', fact(value_fact), value(as.numeric(percent[2]) / 100)))
+    if (length(percent)) return(op('multiply', fact(value_fact), op('divide',value(as.numeric(percent[2])),value(100))))
     # Component valuation is explicit in watch/clock and other compound rates.
     # It does not mean that the percentage applies to the article's full value.
     based <- match(paste0('^(', number, ')% on (?:the )?(?:value of the )?',
@@ -46,7 +46,7 @@ parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
       constraints[[length(constraints) + 1L]] <<- list(
         test = op('lte', fact(key), fact(value_fact)), inputs = c(key, value_fact),
         label = 'Component value cannot exceed customs value')
-      return(op('multiply', fact(key), value(as.numeric(based[2]) / 100)))
+      return(op('multiply', fact(key), op('divide',value(as.numeric(based[2])),value(100))))
     }
     # Unit strings are retained from the legal rate, never inferred from the
     # statistical reporting unit. Each distinct legal unit is a separate input.
@@ -59,8 +59,9 @@ parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
     key <- paste0('quantity_', gsub('[^A-Za-z0-9]+', '_', unit))
     definitions[[key]] <<- list(type = 'number', minimum = 0, unit = unit,
       label = paste0('Quantity in ', unit, ' (legal duty basis)'))
-    amount <- as.numeric(specific[3]) / if (specific[4] == '¢') 100 else 1
-    op('multiply', fact(key), value(amount))
+    amount <- value(as.numeric(specific[3]))
+    if(specific[4]=='¢')amount <- op('divide',amount,value(100))
+    op('multiply',fact(key),amount)
   }
   formula <- parse(clean)
   if (is.null(formula)) return(failed('unparsed_complete_duty_expression'))

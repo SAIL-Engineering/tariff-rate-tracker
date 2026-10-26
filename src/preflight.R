@@ -16,7 +16,7 @@
 # =============================================================================
 
 # --- R packages ---
-REQUIRED_PACKAGES <- c('tidyverse', 'jsonlite', 'yaml', 'here')
+REQUIRED_PACKAGES <- c('tidyverse', 'jsonlite', 'yaml', 'here', 'gmp')
 OPTIONAL_PACKAGES <- c(
   'pdftools',   # scrape_us_notes.R (Chapter 99 PDF parsing)
   'digest',     # 01_scrape_revision_dates.R (Chapter 99 PDF change detection)

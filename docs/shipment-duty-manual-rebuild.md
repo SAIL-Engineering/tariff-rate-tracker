@@ -556,3 +556,20 @@ No activation or MotherDuck write has been performed.
 The legacy artifact gate now also checks missing revision directories, including
 20 and 21; undiscovered directories can no longer disappear from its count.
 See the [source audit and current limits](audits/2026-10-25-reciprocal-scope/README.md).
+
+The exact shipment interpreter now requires the R `gmp` dependency. Install the
+tracked required dependencies before any later manual build:
+
+```bash
+Rscript src/install_dependencies.R
+Rscript src/preflight.R
+```
+
+Shipment arithmetic retains decimal rationals internally; percentages and cents
+retain their divisors in the source expression. Wide scalar rates also require
+value-invariant applicability, suppression and valuation constraints. A USD1
+reference inactivity cannot establish a zero rate for a larger shipment. The
+legal-state merger preserves immutable JSON bytes and validates staged bundle
+hashes before replacing a revision. These fixes do not complete the unreviewed
+legal inventories or upgrade the v7 production release preparer. Keep the final
+timeseries rebuild on hold.

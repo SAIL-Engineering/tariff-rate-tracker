@@ -1240,7 +1240,7 @@ emit_normalized_revision <- function(
   inventory_fragments <- character()
   write_rule_fragment <- function(fragment,filename) {
     path <- file.path(output_dir,revision_id,filename)
-    jsonlite::write_json(fragment,path,auto_unbox=TRUE,null='null',digits=NA)
+    jsonlite::write_json(fragment,path,auto_unbox=TRUE,null='null',digits=17)
     inventory_fragments <<- c(inventory_fragments,path)
     invisible(path)
   }

@@ -92,11 +92,14 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
     } else if(endsWith(file,'.json')) {
       values <- lapply(present,function(i) jsonlite::fromJSON(file.path(roots[i],file),simplifyVector=FALSE))
       result <- values[[1]]
+      immutable <- TRUE
       if(file=='shipment_rules.json') {
+        immutable <- FALSE
         source(here::here('src/shipment_build.R'))
         if(length(present)!=length(roots))stop('Missing executable shipment state index; previous revision preserved')
         result <- merge_shipment_bundle_indexes(values,roots[present])
       } else if(file=='ieepa_evidence_sources.json') {
+        immutable <- all(vapply(values,function(x)identical(x,result),logical(1)))
         for(key in c('sources','source_artifacts')) {
           entries <- unlist(lapply(values,`[[`,key),recursive=FALSE)
           names <- vapply(entries,function(e) e$id %||% e$source_id,character(1))
@@ -109,8 +112,25 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
         }
       } else if(!all(vapply(values,function(x) identical(x,result),logical(1))))
         stop('Unresolved rule/source changes across intervals: ',file)
-      jsonlite::write_json(result,file.path(staging,file),auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+      if(immutable) {
+        paths <- file.path(roots[present],file)
+        hashes <- vapply(paths,function(p)digest::digest(file=p,algo='sha256'),character(1))
+        if(length(unique(hashes))!=1L)stop('Conflicting immutable JSON bytes across legal states: ',file)
+        # Bundle indexes and source manifests pin actual bytes. Reformatting
+        # otherwise equivalent JSON invalidates those pins and can round legal
+        # numeric literals. Immutable artifacts cross this stage unchanged.
+        if(!file.copy(paths[1],file.path(staging,file)))stop('Could not preserve immutable JSON artifact: ',file)
+      } else jsonlite::write_json(result,file.path(staging,file),auto_unbox=TRUE,pretty=TRUE,null='null',digits=17)
     } else stop('Unrecognized normalized artifact: ',file)
+  }
+  index_path <- file.path(staging,'shipment_rules.json')
+  if(file.exists(index_path)) {
+    source(here::here('src/shipment_build.R'))
+    index <- jsonlite::fromJSON(index_path,simplifyVector=FALSE)
+    if(!identical(index$contract_version,'sail.shipment-bundle-index/v1'))stop('Unsupported merged shipment index')
+    # Validate the staged files, not just the pre-merge input directories,
+    # before replacing an installed revision or any shared normalized tables.
+    for(entry in index$bundles).shipment_verified_bundle(index,entry,staging)
   }
   shared <- sort(unique(unlist(lapply(segment_roots,function(p) list.files(p,pattern='\\.parquet$')))))
   shared_paths <- list()

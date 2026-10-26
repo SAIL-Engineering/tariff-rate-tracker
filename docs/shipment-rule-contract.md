@@ -66,6 +66,22 @@ implicit unit conversions or substitute an ad-valorem equivalent for a specific
 duty. Rounding policy must be represented by a future explicitly supported
 operator or an unresolved source; this version does not silently round amounts.
 
+The R reference and shared TypeScript runtime use exact rational arithmetic
+internally, starting from each finite input number's shortest round-trip decimal
+representation. Comparisons, content sums, floors/caps, division and cached rule
+amounts retain that representation through the expression tree. A binary
+floating-point epsilon must not decide eligibility at a legal threshold. This
+does not recover precision already lost upstream or accept arbitrary-precision
+decimal strings as numeric facts. Extraction preserves percentage and cent
+divisors in the AST rather than precomputing a binary fractional rate.
+
+Public USD amounts remain numbers, converted once for display using nearest IEEE
+rounding with ties to even; this is a representation boundary, not customs
+rounding or cent rounding. Subtotals accumulate the exact internal amounts.
+Nonzero computed amounts that underflow the public numeric range are unresolved,
+as are nonfinite results. The R runtime requires `gmp`; a missing dependency is
+an explicit unavailable runtime, never a fallback to floating comparisons.
+
 `sail.shipment-result/v1` returns resolved components, formulas, reporting codes,
 source citations, applied/suppressed rules, missing inputs, source errors and
 versions. `known_subtotal` sums resolved components; `complete_total` is null

@@ -177,7 +177,7 @@ load_shipment_build_context <- function(root=here::here()) {
   value
 }
 
-.shipment_json <- function(x)as.character(jsonlite::toJSON(x,auto_unbox=TRUE,null='null',na='null',digits=NA))
+.shipment_json <- function(x)as.character(jsonlite::toJSON(x,auto_unbox=TRUE,null='null',na='null',digits=17))
 .shipment_iso <- function(x)format(as.POSIXct(x,origin='1970-01-01',tz='UTC'),'%Y-%m-%dT%H:%M:%SZ',tz='UTC')
 .shipment_day_start <- function(x)format(as.POSIXct(paste(as.Date(x),'00:00:00'),tz='America/New_York'),
   '%Y-%m-%dT%H:%M:%S%z',tz='America/New_York') |> sub('([+-][0-9]{2})([0-9]{2})$','\\1:\\2',x=_)
@@ -253,14 +253,14 @@ assemble_shipment_state <- function(revision,products,countries,valid_from,valid
     }
     b$bundle_id <- .shipment_source_signature(b)
     filename <- paste0('shipment_bundle_',b$bundle_id,'.json')
-    jsonlite::write_json(b,file.path(output_dir,filename),auto_unbox=TRUE,null='null',digits=NA)
+    jsonlite::write_json(b,file.path(output_dir,filename),auto_unbox=TRUE,null='null',digits=17)
     entries[[length(entries)+1L]] <- list(bundle_id=b$bundle_id,path=filename,
       sha256=digest::digest(file=file.path(output_dir,filename),algo='sha256'),valid_from=b$valid_from,valid_until=b$valid_until)
   }
   index <- list(contract_version='sail.shipment-bundle-index/v1',revision=revision,dataset_version=context$dataset_version,
     evidence_snapshot_id=context$evidence_snapshot_id,source_selection=source_window,
     valid_from=.shipment_iso(start),valid_until=.shipment_iso(end),bundles=entries)
-  jsonlite::write_json(index,file.path(output_dir,'shipment_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
+  jsonlite::write_json(index,file.path(output_dir,'shipment_rules.json'),auto_unbox=TRUE,null='null',digits=17)
   index
 }
 
@@ -291,35 +291,111 @@ merge_shipment_bundle_indexes <- function(indexes,dirs) {
 
 # A conservative symbolic check, not a sampled rate calculation. Only expressions
 # proven homogeneous in the declared customs-value basis may become scalar rates.
-.shipment_linear_value <- function(node,rules,visiting=character()) {
+# Prove invariance under positive scaling of customs_value, including rules
+# that are inactive at the USD1 reference point. This is a proof of whether a
+# scalar projection is valid, not a second calculator or a sampled liability.
+.shipment_projection_proof <- function(rules,matched,claims=list()) {
   bad <- function()list(degree=NA_integer_,zero=FALSE)
-  degree <- function(n,zero=FALSE)list(degree=n,zero=zero)
-  if(!is.list(node))return(bad())
-  if(!is.null(node$value))return(if(is.numeric(node$value))degree(0L,node$value==0) else bad())
-  if(!is.null(node$fact))return(if(identical(node$fact,'customs_value'))degree(1L) else bad())
-  if(!is.null(node$rule_amount)) {
-    id <- node$rule_amount
-    if(id %in% visiting||is.null(rules[[id]]))return(bad())
-    return(.shipment_linear_value(rules[[id]]$formula,rules,c(visiting,id)))
+  degree <- function(n,zero=FALSE)list(degree=as.integer(n),zero=zero)
+  condition_cache <- new.env(hash=TRUE,parent=emptyenv())
+  value_cache <- new.env(hash=TRUE,parent=emptyenv())
+  constant <- function(x) {
+    if(!is.list(x))return(NULL)
+    if(is.logical(x$value)&&length(x$value)==1L&&!is.na(x$value))return(x$value)
+    if(!is.null(x$claim))return(x$claim %in% unlist(claims))
+    if(identical(x$op,'if')&&length(x$args)==3L) {
+      test <- constant(x$args[[1]])
+      if(!is.null(test))return(constant(x$args[[if(test)2L else 3L]]))
+    }
+    xs <- lapply(x$args,constant)
+    if(identical(x$op,'not')&&length(xs)==1L&&!is.null(xs[[1]]))return(!xs[[1]])
+    if(isTRUE(x$op %in% c('and','or'))) {
+      decisive <- identical(x$op,'or')
+      if(any(vapply(xs,identical,logical(1),decisive)))return(decisive)
+      if(length(xs)&&all(vapply(xs,is.logical,logical(1))))
+        return(if(decisive)any(unlist(xs)) else all(unlist(xs)))
+    }
+    NULL
   }
-  uses_value <- function(x) {
+  independent <- function(x,visiting) {
     if(!is.list(x))return(FALSE)
-    if(identical(x$fact,'customs_value')||!is.null(x$rule_amount))return(TRUE)
-    any(vapply(x,uses_value,logical(1)))
+    if(!is.null(x$value)||!is.null(x$claim)||!is.null(x$authority_covered)||!is.null(x$unresolved_source))return(TRUE)
+    if(!is.null(x$fact))return(!identical(x$fact,'customs_value'))
+    if(!is.null(x$rule_applies))return(rule_invariant(x$rule_applies,FALSE,visiting))
+    if(!is.null(x$rule_amount)) {
+      d <- linear(x,visiting);return(!is.na(d$degree)&&(d$zero||d$degree==0L))
+    }
+    !is.null(x$op)&&length(x$args)>0L&&all(vapply(x$args,independent,logical(1),visiting=visiting))
   }
-  if(identical(node$op,'if')) {
-    if(length(node$args)!=3L||uses_value(node$args[[1]]))return(bad())
-    xs <- lapply(node$args[-1],.shipment_linear_value,rules=rules,visiting=visiting)
-  } else xs <- lapply(node$args,.shipment_linear_value,rules=rules,visiting=visiting)
-  if(!length(xs)||any(vapply(xs,function(x)is.na(x$degree),logical(1))))return(bad())
-  ds <- vapply(xs,`[[`,integer(1),'degree');zs <- vapply(xs,`[[`,logical(1),'zero')
-  if(node$op %in% c('add','subtract','min','max','if')) {
-    nonzero <- unique(ds[!zs]);if(length(nonzero)>1L)return(bad())
-    return(degree(if(length(nonzero))nonzero else 0L,all(zs)))
+  condition <- function(x,visiting=character()) {
+    if(!is.null(constant(x)))return(TRUE)
+    if(independent(x,visiting))return(TRUE)
+    if(isTRUE(x$op %in% c('and','or','not')))return(length(x$args)>0L&&
+      all(vapply(x$args,condition,logical(1),visiting=visiting)))
+    if(identical(x$op,'if')&&length(x$args)==3L) {
+      test <- constant(x$args[[1]])
+      if(!is.null(test))return(condition(x$args[[if(test)2L else 3L]],visiting))
+      return(all(vapply(x$args,condition,logical(1),visiting=visiting)))
+    }
+    if(isTRUE(x$op %in% c('eq','lt','lte','gt','gte'))&&length(x$args)==2L) {
+      xs <- lapply(x$args,linear,visiting=visiting)
+      if(any(vapply(xs,function(d)is.na(d$degree),logical(1))))return(FALSE)
+      # Positive scaling preserves a comparison between like-degree values,
+      # or between a homogeneous value and zero; it does not preserve CV > 10.
+      return(xs[[1]]$degree==xs[[2]]$degree||xs[[1]]$zero||xs[[2]]$zero)
+    }
+    FALSE
   }
-  if(identical(node$op,'multiply'))return(degree(as.integer(sum(ds)),any(zs)))
-  if(identical(node$op,'divide')&&length(ds)==2L&&ds[2]==0L&&!zs[2])return(degree(ds[1],zs[1]))
-  bad()
+  rule_invariant_impl <- function(id,price=TRUE,visiting=character()) {
+    if(is.null(rules[[id]])||id %in% visiting)return(FALSE)
+    if(!id %in% matched)return(TRUE) # Scope is fixed by HTS/origin/entry instant.
+    r <- rules[[id]];visiting <- c(visiting,id)
+    if(identical(constant(r$when),FALSE))return(TRUE)
+    if(!is.null(r$when)&&!condition(r$when,visiting))return(FALSE)
+    if(!is.null(r$suppressed_when)&&!condition(r$suppressed_when,visiting))return(FALSE)
+    if(identical(constant(r$suppressed_when),TRUE))return(TRUE)
+    !price||all(vapply(r$input_constraints,function(c)condition(c$test,visiting),logical(1)))
+  }
+  rule_invariant <- function(id,price=TRUE,visiting=character()) {
+    if(id %in% visiting)return(FALSE)
+    key <- paste0(if(price)'amount:' else 'applies:',id)
+    if(exists(key,envir=condition_cache,inherits=FALSE))return(condition_cache[[key]])
+    answer <- rule_invariant_impl(id,price,visiting)
+    condition_cache[[key]] <- answer;answer
+  }
+  rule_value <- function(id,visiting) {
+    if(id %in% visiting)return(bad())
+    if(exists(id,envir=value_cache,inherits=FALSE))return(value_cache[[id]])
+    if(!rule_invariant(id,TRUE,visiting))return(bad())
+    if(!id %in% matched)return(degree(0L,TRUE))
+    r <- rules[[id]]
+    answer <- if(identical(constant(r$when),FALSE)||identical(constant(r$suppressed_when),TRUE))degree(0L,TRUE) else
+      linear(r$formula,c(visiting,id))
+    value_cache[[id]] <- answer;answer
+  }
+  linear <- function(node,visiting=character()) {
+    if(!is.list(node))return(bad())
+    if(!is.null(node$value))return(if(is.numeric(node$value))degree(0L,node$value==0) else bad())
+    if(!is.null(node$fact))return(degree(if(identical(node$fact,'customs_value'))1L else 0L))
+    if(!is.null(node$rule_amount))return(rule_value(node$rule_amount,visiting))
+    if(identical(node$op,'if')) {
+      if(length(node$args)!=3L)return(bad())
+      test <- constant(node$args[[1]])
+      if(!is.null(test))return(linear(node$args[[if(test)2L else 3L]],visiting))
+      if(!condition(node$args[[1]],visiting))return(bad())
+      xs <- lapply(node$args[-1],linear,visiting=visiting)
+    } else xs <- lapply(node$args,linear,visiting=visiting)
+    if(!length(xs)||any(vapply(xs,function(x)is.na(x$degree),logical(1))))return(bad())
+    ds <- vapply(xs,`[[`,integer(1),'degree');zs <- vapply(xs,`[[`,logical(1),'zero')
+    if(isTRUE(node$op %in% c('add','subtract','min','max','if'))) {
+      nonzero <- unique(ds[!zs]);if(length(nonzero)>1L)return(bad())
+      return(degree(if(length(nonzero))nonzero else 0L,all(zs)))
+    }
+    if(identical(node$op,'multiply'))return(degree(sum(ds),any(zs)))
+    if(identical(node$op,'divide')&&length(ds)==2L&&!zs[2])return(degree(ds[1]-ds[2],zs[1]))
+    bad()
+  }
+  list(value=linear,rule_invariant=rule_invariant)
 }
 
 .shipment_compact_decision <- function(result) {
@@ -343,25 +419,46 @@ merge_shipment_bundle_indexes <- function(indexes,dirs) {
     section_201='statutory_rate_section_201',section_338='statutory_rate_s338',other_chapter99='statutory_rate_other')
   values <- setNames(as.list(rep(NA_real_,length(mapping))),unname(mapping))
   rules <- setNames(bundle$rules,vapply(bundle$rules,`[[`,character(1),'id'))
+  matched <- vapply(result$rule_decisions,`[[`,character(1),'rule_id')
+  proof <- .shipment_projection_proof(rules,matched)
+  exact <- attr(result,'shipment_exact_amounts')
+  exact_sum <- function(ids) {
+    if(!length(ids))return(0)
+    if(any(!ids %in% names(exact)))return(NA_real_)
+    .shipment_rational_number(Reduce(`+`,exact[ids]))
+  }
+  missing <- character()
+  stable <- function(ids)all(vapply(ids,proof$rule_invariant,logical(1)))
+  resolved_ids <- vapply(Filter(function(d)d$outcome!='unresolved',result$rule_decisions),`[[`,character(1),'rule_id')
+  # An unanswered outer predicate may make value irrelevant. Let the actual
+  # interpreter request that predicate first rather than pre-asking both paths.
+  if(!stable(resolved_ids))missing <- 'customs_value'
   for(authority in names(mapping)) {
     coverage <- Filter(function(c)identical(c$authority,authority),result$coverage_decisions)
     if(length(coverage)!=1L||!identical(coverage[[1]]$status,'verified'))next
+    ids <- matched[vapply(rules[matched],function(r)identical(r$authority,authority),logical(1))]
+    if(!stable(ids))next
     cs <- Filter(function(c)identical(c$authority,authority),result$components)
     if(any(!vapply(cs,function(c)identical(c$status,'applied')||identical(c$status,'suppressed'),logical(1))))next
     applied <- Filter(function(c)identical(c$status,'applied'),cs)
     proven <- vapply(applied,function(c) {
-      d <- .shipment_linear_value(rules[[c$rule_id]]$formula,rules)
+      d <- proof$value(rules[[c$rule_id]]$formula,c$rule_id)
       !is.na(d$degree)&&(d$zero||d$degree==1L)
     },logical(1))
-    if(!all(proven))next
-    values[[mapping[[authority]]]] <- sum(vapply(applied,function(c)c$amount,numeric(1)))
+    if(!all(proven)){missing <- 'customs_value';next}
+    ids <- vapply(applied,`[[`,character(1),'rule_id')
+    values[[mapping[[authority]]]] <- exact_sum(ids)
   }
-  homogeneous <- all(vapply(Filter(function(c)identical(c$status,'applied'),result$components),function(c) {
-    d <- .shipment_linear_value(rules[[c$rule_id]]$formula,rules)
+  homogeneous <- stable(matched)&&all(vapply(Filter(function(c)identical(c$status,'applied'),result$components),function(c) {
+    d <- proof$value(rules[[c$rule_id]]$formula,c$rule_id)
     !is.na(d$degree)&&(d$zero||d$degree==1L)
   },logical(1)))
   values$statutory_total_rate <- if(identical(result$status,'complete')&&homogeneous)result$complete_total else NA_real_
-  values$statutory_total_additional <- values$statutory_total_rate-values$statutory_base_rate
+  if(!homogeneous&&identical(result$status,'complete'))missing <- 'customs_value'
+  additional <- vapply(Filter(function(c)c$authority!='base'&&c$status=='applied',result$components),`[[`,character(1),'rule_id')
+  values$statutory_total_additional <- if(!is.na(values$statutory_total_rate)&&!is.na(values$statutory_base_rate))
+    exact_sum(additional) else NA_real_
+  attr(values,'missing_inputs') <- missing
   values
 }
 
@@ -425,7 +522,8 @@ project_shipment_state <- function(rates,index,normalized_dir) {
           evidence_snapshot_id=index$evidence_snapshot_id,bundle_id=b$bundle_id,class_id=id,status=result$status,
           known_subtotal=result$known_subtotal,complete_total=result$complete_total %||% NA_real_,
           profile_json=.shipment_json(profile),decision_json=.shipment_json(compact),
-          rate_projection_json=.shipment_json(projections[[id]]),stringsAsFactors=FALSE)
+          rate_projection_json=.shipment_json(projections[[id]]),
+          projection_missing_inputs_json=.shipment_json(as.list(attr(projections[[id]],'missing_inputs'))),stringsAsFactors=FALSE)
       }
       # Vectorized product/country membership avoids one interpreter call per
       # wide row. This assignment covers only the exact signature pair.
@@ -446,7 +544,8 @@ project_shipment_state <- function(rates,index,normalized_dir) {
     decisions <- lapply(classes[ids],function(c)jsonlite::fromJSON(c$decision_json,simplifyVector=FALSE))
     statuses <- vapply(decisions,`[[`,character(1),'status')
     status <- if(any(statuses=='unresolved_source'))'unresolved_source' else if(any(statuses=='needs_inputs'))'needs_inputs' else 'complete'
-    missing <- sort(unique(unlist(lapply(decisions,`[[`,'missing_inputs'))))
+    missing <- sort(unique(c(unlist(lapply(decisions,`[[`,'missing_inputs')),
+      unlist(lapply(projections[ids],attr,'missing_inputs')))))
     if(status=='complete'&&is.na(out$statutory_total_rate[rows[1]])) {
       status <- 'needs_inputs';missing <- sort(unique(c(missing,if(length(ids)>1L)'entry_at' else 'customs_value')))
     }
