@@ -120,6 +120,13 @@ export const RATES_COLUMNS = [
   // Set when a duty is computed onto a snapshot whose interval starts before
   // the duty activates (§338 on 2026 Rev 13-16 before 2026-08-19).
   'pending_activation_json',
+  // Versioned, nullable shipment projection. These fields carry the decision
+  // references and explicit incompleteness; aggregate columns are separate.
+  'statutory_total_rate', 'statutory_total_additional',
+  'shipment_projection_version', 'shipment_contract_version', 'shipment_dataset_version',
+  'shipment_evidence_snapshot_id', 'shipment_status', 'shipment_quote_profile',
+  'shipment_decision_ids_json', 'shipment_bundle_ids_json', 'shipment_missing_inputs_json',
+  'shipment_source_errors_json', 'shipment_exact_time_required',
 ];
 
 // Live binding: re-resolved at startup against the actual rates schema so

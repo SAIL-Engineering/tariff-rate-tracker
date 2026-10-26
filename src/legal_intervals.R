@@ -92,7 +92,11 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
     } else if(endsWith(file,'.json')) {
       values <- lapply(present,function(i) jsonlite::fromJSON(file.path(roots[i],file),simplifyVector=FALSE))
       result <- values[[1]]
-      if(file=='ieepa_evidence_sources.json') {
+      if(file=='shipment_rules.json') {
+        source(here::here('src/shipment_build.R'))
+        if(length(present)!=length(roots))stop('Missing executable shipment state index; previous revision preserved')
+        result <- merge_shipment_bundle_indexes(values,roots[present])
+      } else if(file=='ieepa_evidence_sources.json') {
         for(key in c('sources','source_artifacts')) {
           entries <- unlist(lapply(values,`[[`,key),recursive=FALSE)
           names <- vapply(entries,function(e) e$id %||% e$source_id,character(1))

@@ -10,6 +10,48 @@ and serving-path gates before approving publication. Save the current generated
 outputs first if an aggregate before/after comparison is needed. Record `git
 rev-parse HEAD`, the policy/resource hashes and the evidence snapshot used.
 
+## October25 normal-build integration checkpoint
+
+The ordinary calculator now assembles executable bundles and evaluates shipment
+decisions after constructing the aggregate grid. It emits `shipment_rules.json`
+as a versioned exact-time bundle index, immutable bundle files, decision classes
+and product/origin membership Parquets. Wide shipment fields come from those
+decisions. The declared quote uses USD1 customs value and no preference claim;
+it assumes no FTZ, content, use, quota, party or quantity facts. This mathematical
+reference is not a completed shipment declaration. Incomplete totals are null.
+Previous aggregate-backed statutory projections are retained under
+`modeled_legacy_*`; economic rate columns retain their methodology. Legacy scalar
+codes/provenance are retained under `aggregate_*`, with reporting decisions in
+the executable result. Model shares and credits cannot alter these decisions.
+
+**Keep the final rebuild on hold.** Broader executable authority coverage,
+financial consumers and the production release preparer's multi-bundle/index
+upgrade remain unfinished. The current v7 release preparer rejects the new index;
+the local API fixture is a serializer/evaluator test, not production release
+preparation. A real pinned export also remains required. Do not activate a wide
+table alone or relabel the placeholder as an evidence snapshot.
+
+Read-only source/extraction preflight (does not build any rates):
+
+```sh
+Rscript scripts/preflight_shipment_sources.R \
+  --output=output/manual-shipment-rebuild/source-preflight.json
+```
+
+All55 configured primary HTS/Chapter99/GN3 files are present. The census identified
+one malformed native HTS branch in2025_rev_16; it remains explicitly unpriced,
+with its PDF/JSON discrepancy and neighboring valid code retained in
+`docs/audits/2026-10-25-shipment-normal-build`. The preflight reports it as an
+unresolved inventory rather than succeeding silently. Other complete duty
+expressions requiring further executable extraction are listed in its report.
+
+For the eventual manual build, supply the existing Trade Intelligence export's
+manifest via `SAIL_DUTY_EVIDENCE_MANIFEST=/absolute/path/to/manifest.json`.
+The tracker checks schema8/extractor2, snapshot identity, every table hash/row
+count, published-manifest hash and reference-artifact hashes. A valid export
+remains `requires_reconciliation`; it does not certify AD/CVD scope coverage.
+Configured Commerce grant snapshots also enter the dataset/cache identity.
+
 ## Rebuild all 55 configured revisions through the audit cutoff
 
 Run from the original tracker checkout on `wjr_dev` with the project's R packages,

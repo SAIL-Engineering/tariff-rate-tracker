@@ -63,7 +63,85 @@
     (is.null(scope$from) || is.null(scope$until) || .shipment_time(scope$from) < .shipment_time(scope$until))
 }
 
-.evaluate_shipment_bundle <- function(bundle, hts10, country, entry_at, facts = list()) {
+.shipment_rule_maps <- function(bundle) {
+  fail <- function(message)list(error=message)
+  rules <- list()
+  for(rule in bundle$rules) {
+    if(is.null(rule$id)||!is.character(rule$id)||!nzchar(rule$id))return(fail('missing_rule_id'))
+    if(!is.null(rules[[rule$id]])&&!identical(.shipment_canonical(rules[[rule$id]]),.shipment_canonical(rule)))
+      return(fail(paste0('conflicting_rule:',rule$id)))
+    rules[[rule$id]] <- rule
+  }
+  if(any(!vapply(c(bundle$rules,bundle$coverage),function(x).shipment_valid_scope(x$scope),logical(1))))return(fail('invalid_scope'))
+  sources <- list()
+  for(s in bundle$sources) {
+    if(is.null(s$id)||!is.character(s$id))return(fail('missing_source_id'))
+    if(!is.null(sources[[s$id]])&&!identical(.shipment_canonical(sources[[s$id]]),.shipment_canonical(s)))
+      return(fail(paste0('conflicting_source:',s$id)))
+    sources[[s$id]] <- s
+  }
+  list(rules=rules,sources=sources,error=NULL)
+}
+
+# A scope index is an execution optimization, never another duty calculator.
+# Conditions, claims, dependencies, valuation and completeness still run through
+# the same interpreter. Globally addressable rules are retained for dependencies.
+.shipment_scope_index <- function(items,products,countries) {
+  product_keys <- country_keys <- numbers_p <- numbers_c <- list()
+  universal_p <- universal_c <- integer()
+  prefixes <- lapply(c(2L,4L,6L,8L,10L),function(n)split(products,substr(products,1,n)))
+  names(prefixes) <- c('2','4','6','8','10')
+  from <- rep(-Inf,length(items));until <- rep(Inf,length(items))
+  for(i in seq_along(items)) {
+    scope <- items[[i]]$scope
+    if(is.null(scope$hts_exact)&&is.null(scope$hts_prefixes))universal_p <- c(universal_p,i)
+    else {
+      hits <- intersect(products,unlist(scope$hts_exact))
+      for(prefix in unlist(scope$hts_prefixes))hits <- c(hits,prefixes[[as.character(nchar(prefix))]][[prefix]])
+      hits <- unique(hits)
+      product_keys[[i]] <- hits;numbers_p[[i]] <- rep(i,length(hits))
+    }
+    if(is.null(scope$countries))universal_c <- c(universal_c,i)
+    else {
+      hits <- intersect(countries,unlist(scope$countries))
+      country_keys[[i]] <- hits;numbers_c[[i]] <- rep(i,length(hits))
+    }
+    if(!is.null(scope$from))from[i] <- .shipment_time(scope$from)
+    if(!is.null(scope$until))until[i] <- .shipment_time(scope$until)
+  }
+  lookup <- function(keys,numbers) {
+    env <- new.env(hash=TRUE,parent=emptyenv())
+    if(length(unlist(keys)))list2env(split(unlist(numbers),unlist(keys)),envir=env)
+    env
+  }
+  list(products=lookup(product_keys,numbers_p),countries=lookup(country_keys,numbers_c),
+    universal_p=universal_p,universal_c=universal_c,from=from,until=until)
+}
+
+.shipment_index_matches <- function(index,hts,country,at) {
+  get <- function(env,key)if(exists(key,envir=env,inherits=FALSE))env[[key]] else integer()
+  candidates <- intersect(c(index$universal_p,get(index$products,hts)),
+                          c(index$universal_c,get(index$countries,country)))
+  candidates[index$from[candidates]<=at & at<index$until[candidates]]
+}
+
+prepare_shipment_bundle <- function(bundle) {
+  maps <- tryCatch(.shipment_rule_maps(bundle),error=function(e)list(error='invalid_shipment_rule_bundle'))
+  out <- list(bundle=bundle,maps=maps)
+  if(!is.null(maps$error))return(out)
+  products <- unique(unlist(bundle$products));countries <- unique(unlist(bundle$countries))
+  keys <- function(values) {
+    env <- new.env(hash=TRUE,parent=emptyenv())
+    if(length(values))list2env(setNames(rep(list(TRUE),length(values)),values),envir=env)
+    env
+  }
+  out$product_keys <- keys(products);out$country_keys <- keys(countries)
+  out$rule_index <- .shipment_scope_index(maps$rules,products,countries)
+  out$coverage_index <- .shipment_scope_index(bundle$coverage,products,countries)
+  out
+}
+
+.evaluate_shipment_bundle <- function(bundle, hts10, country, entry_at, facts = list(), prepared=NULL) {
   fail <- function(message) .shipment_result(bundle, message)
   at <- .shipment_time(entry_at)
   if (!is.character(hts10) || length(hts10) != 1 || !grepl('^[0-9]{10}$', hts10) ||
@@ -75,27 +153,21 @@
       is.null(bundle$coverage_requirements) || !length(bundle$coverage_requirements) ||
       is.null(bundle$rules) || is.null(bundle$sources) || is.null(bundle$products) || is.null(bundle$countries))
     return(fail('unsupported_or_incomplete_contract'))
-  if (!hts10 %in% unlist(bundle$products)) return(fail('product_not_valid_in_revision'))
-  if (!country %in% unlist(bundle$countries)) return(fail('origin_not_covered'))
+  contains <- function(values,index,key)if(is.null(index))key %in% unlist(values) else exists(key,envir=index,inherits=FALSE)
+  if (!contains(bundle$products,prepared$product_keys,hts10)) return(fail('product_not_valid_in_revision'))
+  if (!contains(bundle$countries,prepared$country_keys,country)) return(fail('origin_not_covered'))
   if (is.null(bundle$valid_from) || is.null(bundle$valid_until) ||
       is.na(.shipment_time(bundle$valid_from)) || is.na(.shipment_time(bundle$valid_until)) ||
       at < .shipment_time(bundle$valid_from) || at >= .shipment_time(bundle$valid_until))
     return(fail('entry_outside_bundle_interval'))
-  rules <- list()
-  for (rule in bundle$rules) {
-    if (is.null(rule$id) || !is.character(rule$id) || !nzchar(rule$id)) return(fail('missing_rule_id'))
-    if (!is.null(rules[[rule$id]]) && !identical(.shipment_canonical(rules[[rule$id]]), .shipment_canonical(rule)))
-      return(fail(paste0('conflicting_rule:', rule$id)))
-    rules[[rule$id]] <- rule
-  }
-  if (any(!vapply(c(bundle$rules, bundle$coverage), function(x) .shipment_valid_scope(x$scope), logical(1))))
-    return(fail('invalid_scope'))
-  sources <- list()
-  for (s in bundle$sources) {
-    if (is.null(s$id) || !is.character(s$id)) return(fail('missing_source_id'))
-    if (!is.null(sources[[s$id]]) && !identical(.shipment_canonical(sources[[s$id]]), .shipment_canonical(s))) return(fail(paste0('conflicting_source:', s$id)))
-    sources[[s$id]] <- s
-  }
+  maps <- if(is.null(prepared)).shipment_rule_maps(bundle) else prepared$maps
+  if(!is.null(maps$error))return(fail(maps$error))
+  rules <- maps$rules;sources <- maps$sources
+  active_ids <- if(is.null(prepared))names(rules) else
+    names(rules)[.shipment_index_matches(prepared$rule_index,hts10,country,at)]
+  active_rules <- rules[active_ids]
+  active_coverage <- if(is.null(prepared))bundle$coverage else
+    bundle$coverage[.shipment_index_matches(prepared$coverage_index,hts10,country,at)]
   valid_source <- function(id) {
     s <- sources[[id]]
     !is.null(s) && identical(s$status, 'verified') &&
@@ -117,16 +189,16 @@
     candidates <- unlist(claim$candidate_rule_ids)
     if (!length(candidates) || !all(candidates %in% names(rules)) ||
         !length(claim$source_ids) || !all(vapply(claim$source_ids, valid_source, logical(1)))) next
-    matched <- Filter(function(id) .shipment_scope(rules[[id]]$scope, hts10, country, at), as.list(candidates))
+    matched <- Filter(function(id)id %in% active_ids && .shipment_scope(rules[[id]]$scope, hts10, country, at), as.list(candidates))
     if (length(matched)) result$claim_options[[length(result$claim_options)+1L]] <- list(
       id=claim$id, label=claim$label, candidate_rule_ids=matched,
       citations=unname(sources[unlist(claim$source_ids)]))
   }
   for (authority in unlist(bundle$coverage_requirements)) {
     matches <- Filter(function(c) identical(c$authority, authority) &&
-                        .shipment_scope(c$scope, hts10, country, at), bundle$coverage)
+                        .shipment_scope(c$scope, hts10, country, at), active_coverage)
     applicable <- Filter(function(r) identical(r$authority, authority) &&
-      .shipment_scope(r$scope, hts10, country, at), rules)
+      .shipment_scope(r$scope, hts10, country, at), active_rules)
     valid_coverage <- function(c) {
       if (!identical(c$status, 'verified') || !length(c$source_ids) ||
           !all(vapply(c$source_ids, valid_source, logical(1))) || is.null(c$rule_ids)) return(FALSE)
@@ -296,7 +368,7 @@
     }
     finish(blank)
   }
-  for (id in sort(names(rules))) {
+  for (id in sort(active_ids)) {
     r <- rules[[id]]; resolved <- resolve(id)
     if (.shipment_scope(r$scope, hts10, country, at)) {
       result$rule_decisions[[length(result$rule_decisions)+1L]] <- list(
@@ -332,10 +404,58 @@ evaluate_shipment_bundle <- function(bundle, hts10, country, entry_at, facts = l
     error = function(e) .shipment_result(if (is.list(bundle)) bundle else list(), 'invalid_shipment_rule_bundle'))
 }
 
+evaluate_shipment_prepared <- function(prepared,hts10,country,entry_at,facts=list()) {
+  tryCatch(.evaluate_shipment_bundle(prepared$bundle,hts10,country,entry_at,facts,prepared=prepared),
+    error=function(e).shipment_result(if(is.list(prepared$bundle))prepared$bundle else list(),'invalid_shipment_rule_bundle'))
+}
+
+# Keep contract arrays as JSON arrays even when they contain one scalar. R's
+# character vectors are convenient to callers, but auto_unbox must not change
+# their wire type according to the number of matched rules or missing facts.
+shipment_result_for_json <- function(result) {
+  for(key in c('applied_rules','suppressed_rules','missing_inputs','source_errors'))result[[key]] <- as.list(result[[key]])
+  for(key in c('components','rule_decisions'))result[[key]] <- lapply(result[[key]],function(item) {
+    for(array in c('missing_inputs','source_errors','reporting_codes','source_ids'))
+      if(!is.null(item[[array]]))item[[array]] <- as.list(item[[array]])
+    item
+  })
+  result
+}
+
 resolve_shipment_duties <- function(normalized_dir, hts10, country, entry_at, facts = list()) {
   path <- file.path(normalized_dir, 'shipment_rules.json')
   if (!file.exists(path)) return(.shipment_result(errors = 'missing_shipment_rule_bundle'))
   bundle <- tryCatch(jsonlite::fromJSON(path, simplifyVector = FALSE), error = function(e) NULL)
-  if (is.null(bundle)) return(.shipment_result(errors = 'invalid_shipment_rule_bundle'))
+  if (is.null(bundle)||!is.list(bundle)) return(.shipment_result(errors = 'invalid_shipment_rule_bundle'))
+  if(identical(bundle$contract_version,'sail.shipment-bundle-index/v1')) {
+    index <- bundle;at <- .shipment_time(entry_at)
+    if(is.na(at))return(.shipment_result(index,'invalid_shipment_identity_or_entry_timestamp'))
+    if(is.na(.shipment_time(index$valid_from))||is.na(.shipment_time(index$valid_until))||
+      .shipment_time(index$valid_from)>=.shipment_time(index$valid_until))return(.shipment_result(index,'invalid_shipment_bundle_index'))
+    entries <- index$bundles
+    valid <- is.list(entries)&&length(entries)>0L && all(vapply(entries,function(e)
+      is.list(e)&&is.character(e$path)&&length(e$path)==1L&&grepl('^shipment_bundle_[a-f0-9]{64}\\.json$',e$path)&&
+      is.character(e$sha256)&&length(e$sha256)==1L&&grepl('^[a-f0-9]{64}$',e$sha256)&&
+      is.character(e$bundle_id)&&length(e$bundle_id)==1L&&grepl('^[a-f0-9]{64}$',e$bundle_id)&&
+      !is.na(.shipment_time(e$valid_from))&&!is.na(.shipment_time(e$valid_until))&&
+      .shipment_time(e$valid_from)<.shipment_time(e$valid_until),logical(1)))
+    if(!valid)return(.shipment_result(index,'invalid_shipment_bundle_index'))
+    starts <- vapply(entries,function(e).shipment_time(e$valid_from),numeric(1))
+    ends <- vapply(entries,function(e).shipment_time(e$valid_until),numeric(1))
+    if(!identical(order(starts),seq_along(entries))||any(head(ends,-1)!=tail(starts,-1))||
+      starts[1]!=.shipment_time(index$valid_from)||tail(ends,1)!=.shipment_time(index$valid_until))
+      return(.shipment_result(index,'invalid_shipment_bundle_intervals'))
+    hits <- which(starts<=at & at<ends)
+    if(length(hits)!=1L)return(.shipment_result(index,'entry_outside_bundle_interval'))
+    entry <- entries[[hits]];selected <- file.path(normalized_dir,entry$path)
+    if(!file.exists(selected)||!startsWith(normalizePath(selected),paste0(normalizePath(normalized_dir),'/')))
+      return(.shipment_result(index,'missing_or_unsafe_shipment_bundle'))
+    if(!identical(digest::digest(file=selected,algo='sha256'),entry$sha256))return(.shipment_result(index,'shipment_bundle_hash_mismatch'))
+    bundle <- tryCatch(jsonlite::fromJSON(selected,simplifyVector=FALSE),error=function(e)NULL)
+    if(is.null(bundle)||!identical(bundle$bundle_id,entry$bundle_id)||!identical(bundle$revision,index$revision)||
+      !identical(bundle$dataset_version,index$dataset_version)||!identical(bundle$evidence_snapshot_id,index$evidence_snapshot_id)||
+      !identical(bundle$valid_from,entry$valid_from)||!identical(bundle$valid_until,entry$valid_until))
+      return(.shipment_result(index,'mixed_shipment_bundle_versions'))
+  }
   evaluate_shipment_bundle(bundle, hts10, country, entry_at, facts)
 }

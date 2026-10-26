@@ -1283,7 +1283,7 @@ emit_normalized_revision <- function(
   .write_parquet_safe(decisions,file.path(output_dir,revision_id,'ieepa_reciprocal_scope_decisions.parquet'))
   if(!is.null(reciprocal)) {
     jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)
-    jsonlite::write_json(reciprocal_scope_fragment(reciprocal),file.path(output_dir,revision_id,'ieepa_reciprocal_scope_evidence.json'),auto_unbox=TRUE,null='null',digits=NA)
+    write_rule_fragment(reciprocal_scope_fragment(reciprocal),'ieepa_reciprocal_scope_evidence.json')
     write_rule_fragment(compile_reciprocal_initial_fragment(reciprocal,products$hts10),
       'ieepa_reciprocal_initial_rules.json')
   }
@@ -1297,10 +1297,9 @@ emit_normalized_revision <- function(
   decisions$state_valid_until <- rep(as.Date(valid_until %||% NA),nrow(decisions))
   .write_parquet_safe(decisions,
     file.path(output_dir,revision_id,'ieepa_action_decisions.parquet'))
-  if(!is.null(denorm_state$fentanyl_evidence)||!is.null(ieepa_evidence)) jsonlite::write_json(
+  if(!is.null(denorm_state$fentanyl_evidence)||!is.null(ieepa_evidence)) write_rule_fragment(
     attach_emergency_evidence(ieepa_evidence_fragment(ieepa_evidence,revision_id),denorm_state$fentanyl_evidence),
-    file.path(output_dir,revision_id,'ieepa_evidence_sources.json'),
-    auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
+    'ieepa_evidence_sources.json')
   emergency_source <- attr(denorm_state$fentanyl_evidence,'emergency_source')
   if(!is.null(emergency_source)) write_rule_fragment(
     compile_ieepa_emergency_fragment(emergency_source,products$hts10),
@@ -1398,7 +1397,18 @@ emit_normalized_revision <- function(
   # Overwrite on each call — cheap, idempotent.
   emit_product_metal_content_rev(products, deriv_matched, pp, output_dir)
 
-  invisible(TRUE)
+  shipment <- NULL
+  if(grepl('^202[56]_',revision_id)) {
+    source(here::here('src/shipment_build.R'))
+    base <- compile_shipment_base_fragment(load_shipment_base_source(revision_id),products$hts10,countries)
+    write_rule_fragment(base,'shipment_base_rules.json')
+    # Admit only files written by this invocation, never stale directory files.
+    fragments <- lapply(inventory_fragments,read_shipment_rule_fragment)
+    shipment <- assemble_shipment_state(revision_id,products$hts10,countries,
+      valid_from %||% effective_date,valid_until %||% effective_date,fragments,load_shipment_build_context(),
+      file.path(output_dir,revision_id))
+  }
+  invisible(list(shipment=shipment,revision_dir=file.path(output_dir,revision_id),fragment_paths=inventory_fragments))
 }
 
 #' Per-revision metal content emitter. Writes product_metal_content.parquet

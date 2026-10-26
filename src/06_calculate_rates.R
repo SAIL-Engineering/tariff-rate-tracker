@@ -3503,10 +3503,13 @@ calculate_rates_for_revision <- function(
     s201_quartz = if (exists('s201_quartz', inherits = FALSE)) s201_quartz else NULL
   )
 
-  # 9d. Phase 2 dual-write — emit the normalized layer parquets alongside
-  #     the denormalized rates tibble. Additive only; nothing reads these
-  #     yet. Controlled by env var SAIL_EMIT_NORMALIZED (default: on) so
-  #     CI/one-off regens can opt out via SAIL_EMIT_NORMALIZED=0.
+  # 9d. Assemble and evaluate shipment rules after completing the aggregate
+  # grid. Aggregate methodology is preserved; failure cannot expose the old
+  # aggregate-backed statutory total as a shipment result.
+  source(here('src','shipment_build.R'))
+  shipment_projection <- NULL
+  if(identical(Sys.getenv('SAIL_EMIT_NORMALIZED','1'),'0')&&identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED','0'),'1'))
+    stop('Required shipment contract cannot be built with normalized emission disabled')
   if (!identical(Sys.getenv('SAIL_EMIT_NORMALIZED', '1'), '0')) {
     tryCatch({
       .source_emit_normalized()
@@ -3574,7 +3577,7 @@ calculate_rates_for_revision <- function(
                                  strict = FALSE)
         }
 
-        emit_normalized_revision(
+        normalized_result <- emit_normalized_revision(
           products              = products,
           ch99_data             = ch99_data,
           ieepa_rates           = ieepa_rates,
@@ -3599,6 +3602,12 @@ calculate_rates_for_revision <- function(
           output_dir            = normalized_output_dir,
           denorm_state          = denorm_state
         )
+        if(!is.null(normalized_result$shipment)) {
+          shipment_projection <- project_shipment_state(rates,normalized_result$shipment,normalized_result$revision_dir)
+          arrow::write_parquet(shipment_projection$memberships,file.path(normalized_result$revision_dir,'shipment_decision_membership.parquet'))
+          arrow::write_parquet(shipment_projection$classes,file.path(normalized_result$revision_dir,'shipment_decision_classes.parquet'))
+        } else if(identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED','0'),'1'))
+          stop('Required executable shipment bundle is unavailable for this revision')
       }
     }, error = function(e) {
       # A shipment release cannot mix refreshed wide rows with missing/stale
@@ -3609,6 +3618,8 @@ calculate_rates_for_revision <- function(
       message('  [phase2 emit_normalized_revision skipped: ', conditionMessage(e), ']')
     })
   }
+
+  rates <- if(is.null(shipment_projection))mark_shipment_contract_unavailable(rates,'ordinary_build_missing_verified_shipment_projection') else shipment_projection$rates
 
   # Summary
   n_with_ieepa <- sum(rates$rate_ieepa_recip > 0)

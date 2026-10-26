@@ -1,0 +1,12 @@
+{
+  "source_id": "USITC-2025-rev16-ch94",
+  "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev16&filename=Chapter%2094",
+  "retrieved_at": "2026-10-26T02:58:09.496506+00:00",
+  "retrieval": "gstack /browse same-origin fetch",
+  "revision": "2025_rev_16",
+  "pdf_sha256": "e3fa0d4c620234f570830125f126c07e6d6dc336ec833d0a1750d0568b6de8ea",
+  "native_text_sha256": "6eeebc8ee6852310d6c89a6614eae8e4c8bbc9e4e5a999c2c842cb4ed11cbd39",
+  "locator": "Printed Chapter94 page94-7 (PDF page9) and statistical note2",
+  "review_status": "source_anomaly_confirmed",
+  "finding": "Native PDF and JSON both contain a stranded9401.99.30.30 line without a corresponding duty-bearing HTS8 parent. The same description also appears at9401.99.90.30, which statistical note2 explicitly names. Do not substitute either the preceding .25 duty or .90 duty for the stranded code; no corrective instrument has been established."
+}
