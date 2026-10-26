@@ -59,6 +59,30 @@ Expressions are JSON objects with exactly one discriminator:
   `if` evaluates only its selected branch. False `and` and true `or` do not
   request irrelevant missing facts. Unknown operators fail closed.
 
+Fragments may additionally declare `derived_facts`: named compiler expressions
+with verified `source_ids`. The composer expands these before interpretation,
+retains their citations and records `derived_fact_decisions` in the bundle.
+This links independently named inputs to one established shipment decision/value;
+a contradictory caller alias cannot override the underlying facts. Conflicting
+definitions, unknown source identities and cyclic aliases fail compilation. The
+runtime expression grammar remains unchanged. Derived identities do not attest
+authority completeness or turn missing facts into defaults.
+
+A relation may declare `source_window: {from, until}` when its native evidence
+supports only that identified build source interval. Assembly tiles at both
+boundaries; composition validates the relation before skipping disjoint windows
+and rejects a partially overlapping untiled bundle. The window and citations
+remain in `relation_decisions`. This is source support, not a substitute for
+the original instrument's legal effective window. Original country amendments
+can therefore supply retroactive relations before a heading enters a snapshot.
+
+Relations select either exact `target_reporting_codes` or exact
+`target_action_ids`, never both. The latter permits a sourced combined-duty
+action to replace `ordinary_customs_duty`, which has no Chapter99 heading.
+The actual trigger rule's scope and conditions determine suppression. An inactive
+trigger leaves the ordinary duty intact; an unresolved trigger cannot establish
+an ordinary-duty subtotal. This selector introduces no new runtime operator.
+
 Amounts are USD, rates are fractional multipliers, and quantities use the exact
 unit declared by the fact definition. The formula explicitly supplies valuation
 bases, floor/cap calculations and quantity factors. Interpreters do not perform

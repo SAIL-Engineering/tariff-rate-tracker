@@ -1,0 +1,467 @@
+{
+  "contract_version": "sail.shipment-audit-verification/v1",
+  "recorded_at": "2026-10-26T17:41:48.351419+00:00",
+  "audit_through": "2026-10-22",
+  "legal_coverage_complete": false,
+  "ready_for_final_rebuild": false,
+  "production_release_prepared": false,
+  "branches": {
+    "tracker": {
+      "branch": "wjr_dev",
+      "base_sha": "50d900b74f16bdf7b827dc982ca944ce1998bf42",
+      "implementation_commits": [
+        "885b0487906b252391d8dbf62395f5c0efcaa3b5",
+        "6ac3892936c657abf949fa59420d767a1c9b75e8"
+      ]
+    },
+    "trade_intelligence": {
+      "branch": "main",
+      "head": "766334b6b41dd5f45cfd3df583b7c5d53447ae1a",
+      "changed": false
+    },
+    "sail": {
+      "branch": "pinecone-hts",
+      "head": "96ea7010d7ce0fa581ffd9afc4374eb615922a51",
+      "changed": false
+    }
+  },
+  "schema_changes": {
+    "runtime_rule_contract": "sail.shipment-rules/v1 unchanged",
+    "result_contract": "sail.shipment-result/v1 unchanged",
+    "wide_projection": "sail.shipment-wide/v1 unchanged",
+    "bundle_index": "sail.shipment-bundle-index/v1 unchanged",
+    "compiler_extensions": [
+      "source-backed derived_facts",
+      "relations.source_window with exact tiling",
+      "exclusive target_action_ids selector",
+      "omit absent optional relation metadata"
+    ],
+    "normalized_candidate_columns_unchanged": true,
+    "live_migrations_applied": false
+  },
+  "source_census": {
+    "revisions": 55,
+    "native_product_revision_records": 1089461,
+    "pinned_original_sources": 13,
+    "compiler_sha256": "882ef7abcb48aaaea7faf89c1ddb0c58535397b8906ca5f5526c8540fc3af7c7",
+    "source_only": true,
+    "full_grid_evaluation": false
+  },
+  "commands": [
+    {
+      "command": "/usr/bin/python3 -m pytest -q tests/python",
+      "exit_code": 0,
+      "passed": 423,
+      "log": "logs/python.log.gz"
+    },
+    {
+      "command": "node --test --experimental-test-isolation=none frontend/tests/*.test.mjs",
+      "node": "22.22.3",
+      "exit_code": 0,
+      "passed": 653,
+      "log": "logs/node.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_s232_autos.R --emit",
+      "exit_code": 0,
+      "cases": 60,
+      "log": "logs/auto-history-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_s232_auto_interactions.R --emit",
+      "exit_code": 0,
+      "cases": 12,
+      "log": "logs/auto-interactions-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_s232_auto_metals.R --emit",
+      "exit_code": 0,
+      "cases": 9,
+      "log": "logs/auto-metals-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_shipment_prepared.R",
+      "exit_code": 0,
+      "cases": 257,
+      "log": "logs/prepared-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_shipment_derived_facts.R",
+      "exit_code": 0,
+      "checks": 12,
+      "log": "logs/derived-facts-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/test_shipment_action_composition.R",
+      "exit_code": 0,
+      "checks": 39,
+      "log": "logs/action-composition-r.log.gz"
+    },
+    {
+      "command": "Rscript tests/run_all_tests.R",
+      "exit_code": 1,
+      "suites": {
+        "run_tests_daily_series.R": "OK",
+        "test_adcvd_layer.R": "OK",
+        "test_adcvd_notice.R": "OK",
+        "test_ch99_attribution.R": "OK",
+        "test_ch99_rules.R": "OK",
+        "test_chapter99_inventory.R": "OK",
+        "test_citations.R": "OK",
+        "test_country_scope.R": "OK",
+        "test_duty_ledger_intervals.R": "OK",
+        "test_ieepa_actions.R": "OK",
+        "test_ieepa_emergency_rules.R": "OK",
+        "test_ieepa_emergency.R": "OK",
+        "test_ieepa_reciprocal_rules.R": "OK",
+        "test_ieepa_reciprocal_scope.R": "OK",
+        "test_legal_intervals.R": "OK",
+        "test_normalized_parity.R": "ERROR",
+        "test_note_scope_extraction.R": "OK",
+        "test_note_scope.R": "OK",
+        "test_product_inheritance.R": "OK",
+        "test_product_scope.R": "OK",
+        "test_rate_calculation.R": "OK",
+        "test_reciprocal_pipeline.R": "OK",
+        "test_s122_conditions.R": "OK",
+        "test_s122_rules.R": "OK",
+        "test_s201_quartz.R": "OK",
+        "test_s232_attribution.R": "OK",
+        "test_s232_auto_interactions.R": "OK",
+        "test_s232_auto_metals_pipeline.R": "OK",
+        "test_s232_auto_metals.R": "OK",
+        "test_s232_autos_pipeline.R": "OK",
+        "test_s232_autos.R": "OK",
+        "test_s232_grants.R": "OK",
+        "test_s232_heading_resolution.R": "OK",
+        "test_s232_legacy_pipeline.R": "OK",
+        "test_s232_legacy_rules.R": "OK",
+        "test_s232_model_separation.R": "OK",
+        "test_s232_note16_revision.R": "OK",
+        "test_s232_pre_march_pipeline.R": "OK",
+        "test_s232_pre_march.R": "OK",
+        "test_s232_scope_sources.R": "OK",
+        "test_s232_semiconductors_pipeline.R": "OK",
+        "test_s232_semiconductors.R": "OK",
+        "test_s338_amendments.R": "OK",
+        "test_s338_pipeline.R": "OK",
+        "test_s338_rules.R": "OK",
+        "test_section301_revision.R": "ERROR",
+        "test_shipment_action_composition.R": "OK",
+        "test_shipment_build.R": "OK",
+        "test_shipment_constraints.R": "OK",
+        "test_shipment_derived_facts.R": "OK",
+        "test_shipment_duty_expression.R": "OK",
+        "test_shipment_exact.R": "OK",
+        "test_shipment_pipeline.R": "OK",
+        "test_shipment_prepared.R": "OK",
+        "test_shipment_projection.R": "OK",
+        "test_shipment_rules.R": "OK",
+        "test_shipment_source_merge.R": "OK",
+        "test_shipment_temporal_delivery.R": "OK",
+        "test_stacking_temporal.R": "OK",
+        "test_staged_rates.R": "OK",
+        "test_statutory_totals.R": "OK",
+        "test_tpc_comparison.R": "SKIP"
+      },
+      "ok": 59,
+      "errors": 2,
+      "skips": 1,
+      "log": "logs/full-r-before-optional-metadata-fix.log.gz",
+      "qualification": "Run preceded final optional-metadata representation fix. Not repeated afterwards. No full-data green claim."
+    },
+    {
+      "command": "Rscript tests/test_section301_revision.R",
+      "exit_code": 0,
+      "log": "logs/section301-after-fix-r.log.gz",
+      "qualification": "Unmodified committed Section301 golden fixture matches again after omitting absent metadata; earlier difference inventory was exactly34 absent/null fields, with no formula or case changes."
+    },
+    {
+      "command": "npm --prefix frontend run build",
+      "exit_code": 0,
+      "log": "logs/frontend-build.log.gz",
+      "qualification": "Tracked prototype dist outputs restored; no publication."
+    },
+    {
+      "command": "git diff --cached --check -- . :(exclude)resources/legal_evidence/section232/autos/*.txt",
+      "exit_code": 0,
+      "qualification": "Official retained text preserves original trailing whitespace and hashes; code/docs checks exclude those source bytes."
+    }
+  ],
+  "normal_build_delivery": [
+    {
+      "revision": "2025_rev_11",
+      "cases": 12,
+      "products": 3,
+      "countries": 2,
+      "dataset_version": "shipment-36750face8d4ddf28ba844406b065c1ca72919ae11fbfc14e3241bb1e2ff937b",
+      "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+      "index_sha256": "afb8980dc3cda7ac637e5fae1ed6c53251816f840679031a3d845fd8f6dad448",
+      "bundle_ids": [
+        "7ae3fbee6335700228c810451e7680ac89826319452b67bf11a41d0cd3ad5f2b",
+        "fc970fe8a71980ab7ae91961fa880de62f7bf98f2a3600683c98861f0205eaed"
+      ],
+      "artifacts_sha256": {
+        "rates_fixture.parquet": "58ff8126a6938c67937c526d9c13f6cea79f13709f62861a41bb876217efc168",
+        "2025_rev_11/shipment_decision_classes.parquet": "21a31d0f0d15d158ff567a35c73f56e7203296fbc0cfb62919649d5c677195b9",
+        "2025_rev_11/shipment_decision_membership.parquet": "10915f26abf7e7c7fa45d48fefac94a9adeaeab4e72d6fa05ff331d8175f4d28"
+      },
+      "local_delivery_checks": {
+        "cases": 12,
+        "status": "passed",
+        "checks": [
+          "normal Parquet relationships",
+          "R/TypeScript components",
+          "JSON",
+          "Arrow",
+          "batch",
+          "dataset invalidation",
+          "bundle tampering"
+        ],
+        "production_release_preparation": false,
+        "live_motherduck": false
+      }
+    },
+    {
+      "revision": "2026_rev_19",
+      "cases": 8,
+      "products": 2,
+      "countries": 2,
+      "dataset_version": "shipment-36750face8d4ddf28ba844406b065c1ca72919ae11fbfc14e3241bb1e2ff937b",
+      "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+      "index_sha256": "cd1fd66d6e02e6ac8978e449d0fef0330f17ff8c21d23fadff1db6693cc3afc1",
+      "bundle_ids": [
+        "586bfb736102e2166d6cc77126c41a0017b4327bfd53effb33d43953182767d9"
+      ],
+      "artifacts_sha256": {
+        "rates_fixture.parquet": "a8f4c51bbfc0ce4c3b9384d26a7fc871f6ae442e6702bb9cf77794d46a087a25",
+        "2026_rev_19/shipment_decision_classes.parquet": "1ca4a20dc9495383811db5ca27ca00040da1920909b55bed29e9495199ab73d0",
+        "2026_rev_19/shipment_decision_membership.parquet": "17aba2eaa8ee7e4bd394f326136a1d54497fd86d48c1edf81dbcfb17aa106120"
+      },
+      "local_delivery_checks": {
+        "cases": 8,
+        "status": "passed",
+        "checks": [
+          "normal Parquet relationships",
+          "R/TypeScript components",
+          "JSON",
+          "Arrow",
+          "batch",
+          "dataset invalidation",
+          "bundle tampering"
+        ],
+        "production_release_preparation": false,
+        "live_motherduck": false
+      }
+    }
+  ],
+  "remaining_data_gates": [
+    "685 missing/stale normalized-artifact validation errors in old local data",
+    "Missing data/tpc/tariff_by_flow_day.csv",
+    "Exhaustive normalized traversal not implemented"
+  ],
+  "aggregate_qualification": {
+    "methodology_preserved": true,
+    "full_series_reproduced": false,
+    "full_series_differences": null,
+    "qualification": "Bounded fixtures omit full trade/model inputs and retain existing aggregate warnings; only shipment-contract assertions are qualified. WJR must run full rebuild and compare emitted model inputs/outputs."
+  },
+  "motherduck": {
+    "access_mode": "READ_ONLY",
+    "catalog": "duty_calculator",
+    "rows": 440,
+    "product_origin_pairs": 8,
+    "dated_component_contract_checks": 10,
+    "nullability_mismatches": 10,
+    "stored_interval_overlaps": 3,
+    "complete_stack_certification": false,
+    "writes": false,
+    "activation": false
+  },
+  "release_dependencies": [
+    "Complete remaining sector, origin, claim, valuation and FTZ legal inventory",
+    "Pin actual identified Trade Intelligence evidence export",
+    "Upgrade production release preparer/schema to multiple exact-time bundles and decision partitions",
+    "Complete remaining consumers and exhaustive reconciliation",
+    "WJR manual full timeseries rebuild and later explicitly approved MotherDuck qualification/activation"
+  ],
+  "rebuilt_revisions": [],
+  "timeseries_build_run": false,
+  "pushed": false,
+  "deployed": false,
+  "workflow_dispatched": false,
+  "weekday_workflow_changed": false,
+  "rollback": "No production rollback is needed: production MotherDuck and active release were not changed. To back out local implementation, revert6ac38929 then885b0487 on a review branch; preserve current unbuilt/generated data first. Later approved releases must retain the previous active release identifier for rollback.",
+  "artifacts": [
+    {
+      "path": "logs/action-composition-r.log.gz",
+      "sha256": "60f7d8c7bf5e63b9f4fb31fbdf636273cb2e1519e05c3a5aef6c51adbbb80d85",
+      "uncompressed_sha256": "c5beb9da0cdf026a61203b762b8d2f0c1018b51492d708c4686982baf7569c5d"
+    },
+    {
+      "path": "logs/auto-history-r.log.gz",
+      "sha256": "2ac643351182846b732038a9bb7a383e3dc95fe6c17f8f1ad001f1630f2265fb",
+      "uncompressed_sha256": "d9fec16ed59940c4bfd7c76537b82f47575272892774a16b09260d5e0d6b3bd4"
+    },
+    {
+      "path": "logs/auto-interactions-r.log.gz",
+      "sha256": "7b0ca39df5155efc0194d6746e4cb822510e9e09eb84264cd6fadaf276a8f530",
+      "uncompressed_sha256": "fa04e8d9dcd4c67d74d0589064aecb0cd8aec5711d32f23571d0f3b5a50c4e53"
+    },
+    {
+      "path": "logs/auto-metals-r.log.gz",
+      "sha256": "82c8c3094f2848f4d343302c7ad69d3efb7bb85a08c6b56ed79175b1b769eb1a",
+      "uncompressed_sha256": "785934d3221b8a995c8a3fd01c79dea2cbd59e9d34729ebfee4b6d889f68e0ae"
+    },
+    {
+      "path": "logs/derived-facts-r.log.gz",
+      "sha256": "c3f002a8fdc0670f97f68ca4b2261060cc35f37df922d9b3b0341d2f1eda0d4e",
+      "uncompressed_sha256": "3e35d81726677b1740ec1f7711321cce449a8c36dd17c6107f9d6de8fb105956"
+    },
+    {
+      "path": "logs/frontend-build.log.gz",
+      "sha256": "b0be793b47c8ebb4169577358d0397ab4c432d4c9ed49c4f30c518db17f8615e",
+      "uncompressed_sha256": "9fac9e928d3bc406e4b663da3e2d30adfa1af4e9a3febf9ff56ab9f6ae1e6b18"
+    },
+    {
+      "path": "logs/full-r-before-optional-metadata-fix.log.gz",
+      "sha256": "b68f1b7337b9d6787067ed11350c82e5f84d8a6d28ee8e923f2cba74493739d3",
+      "uncompressed_sha256": "247996373c9e078aa6efdb2498ca0268d10d1f0961e793656f92c5dd222d2e9a"
+    },
+    {
+      "path": "logs/node.log.gz",
+      "sha256": "2e9b024dc9422ce3e0f5f4e618c7e2ccf2fa2b267380b99e1f8b31e7cd89ba9f",
+      "uncompressed_sha256": "b893885280c283f749be1802f99caf1dcf26923ea7469fa010a3793c67589157"
+    },
+    {
+      "path": "logs/normal-metals-uk-api.json.gz",
+      "sha256": "05620504b0f236f608e107f27a8b90d07b217f66fe480a782771b8e23f2f288d",
+      "uncompressed_sha256": "1e7470830f4b8cef9177900be9527f1a27680123637a78cae85c61b2fa403cad"
+    },
+    {
+      "path": "logs/normal-metals-uk-r.log.gz",
+      "sha256": "af5d18abb31f3bd90737857ac772929b5d5c09f5daede20727c83b6c9e4450f5",
+      "uncompressed_sha256": "39ade289fa31a113185a4cfebc673355d170cb0df8758cd58070b840492fed9d"
+    },
+    {
+      "path": "logs/normal-original-api.json.gz",
+      "sha256": "51398f70488991e0a074fd149ed865ab4da364f7bc34a02c312074d0afdcfb2f",
+      "uncompressed_sha256": "7907e6196adbb659bc1a7e5868b9c1a157dfa7bb4897c9d923032a84e1a8fcdf"
+    },
+    {
+      "path": "logs/normal-original-r.log.gz",
+      "sha256": "84953e2458486f71b1fc0575694eca37f5761bfce129899862772cef05bc1ed9",
+      "uncompressed_sha256": "33a6859daf75b9144a04152b1a789b4680bde4d09b9e76983803bd1a3ff4d0a4"
+    },
+    {
+      "path": "logs/prepared-r.log.gz",
+      "sha256": "cdf11e165a030d37c51e9f34c2732116877b29f2b4baeed698cf98e395eff013",
+      "uncompressed_sha256": "fea12f6f6d6397ed74a148bd5591b71474a71742b75dac7e1a57a6d490dd9180"
+    },
+    {
+      "path": "logs/python.log.gz",
+      "sha256": "5adcb4bb420e44f25e0ce3b05742b039713bbd8e9eba4ee696514c28eab9078c",
+      "uncompressed_sha256": "76f6b6985dae608e0e51cef54173fb9611e1dc36855ae537de85f8ac20a03382"
+    },
+    {
+      "path": "logs/red-auto-compiler.log.gz",
+      "sha256": "84de2dfe966c47b7236217b6ef5ed7ffba4c73f3b8a4e932b8e2d76d9238e132",
+      "uncompressed_sha256": "d81e8b8c85439844d00cbb2e1f6e55d6a18cf2eb6d7bd545bddf5fd520c00d3a"
+    },
+    {
+      "path": "logs/red-auto-metals-double-charge.log.gz",
+      "sha256": "9882dec2ff514bdae081fd7caeb6ce501496180bd09b415b5a5a5f2c38330000",
+      "uncompressed_sha256": "ee11dae69385e7d2343cd1c217a22a012acfdd8406a5fdaca7c964238643c4f1"
+    },
+    {
+      "path": "logs/red-candidate-provenance.log.gz",
+      "sha256": "36741cf59576f5483883e002126a2e8cfcb578cb23af4b5e1aa9a70a6ad43fe6",
+      "uncompressed_sha256": "3e50bc839669d9d08bf421a2d78b56d5d795d9b3f66ebbc1437625f82e1cd852"
+    },
+    {
+      "path": "logs/red-combined-base-selector.log.gz",
+      "sha256": "18a02756da54ed6844c0ec55c9ee235f7d70e6b3cdb50656059f43b0eed8d9e8",
+      "uncompressed_sha256": "8515509aaa6cdcca0be6818c6c4d2e0bba7ccdf54dde89b32ce6c8520c30ce6d"
+    },
+    {
+      "path": "logs/red-derived-identity.log.gz",
+      "sha256": "f2c0ed8c668e2295f5c81ebed7807825b25c1fd0ae722dc29756c9c597b54a85",
+      "uncompressed_sha256": "6bbb1af64cadde5a7fed9f6d3d40f5399a7e586546ecc10e0c269ed3b152a1b7"
+    },
+    {
+      "path": "logs/red-korea-special.log.gz",
+      "sha256": "454508273ef89d08dad6d8f22c5aa9a8b578f50d8b3a3a3e646cd5efcd152d26",
+      "uncompressed_sha256": "0674d64fd6ebe4d036c5964ed76b8a80c0a323b6699f4b7b5976e685c83c3d9e"
+    },
+    {
+      "path": "logs/red-late-derived-relation.log.gz",
+      "sha256": "987c90ff5c1ce298b6b62b5bf724f5e360566c2f609a863b4f6b46db99931507",
+      "uncompressed_sha256": "3c8bf57a057301e4865387ac73e324886026b625800a857837117155dd71c54c"
+    },
+    {
+      "path": "logs/red-note-structure.log.gz",
+      "sha256": "db606ff6acb6cbc5552789b595bc61ff1cd048a3339c567fdd8bee4dab6ad679",
+      "uncompressed_sha256": "d553a5964d6f947486c0198946623282b0ca72ea5fbef4789af3d4b0e12254ac"
+    },
+    {
+      "path": "logs/red-optional-metadata.log.gz",
+      "sha256": "ff262578bee84488097690fa9484febed83696dcb95661f46a2fa560ad82f45b",
+      "uncompressed_sha256": "9700d2300a36439366a21f89b5ca029e600f7fee4d32865102bddc9bd4c15997"
+    },
+    {
+      "path": "logs/section301-after-fix-r.log.gz",
+      "sha256": "a7ee4246dd15f408df597969afafac41d4e634fe0ba49b14823656b6a2c763f4",
+      "uncompressed_sha256": "25f35406c4cce4a2cbbd35386efe52ee22956c9e40ad3b782b1e70f99d0a80b4"
+    },
+    {
+      "path": "logs/section301-fixture-diagnosis.log.gz",
+      "sha256": "bb873e54324958c80cdb79e04a3e685be48d4fca7ac67dcf1e8281a995533a04",
+      "uncompressed_sha256": "bf5fbdd6ffc1f796fcd3e8671f06c4d0fe1dce0ee7312674454fcf836018df50"
+    },
+    {
+      "path": "logs/section301-fixture-differences.json.gz",
+      "sha256": "771393a8540fe1cfda7048d1b4dd99d5b52462ded7e11e0b67f180a7e212467a",
+      "uncompressed_sha256": "5912f0ca11940761569a93a9762d2d9f04d89e6d5fa950f962c94fbcb8e7942d"
+    },
+    {
+      "path": "logs/source-census.json.gz",
+      "sha256": "dd7835be5a522b598fdf9b7262470a88afc45558fbabe1d36f2bcbc10c4f8291",
+      "uncompressed_sha256": "a398424414ec6d29d9ef9a7b68749cf927c0d415fc660d8455f5266fd40a5e31"
+    },
+    {
+      "path": "logs/source-census.log.gz",
+      "sha256": "99fb87ec4891e4c57d63f6d986f467dcc07982fff8c3b549c0b7bef6da3e68c1",
+      "uncompressed_sha256": "b02016b98f6844a807de21d85a9f5495fd44378653eb462356b6502083e7c333"
+    },
+    {
+      "path": "motherduck/case-specification.json.gz",
+      "sha256": "3f781fdfe9c924f5c366e3ddd4b2495793e0ac557d4241ef3ef0eecf1e4c431a",
+      "uncompressed_sha256": "1bd9747d42783c25d9b701d9830a4ec1ab63875085ca3343f87611243e13c176"
+    },
+    {
+      "path": "motherduck/cases.json.gz",
+      "sha256": "1339078ee884abb4c82bbf575a2ed46502452fe4d1203dec46dde0c0c7428b57",
+      "uncompressed_sha256": "eb0ffb63b0543e7fd15e68ddad01009ed733378169675d13eef32fcdf746be73"
+    },
+    {
+      "path": "motherduck/findings.json.gz",
+      "sha256": "c2038def527f2749c805d105616ed96af8ed7e2ad7b5865c92b036bef9f136f5",
+      "uncompressed_sha256": "71cf56dcfb3cdc2ed50b006499a76cb020102794bc77062684d2e676b7a1e470"
+    },
+    {
+      "path": "motherduck/manifest.json.gz",
+      "sha256": "61e1fcc5c6ce946c6544b72962c070fc5de3b88e9deb83b6e0f243c23721ef34",
+      "uncompressed_sha256": "1227598862d98639c15b8df696d2c858d0a1bd60dd6154bed3cb289afe7b776f"
+    },
+    {
+      "path": "motherduck/revisions.json.gz",
+      "sha256": "6a37c252284bbea72852a4bf6bf0b8708093ecdb95a58d969a31433c82032532",
+      "uncompressed_sha256": "282c5f23211dcaf7501d5c878a048c59160a23aab04ad652d869bcfdc2f477e1"
+    },
+    {
+      "path": "motherduck/schema.json.gz",
+      "sha256": "3ddffc9871f57659013fd289cf2d16738a2735338b830f8db30b37c1ee5bbf0e",
+      "uncompressed_sha256": "4a95963508cfc27a76bc817605e9c60488cab6551332c8e1d49e45b20fec12ce"
+    }
+  ]
+}

@@ -31,6 +31,13 @@ the local API fixture is a serializer/evaluator test, not production release
 preparation. A real pinned export also remains required. Do not activate a wide
 table alone or relabel the placeholder as an evidence snapshot.
 
+The October26 automobile checkpoint also connects original listed vehicle/parts
+actions, country amendment windows and shared cross-program auto decisions to
+the normal build. Unclaimed combined rates evaluate complete native General
+expressions; source/fact gaps remain nullable. Expanded certified parts, remaining
+claims/valuations and production release preparation are still open. See
+`docs/audits/2026-10-26-automobile-decisions/README.md` for exact coverage and tests.
+
 Read-only source/extraction preflight (does not build any rates):
 
 ```sh
@@ -92,7 +99,7 @@ Rscript src/08_weighted_etr.R > output/manual-shipment-rebuild/weighted-etr.log 
 Rscript scripts/prepare_frontend_data.R > output/manual-shipment-rebuild/frontend-data.log 2>&1
 Rscript tests/run_all_tests.R --require-data > output/manual-shipment-rebuild/r-tests.log 2>&1
 Rscript tests/test_normalized_parity.R > output/manual-shipment-rebuild/parity-sample.log 2>&1
-node --test frontend/tests/*.test.mjs
+node --test --experimental-test-isolation=none frontend/tests/*.test.mjs
 ```
 
 The existing normalized parity suite checks a sample of aggregate reconstruction,
