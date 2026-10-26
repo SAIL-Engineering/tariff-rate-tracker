@@ -19,6 +19,7 @@ related$relations <- list(list(id='late-predicate',effect='require_predicate',
   predicate=list(op='gt',args=list(list(fact='old_independently_entered_value'),list(value=0))),
   target_reporting_codes=list('9903.99.01'),source_ids=list('synthetic')))
 b2 <- compose_shipment_rules(with_relation,list(related))
+stopifnot(!any(c('source_window','target_action_ids') %in% names(b2$relation_decisions[[1]])))
 r2 <- evaluate_shipment_bundle(b2,fixture$hts10,fixture$country,fixture$entry_at,
   list(actual_value=5,old_independently_entered_value=0))
 stopifnot(r2$known_subtotal==5)
@@ -56,4 +57,4 @@ other <- fragment;other$derived_facts$old_independently_entered_value$expression
 bad(list(fragment,other),'Conflicting derived shipment fact')
 other <- fragment;other$derived_facts$old_independently_entered_value$source_ids <- list('unknown')
 bad(list(other),'Unverified derived shipment fact')
-cat('11 derived fact identity, window, replacement, relation, contradiction and source checks passed\n')
+cat('12 derived fact identity, window, replacement, relation, compatibility, contradiction and source checks passed\n')

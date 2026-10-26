@@ -231,10 +231,12 @@ compose_shipment_rules <- function(bundle, fragments) {
       }
       target$source_ids <- as.list(sort(unique(c(unlist(target$source_ids), unlist(edge$source_ids)))))
       bundle$rules[[i]] <- target
-      decisions[[length(decisions) + 1L]] <- list(relation_id = edge$id, rule_id = target$id,
+      decision <- list(relation_id = edge$id, rule_id = target$id,
         when_rule_applies = edge$when_rule_applies, effect = edge$effect,
-        reporting_codes = as.list(matches), target_action_ids=edge$target_action_ids,
-        source_ids = edge$source_ids,source_window=edge$source_window)
+        reporting_codes = as.list(matches), source_ids = edge$source_ids)
+      if(!is.null(edge$target_action_ids))decision$target_action_ids <- edge$target_action_ids
+      if(!is.null(edge$source_window))decision$source_window <- edge$source_window
+      decisions[[length(decisions)+1L]] <- decision
     }
   }
   # Relations can introduce predicates after initial rule binding. They use
