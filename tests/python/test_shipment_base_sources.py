@@ -15,6 +15,16 @@ def row(code,indent,general='',other='',description='Test article'):
 
 
 class ShipmentBaseSources(unittest.TestCase):
+    def test_special_classifications_are_retained_separately_from_ordinary_base_rates(self):
+        x=extract_rows([row('9801.00.10',0,'Free',description='Returned articles, if qualifying'),
+            row('9801.00.10.10',1),row('9802.00.40',0,'A duty upon the value of the repairs')])
+        self.assertEqual(x['products'],[])
+        special={r['hts10']:r for r in x['special_classifications']}
+        self.assertEqual(set(special),{'9801001010','9802004000'})
+        self.assertEqual(special['9801001010']['general']['expression'],'Free')
+        self.assertEqual(special['9801001010']['source_role'],'conditional_special_classification')
+        self.assertEqual(special['9802004000']['native_grain'],8)
+
     def test_raw_compound_expression_and_owning_parent_are_preserved(self):
         rows=[row('7318',0),row('7318.15',1),row('7318.15.80',2,'4.5% + $1/kg','40%'),
               row('7318.15.80.85',3)]
@@ -24,6 +34,8 @@ class ShipmentBaseSources(unittest.TestCase):
         self.assertEqual(p['general']['source_code'],'73181580')
         self.assertEqual(p['column2']['expression'],'40%')
         self.assertEqual(p['status'],'source_extracted')
+        self.assertEqual([n['code'] for n in p['classification_path']],['7318','731815','73181580','7318158085'])
+        self.assertTrue(all(n['description']=='Test article' for n in p['classification_path']))
         self.assertNotIn('base_rate',p)
 
     def test_every_new_branch_clears_obsolete_rate_ancestors(self):

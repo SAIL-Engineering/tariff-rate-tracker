@@ -25,7 +25,8 @@ compile_s232_autos_fragment <- function(revision_id,products,countries=NULL,root
   amounts <- setNames(lapply(as.character(products),function(p) {
     record <- native[[p]]$general
     parsed <- parse_shipment_duty_expression(record$expression)
-    list(raw=record$expression,source_code=record$source_code,source_row_index=record$source_row_index,
+    list(raw=record$expression,normalized_text=parsed$normalized_text,
+      normalization_steps=parsed$normalization_steps,source_code=record$source_code,source_row_index=record$source_row_index,
       formula=if(parsed$status=='parsed')parsed$formula else list(unresolved_source=paste('auto_column1_general_expression',p,parsed$reason,sep=':')),
       fact_definitions=parsed$fact_definitions,input_constraints=parsed$input_constraints %||% list())
   }),as.character(products))

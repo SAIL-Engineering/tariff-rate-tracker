@@ -473,7 +473,8 @@ def compile_rules(x, product_list, jurisdictions):
                             return branch(test,leaf(d[sector][0],checks=checks,subject=True,country=d['country']),
                                 leaf(d[sector][1],op('subtract',threshold,basis),checks,subject=True,country=d['country']))
                         rate_test=None
-                        if base and isinstance(base.get('raw'),str) and re.fullmatch(r'(?:Free|[\d.]+%)',base['raw'],re.I):
+                        fixed_expression=base.get('normalized_text',base.get('raw')) if base else None
+                        if isinstance(fixed_expression,str) and re.fullmatch(r'(?:Free|[\d.]+%)',fixed_expression,re.I):
                             def per_dollar(node):
                                 if node==fact('customs_value'):return val(1)
                                 if isinstance(node,dict):return {k:per_dollar(v) for k,v in node.items()}

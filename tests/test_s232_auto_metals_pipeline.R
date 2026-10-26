@@ -22,6 +22,7 @@ Sys.setenv(SAIL_EMIT_NORMALIZED='1',SAIL_REQUIRE_NORMALIZED='1')
 rates <- calculate_rates_for_revision(products,ch99,NULL,NULL,c('2010','4120'),'2026_rev_19',as.Date('2026-09-15'),
   policy_params=load_policy_params(),normalized_output_dir=out,normalized_valid_until=as.Date('2026-09-16'))
 stopifnot(all(is.na(rates$statutory_rate_232)),all(is.na(rates$statutory_total_rate)),all(rates$shipment_status=='unresolved_source'))
+stopifnot(all(rates$valid_from==as.Date('2026-09-15')),all(rates$valid_until==as.Date('2026-09-16')))
 base <- list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_parts_use=TRUE,s232_auto_usmca_eligible=FALSE,
   steel_weight_fraction=1,aluminum_weight_fraction=0,copper_weight_fraction=0,us_steel_origin_fraction=0)
 facts <- list(covered=base,nonauto=base,eligible=base,kit=base)

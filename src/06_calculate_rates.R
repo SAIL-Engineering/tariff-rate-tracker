@@ -650,6 +650,12 @@ calculate_rates_for_revision <- function(
   normalized_valid_until = NULL
 ) {
   message('Calculating rates for revision: ', revision_id, ' (', effective_date, ')')
+  # A point build has an explicit daily state, even when it is not called by
+  # the timeseries wrapper. Keep wide rows and normalized/bundle dates identical.
+  state_from <- as.Date(effective_date)
+  state_until <- as.Date(normalized_valid_until %||% effective_date)
+  if(length(state_from)!=1L||length(state_until)!=1L||anyNA(c(state_from,state_until))||state_until<state_from)
+    stop('Invalid calculator legal-state interval')
 
   # Forward provenance. Every write to an authority rate is recorded with the
   # step that made it and the legal provision behind it, so "why does this row
@@ -3598,7 +3604,7 @@ calculate_rates_for_revision <- function(
           revision_id           = revision_id,
           effective_date        = effective_date,
           valid_from            = as.Date(effective_date),
-          valid_until           = normalized_valid_until,
+          valid_until           = state_until,
           output_dir            = normalized_output_dir,
           denorm_state          = denorm_state
         )
@@ -3620,6 +3626,8 @@ calculate_rates_for_revision <- function(
   }
 
   rates <- if(is.null(shipment_projection))mark_shipment_contract_unavailable(rates,'ordinary_build_missing_verified_shipment_projection') else shipment_projection$rates
+  rates$valid_from <- state_from
+  rates$valid_until <- state_until
 
   # Summary
   n_with_ieepa <- sum(rates$rate_ieepa_recip > 0)

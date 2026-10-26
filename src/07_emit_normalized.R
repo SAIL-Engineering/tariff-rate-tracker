@@ -1238,6 +1238,15 @@ emit_normalized_revision <- function(
   output_dir <- output_dir %||% .default_normalized_dir()
   .ensure_dir(file.path(output_dir, revision_id))
   inventory_fragments <- character()
+  executable_products <- products$hts10
+  base_extraction <- NULL
+  if(grepl('^202[56]_',revision_id)) {
+    source(here::here('src/shipment_build.R'))
+    base_extraction <- load_shipment_base_source(revision_id)
+    # Keep special Chapter98 rows in the economic inventory, but do not apply
+    # ordinary product programs without their underlying legal reconciliation.
+    executable_products <- intersect(products$hts10,vapply(base_extraction$products,`[[`,character(1),'hts10'))
+  }
   write_rule_fragment <- function(fragment,filename) {
     path <- file.path(output_dir,revision_id,filename)
     jsonlite::write_json(fragment,path,auto_unbox=TRUE,null='null',digits=17)
@@ -1284,7 +1293,7 @@ emit_normalized_revision <- function(
   if(!is.null(reciprocal)) {
     jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)
     write_rule_fragment(reciprocal_scope_fragment(reciprocal),'ieepa_reciprocal_scope_evidence.json')
-    write_rule_fragment(compile_reciprocal_initial_fragment(reciprocal,products$hts10),
+    write_rule_fragment(compile_reciprocal_initial_fragment(reciprocal,executable_products),
       'ieepa_reciprocal_initial_rules.json')
   }
   ieepa_evidence <- denorm_state$ieepa_evidence
@@ -1302,23 +1311,23 @@ emit_normalized_revision <- function(
     'ieepa_evidence_sources.json')
   emergency_source <- attr(denorm_state$fentanyl_evidence,'emergency_source')
   if(!is.null(emergency_source)) write_rule_fragment(
-    compile_ieepa_emergency_fragment(emergency_source,products$hts10),
+    compile_ieepa_emergency_fragment(emergency_source,executable_products),
     'ieepa_emergency_rules.json')
 
   if(!is.null(denorm_state$s122$source)) {
     jsonlite::write_json(
     denorm_state$s122$source,file.path(output_dir,revision_id,'section122_source.json'),
     auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
-    write_rule_fragment(compile_s122_fragment(denorm_state$s122$source,products$hts10),'section122_rules.json')
+    write_rule_fragment(compile_s122_fragment(denorm_state$s122$source,executable_products),'section122_rules.json')
   }
 
   source(here::here('src/section338_revision.R'))
-  inventory_fragments <- c(inventory_fragments,emit_s338_rules(revision_id,products$hts10,output_dir))
+  inventory_fragments <- c(inventory_fragments,emit_s338_rules(revision_id,executable_products,output_dir))
 
   candidates <- denorm_state$heading_candidates %||% list()
   if(grepl('^202[56]_',revision_id)) {
     source(here::here('src/section232_autos.R'))
-    automobiles <- compile_s232_autos_fragment(revision_id,products$hts10,countries)
+    automobiles <- compile_s232_autos_fragment(revision_id,executable_products,countries)
     write_rule_fragment(automobiles,'section232_automobile_rules.json')
     # Retain the original mixed-precision scope even where the aggregate path
     # selected another sector. Use/claim facts decide actual automobile duty.
@@ -1331,7 +1340,7 @@ emit_normalized_revision <- function(
   }
   if(grepl('^2026_',revision_id)) {
     source(here::here('src/section232_semiconductors.R'))
-    semiconductors <- compile_s232_semiconductors_fragment(revision_id,products$hts10)
+    semiconductors <- compile_s232_semiconductors_fragment(revision_id,executable_products)
     write_rule_fragment(semiconductors,'section232_semiconductors_rules.json')
     # The source-derived rule scopes, not the aggregate's winning candidate,
     # retain every potential note 39 product. Technical/use predicates and their
@@ -1360,7 +1369,7 @@ emit_normalized_revision <- function(
     }
     jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_legacy_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
-    fragment232 <- compile_s232_legacy_fragment(evidence,products$hts10)
+    fragment232 <- compile_s232_legacy_fragment(evidence,executable_products)
     write_rule_fragment(fragment232,'section232_legacy_rules.json')
   }
   if (!is.null(denorm_state$s232_note16_source)) {
@@ -1375,7 +1384,7 @@ emit_normalized_revision <- function(
     }
     jsonlite::write_json(evidence,file.path(output_dir,revision_id,'section232_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
-    fragment232 <- compile_s232_note16_fragment(evidence,products$hts10)
+    fragment232 <- compile_s232_note16_fragment(evidence,executable_products)
     write_rule_fragment(fragment232,'section232_note16_rules.json')
   }
   # One stable Parquet schema across historical, revised and empty regimes.
@@ -1394,7 +1403,7 @@ emit_normalized_revision <- function(
       file.path(output_dir,revision_id,'section301_source.json'),
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
     source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section301_revision.R') else 'src/section301_revision.R')
-    fragment <- compile_s301_revision_fragment(denorm_state$s301_source,products$hts10)
+    fragment <- compile_s301_revision_fragment(denorm_state$s301_source,executable_products)
     .write_parquet_safe(s301_claim_effects_table(fragment,revision_id),
       file.path(output_dir,revision_id,'claim_effects.parquet'))
     write_rule_fragment(fragment,'section301_rules.json')
@@ -1413,7 +1422,7 @@ emit_normalized_revision <- function(
   shipment <- NULL
   if(grepl('^202[56]_',revision_id)) {
     source(here::here('src/shipment_build.R'))
-    base <- compile_shipment_base_fragment(load_shipment_base_source(revision_id),products$hts10,countries)
+    base <- compile_shipment_base_fragment(base_extraction,products$hts10,countries)
     write_rule_fragment(base,'shipment_base_rules.json')
     # Admit only files written by this invocation, never stale directory files.
     fragments <- lapply(inventory_fragments,read_shipment_rule_fragment)

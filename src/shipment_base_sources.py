@@ -60,9 +60,10 @@ def extract_rows(rows):
                              if p['columns'][name]['expression'] is not None),None)
                 resolved[name]=copy.deepcopy(source) if source else dict(expression=None,source_code=None,
                     source_row_index=None,source_indent=None,footnotes=[])
-        record=dict(indent=indent,nearest_code=nearest,columns=resolved)
+        record=dict(indent=indent,nearest_code=nearest,columns=resolved,
+            printed_code=code,description=row.get('description',''))
         stack.append(record)
-        if not code or not 1<=int(code[:2])<=97:
+        if not code or not 1<=int(code[:2])<=98:
             continue
         if len(code)==10:
             hts10=code
@@ -85,8 +86,13 @@ def extract_rows(rows):
                 errors.append('missing_'+name+'_expression')
         product=dict(hts10=hts10,native_code=code,native_grain=len(code),
             description=row.get('description',''),**resolved,
+            classification_path=[dict(code=p['printed_code'],description=p['description']) for p in stack],
             status='source_extracted' if resolved['general']['expression'] is not None else 'unresolved_source',
             source_errors=errors,observation_rows=[index])
+        if code.startswith('98'):
+            # A printed special-classification expression is not evidence that
+            # its entitlement or every additional-program interaction is met.
+            product['source_role']='conditional_special_classification'
         if hts10 in products:
             old=products[hts10]
             def semantics(p):
@@ -96,7 +102,8 @@ def extract_rows(rows):
             old['observation_rows'].append(index)
         else:
             products[hts10]=product
-    return dict(products=[products[k] for k in sorted(products)])
+    return dict(products=[products[k] for k in sorted(products) if not k.startswith('98')],
+        special_classifications=[products[k] for k in sorted(products) if k.startswith('98')])
 
 
 def extract(path: Path,revision: str):

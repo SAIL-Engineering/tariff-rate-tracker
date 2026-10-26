@@ -3,12 +3,31 @@
 # Unknown text is retained for source reconciliation; a recognized substring is
 # never substituted for the unparsed remainder of a compound duty.
 
+# Decode only known presentation syntax. Inner text, unknown tags, attributes,
+# footnote references and legal conditions must still reach the complete parser.
+normalize_shipment_duty_text <- function(text) {
+  clean <- text;steps <- character()
+  entities <- c('&nbsp;'=' ', '&#160;'=' ', '&#xA0;'=' ', '&cent;'='¢',
+    '&#162;'='¢', '&#xA2;'='¢', '&dollar;'='$', '&#36;'='$', '&#x24;'='$', '&amp;'='&')
+  for(key in names(entities))clean <- gsub(key,entities[[key]],clean,fixed=TRUE)
+  if(!identical(clean,text))steps <- c(steps,'known_character_entities')
+  # USITC's native extract also uses the nonstandard <il></il> for italics.
+  stripped <- gsub('</?(?:i|il|b|u|sup|sub|strong|em)\\s*>','',clean,perl=TRUE,ignore.case=TRUE)
+  stripped <- gsub('<br\\s*/?>',' ',stripped,perl=TRUE,ignore.case=TRUE)
+  if(!identical(stripped,clean))steps <- c(steps,'presentation_markup')
+  clean <- trimws(gsub('[[:space:]\u00a0]+',' ',stripped,perl=TRUE))
+  list(text=clean,steps=as.list(steps))
+}
+
 parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
+  normalized <- list(text=NULL,steps=list())
   failed <- function(reason) list(status = 'unresolved_source', raw = text,
+    normalized_text=normalized$text,normalization_steps=normalized$steps,
     formula = NULL, fact_definitions = list(), reason = reason)
   if (!is.character(text) || length(text) != 1 || is.na(text) || !nzchar(trimws(text)))
     return(failed('missing_duty_expression'))
-  clean <- trimws(gsub('[[:space:]]+', ' ', text))
+  normalized <- normalize_shipment_duty_text(text)
+  clean <- normalized$text
   definitions <- list()
   constraints <- list()
   definitions[[value_fact]] <- list(type = 'number', minimum = 0, unit = 'USD', label = 'Customs value (USD)')
@@ -65,6 +84,6 @@ parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
   }
   formula <- parse(clean)
   if (is.null(formula)) return(failed('unparsed_complete_duty_expression'))
-  list(status = 'parsed', raw = text, formula = formula,
+  list(status = 'parsed', raw = text, normalized_text=clean,normalization_steps=normalized$steps,formula = formula,
        fact_definitions = definitions, input_constraints = constraints, reason = NULL)
 }

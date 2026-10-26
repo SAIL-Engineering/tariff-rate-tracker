@@ -16,6 +16,13 @@ check <- function(text, facts, expected = NULL, status = 'complete') {
   invisible(result)
 }
 check('Free', list(), 0)
+check('<i>Free</i>', list(), 0)
+check('6.5¢/gross<il></il>', list(quantity_gross = 1), .065)
+check('6.5&cent;/gross', list(quantity_gross = 1), .065)
+check('&#36;2/kg&nbsp;+ 5%', list(customs_value = 100, quantity_kg = 2), 9)
+p <- parse_shipment_duty_expression('6.5¢/gross<il></il>')
+stopifnot(p$raw == '6.5¢/gross<il></il>', p$normalized_text == '6.5¢/gross',
+          'presentation_markup' %in% unlist(p$normalization_steps))
 check('6.8%', list(customs_value = 1000), 68)
 stopifnot(check('13.7%',list(customs_value=500),68.5)$complete_total==68.5)
 stopifnot(check('0.07%',list(customs_value=1000),.7)$complete_total==.7)
@@ -35,7 +42,9 @@ r <- check('4.4¢/kg', list(customs_value = 1000, quantity = 100), status = 'nee
 stopifnot(identical(r$missing_inputs, 'quantity_kg'), is.null(r$complete_total))
 for (text in c('', '4.4/kg', '4.4¢/kg + unspecified', '5% on an unknown basis',
                'The rate applicable to each garment if separately entered',
-               'See note 2', '10% less 2%', 'Free under quota', '1.2.3%')) {
+               'See note 2', '10% less 2%', 'Free under quota', '1.2.3%',
+               '<i>Free under quota</i>', '<duty rate="25">Free</duty>',
+               '<i data-condition="quota">Free</i>', '5% &unknown;')) {
   p <- parse_shipment_duty_expression(text)
   stopifnot(p$status == 'unresolved_source', is.null(p$formula))
 }

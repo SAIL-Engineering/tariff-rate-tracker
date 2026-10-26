@@ -53,7 +53,9 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
   if(!length(products)||any(!grepl('^[0-9]{10}$',products))||!length(countries)||any(!grepl('^[0-9]{4}$',countries)))
     stop('Exact products and Census origins required')
   records <- setNames(x$products,vapply(x$products,`[[`,character(1),'hts10'))
-  if(any(!products %in% names(records)))stop('Product outside revision-valid source inventory')
+  special <- setNames(x$special_classifications,vapply(x$special_classifications,`[[`,character(1),'hts10'))
+  if(any(!products %in% c(names(records),names(special))))stop('Product outside revision-valid source inventory')
+  ordinary_products <- intersect(products,names(records))
   sources <- lapply(c('base','gn3'),function(kind) {
     s <- if(kind=='base')x$source else x$gn3$source
     if(!file.exists(s$path)||!identical(s$sha256,digest::digest(file=s$path,algo='sha256')))stop('Changed shipment base primary source')
@@ -75,10 +77,10 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
     origins <- if(treatment=='column2')intersect(countries,column2) else setdiff(countries,column2)
     if(!length(origins))next
     field <- if(treatment=='column2')'column2' else 'general'
-    expressions <- vapply(records[products],function(p)p[[field]]$expression %||% '',character(1))
+    expressions <- vapply(records[ordinary_products],function(p)p[[field]]$expression %||% '',character(1))
     # Missing/unrelated owners must retain their individual source questions;
     # never collapse several malformed source branches to one generic zero.
-    groups <- split(products,ifelse(nzchar(expressions),expressions,paste0('<unresolved>:',products)))
+    groups <- split(ordinary_products,ifelse(nzchar(expressions),expressions,paste0('<unresolved>:',ordinary_products)))
     rule_ids <- character()
     for(group in groups) {
       raw <- records[[group[1]]][[field]]$expression
@@ -102,7 +104,8 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
         list(unresolved_source='base_ftz_admission_classification_and_rate_history'),formula))
       rule <- list(id=id,action_id='ordinary_customs_duty',authority='base',kind='duty',verification='verified',
         base_treatment=treatment,scope=list(hts_exact=as.list(group),countries=as.list(origins)),formula=formula,
-        published_expression=raw,reporting_codes=list(),source_ids=as.list(ids),
+        published_expression=raw,normalized_expression=parsed$normalized_text,
+        expression_normalization_steps=parsed$normalization_steps,reporting_codes=list(),source_ids=as.list(ids),
         legal_locator=paste('Native',revision,treatment,'duty column; General Note3; source owner map'),
         input_constraints=parsed$input_constraints %||% list())
       rules[[length(rules)+1L]] <- rule;rule_ids <- c(rule_ids,id)
@@ -110,15 +113,31 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
         source_code=records[[hts]][[field]]$source_code,source_row_index=records[[hts]][[field]]$source_row_index,
         expression=raw,footnotes=records[[hts]][[field]]$footnotes,source_errors=records[[hts]]$source_errors)
     }
-    coverage[[length(coverage)+1L]] <- list(authority='base',status='verified',determination='rules',
-      scope=list(hts_exact=as.list(products),countries=as.list(origins)),rule_ids=as.list(sort(rule_ids)),source_ids=as.list(ids))
+    if(length(ordinary_products))coverage[[length(coverage)+1L]] <- list(authority='base',status='verified',determination='rules',
+      scope=list(hts_exact=as.list(ordinary_products),countries=as.list(origins)),rule_ids=as.list(sort(rule_ids)),source_ids=as.list(ids))
+  }
+  for(hts in intersect(products,names(special))) {
+    record <- special[[hts]]
+    rule <- list(id=paste0('special_classification_',revision,'_',hts),action_id='chapter98_special_classification',
+      authority='base',kind='duty',verification='verified',base_treatment='conditional_special_classification',
+      scope=list(hts_exact=list(hts),countries=as.list(countries)),source_ids=as.list(ids),reporting_codes=list(),
+      published_expression=record$general$expression,published_description=record$description,
+      legal_locator=paste('USITC',revision,'Chapter98',record$native_code,'published eligibility and duty expression'),
+      formula=list(unresolved_source=paste0('chapter98_entitlement_valuation_and_cross_program_reconciliation:',hts)))
+    rules[[length(rules)+1L]] <- rule
+    coverage[[length(coverage)+1L]] <- list(authority='base',status='unresolved_source',rule_ids=list(rule$id),
+      source_ids=as.list(ids),scope=rule$scope,question='Reconcile the special-classification entitlement, applicable ordinary classification when needed, valuation and each additional program. A printed Free expression is conditional.')
+    source_rows[[length(source_rows)+1L]] <- list(hts10=hts,rule_id=rule$id,treatment='conditional_special_classification',
+      source_code=record$general$source_code,source_row_index=record$general$source_row_index,expression=record$general$expression,
+      footnotes=record$general$footnotes,source_errors=record$source_errors)
   }
   selection <- shipment_source_selection_window(revision,root)
   list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('shipment_base_',revision),sources=sources,
     supported_from=selection$from,supported_until=selection$until,source_selection_window=selection,
     source_artifacts=artifacts,rules=rules,fact_definitions=facts,claim_definitions=list(),relations=list(),coverage=coverage,
     base_source_map=source_rows,source_inventory=list(products=as.list(sort(names(records))),
-      product_count=length(records),source_sha256=x$source$sha256,extractor_sha256=x$extractor_sha256),
+      special_classifications=as.list(sort(names(special))),product_count=length(records),
+      source_sha256=x$source$sha256,extractor_sha256=x$extractor_sha256),
     compiler_dependencies=list(shipment_build=digest::digest(file=file.path(root,'src/shipment_build.R'),algo='sha256'),
       expression_parser=digest::digest(file=file.path(root,'src/shipment_duty_expression.R'),algo='sha256'),
       gn3_parser=x$gn3$parser_sha256,country_resolver=digest::digest(file=file.path(root,'src/helpers.R'),algo='sha256'),

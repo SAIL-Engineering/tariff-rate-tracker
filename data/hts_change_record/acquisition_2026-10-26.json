@@ -1,0 +1,93 @@
+{
+  "acquisition": "gstack browse read-only official USITC endpoint",
+  "records": [
+    {
+      "revision": "2026_rev_11",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev11&filename=Change%20Record",
+      "path": "2026HTSRev11_change_record.pdf",
+      "sha256": "e047e05fac2309640747fd1628702848d6ed3e6d62ab9f373abee4438259ca93",
+      "bytes": 427004,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 11)"
+    },
+    {
+      "revision": "2026_rev_12",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev12&filename=Change%20Record",
+      "path": "2026HTSRev12_change_record.pdf",
+      "sha256": "783b52f0e5392ff00ce1dcd8ee393b5ee09339bc84ec1a04a8fd70c7b1cb976c",
+      "bytes": 100310,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 12)"
+    },
+    {
+      "revision": "2026_rev_13",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev13&filename=Change%20Record",
+      "path": "2026HTSRev13_change_record.pdf",
+      "sha256": "922910d329b73068b7e9aafd9e7a2992821b80b9a86c70862d87739a7972627c",
+      "bytes": 266685,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 13)"
+    },
+    {
+      "revision": "2026_rev_14",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev14&filename=Change%20Record",
+      "path": "2026HTSRev14_change_record.pdf",
+      "sha256": "4f951640fc691e6d9b496d384fca34005b8f2feedc9d0d9beab6fbb483777a04",
+      "bytes": 105770,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 14)"
+    },
+    {
+      "revision": "2026_rev_15",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev15&filename=Change%20Record",
+      "path": "2026HTSRev15_change_record.pdf",
+      "sha256": "a451369681dfecdf9051df6a2fa386d970cae5103ee83e80276da516d8ceaaaf",
+      "bytes": 93423,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 15)"
+    },
+    {
+      "revision": "2026_rev_16",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev16&filename=Change%20Record",
+      "path": "2026HTSRev16_change_record.pdf",
+      "sha256": "85cdcfd2a370cc5e9b2d92de560eecc83dcded00fa2f0c7bca5d308c3bf1dc62",
+      "bytes": 97648,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 16)"
+    },
+    {
+      "revision": "2026_rev_17",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev17&filename=Change%20Record",
+      "path": "2026HTSRev17_change_record.pdf",
+      "sha256": "0924ab63bde50670a8438d5e5ad7fd54318821517aa15c7df658b846cb75b6a1",
+      "bytes": 239142,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 17)"
+    },
+    {
+      "revision": "2026_rev_18",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev18&filename=Change%20Record",
+      "path": "2026HTSRev18_change_record.pdf",
+      "sha256": "608fe505c15e73629bac9e8166ca8ea40304d7158d6c9438ddfad6307dac1364",
+      "bytes": 103445,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 18)"
+    },
+    {
+      "revision": "2026_rev_19",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev19&filename=Change%20Record",
+      "path": "2026HTSRev19_change_record.pdf",
+      "sha256": "ced76c1867a90f83887f3f3e28587ca8d51b1224ca33d80a543994b1d8ad4233",
+      "bytes": 95807,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 19)"
+    },
+    {
+      "revision": "2026_rev_20",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev20&filename=Change%20Record",
+      "path": "2026HTSRev20_change_record.pdf",
+      "sha256": "c5b4a0b6609bf67467abca492343104dee248218b683dcfe5104dcc43791e6be",
+      "bytes": 96158,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 20)"
+    },
+    {
+      "revision": "2026_rev_21",
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev21&filename=Change%20Record",
+      "path": "2026HTSRev21_change_record.pdf",
+      "sha256": "bedd4806d596c8d6ed2afa44e14c3e57b11fad7ea147f93d3d120a72af8a8a02",
+      "bytes": 226919,
+      "header": "Harmonized Tariff Schedule of the United States (2026 Revision 21)"
+    }
+  ]
+}
