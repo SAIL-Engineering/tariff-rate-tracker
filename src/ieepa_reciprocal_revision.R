@@ -94,14 +94,32 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
   h<-jsonlite::fromJSON(paths[1],simplifyVector=FALSE)
   if(!exists('match_countries',mode='function')) source(file.path(root,'src/05_parse_policy_params.R'))
   lookup<-build_country_lookup(file.path(root,'resources/census_codes.csv'))
-  actions<-setNames(lapply(h$actions,function(a) {
+  resolve_action<-function(a) {
     names<-extract_countries_from_description(paste('articles the product of',a$country_text,'as provided for in subdivision (v)'))
     resolved<-lapply(names,resolve_country_name)
     if(any(lengths(resolved)==0L)) stop('Unresolved original reciprocal country token: ',paste(names[lengths(resolved)==0L],collapse=', '))
     found<-unlist(resolved)
     if(!length(found)||anyNA(found)) stop('Unresolved original reciprocal origin: ',a$country_text)
     as.list(sort(unique(found)))
-  }),vapply(h$actions,`[[`,character(1),'code'))
+  }
+  actions<-setNames(lapply(h$actions,resolve_action),vapply(h$actions,`[[`,character(1),'code'))
+  august_actions<-setNames(lapply(h$august_country_policy$actions,resolve_action),
+    vapply(h$august_country_policy$actions,function(a)paste(unlist(a$reporting_codes),collapse='|'),character(1)))
+  source(file.path(root,'src/shipment_build.R'))
+  frame<-shipment_source_selection_window(x$revision,root)
+  amounts<-list()
+  if(length(products) && .shipment_time(frame$from)<.shipment_time(h$china_suspension_until) &&
+     .shipment_time(frame$until)>.shipment_time(h$august_country_policy$from_)) {
+    native<-load_shipment_base_source(x$revision,root)
+    native<-setNames(native$products,vapply(native$products,`[[`,character(1),'hts10'))
+    amounts<-setNames(lapply(as.character(products),function(p) {
+      record<-native[[p]]$general;parsed<-parse_shipment_duty_expression(record$expression)
+      list(raw=record$expression,source_code=record$source_code,source_row_index=record$source_row_index,
+        fixed_advalorem=parsed$status=='parsed' && grepl('^(Free|[0-9]+(\\.[0-9]+)?%)$',parsed$normalized_text,ignore.case=TRUE),
+        formula=if(parsed$status=='parsed')parsed$formula else list(unresolved_source=paste('reciprocal_column1_general_expression',p,parsed$reason,sep=':')),
+        fact_definitions=parsed$fact_definitions,input_constraints=parsed$input_constraints %||% list())
+    }),as.character(products))
+  }
   # No carry-forward of an absent country inventory for executable decisions.
   gn_path<-file.path(root,'resources/gn3_column2_countries.csv')
   gn<-read.csv(gn_path,colClasses='character')
@@ -118,9 +136,9 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
     url=paste0('https://hts.usitc.gov/reststop/file?release=',build_release_name(x$revision),'&filename=General%20Note%203'),
     citation=paste('Derived jurisdiction mapping; General Note 3 and versioned Census/EU country resolution:',p)))
   jurisdictions<-list(all=as.list(sort(unique(read.csv(file.path(root,'resources/census_codes.csv'),colClasses='character')$Code))),non_ntr=as.list(sort(unique(unlist(excluded)))),
-    actions=actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),
+    actions=actions,august_actions=august_actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),
     UnitedKingdom=as.list(resolve_country_name('United Kingdom')),sources=evidence)
-  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions),paths[2],auto_unbox=TRUE,null='null',digits=NA)
+  jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions,base_amounts=amounts),paths[2],auto_unbox=TRUE,null='null',digits=NA)
   status<-system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_rules.py')),shQuote(paths[2]),shQuote(paths[3])))
   if(status!=0L) stop('Reciprocal executable compilation failed')
   jsonlite::fromJSON(paths[3],simplifyVector=FALSE)

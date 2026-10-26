@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/ieepa_reciprocal_revision.R');source('src/compile_shipment_rules.R')
-products<-c('0106199120','7318158085','8528520000','7304313000','7411101030')
+products<-c('0106199120','7318158085','8528520000','7304313000','7411101030','0202305085','6109100012','8471500150','4009120020')
 sid<-'synthetic-reciprocal-interactions'
 synthetic<-list(id=sid,status='verified',sha256=paste(rep('0',64),collapse=''),url='https://example.invalid/reciprocal-fixture',
   citation='Synthetic complete Section 232 inventory for dependency regression only')
@@ -10,7 +10,7 @@ make<-function(rev,metal=NULL,coverage=TRUE,extra=list(),chapter98_metal_fixed=F
   f<-fragments[[rev]]
   b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
   b$revision<-rev;b$dataset_version<-'reciprocal-regression-not-production';b$products<-as.list(products)
-  b$countries<-as.list(c('1220','2010','5700','5820','5660','6021','4279','4120','4621','4622','2390','5790'))
+  b$countries<-as.list(c('1220','2010','5700','5820','5660','6021','4279','4120','4621','4622','2390','5790','5880','5330','5800'))
   b$rules<-if(is.null(metal)) list() else if(!is.null(metal$id)) list(metal) else metal
   b$fact_definitions<-list();b$claim_definitions<-list();b$sources<-c(b$sources,list(synthetic))
   # This fixture assumes an independently resolved metal amount after the
@@ -42,7 +42,11 @@ bundles$uk_aircraft_boundary<-make('2025_rev_15',mk('9903.81.94',5,products[4]))
 bundles$july_unlisted<-make('2025_rev_16',mk('9903.81.94',5))
 bundles$august_boundary<-make('2025_rev_17')
 bundles$august_new_revision<-make('2025_rev_18')
+source('src/section232_autos.R')
+bundles$july_actual_auto<-make('2025_rev_16',extra=list(compile_s232_autos_fragment('2025_rev_16',products)))
+bundles$august_actual_auto<-make('2025_rev_18',extra=list(compile_s232_autos_fragment('2025_rev_18',products)))
 copper<-mk('9903.78.01',15,products[5]);copper$scope$from<-'2025-08-01T00:01:00-04:00'
+bundles$august_new_copper<-make('2025_rev_18',copper)
 bundles$august_copper<-make('2025_rev_17',copper)
 bundles$august_copper_repairs<-make('2025_rev_17',copper,chapter98_metal_fixed=TRUE)
 steel<-mk('9903.81.91',10,products[5]);steel$id<-steel$action_id<-'synthetic-steel'
@@ -171,7 +175,44 @@ add('unlisted UK product does not request aircraft facts',bundle='july_unlisted'
 add('before next copper amendment retains known baseline',bundle='august_boundary',at='2025-08-01T00:00:59-04:00',subtotal=10,codes='9903.01.25')
 add('continued suspension at copper amendment',bundle='august_boundary',at='2025-08-01T00:01:00-04:00',subtotal=10,codes='9903.01.25')
 add('new revision first minute retains old legal policy',bundle='august_new_revision',at='2025-08-07T00:00:59-04:00',subtotal=10,codes='9903.01.25')
-add('new country headings require separate executable history',bundle='august_new_revision',at='2025-08-07T00:01:00-04:00',subtotal=0,codes=character())
+aug<-q;aug$reciprocal_cbp_transshipment_evasion_determination<-FALSE
+add('August unlisted partner retains baseline at exact minute',bundle='august_new_revision',at='2025-08-07T00:01:00-04:00',facts=aug,subtotal=10,codes='9903.01.25')
+add('August India original partner heading',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='5330',subtotal=25,codes='9903.02.26')
+add('August Korea original partner heading',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='5800',subtotal=15,codes='9903.02.56')
+add('August EU Free MFN floor',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='4279',subtotal=15,codes='9903.02.20')
+add('August Japan retrospective combined floor',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='5880',hts10=products[2],subtotal=6.5,codes='9903.02.73')
+add('August EU MFN above floor has no additional duty',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='4279',hts10=products[7],subtotal=0,codes='9903.02.19')
+f<-aug;f$quantity_kg<-100
+add('August EU specific MFN uses actual legal units',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[6],subtotal=10.6,codes='9903.02.20')
+add('August EU specific MFN missing quantity stays unpriced',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=aug,country='4279',hts10=products[6],subtotal=0,missing='quantity_kg')
+f<-aug;f$claims<-list('RECIPROCAL_TRANSIT');f$reciprocal_transit_final_vessel<-TRUE;f$reciprocal_august_transit_loaded_before_cutoff<-TRUE
+add('August transit retains previous duty rather than zero',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='5330',subtotal=10,codes='9903.01.25')
+f<-aug;f$reciprocal_cbp_transshipment_evasion_determination<-TRUE
+add('August evasion is a separate unpriced action until scope and valuation are reconciled',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='5330',subtotal=0,error='reciprocal_transshipment_scope_and_valuation_reconciliation')
+f<-aug;f$quantity_kg<-375;f$customs_value<-110
+add('August exact specific MFN threshold selects zero-additional heading',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[6],subtotal=0,codes='9903.02.19')
+f$quantity_kg<-374.999999
+add('August specific MFN just below threshold remains positive',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[6],subtotal=.000000044,codes='9903.02.20')
+f<-aug;f$customs_value<-NULL
+add('August fixed MFN above floor does not need a fabricated customs value',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[7],subtotal=0,codes='9903.02.19',missing=character())
+f<-aug;f$customs_value<-0;f$quantity_kg<-0
+add('August zero-value specific AVE remains unresolved',bundle='august_new_revision',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[6],subtotal=0,error='reciprocal_column1_general_ave_requires_positive_customs_value')
+f<-aug;f$copper_content_value<-30
+add('August EU floor rate applies to nonmetal value without deducting whole MFN twice',bundle='august_new_copper',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[5],subtotal=24.45,codes=c('9903.01.33','9903.02.20'))
+f$claims<-list('RECIPROCAL_US_CONTENT');f$reciprocal_us_content_value<-40;f$reciprocal_us_content_in_metal_excluded_value<-20
+add('August EU floor preserves actual U.S.-metal value intersection',bundle='august_new_copper',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[5],subtotal=21.75,codes=c('9903.01.33','9903.01.34','9903.02.20'))
+f<-aug;f$s232_auto_parts_use<-TRUE;f$s232_auto_usmca_eligible<-FALSE
+uk<-c(q,list(s232_auto_parts_use=TRUE,s232_auto_usmca_eligible=FALSE,s232_uk_auto_parts_uk_vehicle_use=TRUE,uk_civil_aircraft_gn6=FALSE))
+add('July actual UK vehicle-use part retains combined auto treatment without reciprocal double count',bundle='july_actual_auto',at='2025-07-10T12:00:00-04:00',facts=uk,country='4120',hts10=products[9],subtotal=10,codes='9903.01.33')
+add('August actual EU machinery auto use has country auto duty without reciprocal double count',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[8],subtotal=15)
+add('August Japan electronics exemption coexists with actual auto duty before the auto agreement',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='5880',hts10=products[8],subtotal=25,codes='9903.01.32')
+f$s232_auto_parts_use<-FALSE
+add('August non-auto electronics retain the original product exception',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[8],subtotal=0,codes='9903.01.32')
+f$s232_auto_parts_use<-TRUE
+add('August actual Japan non-electronics auto part uses reciprocal Section232 exception',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='5880',hts10=products[9],subtotal=25,codes='9903.01.33')
+add('August actual EU non-electronics auto part avoids reciprocal double count',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[9],subtotal=12.5)
+f$s232_auto_parts_use<-FALSE
+add('August actual non-auto hose retains EU reciprocal floor on General rate',bundle='august_actual_auto',at='2025-08-08T12:00:00-04:00',facts=f,country='4279',hts10=products[9],subtotal=12.5,codes='9903.02.20')
 f<-q;f$copper_content_value<-30
 add('copper nonmetal portion retains reciprocal duty',bundle='august_copper',hts10=products[5],
   at='2025-08-01T00:01:00-04:00',facts=f,subtotal=22,codes=c('9903.01.25','9903.01.33'))

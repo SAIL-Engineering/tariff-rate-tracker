@@ -1,8 +1,8 @@
 """Compile original reciprocal decisions to the shared shipment interpreter.
 
 No aggregate column, utilization share, predicted heading or payable-232 test
-is used. Original decisions, June portions and UK aircraft relief are bounded
-by the next copper/country-policy amendment. No full coverage is attested.
+is used. Country replacements and amended auto reporting identities retain
+their own legal entry instants. No full coverage is attested.
 """
 from __future__ import annotations
 import argparse, json, re
@@ -15,6 +15,7 @@ from ieepa_fentanyl_sources import ROOT
 from section301_sources import sha
 from section232_note16_rules import val, fact, op, both, either, negate
 from section232_stacking import reported
+from section232_autos import load_history as auto_history
 from chapter98_rules import compile_valuation, overlap_value
 
 
@@ -41,9 +42,20 @@ def june_metal_headings(x):
     return groups
 
 
-def compile_reciprocal(x, products, jurisdictions):
+def compile_reciprocal(x, products, jurisdictions, base_amounts=None):
     if x['contract_version']!='sail.ieepa-reciprocal-scope/v1':raise ValueError('Unsupported reciprocal extraction')
     history=initial_history(); rev=x['revision']; start,end=revision_window(rev)
+    late=history['august_country_policy']
+    # A support horizon, not an expiration of reciprocal liability. China's
+    # suspension continuation must be independently reconciled before extension.
+    horizon=history['china_suspension_until']
+    late_needed=start<horizon and end>late['from_']
+    # EO14257 section3(b)(iii) covers the Proclamation10908 programme,
+    # including country amendments. The original note's heading enumeration
+    # predates these insertions. Reuse the original auto-annex extraction;
+    # the matched Section232 action supplies product/use/claim applicability.
+    autos=auto_history()
+    auto_deals=[d for d in autos['deals'] if start<horizon and end>history['inception'] and d['from']<min(end,horizon)]
     expected_scope=scope_history()
     def canonical_rows(rows):return sorted({json.dumps(r,sort_keys=True) for r in rows})
     if canonical_rows(x['history']['products'])!=canonical_rows(expected_scope['products']):
@@ -68,12 +80,26 @@ def compile_reciprocal(x, products, jurisdictions):
             by_country[c]=a
     for name in ('Canada','Mexico','UnitedKingdom'):
         if len(jurisdictions[name])!=1 or not set(jurisdictions[name])<=country_codes:raise ValueError('Missing country exclusion')
+    late_by_country={}
+    for a in late['actions']:
+        codes=jurisdictions.get('august_actions',{}).get('|'.join(a['reporting_codes']))
+        if not codes or not set(codes)<=country_codes:raise ValueError('Unresolved August reciprocal origin')
+        for c in codes:
+            if c in late_by_country:raise ValueError('Overlapping August country treatments')
+            late_by_country[c]=a
     sources={}; artifacts={}
     def evidence(s):
         if s['id'] in sources and sources[s['id']]['sha256']!=s['sha256']:raise ValueError('Conflicting source identity')
         sources[s['id']]={k:s[k] for k in ('id','sha256','url','citation')}|dict(status='verified')
         artifacts[s['id']]=dict(source_id=s['id'],path=s['path'],sha256=s['sha256'])
     for s in history['sources']+x['history']['sources']:evidence(s)
+    if late_needed:
+        for s in late['sources']:evidence(s)
+    auto_source_ids={d['source_id'] for d in auto_deals}
+    auto_artifacts={s['source_id']:s for s in autos['source_artifacts']}
+    for s in autos['sources']:
+        if s['id'] in auto_source_ids:
+            evidence(dict(s,path=auto_artifacts[s['id']]['path']))
     release=rev.replace('_rev_','HTSRev').replace('_basic','HTSBasic')
     for i,s in enumerate(x['sources']):
         evidence(dict(s,id=f'USITC-{rev}-reciprocal-runtime-{i}',
@@ -90,6 +116,27 @@ def compile_reciprocal(x, products, jurisdictions):
         if choices is not None:d['enum']=choices
         facts[name]=d;return fact(name)
     cv=f('customs_value','Customs value (USD)','number')
+    if late_needed and base_amounts:
+        from shipment_base_sources import extract_rows
+        native_bases={r['hts10']:r['general'] for r in extract_rows(hts)['products']}
+        for p,amount in base_amounts.items():
+            record=native_bases.get(p)
+            if not record or amount.get('raw')!=record['expression'] or any(amount.get(k)!=record.get(k) for k in ('source_code','source_row_index')):
+                raise ValueError('Reciprocal native Column1 General expression/owner mismatch')
+    def general_amount(product):
+        a=(base_amounts or {}).get(product)
+        if not a:return {'unresolved_source':'reciprocal_column1_general_source_required'},[],None
+        for name,d in a['fact_definitions'].items():
+            d=dict(d,source_ids=ids);old=facts.get(name)
+            semantic=lambda v:{k:v[k] for k in ('type','minimum','maximum','unit','enum') if k in v}
+            if old and semantic(old)!=semantic(d):raise ValueError('Conflicting reciprocal valuation fact')
+            if not old:facts[name]=d
+        def per_dollar(node):
+            if node==fact('customs_value'):return val(1)
+            if isinstance(node,dict):return {k:per_dollar(v) for k,v in node.items()}
+            if isinstance(node,list):return [per_dollar(v) for v in node]
+            return node
+        return a['formula'],a['input_constraints'],per_dollar(a['formula']) if a.get('fixed_advalorem') else None
     valuation=compile_valuation(history['clauses']['i'],hts,f,{'claim':'CHAPTER_98'},cv)
     content=history['clauses']['xii']
     threshold=re.search(r'provided at least (\d+)% of the customs value',content)
@@ -127,7 +174,7 @@ def compile_reciprocal(x, products, jurisdictions):
         choices=['before_initial_cutoff','before_country_cutoff','before_china_increase','after_cutoffs'])
     transit=op('if',transit_claim,vessel,val(False))
     june=None
-    if start<history['policy_until'] and end>history['inception']:
+    if start<horizon and end>history['inception']:
         june=june_metal_headings(x)
     def emit(scope,path,code=None,formula=None,checks=None):
         r=dict(id=f'reciprocal_{rev}_{len(rules)}',action_id='ieepa_reciprocal_14257',authority='ieepa_reciprocal',kind='duty',
@@ -136,9 +183,10 @@ def compile_reciprocal(x, products, jurisdictions):
         if checks:r['input_constraints']=checks
         rules.append(r)
         return r['id']
-    boundary=sorted({start,end}|{t for t in (history['inception'],history['country_from'],history['suspension_from'],history['china_suspension_from'],history['metal_portion_from'],history['transit_until'],history['uk_aircraft']['from_'],history['suspension_extension']['from_'],history['copper_portion_from'],history['policy_until']) if start<t<end})
+    boundary=sorted({start,end}|{t for t in (history['inception'],history['country_from'],history['suspension_from'],history['china_suspension_from'],history['metal_portion_from'],history['transit_until'],history['uk_aircraft']['from_'],history['suspension_extension']['from_'],history['copper_portion_from'],history['policy_until'],horizon,*[d['from'] for d in auto_deals]) if start<t<end})
     for begin,until in zip(boundary,boundary[1:]):
-        if begin<history['inception'] or begin>=history['policy_until']:continue
+        if begin<history['inception'] or begin>=horizon:continue
+        later=begin>=late['from_']
         portion=begin>=history['metal_portion_from']
         period_basis=basis;period_constraints=list(constraints)
         if portion:
@@ -173,12 +221,18 @@ def compile_reciprocal(x, products, jurisdictions):
                 china=code==history['amendments'][0]['code']
                 if (not china and begin>=history['suspension_from']) or (china and begin>=history['china_suspension_from']):
                     code=history['baseline_code'];rate=history['baseline_rate']
+            floor_codes=None
+            if later:
+                a=late_by_country.get(c);code=late['baseline']['reporting_code'];rate=late['baseline']['rate']
+                if a:
+                    code=a['reporting_codes'][0];rate=a['rate']
+                    if a['kind']=='column1_general_floor':floor_codes=tuple(a['reporting_codes'])
             exemption=None
             for name,key in [('Canada','iv'),('Mexico','v')]:
                 if c in jurisdictions[name]:exemption=re.search(HEADING,history['clauses'][key])[0]
             if c in jurisdictions['non_ntr']:exemption=history['headings']['column2']['code']
             uk=begin>=history['uk_aircraft']['from_'] and c in jurisdictions['UnitedKingdom']
-            groups[(code,rate,exemption,uk)].append(c)
+            groups[(code,rate,exemption,uk,floor_codes)].append(c)
         # The product history may contain amendments between HTS releases.
         # Initial policy has only unconditional exemptions, already reconciled
         # against the original annex and retroactive electronics memorandum.
@@ -186,13 +240,23 @@ def compile_reciprocal(x, products, jurisdictions):
         for p in x['history']['products']:
             if p['valid_from']<=begin<p['valid_until'] and p['condition']=='none':
                 exempt.update(h for h in products if h.startswith(p['scope_code']))
-        for (code,rate,country_exempt,uk),countries in groups.items():
+        for (code,rate,country_exempt,uk,floor_codes),countries in groups.items():
             partition=[]
             for product_exempt,subset in [(True,sorted(exempt)),(False,sorted(set(products)-exempt))]:
                 listed={p for p in subset if p[:8] in history['uk_aircraft']['products']} if uk else set()
                 if listed:partition.append((product_exempt,True,sorted(listed)))
                 other=sorted(set(subset)-listed)
                 if other:partition.append((product_exempt,False,other))
+            if floor_codes:
+                split=[]
+                for product_exempt,aircraft_listed,subset in partition:
+                    bases=defaultdict(list)
+                    for p in subset:
+                        a=(base_amounts or {}).get(p,{})
+                        key=json.dumps({k:a.get(k) for k in ('formula','fact_definitions','input_constraints','fixed_advalorem')},sort_keys=True)
+                        bases[key].append(p)
+                    split.extend((product_exempt,aircraft_listed,ps) for ps in bases.values())
+                partition=split
             for product_exempt,aircraft_listed,subset in partition:
                 if not subset:continue
                 scope=dict(hts_exact=subset,countries=countries,**{'from':begin,'until':until})
@@ -204,6 +268,10 @@ def compile_reciprocal(x, products, jurisdictions):
                     return rule_id
                 # Admission status can select a different classification/date.
                 branch(f('ieepa_ftz_entry','Entry from a foreign trade zone'),formula={'unresolved_source':'reciprocal_ftz_admission_history_required'})
+                if later:
+                    branch(f('reciprocal_cbp_transshipment_evasion_determination',
+                        'CBP determined this article was transshipped to evade duties under section2 of EO14326'),
+                        late['transshipment']['reporting_code'],{'unresolved_source':'reciprocal_transshipment_scope_and_valuation_reconciliation'})
                 if country_exempt:
                     emit(scope,path,country_exempt);continue
                 if product_exempt:
@@ -235,6 +303,7 @@ def compile_reciprocal(x, products, jurisdictions):
                 # Literal source inventory, including named zero-payable metal
                 # headings. Other zero decisions are not blanket exemptions.
                 covered=reported([c for key,codes in history['section232'].items() if not portion or key in ('x','xi') for c in codes])
+                covered=either(covered,reported([c for d in auto_deals if begin>=d['from'] for sector in ('vehicles','parts') for c in d[sector]]))
                 if not portion:
                     # EO 14257 section 3(b)(ii) independently covers the
                     # Russian-aluminum decisions under the amended metal
@@ -253,6 +322,22 @@ def compile_reciprocal(x, products, jurisdictions):
                 # Emit the no-additional-duty content reporting line separately.
                 # It shares all applicable constraints and does not double count.
                 emit(scope,op('if',path,eligible,val(False)),content_heading[1],checks=period_constraints)
+                if later:
+                    if begin<late['transit_until']:
+                        loaded=f('reciprocal_august_transit_loaded_before_cutoff',
+                            'Qualifying final vessel was loaded and in transit before '+late['from_'],
+                            description='EO14326 section2(a); retained prior reciprocal duty, not zero. Exclusive entry deadline '+late['transit_until'])
+                        branch(op('if',transit,loaded,val(False)),late['baseline']['reporting_code'],
+                            op('multiply',val(history['baseline_rate']),period_basis),period_constraints)
+                    if floor_codes:
+                        branch(valuation['adjusted'],formula={'unresolved_source':'reciprocal_column1_general_floor_and_chapter98_valuation'})
+                        branch(either({'claim':'COLUMN1_SPECIAL'},{'claim':'USMCA'}),formula={'unresolved_source':'reciprocal_column1_general_floor_preference_claim_reconciliation'})
+                        general,checks,fixed=general_amount(subset[0])
+                        ave=fixed if fixed is not None else op('if',op('gt',cv,val(0)),op('divide',general,cv),
+                            {'unresolved_source':'reciprocal_column1_general_ave_requires_positive_customs_value'})
+                        branch(op('gte',ave,val(rate)),floor_codes[0],checks=checks)
+                        emit(scope,path,floor_codes[1],op('multiply',op('subtract',val(rate),ave),period_basis),period_constraints+checks)
+                        continue
                 if code!=history['baseline_code'] and begin<history['transit_until']:
                     windows=[op('eq',loading,val('before_country_cutoff'))]
                     if code==history['amendments'][0]['code'] and begin>=history['suspension_from']:
@@ -261,19 +346,21 @@ def compile_reciprocal(x, products, jurisdictions):
                     branch(reduced,history['baseline_code'],op('multiply',val(history['baseline_rate']),period_basis),period_constraints)
                 emit(scope,path,code,op('multiply',val(rate),period_basis),period_constraints)
     rids=[r['id'] for r in rules]
+    claims=[('CHAPTER_98','Chapter 98'),('USMCA','USMCA'),('RECIPROCAL_US_CONTENT','Reciprocal U.S. content'),('RECIPROCAL_TRANSIT','Reciprocal in-transit treatment')]
+    if late_needed:claims.append(('COLUMN1_SPECIAL','Selected Column 1 Special preference'))
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='ieepa_reciprocal_initial_'+rev,
         supported_from=start,supported_until=end,compiler_sha256=sha(Path(__file__).read_bytes()),
-        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/ieepa_reciprocal_initial.py','src/ieepa_reciprocal_history.py','src/ieepa_emergency_rules.py','src/chapter98_rules.py','src/section232_stacking.py','src/section232_note16_rules.py','src/section232_legacy_sources.py','resources/legal_evidence/section232/legacy-reviewed-semantics.json','src/ieepa_fentanyl_sources.py','config/revision_dates.csv')},
+        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/ieepa_reciprocal_initial.py','src/ieepa_reciprocal_august.py','src/ieepa_reciprocal_revision.R','src/shipment_base_sources.py','src/shipment_duty_expression.R','src/ieepa_reciprocal_history.py','src/ieepa_emergency_rules.py','src/chapter98_rules.py','src/section232_autos.py','resources/legal_evidence/section232/autos/review.json','src/section232_stacking.py','src/section232_note16_rules.py','src/section232_legacy_sources.py','resources/legal_evidence/section232/legacy-reviewed-semantics.json','src/ieepa_fentanyl_sources.py','config/revision_dates.csv')},
         sources=[sources[k] for k in ids],source_artifacts=[artifacts[k] for k in ids],
         rules=rules,coverage=[],relations=relations,fact_definitions=facts,
-        claim_definitions=[dict(id=c,label=l,rule_ids=rids,source_ids=ids,**({} if c in ('CHAPTER_98','USMCA') else dict(candidate_rule_ids=rids))) for c,l in [('CHAPTER_98','Chapter 98'),('USMCA','USMCA'),('RECIPROCAL_US_CONTENT','Reciprocal U.S. content'),('RECIPROCAL_TRANSIT','Reciprocal in-transit treatment')]] if rids else [],
+        claim_definitions=[dict(id=c,label=l,rule_ids=rids,source_ids=ids,**({} if c in ('CHAPTER_98','USMCA') else dict(candidate_rule_ids=rids))) for c,l in claims] if rids else [],
         unchanged_claims=[dict(id='reciprocal_'+rev+'_301_independent',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=rids,source_ids=ids),
             dict(id='reciprocal_'+rev+'_232_reevaluate',effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=rids,source_ids=ids),
             dict(id='reciprocal_'+rev+'_other_duties_remain',claim_authority='ieepa_reciprocal',claim_ids=['RECIPROCAL_US_CONTENT','RECIPROCAL_TRANSIT'],
                 target_authorities=['base','section_201','section_232','section_301','ieepa_fentanyl'],source_ids=ids)] if rids else [],
-        legal_horizon=dict(from_=history['inception'],until=history['policy_until']),
+        legal_horizon=dict(from_=history['inception'],until=horizon),
         limitations=['No full reciprocal or all-authority coverage attestation.',
-            'Original policy, June 4 metal portions, June 30 UK aircraft relief, July suspension extensions and August 1 copper portions, ending at the August 7 country-policy horizon.',
+            'Original policy, June metal portions, UK aircraft, July continuations, August copper and country replacements including the Japan retroactive floor. Bounded by the independently required China suspension continuation, not a legal expiry.',
             'FTZ and de minimis instruction histories remain explicit unresolved paths. Transit continuation beyond the compiler horizon is not attested.'])
 
 

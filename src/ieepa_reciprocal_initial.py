@@ -224,6 +224,8 @@ def initial_history():
     heading=re.search(r'Heading ('+HEADING+r') provides the ordinary customs duty treatment of semi-',copper)
     if not heading:raise ValueError('Original copper reporting heading missing')
     result['copper_reporting_codes']=[heading[1]]
+    from ieepa_reciprocal_august import load_august_country_policy
+    result['august_country_policy']=load_august_country_policy()
     return result
 
 

@@ -48,6 +48,25 @@ def test_july31_continuation_and_copper_portions_have_their_own_instruments(h):
     assert h['copper_reporting_codes']==['9903.78.01']
     assert {'FR-2025-15010','FR-2025-14893','FR-2025-14893-ANNEX'} <= {s['id'] for s in h['sources']}
 
+def test_august_country_replacements_and_japan_retroactivity_have_original_heading_roles(h):
+    late=h.get('august_country_policy')
+    assert late is not None, 'Later reciprocal country decisions are not extracted'
+    assert late['from_']=='2025-08-07T00:01:00-04:00'
+    assert late['transit_until']=='2025-10-05T00:01:00-04:00'
+    rows={r['country_text']:r for r in late['actions']}
+    assert len(late['original_headings'])==71
+    assert rows['India']['rate']==.25
+    assert rows['South Korea']['rate']==.15
+    assert rows['European Union']['reporting_codes']==['9903.02.19','9903.02.20']
+    assert rows['European Union']['kind']=='column1_general_floor'
+    assert rows['Japan']['reporting_codes']==['9903.02.72','9903.02.73']
+    assert rows['Japan']['kind']=='column1_general_floor'
+    assert rows['Japan']['replaced_reporting_code']=='9903.02.30'
+    assert rows['Japan']['amendment_effective_from']==late['from_']
+    assert late['transshipment']['reporting_code']=='9903.02.01'
+    assert late['transshipment']['rate']==.4
+    assert late['snapshot_reconciliation']['revision']=='2025_rev_18'
+
 def test_non_china_extension_cannot_carry_china_past_its_own_source_window(monkeypatch):
     import ieepa_reciprocal_initial as m
     actual=m.verified_source

@@ -1,0 +1,113 @@
+{
+  "sha256_algorithm": "sha256",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "9b20c18308000b92842873ffcf8f02aaf0ea95bb8dfeb831a25152818e4a6d59"
+    },
+    {
+      "path": "case-selection.json",
+      "sha256": "6055bd0c15b83c3e29d6d4c99ac13341367f1731c567cea7b5304009ba12b4a1"
+    },
+    {
+      "path": "conformance-cases.json.gz",
+      "sha256": "7fac2749a8da848e0476d4118a6894f43865feac16b2cd7573f7d9560b2e9072"
+    },
+    {
+      "path": "extraction.json.gz",
+      "sha256": "ac35f1650bbb535b3339c0e95547967280594a8751a0b2d6fde2f4134970404e"
+    },
+    {
+      "path": "logs/august-delivery-reference.log.gz",
+      "sha256": "2123857f0683284d6fb26bf77ee4c97c5eea6f651227a5b2cde2692f60a2a547"
+    },
+    {
+      "path": "logs/august-normal-transport.log.gz",
+      "sha256": "05620504b0f236f608e107f27a8b90d07b217f66fe480a782771b8e23f2f288d"
+    },
+    {
+      "path": "logs/auto-country-double-count-red.log.gz",
+      "sha256": "10143c09813aeb258e163c0780bd25f893dc67fb4df80aef223625f05345e37a"
+    },
+    {
+      "path": "logs/motherduck.log.gz",
+      "sha256": "682f6fbc73370161339d92fa955f9fa13889e5fa188a84194b1e235b0d833f26"
+    },
+    {
+      "path": "logs/node.log.gz",
+      "sha256": "e6bef0763eb0517734f23e9f71ef27f4747429832fdde2e13782758c35c5875f"
+    },
+    {
+      "path": "logs/normal-reporting-red.log.gz",
+      "sha256": "c69b93ccb9e37c2d383fcee22592d7b4ec1c569b1043cf550059fab171480c0b"
+    },
+    {
+      "path": "logs/pdf-fidelity-red.log.gz",
+      "sha256": "c5243c86e10941839b0596f1a45731298cb69de37eb26e44260c5d313b6db2c6"
+    },
+    {
+      "path": "logs/python.log.gz",
+      "sha256": "fd5a43ead28affa2a4c6e1880fcf8f191381a2cfc59da7ce9e02b50ef3b14b33"
+    },
+    {
+      "path": "logs/r-conformance.log.gz",
+      "sha256": "5e4a24e405951fc6fef8d3050d588b348d4b54e1d063c6fc299fea54e645886b"
+    },
+    {
+      "path": "logs/r-normal-pipeline.log.gz",
+      "sha256": "bf1174dbb76390e7e0bca9e8407c19a696a164a92783deacdb714a27682b6315"
+    },
+    {
+      "path": "logs/r-scope.log.gz",
+      "sha256": "916cee927bf4a08042be05a1c46eb3b1635e9cac985d849480a1b9ab72e43152"
+    },
+    {
+      "path": "logs/source-country-red.log.gz",
+      "sha256": "e3bd3955d4e73732acfe33bf98e8884b44284d0136fa5e5b046c259ce2d39b53"
+    },
+    {
+      "path": "motherduck/case-specification.json.gz",
+      "sha256": "c833e4dbf3e375a1d7b3c9b5f03da5998675ff68124862ae43fe3367ea8df93b"
+    },
+    {
+      "path": "motherduck/cases.json.gz",
+      "sha256": "6b7bff396ca63810843791d7fa7671fa8f1301d9f7e3b0572ea956eced31df1f"
+    },
+    {
+      "path": "motherduck/findings.json.gz",
+      "sha256": "f751ececd931eea6c153e0bed8df97f16843115b726fb8e3c389ba6fbcffdb6a"
+    },
+    {
+      "path": "motherduck/manifest.json.gz",
+      "sha256": "9d90df588e7131805acd7d5329edeb8a2eb1fc316aa5f63b0c0892a5eb4b9acb"
+    },
+    {
+      "path": "motherduck/revisions.json.gz",
+      "sha256": "24b3e1ba423d1f22647516787af8e85a3849614005626e0595589fdc1b9caef9"
+    },
+    {
+      "path": "motherduck/schema.json.gz",
+      "sha256": "3ddffc9871f57659013fd289cf2d16738a2735338b830f8db30b37c1ee5bbf0e"
+    },
+    {
+      "path": "research/china-14334-corpus.json.gz",
+      "sha256": "97cf0ee342ca1464bbe72373786f7612a64a8b9485674086f7e89f95a7fbf089"
+    },
+    {
+      "path": "research/china-14334-selection.json.gz",
+      "sha256": "2c1c91ae843212fc9c0f8a2798879689a8825a191276cf495a7b64abca49a6bb"
+    },
+    {
+      "path": "research/china-15554-govinfo.txt.gz",
+      "sha256": "25cd9fe7f1dd25fdbccd6824fdee4b65a631dc6eaa0bb150c0ee9b22d0846dea"
+    },
+    {
+      "path": "research/manifest.json",
+      "sha256": "e5deb275673ad6ae71d4af45d412bfb66a2306bf2e1e7fab9004ba277fb34674"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "65573eb69f20ec1098e9f6ade935fffab953aaddddfc8f3be688d9348cec8b2c"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "research_not_executable_rule_source",
+  "reader": "docs/audits/2026-10-26-auto-source-inventory/corpus-selection-query.cjs",
+  "corpus_catalog": "trade_intel_fr",
+  "access_mode": "READ_ONLY",
+  "govinfo_url": "https://www.govinfo.gov/content/pkg/FR-2025-08-14/html/2025-15554.htm",
+  "govinfo_acquisition": "gstack browse goto and document.body.innerText",
+  "warning": "Search, embedding and source version hashes are preserved independently; this is not a production evidence release pin.",
+  "artifacts": [
+    {
+      "path": "china-14334-corpus.json.gz",
+      "sha256": "97cf0ee342ca1464bbe72373786f7612a64a8b9485674086f7e89f95a7fbf089"
+    },
+    {
+      "path": "china-14334-selection.json.gz",
+      "sha256": "2c1c91ae843212fc9c0f8a2798879689a8825a191276cf495a7b64abca49a6bb"
+    },
+    {
+      "path": "china-15554-govinfo.txt.gz",
+      "sha256": "25cd9fe7f1dd25fdbccd6824fdee4b65a631dc6eaa0bb150c0ee9b22d0846dea"
+    }
+  ]
+}

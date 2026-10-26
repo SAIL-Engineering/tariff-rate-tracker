@@ -1,0 +1,87 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "FR-2025-06063",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/html/2025-06063.htm",
+      "sha256": "4959b45d016c168e72d75b6f7ca10dc00110588447583be3f459eb8b19c5a7b3",
+      "path": "resources/legal_evidence/2025-06063/notice.txt",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-15010",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-06/html/2025-15010.htm",
+      "sha256": "f0b2bf81b5e024599ae4f7276666dc2af711ba2fc9a834a9189f6d3fb1986e6c",
+      "path": "resources/legal_evidence/2025-15010/notice.txt",
+      "locator": "EO 14326 sections 2(a)-(g), 3; Annex I and II, 90 FR 37963-37992",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "4009120020-4120-2025-07-10",
+      "hts10": "4009120020",
+      "country": "4120",
+      "entry_date": "2025-07-10",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "8471500150-4120-2025-07-10",
+      "hts10": "8471500150",
+      "country": "4120",
+      "entry_date": "2025-07-10",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "4009120020-4279-2025-08-01",
+      "hts10": "4009120020",
+      "country": "4279",
+      "entry_date": "2025-08-01",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "8471500150-4279-2025-08-01",
+      "hts10": "8471500150",
+      "country": "4279",
+      "entry_date": "2025-08-01",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "4009120020-4279-2025-08-08",
+      "hts10": "4009120020",
+      "country": "4279",
+      "entry_date": "2025-08-08",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "8471500150-4279-2025-08-08",
+      "hts10": "8471500150",
+      "country": "4279",
+      "entry_date": "2025-08-08",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "4009120020-5880-2025-08-08",
+      "hts10": "4009120020",
+      "country": "5880",
+      "entry_date": "2025-08-08",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    },
+    {
+      "id": "8471500150-5880-2025-08-08",
+      "hts10": "8471500150",
+      "country": "5880",
+      "entry_date": "2025-08-08",
+      "expectations": [],
+      "qualification": "Stored-row observation only; shipment use, claims and content are not supplied by the database row."
+    }
+  ]
+}

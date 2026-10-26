@@ -1,0 +1,58 @@
+{
+  "base_commit": "81ae4a56",
+  "branch": "wjr_dev",
+  "checks": {
+    "python": {
+      "exit_code": 0,
+      "passed": 431
+    },
+    "node": {
+      "exit_code": 0,
+      "passed": 682
+    },
+    "r_conformance": {
+      "exit_code": 0,
+      "passed": 120
+    },
+    "r_scope": {
+      "exit_code": 0,
+      "passed": 12
+    },
+    "r_normal_pipeline": {
+      "exit_code": 0,
+      "cases": 8,
+      "grid_cells": 4,
+      "legal_coverage_complete": false
+    },
+    "full_r": {
+      "rerun_in_this_checkpoint": false,
+      "last_run_suites": 65,
+      "last_run_ok": 62,
+      "last_run_errors": 2,
+      "last_run_skip": 1,
+      "qualified": false,
+      "limitations": [
+        "685 missing/stale normalized artifacts",
+        "Special suite was edited during the prior full run; standalone frozen mixed/special checks then passed",
+        "Missing TPC input"
+      ]
+    },
+    "normal_transport": {
+      "exit_code": 0,
+      "cases": 8,
+      "source": "Retained actual-source normal Parquet fixture; existing in-memory DuckDB and JSON/Arrow/batch checker",
+      "production_release_preparation": false
+    }
+  },
+  "read_only_motherduck_rows": 18,
+  "revision_or_timeseries_build_executed": false,
+  "production_writes": false,
+  "legal_coverage_complete": false,
+  "production_qualified": false,
+  "follow_up_research": {
+    "corpus_selected_documents": 2,
+    "corpus_catalog": "trade_intel_fr",
+    "access_mode": "READ_ONLY",
+    "executable_continuation": false
+  }
+}
