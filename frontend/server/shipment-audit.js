@@ -79,7 +79,8 @@ export function compareAuditCases(cases, rows, verifiedSourceIds = new Set()) {
         const verified = e.verification === 'primary_source_verified' && e.source_ids?.length > 0
           && e.source_ids.every(id => verifiedSourceIds.has(id));
         return { revision: r.revision, field: e.field, actual: actual ?? null, expected: e.value,
-          source_ids: e.source_ids ?? [], status: !verified ? 'unverified_expectation' : actual == null ? 'missing_field'
+          source_ids: e.source_ids ?? [], status: !verified ? 'unverified_expectation' : !Object.hasOwn(r,e.field) ? 'missing_field'
+            : e.value === null ? actual === null ? 'match' : 'mismatch' : actual == null ? 'missing_field'
             : typeof e.value === 'number' ? typeof actual === 'number' && Math.abs(actual-e.value) < 1e-9 ? 'match' : 'mismatch'
             : actual === e.value ? 'match' : 'mismatch' };
       })),

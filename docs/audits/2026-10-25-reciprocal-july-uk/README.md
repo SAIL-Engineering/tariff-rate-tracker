@@ -42,9 +42,10 @@ Verification retained here:
   existing local JSON/batch/Arrow serving checks.
 - All **55 configured revisions** pass the source-only compiler sweep. This is
   not an exhaustive priced HTS/origin/fact grid or a timeseries build.
-- The fresh full R gate was started against this follow-up; its final outcome
-  must be recorded before release qualification. Existing generated artifacts and
-  TPC input remain missing. No successful full-data gate is claimed here.
+- The fresh full R gate finished with **44 of 46 suites passing**. Normalized
+  parity stopped on **685 missing/stale artifacts**, and TPC could not run without
+  `data/tpc/tariff_by_flow_day.csv`. Its counted-case subtotal of 427 passing cases
+  is not a successful full-data gate. The retained full log records both blockers.
 
 For a real-source UK `7304.31.3000` entry on July 10 with $100 customs value and
 $20 steel value, the Section 232/reciprocal **known subtotal** is $13 without

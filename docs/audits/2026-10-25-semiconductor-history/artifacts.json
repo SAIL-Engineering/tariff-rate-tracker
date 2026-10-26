@@ -1,0 +1,58 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "b6f7e4ccd34e441569f040aab9c9baaa748c821eaeb59d8112c2083364b31445"
+  },
+  {
+    "path": "motherduck-case-specification.json",
+    "sha256": "48a94c2c1f24f5ae5076454c8b54a3f7fba1a52ffd6aa3facc8fbfb5a9d68283"
+  },
+  {
+    "path": "motherduck-cases.json.gz",
+    "sha256": "c6711e2973cba12a5bbce565e3c59c10dbce256202cd5c2eb2ec5379bcacbf96"
+  },
+  {
+    "path": "motherduck-findings.json",
+    "sha256": "61de9e5a46303cd78fb6301836fa3a355ce212469fcc480584cf625c309f5801"
+  },
+  {
+    "path": "motherduck-manifest.json",
+    "sha256": "32ad7b17b2d0bf91d7ed90e2d8371a74ca83a9491859be4cb5f63b3c6a8635d9"
+  },
+  {
+    "path": "motherduck-revisions.json",
+    "sha256": "282c5f23211dcaf7501d5c878a048c59160a23aab04ad652d869bcfdc2f477e1"
+  },
+  {
+    "path": "node-tests.log.gz",
+    "sha256": "78467b58498accc6e0542f9f510e703389553e2f2103d7719fba9d1797ddbf0b"
+  },
+  {
+    "path": "python-tests.log.gz",
+    "sha256": "5706d16bb2c20b60cf04c1e13a5052b43cc0351dfabfefd02e5528fd8fccd3d6"
+  },
+  {
+    "path": "r-boundaries.log.gz",
+    "sha256": "2e9d60c71a16f4fa154acfc7948040f1c960a462121274398bee66041e5be6c4"
+  },
+  {
+    "path": "r-full-attempt.log.gz",
+    "sha256": "ab355b621e18b03e40d72cda68e3f5147e2e3675d272b084f3fe34a312859b78"
+  },
+  {
+    "path": "r-pipeline.log.gz",
+    "sha256": "ba00368e239a9551f8c0cbf6fd8fc50eda4a3843c761f5a5e4894edc92b502dc"
+  },
+  {
+    "path": "source-sweep.json",
+    "sha256": "6d90c225a6d3d8e7df07060f49dec41371c0e098d1398d03734c07ce42ccfe28"
+  },
+  {
+    "path": "source-sweep.log.gz",
+    "sha256": "38f9a9fd2aa946fbac278444d9c1f57f088bb12ad9590bd900a2f5b0e28d72c4"
+  },
+  {
+    "path": "verification.json",
+    "sha256": "495c22624865aa068ce7c481e0dd4bebc1764db2fa209b65395432a0bb9fe853"
+  }
+]

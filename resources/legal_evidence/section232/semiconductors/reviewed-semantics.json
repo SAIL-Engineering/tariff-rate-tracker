@@ -1,0 +1,77 @@
+{
+  "baseline_revision": "2026_rev_1",
+  "clause_sha256": {
+    "a": "cc50f18222847b08d642b2f850866cf483ada149b59a0699af875e776ea6604a",
+    "b": "9250ca36bc64a1ef99c71bf533b6f81321fb29553ca1b369554eb0e1f8f93345",
+    "c": "3df3b902e43177551397336121272cdfba4ff6700f81090f8ff78800be4752a3",
+    "d": "573408dd8d1f80e2cdd79619b28b145083480d88c593c736c8524a0efce2fc65"
+  },
+  "baseline_clause_a": "Except as provided for in headings 9903.79.02\u20139903.79.09, heading 9903.79.01 provides the ordinary customs duty treatment of semiconductor articles of all countries as described in subdivision (b) of the note. For any such products that are eligible for special tariff treatment under any of the free trade agreements or preference programs listed in general note 3(c)(i) to the tariff schedule, the duties provided in heading 9903.79.01 shall be collected in addition to any special rate of duty otherwise applicable under the appropriate tariff subheading. Goods for which entry is claimed under a provision of chapter 98 and that are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable U.S. Customs and Border Protection (CBP) regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article. No claim for entry or for any duty exemption or reduction shall be allowed for semiconductor articles enumerated in subdivision (b) of this note under a provision of chapter 99 that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP, but any additional duty prescribed in any provision of this subchapter or subchapter IV of chapter 99 shall be imposed in addition to the duties in heading 9903.79.01. All antidumping, countervailing, or other duties and charges applicable to such goods shall continue to be imposed in addition to the duties in heading 9903.79.01, except that such articles shall not be subject to: (1) the additional duties imposed on entries of passenger vehicles and light trucks under headings 9903.94.01, 9903.94.03, 9903.94.31, 9903.94.40, 9903.94.41, 9903.94.50, 9903.94.51, 9903.94.60 and 9903.94.61; (2) the additional duties imposed on entries of parts for passenger vehicles and light trucks under headings 9903.94.05, 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.42, 9903.94.43, 9903.94.44, 9903.94.45, 9903.94.52, 9903.94.53, 9903.94.54, 9903.94.55, 9903.94.62, 9903.94.63, 9903.94.64 and 9903.94.65; (3) the additional duties imposed on entries of medium- and heavy-duty vehicles under headings 9903.74.01, 9903.74.02 and 9903.74.03; (4) the additional duties imposed on entries of parts of medium- and heavy-duty vehicles under headings 9903.74.08 and 9903.74.09; (5) the additional duties imposed on entries of semi-finished copper products and copper-intensive derivative products under heading 9903.78.01; (6) the additional duties imposed on entries of products of aluminum under headings 9903.85.02 and 9903.85.12; (7) the additional duties imposed on entries of derivative aluminum products under headings 9903.85.04, 9903.85.07, 9903.85.08, 9903.85.13, 9903.85.14 and 9903.85.15; (8) the additional duties imposed on entries of iron or steel products under headings 9903.81.87, 9903.81.88, 9903.81.94 and 9903.81.95; (9) the additional duties imposed on entries of derivative iron or steel products under headings 9903.81.89, 9903.81.90, 9903.81.91, 9903.81.93, 9903.81.96, 9903.81.97, 9903.81.98 and 9903.81.99; (10) the additional duties imposed on entries of articles the product of Canada under heading 9903.01.10; (11) the additional duties imposed on entries of articles the product of Mexico under heading 9903.01.01; and (12) the additional duties imposed on entries of articles under headings 9903.01.24\u20139903.01.76 and 9903.02.01\u20139903.02.71.",
+  "headings": [
+    {
+      "htsno": "9903.79.01",
+      "description": "Semiconductor articles as provided for in subdivisions (a) and (b) of U.S. note 39 to this subchapter.",
+      "general": "The duty provided in the applicable subheading +25%",
+      "special": "The duty provided in the applicable subheading +25%",
+      "other": "The duty provided in the applicable subheading +25%"
+    },
+    {
+      "htsno": "9903.79.02",
+      "description": "Articles as provided for in subdivision (c) of U.S. note 39 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.03",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for use in U.S. data centers, as defined in subdivision (d) of U.S. note 39 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.04",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for repairs or replacement in the United States.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.05",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for research and development in the United States, as defined in subdivision (d) of U.S. note 39 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.06",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for use by startups in the United States, as defined in subdivision (d) of U.S. note 39 to this subchapter.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.07",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for use in non-data center consumer electronics applications in the United States.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.08",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for use in non-data center civil industrial applications in the United States.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    },
+    {
+      "htsno": "9903.79.09",
+      "description": "Semiconductor articles, as defined in subdivision (b) of U.S. note 39 to this subchapter, that are for use in United States public sector applications.",
+      "general": "The duty provided in the applicable subheading",
+      "special": "The duty provided in the applicable subheading",
+      "other": "The duty provided in the applicable subheading"
+    }
+  ],
+  "original_template_sha256": "0352c883e5ccf5ffcad24bfd99eb672062a11fdba90546d037186eb57d1a08a0",
+  "review": "Original Proclamation 11002 Annex note 39 and headings (91 FR 2449-2453) reconciled with first native note. Technical thresholds, HTS6 list, end use, GN3 additive treatment, Chapter 98 full-value exception and retained AD/CVD/other duties are reviewed semantics. Original note 2(x)/(z) amendments independently establish India/Brazil priority. Later note 39(a) operations must reconcile exactly; a changed predicate/rate requires review, never a static fallback."
+}

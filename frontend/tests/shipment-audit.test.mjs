@@ -4,6 +4,13 @@ import { DuckDBInstance } from '@duckdb/node-api';
 import { auditQueries, revisionIssues, compareAuditCases } from '../server/shipment-audit.js';
 const cases = [{id:'case',hts10:'1234567890',country:'1220',entry_date:'2026-10-09',
   expectations:[{field:'statutory_rate_232',value:0.25,verification:'primary_source_verified',source_ids:['test-source']}]}];
+test('a sourced conditional null is distinct from a missing column or a numeric rate',()=>{
+  const conditional=structuredClone(cases);conditional[0].expectations[0].value=null;
+  const row={...cases[0],revision:'r1',valid_from:'2026-09-15',valid_until:'2026-12-31'};
+  const rows=[row,{...row,statutory_rate_232:null},{...row,statutory_rate_232:0},{...row,statutory_rate_232:.25}];
+  assert.deepEqual(compareAuditCases(conditional,rows,new Set(['test-source']))[0].checks.map(c=>c.status),
+    ['missing_field','match','mismatch','mismatch']);
+});
 test('audit uses bound values and rejects identifier, origin and product injection', () => {
   assert.throws(() => auditQueries('db; DROP TABLE rates',cases));
   assert.throws(() => auditQueries('db',[{...cases[0],hts10:'12345678'}]));

@@ -141,12 +141,18 @@ been constructed (replace the uppercase paths with reviewed versioned artifacts)
 
 ```sh
 Rscript scripts/compile_shipment_rules.R BASE_BUNDLE.json NEW_COMPOSED_BUNDLE.json \
-  resources/shipment_rules/s232_semiconductors.json \
+  output/normalized/REVISION/section232_semiconductors_rules.json \
   resources/shipment_rules/s232_auto_parts_condition.json
 ```
 
 This is not the full rule compiler and does not grant coverage or publication
 approval. Do not use the synthetic test bundle as the base of a real release.
+Use the newly emitted revision-bound semiconductor fragment. The original static
+January fragment is a reviewed interpreter template and historical regression
+fixture; it does not contain the April, May and June amendment chronology or the
+executable FTZ/Chapter 98 questions. Normal 2026 builds now emit the dated fragment,
+exact product candidates and Chapter 99 inventory links automatically. The full
+production bundle still requires the remaining authority inventory and composition.
 The earlier conditional-action audit is recorded in
 `docs/audits/2026-10-23-conditional-actions/README.md`.
 

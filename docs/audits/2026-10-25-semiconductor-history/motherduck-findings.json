@@ -1,0 +1,429 @@
+{
+  "interval_issues": [
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_20"
+      ],
+      "from": "2026-09-29",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "conditional-semiconductor-8471500150-5700-2026-01-20",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-01-20",
+      "matched_revisions": [
+        "2026_rev_1"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_total_rate",
+          "actual": 0.35,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8471500150-5700-2026-04-24",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-04-24",
+      "matched_revisions": [
+        "2026_rev_6"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8471500150-5700-2026-06-10",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-06-10",
+      "matched_revisions": [
+        "2026_rev_10"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8471500150-2010-2026-01-20",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-01-20",
+      "matched_revisions": [
+        "2026_rev_1"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8471500150-2010-2026-04-24",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-04-24",
+      "matched_revisions": [
+        "2026_rev_6"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_total_rate",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8471500150-2010-2026-06-10",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-06-10",
+      "matched_revisions": [
+        "2026_rev_10"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_total_rate",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-5700-2026-01-20",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-01-20",
+      "matched_revisions": [
+        "2026_rev_1"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_total_rate",
+          "actual": 0.35,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-5700-2026-04-24",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-04-24",
+      "matched_revisions": [
+        "2026_rev_6"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-5700-2026-06-10",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-06-10",
+      "matched_revisions": [
+        "2026_rev_10"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-2010-2026-01-20",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-01-20",
+      "matched_revisions": [
+        "2026_rev_1"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_1",
+          "field": "statutory_total_rate",
+          "actual": 0.25,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-2010-2026-04-24",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-04-24",
+      "matched_revisions": [
+        "2026_rev_6"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_6",
+          "field": "statutory_total_rate",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "conditional-semiconductor-8473301180-2010-2026-06-10",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-06-10",
+      "matched_revisions": [
+        "2026_rev_10"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_rate_232",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        },
+        {
+          "revision": "2026_rev_10",
+          "field": "statutory_total_rate",
+          "actual": 0,
+          "expected": null,
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    }
+  ]
+}

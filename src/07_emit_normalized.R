@@ -1317,6 +1317,21 @@ emit_normalized_revision <- function(
   inventory_fragments <- c(inventory_fragments,emit_s338_rules(revision_id,products$hts10,output_dir))
 
   candidates <- denorm_state$heading_candidates %||% list()
+  if(grepl('^2026_',revision_id)) {
+    source(here::here('src/section232_semiconductors.R'))
+    semiconductors <- compile_s232_semiconductors_fragment(revision_id,products$hts10)
+    write_rule_fragment(semiconductors,'section232_semiconductors_rules.json')
+    # The source-derived rule scopes, not the aggregate's winning candidate,
+    # retain every potential note 39 product. Technical/use predicates and their
+    # historical reporting relationships remain in the executable definitions.
+    if(length(semiconductors$rules)) {
+      members <- unlist(semiconductors$rules[[1]]$scope$hts_exact,use.names=FALSE)
+      evidence <- semiconductors$source_artifacts[[1]]
+      candidates$semiconductor_note39 <- list(scope_matches=tibble(hts10=members,
+        scope_code=substr(members,1,6),scope_grain='prefix'),
+        scope_source=evidence$path,scope_sha256=evidence$sha256)
+    }
+  }
   source(if (requireNamespace('here',quietly=TRUE)) here::here('src','section232_revision.R') else 'src/section232_revision.R')
   memberships <- s232_note16_matches(list(lists=list()),character())
   membership_fields <- names(memberships)

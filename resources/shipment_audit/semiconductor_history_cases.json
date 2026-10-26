@@ -1,0 +1,315 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "id": "CBP-CSMS-67400472",
+      "path": "resources/legal_evidence/2026-01052/CSMS-67400472.txt",
+      "sha256": "9227047bb3737c38ebc4269a1d78659e19b303424a0e6e7294811fda00e6bca4",
+      "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318",
+      "locator": "Technical parameters, end-use exclusions, GN3 preference and Chapter98 instructions",
+      "verification": "primary_source_verified"
+    }
+  ],
+  "cases": [
+    {
+      "id": "conditional-semiconductor-8471500150-5700-2026-01-20",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-01-20",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8471500150-5700-2026-04-24",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-04-24",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8471500150-5700-2026-06-10",
+      "hts10": "8471500150",
+      "country": "5700",
+      "entry_date": "2026-06-10",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8471500150-2010-2026-01-20",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-01-20",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8471500150-2010-2026-04-24",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-04-24",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8471500150-2010-2026-06-10",
+      "hts10": "8471500150",
+      "country": "2010",
+      "entry_date": "2026-06-10",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-5700-2026-01-20",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-01-20",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-5700-2026-04-24",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-04-24",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-5700-2026-06-10",
+      "hts10": "8473301180",
+      "country": "5700",
+      "entry_date": "2026-06-10",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-2010-2026-01-20",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-01-20",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-2010-2026-04-24",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-04-24",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-semiconductor-8473301180-2010-2026-06-10",
+      "hts10": "8473301180",
+      "country": "2010",
+      "entry_date": "2026-06-10",
+      "assumptions": "Technical IC parameters, confirmed end use and FTZ history not supplied. The generic row cannot state a shipment Section232 rate or complete total; 25 percent is a conditional published parameter. This tests the shipment-column contract, not an assumed exemption or full legal-stack certification.",
+      "expectations": [
+        {
+          "field": "statutory_rate_232",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        },
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "verification": "primary_source_verified",
+          "source_ids": [
+            "CBP-CSMS-67400472"
+          ]
+        }
+      ]
+    }
+  ]
+}

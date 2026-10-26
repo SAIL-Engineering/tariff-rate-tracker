@@ -1,0 +1,45 @@
+{
+  "base": "9c16504d",
+  "branch": "wjr_dev",
+  "full_python": {
+    "command": "/usr/bin/python3 -m pytest -q tests/python",
+    "passed": 393,
+    "exit_code": 0
+  },
+  "full_node": {
+    "command": "node --test --experimental-test-isolation=none tests/*.test.mjs",
+    "cwd": "frontend",
+    "passed": 548,
+    "exit_code": 0
+  },
+  "r_boundaries": {
+    "command": "Rscript tests/test_s232_semiconductors.R --emit",
+    "passed": 29,
+    "exit_code": 0
+  },
+  "r_bounded_pipeline": {
+    "command": "Rscript tests/test_s232_semiconductors_pipeline.R",
+    "exit_code": 0,
+    "scope": "two actual products, one origin; no revision build"
+  },
+  "source_sweep": {
+    "command": "python3 scripts/audit_semiconductor_history.py NEW_FILE.json",
+    "revisions": 55,
+    "exit_code": 0
+  },
+  "motherduck": {
+    "access_mode": "READ_ONLY",
+    "rows": 220,
+    "cases": 12,
+    "checks": 24,
+    "mismatches": 24,
+    "writes": false
+  },
+  "full_r_gate": {
+    "last_completed": "44 of 46 suites passed; 685 missing/stale normalized artifacts; TPC input absent; nonzero exit",
+    "current_attempt": "Nonzero return without final summary, stopped during reciprocal pipeline. Not counted as a completed full gate. Current semiconductor suites passed separately."
+  },
+  "timeseries_build_run": false,
+  "production_writes": false,
+  "complete_legal_coverage": false
+}
