@@ -1,0 +1,53 @@
+{
+  "id": "FR-2025-05930-research",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+  "citation": "Proclamation10908, 90FR14705-14714; Annex I, printed14709-14714",
+  "status": "research_primary_annex_visually_reviewed_not_executable_rule_coverage",
+  "corpus": {
+    "catalog": "trade_intel_fr",
+    "table": "documents",
+    "captured_at": "2026-10-26T05:49:00.605Z",
+    "record": {
+      "document_number": "2025-05930",
+      "title": "Adjusting Imports of Automobiles and Automobile Parts Into the United States",
+      "publication_date": "2025-04-03",
+      "source_url": "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states",
+      "official_document_url": "https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf",
+      "source_hash": "8106f9215a72b63b58d40cef369ac5b8dcd42e7404f2d42d1606bcfc2343c68d",
+      "content_sha256": "a9faedfab06caf9cca88cad598111889425a149f8dadfbbe58b62aabf2653dec",
+      "version_no": 1,
+      "is_current": true,
+      "raw_object_path": "raw/fr/2025-05930/8106f9215a72b63b58d40cef369ac5b8dcd42e7404f2d42d1606bcfc2343c68d.json",
+      "raw_text_object_path": "raw/fr/2025-05930/8106f9215a72b63b58d40cef369ac5b8dcd42e7404f2d42d1606bcfc2343c68d.txt"
+    },
+    "full_text_sha256": "86eff760389addac3e97c52381a7a20738f733251b9296d9eef55b2aecfbd35e",
+    "content_sha256_meaning": "Trade Intelligence search header/abstract chunk, not full legal text"
+  },
+  "artifacts": {
+    "corpus-notice.txt": "86eff760389addac3e97c52381a7a20738f733251b9296d9eef55b2aecfbd35e",
+    "proclamation.pdf": "84c26c9856d6bf258712481168f7ce0064833868b9403b7078c3b6e26c0b8973",
+    "annex-ocr.txt": "3274c0e8287bae4fc11d11f6c62113f4028c798f41df7d5582ab7e0fc95c54e8",
+    "native.txt": "b493fa4f0369e7aeea617b3d9f8c3ed5df6f968ba5513ce587024e9d18c6470a"
+  },
+  "annex_review": {
+    "pdf_pages": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "printed_pages": [
+      14709,
+      14710,
+      14711,
+      14712,
+      14713,
+      14714
+    ],
+    "method": "Poppler PNG render at3000px, Tesseract English psm3, visually read all six original pages",
+    "scope_membership_is_conditional": true,
+    "coverage_attested": false
+  }
+}

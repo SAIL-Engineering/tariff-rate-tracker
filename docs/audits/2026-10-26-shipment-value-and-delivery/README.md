@@ -80,8 +80,8 @@ The completed55-suite R gate had53 OK, one normalized-parity ERROR
 (685 missing/stale artifacts), and one TPC-input SKIP. It exits1. The runner
 counts427 cases from suites that print its expected summary format; this is not
 the full case count. The new temporal-delivery suite and existing legal-interval
-suite then passed separately after the merge repair. A complete56-suite rerun
-is in progress. The earlier deliberately red threshold development run is not
+suite then passed separately after the merge repair. The final56-suite rerun completed with54 OK, the same normalized-parity
+ERROR and TPC SKIP, and no implementation-suite failures. It also exits1. The earlier deliberately red threshold development run is not
 a final verification result. Missing normalized artifacts and
 `data/tpc/tariff_by_flow_day.csv` are not repaired by local unit tests.
 

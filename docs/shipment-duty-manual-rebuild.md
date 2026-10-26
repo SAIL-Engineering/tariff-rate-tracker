@@ -565,6 +565,11 @@ Rscript src/install_dependencies.R
 Rscript src/preflight.R
 ```
 
+On Linux, compiling the CRAN `gmp` package requires the GMP development
+library (`libgmp-dev` on Ubuntu/Debian). A distribution `r-cran-gmp` package is
+also a supported runtime installation. The current workstation has the tested
+package; the build never silently falls back if it is missing.
+
 Shipment arithmetic retains decimal rationals internally; percentages and cents
 retain their divisors in the source expression. Wide scalar rates also require
 value-invariant applicability, suppression and valuation constraints. A USD1
