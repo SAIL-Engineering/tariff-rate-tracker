@@ -1,0 +1,13 @@
+{
+  "python_passed": 429,
+  "python_exit_code": 0,
+  "launcher_targeted_passed": 2,
+  "reference": "a653c4aa7b9b4cbab9854dc00351b6a3ab4746ba",
+  "frozen_directory": "/tmp/wjr-shipment-source-a653c4aa7b9b",
+  "primary_inputs_independently_copied": true,
+  "frozen_dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+  "original_dataset_version_matches": true,
+  "plan_only_exit_code": 0,
+  "revision_build_executed_by_codex": false,
+  "production_writes": false
+}

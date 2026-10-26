@@ -1,5 +1,27 @@
 # WJR-run diagnostic builds and local DuckDB checks
 
+## Start here: one command
+
+From any directory, run:
+
+```bash
+python3 /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/scripts/run_shipment_diagnostic.py --ref a653c4aa
+```
+
+This builds only the small cohort for **2025 revision11 and2026 revision19**,
+then creates and validates a local DuckDB diagnostic. The launcher freezes
+committed code and independently copies its primary inputs, so ongoing edits in
+the main checkout cannot affect the run. It prints the result path when finished
+and preserves full logs. It neither publishes nor connects to MotherDuck.
+Installed Node/R dependencies are reused; no credentials are copied.
+
+The a653c4aa source copy has already been prepared and its dataset identity
+verified against the original checkpoint. No diagnostic revision build was run
+by Codex. The commands below are for expanded investigations after this first
+run; they are not required to start.
+
+## Expanded investigation
+
 Use **2025 and 2026**, beginning with a small cohort rather than rebuilding both
 complete years. The first pass below selects eight revisions and eight origins.
 These are diagnostic cases; they do not enter production scope/rate definitions.

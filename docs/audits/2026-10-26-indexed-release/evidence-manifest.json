@@ -154,6 +154,31 @@
       "path": "verification.json",
       "sha256": "92e5a3eb02e25e2fde765898ff961eee7605657950ecb6c778f4077e3d1e186e",
       "bytes": 17357
+    },
+    {
+      "path": "evidence/launcher-python.log.gz",
+      "sha256": "17b11aba1827153ab6ab0453f603da11e682357752f6fa42ee5c0935ca754e3e",
+      "bytes": 92
+    },
+    {
+      "path": "evidence/launcher-red.log.gz",
+      "sha256": "4350cadab03f9a3ddfbd01af637910852a81b484575568b8db14ecbe16ba955c",
+      "bytes": 629
+    },
+    {
+      "path": "evidence/launcher-freeze.log.gz",
+      "sha256": "880a723ca172080537172c4bb58e3338591c7227d69d5e7b072bafcac5c28c4e",
+      "bytes": 187
+    },
+    {
+      "path": "evidence/launcher-plan.log.gz",
+      "sha256": "3734d95dd081361e7aeec096b89fe81d020f9cc88fea8074619689fa4651a4d9",
+      "bytes": 532
+    },
+    {
+      "path": "launcher-verification.json",
+      "sha256": "25ed14fe8362c2ab4e3516eeef0ae9c517e751f103cc49570757657a958b760a",
+      "bytes": 506
     }
   ],
   "source_calendar_tool_sha256": "4da966fc81da6ea30384353cc53bd52a78bc1f518d7d626a7588f32127ae6b3d",
