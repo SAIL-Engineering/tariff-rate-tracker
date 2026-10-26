@@ -15,6 +15,7 @@ f$rules <- list(list(id='synthetic_232',action_id='synthetic_232',authority='sec
   formula=list(op='multiply',args=list(list(fact='customs_value'),list(value=.25)))))
 f$supported_from <- '2025-04-09T00:00:00-04:00';f$supported_until <- '2025-04-10T00:00:00-04:00'
 f$legal_horizon <- list(from_='2025-04-09T00:01:00-04:00',until='2025-04-09T12:00:00-04:00')
+f$source_selection_window <- NULL
 dir <- tempfile();dir.create(dir)
 assembled <- assemble_shipment_state('2025_rev_8',products,origins,'2025-04-09','2025-04-09',
   list(base,f),context,dir)
@@ -78,6 +79,10 @@ indexes <- lapply(seq_along(dirs),function(i)assemble_shipment_state('2025_rev_8
   as.Date('2025-04-09')+i-1,as.Date('2025-04-09')+i-1,list(base),context,dirs[i]))
 merged <- merge_shipment_bundle_indexes(indexes,dirs)
 stopifnot(length(merged$bundles)==2L,merged$valid_until=='2025-04-11T04:00:00Z')
+outside <- resolve_shipment_duties(dirs[2],products[1],'2010','2025-04-10T12:00:00-04:00',
+  list(customs_value=100,ieepa_ftz_entry=FALSE))
+stopifnot(outside$status=='unresolved_source',outside$known_subtotal==0,
+  !length(outside$applied_rules),is.null(outside$complete_total))
 indexes[[2]]$dataset_version <- 'different-source-version'
 stopifnot(inherits(try(merge_shipment_bundle_indexes(indexes,dirs),silent=TRUE),'try-error'))
 lapply(dirs,unlink,recursive=TRUE)

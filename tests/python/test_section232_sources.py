@@ -95,6 +95,13 @@ class Note16Sources(unittest.TestCase):
         altered['headings'].reverse();altered['lists'].reverse()
         self.assertEqual(compiled,compile_note16(altered,['7318158085']*2,jurisdictions))
 
+    def test_empty_product_match_does_not_register_an_empty_claim(self):
+        jurisdictions=dict(all=['5700'],uk=[],russia=[],non_ntr=[],usmca=[],xi_partner=[])
+        compiled=compile_note16(self.latest,['0106199120'],jurisdictions)
+        self.assertEqual(compiled['rules'],[])
+        self.assertEqual(compiled['claim_definitions'],[])
+        self.assertEqual(compiled['coverage'],[])  # No all232 absence inference.
+
 
 if __name__ == '__main__':
     unittest.main()

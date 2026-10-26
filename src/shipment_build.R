@@ -113,22 +113,43 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
     coverage[[length(coverage)+1L]] <- list(authority='base',status='verified',determination='rules',
       scope=list(hts_exact=as.list(products),countries=as.list(origins)),rule_ids=as.list(sort(rule_ids)),source_ids=as.list(ids))
   }
+  selection <- shipment_source_selection_window(revision,root)
   list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('shipment_base_',revision),sources=sources,
+    supported_from=selection$from,supported_until=selection$until,source_selection_window=selection,
     source_artifacts=artifacts,rules=rules,fact_definitions=facts,claim_definitions=list(),relations=list(),coverage=coverage,
     base_source_map=source_rows,source_inventory=list(products=as.list(sort(names(records))),
       product_count=length(records),source_sha256=x$source$sha256,extractor_sha256=x$extractor_sha256),
     compiler_dependencies=list(shipment_build=digest::digest(file=file.path(root,'src/shipment_build.R'),algo='sha256'),
       expression_parser=digest::digest(file=file.path(root,'src/shipment_duty_expression.R'),algo='sha256'),
       gn3_parser=x$gn3$parser_sha256,country_resolver=digest::digest(file=file.path(root,'src/helpers.R'),algo='sha256'),
-      country_mapping=digest::digest(file=file.path(root,'resources/census_codes.csv'),algo='sha256')),
+      country_mapping=digest::digest(file=file.path(root,'resources/census_codes.csv'),algo='sha256'),
+      source_calendar=digest::digest(file=file.path(root,'config/revision_dates.csv'),algo='sha256'),
+      build_contract=digest::digest(file=file.path(root,'resources/shipment_rules/build_contract.json'),algo='sha256')),
     limitations=list('Unclaimed ordinary base treatment only. Preferences/Chapter98 and FTZ histories must be evaluated across all matched rules; no other-authority coverage is attested.'))
 }
 
 # Fixed production inventory. Fragment presence, a positive rate, or a successful
 # source export cannot remove an authority from this completeness requirement.
-SHIPMENT_BUILD_AUTHORITIES <- c('base','section_201','section_232','section_301',
-  'ieepa_fentanyl','ieepa_reciprocal','ieepa_other','section_122','section_338','adcvd','other_chapter99',
-  'trade_intelligence_evidence')
+SHIPMENT_BUILD_SPEC <- jsonlite::fromJSON(here::here('resources/shipment_rules/build_contract.json'),simplifyVector=FALSE)
+if(!identical(SHIPMENT_BUILD_SPEC$contract_version,'sail.shipment-build/v1'))stop('Unsupported shipment build specification')
+SHIPMENT_BUILD_AUTHORITIES <- unlist(SHIPMENT_BUILD_SPEC$coverage_authorities,use.names=FALSE)
+
+shipment_source_selection_window <- function(revision,root=here::here()) {
+  path <- file.path(root,'config/revision_dates.csv')
+  raw <- read.csv(path,colClasses='character')
+  calendar <- load_revision_dates(path,use_policy_dates=TRUE)
+  i <- match(revision,calendar$revision);j <- match(revision,raw$revision)
+  if(is.na(i)||is.na(j))stop('Missing identified build source interval')
+  from <- .shipment_day_start(calendar$effective_date[i])
+  until <- if(i<nrow(calendar)).shipment_day_start(calendar$effective_date[i+1L]) else SHIPMENT_BUILD_SPEC$audit_until
+  if(.shipment_time(until)>.shipment_time(SHIPMENT_BUILD_SPEC$audit_until))until <- SHIPMENT_BUILD_SPEC$audit_until
+  if(.shipment_time(from)<.shipment_time(SHIPMENT_BUILD_SPEC$audit_from))from <- SHIPMENT_BUILD_SPEC$audit_from
+  if(.shipment_time(from)>=.shipment_time(until))stop('Source interval is outside the audited build scope')
+  list(from=from,until=until,raw_hts_date=raw$effective_date[j],
+    aggregate_policy_date=if(is.na(raw$policy_effective_date[j]))NULL else raw$policy_effective_date[j],
+    role=SHIPMENT_BUILD_SPEC$source_selection_role,calendar_sha256=digest::digest(file=path,algo='sha256'),
+    limitation='This interval selects the build source. Classification validity and statutory effective instants require their own legal reconciliation.')
+}
 
 if(!exists('.shipment_context_hot',inherits=FALSE)).shipment_context_hot <- new.env(parent=emptyenv())
 load_shipment_build_context <- function(root=here::here()) {
@@ -195,23 +216,30 @@ assemble_shipment_state <- function(revision,products,countries,valid_from,valid
     }
   }
   instants <- sort(unique(instants));entries <- list()
+  source_windows <- Filter(function(f)!is.null(f$source_selection_window),fragments)
+  if(length(source_windows)!=1L)stop('One identified source-selection frame is required')
+  source_window <- source_windows[[1]]$source_selection_window
   dir.create(output_dir,recursive=TRUE,showWarnings=FALSE)
   for(i in seq_len(length(instants)-1L)) {
     from <- instants[i];until <- instants[i+1L];selected <- list();questions <- list()
+    source_supported <- from>=.shipment_time(source_window$from)&&until<=.shipment_time(source_window$until)
     for(f in fragments) {
       lower <- max(c(-Inf,vapply(c(f$supported_from,f$legal_horizon$from_),.shipment_time,numeric(1))))
       upper <- min(c(Inf,vapply(c(f$supported_until,f$legal_horizon$until),.shipment_time,numeric(1))))
-      if(from>=lower && until<=upper)selected[[length(selected)+1L]] <- f
-      else questions[[length(questions)+1L]] <- list(fragment_id=f$id,reason='outside_executable_horizon',
+      if(source_supported&&from>=lower && until<=upper)selected[[length(selected)+1L]] <- f
+      else questions[[length(questions)+1L]] <- list(fragment_id=f$id,
+        reason=if(source_supported)'outside_executable_horizon' else 'outside_build_source_interval',
         authorities=as.list(sort(unique(vapply(f$rules,`[[`,character(1),'authority')))),
         supported_from=f$supported_from,supported_until=f$supported_until,legal_horizon=f$legal_horizon,
-        source_ids=lapply(f$sources,`[[`,'id'),question='Reconcile original instruments and amendments before extending this executable fragment.')
+        source_ids=lapply(f$sources,`[[`,'id'),source_selection_window=if(source_supported)NULL else source_window,
+        question=if(source_supported)'Reconcile original instruments and amendments before extending this executable fragment.' else
+          'Choose the identified build source for this entry interval. This source-selection bound does not determine statutory effectiveness or settle classification chronology.')
     }
     b <- list(contract_version='sail.shipment-rules/v1',dataset_version=context$dataset_version,revision=revision,
       evidence_snapshot_id=context$evidence_snapshot_id,valid_from=.shipment_iso(from),valid_until=.shipment_iso(until),
       products=as.list(products),countries=as.list(countries),sources=list(),rules=list(),coverage=list(),
       coverage_requirements=as.list(SHIPMENT_BUILD_AUTHORITIES),fact_definitions=list(),claim_definitions=list(),
-      evidence_dependencies=list(build_inputs=context$input_manifest,evidence_snapshot=context$evidence_pin),
+      evidence_dependencies=list(build_inputs=context$input_manifest,evidence_snapshot=context$evidence_pin,source_selection=source_window),
       unresolved_questions=questions)
     b <- compose_shipment_rules(b,selected)
     # An explicit question is retained alongside every unreviewed inventory.
@@ -230,7 +258,8 @@ assemble_shipment_state <- function(revision,products,countries,valid_from,valid
       sha256=digest::digest(file=file.path(output_dir,filename),algo='sha256'),valid_from=b$valid_from,valid_until=b$valid_until)
   }
   index <- list(contract_version='sail.shipment-bundle-index/v1',revision=revision,dataset_version=context$dataset_version,
-    evidence_snapshot_id=context$evidence_snapshot_id,valid_from=.shipment_iso(start),valid_until=.shipment_iso(end),bundles=entries)
+    evidence_snapshot_id=context$evidence_snapshot_id,source_selection=source_window,
+    valid_from=.shipment_iso(start),valid_until=.shipment_iso(end),bundles=entries)
   jsonlite::write_json(index,file.path(output_dir,'shipment_rules.json'),auto_unbox=TRUE,null='null',digits=NA)
   index
 }

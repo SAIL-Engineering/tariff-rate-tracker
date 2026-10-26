@@ -44,8 +44,8 @@ x16 <- load_shipment_base_source('2025_rev_16')
 f16 <- compile_shipment_base_fragment(x16,c(orphan,valid),'2390')
 b16 <- b;b16$revision <- '2025_rev_16';b16$products <- as.list(c(orphan,valid));b16$countries <- list('2390')
 b16$rules <- list();b16$sources <- list();b16$coverage <- list();b16$fact_definitions <- list()
-day <- read.csv('config/revision_dates.csv',colClasses='character')$effective_date[
-  read.csv('config/revision_dates.csv',colClasses='character')$revision=='2025_rev_16']
+calendar <- load_revision_dates(use_policy_dates=TRUE)
+day <- calendar$effective_date[calendar$revision=='2025_rev_16']
 b16$valid_from <- .shipment_day_start(day);b16$valid_until <- .shipment_day_start(as.Date(day)+1)
 entry <- sub('T00:00:00','T12:00:00',b16$valid_from,fixed=TRUE)
 b16 <- compose_shipment_rules(b16,list(f16))

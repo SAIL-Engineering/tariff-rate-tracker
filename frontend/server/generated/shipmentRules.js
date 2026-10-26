@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: bffdb09be1529ae610320e353cedcaee9e07f3c678c8fb024be6951afc9d9431
+// Source SHA256: 2621a3496ce7322f44a905a38781b8893650b290c1edcb233a5ce99ce9d771e1
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -340,3 +340,5 @@ export function evaluateShipmentBundle(bundle, hts10, country, entryAt, facts = 
         return unavailableShipment('invalid_shipment_rule_bundle', bundle);
     }
 }
+// Bundle indexes and serving preflight use the same strict instants as evaluation.
+export { timestamp as shipmentTimestamp };

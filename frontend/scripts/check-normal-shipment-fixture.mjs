@@ -10,13 +10,15 @@ import { tableFromIPC } from 'apache-arrow';
 import { RELEASE_CONTRACT, SHIPMENT_CONTRACT } from '../server/shipment-store.js';
 import { registerShipmentRoutes } from '../server/shipment-routes.js';
 import { readShipmentWideProjection } from '../server/generated/shipmentWide.js';
+import { readShipmentBundleIndex, shipmentBundles } from '../server/shipment-bundle-index.js';
 
 const { values } = parseArgs({ options: { fixture: { type: 'string' } } });
 if (!values.fixture) throw new Error('Provide the bounded R fixture directory');
 const root = await fs.realpath(values.fixture);
 const cases = JSON.parse(await fs.readFile(path.join(root, 'delivery_cases.json')));
 const dir = path.join(root, cases.revision_dir);
-const index = JSON.parse(await fs.readFile(path.join(dir, 'shipment_rules.json')));
+const checked = await readShipmentBundleIndex(path.join(dir, 'shipment_rules.json'));
+const index = checked.index;
 assert.equal(index.contract_version, 'sail.shipment-bundle-index/v1');
 const quote = x => `'${x.replaceAll("'", "''")}'`;
 const digest = x => crypto.createHash('sha256').update(x).digest('hex');
@@ -35,14 +37,13 @@ const check = (actual, expected) => {
 try {
   await conn.run(`CREATE SCHEMA ${schema}`);
   await conn.run(`CREATE TABLE ${schema}.rule_bundles (valid_from TIMESTAMPTZ,valid_until TIMESTAMPTZ,bundle_json VARCHAR,bundle_sha256 VARCHAR)`);
-  for (const entry of index.bundles) {
-    assert.match(entry.path, /^shipment_bundle_[a-f0-9]{64}\.json$/);
-    const data = await fs.readFile(path.join(dir, entry.path));
+  for await (const entry of shipmentBundles(checked)) {
+    const data = entry.text;
     assert.equal(digest(data), entry.sha256);
-    const bundle = JSON.parse(data);
+    const bundle = entry.bundle;
     assert.equal(bundle.dataset_version, index.dataset_version);
     await conn.run(`INSERT INTO ${schema}.rule_bundles VALUES (?,?,?,?)`,
-      [entry.valid_from, entry.valid_until, data.toString(), entry.sha256]);
+      [entry.valid_from, entry.valid_until, data, entry.sha256]);
   }
   for (const [table, filename] of Object.entries({
     rates: path.join(root, 'rates_fixture.parquet'),

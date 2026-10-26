@@ -252,7 +252,7 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_note16_'+rev,
         semantic_review_sha256=sha(grammar.read_bytes()),
         sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,
-        claim_definitions=[dict(id='USMCA',label='USMCA',rule_ids=claim_ids,source_ids=ids)],
+        claim_definitions=[dict(id='USMCA',label='USMCA',rule_ids=claim_ids,source_ids=ids)] if claim_ids else [],
         unchanged_claims=[dict(id='note16_'+rev+'_section301_claims',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],
             target_rule_ids=unchanged_301,source_ids=ids)] if unchanged_301 else [],
         coverage=[],relations=[],reporting_decisions=decisions,

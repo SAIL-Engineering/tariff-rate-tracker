@@ -39,7 +39,33 @@ compose_shipment_rules <- function(bundle, fragments) {
     }
     unname(out[sort(names(out))])
   }
-  bundle$sources <- merge_by_id(c(bundle$sources, unlist(lapply(fragments, `[[`, 'sources'), recursive = FALSE)), 'source')
+  # One immutable instrument can substantiate several programs at different
+  # locators. Merge those locator citations while keeping byte identity, URL,
+  # verification and every other source property strict. Runtime bundles still
+  # contain one unambiguous source record per ID; no duty rule is merged here.
+  merge_sources <- function(items) {
+    out <- list()
+    for(item in items) {
+      if(is.null(item$id)||!nzchar(item$id))stop('Missing source identifier')
+      old <- out[[item$id]]
+      if(!is.null(old)&&!identical(.shipment_canonical(old),.shipment_canonical(item))) {
+        metadata <- function(s)s[setdiff(names(s),c('citation','citation_locators'))]
+        if(!identical(.shipment_canonical(metadata(old)),.shipment_canonical(metadata(item))))
+          stop('Conflicting source: ',item$id)
+        locators <- function(s) {
+          xs <- if(is.null(s$citation_locators))as.list(s$citation) else s$citation_locators
+          if(!length(xs)||any(!vapply(xs,function(x)is.character(x)&&length(x)==1L&&nzchar(x),logical(1))))
+            stop('Invalid source citation locators: ',s$id)
+          unlist(xs,use.names=FALSE)
+        }
+        refs <- sort(unique(c(locators(old),locators(item))))
+        item$citation_locators <- as.list(refs);item$citation <- paste(refs,collapse='; ')
+      }
+      out[[item$id]] <- item
+    }
+    unname(out[sort(names(out))])
+  }
+  bundle$sources <- merge_sources(c(bundle$sources, unlist(lapply(fragments, `[[`, 'sources'), recursive = FALSE)))
   bundle$rules <- merge_by_id(c(bundle$rules, unlist(lapply(fragments, `[[`, 'rules'), recursive = FALSE)), 'rule')
   # Bind source-derived reporting predicates to action identities. Empty matches
   # do not establish legal absence: the pricing expression separately requires
@@ -213,6 +239,7 @@ compose_shipment_rules <- function(bundle, fragments) {
       stop('Mixed Commerce grant evidence snapshots')
     bundle$evidence_dependencies$section232_grants<-fragment$grant_snapshot
   }
-  bundle$compiler <- list(id = 'sail.shipment-rule-composer/v1', fragments = lapply(fragments, `[[`, 'id'))
+  bundle$compiler <- list(id = 'sail.shipment-rule-composer/v1',
+    fragments = as.list(sort(unique(vapply(fragments,`[[`,character(1),'id')))))
   bundle
 }
