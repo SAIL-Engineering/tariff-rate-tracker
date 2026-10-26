@@ -1,0 +1,41 @@
+{
+  "tracker_base": "09fb2dc14ff6bb2157f7f9c0c951bd3b7008b4ef",
+  "branch": "wjr_dev",
+  "python": {
+    "passed": 394,
+    "command": "/usr/bin/python3 -m pytest -q tests/python",
+    "exit_code": 0
+  },
+  "node": {
+    "passed": 558,
+    "runtime": "22.22.3",
+    "exit_code": 0
+  },
+  "source_only_revisions": 55,
+  "r_reciprocal_cases": 97,
+  "r_constraint_scope_checks": 9,
+  "motherduck": {
+    "mode": "READ_ONLY",
+    "rows": 220,
+    "cases": 4,
+    "checks": 4,
+    "mismatches": 4,
+    "writes": false
+  },
+  "sail": {
+    "base": "a072ade66cbf93d00451a557d332d95e4ea0493a",
+    "change_commit": "e004c8d85",
+    "original_branch_merge": "62e85ee35b564f5fe9951121a5825ee24abcc236",
+    "full_unit_passed": 20714,
+    "full_unit_skipped": 45,
+    "focused_passed": 50,
+    "typecheck_gate": "passed without baseline update",
+    "focused_lint": "passed",
+    "full_lint": "590 errors outside changed source/test files; not passing",
+    "build": "passed locally with placeholder frontend settings"
+  },
+  "timeseries_build_run": false,
+  "production_activated": false,
+  "complete_legal_coverage": false,
+  "ordinary_build_shipment_evaluation": "next required task; emitted fragments alone do not overwrite legacy wide statutory calculations"
+}

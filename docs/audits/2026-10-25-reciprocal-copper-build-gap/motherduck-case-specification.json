@@ -1,0 +1,173 @@
+{
+  "contract_version": "sail.shipment-audit-cases/v1",
+  "sources": [
+    {
+      "path": "resources/legal_evidence/2025-06063/annex.txt",
+      "id": "FR-2025-06063-ANNEX",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/pdf/2025-06063.pdf",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4884253adfe9727eb38adc8a467f5d59f8d867c0fd66aaed186f34a94c326994",
+      "extraction": "pdftotext -layout of original GovInfo PDF; trailing whitespace removed",
+      "original_pdf_sha256": "3a4df0606c889ae072c030c8ca698adb1d373506d2e53881546874efad9fa2ca",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "path": "resources/legal_evidence/2025-06063/notice.txt",
+      "id": "FR-2025-06063",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-07/html/2025-06063.htm",
+      "citation": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "sha256": "4959b45d016c168e72d75b6f7ca10dc00110588447583be3f459eb8b19c5a7b3",
+      "extraction": "gstack browse text of official GovInfo HTML",
+      "locator": "EO 14257 original Annex II and Annex III note 2(v)(iii)",
+      "verification": "primary_source_verified"
+    },
+    {
+      "path": "resources/legal_evidence/2025-06462/notice.txt",
+      "id": "FR-2025-06462",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-04-15/html/2025-06462.htm",
+      "sha256": "609db328197401325d61aa6f7240085b2c32bbf7fcaf00555fde25824c1d2411",
+      "retrieved_at": "2026-10-23",
+      "citation": "Federal Register 2025-06462, EO 14266 sections 2-3",
+      "locator": "Federal Register 2025-06462, EO 14266 sections 2-3",
+      "verification": "primary_source_verified"
+    },
+    {
+      "path": "resources/legal_evidence/2025-09297/notice.txt",
+      "id": "FR-2025-09297",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-05-21/html/2025-09297.htm",
+      "citation": "EO 14298 sections 2-3; China reciprocal suspension",
+      "sha256": "305911455d7a27a639863069af597a4a4b76aa0917f0e04a8df333347b89092b",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text",
+      "locator": "EO 14298 sections 2-3; China reciprocal suspension",
+      "verification": "primary_source_verified"
+    },
+    {
+      "path": "resources/legal_evidence/EO-14316/notice.txt",
+      "id": "EO-14316",
+      "url": "https://www.whitehouse.gov/presidential-actions/2025/07/extending-the-modification-of-the-reciprocal-tariff-rates/",
+      "citation": "Executive Order 14316, July 7, 2025, sections 1-2; reciprocal suspension extension and unchanged China suspension",
+      "sha256": "76fabdd345d856aafa61d6ca9249a7e582aa36ba19aae7cfedcefc5bab829b4b",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse text; presidential action body",
+      "locator": "Executive Order 14316, July 7, 2025, sections 1-2; reciprocal suspension extension and unchanged China suspension",
+      "verification": "primary_source_verified"
+    },
+    {
+      "id": "FR-2025-15010",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-06/html/2025-15010.htm",
+      "citation": "EO 14326 sections 2(a)-(g), 3; Annex I and II, 90 FR 37963-37992",
+      "sha256": "f0b2bf81b5e024599ae4f7276666dc2af711ba2fc9a834a9189f6d3fb1986e6c",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse official GovInfo HTML; original PDF fetched through same browser",
+      "pdf_sha256": "49efd2afd80d54f9144dfdca91246069a72c7d41a87d018a9897ea93eab338f9",
+      "path": "resources/legal_evidence/2025-15010/notice.txt",
+      "verification": "primary_source_verified",
+      "locator": "EO 14326 sections 2(a)-(g), 3; Annex I and II, 90 FR 37963-37992"
+    },
+    {
+      "id": "FR-2025-14893",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-05/html/2025-14893.htm",
+      "citation": "Proclamation 10962 copper: clause 1 and Annex paragraphs 3-4",
+      "sha256": "079b4ba6d20cc0964d5918aa8cf95e539ba3beb6e5c71bb2a12caa7b6b68f0f4",
+      "extraction": "gstack browse text of official GovInfo HTML",
+      "path": "resources/legal_evidence/2025-14893/notice.txt",
+      "verification": "primary_source_verified",
+      "locator": "Proclamation 10962 copper: clause 1 and Annex paragraphs 3-4"
+    },
+    {
+      "id": "CBP-CSMS-65794272",
+      "url": "https://content.govdelivery.com/bulletins/gd/USDHSCBP-3ebf0e0",
+      "citation": "CBP July31 copper guidance; separate content lines, unascertainable/unsupported-value full entered basis, automobile priority and FTZ status",
+      "sha256": "0e95bebf633cc811ec770f9a8aea9831b2b3c6a01249fa247a2ef716b9589108",
+      "retrieved_at": "2026-10-25",
+      "method": "gstack browse official bulletin via CBP IEEPA FAQ source link",
+      "path": "resources/legal_evidence/CSMS-65794272/notice.txt",
+      "verification": "primary_source_verified",
+      "locator": "CBP July31 copper guidance; separate content lines, unascertainable/unsupported-value full entered basis, automobile priority and FTZ status"
+    }
+  ],
+  "cases": [
+    {
+      "id": "august-continuation-4279",
+      "hts10": "0106199120",
+      "country": "4279",
+      "entry_date": "2025-08-02",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, transit, Chapter98, U.S.content or special use. Reciprocal component only; complete stack not certified.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462",
+            "FR-2025-09297",
+            "EO-14316",
+            "FR-2025-15010"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "copper-valuation-required-4279",
+      "hts10": "7411101030",
+      "country": "4279",
+      "entry_date": "2025-08-02",
+      "assumptions": "Actual copper/non-copper values, substantiation status and FTZ history unspecified. A numeric complete shipment total is unsupported. This does not assert a zero copper duty or replace the published50percent content parameter.",
+      "expectations": [
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "source_ids": [
+            "FR-2025-14893",
+            "CBP-CSMS-65794272"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "august-continuation-5700",
+      "hts10": "0106199120",
+      "country": "5700",
+      "entry_date": "2025-08-02",
+      "assumptions": "Ordinary commercial consumption entry; no FTZ, transit, Chapter98, U.S.content or special use. Reciprocal component only; complete stack not certified.",
+      "expectations": [
+        {
+          "field": "rate_ieepa_recip",
+          "value": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462",
+            "FR-2025-09297",
+            "EO-14316",
+            "FR-2025-15010"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    },
+    {
+      "id": "copper-valuation-required-5700",
+      "hts10": "7411101030",
+      "country": "5700",
+      "entry_date": "2025-08-02",
+      "assumptions": "Actual copper/non-copper values, substantiation status and FTZ history unspecified. A numeric complete shipment total is unsupported. This does not assert a zero copper duty or replace the published50percent content parameter.",
+      "expectations": [
+        {
+          "field": "statutory_total_rate",
+          "value": null,
+          "source_ids": [
+            "FR-2025-14893",
+            "CBP-CSMS-65794272"
+          ],
+          "verification": "primary_source_verified"
+        }
+      ]
+    }
+  ]
+}

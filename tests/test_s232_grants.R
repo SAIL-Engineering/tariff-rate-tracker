@@ -41,7 +41,7 @@ add('same HTS but wrong product cannot use a grant',q,0,missing='s232_grant_TEST
 q<-grantfacts();q$s232_grant_TEST_STEEL_used_quantity<-91
 add('partially covered line must be split',q,0,missing=c('s232_grant_TEST_STEEL_entry_quantity','s232_grant_TEST_STEEL_used_quantity'))
 q<-grantfacts();q$s232_grant_TEST_STEEL_used_quantity<-NULL
-add('missing utilization cannot waive duty',q,0,missing=c('s232_grant_TEST_STEEL_entry_quantity','s232_grant_TEST_STEEL_used_quantity'))
+add('missing utilization cannot waive duty',q,0,missing='s232_grant_TEST_STEEL_used_quantity')
 q<-grantfacts();q$s232_grant_TEST_STEEL_utilization_verified<-FALSE
 add('unreconciled utilization cannot waive duty',q,0,missing='s232_grant_TEST_STEEL_utilization_verified')
 q<-grantfacts()

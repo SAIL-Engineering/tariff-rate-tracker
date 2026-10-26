@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: be1e6ff24c9684dfdca62a902bba27a11dfe59e646f624bed02de8ab1c134785
+// Source SHA256: bffdb09be1529ae610320e353cedcaee9e07f3c678c8fb024be6951afc9d9431
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -19,7 +19,9 @@ function validScope(s) {
     if (s == null)
         return true;
     const array = (x, pattern) => x == null || Array.isArray(x) && x.every(v => typeof v === 'string' && pattern.test(v));
-    return typeof s === 'object' && array(s.hts_exact, /^\d{10}$/) && array(s.hts_prefixes, /^\d{2,10}$/)
+    return typeof s === 'object' && !Array.isArray(s)
+        && Object.keys(s).every(k => ['hts_exact', 'hts_prefixes', 'countries', 'from', 'until'].includes(k))
+        && array(s.hts_exact, /^\d{10}$/) && array(s.hts_prefixes, /^(?:\d{2}){1,5}$/)
         && array(s.countries, /^.+$/) && (s.from == null || Number.isFinite(timestamp(s.from)))
         && (s.until == null || Number.isFinite(timestamp(s.until)))
         && (s.from == null || s.until == null || timestamp(s.from) < timestamp(s.until));
@@ -281,9 +283,13 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
             return finish({ ...blank, amount: 0, state: 'applied' });
         for (const constraint of r.input_constraints ?? []) {
             const tested = expr(constraint.test);
+            // A proven contradiction needs correction hints. Missing operands and
+            // unresolved legal sources must not mark already supplied facts missing.
             if (tested.value !== true)
-                return finish({ ...blank, missing: unique([...tested.missing, ...constraint.inputs]),
-                    errors: tested.errors });
+                return finish({ ...blank,
+                    missing: unique([...tested.missing, ...(tested.value === false ? constraint.inputs : [])]),
+                    errors: unique([...tested.errors,
+                        ...(tested.value != null && typeof tested.value !== 'boolean' ? ['non_boolean_constraint'] : [])]) });
         }
         const amount = expr(r.formula);
         if (amount.value != null && (typeof amount.value !== 'number' || amount.value < 0))

@@ -1,0 +1,62 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 65794272 - GUIDANCE: Section 232 Import Duties on Copper and Copper Derivative Products
+U.S. Customs and Border Protection sent this bulletin at 07/31/2025 02:07 PM EDT
+Cargo Systems Messaging Service
+CSMS # 65794272 - GUIDANCE: Section 232 Import Duties on Copper and Copper Derivative Products
+The purpose of this message is to provide guidance on applying the 50 percent Section 232 ad valorem duty on all imports of semi-finished copper products and intensive copper derivative products imposed by the Proclamation issued on July 30, 2025.
+BACKGROUND
+On July 30, 2025, the President issued a Proclamation on Adjusting Imports of Copper into the United States, under Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862), imposing an ad valorem tariff of 50 percent on all imports of semi-finished copper products and intensive copper derivative products, from all countries.
+ENTRY FILING INSTRUCTIONS
+This guidance provides instructions for importers, brokers, and filers on submitting entries to U.S. Customs and Border Protection (CBP) of semi-finished copper products and intensive copper derivative products, from all countries, as provided for in headings 9903.78.01 and 9903.78.02 of the Harmonized Tariff Schedule of the United States (HTSUS), entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern daylight time on August 1, 2025.
+Heading 9903.78.01:50 percent additional ad valorem rate of duty on the copper content of semi-finished copper and intensive copper derivative products
+Heading 9903.78.02:0 percent additional ad valorem rate of duty on:
+the non-copper content of semi-finished copper and intensive copper derivative products; and
+imported goods under the subject HTSUS classifications which contain no copper.
+Reporting Instructions for Applying Duties Based on Copper Content (HTSUS 9903.78.01)
+The 50 percent duty is to be reported based upon the value of the copper content.
+The value of the copper content should be determined in accordance with the principles of the Customs Valuation Agreement, as implemented in 19 U.S.C. 1401a.
+The value of the copper content is the total price paid or payable for that content, which is:
+the total payment made/to be made for the copper content by the buyer to, or for the benefit of, the seller of the copper content.
+Normally, this would be based on the invoice paid by the buyer of the copper content to, or for the benefit of the seller of the copper content.
+For imported articles composed only of copper, the dutiable value of the copper content is the total entered value, and the duty must be reported under the HTSUS 9903.78.01 classification based on the total entered value, on only one entry summary line.
+If the value of the copper content cannot be determined, then report the duty based on the total entered value, on only one entry summary line.
+For articles not composed only of copper, the value of the copper content and the value of the non-copper content should be reported on two entry summary lines.  The first line should represent the non-copper content, and the second line should represent the copper content.  Each line should be reported in accordance with the instructions below.
+Non-copper content, first line:
+Ch. 1-97 HTSUS, this same HTSUS must be reported on both lines.
+The same country of origin must be reported on both lines.
+Total entered value of the article less the value of copper content.
+Report the total quantity of the imported goods.
+Report the 0 percent Section 232 duties based on the value of the non-copper content with HTSUS 9903.78.02.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties.
+Copper content, second line:
+Same Ch. 1-97 HTSUS reported on the first line.
+Same country of origin reported on the first line
+Report 0 quantity for the Ch. 1-97 HTSUS.
+Report the value of the copper content.
+Report the Section 232 duties based on the value of copper content with HTSUS 9903.78.01.
+Report a second quantity (of the copper content) in kilograms with the HTSUS 9903.78.01.
+Report all other applicable duties, such as IEEPA tariffs and antidumping and countervailing duties.
+For all Section 232 duties based on copper content which are based on a value other than the entire value of the good, importers must keep documentation to support the reported values and provide to CBP upon request.  Examples of such documentation include, but are not limited to, the bill of materials for the production of the goods, invoices for the materials used in the production of the goods, and accounting documentation to substantiate the reported values.
+When insufficient documentation is provided to substantiate the reported values, CBP will collect the duties on the copper content based on the entire value of the good.
+Importers who submit underreported declarations may be subject to severe consequences, such as significant monetary penalties, loss of import privileges, and criminal liability, consistent with United States law.
+Duties Applying to the Non-Copper Content
+Per the July 30, 2025 Proclamation, the non-copper content of all subject copper articles shall be subject to any other import duties in effect, including import duties established by Presidential Proclamations, except as specified below.
+Exemption for Goods Subject to Section 232 Duties on Auto Parts
+If an imported good is subject to both the Section 232 duties on automobiles and automobile parts under Proclamation 10908, as amended, and the Section 232 duties on copper and copper derivative products, then the Section 232 duties on copper and copper derivative products are not applicable.
+IEEPA Reciprocal Tariff Exception
+International Emergency Economic Powers Act (IEEPA) Reciprocal tariff exception 9903.01.33 applies to goods subject to Section 232 tariffs including semi-finished copper and intensive copper derivative products provided for in 9903.78.01.
+DRAWBACK
+No drawback shall be available with respect to the duties imposed pursuant to the July 30, 2025 Proclamation.
+FOREIGN TRADE ZONE
+Any product, except those eligible for admission under "domestic status" as defined in 19 CFR 146.43, that is subject to the duty imposed by the July 30, 2025 Proclamation and that is admitted into a U.S. foreign trade zone on or after the effective date of August 1, 2025, must be admitted as "privileged foreign status" as defined in 19 CFR 146.41, and will be subject upon entry for consumption to any ad valorem rates of duty related to the classification under the applicable HTSUS subheading.
+Questions from the importing community concerning ACE entry rejections involving copper goods and their derivative filings should be referred to their CBP Client Representative.
+For reference, a summary of Copper Chapter 99 HTSUS classification list is attached.
+For questions regarding our trade Remedy programs, please visit our cbp.gov webpage at https://www.cbp.gov/trade/programs-administration/trade-remedies or contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+CopperHTSlist073125.docx
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

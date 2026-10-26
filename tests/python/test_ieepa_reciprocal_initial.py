@@ -27,7 +27,7 @@ def test_china_replacements_are_original_operations(h):
 def test_subsequent_portion_amendment_bounds_old_policy(h):
     assert h['metal_portion_from']=='2025-06-04T00:01:00-04:00'
     assert h['uk_aircraft']['from_']=='2025-06-30T00:01:00-04:00'
-    assert h['policy_until']=='2025-08-01T00:01:00-04:00'
+    assert h['policy_until']=='2025-08-07T00:01:00-04:00'
     assert any(s['id']=='FR-2025-10524' for s in h['sources'])
 
 def test_july_extension_and_uk_aircraft_are_original_source_conditions(h):
@@ -40,6 +40,13 @@ def test_july_extension_and_uk_aircraft_are_original_source_conditions(h):
     assert '9903.81.94' in uk['removed_codes']
     assert '9903.01.25' in uk['removed_codes']
     assert h['china_suspension_until']=='2025-08-12T00:01:00-04:00'
+
+def test_july31_continuation_and_copper_portions_have_their_own_instruments(h):
+    assert h['july31_extension']['from_']=='2025-08-01T00:01:00-04:00'
+    assert h['july31_extension']['until']=='2025-08-07T00:01:00-04:00'
+    assert h['copper_portion_from']=='2025-08-01T00:01:00-04:00'
+    assert h['copper_reporting_codes']==['9903.78.01']
+    assert {'FR-2025-15010','FR-2025-14893','FR-2025-14893-ANNEX'} <= {s['id'] for s in h['sources']}
 
 def test_non_china_extension_cannot_carry_china_past_its_own_source_window(monkeypatch):
     import ieepa_reciprocal_initial as m

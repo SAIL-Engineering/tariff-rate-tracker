@@ -190,6 +190,40 @@ def initial_history():
     result['policy_until']=date_at(period[2])
     if result['policy_until']>result['china_suspension_until']:
         raise ValueError('China suspension requires its own later amendment before extending this policy horizon')
+    # EO 14326 continues the old non-China suspension until the new annex takes
+    # effect seven days after signature. That continuation does not postpone
+    # copper's independent August 1 portion amendment.
+    text,source=verified_source('2025-15010');sources.append(source)
+    flat=' '.join(text.split())
+    signed=re.search(r'Executive Order \d+ of (\w+ \d+, \d{4})',flat)
+    section=unique_span(flat,r'Sec\. 2\.',r'Sec\. 3\.')
+    delay=re.search(r'eastern daylight time (\d+) days after the date of this order',section)
+    continuation=re.search(r'\(e\) (.*?)(?=\(f\))',section)
+    if not signed or not delay or not continuation or 'until the effective date of the modifications provided in Annex II' not in continuation[1]:
+        raise ValueError('Unparsed July 31 reciprocal continuation')
+    continued=set()
+    for first,last in re.findall('('+HEADING+r') through ('+HEADING+r')',continuation[1]):
+        if first[:8]!=last[:8] or first>last:raise ValueError('Unreviewed July 31 suspension range')
+        continued.update(first[:8]+f'{n:02}' for n in range(int(first[-2:]),int(last[-2:])+1))
+    if continued!=expected or 'Nothing in this order shall be construed to alter or otherwise affect Executive Order 14298' not in section:
+        raise ValueError('July 31 suspension country/China treatment does not reconcile')
+    replacement=(datetime.fromisoformat(date_at(signed[1]))+timedelta(days=int(delay[1]))).isoformat()
+    result['july31_extension']=dict(from_=result['policy_until'],until=replacement,source_id=source['id'])
+    result['policy_until']=replacement
+    if replacement>result['china_suspension_until']:
+        raise ValueError('China suspension requires its own later amendment before extending this policy horizon')
+    text,source=verified_source('2025-14893');sources.append(source)
+    flat=' '.join(text.split())
+    first=unique_span(flat,r'\(1\) Except as otherwise provided',r'\(2\) The Secretary')
+    result['copper_portion_from']=windows(first)['valid_from']
+    clause=unique_span(flat,r'\(4\) The non-copper content',r'\(5\) If any product')
+    if not result['copper_portion_from'] or not all(s in clause for s in (
+        'shall apply only to the copper content', 'shall be subject to tariffs pursuant to Executive Order 14257')):
+        raise ValueError('Unreviewed original copper reciprocal valuation')
+    copper,source=annex('2025-14893');sources.append(source)
+    heading=re.search(r'Heading ('+HEADING+r') provides the ordinary customs duty treatment of semi-',copper)
+    if not heading:raise ValueError('Original copper reporting heading missing')
+    result['copper_reporting_codes']=[heading[1]]
     return result
 
 

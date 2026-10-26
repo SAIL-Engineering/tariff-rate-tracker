@@ -22,7 +22,7 @@ make<-function(rev,metal=FALSE,extra=NULL,coverage=TRUE) {
  }
  b
 }
-mk<-function(code,amount=0)list(id='synthetic-232',action_id='synthetic-232',authority='section_232',kind='duty',verification='verified',source_ids=list(sid),scope=list(),reporting_codes=list(code),when=list(value=TRUE),formula=list(value=amount))
+mk<-function(code,amount=0)list(id='synthetic-232',action_id='synthetic-232',authority='section_232',kind='duty',verification='verified',source_ids=list(sid),scope=NULL,reporting_codes=list(code),when=list(value=TRUE),formula=list(value=amount))
 bundles<-list(first=make('2025_rev_1'),march=make('2025_rev_4'),may=make('2025_rev_13',TRUE),june=make('2025_rev_14',TRUE),august=make('2025_rev_17'),november=make('2025_rev_28'),missing=make('2025_rev_28',coverage=FALSE),
  zero_auto=make('2025_rev_26',TRUE,mk('9903.94.06')),zero_deal=make('2025_rev_26',TRUE,mk('9903.94.42')),wood=make('2025_rev_26',extra=mk('9903.76.01',25)))
 q<-list(customs_value=100,ieepa_origin_rule_confirmed=TRUE,ieepa_personal_accompanied_baggage=FALSE,

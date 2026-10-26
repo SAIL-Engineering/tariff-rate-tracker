@@ -41,7 +41,7 @@ add('full steel content leaves zero 122',f,50,codes='9903.03.06')
 f<-q;f$steel_content_value<-101
 add('invalid content cannot become negative 122',f,0,missing=c('customs_value','steel_content_value'))
 f<-q;f$steel_content_value<-NULL
-add('missing content blocks both amounts',f,0,missing=c('steel_content_value','customs_value'))
+add('missing content blocks both amounts',f,0,missing='steel_content_value')
 f<-q;f$contains_steel<-FALSE
 add('candidate with no metal does not claim a portion',f,10,hts='8431310040',codes='9903.03.01')
 add('exact statistical exemption needs no procedural facts',list(unrelated_fixture_flag=TRUE),0,hts='8505110070',codes='9903.03.03',missing=character())

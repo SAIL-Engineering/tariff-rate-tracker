@@ -136,15 +136,18 @@ def compile_reciprocal(x, products, jurisdictions):
         if checks:r['input_constraints']=checks
         rules.append(r)
         return r['id']
-    boundary=sorted({start,end}|{t for t in (history['inception'],history['country_from'],history['suspension_from'],history['china_suspension_from'],history['metal_portion_from'],history['transit_until'],history['uk_aircraft']['from_'],history['suspension_extension']['from_'],history['policy_until']) if start<t<end})
+    boundary=sorted({start,end}|{t for t in (history['inception'],history['country_from'],history['suspension_from'],history['china_suspension_from'],history['metal_portion_from'],history['transit_until'],history['uk_aircraft']['from_'],history['suspension_extension']['from_'],history['copper_portion_from'],history['policy_until']) if start<t<end})
     for begin,until in zip(boundary,boundary[1:]):
         if begin<history['inception'] or begin>=history['policy_until']:continue
         portion=begin>=history['metal_portion_from']
         period_basis=basis;period_constraints=list(constraints)
         if portion:
-            triggers={m:reported(june[m]) for m in june}
-            values={m:f(m+'_content_value',m.title()+' content value (USD)','number') for m in june}
-            excluded=op('add',*(op('if',triggers[m],values[m],val(0)) for m in june))
+            active_metals=dict(june)
+            if begin>=history['copper_portion_from']:
+                active_metals['copper']=history['copper_reporting_codes']
+            triggers={m:reported(active_metals[m]) for m in active_metals}
+            values={m:f(m+'_content_value',m.title()+' content value (USD)','number') for m in active_metals}
+            excluded=op('add',*(op('if',triggers[m],values[m],val(0)) for m in active_metals))
             metal_value,metal_constraint=overlap_value(valuation,excluded,cv,f,'reciprocal')
             overlap_us=f('reciprocal_us_content_in_metal_excluded_value',
                 'Qualifying U.S. content included in the metal value excluded from the Chapter 98-adjusted reciprocal basis (USD)','number',
@@ -152,8 +155,8 @@ def compile_reciprocal(x, products, jurisdictions):
             needs_overlap=both(eligible,op('gt',metal_value,val(0)),op('gt',deduction,val(0)))
             shared=op('if',needs_overlap,overlap_us,val(0))
             period_basis=op('add',op('subtract',basis,metal_value),shared)
-            period_constraints += [dict(test=op('lte',excluded,cv),inputs=['steel_content_value','aluminum_content_value','customs_value'],
-                label='Disjoint steel and aluminum content values cannot exceed the article value'),metal_constraint,
+            period_constraints += [dict(test=op('lte',excluded,cv),inputs=[m+'_content_value' for m in active_metals]+['customs_value'],
+                label='Disjoint covered metal content values cannot exceed the article value'),metal_constraint,
                 dict(test=op('if',needs_overlap,both(op('lte',overlap_us,metal_value),op('lte',overlap_us,deduction),
                     op('gte',overlap_us,op('max',val(0),op('subtract',op('add',metal_value,deduction),valuation['basis'])))),val(True)),
                     inputs=[overlap_us['fact'],'reciprocal_us_content_value','customs_value'],label='U.S./metal intersection must fit both excluded portions on the same valuation basis')]
@@ -242,7 +245,11 @@ def compile_reciprocal(x, products, jurisdictions):
                 # Missing 232 coverage prevents an overstated known subtotal.
                 branch(negate({'authority_covered':'section_232'}),formula={'unresolved_source':'reciprocal_section232_inventory_required'})
                 if portion:
-                    emit(scope,op('if',path,either(*triggers.values()),val(False)),history['headings']['section232']['code'],checks=period_constraints)
+                    # The exemption reporting identity is already established
+                    # by the matched Section 232 action. Missing valuation or
+                    # overlap still blocks the charged nonmetal component; it
+                    # must not erase this independently defensible heading.
+                    emit(scope,op('if',path,either(*triggers.values()),val(False)),history['headings']['section232']['code'])
                 # Emit the no-additional-duty content reporting line separately.
                 # It shares all applicable constraints and does not double count.
                 emit(scope,op('if',path,eligible,val(False)),content_heading[1],checks=period_constraints)
@@ -266,7 +273,7 @@ def compile_reciprocal(x, products, jurisdictions):
                 target_authorities=['base','section_201','section_232','section_301','ieepa_fentanyl'],source_ids=ids)] if rids else [],
         legal_horizon=dict(from_=history['inception'],until=history['policy_until']),
         limitations=['No full reciprocal or all-authority coverage attestation.',
-            'Original policy, June 4 metal portions, June 30 UK aircraft relief and July suspension extension only, ending at the August 1 copper/country-policy horizon.',
+            'Original policy, June 4 metal portions, June 30 UK aircraft relief, July suspension extensions and August 1 copper portions, ending at the August 7 country-policy horizon.',
             'FTZ and de minimis instruction histories remain explicit unresolved paths. Transit continuation beyond the compiler horizon is not attested.'])
 
 

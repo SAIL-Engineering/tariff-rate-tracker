@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/ieepa_reciprocal_revision.R');source('src/compile_shipment_rules.R')
-products<-c('0106199120','7318158085','8528520000','7304313000')
+products<-c('0106199120','7318158085','8528520000','7304313000','7411101030')
 sid<-'synthetic-reciprocal-interactions'
 synthetic<-list(id=sid,status='verified',sha256=paste(rep('0',64),collapse=''),url='https://example.invalid/reciprocal-fixture',
   citation='Synthetic complete Section 232 inventory for dependency regression only')
@@ -41,6 +41,12 @@ bundles$july_aircraft<-make('2025_rev_16',mk('9903.81.94',5,products[4]))
 bundles$uk_aircraft_boundary<-make('2025_rev_15',mk('9903.81.94',5,products[4]))
 bundles$july_unlisted<-make('2025_rev_16',mk('9903.81.94',5))
 bundles$august_boundary<-make('2025_rev_17')
+bundles$august_new_revision<-make('2025_rev_18')
+copper<-mk('9903.78.01',15,products[5]);copper$scope$from<-'2025-08-01T00:01:00-04:00'
+bundles$august_copper<-make('2025_rev_17',copper)
+bundles$august_copper_repairs<-make('2025_rev_17',copper,chapter98_metal_fixed=TRUE)
+steel<-mk('9903.81.91',10,products[5]);steel$id<-steel$action_id<-'synthetic-steel'
+bundles$august_mixed<-make('2025_rev_17',list(copper,steel))
 q<-list(customs_value=100,ieepa_ftz_entry=FALSE,ieepa_personal_accompanied_baggage=FALSE,
   ieepa_qualifying_humanitarian_donation=FALSE,ieepa_informational_material=FALSE,ieepa_de_minimis_claimed=FALSE)
 cases<-list()
@@ -75,7 +81,7 @@ add('zero non-auto decision is not an exemption',bundle='nonauto',hts10=products
 add('Russian aluminum decision is covered by original proclamation',bundle='russian_metal',hts10=products[2],subtotal=200,codes='9903.01.33')
 add('missing 232 inventory never adds presumed reciprocal duty',bundle='missing',subtotal=0,error='coverage_dependency_unverified:section_232')
 f<-q;f$claims<-list('RECIPROCAL_US_CONTENT')
-add('content claim needs value',facts=f,subtotal=0,missing=c('reciprocal_us_content_value','customs_value'))
+add('content claim needs value',facts=f,subtotal=0,missing='reciprocal_us_content_value')
 for(u in c(0,19.99,20,40,100)) {
   f$reciprocal_us_content_value<-u
   add(paste('U.S. content threshold',u),facts=f,subtotal=if(u<20)10 else .1*(100-u),
@@ -89,7 +95,7 @@ add('Chapter 98 preference does not waive reciprocal duty',facts=f,subtotal=10,c
 f$chapter98_provision<-'98020040';f$chapter98_repairs_alterations_processing_value<-30
 add('Chapter 98 repairs value',facts=f,subtotal=3,codes='9903.01.25')
 f$claims<-c(f$claims,'RECIPROCAL_US_CONTENT');f$reciprocal_us_content_value<-40
-add('repairs and U.S. content require intersection',facts=f,subtotal=0,missing=c('reciprocal_us_content_in_chapter98_value','reciprocal_us_content_value','customs_value'))
+add('repairs and U.S. content require intersection',facts=f,subtotal=0,missing='reciprocal_us_content_in_chapter98_value')
 f$reciprocal_us_content_in_chapter98_value<-5;add('repair intersection priced once',facts=f,subtotal=2.5)
 f$reciprocal_us_content_in_chapter98_value<-31;add('intersection cannot exceed repairs',facts=f,subtotal=0,missing=c('reciprocal_us_content_in_chapter98_value','reciprocal_us_content_value','customs_value'))
 f$chapter98_provision<-'98020080';f$chapter98_us_products_value<-40;f$reciprocal_us_content_in_chapter98_value<-NULL
@@ -124,7 +130,7 @@ f<-q;f$aluminum_content_value<-20
 add('whole-value Russian aluminum charge does not erase nonmetal exposure',bundle='june_russian',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=208)
 f<-q;f$steel_content_value<-20;f$claims<-list('RECIPROCAL_US_CONTENT');f$reciprocal_us_content_value<-40
 add('U.S. and metal relief requires shared-value reconciliation',bundle='june_metal',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=10,
-    missing=c('reciprocal_us_content_in_metal_excluded_value','reciprocal_us_content_value','customs_value'))
+    missing='reciprocal_us_content_in_metal_excluded_value')
 f$reciprocal_us_content_in_metal_excluded_value<-20
 add('U.S.-origin steel is deducted once',bundle='june_metal',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=16)
 f$reciprocal_us_content_in_metal_excluded_value<-0
@@ -140,7 +146,7 @@ add('combined metal values cannot exceed the article',bundle='june_mixed',hts10=
 f<-q;f$steel_content_value<-80;f$claims<-list('CHAPTER_98');f$chapter98_properly_claimed_and_cbp_agreed<-TRUE
 f$chapter98_provision<-'98020040';f$chapter98_repairs_alterations_processing_value<-30
 add('repairs require metal intersection on their own basis',bundle='june_repairs',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=10,
-    missing=c('reciprocal_chapter98_section232_overlap_value','customs_value'))
+    missing='reciprocal_chapter98_section232_overlap_value')
 f$reciprocal_chapter98_section232_overlap_value<-10
 add('repairs charge excludes only evidenced metal intersection',bundle='june_repairs',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=12)
 f$reciprocal_chapter98_section232_overlap_value<-9
@@ -160,7 +166,33 @@ add('UK aircraft waiver does not need a modeled content value',bundle='july_airc
 f<-q;f$steel_content_value<-20
 add('unlisted UK product does not request aircraft facts',bundle='july_unlisted',country='4120',hts10=products[2],at='2025-07-10T12:00:00-04:00',facts=f,subtotal=13,missing=character())
 add('before next copper amendment retains known baseline',bundle='august_boundary',at='2025-08-01T00:00:59-04:00',subtotal=10,codes='9903.01.25')
-add('next copper amendment cannot inherit earlier policy',bundle='august_boundary',at='2025-08-01T00:01:00-04:00',subtotal=0,codes=character())
+add('continued suspension at copper amendment',bundle='august_boundary',at='2025-08-01T00:01:00-04:00',subtotal=10,codes='9903.01.25')
+add('new revision first minute retains old legal policy',bundle='august_new_revision',at='2025-08-07T00:00:59-04:00',subtotal=10,codes='9903.01.25')
+add('new country headings require separate executable history',bundle='august_new_revision',at='2025-08-07T00:01:00-04:00',subtotal=0,codes=character())
+f<-q;f$copper_content_value<-30
+add('copper nonmetal portion retains reciprocal duty',bundle='august_copper',hts10=products[5],
+  at='2025-08-01T00:01:00-04:00',facts=f,subtotal=22,codes=c('9903.01.25','9903.01.33'))
+add('copper before exact minute retains prior product policy',bundle='august_copper',hts10=products[5],
+  at='2025-08-01T00:00:59-04:00',facts=q,subtotal=0,codes='9903.01.32',missing=character())
+add('copper value is only requested for a matching action',bundle='august_copper',hts10=products[1],
+  at='2025-08-02T12:00:00-04:00',facts=q,subtotal=10,codes='9903.01.25',missing=character())
+add('missing copper value never becomes full article or zero reciprocal',bundle='august_copper',hts10=products[5],
+  at='2025-08-02T12:00:00-04:00',facts=q,subtotal=15,codes='9903.01.33',missing='copper_content_value')
+f<-q;f$copper_content_value<-30;f$steel_content_value<-20
+add('mixed disjoint copper and steel portions',bundle='august_mixed',hts10=products[5],
+  at='2025-08-02T12:00:00-04:00',facts=f,subtotal=30,codes=c('9903.01.25','9903.01.33'))
+f<-q;f$copper_content_value<-30;f$claims<-list('RECIPROCAL_US_CONTENT');f$reciprocal_us_content_value<-40
+f$reciprocal_us_content_in_metal_excluded_value<-20
+add('U.S. and copper value intersection is deducted once',bundle='august_copper',hts10=products[5],
+  at='2025-08-02T12:00:00-04:00',facts=f,subtotal=20,codes=c('9903.01.25','9903.01.33','9903.01.34'))
+f<-q;f$copper_content_value<-30;f$claims<-list('CHAPTER_98');f$chapter98_provision<-'98020050'
+f$chapter98_properly_claimed_and_cbp_agreed<-TRUE;f$chapter98_repairs_alterations_processing_value<-20
+f$reciprocal_chapter98_section232_overlap_value<-5
+add('copper and Chapter98 repair values use their intersection',bundle='august_copper_repairs',hts10=products[5],
+  at='2025-08-02T12:00:00-04:00',facts=f,subtotal=16.5,codes=c('9903.01.25','9903.01.33'))
+f$reciprocal_chapter98_section232_overlap_value<-NULL
+add('repair and copper overlap is required rather than assumed',bundle='august_copper_repairs',hts10=products[5],
+  at='2025-08-02T12:00:00-04:00',facts=f,subtotal=15,codes='9903.01.33',missing='reciprocal_chapter98_section232_overlap_value')
 f<-q;f$claims<-list('RECIPROCAL_TRANSIT');f$reciprocal_transit_final_vessel<-TRUE;f$reciprocal_transit_loading_window<-'before_initial_cutoff'
 add('transit before final cutoff',bundle='boundary',at='2025-06-16T00:00:59-04:00',facts=f,subtotal=0,codes='9903.01.28')
 add('transit at final cutoff',bundle='boundary',at='2025-06-16T00:01:00-04:00',facts=f,subtotal=10,codes='9903.01.25')

@@ -13,7 +13,7 @@ make<-function(rule=NULL,coverage=TRUE) {
  if(coverage) bb$coverage<-list(list(authority='section_232',status='verified',source_ids=list(sid),determination=if(is.null(rule)) 'no_applicable_rules' else 'rules',rule_ids=if(is.null(rule)) list() else list(rule$id)))
  compose_shipment_rules(bb,list(fragment))
 }
-mk<-function(id,code,amount=25) list(id=id,action_id=id,authority='section_232',kind='duty',verification='verified',source_ids=list(sid),reporting_codes=list(code),formula=list(value=amount),scope=list(),when=list(value=TRUE))
+mk<-function(id,code,amount=25) list(id=id,action_id=id,authority='section_232',kind='duty',verification='verified',source_ids=list(sid),reporting_codes=list(code),formula=list(value=amount),scope=NULL,when=list(value=TRUE))
 bundles<-list(none=make(),uncovered=make(coverage=FALSE),metal=make(mk('metal','9903.82.04')),zero=make(mk('zero','9903.82.02',0)),unknown=make(mk('unknown','9903.99.99',0)),vehicle=make(mk('vehicle','9903.94.02')),parts=make(mk('parts','9903.94.06',0)))
 q<-list(customs_value=100,s338_personal_baggage=FALSE,s338_chapter98_claimed=FALSE,s338_ftz_entry=FALSE)
 cases<-list()

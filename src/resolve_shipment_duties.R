@@ -52,10 +52,11 @@
 
 .shipment_valid_scope <- function(scope) {
   if (is.null(scope)) return(TRUE)
-  if (!is.list(scope)) return(FALSE)
+  if (!is.list(scope) || is.null(names(scope)) || anyDuplicated(names(scope)) ||
+      any(!names(scope) %in% c('hts_exact','hts_prefixes','countries','from','until'))) return(FALSE)
   array <- function(x, pattern) is.null(x) ||
     all(vapply(x, function(v) is.character(v) && length(v) == 1 && grepl(pattern, v), logical(1)))
-  array(scope$hts_exact, '^[0-9]{10}$') && array(scope$hts_prefixes, '^[0-9]{2,10}$') &&
+  array(scope$hts_exact, '^[0-9]{10}$') && array(scope$hts_prefixes, '^([0-9]{2}){1,5}$') &&
     array(scope$countries, '^.+$') &&
     (is.null(scope$from) || !is.na(.shipment_time(scope$from))) &&
     (is.null(scope$until) || !is.na(.shipment_time(scope$until))) &&
@@ -277,8 +278,13 @@
     for (constraint in r$input_constraints) {
       tested <- expr(constraint$test)
       if (!identical(tested$value, TRUE)) {
-        blank$missing <- sort(unique(c(tested$missing, unlist(constraint$inputs))))
+        # Correction hints apply to a proven contradiction. An unevaluated
+        # constraint requests only its missing operands; a source question is
+        # not evidence that all shipment inputs are missing or incorrect.
+        blank$missing <- sort(unique(c(tested$missing,
+          if(identical(tested$value,FALSE)) unlist(constraint$inputs) else character())))
         blank$errors <- tested$errors
+        if(!is.null(tested$value) && !is.logical(tested$value)) blank$errors <- c(blank$errors,'non_boolean_constraint')
         return(finish(blank))
       }
     }

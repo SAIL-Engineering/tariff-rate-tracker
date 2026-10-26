@@ -1,0 +1,9 @@
+{
+  "id": "WH-2025-07-31-Annex-II",
+  "url": "https://www.whitehouse.gov/wp-content/uploads/2025/07/2025ReciprocalTariffs_7.31.eo_.pdf",
+  "citation": "EO14326 original Annex II, country-specific reporting headings and revised note2(v)",
+  "sha256": "a5474764e9582020d26e576a0c73b6aa014f4031d098c38c9e92908ddfaf6b26",
+  "text_sha256": "2fa599aa9ffa19d87001a9a65a94e5f09a4a6001e550878a0761a63f26c2f6d8",
+  "retrieved_at": "2026-10-25",
+  "method": "gstack browse same-origin PDF; pdftotext -layout"
+}

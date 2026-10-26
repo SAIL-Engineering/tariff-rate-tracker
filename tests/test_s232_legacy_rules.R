@@ -35,7 +35,7 @@ add('UK privileged FTZ distinct heading','7318158085','4120',q,5,'9903.81.99')
 q<-steel;q$claims<-list('USMCA')
 add('USMCA alone does not erase metal liability','7318158085','1220',q,10,'9903.81.90')
 q<-steel;q$steel_content_value<-NULL
-add('missing content cannot become zero','7318158085','5700',q,0,missing=c('steel_content_value','customs_value'))
+add('missing content cannot become zero','7318158085','5700',q,0,missing='steel_content_value')
 q<-steel;q$steel_content_value<-101
 add('content above article value requests correction','7318158085','5700',q,0,missing=c('steel_content_value','customs_value'))
 add('excluded primary steel chapter product stays out','7202115000','5700',list(customs_value=100),0)
