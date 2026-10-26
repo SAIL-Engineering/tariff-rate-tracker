@@ -118,7 +118,8 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
     url=paste0('https://hts.usitc.gov/reststop/file?release=',build_release_name(x$revision),'&filename=General%20Note%203'),
     citation=paste('Derived jurisdiction mapping; General Note 3 and versioned Census/EU country resolution:',p)))
   jurisdictions<-list(all=as.list(sort(unique(read.csv(file.path(root,'resources/census_codes.csv'),colClasses='character')$Code))),non_ntr=as.list(sort(unique(unlist(excluded)))),
-    actions=actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),sources=evidence)
+    actions=actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),
+    UnitedKingdom=as.list(resolve_country_name('United Kingdom')),sources=evidence)
   jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions),paths[2],auto_unbox=TRUE,null='null',digits=NA)
   status<-system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_rules.py')),shQuote(paths[2]),shQuote(paths[3])))
   if(status!=0L) stop('Reciprocal executable compilation failed')

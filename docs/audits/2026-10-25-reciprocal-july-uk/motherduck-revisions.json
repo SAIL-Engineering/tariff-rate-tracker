@@ -1,0 +1,561 @@
+{
+  "query": {
+    "sql": "SELECT revision, min(valid_from)::VARCHAR valid_from, max(valid_from)::VARCHAR valid_from_max,\n      min(valid_until)::VARCHAR valid_until_min, max(valid_until)::VARCHAR valid_until,\n      count(*)::DOUBLE row_count, count(DISTINCT hts10)::DOUBLE products, count(DISTINCT country)::DOUBLE origins\n      FROM \"duty_calculator\".main.rates WHERE valid_from <= CAST(? AS DATE) AND valid_until >= CAST(? AS DATE) GROUP BY revision,valid_from,valid_until ORDER BY min(valid_from),revision",
+    "params": [
+      "2026-10-22",
+      "2025-01-01"
+    ]
+  },
+  "rows": [
+    {
+      "revision": "2025_basic",
+      "valid_from": "2025-01-01",
+      "valid_from_max": "2025-01-01",
+      "valid_until_min": "2025-02-03",
+      "valid_until": "2025-02-03",
+      "row_count": 4848960,
+      "products": 20204,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_1",
+      "valid_from": "2025-02-04",
+      "valid_from_max": "2025-02-04",
+      "valid_until_min": "2025-02-04",
+      "valid_until": "2025-02-04",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_2",
+      "valid_from": "2025-02-05",
+      "valid_from_max": "2025-02-05",
+      "valid_until_min": "2025-03-03",
+      "valid_until": "2025-03-03",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_3",
+      "valid_from": "2025-03-04",
+      "valid_from_max": "2025-03-04",
+      "valid_until_min": "2025-03-06",
+      "valid_until": "2025-03-06",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_4",
+      "valid_from": "2025-03-07",
+      "valid_from_max": "2025-03-07",
+      "valid_until_min": "2025-03-13",
+      "valid_until": "2025-03-13",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_5",
+      "valid_from": "2025-03-14",
+      "valid_from_max": "2025-03-14",
+      "valid_until_min": "2025-04-02",
+      "valid_until": "2025-04-02",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_6",
+      "valid_from": "2025-04-03",
+      "valid_from_max": "2025-04-03",
+      "valid_until_min": "2025-04-04",
+      "valid_until": "2025-04-04",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_7",
+      "valid_from": "2025-04-05",
+      "valid_from_max": "2025-04-05",
+      "valid_until_min": "2025-04-08",
+      "valid_until": "2025-04-08",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_8",
+      "valid_from": "2025-04-09",
+      "valid_from_max": "2025-04-09",
+      "valid_until_min": "2025-04-09",
+      "valid_until": "2025-04-09",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_9",
+      "valid_from": "2025-04-10",
+      "valid_from_max": "2025-04-10",
+      "valid_until_min": "2025-04-14",
+      "valid_until": "2025-04-14",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_10",
+      "valid_from": "2025-04-15",
+      "valid_from_max": "2025-04-15",
+      "valid_until_min": "2025-05-02",
+      "valid_until": "2025-05-02",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_11",
+      "valid_from": "2025-05-03",
+      "valid_from_max": "2025-05-03",
+      "valid_until_min": "2025-05-13",
+      "valid_until": "2025-05-13",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_12",
+      "valid_from": "2025-05-14",
+      "valid_from_max": "2025-05-14",
+      "valid_until_min": "2025-05-15",
+      "valid_until": "2025-05-15",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_13",
+      "valid_from": "2025-05-16",
+      "valid_from_max": "2025-05-16",
+      "valid_until_min": "2025-06-03",
+      "valid_until": "2025-06-03",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_14",
+      "valid_from": "2025-06-04",
+      "valid_from_max": "2025-06-04",
+      "valid_until_min": "2025-06-22",
+      "valid_until": "2025-06-22",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_15",
+      "valid_from": "2025-06-23",
+      "valid_from_max": "2025-06-23",
+      "valid_until_min": "2025-06-30",
+      "valid_until": "2025-06-30",
+      "row_count": 4849440,
+      "products": 20206,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_16",
+      "valid_from": "2025-07-01",
+      "valid_from_max": "2025-07-01",
+      "valid_until_min": "2025-07-31",
+      "valid_until": "2025-07-31",
+      "row_count": 4858080,
+      "products": 20242,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_17",
+      "valid_from": "2025-08-01",
+      "valid_from_max": "2025-08-01",
+      "valid_until_min": "2025-08-06",
+      "valid_until": "2025-08-06",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_18",
+      "valid_from": "2025-08-07",
+      "valid_from_max": "2025-08-07",
+      "valid_until_min": "2025-08-17",
+      "valid_until": "2025-08-17",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_19",
+      "valid_from": "2025-08-18",
+      "valid_from_max": "2025-08-18",
+      "valid_until_min": "2025-08-26",
+      "valid_until": "2025-08-26",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_20",
+      "valid_from": "2025-08-27",
+      "valid_from_max": "2025-08-27",
+      "valid_until_min": "2025-09-01",
+      "valid_until": "2025-09-01",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_21",
+      "valid_from": "2025-09-02",
+      "valid_from_max": "2025-09-02",
+      "valid_until_min": "2025-09-07",
+      "valid_until": "2025-09-07",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_22",
+      "valid_from": "2025-09-08",
+      "valid_from_max": "2025-09-08",
+      "valid_until_min": "2025-09-15",
+      "valid_until": "2025-09-15",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_23",
+      "valid_from": "2025-09-16",
+      "valid_from_max": "2025-09-16",
+      "valid_until_min": "2025-09-24",
+      "valid_until": "2025-09-24",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_24",
+      "valid_from": "2025-09-25",
+      "valid_from_max": "2025-09-25",
+      "valid_until_min": "2025-10-13",
+      "valid_until": "2025-10-13",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_25",
+      "valid_from": "2025-10-14",
+      "valid_from_max": "2025-10-14",
+      "valid_until_min": "2025-10-31",
+      "valid_until": "2025-10-31",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_26",
+      "valid_from": "2025-11-01",
+      "valid_from_max": "2025-11-01",
+      "valid_until_min": "2025-11-08",
+      "valid_until": "2025-11-08",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_27",
+      "valid_from": "2025-11-09",
+      "valid_from_max": "2025-11-09",
+      "valid_until_min": "2025-11-09",
+      "valid_until": "2025-11-09",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_28",
+      "valid_from": "2025-11-10",
+      "valid_from_max": "2025-11-10",
+      "valid_until_min": "2025-11-12",
+      "valid_until": "2025-11-12",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_29",
+      "valid_from": "2025-11-13",
+      "valid_from_max": "2025-11-13",
+      "valid_until_min": "2025-11-20",
+      "valid_until": "2025-11-20",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_30",
+      "valid_from": "2025-11-21",
+      "valid_from_max": "2025-11-21",
+      "valid_until_min": "2025-11-29",
+      "valid_until": "2025-11-29",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_31",
+      "valid_from": "2025-11-30",
+      "valid_from_max": "2025-11-30",
+      "valid_until_min": "2025-12-04",
+      "valid_until": "2025-12-04",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2025_rev_32",
+      "valid_from": "2025-12-05",
+      "valid_from_max": "2025-12-05",
+      "valid_until_min": "2025-12-31",
+      "valid_until": "2025-12-31",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2026_basic",
+      "valid_from": "2026-01-01",
+      "valid_from_max": "2026-01-01",
+      "valid_until_min": "2026-01-14",
+      "valid_until": "2026-01-14",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_1",
+      "valid_from": "2026-01-15",
+      "valid_from_max": "2026-01-15",
+      "valid_until_min": "2026-01-31",
+      "valid_until": "2026-01-31",
+      "row_count": 4857840,
+      "products": 20241,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_2",
+      "valid_from": "2026-02-01",
+      "valid_from_max": "2026-02-01",
+      "valid_until_min": "2026-02-06",
+      "valid_until": "2026-02-06",
+      "row_count": 4878720,
+      "products": 20328,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_3",
+      "valid_from": "2026-02-07",
+      "valid_from_max": "2026-02-07",
+      "valid_until_min": "2026-02-23",
+      "valid_until": "2026-02-23",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_4",
+      "valid_from": "2026-02-24",
+      "valid_from_max": "2026-02-24",
+      "valid_until_min": "2026-04-05",
+      "valid_until": "2026-04-05",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_5",
+      "valid_from": "2026-04-06",
+      "valid_from_max": "2026-04-06",
+      "valid_until_min": "2026-04-22",
+      "valid_until": "2026-04-22",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_6",
+      "valid_from": "2026-04-23",
+      "valid_from_max": "2026-04-23",
+      "valid_until_min": "2026-04-28",
+      "valid_until": "2026-04-28",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_7",
+      "valid_from": "2026-04-29",
+      "valid_from_max": "2026-04-29",
+      "valid_until_min": "2026-04-30",
+      "valid_until": "2026-04-30",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_9",
+      "valid_from": "2026-05-01",
+      "valid_from_max": "2026-05-01",
+      "valid_until_min": "2026-05-21",
+      "valid_until": "2026-05-21",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_8",
+      "valid_from": "2026-05-22",
+      "valid_from_max": "2026-05-22",
+      "valid_until_min": "2026-06-07",
+      "valid_until": "2026-06-07",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_10",
+      "valid_from": "2026-06-08",
+      "valid_from_max": "2026-06-08",
+      "valid_until_min": "2026-06-30",
+      "valid_until": "2026-06-30",
+      "row_count": 4878960,
+      "products": 20329,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_11",
+      "valid_from": "2026-07-01",
+      "valid_from_max": "2026-07-01",
+      "valid_until_min": "2026-07-20",
+      "valid_until": "2026-07-20",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_12",
+      "valid_from": "2026-07-21",
+      "valid_from_max": "2026-07-21",
+      "valid_until_min": "2026-07-23",
+      "valid_until": "2026-07-23",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_13",
+      "valid_from": "2026-07-24",
+      "valid_from_max": "2026-07-24",
+      "valid_until_min": "2026-07-30",
+      "valid_until": "2026-07-30",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_14",
+      "valid_from": "2026-07-31",
+      "valid_from_max": "2026-07-31",
+      "valid_until_min": "2026-08-02",
+      "valid_until": "2026-08-02",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_15",
+      "valid_from": "2026-08-03",
+      "valid_from_max": "2026-08-03",
+      "valid_until_min": "2026-08-13",
+      "valid_until": "2026-08-13",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_16",
+      "valid_from": "2026-08-14",
+      "valid_from_max": "2026-08-14",
+      "valid_until_min": "2026-08-23",
+      "valid_until": "2026-08-23",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_17",
+      "valid_from": "2026-08-24",
+      "valid_from_max": "2026-08-24",
+      "valid_until_min": "2026-09-01",
+      "valid_until": "2026-09-01",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_18",
+      "valid_from": "2026-09-02",
+      "valid_from_max": "2026-09-02",
+      "valid_until_min": "2026-09-14",
+      "valid_until": "2026-09-14",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_from_max": "2026-09-15",
+      "valid_until_min": "2026-12-31",
+      "valid_until": "2026-12-31",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_20",
+      "valid_from": "2026-09-29",
+      "valid_from_max": "2026-09-29",
+      "valid_until_min": "2026-12-31",
+      "valid_until": "2026-12-31",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    },
+    {
+      "revision": "2026_rev_21",
+      "valid_from": "2026-10-09",
+      "valid_from_max": "2026-10-09",
+      "valid_until_min": "2026-12-31",
+      "valid_until": "2026-12-31",
+      "row_count": 4901280,
+      "products": 20422,
+      "origins": 240
+    }
+  ]
+}

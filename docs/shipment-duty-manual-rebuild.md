@@ -93,8 +93,9 @@ The normal normalized emitter now also writes
 `ieepa_reciprocal_initial_rules.json` for every configured 2025/2026 revision.
 This source-derived fragment implements the original April 5, April 9 and April
 10 actions, the May 14 China suspension, the corrected June 16 transit deadline,
-and the June 4 metal-portion interaction. Its legal horizon ends **exclusively at
-June 30, 2025, 00:01 Eastern**, when the next UK sector amendment begins. Empty
+the June 4 metal-portion interaction, June 30 UK aircraft relief and July 9
+suspension extension. Its legal horizon ends **exclusively at
+August 1, 2025, 00:01 Eastern**, before the next copper/country-policy interval. Empty
 rules outside that horizon mean unsupported coverage, never zero liability.
 
 Compose this fragment together with the same revision's other reviewed authority

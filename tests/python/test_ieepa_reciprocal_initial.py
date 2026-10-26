@@ -26,8 +26,30 @@ def test_china_replacements_are_original_operations(h):
 
 def test_subsequent_portion_amendment_bounds_old_policy(h):
     assert h['metal_portion_from']=='2025-06-04T00:01:00-04:00'
-    assert h['policy_until']=='2025-06-30T00:01:00-04:00'
+    assert h['uk_aircraft']['from_']=='2025-06-30T00:01:00-04:00'
+    assert h['policy_until']=='2025-08-01T00:01:00-04:00'
     assert any(s['id']=='FR-2025-10524' for s in h['sources'])
+
+def test_july_extension_and_uk_aircraft_are_original_source_conditions(h):
+    assert h['suspension_extension']['from_']=='2025-07-09T00:01:00-04:00'
+    assert h['suspension_extension']['until']=='2025-08-01T00:01:00-04:00'
+    uk=h['uk_aircraft']
+    assert uk['reporting_code']=='9903.96.01'
+    assert '73043130' in uk['products']
+    assert len(uk['products'])==565
+    assert '9903.81.94' in uk['removed_codes']
+    assert '9903.01.25' in uk['removed_codes']
+    assert h['china_suspension_until']=='2025-08-12T00:01:00-04:00'
+
+def test_non_china_extension_cannot_carry_china_past_its_own_source_window(monkeypatch):
+    import ieepa_reciprocal_initial as m
+    actual=m.verified_source
+    def changed(doc):
+        text,source=actual(doc)
+        if doc=='EO-14316':text=text.replace('August 1, 2025','November 1, 2025')
+        return text,source
+    monkeypatch.setattr(m,'verified_source',changed)
+    with pytest.raises(ValueError,match='China suspension'):m.initial_history()
 
 def test_named_zero_metal_and_actual_auto_heading_inventory(h):
     assert '9903.81.92' in h['section232']['vii']

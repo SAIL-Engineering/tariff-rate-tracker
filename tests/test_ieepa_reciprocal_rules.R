@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/ieepa_reciprocal_revision.R');source('src/compile_shipment_rules.R')
-products<-c('0106199120','7318158085','8528520000')
+products<-c('0106199120','7318158085','8528520000','7304313000')
 sid<-'synthetic-reciprocal-interactions'
 synthetic<-list(id=sid,status='verified',sha256=paste(rep('0',64),collapse=''),url='https://example.invalid/reciprocal-fixture',
   citation='Synthetic complete Section 232 inventory for dependency regression only')
@@ -10,7 +10,7 @@ make<-function(rev,metal=NULL,coverage=TRUE,extra=list(),chapter98_metal_fixed=F
   f<-fragments[[rev]]
   b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
   b$revision<-rev;b$dataset_version<-'reciprocal-regression-not-production';b$products<-as.list(products)
-  b$countries<-as.list(c('1220','2010','5700','5820','5660','6021','4279','4621','4622','2390','5790'))
+  b$countries<-as.list(c('1220','2010','5700','5820','5660','6021','4279','4120','4621','4622','2390','5790'))
   b$rules<-if(is.null(metal)) list() else if(!is.null(metal$id)) list(metal) else metal
   b$fact_definitions<-list();b$claim_definitions<-list();b$sources<-c(b$sources,list(synthetic))
   # This fixture assumes an independently resolved metal amount after the
@@ -25,8 +25,8 @@ make<-function(rev,metal=NULL,coverage=TRUE,extra=list(),chapter98_metal_fixed=F
     determination=if(!length(metal_ids)) 'no_applicable_rules' else 'rules',rule_ids=as.list(metal_ids)))
   b
 }
-mk<-function(code,amount=0)list(id='synthetic-232',action_id='synthetic-232',authority='section_232',kind='duty',verification='verified',
-  source_ids=list(sid),scope=list(hts_exact=list('7318158085')),reporting_codes=list(code),when=list(value=TRUE),formula=list(value=amount))
+mk<-function(code,amount=0,product=products[2])list(id='synthetic-232',action_id='synthetic-232',authority='section_232',kind='duty',verification='verified',
+  source_ids=list(sid),scope=list(hts_exact=as.list(product)),reporting_codes=list(code),when=list(value=TRUE),formula=list(value=amount))
 bundles<-list(initial=make('2025_rev_7'),country=make('2025_rev_8'),suspension=make('2025_rev_9'),may=make('2025_rev_12'),
   late=make('2025_rev_13'),boundary=make('2025_rev_14'),zero_metal=make('2025_rev_7',mk('9903.81.92')),charged_metal=make('2025_rev_7',mk('9903.81.91',5)),
   nonauto=make('2025_rev_7',mk('9903.94.06')),auto=make('2025_rev_7',mk('9903.94.01',25)),missing=make('2025_rev_7',coverage=FALSE),
@@ -36,6 +36,11 @@ bundles<-list(initial=make('2025_rev_7'),country=make('2025_rev_8'),suspension=m
 bundles$june_repairs<-make('2025_rev_14',mk('9903.81.91',10),chapter98_metal_fixed=TRUE)
 aluminum<-mk('9903.85.08',5);aluminum$id<-aluminum$action_id<-'synthetic-aluminum'
 bundles$june_mixed<-make('2025_rev_14',list(mk('9903.81.91',10),aluminum))
+bundles$july<-make('2025_rev_16')
+bundles$july_aircraft<-make('2025_rev_16',mk('9903.81.94',5,products[4]))
+bundles$uk_aircraft_boundary<-make('2025_rev_15',mk('9903.81.94',5,products[4]))
+bundles$july_unlisted<-make('2025_rev_16',mk('9903.81.94',5))
+bundles$august_boundary<-make('2025_rev_17')
 q<-list(customs_value=100,ieepa_ftz_entry=FALSE,ieepa_personal_accompanied_baggage=FALSE,
   ieepa_qualifying_humanitarian_donation=FALSE,ieepa_informational_material=FALSE,ieepa_de_minimis_claimed=FALSE)
 cases<-list()
@@ -141,7 +146,21 @@ add('repairs charge excludes only evidenced metal intersection',bundle='june_rep
 f$reciprocal_chapter98_section232_overlap_value<-9
 add('impossible disjoint repair and metal values remain unresolved',bundle='june_repairs',hts10=products[2],at='2025-06-05T12:00:00-04:00',facts=f,subtotal=10,
     missing=c('reciprocal_chapter98_section232_overlap_value','customs_value'))
-add('next sector amendment cannot inherit earlier decision',bundle='end',at='2025-06-30T00:01:00-04:00',subtotal=0,codes=character())
+add('non-UK ordinary rate continues through UK sector amendment',bundle='end',at='2025-06-30T00:01:00-04:00',subtotal=10,codes='9903.01.25')
+add('July 9 suspension extension preserves EU baseline',bundle='july',country='4279',at='2025-07-09T00:01:00-04:00',subtotal=10,codes='9903.01.25')
+add('China separate suspension remains unchanged in July',bundle='july',country='5700',at='2025-07-20T12:00:00-04:00',subtotal=10,codes='9903.01.25')
+f<-q;f$steel_content_value<-20;f$uk_civil_aircraft_gn6<-FALSE
+add('UK non-aircraft retains metal and reciprocal portions',bundle='july_aircraft',country='4120',hts10=products[4],at='2025-07-10T12:00:00-04:00',facts=f,subtotal=13)
+f$uk_civil_aircraft_gn6<-TRUE
+add('UK qualifying aircraft removes named metal and reciprocal actions',bundle='july_aircraft',country='4120',hts10=products[4],at='2025-07-10T12:00:00-04:00',facts=f,subtotal=0,codes='9903.96.01')
+add('UK aircraft before exact amendment instant retains duties',bundle='uk_aircraft_boundary',country='4120',hts10=products[4],at='2025-06-30T00:00:59-04:00',facts=f,subtotal=13)
+add('UK aircraft at exact amendment instant receives relief',bundle='uk_aircraft_boundary',country='4120',hts10=products[4],at='2025-06-30T00:01:00-04:00',facts=f,subtotal=0,codes='9903.96.01')
+f<-list(ieepa_ftz_entry=FALSE,uk_civil_aircraft_gn6=TRUE)
+add('UK aircraft waiver does not need a modeled content value',bundle='july_aircraft',country='4120',hts10=products[4],at='2025-07-10T12:00:00-04:00',facts=f,subtotal=0,codes='9903.96.01',missing=character())
+f<-q;f$steel_content_value<-20
+add('unlisted UK product does not request aircraft facts',bundle='july_unlisted',country='4120',hts10=products[2],at='2025-07-10T12:00:00-04:00',facts=f,subtotal=13,missing=character())
+add('before next copper amendment retains known baseline',bundle='august_boundary',at='2025-08-01T00:00:59-04:00',subtotal=10,codes='9903.01.25')
+add('next copper amendment cannot inherit earlier policy',bundle='august_boundary',at='2025-08-01T00:01:00-04:00',subtotal=0,codes=character())
 f<-q;f$claims<-list('RECIPROCAL_TRANSIT');f$reciprocal_transit_final_vessel<-TRUE;f$reciprocal_transit_loading_window<-'before_initial_cutoff'
 add('transit before final cutoff',bundle='boundary',at='2025-06-16T00:00:59-04:00',facts=f,subtotal=0,codes='9903.01.28')
 add('transit at final cutoff',bundle='boundary',at='2025-06-16T00:01:00-04:00',facts=f,subtotal=10,codes='9903.01.25')
@@ -160,6 +179,17 @@ add('real steel, emergency, reciprocal and Section 301 compose independently',bu
 f$claims<-list('RECIPROCAL_US_CONTENT');f$reciprocal_us_content_value<-40
 add('reciprocal content claim does not reduce other authorities',bundle='cross',hts10=products[2],country='5700',
   at='2025-05-20T12:00:00-04:00',facts=f,subtotal=70,codes='9903.01.33')
+bundles$july_cross<-make('2025_rev_16',extra=list(
+  compile_s232_legacy_fragment(load_s232_legacy_source('2025_rev_16'),products)))
+f<-c(q,list(contains_steel=TRUE,steel_content_value=20,steel_processed_from_us_metal=FALSE,
+  privileged_ftz_before_20250312=FALSE,privileged_ftz_before_20250604=FALSE,uk_civil_aircraft_gn6=FALSE))
+add('actual UK metal and reciprocal rules price non-aircraft portions',bundle='july_cross',hts10=products[4],country='4120',
+  at='2025-07-10T12:00:00-04:00',facts=f,subtotal=13,codes=c('9903.01.25','9903.01.33'))
+f$uk_civil_aircraft_gn6<-TRUE
+add('actual UK aircraft waiver reevaluates the statutory metal action',bundle='july_cross',hts10=products[4],country='4120',
+  at='2025-07-10T12:00:00-04:00',facts=f,subtotal=0,codes='9903.96.01')
+add('UK aircraft relief does not extend to French metal articles',bundle='july_cross',hts10=products[4],country='4279',
+  at='2025-07-10T12:00:00-04:00',facts=f,subtotal=18,codes=c('9903.01.25','9903.01.33'))
 # Source/rule ordering and duplicate products cannot change an outcome.
 b<-bundles$country;b$rules<-rev(b$rules);b$sources<-rev(b$sources)
 stopifnot(identical(evaluate_shipment_bundle(b,products[1],'5700','2025-04-09T12:00:00-04:00',q)$known_subtotal,84))

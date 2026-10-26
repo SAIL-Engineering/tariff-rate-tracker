@@ -265,8 +265,9 @@ The matching source chronology is pinned in the rule bundle's
 evidence fragment for composition; this is not a reciprocal coverage attestation.
 
 The additional `ieepa_reciprocal_initial_rules.json` fragment supplies original
-reciprocal country/claim decisions from April 5 through June 30, 2025 (exclusive,
-00:01 Eastern), including the June 4 metal-value amendment. It uses the existing
+reciprocal country/claim decisions from April 5 through August 1, 2025 (exclusive,
+00:01 Eastern), including the June 4 metal-value amendment, June 30 UK aircraft
+relief and July 9 suspension extension. It uses the existing
 rule DSL and does not change release v7 or result v1. Its revision support window
 is not a legal-coverage declaration: `legal_horizon` and each rule's exact scope
 bound the implemented decisions; `coverage` remains empty. Later policy requires
@@ -282,6 +283,14 @@ Section 232 charge, deduct U.S. content twice, or substitute modeled shares.
 FTZ and de minimis paths remain explicitly unresolved in this fragment. These
 limits survive bundle composition and serving; they cannot be cured by a numeric
 aggregate column or by setting an unsupported authority's coverage to verified.
+
+UK aircraft relief preserves the original note 35 product enumeration and General
+Note 6 predicate. It removes only the additional duties named by the original
+annex, including the specified metal actions. The reporting heading's printed
+blank date is resolved by the annex's independent operative introduction. A
+non-China suspension extension cannot carry China beyond its separate source
+window. Neither the August boundary nor an empty later fragment establishes zero
+liability under the subsequent copper/country policy.
 
 Preflight reconstructs the complete exact-product inventory from that pin and
 compares every column before loading. Missing rows, extra rows, widened scope,

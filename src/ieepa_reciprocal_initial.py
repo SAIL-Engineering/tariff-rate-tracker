@@ -2,12 +2,14 @@
 
 Extract the operative Annex III table, not the rate retained on a suspended
 heading. Country-name resolution is shared with the R ingestion pipeline.
-The UK framework starts the next sector-policy horizon; it is not an expiration
-of reciprocal duty. Later decisions require the amended sector/country policy.
+The UK aircraft framework and July suspension extension retain their own entry
+instants. The next copper/country-policy horizon is not an expiration of duty.
 """
 from __future__ import annotations
 import argparse, json, re
 from pathlib import Path
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from ieepa_reciprocal_history import annex, clean_fr
 from ieepa_fentanyl_sources import verified_source, windows, ROOT
 from section301_sources import sha, unique_span
@@ -115,6 +117,10 @@ def initial_history():
     if not at or 'additional ad valorem rate of duty of 10 percent' not in china or not re.search(r'heading 9903\.01\.63 and subdivision .*? hereby suspended',china):
         raise ValueError('Unparsed China suspension')
     result['china_suspension_from']=at
+    duration=re.search(r'for an initial period of (\d+) days',china)
+    if not duration:raise ValueError('Unparsed China suspension duration')
+    result['china_suspension_until']=(datetime.fromisoformat(at).astimezone(ZoneInfo('America/New_York'))+
+        timedelta(days=int(duration[1]))).isoformat()
     result['amendments']=amendments
     prior,source=verified_source('CSMS-64680374');sources.append(source)
     updated,source=verified_source('CSMS-65201773');sources.append(source)
@@ -154,7 +160,36 @@ def initial_history():
     next_policy=unique_span(text,r'^C\. Effective',r'^\[FR Doc\.')
     at=re.search(r'on or after 12:01 a\.m\.\s+eastern time on (\w+ \d+, \d{4})',next_policy)
     if not at or '9903.96.01' not in next_policy:raise ValueError('Missing subsequent UK sector boundary')
-    result['policy_until']=date_at(at[1])
+    aircraft=' '.join(re.sub(r'\[\[Page\s+\d+\]\]','',clean_fr(
+        unique_span(next_policy,r'^``\(a\) As provided',r'^b\. U\.S\. note'))).split())
+    target=re.search(r'As provided in heading ('+HEADING+r'), the additional duties imposed by heading (.*?) shall not apply',aircraft)
+    if not target or not all(s in aircraft for s in ('of the United Kingdom','criteria of General Note 6','regardless of whether','subcolumn:')):
+        raise ValueError('Unreviewed UK civil-aircraft eligibility clause')
+    table=aircraft.split('subcolumn:',1)[1]
+    products=re.findall(r'\d{4}\.\d{2}\.\d{2}',table)
+    if not products or re.sub(r'\d{4}\.\d{2}\.\d{2}|[ ,;.]','',table):
+        raise ValueError('Uncompiled UK aircraft product table')
+    result['uk_aircraft']=dict(from_=date_at(at[1]),reporting_code=target[1],
+        removed_codes=re.findall(HEADING,target[2]),products=sorted({p.replace('.','') for p in products}),
+        source_id=source['id'],source_clause_sha256=sha(aircraft.encode()),condition_text=aircraft[:aircraft.index('subcolumn:')])
+    if result['baseline_code'] not in result['uk_aircraft']['removed_codes']:
+        raise ValueError('UK aircraft reciprocal action not reconciled')
+    text,source=verified_source('EO-14316');sources.append(source)
+    flat=' '.join(text.split())
+    extension=unique_span(flat,r'Sec\. 2\.',r'Sec\. 3\.')
+    period=re.search(r'on or after 12:01 a\.m\. eastern daylight time on (\w+ \d+, \d{4}).*?until 12:01 a\.m\. eastern daylight time on (\w+ \d+, \d{4})',extension)
+    ranges=re.findall('('+HEADING+r') through ('+HEADING+r')',extension)
+    suspended=set()
+    for first,last in ranges:
+        if first[:8]!=last[:8] or first>last:raise ValueError('Unreviewed suspension heading range')
+        suspended.update(first[:8]+f'{n:02}' for n in range(int(first[-2:]),int(last[-2:])+1))
+    expected={a['code'] for a in result['actions']} - {result['amendments'][0]['code']}
+    if not period or suspended!=expected or date_at(period[1])!=result['suspension_until'] or 'remains in effect and is unaltered by this order' not in flat:
+        raise ValueError('Unreconciled original reciprocal suspension extension')
+    result['suspension_extension']=dict(from_=date_at(period[1]),until=date_at(period[2]),source_id=source['id'])
+    result['policy_until']=date_at(period[2])
+    if result['policy_until']>result['china_suspension_until']:
+        raise ValueError('China suspension requires its own later amendment before extending this policy horizon')
     return result
 
 

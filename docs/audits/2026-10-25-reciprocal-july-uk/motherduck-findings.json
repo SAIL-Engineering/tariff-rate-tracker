@@ -1,0 +1,124 @@
+{
+  "interval_issues": [
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_20"
+      ],
+      "from": "2026-09-29",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_19",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    },
+    {
+      "kind": "overlapping_revision_intervals",
+      "revisions": [
+        "2026_rev_20",
+        "2026_rev_21"
+      ],
+      "from": "2026-10-09",
+      "through": "2026-12-31"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "france-july-extension",
+      "hts10": "0106199120",
+      "country": "4279",
+      "entry_date": "2025-07-10",
+      "matched_revisions": [
+        "2025_rev_16"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2025_rev_16",
+          "field": "rate_ieepa_recip",
+          "actual": 0,
+          "expected": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462",
+            "FR-2025-09297",
+            "EO-14316"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "china-separate-july-suspension",
+      "hts10": "0106199120",
+      "country": "5700",
+      "entry_date": "2025-07-20",
+      "matched_revisions": [
+        "2025_rev_16"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2025_rev_16",
+          "field": "rate_ieepa_recip",
+          "actual": 0,
+          "expected": 0.1,
+          "source_ids": [
+            "FR-2025-06063",
+            "FR-2025-06063-ANNEX",
+            "FR-2025-06462",
+            "FR-2025-09297",
+            "EO-14316"
+          ],
+          "status": "mismatch"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    },
+    {
+      "case_id": "uk-tube-ordinary-metal-parameter",
+      "hts10": "7304313000",
+      "country": "4120",
+      "entry_date": "2025-07-10",
+      "matched_revisions": [
+        "2025_rev_16"
+      ],
+      "lookup_status": "rows_found",
+      "checks": [
+        {
+          "revision": "2025_rev_16",
+          "field": "statutory_rate_232",
+          "actual": 0.25,
+          "expected": 0.25,
+          "source_ids": [
+            "FR-2025-10524",
+            "USITC-2025_rev_16-notes",
+            "USITC-2025_rev_16-headings"
+          ],
+          "status": "match"
+        },
+        {
+          "revision": "2025_rev_16",
+          "field": "ch99_code_232",
+          "actual": "9903.81.94",
+          "expected": "9903.81.94",
+          "source_ids": [
+            "FR-2025-10524",
+            "USITC-2025_rev_16-notes",
+            "USITC-2025_rev_16-headings"
+          ],
+          "status": "match"
+        }
+      ],
+      "legal_stack_status": "not_certified_by_component_checks"
+    }
+  ]
+}
