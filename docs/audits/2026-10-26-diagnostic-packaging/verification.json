@@ -1,0 +1,30 @@
+{
+  "base_commit": "af861f1a",
+  "branch": "wjr_dev",
+  "source_commit": "a653c4aa7b9b4cbab9854dc00351b6a3ab4746ba",
+  "source_contract": "sail.shipment-diagnostic-source/v2",
+  "snapshot": "/tmp/wjr-shipment-source-a653c4aa7b9b-v2",
+  "source_archive_sha256": "3ee81b7da7778cee5da9f446b84c4652fcfdfa02efedf76c2cc9fa1e89d58632",
+  "archived_files": 1877,
+  "archived_audit_files": 1032,
+  "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+  "targeted_python": {
+    "exit_code": 0,
+    "passed": 7
+  },
+  "full_python": {
+    "exit_code": 0,
+    "passed": 436
+  },
+  "source_compiler_preflight": {
+    "exit_code": 0,
+    "revisions": [
+      "2025_rev_11",
+      "2026_rev_19"
+    ]
+  },
+  "frozen_reuse_after_compilation_exit_code": 0,
+  "revision_or_timeseries_build_executed_by_codex": false,
+  "production_writes": false,
+  "legal_coverage_complete": false
+}

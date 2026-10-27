@@ -1,0 +1,52 @@
+{
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "3b661ad909dddf1fa13837a3aaf70b13e557954216a0bda2044598fbb5cc5fa4"
+    },
+    {
+      "path": "frozen-source-manifest.json.gz",
+      "sha256": "d247085f80881e1ee32e108cdb4132370c574371213d45593a9a3bd19f72a85e"
+    },
+    {
+      "path": "original-failed-build.log.gz",
+      "sha256": "0b257fa02887f82e803d9f6d2ad5aff4bb515df039c1ee45a16f1901b020101d"
+    },
+    {
+      "path": "prepare.log.gz",
+      "sha256": "15168be7992a05983441d99364fcac37a31c28423e63ad7659c0f5c3c9542cb0"
+    },
+    {
+      "path": "python.log.gz",
+      "sha256": "0f29efdc53f3502fb804fc8dd90985a7d38c041171d0ee7bebbb91e8b867decd"
+    },
+    {
+      "path": "regression-green.log.gz",
+      "sha256": "d674883cd51a9dbc83170baef1167c3a90673e5a1ec1bcd9f2d9e98ff82a435c"
+    },
+    {
+      "path": "regression-red.log.gz",
+      "sha256": "6f72b350fcaba597f713b729bf76ca00bdaa203fec1dd13aed9cdd7b58b3e49b"
+    },
+    {
+      "path": "reuse-after-source-compilation.log.gz",
+      "sha256": "9a8488dfeddd84b6f6937b473c6f7dd710cd727e82c1c00d4ef72df7aa42779f"
+    },
+    {
+      "path": "source-compiler-preflight.R",
+      "sha256": "e9794f73115593c212a337e97535db0f4e88103fbb806852ba61da7fee64ca20"
+    },
+    {
+      "path": "source-compiler-preflight.json",
+      "sha256": "b1c5e24cdd5f3b2efb50e048ae09b97f1e07b00bc85ad661bc3e0b78aac22cac"
+    },
+    {
+      "path": "source-compiler-preflight.log.gz",
+      "sha256": "989bf234da155e43c7f19ec2599e51adfae88ee269b032776b33f7a8a1c3b937"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "8198fc73dbc64f12604324123d6fd4253fa779e334fb116a8f4f495a68b52e98"
+    }
+  ]
+}

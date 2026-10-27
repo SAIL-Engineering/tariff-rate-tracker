@@ -2,6 +2,7 @@
 """One-command WJR diagnostic; --prepare-only never runs a revision build."""
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -12,10 +13,45 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ['src','config','resources','scripts','tests','tariff-rate-tracker.Rproj',
+           'docs/audits',
            'frontend/server','frontend/migrations','frontend/scripts',
            'frontend/package.json','frontend/package-lock.json',
            'data/countries-ISO-3166-1-alpha-2.json','data/hts_change_record']
 PRIMARY = ['data/hts_archives','data/us_notes','data/cache/general_notes']
+SOURCE_CONTRACT = 'sail.shipment-diagnostic-source/v2'
+
+
+def committed_files(root,commit):
+    """Git's complete selected inventory, including runtime evidence in audits."""
+    raw=subprocess.check_output(['git','-C',str(root),'ls-tree','-r','-z',commit,'--',*ARCHIVE])
+    entries=[]
+    for record in raw.split(b'\0'):
+        if not record:continue
+        info,name=record.split(b'\t',1);mode,kind,oid=info.decode().split()
+        if kind!='blob' or mode not in ('100644','100755'):
+            raise RuntimeError('Unsupported frozen source entry: '+name.decode())
+        entries.append(dict(path=name.decode(),mode=mode,git_oid=oid))
+    if not entries:raise RuntimeError('Committed diagnostic source inventory is empty')
+    return entries
+
+
+def verify_archive(snapshot,entries,object_format):
+    """Check bytes against Git, not only the narrower shipment dataset context."""
+    checked=[]
+    for entry in entries:
+        path=snapshot/entry['path']
+        if not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(snapshot.resolve()):
+            raise RuntimeError('Missing or non-independent frozen committed source: '+entry['path'])
+        blob=hashlib.new(object_format);digest=hashlib.sha256()
+        blob.update(('blob '+str(path.stat().st_size)+'\0').encode())
+        with path.open('rb') as stream:
+            for block in iter(lambda:stream.read(1024*1024),b''):
+                blob.update(block);digest.update(block)
+        if blob.hexdigest()!=entry['git_oid']:
+            raise RuntimeError('Frozen committed source mismatch: '+entry['path'])
+        checked.append(dict(entry,sha256=digest.hexdigest()))
+    identity=hashlib.sha256(json.dumps(checked,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    return dict(object_format=object_format,files=checked,sha256=identity)
 
 
 def context(snapshot):
@@ -30,9 +66,14 @@ def context(snapshot):
 
 def prepare(root,ref,snapshot):
     commit=subprocess.check_output(['git','-C',str(root),'rev-parse',ref+'^{commit}'],text=True).strip()
+    entries=committed_files(root,commit)
+    object_format=subprocess.check_output(['git','-C',str(root),'rev-parse','--show-object-format'],text=True).strip()
     if snapshot.exists():
         manifest=json.loads((snapshot/'diagnostic-source.json').read_text())
-        if manifest['source_commit']!=commit or context(snapshot)['dataset_version']!=manifest['dataset_version']:
+        if manifest.get('contract_version')!=SOURCE_CONTRACT:
+            raise RuntimeError('Frozen snapshot uses older incomplete packaging; choose a new snapshot directory')
+        archive=verify_archive(snapshot,entries,object_format)
+        if manifest['source_commit']!=commit or archive!=manifest['source_archive'] or context(snapshot)['dataset_version']!=manifest['dataset_version']:
             raise RuntimeError('Frozen snapshot changed or belongs to another commit; use a new snapshot directory')
         return manifest
     if snapshot==root or snapshot.is_relative_to(root):
@@ -49,6 +90,7 @@ def prepare(root,ref,snapshot):
         with archive.open('wb') as stream:
             subprocess.run(['git','-C',str(root),'archive',commit,*ARCHIVE],stdout=stream,check=True)
         subprocess.run(['tar','-xf',str(archive),'-C',str(stage)],check=True);archive.unlink()
+        source_archive=verify_archive(stage,entries,object_format)
         for name in PRIMARY:
             print('Freezing '+name+' independently of the working checkout...',flush=True)
             target=stage/name;target.parent.mkdir(parents=True,exist_ok=True)
@@ -57,12 +99,13 @@ def prepare(root,ref,snapshot):
             subprocess.run(['cp','-a','--reflink=auto',str(root/name),str(target)],check=True)
         (stage/'.here').touch()
         (stage/'frontend/node_modules').symlink_to(modules,target_is_directory=True)
-        stage.rename(snapshot)
-        frozen=context(snapshot)
-        manifest=dict(source_commit=commit,dataset_version=frozen['dataset_version'],
+        frozen=context(stage)
+        manifest=dict(contract_version=SOURCE_CONTRACT,source_commit=commit,dataset_version=frozen['dataset_version'],
+                      source_archive=source_archive,
                       snapshot=str(snapshot),primary_inputs_independently_copied=PRIMARY,
                       dependencies='Existing installed Node/R dependencies; no credentials copied')
-        (snapshot/'diagnostic-source.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        (stage/'diagnostic-source.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        stage.rename(snapshot)
         return manifest
     finally:
         if stage.exists():shutil.rmtree(stage)
@@ -91,7 +134,8 @@ def main():
     parser.add_argument('--prepare-only',action='store_true')
     args=parser.parse_args();root=args.source_root.resolve()
     commit=subprocess.check_output(['git','-C',str(root),'rev-parse',args.ref+'^{commit}'],text=True).strip()
-    snapshot=(args.snapshot_root or Path('/tmp')/('wjr-shipment-source-'+commit[:12])).resolve()
+    # Preserve old failed copies/logs; never silently reuse the incomplete v1 package.
+    snapshot=(args.snapshot_root or Path('/tmp')/('wjr-shipment-source-'+commit[:12]+'-v2')).resolve()
     frozen=prepare(root,commit,snapshot)
     print('Frozen source ready: '+str(snapshot),flush=True)
     if args.prepare_only:return
@@ -109,7 +153,8 @@ def main():
     run_logged(['Rscript','scripts/build_shipment_diagnostics.R','--revisions='+revisions,
         '--countries=2010,1220,5700,4120,4280,5880,5800,5830','--cohort','--output='+str(output)],
         snapshot,logs/'build.log',env)
-    if context(snapshot)['dataset_version']!=frozen['dataset_version']:
+    archive=verify_archive(snapshot,committed_files(root,commit),frozen['source_archive']['object_format'])
+    if archive!=frozen['source_archive'] or context(snapshot)['dataset_version']!=frozen['dataset_version']:
         raise RuntimeError('Frozen source changed during the build; do not qualify this output')
     print('2/3 Pinning the emitted artifacts.',flush=True)
     run_logged(['node','frontend/scripts/create-shipment-release-manifest.mjs',
@@ -122,7 +167,9 @@ def main():
         '--database',str(output/'diagnostic.duckdb')],snapshot,report,env)
     prepared=json.loads(report.read_text())
     if prepared['status']!='prepared_diagnostic':raise RuntimeError('Unexpected diagnostic release status')
-    summary=dict(source_commit=commit,output=str(output),logs=str(logs),preparation=prepared,
+    summary=dict(source_commit=commit,source_archive_sha256=frozen['source_archive']['sha256'],
+                 frozen_source_manifest=str(snapshot/'diagnostic-source.json'),
+                 output=str(output),logs=str(logs),preparation=prepared,
                  legal_coverage_complete=False,production_qualified=False)
     (output/'diagnostic-result.json').write_text(json.dumps(summary,indent=2)+'\n')
     print('Diagnostic checks passed. Result: '+str(output/'diagnostic-result.json'),flush=True)

@@ -15,10 +15,17 @@ the main checkout cannot affect the run. It prints the result path when finished
 and preserves full logs. It neither publishes nor connects to MotherDuck.
 Installed Node/R dependencies are reused; no credentials are copied.
 
-The a653c4aa source copy has already been prepared and its dataset identity
-verified against the original checkpoint. No diagnostic revision build was run
-by Codex. The commands below are for expanded investigations after this first
-run; they are not required to start.
+The corrected launcher uses `/tmp/wjr-shipment-source-a653c4aa7b9b-v2`. It includes
+the committed audit evidence used by the legal compilers and checks every
+archived file against the selected Git commit before starting R and after the
+build. The original unversioned copy omitted that evidence; its dataset-only
+check did not detect the omission. It and the failed run logs are preserved.
+Rerun the same command above; no cleanup or extra commands are needed.
+
+This still pins the original a653c4aa diagnostic baseline, independently of later
+legal-rule commits. Codex prepares and checks the sources; WJR executes the
+revision build. The commands below are for expanded investigations after this
+first run; they are not required to start.
 
 ## Expanded investigation
 

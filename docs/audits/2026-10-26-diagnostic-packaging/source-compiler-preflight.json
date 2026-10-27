@@ -1,0 +1,18 @@
+{
+  "qualification": "source_compilation_only",
+  "revision_build_executed": false,
+  "revisions": {
+    "2025_rev_11": {
+      "products": 10,
+      "rules": 886,
+      "source_artifacts": 16,
+      "coverage_complete": false
+    },
+    "2026_rev_19": {
+      "products": 10,
+      "rules": 886,
+      "source_artifacts": 16,
+      "coverage_complete": false
+    }
+  }
+}
