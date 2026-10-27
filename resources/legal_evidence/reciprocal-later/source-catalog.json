@@ -1,0 +1,38 @@
+{
+  "contract_version": "sail.reciprocal-source-catalog/v1",
+  "suspension_documents": [
+    "2025-15554",
+    "2025-19826"
+  ],
+  "partner_documents": [
+    {
+      "document": "2025-18660",
+      "begin": "^\\s*B\\. Effective",
+      "end": "^\\[FR Doc\\.",
+      "note_begin": "``\\(xvi\\) As provided",
+      "note_end": "^\\s*5\\. U\\.S\\. note"
+    },
+    {
+      "document": "2025-17908",
+      "begin": "^\\s*b\\. Effective",
+      "end": "^\\s*c\\. Effective",
+      "note_begin": "``As provided in heading",
+      "note_end": "^\\s*2\\. U\\.S\\. note"
+    },
+    {
+      "document": "2025-21940",
+      "begin": "^B\\. Effective",
+      "end": null,
+      "note_begin": "\\(b\\) As provided in heading",
+      "note_end": "^8\\. "
+    },
+    {
+      "document": "2025-23316",
+      "begin": "^Annex II",
+      "end": null,
+      "note_begin": "\\(b\\) As provided in headings",
+      "note_end": "^6\\. "
+    }
+  ],
+  "role": "Original instrument locators only. Duty parameters, origins, scope and operative dates are extracted from the source. Unknown legal condition grammar fails closed."
+}

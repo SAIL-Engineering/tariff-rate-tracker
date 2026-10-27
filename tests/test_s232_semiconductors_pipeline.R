@@ -37,13 +37,17 @@ stopifnot(index$contract_version=='sail.shipment-bundle-index/v1',length(index$b
 facts <- list(customs_value=100,ieepa_ftz_entry=FALSE,contains_logic_integrated_circuit=TRUE,
   all_logic_ic_specs_reviewed=TRUE,total_processing_performance=15000,dram_bandwidth_gb_s=4700,semiconductor_end_use='none')
 cases <- list()
-for(hts in c('8471500150','8471410150')) {
+for(use in c('none','us_civil_industrial'))for(hts in c('8471500150','8471410150')) {
+  facts$semiconductor_end_use <- use
   at <- '2026-09-15T12:00:00-04:00'
   result <- resolve_shipment_duties(revision_dir,hts,'4280',at,facts)
   stopifnot(result$status=='unresolved_source',is.null(result$complete_total))
   semi <- Filter(function(c)c$action_id=='s232_semiconductors_20260115'&&c$status=='applied',result$components)
-  if(hts=='8471500150')stopifnot(length(semi)==1L,semi[[1]]$amount==25,'9903.79.01' %in% unlist(semi[[1]]$reporting_codes))
+  if(hts=='8471500150')stopifnot(length(semi)==1L,
+    semi[[1]]$amount==if(use=='none')25 else 0,
+    (if(use=='none')'9903.79.01' else '9903.79.08') %in% unlist(semi[[1]]$reporting_codes))
   else stopifnot(length(semi)==0L)
+  stopifnot(!length(Filter(function(c)c$authority=='ieepa_reciprocal'&&c$status=='applied',result$components)))
   cases[[length(cases)+1L]] <- list(hts10=hts,country='4280',entry_at=at,facts=facts,expected=shipment_result_for_json(result))
 }
 if(nzchar(export)) {

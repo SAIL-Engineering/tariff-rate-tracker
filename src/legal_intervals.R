@@ -8,8 +8,12 @@ legal_event_days <- function(value) {
     if(!is.list(x)) return()
     for(name in names(x)) {
       child <- x[[name]]
-      if(name %in% c('valid_from','valid_until','from','from_','until','effective_from','effective_at','effective_date',
-                    'policy_effective_date','activation_date','patented_pharma_exempt_date')) {
+      # Shared rule-window fields, including nested transit/claim deadlines.
+      # Publication/retrieval dates are evidence metadata, not legal events.
+      legal_window <- name %in% c('inception','from','from_','until','effective_at','effective_date',
+                    'collection_ended_at','policy_effective_date','activation_date','patented_pharma_exempt_date') ||
+        grepl('(_from|_until)$',name)
+      if(legal_window) {
         if(length(child)==1L && !is.list(child) && !is.na(child)) {
           day <- substr(as.character(child),1,10)
           if(grepl('^[0-9]{4}-[0-9]{2}-[0-9]{2}$',day)) dates <<- c(dates,day)
@@ -24,6 +28,22 @@ legal_event_days <- function(value) {
   }
   visit(value)
   sort(unique(as.Date(dates)))
+}
+
+# Use the same original-action extractor as executable compilation. Product
+# exemption history alone cannot reveal country continuations, partner claims,
+# sector interactions or transit deadlines between HTS source snapshots.
+load_reciprocal_legal_events <- function(root=here::here()) {
+  path <- tempfile(fileext='.json');on.exit(unlink(path),add=TRUE)
+  status <- system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_initial.py')),shQuote(path)))
+  if(status!=0L)stop('Reciprocal legal-event extraction failed; cannot tile revision history')
+  history <- jsonlite::fromJSON(path,simplifyVector=FALSE)
+  if(is.null(history$inception)||is.null(history$collection_ended_at)||!length(history$sources))
+    stop('Incomplete reciprocal legal-event inventory')
+  if(!all(vapply(history$sources,function(s)file.exists(s$path) &&
+      identical(s$sha256,digest::digest(file=s$path,algo='sha256')),logical(1))))
+    stop('Reciprocal legal-event source/hash mismatch')
+  history
 }
 
 revision_legal_segments <- function(revision,revision_dates,policy_params,source_events=list()) {
@@ -191,6 +211,7 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
     source_events$section301 <- load_s301_revision_source(revision_id,download=FALSE)
     if(!exists('load_reciprocal_scope',mode='function')) source(here::here('src/ieepa_reciprocal_revision.R'))
     source_events$reciprocal_scope <- load_reciprocal_scope(revision_id)$history
+    source_events$reciprocal_policy <- load_reciprocal_legal_events()
     if(!exists('load_s232_legacy_source',mode='function')) source(here::here('src/section232_legacy.R'))
     source_events$section232_legacy <- load_s232_legacy_source(revision_id)
   }

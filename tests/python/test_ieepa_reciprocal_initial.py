@@ -39,7 +39,8 @@ def test_july_extension_and_uk_aircraft_are_original_source_conditions(h):
     assert len(uk['products'])==565
     assert '9903.81.94' in uk['removed_codes']
     assert '9903.01.25' in uk['removed_codes']
-    assert h['china_suspension_until']=='2025-08-12T00:01:00-04:00'
+    assert h['china_suspension_initial_until']=='2025-08-12T00:01:00-04:00'
+    assert h['china_suspension_until']=='2026-11-10T00:01:00-05:00'
 
 def test_july31_continuation_and_copper_portions_have_their_own_instruments(h):
     assert h['july31_extension']['from_']=='2025-08-01T00:01:00-04:00'

@@ -1,0 +1,16 @@
+{
+  "id": "FR-2025-15554",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-08-14/html/2025-15554.htm",
+  "citation": "Further Modifying Reciprocal Tariff Rates To Reflect Ongoing Discussions With the People's Republic of China; operative section 2 suspension continuation",
+  "sha256": "0289c2b592125e9f34d22cc6e0748addde1d677adf4641bae2abbe9e64fdaa0a",
+  "method": "Existing Trade Intelligence full_text with NUL and margin whitespace removed; independently reread original GovInfo through gstack",
+  "corpus": {
+    "document_number": "2025-15554",
+    "source_hash": "3af7f331ee76a31b36a1fe5602be4bda353c267ca3502ae6ebd0408b0e192b2e",
+    "content_sha256": "68677178c2cca31235ec3fb5a74e8503d44dad60dab3990767dcafa711251243",
+    "version_no": 1,
+    "raw_object_path": "raw/fr/2025-15554/3af7f331ee76a31b36a1fe5602be4bda353c267ca3502ae6ebd0408b0e192b2e.json",
+    "raw_text_object_path": "raw/fr/2025-15554/3af7f331ee76a31b36a1fe5602be4bda353c267ca3502ae6ebd0408b0e192b2e.txt"
+  },
+  "corpus_evidence_path": "docs/audits/2026-10-26-august-reciprocal/research/china-14334-corpus.json.gz"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "FR-2025-19639-reciprocal-annex-reviewed",
+  "path": "resources/legal_evidence/2025-19639/annex-pages15-16-reviewed.txt",
+  "sha256": "344c2ec6984888f8554ab4e21e9f82bac030ed32b076b7ed0019c1c994678466",
+  "pdf_path": "resources/legal_evidence/2025-19639/proclamation.pdf",
+  "pdf_sha256": "8765798ba39aedd2921b0c60c26846728b7cc313291713eb3bdacc6bf84d5136",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-22/pdf/2025-19639.pdf",
+  "citation": "Proclamation10984 AnnexI A(3)(c)-(d) and A(6), original PDF pages15-16, FR48465-48466; medium/heavy vehicle reciprocal relief, including zero-payable named headings",
+  "review": "OCR paragraphs2(v) and reporting33 checked visually against rendered original page15; page16 paragraph6 retained with its original reporting identity",
+  "reviewed_at": "2026-10-27"
+}

@@ -226,6 +226,17 @@ def initial_history():
     result['copper_reporting_codes']=[heading[1]]
     from ieepa_reciprocal_august import load_august_country_policy
     result['august_country_policy']=load_august_country_policy()
+    from ieepa_reciprocal_later import suspension_chain,partner_history,sector_links
+    from ieepa_fentanyl_sources import collection_termination
+    result['china_suspension_initial_until']=result['china_suspension_until']
+    result['china_suspension_continuations'],extra=suspension_chain(result)
+    sources+=extra
+    result['china_suspension_until']=result['china_suspension_continuations'][-1]['until']
+    result['later_policy']=partner_history(result['august_country_policy'])
+    sources+=result['later_policy']['sources']
+    result['later_sector_interactions']=sector_links(result['later_policy'])
+    sources+=result['later_sector_interactions']['sources']
+    result['collection_ended_at'],extra=collection_termination();sources+=extra
     return result
 
 

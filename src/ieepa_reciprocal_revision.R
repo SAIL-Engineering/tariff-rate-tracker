@@ -105,15 +105,23 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
   actions<-setNames(lapply(h$actions,resolve_action),vapply(h$actions,`[[`,character(1),'code'))
   august_actions<-setNames(lapply(h$august_country_policy$actions,resolve_action),
     vapply(h$august_country_policy$actions,function(a)paste(unlist(a$reporting_codes),collapse='|'),character(1)))
+  later_actions<-setNames(lapply(h$later_policy$country_amendments,resolve_action),
+    vapply(h$later_policy$country_amendments,function(a)paste(unlist(a$reporting_codes),collapse='|'),character(1)))
+  partner_exemptions<-setNames(lapply(h$later_policy$exemptions,resolve_action),
+    vapply(h$later_policy$exemptions,`[[`,character(1),'reporting_code'))
   source(file.path(root,'src/shipment_build.R'))
   frame<-shipment_source_selection_window(x$revision,root)
   amounts<-list()
-  if(length(products) && .shipment_time(frame$from)<.shipment_time(h$china_suspension_until) &&
+  if(length(products) && .shipment_time(frame$from)<.shipment_time(h$collection_ended_at) &&
      .shipment_time(frame$until)>.shipment_time(h$august_country_policy$from_)) {
     native<-load_shipment_base_source(x$revision,root)
     native<-setNames(native$products,vapply(native$products,`[[`,character(1),'hts10'))
     amounts<-setNames(lapply(as.character(products),function(p) {
-      record<-native[[p]]$general;parsed<-parse_shipment_duty_expression(record$expression)
+      record<-native[[p]]$general
+      if(is.null(record))return(list(raw=NULL,fixed_advalorem=FALSE,
+        formula=list(unresolved_source=paste0('reciprocal_column1_general_special_classification:',p)),
+        fact_definitions=list(),input_constraints=list()))
+      parsed<-parse_shipment_duty_expression(record$expression)
       list(raw=record$expression,source_code=record$source_code,source_row_index=record$source_row_index,
         fixed_advalorem=parsed$status=='parsed' && grepl('^(Free|[0-9]+(\\.[0-9]+)?%)$',parsed$normalized_text,ignore.case=TRUE),
         formula=if(parsed$status=='parsed')parsed$formula else list(unresolved_source=paste('reciprocal_column1_general_expression',p,parsed$reason,sep=':')),
@@ -136,7 +144,8 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
     url=paste0('https://hts.usitc.gov/reststop/file?release=',build_release_name(x$revision),'&filename=General%20Note%203'),
     citation=paste('Derived jurisdiction mapping; General Note 3 and versioned Census/EU country resolution:',p)))
   jurisdictions<-list(all=as.list(sort(unique(read.csv(file.path(root,'resources/census_codes.csv'),colClasses='character')$Code))),non_ntr=as.list(sort(unique(unlist(excluded)))),
-    actions=actions,august_actions=august_actions,Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),
+    actions=actions,august_actions=august_actions,later_actions=later_actions,partner_exemptions=partner_exemptions,
+    Canada=as.list(resolve_country_name('Canada')),Mexico=as.list(resolve_country_name('Mexico')),
     UnitedKingdom=as.list(resolve_country_name('United Kingdom')),sources=evidence)
   jsonlite::write_json(list(x=x,products=as.list(sort(unique(products))),jurisdictions=jurisdictions,base_amounts=amounts),paths[2],auto_unbox=TRUE,null='null',digits=NA)
   status<-system2('python3',c(shQuote(file.path(root,'src/ieepa_reciprocal_rules.py')),shQuote(paths[2]),shQuote(paths[3])))

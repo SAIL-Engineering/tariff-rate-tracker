@@ -294,7 +294,8 @@ def compile_rules(x, products):
             rules.append(r)
         relation = copy.deepcopy(template['relations'][0])
         relation.update(id=relation['id']+f'_window{pi}', when_rule_applies=mapping[relation['when_rule_applies']],
-            target_reporting_codes=period['target_reporting_codes'], source_ids=period['source_ids'],
+            target_reporting_codes=period['target_reporting_codes'], source_ids=sorted(set(period['source_ids']+['CBP-CSMS-67400472'])),
+            preserve_reporting_only=True,
             period_from=period['from_'], period_until=period['until'])
         relations.append(relation)
     rids=[r['id'] for r in rules]

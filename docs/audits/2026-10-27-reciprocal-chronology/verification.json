@@ -1,0 +1,113 @@
+{
+  "contract_version": "sail.audit-verification/v1",
+  "base_sha": "ed1890f5840ff59d71ea41babf3ff6d87c51e0e5",
+  "branch": "wjr_dev",
+  "python_tests": 450,
+  "node_tests": 741,
+  "node_existing_tests": 687,
+  "node_new_tests": 54,
+  "node_changed_existing_recheck": 121,
+  "r_rate_tests": 151,
+  "r_reciprocal_existing": 120,
+  "r_reciprocal_later": 45,
+  "r_transit_boundary": 2,
+  "r_overlapping_exemptions": 6,
+  "r_additional_checks": [
+    "legal interval orchestration",
+    "55-revision original-law calendar",
+    "reporting obligation roles",
+    "compiler source merge and incremental-input rejection",
+    "derived facts",
+    "35 semiconductor composition cases and four automobile revival checks"
+  ],
+  "source_census": {
+    "revisions": 55,
+    "original_native_conflicts": 0,
+    "partner_headings": 18,
+    "typed_instants_total": 23,
+    "typed_instants_within_audit": 22,
+    "within_revision_boundaries": 21
+  },
+  "point_serving_checks": {
+    "fixture_grid_cells": 12,
+    "requests": 26,
+    "matching_legacy_observation_requests": 16,
+    "checks": [
+      "ordinary Parquet relationships",
+      "R/TypeScript components",
+      "local DuckDB",
+      "JSON",
+      "Arrow",
+      "batch",
+      "dataset invalidation",
+      "bundle tampering"
+    ]
+  },
+  "motherduck": {
+    "access_mode": "READ_ONLY",
+    "database": "duty_calculator",
+    "observed_rows": 4840,
+    "revisions": 55,
+    "columns": 118,
+    "shipment_fields_present": false,
+    "interval_overlaps": 3,
+    "complete_totals_comparable": false
+  },
+  "composer_equivalence": {
+    "contract_version": "sail.composer-equivalence-check/v1",
+    "identical": true,
+    "before_elapsed_seconds": 53.413,
+    "after_elapsed_seconds": 17.182,
+    "input_rules": 2292,
+    "products": 2,
+    "countries": 240,
+    "previous_composer_sha256": "cff698bfcb846241ad4cc25d1c8d98ef3661a133acb7b1df3a71f46dadabb416",
+    "current_composer_sha256": "fa7dad41c68d3a220fb96b6ab32ba5448bffcc98eefacb33281dd01e66a47e36",
+    "fragment_sha256": "dd69306abdc61b911e28ae844d3fba851f4ddd54d5fe8e68363d1d5446953621",
+    "canonical_output_sha256": "a4fefb77548db1c4ed47100c2e6f9f581d763588e188a258da757accddb73179",
+    "rates_calculated": false,
+    "production_qualified": false,
+    "limitation": "One actual emitted reciprocal fragment plus a controlled action; not a full-series performance guarantee or legal coverage oracle."
+  },
+  "source_pins": {
+    "resources/legal_evidence/2025-15554/notice.txt": "0289c2b592125e9f34d22cc6e0748addde1d677adf4641bae2abbe9e64fdaa0a",
+    "resources/legal_evidence/2025-15554/source.json": "09ded0c63bcea34d06d7797ef3ef84d148e2444cde2b9dbb8b2e5f7935d2c840",
+    "resources/legal_evidence/2025-19639/annex-pages15-16-reviewed.txt": "344c2ec6984888f8554ab4e21e9f82bac030ed32b076b7ed0019c1c994678466",
+    "resources/legal_evidence/2025-19639/reciprocal-annex-source.json": "2112088a4333730b55c5b2dc331df4819001ed7a10b057139387b6d7180e1757",
+    "resources/legal_evidence/2025-19826/notice.txt": "7fb128ffa75836180bc5f1db42ea52e325ee25bd2baa93c0a78bc29562607262",
+    "resources/legal_evidence/2025-19826/source.json": "20c1b32c2fdd6f3b537be163715f6a4cb51eceee35fe26814503f5b0cc939740",
+    "resources/legal_evidence/reciprocal-later/reviewed-conditions.json": "5ad8ed0a11a9e81d6fe3dcf33323a90078c0a6667f3f7c01a8a0e0745e1e7593",
+    "resources/legal_evidence/reciprocal-later/source-catalog.json": "9572c420d98141fb41f3be7817d8895c040eb73989f71ff14538f4244faf792e",
+    "scripts/audit_reciprocal_policy.py": "209331b63fabeee223eee99746cfe1e763faeb501904b136810d921966a4cb9b",
+    "src/compile_shipment_rules.R": "fa7dad41c68d3a220fb96b6ab32ba5448bffcc98eefacb33281dd01e66a47e36",
+    "src/ieepa_reciprocal_initial.py": "b8bfed6fce9fd09f3f9dd8945629f8e1d6848ca679d7ba55efee751f20cf805e",
+    "src/ieepa_reciprocal_later.py": "11a2278e0d581cd97a2f5ee950823008e7feebf28837a5b1336549c70e304907",
+    "src/ieepa_reciprocal_revision.R": "5fd2179a7c514ac3b194f941668a23bf16bc9dd1ffd19ffd07e9ff56977bfb4f",
+    "src/ieepa_reciprocal_rules.py": "5d1df42fc890c42b700492a5b380f8060a9afec892711d3dc610c0cdf07b88b0",
+    "src/legal_intervals.R": "7a87053a3f7e58ee5a80e00e179d434909298a01a850e76bcebf5fad428618f1",
+    "src/section232_semiconductors.py": "088c5b5511b80af17f425bf5c6b1163fc00d1cd5e9fb0916b45a16f2139204f0"
+  },
+  "fixture_pins": {
+    "ieepa-reciprocal-initial.json.gz": "ed7a13a6e487ecba2356844b7d1a9790cc388c52d2c5da196419dad7c91a29ae",
+    "ieepa-reciprocal-later.json.gz": "52880b831b32038ec0fd4c39097885552fca4ca86d8e2b9fa2a05a39e9d28963",
+    "ieepa-reciprocal-overlap.json.gz": "9a32b7388cafb040ac9a1b121db599f59ae339d6c3e8af820c94eaaaaf4be102",
+    "ieepa-reciprocal-transit-boundary.json.gz": "22ef91226eec1ac4d039dec7007d9e285f46baadb6d5a967a04ae35d9df46910"
+  },
+  "full_R_gate": {
+    "status": "not_qualified",
+    "reason": "Previously unsuccessful because normalized partitions are missing/stale and TPC input is absent. The full gate was not rerun or represented as passing here."
+  },
+  "legal_coverage_complete": false,
+  "production_qualified": false,
+  "timeseries_rebuild_run": false,
+  "live_motherduck_modified": false,
+  "release_activated": false,
+  "pushed": false,
+  "aggregate_differences": "Not qualified; no full-series rebuild or aggregate comparison.",
+  "remaining": [
+    "Independent Section232 civil-aircraft relief after reciprocal collection ends, including companion note amendments and original April2026 renumbering",
+    "Remaining sector/claim and FTZ inventories",
+    "Sections122/338/301 and Chapter98/AD-CVD interactions",
+    "Full release and consumer qualification"
+  ]
+}

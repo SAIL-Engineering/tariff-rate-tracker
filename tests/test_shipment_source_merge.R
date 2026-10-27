@@ -15,6 +15,9 @@ at <- b$valid_from
 r <- evaluate_shipment_bundle(composed,'1234567890','TEST',at,list(customs_value=100))
 original <- evaluate_shipment_bundle(b,'1234567890','TEST',at,list(customs_value=100))
 stopifnot(r$complete_total==original$complete_total,r$status==original$status)
+# Reporting predicates and relations are bound against the complete original
+# action set. Reusing an already compiled bundle could retain stale bindings.
+stopifnot(inherits(try(compose_shipment_rules(composed,list(a)),silent=TRUE),'try-error'))
 for(key in c('sha256','url','status')) {
   bad <- a;bad$sources[[1]][[key]] <- paste0('changed-',s[[key]])
   stopifnot(inherits(try(compose_shipment_rules(b,list(bad)),silent=TRUE),'try-error'))

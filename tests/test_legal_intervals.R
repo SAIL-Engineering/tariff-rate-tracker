@@ -1,5 +1,13 @@
 suppressPackageStartupMessages({library(tidyverse);library(here);library(arrow)})
 source('src/helpers.R');source('src/05_parse_policy_params.R');source('src/legal_intervals.R')
+# A source can introduce a legal deadline without changing its HTS snapshot.
+# Collect every typed window, but never split at evidence publication dates.
+events <- legal_event_days(list(inception='2025-04-05T00:01:00-04:00',
+  later=list(transit_until='2025-10-05T00:01:00-04:00',
+    claim_from='2025-11-14T00:01:00-05:00'),
+  collection_ended_at='2026-02-24T00:00:00-05:00',
+  publication_at='2025-12-18T00:00:00-05:00',retrieved_at='2026-10-27T00:00:00-04:00'))
+stopifnot(identical(as.character(events),c('2025-04-05','2025-10-05','2025-11-14','2026-02-24')))
 rd<-data.frame(revision=c('r1','r2'),effective_date=as.Date(c('2025-11-13','2025-11-21')))
 segments<-revision_legal_segments('r1',rd,list(SERIES_HORIZON_END=as.Date('2025-12-31')),load_ieepa_country_amendments())
 stopifnot(identical(as.character(segments$valid_from),c('2025-11-13','2025-11-14')),
@@ -79,3 +87,28 @@ local({
   unlink(out,recursive=TRUE)
 })
 cat('Shared builder recalculates each legal state and assembles normalized intervals\n')
+
+# Original policy windows reach the ordinary builder even when product-scope
+# history and country-rate amendments contain no event for that revision.
+local({
+  env <- new.env(parent=environment(calculate_revision_legal_states))
+  runner <- calculate_revision_legal_states;environment(runner)<-env
+  env$extract_ieepa_fentanyl_rates <- function(...) tibble()
+  env$load_ieepa_country_amendments <- function() list()
+  env$load_stacking_rules <- function() list()
+  env$load_s301_revision_source <- function(...) list()
+  env$load_reciprocal_scope <- function(...) list(history=list())
+  env$load_s232_legacy_source <- function(...) list()
+  env$load_reciprocal_legal_events <- function(...) list(nested=list(transit_until='2025-10-05T00:01:00-04:00'))
+  env$calculate_rates_for_revision <- function(products,ch99,ieepa,usmca,countries,revision,day,...) {
+    tibble(hts10='0106199120',country='5330',revision=revision,rate=if(day<as.Date('2025-10-05')) .1 else .25)
+  }
+  calendar <- data.frame(revision=c('2025_rev_24','2025_rev_25'),effective_date=as.Date(c('2025-09-30','2025-10-24')))
+  result <- runner(NULL,NULL,NULL,NULL,'5330','2025_rev_24',calendar,NULL,list(),emit_normalized=FALSE)
+  stopifnot(identical(as.character(result$valid_from),c('2025-09-30','2025-10-05')),
+    identical(as.character(result$valid_until),c('2025-10-04','2025-10-23')),identical(result$rate,c(.1,.25)))
+})
+history <- load_reciprocal_legal_events()
+days <- as.character(legal_event_days(history))
+stopifnot(all(c('2025-09-01','2025-10-05','2025-11-14','2026-02-24') %in% days))
+cat('Ordinary builder consumes original reciprocal country, claim and sector event windows\n')

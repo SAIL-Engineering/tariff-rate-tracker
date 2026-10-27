@@ -1,0 +1,65 @@
+{
+  "purpose": "Independent review of executable condition grammar; numerical rates, dates and product memberships are source-extracted, not pinned as per-row corrections",
+  "conditions": [
+    {
+      "heading": "9903.02.74",
+      "condition": "none",
+      "prefix_sha256": "3f236069efa960d62c681071f413d826cbf299649a6699a01384a2ed30857db9"
+    },
+    {
+      "heading": "9903.02.75",
+      "condition": "article_description",
+      "prefix_sha256": "d45f076a8da3fe2a1783a54f6f3d3dda63f80a8cc39e10e1ec068a588b0fb9a5"
+    },
+    {
+      "heading": "9903.02.76",
+      "condition": "civil_aircraft_gn6_excluding_unmanned",
+      "prefix_sha256": "b801d3aa7acda9a26151eb0e82237f868173e80e3e983207b21e2cfc2aebcf2c"
+    },
+    {
+      "heading": "9903.02.77",
+      "condition": "nonpatented_pharmaceutical_use",
+      "prefix_sha256": "1c315c75dd7354fea82d90304bf745f19617c2a28a93eeeefad6b9452d395505"
+    },
+    {
+      "heading": "9903.02.81",
+      "condition": "civil_aircraft_gn6_excluding_unmanned",
+      "prefix_sha256": "ab567fe424bab3cd2166d529e20188d24877b755f7e63f8faf8056a82a16e10f"
+    },
+    {
+      "heading": "9903.02.84",
+      "condition": "none",
+      "prefix_sha256": "dc4d7743177257983c1eae6d30ccaf0c848556ef6868ebc42f3a3ab56d74f1b2"
+    },
+    {
+      "heading": "9903.02.85",
+      "condition": "civil_aircraft_gn6_excluding_unmanned",
+      "prefix_sha256": "77105890178a8b15abc82d2c3331d57c31af9ac1a33e6a5841e54f68a6572b12"
+    },
+    {
+      "heading": "9903.02.86",
+      "condition": "nonpatented_pharmaceutical_use",
+      "prefix_sha256": "b31b7fcb070363c9684bd36cdb4f0a7edf449aacf0a033a73a493de83b90fdb5"
+    },
+    {
+      "heading": "9903.02.89",
+      "condition": "none",
+      "prefix_sha256": "dc4d7743177257983c1eae6d30ccaf0c848556ef6868ebc42f3a3ab56d74f1b2"
+    },
+    {
+      "heading": "9903.02.90",
+      "condition": "civil_aircraft_gn6_excluding_unmanned",
+      "prefix_sha256": "77105890178a8b15abc82d2c3331d57c31af9ac1a33e6a5841e54f68a6572b12"
+    },
+    {
+      "heading": "9903.02.91",
+      "condition": "nonpatented_pharmaceutical_use",
+      "prefix_sha256": "b31b7fcb070363c9684bd36cdb4f0a7edf449aacf0a033a73a493de83b90fdb5"
+    },
+    {
+      "heading": "9903.96.02",
+      "condition": "civil_aircraft_gn6_excluding_unmanned",
+      "prefix_sha256": "df91e76f4b6ba930b0b77c909beffcb53b8b6072c7209d49c0b61c42a121d88f"
+    }
+  ]
+}

@@ -22,6 +22,8 @@ read_shipment_rule_fragment <- function(path) {
 
 compose_shipment_rules <- function(bundle, fragments) {
   if (!identical(bundle$contract_version, 'sail.shipment-rules/v1')) stop('Unsupported base rule contract')
+  if(identical(bundle$compiler$id,'sail.shipment-rule-composer/v1'))
+    stop('Cannot add fragments to a compiled shipment bundle; reassemble all original fragments together to rebind action dependencies')
   for (fragment in fragments) {
     if ((!is.null(fragment$supported_from) && (is.na(.shipment_time(bundle$valid_from)) ||
         .shipment_time(bundle$valid_from)<.shipment_time(fragment$supported_from))) ||
@@ -67,6 +69,11 @@ compose_shipment_rules <- function(bundle, fragments) {
   }
   bundle$sources <- merge_sources(c(bundle$sources, unlist(lapply(fragments, `[[`, 'sources'), recursive = FALSE)))
   bundle$rules <- merge_by_id(c(bundle$rules, unlist(lapply(fragments, `[[`, 'rules'), recursive = FALSE)), 'rule')
+  for(r in bundle$rules) if(!is.null(r$reporting_only)) {
+    if(!is.logical(r$reporting_only)||length(r$reporting_only)!=1L||is.na(r$reporting_only))stop('Invalid reporting-only role: ',r$id)
+    if(isTRUE(r$reporting_only)&&(!identical(names(r$formula),'value')||!is.numeric(r$formula$value)||
+       length(r$formula$value)!=1L||is.na(r$formula$value)||r$formula$value!=0))stop('A reporting-only rule cannot carry a duty: ',r$id)
+  }
   # Bind source-derived reporting predicates to action identities. Empty matches
   # do not establish legal absence: the pricing expression separately requires
   # a verified authority inventory. This is a compiler construct, not a caller fact.
@@ -78,6 +85,7 @@ compose_shipment_rules <- function(bundle, fragments) {
     TRUE
   }
   original_rules <- bundle$rules
+  reporting_candidates <- split(original_rules,vapply(original_rules,`[[`,character(1),'authority'))
   # A source-backed compiler can establish that an older independently asked
   # input is the same legal decision/value already evaluated by another action.
   # Expand that expression before interpretation; contradictory caller aliases
@@ -113,7 +121,7 @@ compose_shipment_rules <- function(bundle, fragments) {
          any(!grepl('^9903\\.[0-9]{2}\\.[0-9]{2}$',unlist(p$codes))) ||
          !is.logical(p$positive_duty)||length(p$positive_duty)!=1 ||
          !is.logical(p$exclude)||length(p$exclude)!=1) stop('Invalid reporting predicate')
-      selected<-Filter(function(r) identical(r$authority,p$authority)&&overlap(scope,r$scope),original_rules)
+      selected<-Filter(function(r)overlap(scope,r$scope),reporting_candidates[[p$authority]])
       selected<-Filter(function(r) {
         hit<-intersect(unlist(r$reporting_codes),unlist(p$codes))
         if(length(hit)&&length(setdiff(unlist(r$reporting_codes),unlist(p$codes)))) stop('Mixed reporting decision must be split: ',r$id)
@@ -181,6 +189,9 @@ compose_shipment_rules <- function(bundle, fragments) {
           is.character(id)&&length(id)==1L&&nzchar(id),logical(1)))) ||
         (!is.null(edge$target_rule_ids) && (!length(edge$target_rule_ids) || !all(unlist(edge$target_rule_ids)%in%ids))) ||
         (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')) ||
+        (!is.null(edge$preserve_reporting_only)&&(!is.logical(edge$preserve_reporting_only)||
+          length(edge$preserve_reporting_only)!=1L||is.na(edge$preserve_reporting_only)||
+          !edge$effect %in% c('suppress','suppress_by_reporting_codes'))) ||
         (edge$effect=='suppress_by_reporting_codes' && (!length(edge$trigger_reporting_codes) ||
           (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')))))
       stop('Invalid action relation: ', edge$id)
@@ -208,6 +219,10 @@ compose_shipment_rules <- function(bundle, fragments) {
       if(!is.null(edge$target_rule_ids) && !target$id %in% unlist(edge$target_rule_ids)) next
       matches <- intersect(unlist(target$reporting_codes), unlist(edge$target_reporting_codes))
       if (!length(matches)&&!length(edge$target_action_ids)) next
+      if(isTRUE(edge$preserve_reporting_only)&&isTRUE(target$reporting_only)) {
+        decisions[[length(decisions)+1L]]<-list(relation_id=edge$id,effect='reporting_obligation_retained',rule_id=target$id,source_ids=edge$source_ids)
+        next
+      }
       # A rule mixing independent headings must first be split into actions.
       if (length(edge$target_reporting_codes)&&length(setdiff(unlist(target$reporting_codes), matches))) stop('Mixed action reporting codes: ', target$id)
       if (edge$effect == 'suppress' && identical(target$id, edge$when_rule_applies)) stop('Self-suppressing action: ', target$id)
