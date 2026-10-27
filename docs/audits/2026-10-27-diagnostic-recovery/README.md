@@ -3,7 +3,7 @@
 WJR's build at `/tmp/wjr-shipment-diagnostic-20261027T200526498973Z`
 finished both revisions (88 cells each) at source `2738d79f`. Preparation then
 rejected their schemas before any release activation. All required fields and
-shared-name types match. The full-schema equality check rejected 38 additional
+shared-name types match. The full-schema equality check rejected 39 additional
 2026 fields; the positional UNION would also have been unsafe for reordered
 columns. The recorded inventory includes every table and exact type difference.
 
@@ -37,9 +37,43 @@ R revision builder. See [the single-command instructions](../2026-10-26-indexed-
 - 151 R rate tests pass. The actual-source six-cell point-calculator/partition
   regression passes after first failing on the product metadata aliases.
 - Red/green evidence and schema inventory are retained alongside this file.
-- A read-only preflight of WJR's actual two-revision artifacts is in progress at
-  this checkpoint. Final recovery evidence will be recorded separately after
-  preparing a fresh local DuckDB with committed delivery tooling.
+- A read-only preflight of WJR's actual two-revision artifacts passes: 176
+  grid rows, 352 membership rows, 181 decision classes and four exact-time
+  bundles. Its full report is retained in `two-revision-preflight.json`.
+- Recovery with committed tooling `b8994bbe872bcb06eb9395220228dab0364c7b6c`
+  passes the complete launcher path. It loads all 15 data tables, four bundles,
+  normalized legal data and decision evidence into a fresh local DuckDB, with
+  status `prepared_diagnostic`. The counted checks and ten-second heartbeats
+  are retained in `recovery-launcher.log.gz`.
+- A subsequent read-only check proves exact all-column/multiplicity parity
+  between all 176 original rate rows and the staged table. It rechecks the old
+  artifact byte pins and confirms no active release. The stored shipment reader
+  returns the USD25 automobile component on USD100 under 9903.94.01 for the
+  declared Mexico vehicle facts, preserves the old dataset version and NULL
+  complete total, and rejects a mismatched requested version.
+- `recovery-result.json` records the original build source `2738d79f`, separately
+  frozen delivery tooling, both archive identities, new manifest/database/log
+  paths, `resumed: true` and `revision_build_rerun: false`. Original manifests,
+  Parquet, normalized data and failed logs remain unchanged.
+
+## Recovered local result
+
+The successful result is:
+`/tmp/wjr-shipment-diagnostic-20261027T200526498973Z/diagnostic-result-recovery-20261027T203553004070Z.json`.
+The DuckDB is:
+`/tmp/wjr-shipment-diagnostic-20261027T200526498973Z/diagnostic-recovery-20261027T203553004070Z.duckdb`.
+No rerun is needed for this diagnostic recovery.
+
+To repeat the read-only roundtrip check, from the tracker root:
+
+```bash
+node docs/audits/2026-10-27-diagnostic-recovery/check-recovered-release.mjs \
+  /tmp/wjr-shipment-diagnostic-20261027T200526498973Z/diagnostic-result-recovery-20261027T203553004070Z.json \
+  /tmp/recovered-roundtrip-recheck.json
+```
+
+The check refuses an existing output report. This command does not build,
+prepare, activate or publish anything.
 
 This is an artifact-delivery repair, not complete legal coverage. The §201
 staged-schedule warning, parsing warnings and inactive IEEPA denormalized-slot

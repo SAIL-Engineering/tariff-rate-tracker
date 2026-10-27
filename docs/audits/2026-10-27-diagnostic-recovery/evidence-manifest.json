@@ -1,13 +1,25 @@
 {
-  "README.md": "e1ffafd20c6a8efe93ccecb68b9a72d467595abf5a8adbf40a7525e63efc2874",
+  "README.md": "ba242911ccfd4f292989dc481ae33f51a299cc43b77c939fd4d26a0e0a77a61d",
+  "check-recovered-release.mjs": "a01c5756d4f9bdb06d98cfd8d9621501acc70a90b03152b8adbc0014df7ce8a9",
+  "local-roundtrip.json.gz": "d0cf9b7374a816d1e15a2791770a12849520ff66c22958565e06cf55d596c9e6",
+  "local-roundtrip.log.gz": "c18a7d6d07896be71eecfad7568d0f930b5e7399bfc42e6696b1e69e83181da7",
   "node.log.gz": "e6748e4605f0aacd2800dffa54e603609dae7559d8e368c93529280297fd5070",
+  "original-artifacts.log.gz": "7bc7464b9ffd68d8f91a28d95fe782dab5999414411ef6353ae3c5ce4fef4577",
+  "original-prepare-failure.log.gz": "6e1d0b85f46e6cbec5335d6790ceef6d0c89758758593ee0953159d92a33678a",
+  "original-release-manifest.json.gz": "6cf67b1997f315e95ec2730d8dcf849a05877667ce0b635a25f0e1a954d9e99d",
+  "prepare.log.gz": "dcff02be02015103b89791160781ec37eb372f300e0fe93b9b3006163d6b609b",
   "product-tier-green.log.gz": "55addb7450f22bbf7709e483925a526e6286e8510750de572f62d09ee91f0e85",
   "product-tier-red.log.gz": "4c2b528269f06dc99779b389915eac9790a0374498d7a6c5ae881a572b504d90",
   "progress-resume-green.log.gz": "b92c4b568eb25b1bca720217c5177fabc7f154b27e30772f465ec5a38d2b0271",
   "progress-resume-red.log.gz": "795ea06739f154da30c2815b18abd9fceb158cee5dba8d2c34de9647955518e4",
   "python.log.gz": "f97db22a96d64a5acb9c7166b0f483f4d032e35138df6bc873be941a06e89118",
   "rate-suite.log.gz": "c07af2ae1941eb59c3fec66ea1fbc9cec2dbc174c8992d5783f87fcec5404e85",
+  "recovery-launcher.log.gz": "16262c648a137e307aba01b78b2bf97fbcd724ff93235d751da65f7c6c8f6547",
+  "recovery-release-manifest.json.gz": "8c95aca8050d3fb952b4550dcab8a1d02fb2d37167e48ab239920c3904f3b976",
+  "recovery-result.json": "3c3acd5c431e1f6dee7ed7c9fda48549927b36570c980fb97ba5cf4df9782849",
   "schema-green.log.gz": "608fe807664ac40c6b79e6a8685303a83edfa091ebd99fba521cac1004445a22",
   "schema-inventory.json.gz": "97983184f0c2db3e56330b2b6dcadc921416bf1907778a4f5b99bb888918c0e0",
-  "schema-red.log.gz": "25df51ac17e1ee7e02ca5f8437147737074b7c0a3bfa9341890ce2890a154b51"
+  "schema-red.log.gz": "25df51ac17e1ee7e02ca5f8437147737074b7c0a3bfa9341890ce2890a154b51",
+  "two-revision-preflight.json": "a9eef79236df2253aa223f434b0b4f43b73202040acb290ac6cc3f2204ca1d93",
+  "two-revision-preflight.log.gz": "cb06ddc505b18a9816af84031e5b769923d756e14ff7683625896e2de6c4d222"
 }

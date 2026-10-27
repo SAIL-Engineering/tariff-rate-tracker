@@ -3,7 +3,12 @@
 ## Resume the completed October 27 diagnostic
 
 Both revisions in `/tmp/wjr-shipment-diagnostic-20261027T200526498973Z`
-already finished. Resume their validation and local DuckDB staging with:
+already finished. Codex successfully recovered this run with tooling `b8994bbe`:
+all 176 rows, 352 memberships and 181 classes passed, and a fresh local DuckDB
+was prepared without any revision rebuild. The [recorded recovery result](../2026-10-27-diagnostic-recovery/recovery-result.json)
+contains the database and logs. **No rerun is needed for that completed recovery.**
+
+To repeat recovery into fresh local files, the single command is:
 
 ```bash
 python3 /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/scripts/run_shipment_diagnostic.py --ref 2738d79f --resume /tmp/wjr-shipment-diagnostic-20261027T200526498973Z
