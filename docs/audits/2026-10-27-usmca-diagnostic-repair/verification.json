@@ -91,5 +91,8 @@
   "revision_or_timeseries_build_executed_by_codex": false,
   "production_writes": false,
   "legal_coverage_complete": false,
-  "production_qualified": false
+  "production_qualified": false,
+  "full_cohort_local_release_status": "prepared_diagnostic",
+  "corrected_source_commit": "2738d79fa0eaa158539e6d20649a9824fe83b4fb",
+  "corrected_source_matches_tested_dataset": true
 }

@@ -1,0 +1,115 @@
+{
+  "contract_version": "sail.tariff-release/v8",
+  "preparation_mode": "diagnostic",
+  "dataset_version": "shipment-c1bd85010f9f63211b1d078377e4e9b35c5aa3db18b5bf5dac9941da28104278",
+  "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+  "required_revisions": [
+    "2026_rev_19"
+  ],
+  "revisions": [
+    {
+      "revision": "2026_rev_19",
+      "bundle_index": {
+        "path": "2026_rev_19/shipment_rules.json",
+        "sha256": "7737baa33f333c3357f6c03ec19bbe7eb1ad802bdfaf591993b4cd59453ef4d9"
+      },
+      "rates_partitioning": "hive_revision",
+      "rates": [
+        {
+          "path": "hive-rates/revision=2026_rev_19/data.parquet",
+          "sha256": "1f468e35694a5d272108b56ea128297bb7f7a2fd471608bcce8c561f617273af"
+        }
+      ],
+      "products_base": [
+        {
+          "path": "2026_rev_19/products_base.parquet",
+          "sha256": "ea6cd0f2b8f4c8273dcf28b7e0af55a25e63d2f4f9726b4d8cb9ea9d99de7e32"
+        }
+      ],
+      "authority_country_rates": [
+        {
+          "path": "2026_rev_19/authority_country_rates.parquet",
+          "sha256": "bf5cc6141c817dc528a63e7880b56ffd84bcbc17eef973bda393b00ea8a7ea57"
+        }
+      ],
+      "authority_product_applicability": [
+        {
+          "path": "2026_rev_19/authority_product_applicability.parquet",
+          "sha256": "52e5b377799ff1f2f80f4334e37d3225c7304cf236c804be399d418b8f780861"
+        }
+      ],
+      "authority_exemptions": [
+        {
+          "path": "2026_rev_19/authority_exemptions.parquet",
+          "sha256": "f71869379af7040e194a61e93ff0d79374c1929a32fa26eea3e4832152a0f8da"
+        }
+      ],
+      "authority_product_candidates": [
+        {
+          "path": "2026_rev_19/authority_product_candidates.parquet",
+          "sha256": "22d8041571ec3e0c8f38105606f76850bd3d6cf691a1c80674c5e13b31c741be"
+        }
+      ],
+      "claim_effects": [
+        {
+          "path": "2026_rev_19/claim_effects.parquet",
+          "sha256": "4993cb4fde1755f9fc57d60873ee2ffb6d58603282ba013615d88e07056067b3"
+        }
+      ],
+      "section301_scope_decisions": [
+        {
+          "path": "2026_rev_19/section301_scope_decisions.parquet",
+          "sha256": "326788d6f7b583434aac6055f199a669e418cc14a776050290a28e3a857582dc"
+        }
+      ],
+      "ieepa_action_decisions": [
+        {
+          "path": "2026_rev_19/ieepa_action_decisions.parquet",
+          "sha256": "6299cd8da68165ee2edcae629e355c9ccc8c60f8fdef8cbceb9f7bcea9214786"
+        }
+      ],
+      "ieepa_reciprocal_scope_decisions": [
+        {
+          "path": "2026_rev_19/ieepa_reciprocal_scope_decisions.parquet",
+          "sha256": "6440ba9517903cc71a9fc98efcb3fbcf5a43712227a24fdbc48d93f0e64596f6"
+        }
+      ],
+      "section232_scope_decisions": [
+        {
+          "path": "2026_rev_19/section232_scope_decisions.parquet",
+          "sha256": "937e7dc0d01c8eacf88a2594d20fdfbf6caa0662ee539fbd6956de984d690633"
+        }
+      ],
+      "chapter99_provisions": [
+        {
+          "path": "2026_rev_19/chapter99_provisions.parquet",
+          "sha256": "16acfd3a19a6d0372b0741d0ae3f413e26d29470e335e9fa76224220a08e36a6"
+        }
+      ],
+      "chapter99_notes": [
+        {
+          "path": "2026_rev_19/chapter99_notes.parquet",
+          "sha256": "1d9eb071a7bc36a919657d38ec469b36f9d1889d3a6bdbdea53b7c74099abe00"
+        }
+      ],
+      "shipment_decision_classes": [
+        {
+          "path": "2026_rev_19/shipment_decision_classes.parquet",
+          "sha256": "ff4f4f2f59e4d11e1f1fc3809ba36ad2625f31e6985e99afa9ae998c80047c7c"
+        }
+      ],
+      "shipment_decision_membership": [
+        {
+          "path": "2026_rev_19/shipment_decision_membership.parquet",
+          "sha256": "a1344b4bb3ff1465f14384195d052e05c9e57b74188f46ad9b5d383c455f39bc"
+        }
+      ]
+    }
+  ],
+  "tooling_sha256": {
+    "../server/shipment-index-release.js": "dcd65607732961a18dbe1059de3a6b835272194edf72f39e18bc3a59272fd26f",
+    "../server/shipment-release-files.js": "89c2fea56a65fc59a8aadd28611148392a2650f7b3260e2739a0e993d4005d9b",
+    "../migrations/002_shipment_bundle_indexes.sql": "0932ac90825779b359b0d3d3a825838e233119ea4ba6f272032f3dd39e9fafd6",
+    "../../scripts/lib/shipment_partition_validation.R": "4400758262bebd8e886c4d149fb37f9bb15ed03c0f1b6cc25dc4b548b5d9b837"
+  }
+}

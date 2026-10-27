@@ -5,7 +5,7 @@
 From any directory, run:
 
 ```bash
-python3 /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/scripts/run_shipment_diagnostic.py --ref a653c4aa
+python3 /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/scripts/run_shipment_diagnostic.py --ref 2738d79f
 ```
 
 This builds only the small cohort for **2025 revision11 and2026 revision19**,
@@ -15,17 +15,20 @@ the main checkout cannot affect the run. It prints the result path when finished
 and preserves full logs. It neither publishes nor connects to MotherDuck.
 Installed Node/R dependencies are reused; no credentials are copied.
 
-The corrected launcher uses `/tmp/wjr-shipment-source-a653c4aa7b9b-v2`. It includes
+The corrected launcher uses `/tmp/wjr-shipment-source-2738d79fa0ea-v2`. It includes
 the committed audit evidence used by the legal compilers and checks every
 archived file against the selected Git commit before starting R and after the
 build. The original unversioned copy omitted that evidence; its dataset-only
 check did not detect the omission. It and the failed run logs are preserved.
-Rerun the same command above; no cleanup or extra commands are needed.
+Run the updated command above; no cleanup or extra commands are needed.
 
-This still pins the original a653c4aa diagnostic baseline, independently of later
-legal-rule commits. Codex prepares and checks the sources; WJR executes the
-revision build. The commands below are for expanded investigations after this
-first run; they are not required to start.
+The updated pin includes the empty-grid USMCA join repair and stable nested
+shipment diagnostics. It supersedes the original a653c4aa diagnostic baseline,
+which still contains the calculator bug. Earlier outputs remain evidence at
+their original dataset version; do not mix them into the corrected release.
+Codex prepares and checks the sources; WJR executes the revision build. The
+commands below are for expanded investigations after this run; they are not
+required to start.
 
 ## Expanded investigation
 

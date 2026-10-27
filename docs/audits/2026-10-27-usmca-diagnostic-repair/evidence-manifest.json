@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "README.md",
-      "sha256": "0876a96d493f830a259becc8883caf3bfdad7b8cdeafc5e91f6ba46a17ca549b"
+      "sha256": "c8556e12904e630cf119ea83fc478846f18591d91843cc256419fd80b2bfaef7"
     },
     {
       "path": "calculator-green.log.gz",
@@ -29,8 +29,32 @@
       "sha256": "8ab8bd31518efc9081105efbaf977f3b5395ac95e5e93bc054c09bcb90e1e350"
     },
     {
+      "path": "cohort-release-manifest.json",
+      "sha256": "8ffb29c0367c1fb7495668e7740fe936f7a741a7389586e94e0961f39bfe53d9"
+    },
+    {
+      "path": "cohort-release-preparation.json",
+      "sha256": "22e2de335ba45193802558df8d42f6d204983c0b929b55ec10ea7e7ce9a978ee"
+    },
+    {
+      "path": "corrected-frozen-manifest.json.gz",
+      "sha256": "fb4b9d06c13db5a6afc746654adad69c29bc205e932aa8986b4741410897d96c"
+    },
+    {
+      "path": "corrected-source-plan.log.gz",
+      "sha256": "d1066ae17e1502f95275d2f1b4ac14c96be762b1929f791e3a2b835c57eb5f3b"
+    },
+    {
+      "path": "corrected-source-preparation.log.gz",
+      "sha256": "30fbf9a34f017968c54697f9bf20125c9d7a75a6a49467cf3ef782935a444ff9"
+    },
+    {
       "path": "evaluator-gates.json",
       "sha256": "7bc06c49f7c1a3a56d110187d17d0ec9e4250d66848658af852440c34f0ca810"
+    },
+    {
+      "path": "handoff.json",
+      "sha256": "df732153f182794f380920d3ca10322a829165d285de9dfff0cbf43f2860654d"
     },
     {
       "path": "launcher-error-green.log.gz",
@@ -118,7 +142,7 @@
     },
     {
       "path": "verification.json",
-      "sha256": "4e87b24ce7e936ad69564c6ddb5f0c4da974d910644e8a0a0543c07b1c3c9d68"
+      "sha256": "818dfed4c570a3356923f0c96e7fd4da1edb04470e2bc87eb4ad601b66552c25"
     }
   ]
 }

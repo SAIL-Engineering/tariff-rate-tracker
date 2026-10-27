@@ -59,6 +59,17 @@ entry date through one ordinary point-calculator invocation. This is separate
 from the revision/timeseries builder, which remains WJR-only. Its source inputs
 are independently parsed and version-pinned before use. Full-cohort reconciliation
 and the final replacement source snapshot are recorded in `verification.json`.
+All88cells pass reconciliation; the full point fixture also stages successfully
+as a local `prepared_diagnostic` release with176memberships,106classes and2bundles.
+
+The corrected source pin is `2738d79fa0eaa158539e6d20649a9824fe83b4fb`.
+Its complete source package is already prepared at
+`/tmp/wjr-shipment-source-2738d79fa0ea-v2`; its dataset identity matches both
+the passing point calculation and local release. The driver's source-only plan
+also passes there. Use the single updated command in
+[DIAGNOSTICS.md](../2026-10-26-indexed-release/DIAGNOSTICS.md), since the original
+`a653c4aa` pin deliberately retains the older calculator code. No cleanup of the
+original failed runs is required.
 
 The earlier partial88-cell attempt was stopped before editing the interpreter
 to correct nested diagnostic ordering; it is not counted as verification.

@@ -1,0 +1,26 @@
+{
+  "catalog": "diagnostic",
+  "revisions": 1,
+  "manifest_sha256": "8ffb29c0367c1fb7495668e7740fe936f7a741a7389586e94e0961f39bfe53d9",
+  "shipment_verification": [
+    {
+      "contract_version": "sail.shipment-partition-verification/v1",
+      "revision": "2026_rev_19",
+      "dataset_version": "shipment-c1bd85010f9f63211b1d078377e4e9b35c5aa3db18b5bf5dac9941da28104278",
+      "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+      "grid_cells": 88,
+      "membership_rows": 176,
+      "decision_classes": 106,
+      "bundles": 2,
+      "daily_states": 1,
+      "status": "consistent_with_declared_rules",
+      "legal_coverage_complete": false,
+      "production_qualified": false,
+      "aggregate_methodology_qualified": false
+    }
+  ],
+  "legal_coverage_complete": false,
+  "release_id": "8ffb29c0367c1fb7495668e7740fe936f7a741a7389586e94e0961f39bfe53d9",
+  "schema": "release_8ffb29c0367c1fb7495668e7",
+  "status": "prepared_diagnostic"
+}

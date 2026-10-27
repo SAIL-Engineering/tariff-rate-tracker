@@ -1,0 +1,12 @@
+{
+  "source_commit": "2738d79fa0eaa158539e6d20649a9824fe83b4fb",
+  "source_contract": "sail.shipment-diagnostic-source/v2",
+  "snapshot": "/tmp/wjr-shipment-source-2738d79fa0ea-v2",
+  "dataset_version": "shipment-c1bd85010f9f63211b1d078377e4e9b35c5aa3db18b5bf5dac9941da28104278",
+  "source_archive_sha256": "b73564bebd627e41b68b19d87cb314e1df24b6f1bb5712abf63656b059b3e883",
+  "matches_verified_point_and_local_release": true,
+  "revision_build_executed": false,
+  "cohort_local_release_status": "prepared_diagnostic",
+  "cohort_local_release_cells": 88,
+  "source_plan_exit_code": 0
+}
