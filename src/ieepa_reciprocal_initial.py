@@ -92,6 +92,31 @@ def original():
                 inception=inception,country_from=country_from,sources=[source,notice])
 
 
+def uk_aircraft_history():
+    """One original source definition shared by reciprocal and Section232.
+
+    The civil-aircraft agreement is not terminated by an IEEPA support window.
+    This extractor has no dependency on reciprocal collection termination.
+    """
+    from section122_rules import date_at
+    text,source=verified_source('2025-12060')
+    next_policy=unique_span(text,r'^C\. Effective',r'^\[FR Doc\.')
+    at=re.search(r'on or after 12:01 a\.m\.\s+eastern time on (\w+ \d+, \d{4})',next_policy)
+    if not at or '9903.96.01' not in next_policy:raise ValueError('Missing subsequent UK sector boundary')
+    aircraft=' '.join(re.sub(r'\[\[Page\s+\d+\]\]','',clean_fr(
+        unique_span(next_policy,r'^``\(a\) As provided',r'^b\. U\.S\. note'))).split())
+    target=re.search(r'As provided in heading ('+HEADING+r'), the additional duties imposed by heading (.*?) shall not apply',aircraft)
+    if not target or not all(s in aircraft for s in ('of the United Kingdom','criteria of General Note 6','regardless of whether','subcolumn:')):
+        raise ValueError('Unreviewed UK civil-aircraft eligibility clause')
+    table=aircraft.split('subcolumn:',1)[1]
+    products=re.findall(r'\d{4}\.\d{2}\.\d{2}',table)
+    if not products or re.sub(r'\d{4}\.\d{2}\.\d{2}|[ ,;.]','',table):
+        raise ValueError('Uncompiled UK aircraft product table')
+    return dict(from_=date_at(at[1]),reporting_code=target[1],
+        removed_codes=re.findall(HEADING,target[2]),products=sorted({p.replace('.','') for p in products}),
+        source_id=source['id'],source_clause_sha256=sha(aircraft.encode()),condition_text=aircraft[:aircraft.index('subcolumn:')]),source
+
+
 def initial_history():
     result=original(); sources=result['sources']
     amendments=[]
@@ -156,22 +181,7 @@ def initial_history():
         if not all(s in text for s in ('As of June 4, 2025, the non-'+metal+' content',
             'is not subject to Reciprocal tariffs under HTS 9903.01.33')):
             raise ValueError('Unreviewed metal-portion instructions')
-    text,source=verified_source('2025-12060');sources.append(source)
-    next_policy=unique_span(text,r'^C\. Effective',r'^\[FR Doc\.')
-    at=re.search(r'on or after 12:01 a\.m\.\s+eastern time on (\w+ \d+, \d{4})',next_policy)
-    if not at or '9903.96.01' not in next_policy:raise ValueError('Missing subsequent UK sector boundary')
-    aircraft=' '.join(re.sub(r'\[\[Page\s+\d+\]\]','',clean_fr(
-        unique_span(next_policy,r'^``\(a\) As provided',r'^b\. U\.S\. note'))).split())
-    target=re.search(r'As provided in heading ('+HEADING+r'), the additional duties imposed by heading (.*?) shall not apply',aircraft)
-    if not target or not all(s in aircraft for s in ('of the United Kingdom','criteria of General Note 6','regardless of whether','subcolumn:')):
-        raise ValueError('Unreviewed UK civil-aircraft eligibility clause')
-    table=aircraft.split('subcolumn:',1)[1]
-    products=re.findall(r'\d{4}\.\d{2}\.\d{2}',table)
-    if not products or re.sub(r'\d{4}\.\d{2}\.\d{2}|[ ,;.]','',table):
-        raise ValueError('Uncompiled UK aircraft product table')
-    result['uk_aircraft']=dict(from_=date_at(at[1]),reporting_code=target[1],
-        removed_codes=re.findall(HEADING,target[2]),products=sorted({p.replace('.','') for p in products}),
-        source_id=source['id'],source_clause_sha256=sha(aircraft.encode()),condition_text=aircraft[:aircraft.index('subcolumn:')])
+    result['uk_aircraft'],source=uk_aircraft_history();sources.append(source)
     if result['baseline_code'] not in result['uk_aircraft']['removed_codes']:
         raise ValueError('UK aircraft reciprocal action not reconciled')
     text,source=verified_source('EO-14316');sources.append(source)

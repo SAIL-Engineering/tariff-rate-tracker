@@ -20,6 +20,14 @@ stopifnot(failed)
 restricted<-f;restricted$relations[[1]]$target_rule_ids<-list('ordinary-charge')
 selected<-compose_shipment_rules(b,list(restricted))
 stopifnot(!any(vapply(selected$relation_decisions,function(d)identical(d$effect,'reporting_obligation_retained'),logical(1))))
+# A shared reporting identifier cannot waive another statutory authority.
+scoped<-f;scoped$rules[[1]]$authority<-'section_232';scoped$rules[[2]]$authority<-'section_232';scoped$rules[[3]]$authority<-'section_301'
+scoped$relations[[1]]$target_authority<-'section_232'
+scoped_bundle<-compose_shipment_rules(b,list(scoped))
+scoped_result<-evaluate_shipment_bundle(scoped_bundle,unlist(b$products)[1],unlist(b$countries)[1],at,list())
+stopifnot(scoped_result$known_subtotal==35,!('ordinary-charge' %in% scoped_result$suppressed_rules))
+bad<-scoped;bad$relations[[1]]$target_authority<-list('section_232')
+stopifnot(inherits(try(compose_shipment_rules(b,list(bad)),silent=TRUE),'try-error'))
 # Other actions retain their explicit suppression semantics by default.
 f$relations[[1]]$preserve_reporting_only<-FALSE
 old<-compose_shipment_rules(b,list(f));r0<-evaluate_shipment_bundle(old,unlist(old$products)[1],unlist(old$countries)[1],at,list())

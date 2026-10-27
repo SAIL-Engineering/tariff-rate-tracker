@@ -1295,6 +1295,9 @@ emit_normalized_revision <- function(
     write_rule_fragment(reciprocal_scope_fragment(reciprocal),'ieepa_reciprocal_scope_evidence.json')
     write_rule_fragment(compile_reciprocal_initial_fragment(reciprocal,executable_products),
       'ieepa_reciprocal_initial_rules.json')
+    source(here::here('src/section232_civil_aircraft.R'))
+    write_rule_fragment(compile_s232_civil_aircraft_fragment(revision_id,executable_products),
+      'section232_civil_aircraft_rules.json')
   }
   ieepa_evidence <- denorm_state$ieepa_evidence
   decisions <- dplyr::bind_rows(

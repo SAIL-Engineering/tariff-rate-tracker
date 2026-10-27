@@ -188,6 +188,8 @@ compose_shipment_rules <- function(bundle, fragments) {
         (length(edge$target_action_ids)&&any(!vapply(edge$target_action_ids,function(id)
           is.character(id)&&length(id)==1L&&nzchar(id),logical(1)))) ||
         (!is.null(edge$target_rule_ids) && (!length(edge$target_rule_ids) || !all(unlist(edge$target_rule_ids)%in%ids))) ||
+        (!is.null(edge$target_authority) && (!is.character(edge$target_authority)||length(edge$target_authority)!=1L||
+          is.na(edge$target_authority)||!nzchar(edge$target_authority))) ||
         (!is.null(edge$trigger_test) && !edge$trigger_test %in% c('positive_duty','applicability')) ||
         (!is.null(edge$preserve_reporting_only)&&(!is.logical(edge$preserve_reporting_only)||
           length(edge$preserve_reporting_only)!=1L||is.na(edge$preserve_reporting_only)||
@@ -216,6 +218,7 @@ compose_shipment_rules <- function(bundle, fragments) {
       unlist(targets[unlist(edge$target_reporting_codes)])
     for (i in sort(unique(target_ix))) {
       target <- bundle$rules[[i]]
+      if(!is.null(edge$target_authority)&&!identical(target$authority,edge$target_authority))next
       if(!is.null(edge$target_rule_ids) && !target$id %in% unlist(edge$target_rule_ids)) next
       matches <- intersect(unlist(target$reporting_codes), unlist(edge$target_reporting_codes))
       if (!length(matches)&&!length(edge$target_action_ids)) next

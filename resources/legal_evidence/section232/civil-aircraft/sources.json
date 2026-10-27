@@ -1,0 +1,25 @@
+{
+  "contract_version": "sail.civil-aircraft-evidence/v1",
+  "sources": [
+    {
+      "id": "FR-2026-06960-aircraft-body",
+      "path": "resources/legal_evidence/section232/civil-aircraft/2026-06960-body.txt",
+      "sha256": "80e2f01f891af6d707efcae42a6d5c71cc7d16f05f0ff83f1d32c498449d196e",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/html/2026-06960.htm",
+      "citation": "Proclamation11021 clauses1 and10; April6 effective instant and preservation of prior civil-aircraft agreements",
+      "role": "proclamation_body"
+    },
+    {
+      "id": "FR-2026-06960-aircraft-annex-reviewed",
+      "path": "resources/legal_evidence/section232/civil-aircraft/2026-06960-annex-aircraft-reviewed.txt",
+      "sha256": "5fbe29517eab7b5a742927ef0073b079db68de2f070ff5c7b0568fba70b7907d",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
+      "citation": "Proclamation11021 AnnexIV A(3) and A(6), pp18260-18261 and18264; original reporting-heading replacements",
+      "role": "annex_transcription"
+    }
+  ],
+  "pdf_path": "resources/legal_evidence/section232/2026-06960.pdf",
+  "pdf_sha256": "a4cb2a59457ad6d73210025b5b80614ccb9d7a851a9d882c4c4820bacc8ea2ff",
+  "reviewed_at": "2026-10-27",
+  "review": "Body read through gstack against original GovInfo publication; annex paragraphs transcribed and visually checked against rendered original PDF pages60,61,64. Scope and rates are not inferred from this transcription."
+}

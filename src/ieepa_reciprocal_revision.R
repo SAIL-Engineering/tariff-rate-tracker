@@ -85,6 +85,17 @@ reciprocal_scope_fragment <- function(x) {
     limitations=list('Product exemption chronology only; does not attest reciprocal country, FTZ, valuation or cross-program completeness.'))
 }
 
+# Country text from an original instrument uses the ordinary ingestion resolver.
+# Shared by reciprocal extraction and independent Section232 agreements.
+resolve_original_action_origins <- function(country_text) {
+  names<-extract_countries_from_description(paste('articles the product of',country_text,'as provided for in subdivision (v)'))
+  resolved<-lapply(names,resolve_country_name)
+  if(any(lengths(resolved)==0L)) stop('Unresolved original action country token: ',paste(names[lengths(resolved)==0L],collapse=', '))
+  found<-unlist(resolved)
+  if(!length(found)||anyNA(found)) stop('Unresolved original action origin: ',country_text)
+  as.list(sort(unique(found)))
+}
+
 # Compile original reciprocal country/valuation decisions using the same
 # jurisdiction resolver as ingestion. Never read a calculated rate column.
 compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
@@ -95,12 +106,7 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
   if(!exists('match_countries',mode='function')) source(file.path(root,'src/05_parse_policy_params.R'))
   lookup<-build_country_lookup(file.path(root,'resources/census_codes.csv'))
   resolve_action<-function(a) {
-    names<-extract_countries_from_description(paste('articles the product of',a$country_text,'as provided for in subdivision (v)'))
-    resolved<-lapply(names,resolve_country_name)
-    if(any(lengths(resolved)==0L)) stop('Unresolved original reciprocal country token: ',paste(names[lengths(resolved)==0L],collapse=', '))
-    found<-unlist(resolved)
-    if(!length(found)||anyNA(found)) stop('Unresolved original reciprocal origin: ',a$country_text)
-    as.list(sort(unique(found)))
+    resolve_original_action_origins(a$country_text)
   }
   actions<-setNames(lapply(h$actions,resolve_action),vapply(h$actions,`[[`,character(1),'code'))
   august_actions<-setNames(lapply(h$august_country_policy$actions,resolve_action),

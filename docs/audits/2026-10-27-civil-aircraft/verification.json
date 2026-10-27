@@ -1,0 +1,99 @@
+{
+  "contract_version": "sail.audit-verification/v1",
+  "base_sha": "35fc42cc67766b22786ce976696d73e9a7b3752b",
+  "branch": "wjr_dev",
+  "python_tests": 455,
+  "node_tests": 774,
+  "r_rate_tests": 151,
+  "r_new_civil_aircraft_cases": 32,
+  "r_additional_checks": [
+    "source/orchestration intervals",
+    "35 semiconductor composition cases and four automobile revival checks",
+    "source merge",
+    "authority-restricted reporting suppression"
+  ],
+  "source_census": {
+    "revisions": 55,
+    "agreements": 4,
+    "conflicts": 0,
+    "rates_calculated": false
+  },
+  "point_serving_checks": {
+    "fixture_grid_cells": 1,
+    "requests": 2,
+    "checks": [
+      "ordinary Parquet relationships",
+      "R/TypeScript components",
+      "local DuckDB",
+      "JSON",
+      "Arrow",
+      "batch",
+      "dataset invalidation",
+      "bundle tampering"
+    ]
+  },
+  "motherduck": {
+    "access_mode": "READ_ONLY",
+    "database": "duty_calculator",
+    "observed_rows": 275,
+    "revisions": 55,
+    "origins": 5,
+    "shipment_fields_present": false,
+    "complete_totals_comparable": false
+  },
+  "tracker_prototype_build": {
+    "status": "passed",
+    "node": "22.22.3",
+    "output": "/tmp/shipment-legal-review-20261027/tracker-contract-build",
+    "warnings": [
+      "Browserslist data age",
+      "large Vite chunk"
+    ]
+  },
+  "commands": [
+    "python3 -m pytest tests/python -q",
+    "node22: execute each frontend/tests/*.test.mjs module directly and inspect individual TAP counts",
+    "Rscript tests/test_rate_calculation.R",
+    "Rscript tests/test_s232_civil_aircraft.R --emit",
+    "Rscript tests/test_s232_civil_aircraft_pipeline.R /tmp/shipment-legal-review-20261027/normal-civil-aircraft-freeze",
+    "node22 frontend/scripts/check-normal-shipment-fixture.mjs --fixture /tmp/shipment-legal-review-20261027/normal-civil-aircraft-freeze",
+    "python3 scripts/audit_civil_aircraft_policy.py --out /tmp/shipment-legal-review-20261027/civil-aircraft-source-census-freeze",
+    "frontend: npm run build -- --outDir /tmp/shipment-legal-review-20261027/tracker-contract-build"
+  ],
+  "uk_extractor_equivalence": {
+    "identical_history": true,
+    "previous_source_sha256": "b8bfed6fce9fd09f3f9dd8945629f8e1d6848ca679d7ba55efee751f20cf805e",
+    "current_source_sha256": "0124fd8a9f0e66ebd26d8a23463f482f6dc18d6017d36c82e6b7a92d074a5e3f",
+    "canonical_history_sha256": "5af1e3f5a1ac769c4aec132e439740291fec543075c86889536cbc3aec3eeaa3"
+  },
+  "source_pins": {
+    "src/07_emit_normalized.R": "91cae4fd964551fa530704f20643d0d754f6bb2a028926478c5b24bc57d65ad2",
+    "src/compile_shipment_rules.R": "e8d6eb190f616d4ff35a62ee53c81235154ab621bbdf22fbb4e10e0803a31260",
+    "src/ieepa_reciprocal_initial.py": "0124fd8a9f0e66ebd26d8a23463f482f6dc18d6017d36c82e6b7a92d074a5e3f",
+    "src/ieepa_reciprocal_revision.R": "e9c51f1cd869c955f4b613bddcdb955156619187d2e600441a64503a508516b2",
+    "src/section232_civil_aircraft.py": "6c036baf6d356da6f998551c0cb3464ed110c43b83987c4185dec00056e9fbbd",
+    "src/section232_civil_aircraft.R": "7ac6a70cd930ded218997b3271e0a48b52fdb05251d478a1a7115e8d38a794db",
+    "scripts/audit_civil_aircraft_policy.py": "955e5b5d75cfd0af44836cb3738f372339caf5a7634c97ee677cf9481b08c761",
+    "resources/legal_evidence/section232/civil-aircraft/2026-06960-body.txt": "80e2f01f891af6d707efcae42a6d5c71cc7d16f05f0ff83f1d32c498449d196e",
+    "resources/legal_evidence/section232/civil-aircraft/sources.json": "dc3b159de8289f52b30f9cd25828222aad8eb06e763d63604bcf0830fae8b2f0",
+    "resources/legal_evidence/section232/civil-aircraft/2026-06960-annex-aircraft-reviewed.txt": "5fbe29517eab7b5a742927ef0073b079db68de2f070ff5c7b0568fba70b7907d",
+    "tests/fixtures/shipment/section232-civil-aircraft.json.gz": "1a8d86eae538b855de7ea2ef4c8630649d424df2689d1876929b62621011b1ff"
+  },
+  "full_R_gate": {
+    "status": "not_qualified",
+    "reason": "Previously unsuccessful because normalized partitions are missing/stale and TPC input is absent. Not rerun or represented as passing."
+  },
+  "legal_coverage_complete": false,
+  "production_qualified": false,
+  "timeseries_rebuild_run": false,
+  "live_motherduck_modified": false,
+  "release_activated": false,
+  "pushed": false,
+  "aggregate_differences": "Not qualified; no series rebuilt.",
+  "remaining": [
+    "Full Section301 forced-labor and Brazil source-backed executable reconstruction",
+    "Remaining FTZ, Chapter98, AD/CVD, authority and claim coverage",
+    "Source201 staged schedule warning and aggregate parser/denormalization warnings in retained point log",
+    "Full release and remaining consumer qualification"
+  ]
+}

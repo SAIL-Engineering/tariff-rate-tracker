@@ -1,0 +1,161 @@
+{
+  "contract_version": "sail.audit-evidence-inventory/v1",
+  "artifacts": [
+    {
+      "path": "civil-uk-refactor-equivalence.json.gz",
+      "sha256": "e4520121c5ef926ff2ac567edc642fb0a42cc23a10c1c6a68d9d10abc4889d9a",
+      "decoded_sha256": "fd544bd78b5603e0651dca10ce8844de06a7eb241d745e22b3cdef87f4321218",
+      "decoded_bytes": 321
+    },
+    {
+      "path": "motherduck/case-specification.json.gz",
+      "sha256": "b1575fe7d4dfa723740112e7ddc92961c2982adc16b2bc9430d2f159e47ecb69",
+      "decoded_sha256": "9e31f1f9bff3fbf66328abe6e82e5b08a900fca09421f6e822dc7490ad1cf1aa",
+      "decoded_bytes": 11346
+    },
+    {
+      "path": "motherduck/cases.json.gz",
+      "sha256": "a29400f798f5d3979368a8a3ee5a785be60e59a9a6ee7ba45fe4e66570f5031c",
+      "decoded_sha256": "9ae896739b43e9f9b5583765574b8640f74a16b799ae16e2d50ff742a9602a2c",
+      "decoded_bytes": 1093103
+    },
+    {
+      "path": "motherduck/findings.json.gz",
+      "sha256": "fecf88cc0c41856c83d6ce544066a34ade418da9a82285182822a1d4e2d3ba2a",
+      "decoded_sha256": "7c5af3183e3c903b3d5c28a8479827afc3c1b140a9c3fd1073956aa854cc88a8",
+      "decoded_bytes": 7279
+    },
+    {
+      "path": "motherduck/manifest.json.gz",
+      "sha256": "81bcc2dc7fb10af71a155463680b6a0c59a75c8eac984800bb0fa7fef54406f9",
+      "decoded_sha256": "c1d5d94fd41ff692cf0a4e74cddaf1ca28fc9c3af0149d63ba7f3d26c7af0689",
+      "decoded_bytes": 1072
+    },
+    {
+      "path": "motherduck/revisions.json.gz",
+      "sha256": "6a37c252284bbea72852a4bf6bf0b8708093ecdb95a58d969a31433c82032532",
+      "decoded_sha256": "282c5f23211dcaf7501d5c878a048c59160a23aab04ad652d869bcfdc2f477e1",
+      "decoded_bytes": 15210
+    },
+    {
+      "path": "motherduck/schema.json.gz",
+      "sha256": "3ddffc9871f57659013fd289cf2d16738a2735338b830f8db30b37c1ee5bbf0e",
+      "decoded_sha256": "4a95963508cfc27a76bc817605e9c60488cab6551332c8e1d49e45b20fec12ce",
+      "decoded_bytes": 17147
+    },
+    {
+      "path": "ordinary-point/delivery_cases.json.gz",
+      "sha256": "5013eee459b80ee56966603a0fbc03f4bca9225a203db3a585ed55fff07b1a73",
+      "decoded_sha256": "5b29a4000d171151e55f147afd045c9b4319552b51fddc1b1a7e672e2b5f99aa",
+      "decoded_bytes": 69208
+    },
+    {
+      "path": "ordinary-point/rates_fixture.parquet.gz",
+      "sha256": "e9a5cec9bf7208a52f8db0961d1dc2a33935cffa5271f0dec32be995edd1c5d7",
+      "decoded_sha256": "dac04d11b781f1815cc805850c3f2b1c9ee34bd1dffc145f8f9353cac487c56c",
+      "decoded_bytes": 72834
+    },
+    {
+      "path": "primary/april-aircraft-primary.txt.gz",
+      "sha256": "0071a1ae3d73d7626a7f46c060ab646033730c443fac349db426e550f19a6927",
+      "decoded_sha256": "80e2f01f891af6d707efcae42a6d5c71cc7d16f05f0ff83f1d32c498449d196e",
+      "decoded_bytes": 32345
+    },
+    {
+      "path": "primary/s301-forced-labor-15181-primary.txt.gz",
+      "sha256": "c2b222d7cfd5d29b54cdf70d388973ca7189756cfbc2230b1b7ab947d5037359",
+      "decoded_sha256": "d3f85a757eca6f7ea331fb2cb38aa02ef9c7c0a2db132e00d23b2c66790e7942",
+      "decoded_bytes": 171017
+    },
+    {
+      "path": "primary/s301-forced-labor-15274-primary.txt.gz",
+      "sha256": "a583c0fef04874a98ea097654751d410ed588c10d1fd0896c25eec5738c54922",
+      "decoded_sha256": "d6767162b7c44513a2aef37ad04568dbac722f5850a687cce3dc4ea103a866bc",
+      "decoded_bytes": 23745
+    },
+    {
+      "path": "source-census/origin-resolution.json.gz",
+      "sha256": "86a365d4ee9b7b2076045825eda18bbb99b3d4b99f107b0ef5a3d254c0a19126",
+      "decoded_sha256": "07bca52b87c7f2a1a8fbdc19c2593678bb1774bc258666773cfd89b73eb7137d",
+      "decoded_bytes": 83063
+    },
+    {
+      "path": "source-census/summary.json.gz",
+      "sha256": "b78f28a0a1a70f9e4e9ce945375a13b56be4fc5999788e68cac4de5b72c845d6",
+      "decoded_sha256": "53a5f2a1e54d03e5ec3887af32bb3e0aee89f5545f300b51dc478dce7b6b4b9d",
+      "decoded_bytes": 72837
+    },
+    {
+      "path": "verification/civil-aircraft-delivery-freeze.log.gz",
+      "sha256": "b890f7e0975552fdf4721347fa86714146ddd0471fc89981c1f942ab508fb57c",
+      "decoded_sha256": "46e32843bac0458a18f7f77d7302932fa23abdbd17a386b39b1e941fb3e29193",
+      "decoded_bytes": 226
+    },
+    {
+      "path": "verification/civil-aircraft-r-freeze.log.gz",
+      "sha256": "aba919d5df28836bba672e3c3c792728cccb55b0bd4ca2adce3c42a04a547c2c",
+      "decoded_sha256": "182061ed91d20c3184bf56e567450aad71c2dc9d2230e60682c034c6d4209503",
+      "decoded_bytes": 582
+    },
+    {
+      "path": "verification/civil-authority-filter.log.gz",
+      "sha256": "87a2be1881a52d118e38d37154e3327566658bad3a25aa3162d93a011e31c624",
+      "decoded_sha256": "255a72a60ef00166ac709cc726b1d71e201273f3b8c404ecfcbef08bd596aaa6",
+      "decoded_bytes": 1148
+    },
+    {
+      "path": "verification/civil-composition-final.log.gz",
+      "sha256": "60f7d8c7bf5e63b9f4fb31fbdf636273cb2e1519e05c3a5aef6c51adbbb80d85",
+      "decoded_sha256": "c5beb9da0cdf026a61203b762b8d2f0c1018b51492d708c4686982baf7569c5d",
+      "decoded_bytes": 134
+    },
+    {
+      "path": "verification/civil-intervals-final.log.gz",
+      "sha256": "9765fea9eeb9279b59d9b39a4ab9ac50a6d1118644a2c43040a8febc9b59945a",
+      "decoded_sha256": "0c22f0c7715f01d7f449df1cace5f9891db4ec9f8569c823b7edb4c20bc10eef",
+      "decoded_bytes": 873
+    },
+    {
+      "path": "verification/civil-rate-r.log.gz",
+      "sha256": "5c6879e69220176008a5960a3787cbec1e150d659a7331c27495afb7e390fef3",
+      "decoded_sha256": "841cc2597e543b0bb45bfa6d8fb5c1241555db0dbdc3c654b91a93f6b912f9f2",
+      "decoded_bytes": 17163
+    },
+    {
+      "path": "verification/civil-source-merge-final.log.gz",
+      "sha256": "c38471b7225a48e1769a1fbadf751065aa82436b6cd36c5193dba26b50890ceb",
+      "decoded_sha256": "e35b1a18d3fead38f81df810bff15ac0a0ec023ed792b8abaea0ccc679ce10d9",
+      "decoded_bytes": 98
+    },
+    {
+      "path": "verification/civil-tracker-build.log.gz",
+      "sha256": "3412611847c2bd95da6c948145471dfb514b16ce0e4659ad24c3f846dc6beba8",
+      "decoded_sha256": "25b5b1ef3b84c756620707df5d96238bb0fb40bbde178244d453c34307a95d21",
+      "decoded_bytes": 1530
+    },
+    {
+      "path": "verification/node22-civil-current-all-summary.json.gz",
+      "sha256": "038b17c20139eb0bc75e0bc0e75d686456a5564a95311d84f31d15a8ad4b04a2",
+      "decoded_sha256": "f1d60dd6ec42aeb8428befb5bfeacf6d0bd9245545ece551dff3665c71260726",
+      "decoded_bytes": 4093
+    },
+    {
+      "path": "verification/node22-civil-current-all.log.gz",
+      "sha256": "79c5656b45edd4012a06273eca6ff44642f3eb1013d00664c352c85c77ee3f7e",
+      "decoded_sha256": "66200a26d1981620e432d6e60610137222c702e9b9c15e18f2b4bfbb0d1ce935",
+      "decoded_bytes": 175121
+    },
+    {
+      "path": "verification/normal-civil-aircraft-freeze.log.gz",
+      "sha256": "018c2a031063b5405a0dd51e74875e9984436bca121de5746de8ff84eaae663f",
+      "decoded_sha256": "f4cc7308e8413e86f1eea6d9a05e434a85888cc56546d668ce32fe977c89209d",
+      "decoded_bytes": 8974
+    },
+    {
+      "path": "verification/python-civil-final-freeze.log.gz",
+      "sha256": "52aa847cf6ec981c45ece9dd84ceae97aa08ad275b034cd6b340a5749e12d0c1",
+      "decoded_sha256": "3c9ee4fbea3211a275c203a1f519fb5a24fd9d3e16cb3ed92084e571c00169b1",
+      "decoded_bytes": 592
+    }
+  ]
+}
