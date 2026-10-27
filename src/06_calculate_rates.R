@@ -3405,6 +3405,10 @@ calculate_rates_for_revision <- function(
   product_tier_cols <- products %>%
     select(hts10, any_of(tier_col_names))
   rates <- rates %>%
+    # The empty authority seed already carries schema defaults for these
+    # source-owned fields. Replace them before joining; .x/.y would discard
+    # the parsed duty expressions when the canonical schema is enforced.
+    select(-any_of(setdiff(names(product_tier_cols), 'hts10'))) %>%
     left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
 
   # Serialize special_programs list-column to JSON string for Parquet compatibility

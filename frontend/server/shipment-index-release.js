@@ -81,7 +81,7 @@ export async function readIndexReleaseManifest(filename) {
   ||m.preparation_mode==='production'&&Date.parse(ordered[i-1].checked.index.valid_until)!==Date.parse(ordered[i].checked.index.valid_from))throw new Error('Release rule intervals overlap or have an unqualified gap');
  return {manifest:m,manifestPath:await fs.realpath(filename),root:base,revisions,evidence,manifestHash:sha(bytes),releaseId:sha(bytes),schema:'release_'+sha(bytes).slice(0,24)};
 }
-const parquet=files=>`read_parquet([${files.map(q).join(',')}],hive_partitioning=false)`;
+const parquet=files=>`read_parquet([${files.map(q).join(',')}],hive_partitioning=false,union_by_name=true)`;
 const rateSource=r=>r.artifact.rates_partitioning==='hive_revision'?`(SELECT *,${q(r.revision)}::VARCHAR AS revision FROM ${parquet(r.files.rates)})`:parquet(r.files.rates);
 function columnType(table,key) {
  if(key==='shipment_exact_time_required'||key==='terminated'||key==='derivative')return 'BOOLEAN';
@@ -96,18 +96,34 @@ export async function preflightIndexRelease(conn,p,catalog) {
  // Reopen every pin. Files changed after manifest discovery cannot be loaded.
  if(sha(await fs.readFile(p.manifestPath))!==p.manifestHash)throw new Error('Release manifest hash changed after discovery');
  await readIndexReleaseManifest(p.manifestPath);
- const signatures=new Map(),reports=[];
+ const signatures=new Map(),reports=[],schemas=[];
+ const progress=p.onProgress??(()=>{});
+ const totalFiles=p.revisions.reduce((n,r)=>n+Object.values(r.files).reduce((n,files)=>n+files.length,0),0);
+ let checkedFiles=0,checkedRevisions=0;
  for(const r of p.revisions) {
   for(const [table,files] of Object.entries(r.files)) {
    for(const f of r.artifact[table])await artifact(p.root,f);
-   if(table==='rates'&&r.artifact.rates_partitioning==='hive_revision'&&(await conn.runAndReadAll(`DESCRIBE SELECT * FROM ${parquet(files)}`)).getRowObjects().some(c=>c.column_name==='revision'))throw new Error('Hive revision identity conflicts with physical column');
+   // Check physical schemas before union_by_name can supply NULL for absent
+   // optional fields. A required shipment field must exist in every file.
+   for(const file of files) {
+    const cols=(await conn.runAndReadAll(`DESCRIBE SELECT * FROM ${parquet([file])}`)).getRowObjects();
+    const types=new Map(cols.map(c=>[c.column_name,c.column_type]));
+    if(table==='rates'&&r.artifact.rates_partitioning==='hive_revision') {
+     if(types.has('revision'))throw new Error('Hive revision identity conflicts with physical column');
+     types.set('revision','VARCHAR');
+    }
+    const invalid=INDEX_RELEASE_COLUMNS[table].filter(k=>types.get(k)!==columnType(table,k));
+    if(invalid.length)throw new Error(`Missing or invalid ${table} fields: ${invalid.map(k=>k+' expected '+columnType(table,k)+' found '+(types.get(k)??'missing')).join(', ')} (${r.revision}: ${path.relative(p.root,file)})`);
+    const shared=signatures.get(table)??new Map();
+    for(const [key,type] of types) {
+     if(shared.has(key)&&shared.get(key)!==type)throw new Error(`Inconsistent ${table} partition types: ${key} expected ${shared.get(key)} found ${type} (${r.revision}: ${path.relative(p.root,file)})`);
+     shared.set(key,type);
+    }
+    signatures.set(table,shared);
+    schemas.push({revision:r.revision,table,file:path.relative(p.root,file),columns:[...types.keys()]});
+    progress({phase:'Schema',completed:++checkedFiles,total:totalFiles,detail:r.revision+' / '+table});
+   }
    const from=table==='rates'?rateSource(r):parquet(files);
-   const cols=(await conn.runAndReadAll(`DESCRIBE SELECT * FROM ${from}`)).getRowObjects();
-   const types=new Map(cols.map(c=>[c.column_name,c.column_type]));
-   const invalid=INDEX_RELEASE_COLUMNS[table].filter(k=>types.get(k)!==columnType(table,k));
-   if(invalid.length)throw new Error(`Missing or invalid ${table} fields: ${invalid.map(k=>k+' expected '+columnType(table,k)+' found '+(types.get(k)??'missing')).join(', ')}`);
-   const sig=JSON.stringify([...types].sort(([a],[b])=>a.localeCompare(b)));
-   if(signatures.has(table)&&signatures.get(table)!==sig)throw new Error(`Inconsistent ${table} partition types`);signatures.set(table,sig);
    const bad=(await conn.runAndReadAll(`SELECT count(*) n FROM ${from} WHERE revision IS DISTINCT FROM ?`,[r.revision])).getRowObjects()[0].n;
    if(Number(bad))throw new Error('Mixed revision in '+table);
   }
@@ -126,21 +142,27 @@ export async function preflightIndexRelease(conn,p,catalog) {
   if(Number(absent))throw new Error('Missing product-base legal states');
   const tmp=await fs.mkdtemp(path.join(os.tmpdir(),'shipment-preflight-'));
   try {
+   progress({phase:'Shipment reconciliation',completed:checkedRevisions,total:p.revisions.length,detail:r.revision+': checking every emitted cell'});
    const request=path.join(tmp,'request.json'),output=path.join(tmp,'verification.json');
    await fs.writeFile(request,JSON.stringify({normalized_dir:r.checked.root,rates:r.files.rates,classes:r.files.shipment_decision_classes,memberships:r.files.shipment_decision_membership,require_full_source_inventory:p.manifest.preparation_mode==='production',
     rates_partition_revision:r.artifact.rates_partitioning==='hive_revision'?r.revision:undefined}));
    try{await exec('Rscript',['scripts/validate_shipment_partition.R','--request='+request,'--output='+output],{cwd:root,maxBuffer:4e6});}
    catch(error){throw new Error('Shipment partition reconciliation failed: '+(error.stderr??error.message).slice(-2500));}
    reports.push(JSON.parse(await fs.readFile(output)));
+   progress({phase:'Shipment reconciliation',completed:++checkedRevisions,total:p.revisions.length,detail:r.revision+' verified'});
   } finally {await fs.rm(tmp,{recursive:true,force:true});}
  }
- return {catalog:current,revisions:p.revisions.length,manifest_sha256:p.manifestHash,shipment_verification:reports,legal_coverage_complete:false};
+ const optional_schema=schemas.map(s=>({...s,absent_optional_columns:[...signatures.get(s.table).keys()].filter(k=>!s.columns.includes(k))}))
+  .filter(s=>s.absent_optional_columns.length||s.columns.some(k=>/\.(x|y)$/.test(k)));
+ return {catalog:current,revisions:p.revisions.length,manifest_sha256:p.manifestHash,shipment_verification:reports,
+  optional_schema,legal_coverage_complete:false};
 }
 async function insert(conn,table,rows) {
  for(let i=0;i<rows.length;i+=100){const chunk=rows.slice(i,i+100);await conn.run(`INSERT INTO ${table} VALUES ${chunk.map(r=>'('+r.map(()=>'?').join(',')+')').join(',')}`,chunk.flat());}
 }
 export async function prepareIndexRelease(conn,p,catalog) {
  const report=await preflightIndexRelease(conn,p,catalog);
+ const progress=p.onProgress??(()=>{});
  await conn.run(RELEASE_MIGRATION);
  if((await conn.runAndReadAll('SELECT release_id FROM tariff_releases WHERE release_id=? OR dataset_version=?',[p.releaseId,p.manifest.dataset_version])).getRowObjects().length)throw new Error('Release already exists; releases are immutable');
  const schema=id(p.schema);
@@ -149,13 +171,16 @@ export async function prepareIndexRelease(conn,p,catalog) {
  try {
   await conn.run('CREATE SCHEMA '+schema);await conn.run(migration.replaceAll('__RELEASE_SCHEMA__',schema));
   await conn.run(`INSERT INTO ${schema}.release_metadata VALUES (1,?,?,?,?,?)`,[p.manifest.preparation_mode,p.manifestHash,p.manifest.dataset_version,p.manifest.evidence_snapshot_id,JSON.stringify(report)]);
-  for(const table of Object.keys(INDEX_RELEASE_COLUMNS)) {
+  const tables=Object.keys(INDEX_RELEASE_COLUMNS);let loadedTables=0;
+  for(const table of tables) {
    const files=p.revisions.flatMap(r=>r.files[table]);
-   const query=table==='rates'?p.revisions.map(r=>'SELECT * FROM '+rateSource(r)).join(' UNION ALL '):'SELECT * FROM '+parquet(files);
+   const query=table==='rates'?p.revisions.map(r=>'SELECT * FROM '+rateSource(r)).join(' UNION ALL BY NAME '):'SELECT * FROM '+parquet(files);
    await conn.run(`CREATE TABLE ${schema}.${id(table)} AS ${query}`);
    for(const r of p.revisions)for(const f of r.artifact[table])await artifact(p.root,f);
+   progress({phase:'Local tables',completed:++loadedTables,total:tables.length,detail:table});
   }
   for(const r of p.revisions) {
+   let loadedBundles=0;
    const a=await artifact(p.root,r.artifact.bundle_index,true);
    await conn.run(`INSERT INTO ${schema}.rule_bundle_indexes VALUES (?,?,?)`,[r.revision,sha(a.bytes),a.bytes.toString()]);
    for await(const e of shipmentBundles(r.checked)) {
@@ -165,6 +190,7 @@ export async function prepareIndexRelease(conn,p,catalog) {
     await insert(conn,`${schema}.executable_rules`,b.rules.map(rule=>[bid,rule.id,rule.action_id,rule.authority,JSON.stringify(rule)]));
     await insert(conn,`${schema}.rule_coverage`,b.coverage.map((c,i)=>[bid,i,c.authority,JSON.stringify(c)]));
     await insert(conn,`${schema}.executable_claims`,b.claim_definitions.map(c=>[bid,c.id,JSON.stringify(c)]));
+    progress({phase:'Rule bundles',detail:r.revision+': '+(++loadedBundles)+' loaded'});
    }
   }
   const status=p.manifest.preparation_mode==='diagnostic'?'prepared_diagnostic':'prepared';

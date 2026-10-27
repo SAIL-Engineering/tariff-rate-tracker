@@ -31,6 +31,12 @@ expected <- eligibility$usmca_eligible[match(rates$hts10,eligibility$hts10)] & r
 stopifnot(nrow(rates)==6L,identical(rates$usmca_eligible,expected),
   !any(grepl('^usmca_eligible\\.',names(rates))),!anyNA(rates$usmca_eligible),
   all(rates$shipment_status=='unresolved_source'),all(is.na(rates$statutory_total_rate)))
+stopifnot(!any(grepl('\\.(x|y)$',names(rates))))
+for(field in c('rate_special','rate_special_raw','rate_column2','rate_column2_raw',
+  'rate_basis','specific_amount','specific_rate_unit','reported_unit_1','reported_unit_2',
+  'duty_basis_unit','is_qty_duty_relevant','quantity_source','rounding_rule')) {
+  if(field %in% names(products))stopifnot(identical(rates[[field]],products[[field]][match(rates$hts10,products$hts10)]))
+}
 arrow::write_parquet(rates,file.path(out,'rates_fixture.parquet'))
 verified <- validate_shipment_partition(file.path(out,revision),file.path(out,'rates_fixture.parquet'))
 stopifnot(verified$grid_cells==6L,!verified$legal_coverage_complete)

@@ -41,6 +41,7 @@ pp <- load_policy_params()
 pp$SERIES_HORIZON_END <- as.Date(substr(SHIPMENT_BUILD_SPEC$audit_until,1,10))-1L
 lookup <- build_country_lookup('resources/census_codes.csv');report <- list()
 for(revision in revisions) {
+ cat('DIAGNOSTIC_PROGRESS ',jsonlite::toJSON(list(phase='Revision build',completed=length(report),total=length(revisions),detail=revision),auto_unbox=TRUE),'\n',sep='');flush.console()
  path <- file.path('data/hts_archives',paste0('hts_',revision,'.json'))
  products <- parse_products(path)
  absent <- if(cohort)setdiff(requested,products$hts10) else character()
@@ -57,5 +58,6 @@ for(revision in revisions) {
   missing_requested_products=as.list(absent),rates_partitioning='hive_revision')
  jsonlite::write_json(list(mode='diagnostic',dataset_version=initial_version,revisions=report,
   publication_qualified=FALSE,legal_coverage_complete=FALSE),file.path(output,'diagnostic-build.json'),auto_unbox=TRUE,pretty=TRUE,null='null',digits=17)
+ cat('DIAGNOSTIC_PROGRESS ',jsonlite::toJSON(list(phase='Revision build',completed=length(report),total=length(revisions),detail=paste(revision,'written')),auto_unbox=TRUE),'\n',sep='');flush.console()
 }
 cat('Diagnostic artifacts ready at ',output,'; production and active releases were not changed.\n',sep='')

@@ -103,3 +103,33 @@ test('catalog mismatch and unsupported field types fail read-only preflight',()=
  await assert.rejects(preflightRelease(conn,p,catalog),/Missing or invalid rates fields/);
  assert.equal(await activeShipmentRelease(conn),null);
 }));
+
+test('optional partition fields and reordered columns load by name without inventing zeros',()=>fixture(async({conn,file,catalog,root,revision,save,descriptor})=>{
+ const source=q(path.join(root,'rates.parquet'));
+ await conn.run(`COPY (SELECT *,7.25::DOUBLE AS optional_probe FROM read_parquet(${source}) WHERE country='2010') TO ${q(path.join(root,'part-a.parquet'))} (FORMAT PARQUET)`);
+ await conn.run(`COPY (SELECT country,* EXCLUDE(country),'source evidence'::VARCHAR AS optional_label FROM read_parquet(${source}) WHERE country='5700') TO ${q(path.join(root,'part-b.parquet'))} (FORMAT PARQUET)`);
+ revision.rates=[await descriptor('part-a.parquet'),await descriptor('part-b.parquet')];await save();
+ const p=await readReleaseManifest(file);await prepareRelease(conn,p,catalog);
+ const rows=(await conn.runAndReadAll(`SELECT country,optional_probe,optional_label FROM "${p.schema}".rates ORDER BY country,hts10`)).getRowObjects();
+ assert.equal(rows.length,4);
+ for(const r of rows)assert.deepEqual(r,r.country==='2010'
+  ?{country:'2010',optional_probe:7.25,optional_label:null}
+  :{country:'5700',optional_probe:null,optional_label:'source evidence'});
+}));
+
+test('each physical partition must contain required fields before union can fill optional nulls',()=>fixture(async({conn,file,catalog,root,revision,save,descriptor})=>{
+ const source=q(path.join(root,'rates.parquet'));
+ await conn.run(`COPY (SELECT * FROM read_parquet(${source}) WHERE country='2010') TO ${q(path.join(root,'part-a.parquet'))} (FORMAT PARQUET)`);
+ await conn.run(`COPY (SELECT * EXCLUDE(statutory_base_rate) FROM read_parquet(${source}) WHERE country='5700') TO ${q(path.join(root,'part-b.parquet'))} (FORMAT PARQUET)`);
+ revision.rates=[await descriptor('part-a.parquet'),await descriptor('part-b.parquet')];await save();
+ await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/Missing or invalid rates fields:.*statutory_base_rate/);
+ assert.equal(await activeShipmentRelease(conn),null);
+}));
+
+test('conflicting shared optional types are rejected with the exact field and types',()=>fixture(async({conn,file,catalog,root,revision,save,descriptor})=>{
+ const source=q(path.join(root,'rates.parquet'));
+ await conn.run(`COPY (SELECT *,7.25::DOUBLE AS optional_probe FROM read_parquet(${source}) WHERE country='2010') TO ${q(path.join(root,'part-a.parquet'))} (FORMAT PARQUET)`);
+ await conn.run(`COPY (SELECT *,'unresolved'::VARCHAR AS optional_probe FROM read_parquet(${source}) WHERE country='5700') TO ${q(path.join(root,'part-b.parquet'))} (FORMAT PARQUET)`);
+ revision.rates=[await descriptor('part-a.parquet'),await descriptor('part-b.parquet')];await save();
+ await assert.rejects(preflightRelease(conn,await readReleaseManifest(file),catalog),/optional_probe.*DOUBLE.*VARCHAR/);
+}));

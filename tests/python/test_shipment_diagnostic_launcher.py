@@ -1,14 +1,22 @@
 """A diagnostic must keep working while the main checkout changes."""
 import json
 import importlib.util
+import io
 import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 LAUNCHER = ROOT / 'scripts/run_shipment_diagnostic.py'
+
+
+def load_launcher():
+    spec=importlib.util.spec_from_file_location('diagnostic_launcher',LAUNCHER)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
 
 
 def repository(tmp_path):
@@ -139,3 +147,60 @@ def test_failed_build_shows_the_root_error_before_a_long_warning_trailer(tmp_pat
         launcher.run_logged([sys.executable,'-c',code],tmp_path,log,os.environ.copy())
     assert 'object usmca_eligible not found' in capsys.readouterr().err
     assert 'warning 59' in log.read_text(), 'The full diagnostic log must remain intact'
+
+
+def test_live_activity_and_heartbeat_arrive_before_a_quiet_child_exits(tmp_path,monkeypatch):
+    launcher=load_launcher();monkeypatch.setattr(launcher,'HEARTBEAT_SECONDS',.03,raising=False)
+    events=[]
+    class Console(io.StringIO):
+        def write(self,value):
+            events.append((time.monotonic(),value));return super().write(value)
+    console=Console();monkeypatch.setattr(launcher.sys,'stdout',console)
+    done=tmp_path/'done'
+    code=('import time,pathlib\nprint("Extracting source inputs",flush=True)\n'
+          'time.sleep(.2)\npathlib.Path('+repr(str(done))+').write_text(str(time.monotonic()))\n')
+    launcher.run_logged([sys.executable,'-c',code],tmp_path,tmp_path/'build.log',os.environ.copy())
+    finished=float(done.read_text())
+    assert any('Extracting source inputs' in text and at<finished for at,text in events)
+    assert any('working' in text.lower() and at<finished for at,text in events)
+
+
+def test_structured_progress_renders_a_counted_bar_and_retains_the_raw_event(tmp_path,capsys):
+    launcher=load_launcher();log=tmp_path/'build.log'
+    event='DIAGNOSTIC_PROGRESS '+json.dumps(dict(phase='schema',completed=2,total=4,detail='2026 rates'))
+    launcher.run_logged([sys.executable,'-c','print('+repr(event)+')'],tmp_path,log,os.environ.copy())
+    shown=capsys.readouterr().out
+    assert '2/4' in shown and '#' in shown and '2026 rates' in shown
+    assert event in log.read_text()
+
+
+def completed_files(tmp_path):
+    output=tmp_path/'completed';output.mkdir()
+    version='shipment-'+'a'*64
+    revisions=['2025_rev_11','2026_rev_19']
+    (output/'diagnostic-build.json').write_text(json.dumps(dict(mode='diagnostic',dataset_version=version,
+        publication_qualified=False,revisions={r:dict(revision=r,rows=88,products=11,countries=8) for r in revisions})))
+    (output/'release.json').write_text(json.dumps(dict(contract_version='sail.tariff-release/v8',
+        preparation_mode='diagnostic',dataset_version=version,required_revisions=revisions,
+        revisions=[dict(revision=r) for r in revisions])))
+    return output,dict(dataset_version=version)
+
+
+def test_resume_accepts_completed_metadata_without_rewriting_the_build(tmp_path):
+    launcher=load_launcher();output,frozen=completed_files(tmp_path)
+    before={p.name:p.read_bytes() for p in output.iterdir()}
+    result=launcher.completed_build(output,frozen)
+    assert result['revisions']==['2025_rev_11','2026_rev_19']
+    assert before=={p.name:p.read_bytes() for p in output.iterdir()}
+
+
+def test_resume_rejects_a_partial_or_mixed_version_build(tmp_path):
+    launcher=load_launcher();output,frozen=completed_files(tmp_path)
+    report=output/'diagnostic-build.json';data=json.loads(report.read_text())
+    del data['revisions']['2026_rev_19'];report.write_text(json.dumps(data))
+    with pytest.raises(RuntimeError,match='Incomplete|revision'):
+        launcher.completed_build(output,frozen)
+    data['revisions']['2026_rev_19']=dict(revision='2026_rev_19',rows=88,products=11,countries=8)
+    data['dataset_version']='shipment-'+'b'*64;report.write_text(json.dumps(data))
+    with pytest.raises(RuntimeError,match='version|dataset'):
+        launcher.completed_build(output,frozen)
