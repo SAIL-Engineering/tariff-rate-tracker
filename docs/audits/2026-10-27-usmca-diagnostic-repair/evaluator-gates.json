@@ -1,0 +1,27 @@
+[
+  {
+    "suite": "test_shipment_rules.R",
+    "exit_code": 0,
+    "log": "/tmp/usmca-test_shipment_rules.R.log"
+  },
+  {
+    "suite": "test_shipment_constraints.R",
+    "exit_code": 0,
+    "log": "/tmp/usmca-test_shipment_constraints.R.log"
+  },
+  {
+    "suite": "test_shipment_projection.R",
+    "exit_code": 0,
+    "log": "/tmp/usmca-test_shipment_projection.R.log"
+  },
+  {
+    "suite": "test_shipment_prepared.R",
+    "exit_code": 0,
+    "log": "/tmp/usmca-test_shipment_prepared.R.log"
+  },
+  {
+    "suite": "test_legal_intervals.R",
+    "exit_code": 0,
+    "log": "/tmp/usmca-test_legal_intervals.R.log"
+  }
+]

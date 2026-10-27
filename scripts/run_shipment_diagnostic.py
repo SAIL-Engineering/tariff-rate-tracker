@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -121,7 +122,18 @@ def run_logged(command,snapshot,log,env):
                 print(line.rstrip(),flush=True)
         status=process.wait()
     if status:
-        print('\n'.join(log.read_text().splitlines()[-25:]),file=sys.stderr)
+        lines=log.read_text().splitlines()
+        # R prints its root error before a backtrace and potentially lengthy
+        # warning trailer. A tail alone can hide the reason the build stopped.
+        start=next((i for i,line in enumerate(lines)
+                    if re.match(r'^(?:Error\b|\w*(?:Error|Exception):)',line)),None)
+        if start is None:
+            excerpt=lines[-25:]
+        else:
+            end=next((i for i in range(start+1,min(start+20,len(lines)))
+                      if lines[i].startswith(('Backtrace:','Warning messages:'))),min(start+20,len(lines)))
+            excerpt=lines[start:end]
+        print('\n'.join(excerpt),file=sys.stderr)
         raise RuntimeError('Diagnostic failed; retain '+str(log))
 
 

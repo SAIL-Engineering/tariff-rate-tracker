@@ -1,9 +1,11 @@
 """A diagnostic must keep working while the main checkout changes."""
 import json
+import importlib.util
 import os
 from pathlib import Path
 import subprocess
 import sys
+import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 LAUNCHER = ROOT / 'scripts/run_shipment_diagnostic.py'
@@ -119,3 +121,21 @@ def test_failed_source_validation_does_not_leave_an_incomplete_snapshot(tmp_path
     assert r.returncode!=0
     assert not snapshot.exists()
     assert not list(tmp_path.glob('.shipment-source-*'))
+
+
+def test_failed_build_shows_the_root_error_before_a_long_warning_trailer(tmp_path,capsys):
+    spec=importlib.util.spec_from_file_location('diagnostic_launcher',LAUNCHER)
+    launcher=importlib.util.module_from_spec(spec);spec.loader.exec_module(launcher)
+    code=('import sys\n'
+          'print("Error in `mutate()`:")\n'
+          'print("Caused by error:")\n'
+          'print("object usmca_eligible not found")\n'
+          'print("Backtrace:")\n'
+          'print("Warning messages:")\n'
+          'print("\\n".join("warning "+str(i) for i in range(60)))\n'
+          'sys.exit(1)\n')
+    log=tmp_path/'build.log'
+    with pytest.raises(RuntimeError,match='Diagnostic failed'):
+        launcher.run_logged([sys.executable,'-c',code],tmp_path,log,os.environ.copy())
+    assert 'object usmca_eligible not found' in capsys.readouterr().err
+    assert 'warning 59' in log.read_text(), 'The full diagnostic log must remain intact'

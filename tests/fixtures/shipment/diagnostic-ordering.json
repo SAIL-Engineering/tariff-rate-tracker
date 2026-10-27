@@ -1,0 +1,445 @@
+[
+  {
+    "name": "missing",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "value": 1
+          },
+          "verification": "verified",
+          "when": {
+            "op": "and",
+            "args": [
+              {
+                "fact": "z_fact"
+              },
+              {
+                "fact": "a_fact"
+              },
+              {
+                "fact": "z_fact"
+              }
+            ]
+          }
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "determination": "rules",
+          "rule_ids": [
+            "base"
+          ],
+          "source_ids": [
+            "synthetic"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "z_fact": {
+          "type": "boolean",
+          "label": "Z fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        },
+        "a_fact": {
+          "type": "boolean",
+          "label": "A fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-01-01T05:01:00Z",
+    "facts": {
+      "claims": []
+    },
+    "expected": {
+      "contract_version": "sail.shipment-result/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "status": "needs_inputs",
+      "components": [
+        {
+          "rule_id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "amount": null,
+          "status": "unresolved",
+          "formula": {
+            "value": 1
+          },
+          "reporting_codes": [],
+          "citations": [
+            {
+              "id": "synthetic",
+              "status": "verified",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+              "url": "https://example.invalid/test-fixture",
+              "citation": "Synthetic arithmetic fixture; not legal authority"
+            }
+          ],
+          "missing_inputs": [
+            "a_fact",
+            "z_fact"
+          ],
+          "source_errors": []
+        }
+      ],
+      "rule_decisions": [
+        {
+          "rule_id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "outcome": "unresolved",
+          "scope": null,
+          "when": {
+            "op": "and",
+            "args": [
+              {
+                "fact": "z_fact"
+              },
+              {
+                "fact": "a_fact"
+              },
+              {
+                "fact": "z_fact"
+              }
+            ]
+          },
+          "suppressed_when": null,
+          "reporting_codes": [],
+          "source_ids": [
+            "synthetic"
+          ],
+          "citations": [
+            {
+              "id": "synthetic",
+              "status": "verified",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+              "url": "https://example.invalid/test-fixture",
+              "citation": "Synthetic arithmetic fixture; not legal authority"
+            }
+          ],
+          "missing_inputs": [
+            "a_fact",
+            "z_fact"
+          ],
+          "source_errors": []
+        }
+      ],
+      "coverage_decisions": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "matched_rule_ids": [
+            "base"
+          ],
+          "attestations": [
+            {
+              "authority": "synthetic",
+              "status": "verified",
+              "determination": "rules",
+              "rule_ids": [
+                "base"
+              ],
+              "source_ids": [
+                "synthetic"
+              ],
+              "citations": [
+                {
+                  "id": "synthetic",
+                  "status": "verified",
+                  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "url": "https://example.invalid/test-fixture",
+                  "citation": "Synthetic arithmetic fixture; not legal authority"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "applied_rules": [],
+      "suppressed_rules": [],
+      "missing_inputs": [
+        "a_fact",
+        "z_fact"
+      ],
+      "required_facts": {
+        "a_fact": {
+          "type": "boolean",
+          "label": "A fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        },
+        "z_fact": {
+          "type": "boolean",
+          "label": "Z fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      "claim_options": [],
+      "source_errors": [],
+      "known_subtotal": 0,
+      "complete_total": null
+    }
+  },
+  {
+    "name": "source_errors",
+    "bundle": {
+      "contract_version": "sail.shipment-rules/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "valid_from": "2026-01-01T05:01:00Z",
+      "valid_until": "2027-01-01T05:01:00Z",
+      "products": [
+        "1234567890"
+      ],
+      "sources": [
+        {
+          "id": "synthetic",
+          "status": "verified",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "url": "https://example.invalid/test-fixture",
+          "citation": "Synthetic arithmetic fixture; not legal authority"
+        }
+      ],
+      "rules": [
+        {
+          "id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "source_ids": [
+            "synthetic"
+          ],
+          "reporting_codes": [],
+          "formula": {
+            "value": 1
+          },
+          "verification": "verified",
+          "when": {
+            "op": "and",
+            "args": [
+              {
+                "unresolved_source": "z_question"
+              },
+              {
+                "unresolved_source": "a_question"
+              },
+              {
+                "unresolved_source": "z_question"
+              }
+            ]
+          }
+        }
+      ],
+      "coverage_requirements": [
+        "synthetic"
+      ],
+      "coverage": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "determination": "rules",
+          "rule_ids": [
+            "base"
+          ],
+          "source_ids": [
+            "synthetic"
+          ]
+        }
+      ],
+      "fact_definitions": {
+        "z_fact": {
+          "type": "boolean",
+          "label": "Z fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        },
+        "a_fact": {
+          "type": "boolean",
+          "label": "A fact",
+          "source_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      "countries": [
+        "TEST"
+      ],
+      "claim_definitions": []
+    },
+    "hts10": "1234567890",
+    "country": "TEST",
+    "entry_at": "2026-01-01T05:01:00Z",
+    "facts": {
+      "claims": []
+    },
+    "expected": {
+      "contract_version": "sail.shipment-result/v1",
+      "dataset_version": "synthetic-v1",
+      "revision": "test",
+      "evidence_snapshot_id": "synthetic-evidence",
+      "status": "unresolved_source",
+      "components": [
+        {
+          "rule_id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "kind": "duty",
+          "amount": null,
+          "status": "unresolved",
+          "formula": {
+            "value": 1
+          },
+          "reporting_codes": [],
+          "citations": [
+            {
+              "id": "synthetic",
+              "status": "verified",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+              "url": "https://example.invalid/test-fixture",
+              "citation": "Synthetic arithmetic fixture; not legal authority"
+            }
+          ],
+          "missing_inputs": [],
+          "source_errors": [
+            "source_discrepancy:a_question",
+            "source_discrepancy:z_question"
+          ]
+        }
+      ],
+      "rule_decisions": [
+        {
+          "rule_id": "base",
+          "action_id": "base",
+          "authority": "synthetic",
+          "outcome": "unresolved",
+          "scope": null,
+          "when": {
+            "op": "and",
+            "args": [
+              {
+                "unresolved_source": "z_question"
+              },
+              {
+                "unresolved_source": "a_question"
+              },
+              {
+                "unresolved_source": "z_question"
+              }
+            ]
+          },
+          "suppressed_when": null,
+          "reporting_codes": [],
+          "source_ids": [
+            "synthetic"
+          ],
+          "citations": [
+            {
+              "id": "synthetic",
+              "status": "verified",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+              "url": "https://example.invalid/test-fixture",
+              "citation": "Synthetic arithmetic fixture; not legal authority"
+            }
+          ],
+          "missing_inputs": [],
+          "source_errors": [
+            "source_discrepancy:a_question",
+            "source_discrepancy:z_question"
+          ]
+        }
+      ],
+      "coverage_decisions": [
+        {
+          "authority": "synthetic",
+          "status": "verified",
+          "matched_rule_ids": [
+            "base"
+          ],
+          "attestations": [
+            {
+              "authority": "synthetic",
+              "status": "verified",
+              "determination": "rules",
+              "rule_ids": [
+                "base"
+              ],
+              "source_ids": [
+                "synthetic"
+              ],
+              "citations": [
+                {
+                  "id": "synthetic",
+                  "status": "verified",
+                  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "url": "https://example.invalid/test-fixture",
+                  "citation": "Synthetic arithmetic fixture; not legal authority"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "applied_rules": [],
+      "suppressed_rules": [],
+      "missing_inputs": [],
+      "required_facts": {},
+      "claim_options": [],
+      "source_errors": [
+        "source_discrepancy:a_question",
+        "source_discrepancy:z_question"
+      ],
+      "known_subtotal": 0,
+      "complete_total": null
+    }
+  }
+]

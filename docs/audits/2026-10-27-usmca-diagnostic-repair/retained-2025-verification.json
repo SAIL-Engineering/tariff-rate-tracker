@@ -1,0 +1,15 @@
+{
+  "contract_version": "sail.shipment-partition-verification/v1",
+  "revision": "2025_rev_11",
+  "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+  "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+  "grid_cells": 88,
+  "membership_rows": 176,
+  "decision_classes": 75,
+  "bundles": 2,
+  "daily_states": 1,
+  "status": "consistent_with_declared_rules",
+  "legal_coverage_complete": false,
+  "production_qualified": false,
+  "aggregate_methodology_qualified": false
+}

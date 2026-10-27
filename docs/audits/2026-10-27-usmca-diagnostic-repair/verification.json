@@ -1,0 +1,95 @@
+{
+  "base_commit": "85b409f7",
+  "branch": "wjr_dev",
+  "dataset_version": "shipment-c1bd85010f9f63211b1d078377e4e9b35c5aa3db18b5bf5dac9941da28104278",
+  "python": {
+    "passed": 437,
+    "exit_code": 0
+  },
+  "node": {
+    "passed": 684,
+    "exit_code": 0
+  },
+  "rate_calculation": {
+    "passed": 151,
+    "exit_code": 0
+  },
+  "evaluator_gates": [
+    {
+      "suite": "test_shipment_rules.R",
+      "exit_code": 0,
+      "log": "/tmp/usmca-test_shipment_rules.R.log"
+    },
+    {
+      "suite": "test_shipment_constraints.R",
+      "exit_code": 0,
+      "log": "/tmp/usmca-test_shipment_constraints.R.log"
+    },
+    {
+      "suite": "test_shipment_projection.R",
+      "exit_code": 0,
+      "log": "/tmp/usmca-test_shipment_projection.R.log"
+    },
+    {
+      "suite": "test_shipment_prepared.R",
+      "exit_code": 0,
+      "log": "/tmp/usmca-test_shipment_prepared.R.log"
+    },
+    {
+      "suite": "test_legal_intervals.R",
+      "exit_code": 0,
+      "log": "/tmp/usmca-test_legal_intervals.R.log"
+    }
+  ],
+  "prepared_evaluator_cases": 279,
+  "empty_seed_pipeline": {
+    "cells": 6,
+    "exit_code": 0
+  },
+  "actual_cohort_point": {
+    "kind": "bounded_one_date_point_calculation",
+    "revision_build_executed": false,
+    "products": 11,
+    "countries": 8,
+    "verification": {
+      "contract_version": "sail.shipment-partition-verification/v1",
+      "revision": "2026_rev_19",
+      "dataset_version": "shipment-c1bd85010f9f63211b1d078377e4e9b35c5aa3db18b5bf5dac9941da28104278",
+      "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+      "grid_cells": 88,
+      "membership_rows": 176,
+      "decision_classes": 106,
+      "bundles": 2,
+      "daily_states": 1,
+      "status": "consistent_with_declared_rules",
+      "legal_coverage_complete": false,
+      "production_qualified": false,
+      "aggregate_methodology_qualified": false
+    }
+  },
+  "transport": {
+    "cases": 6,
+    "exit_code": 0
+  },
+  "local_release_status": "prepared_diagnostic",
+  "retained_original_2025_verification": {
+    "contract_version": "sail.shipment-partition-verification/v1",
+    "revision": "2025_rev_11",
+    "dataset_version": "shipment-b4ae89c48dee580516de9dadb3268f4f043a9638975d0419413895babee55a32",
+    "evidence_snapshot_id": "unresolved_trade_intelligence_snapshot",
+    "grid_cells": 88,
+    "membership_rows": 176,
+    "decision_classes": 75,
+    "bundles": 2,
+    "daily_states": 1,
+    "status": "consistent_with_declared_rules",
+    "legal_coverage_complete": false,
+    "production_qualified": false,
+    "aggregate_methodology_qualified": false
+  },
+  "complete_r_gate_rerun": false,
+  "revision_or_timeseries_build_executed_by_codex": false,
+  "production_writes": false,
+  "legal_coverage_complete": false,
+  "production_qualified": false
+}

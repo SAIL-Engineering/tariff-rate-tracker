@@ -2967,6 +2967,11 @@ calculate_rates_for_revision <- function(
   # Falls back to binary eligibility (S/S+ → zero rate) if shares not available.
   if (!is.null(usmca) && nrow(usmca) > 0) {
     rates <- rates %>%
+      # An empty footnote seed is schema-enforced before blanket/grid rows
+      # are added, so it already carries a default eligibility column. Replace
+      # that output/default with the supplied source table, rather than creating
+      # .x/.y columns or treating the default as independent eligibility evidence.
+      select(-any_of('usmca_eligible')) %>%
       left_join(
         usmca %>% select(hts10, usmca_eligible),
         by = 'hts10',

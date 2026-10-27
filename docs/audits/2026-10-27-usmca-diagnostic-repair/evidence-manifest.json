@@ -1,0 +1,124 @@
+{
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "0876a96d493f830a259becc8883caf3bfdad7b8cdeafc5e91f6ba46a17ca549b"
+    },
+    {
+      "path": "calculator-green.log.gz",
+      "sha256": "43d7633d7d4fe3368f3079a5363dcf81c169ff52cd4430e83a709e803df06859"
+    },
+    {
+      "path": "calculator-red.log.gz",
+      "sha256": "24c363fc86ae9b621c92223a282dafc71cca7860fc658f8930508db0187ecbd5"
+    },
+    {
+      "path": "check-diagnostic-2026-point.R",
+      "sha256": "8b489b5bc545788873eed1cf4392fd6f4467f7f8619ebcb1ec9f1d13aa906ad2"
+    },
+    {
+      "path": "cohort-input-source-extraction.log.gz",
+      "sha256": "dbcdc838e88c1f18a7f8817fc94ff72d4edea9cb54e9ea0cbd887b4bf91b6971"
+    },
+    {
+      "path": "cohort-point-final.log.gz",
+      "sha256": "72933a774041e8362ad150e842e686907b23bf217436f100e10356ebe3634ad9"
+    },
+    {
+      "path": "cohort-point-verification.json",
+      "sha256": "8ab8bd31518efc9081105efbaf977f3b5395ac95e5e93bc054c09bcb90e1e350"
+    },
+    {
+      "path": "evaluator-gates.json",
+      "sha256": "7bc06c49f7c1a3a56d110187d17d0ec9e4250d66848658af852440c34f0ca810"
+    },
+    {
+      "path": "launcher-error-green.log.gz",
+      "sha256": "3cd9f216fcf28d005552a54032efa45cb8c01dbcf8afc2b0fa408a08b3724a2f"
+    },
+    {
+      "path": "launcher-error-red.log.gz",
+      "sha256": "9fea04459aaa24f802aad91d1808719f905a5b5532d36b942e87634d6c88231e"
+    },
+    {
+      "path": "local-release-manifest.json",
+      "sha256": "394a7a91f31f0632904093bf267d62bcf90950637f45126717c0e55bbb42cc0d"
+    },
+    {
+      "path": "local-release-manifest.log.gz",
+      "sha256": "4e5e823444121dd8c03547f9e46d2b0bf54d43beeb6bc0021d1487a6b84e5a45"
+    },
+    {
+      "path": "local-release-preparation.json",
+      "sha256": "e5e1546f6cd35fefdeaedd7984748b321023959ad0f5d980737ffddb5f327ff1"
+    },
+    {
+      "path": "nested-diagnostics-green.log.gz",
+      "sha256": "bc0994851c7dcdb5d100b6ac9f3725223a7f6a65eefa535dff7e243437db59b8"
+    },
+    {
+      "path": "nested-diagnostics-red.log.gz",
+      "sha256": "b911ed2a7724b549f1dde91307efc6a3a10f95efc2c03b111957aa270f33faad"
+    },
+    {
+      "path": "node.log.gz",
+      "sha256": "b6d64efcdf83f8b1ec39fad150dc96f1f8d3fb72890ee45d8abc4a0de2dfabe2"
+    },
+    {
+      "path": "original-failed-build.log.gz",
+      "sha256": "c19401bc48644c5388159669b101912a2de52ed5515cc28b353c5f3455a894d0"
+    },
+    {
+      "path": "prepare-diagnostic-point-input.R",
+      "sha256": "262c7d858291300129339aae7c741bd607a19ba269bfc766554de2b8832f5165"
+    },
+    {
+      "path": "python.log.gz",
+      "sha256": "85a759bca3eb6a0768d5248fc1be6f97486566d769771c6c96c378be73977f38"
+    },
+    {
+      "path": "rate-suite.log.gz",
+      "sha256": "206d91b46d598aebe336f88bc7592923f7ebc5bf80f644ad6a3db1be7762594f"
+    },
+    {
+      "path": "retained-2025-validation.log.gz",
+      "sha256": "281868213eed1464fce565d37cad8832e6402546dd11577f0a35d7b42fd65f14"
+    },
+    {
+      "path": "retained-2025-verification.json",
+      "sha256": "dc0ae800c6f53c6b1015369202d96bdf1e109d7fef6fb8e1f556b9684faaf289"
+    },
+    {
+      "path": "test_legal_intervals.R.log.gz",
+      "sha256": "a8381485e9b3073112d45da5af71741580dce3affa41eb960cb9996febfd07da"
+    },
+    {
+      "path": "test_shipment_constraints.R.log.gz",
+      "sha256": "46422e59d792a950c8589ecd717389536c9e764dfaf43ba94ce213590c573317"
+    },
+    {
+      "path": "test_shipment_prepared.R.log.gz",
+      "sha256": "fd13ac3caf18f37d316dad7a601e1229e7330dcab66fb85d50cc0358d67eceb9"
+    },
+    {
+      "path": "test_shipment_projection.R.log.gz",
+      "sha256": "4c274d69890d21af415ab44ee747e4b3066b9f22f44080be4b2465236c20f94a"
+    },
+    {
+      "path": "test_shipment_rules.R.log.gz",
+      "sha256": "a8c8b26df52c4f593ccb5be5da15ef29afed5841dad5448779977e0c2a143a9f"
+    },
+    {
+      "path": "transport-before-ordering-fix.log.gz",
+      "sha256": "eed9dc4986e04da2e9a60e024734c83b8dc32c89a6ab1502564b23fb44086b45"
+    },
+    {
+      "path": "transport.log.gz",
+      "sha256": "cb5c46730f6c5546f3cf52c77094472ce3c191fe4f10188fd55103c2f09197a0"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "4e87b24ce7e936ad69564c6ddb5f0c4da974d910644e8a0a0543c07b1c3c9d68"
+    }
+  ]
+}

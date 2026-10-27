@@ -324,6 +324,11 @@ prepare_shipment_bundle <- function(bundle) {
     visiting <<- c(visiting, cache_key)
     on.exit(visiting <<- setdiff(visiting, cache_key))
     finish <- function(value) {
+      # Dependencies can discover the same facts/questions in a different
+      # traversal order. Canonicalize cached decisions as well as the top level
+      # so nested components match the shared TypeScript contract.
+      value$missing <- sort(unique(value$missing),method='radix')
+      value$errors <- sort(unique(value$errors),method='radix')
       if(!is.null(value$amount)&&is.null(value$exact))value$exact <- .shipment_rational(value$amount)
       assign(cache_key,value,envir=cache);value
     }
