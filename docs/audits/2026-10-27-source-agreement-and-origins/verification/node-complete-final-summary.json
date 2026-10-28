@@ -130,8 +130,8 @@
     {
       "file": "frontend/tests/shipment-note16-source-agreement.test.mjs",
       "exit_code": 0,
-      "tests": 11,
-      "pass": 11,
+      "tests": 13,
+      "pass": 13,
       "fail": 0,
       "cancelled": 0,
       "skipped": 0
@@ -219,8 +219,8 @@
     }
   ],
   "totals": {
-    "tests": 859,
-    "pass": 859,
+    "tests": 861,
+    "pass": 861,
     "fail": 0,
     "cancelled": 0,
     "skipped": 0

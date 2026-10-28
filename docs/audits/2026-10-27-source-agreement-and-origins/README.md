@@ -65,9 +65,31 @@ source question. They cannot use an economic AVE or the final base component
 after suppression. FTZ histories and unreviewed claim effects remain separate.
 Applicability/reporting identity remains separate from an unpriced amount:
 an established metal reporting heading can still establish the separately
-source-named forced-labor exemption when shipment value is unknown. Eleven
+source-named forced-labor exemption when shipment value is unknown. Thirteen
 R/TypeScript cases exercise this distinction, native benchmarks, origin
-alternatives, FTZ and model invariance.
+alternatives, FTZ and model invariance. They include the valid historical
+8427.10.40.00 identity: Japan's ordinary treatment is 25% under note 16(c)(vii)
+on June 7 and a 15% combined-duty floor under (c)(xi) from the original June 8
+00:01 amendment instant. Its published Free benchmark makes that additional
+amount 15%; qualifying U.S. metal instead produces 10%.
+
+Those endpoints do not attest every intervening instant. Date-based source
+selection and the legal 00:01 amendment still require reconciliation for the
+preceding minute, preserving the prior action rather than assuming zero or
+extending a later snapshot backward. That is an executable temporal coverage
+task, not a conclusion that the earlier legal rate is unknowable.
+
+A fresh read-only MotherDuck sample retains 25% for this product and Japan on
+both sides of that amendment. September's valid 8427.10.40.90 row also retains
+25%, and the sampled four origins retain positive forced-labor parameters.
+The sourced ordinary shipment cases instead apply the named Section 232
+exemption from forced labor once metal applicability is established. These
+are component comparisons under explicit facts, not certified full totals.
+Exact query/parameters/results and native classification/scope chronology are
+retained in `motherduck-mobile-valid-points.*` and
+`mobile-classification-chronology.json`. The initial new-code query has no June
+matches because that statistical identity was not yet present; it is retained
+as negative evidence, not misclassified as zero duty or missing source data.
 
 The queried Trade Intelligence CSMS corpus had no matching records for the
 specific search retained in `motherduck-note16-csms.json`. The primary bulletin
@@ -113,15 +135,17 @@ amount. It does not implement all FTZ histories or claim to close those paths.
 
 ## Verification and limitations
 
-The frozen production-code checkpoint passes 465 Python and 859 individual
-Node tests. Source-backed R checks pass: 35 existing metal cases, 11 source
+The frozen production-code checkpoint passes 465 Python and 861 individual
+Node tests; complete module results are recorded in `verification/status.json`.
+Source-backed R checks pass: 35 existing metal cases, 13 source
 agreement/composition cases, 14 common product cases, 50 controlled Section
 301/232 cases, 10 actual automobile composition cases, 32 civil-aircraft cases,
 18 country-universe invariants, the complete 240-name identity round-trip,
-entry-context guards and emergency chronology/interactions. Three older R
+entry-context guards and emergency chronology/interactions. Five older R
 composition probes incorrectly reused already bound bundles; rebuilding those
 fixtures from original inputs preserves the compiler guard and passes their
-9 automobile/metal, 49 legacy-metal and 35 pre-March cases plus claim assertions.
+9 automobile/metal, 49 legacy-metal and 35 pre-March cases plus claim assertions,
+Section 301 permutation/source checks and native base-source/inheritance checks.
 The refreshed
 forced-labor source census reconciles 101 original/amended heading definitions
 across all 55 revisions with no conflicts. That is a source census, not complete
@@ -143,10 +167,13 @@ The full R gate is **not qualified**. The current normalized prerequisite check
 finds 685 missing-artifact assertions: 367 Parquet files, 316 source/rule JSON
 files and two configured revision directories (2026 revisions 20 and 21).
 These are missing generated artifacts, not 685 demonstrated legal errors.
-`data/tpc/tariff_by_flow_day.csv` is also absent. The full-suite execution status
-is recorded separately in `verification/status.json`; no running or failed
-gate is counted as passing. Logs and reproduction commands are retained under
-`verification/`.
+`data/tpc/tariff_by_flow_day.csv` is also absent. The initial 80-suite invocation
+completed with exit 1: 73 suites passed, five composition-fixture errors were
+subsequently repaired and their targeted reruns passed, normalized parity failed
+its prerequisites, and TPC was skipped (a failure with `--require-data`). That
+invocation spans edits; no clean post-fix full-gate pass is asserted. Its exact
+verdicts and fresh targeted results are in `verification/status.json`. Logs and
+reproduction commands are retained under `verification/`.
 
 The previous read-only MotherDuck audit found positive legacy forced-labor
 parameters on 1,191,087 common-exemption rows and three overlapping revision

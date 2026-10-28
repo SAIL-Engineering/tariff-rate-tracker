@@ -9,6 +9,7 @@ b <- list(contract_version='sail.shipment-rules/v1',dataset_version='base-source
   evidence_snapshot_id='base-source-test-not-production',valid_from='2025-04-09T00:00:00-04:00',
   valid_until='2025-04-10T00:00:00-04:00',products=as.list(products),countries=list('2010','2390'),
   sources=list(),rules=list(),fact_definitions=list(),claim_definitions=list(),coverage=list(),coverage_requirements=list('base'))
+b_seed <- b
 b <- compose_shipment_rules(b,list(f))
 eval <- function(hts,country,facts) {
   facts$ieepa_ftz_entry <- FALSE # This fixture expressly prices an ordinary entry.
@@ -42,7 +43,7 @@ cat('Ten base-source, country, quantity, integrity and entry-type checks passed\
 orphan <- '9401993030';valid <- '9401999030'
 x16 <- load_shipment_base_source('2025_rev_16')
 f16 <- compile_shipment_base_fragment(x16,c(orphan,valid),'2390')
-b16 <- b;b16$revision <- '2025_rev_16';b16$products <- as.list(c(orphan,valid));b16$countries <- list('2390')
+b16 <- b_seed;b16$revision <- '2025_rev_16';b16$products <- as.list(c(orphan,valid));b16$countries <- list('2390')
 b16$rules <- list();b16$sources <- list();b16$coverage <- list();b16$fact_definitions <- list()
 calendar <- load_revision_dates(use_policy_dates=TRUE)
 day <- calendar$effective_date[calendar$revision=='2025_rev_16']

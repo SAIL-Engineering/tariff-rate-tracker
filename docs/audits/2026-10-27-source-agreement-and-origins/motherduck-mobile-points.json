@@ -1,0 +1,125 @@
+{
+  "catalog": "duty_calculator",
+  "access_mode": "READ_ONLY",
+  "sql": "WITH entry_days(entry_day) AS (VALUES (CAST(? AS DATE)),(CAST(? AS DATE)),(CAST(? AS DATE))), origins(country) AS (VALUES (?),(?),(?),(?)) SELECT d.entry_day::VARCHAR entry_day,o.country,r.revision,r.valid_from::VARCHAR valid_from,r.valid_until::VARCHAR valid_until,r.statutory_rate_232,r.statutory_rate_s301fl FROM entry_days d CROSS JOIN origins o LEFT JOIN rates r ON r.hts10=? AND CAST(r.country AS VARCHAR)=o.country AND r.valid_from<=d.entry_day AND r.valid_until>=d.entry_day ORDER BY d.entry_day,o.country,r.revision",
+  "params": [
+    "2026-06-07",
+    "2026-06-09",
+    "2026-09-15",
+    "5700",
+    "5880",
+    "2010",
+    "4621",
+    "8427104090"
+  ],
+  "rows": [
+    {
+      "entry_day": "2026-06-07",
+      "country": "2010",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-07",
+      "country": "4621",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-07",
+      "country": "5700",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-07",
+      "country": "5880",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-09",
+      "country": "2010",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-09",
+      "country": "4621",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-09",
+      "country": "5700",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-06-09",
+      "country": "5880",
+      "revision": null,
+      "valid_from": null,
+      "valid_until": null,
+      "statutory_rate_232": null,
+      "statutory_rate_s301fl": null
+    },
+    {
+      "entry_day": "2026-09-15",
+      "country": "2010",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.1
+    },
+    {
+      "entry_day": "2026-09-15",
+      "country": "4621",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    },
+    {
+      "entry_day": "2026-09-15",
+      "country": "5700",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    },
+    {
+      "entry_day": "2026-09-15",
+      "country": "5880",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    }
+  ]
+}

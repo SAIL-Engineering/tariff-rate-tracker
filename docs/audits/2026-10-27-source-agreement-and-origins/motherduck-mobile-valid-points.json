@@ -1,0 +1,139 @@
+{
+  "catalog": "duty_calculator",
+  "access_mode": "READ_ONLY",
+  "sql": "WITH entry_lines(entry_day,hts10) AS (VALUES (CAST(? AS DATE),?),(CAST(? AS DATE),?),(CAST(? AS DATE),?)), origins(country) AS (VALUES (?),(?),(?),(?)) SELECT d.entry_day::VARCHAR entry_day,d.hts10,o.country,r.revision,r.valid_from::VARCHAR valid_from,r.valid_until::VARCHAR valid_until,r.statutory_rate_232,r.statutory_rate_s301fl FROM entry_lines d CROSS JOIN origins o LEFT JOIN rates r ON r.hts10=d.hts10 AND CAST(r.country AS VARCHAR)=o.country AND r.valid_from<=d.entry_day AND r.valid_until>=d.entry_day ORDER BY d.entry_day,o.country,r.revision",
+  "params": [
+    "2026-06-07",
+    "8427104000",
+    "2026-06-09",
+    "8427104000",
+    "2026-09-15",
+    "8427104090",
+    "5700",
+    "5880",
+    "2010",
+    "4621"
+  ],
+  "rows": [
+    {
+      "entry_day": "2026-06-07",
+      "hts10": "8427104000",
+      "country": "2010",
+      "revision": "2026_rev_8",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-07",
+      "hts10": "8427104000",
+      "country": "4621",
+      "revision": "2026_rev_8",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-07",
+      "hts10": "8427104000",
+      "country": "5700",
+      "revision": "2026_rev_8",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-07",
+      "hts10": "8427104000",
+      "country": "5880",
+      "revision": "2026_rev_8",
+      "valid_from": "2026-05-22",
+      "valid_until": "2026-06-07",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-09",
+      "hts10": "8427104000",
+      "country": "2010",
+      "revision": "2026_rev_10",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-09",
+      "hts10": "8427104000",
+      "country": "4621",
+      "revision": "2026_rev_10",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-09",
+      "hts10": "8427104000",
+      "country": "5700",
+      "revision": "2026_rev_10",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-06-09",
+      "hts10": "8427104000",
+      "country": "5880",
+      "revision": "2026_rev_10",
+      "valid_from": "2026-06-08",
+      "valid_until": "2026-06-30",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0
+    },
+    {
+      "entry_day": "2026-09-15",
+      "hts10": "8427104090",
+      "country": "2010",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.1
+    },
+    {
+      "entry_day": "2026-09-15",
+      "hts10": "8427104090",
+      "country": "4621",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    },
+    {
+      "entry_day": "2026-09-15",
+      "hts10": "8427104090",
+      "country": "5700",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    },
+    {
+      "entry_day": "2026-09-15",
+      "hts10": "8427104090",
+      "country": "5880",
+      "revision": "2026_rev_19",
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-12-31",
+      "statutory_rate_232": 0.25,
+      "statutory_rate_s301fl": 0.125
+    }
+  ]
+}

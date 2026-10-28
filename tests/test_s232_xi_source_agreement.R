@@ -46,7 +46,24 @@ if(length(fl)!=1L)stop('Investigations overlap or the expected single origin act
 stopifnot(length(fl)==1L,fl[[1]]$amount==0,'9903.05.90'%in%unlist(fl[[1]]$reporting_codes),
  setequal(r$missing_inputs,'customs_value'),is.null(r$complete_total))
 cases[[length(cases)+1L]]<-list(name='Established reporting applicability resolves another program without knowing the disputed metal amount',bundle='overlap',hts10='8427104090',country='5700',entry_at='2026-09-15T12:00:00-04:00',facts=f,expected=shipment_result_for_json(r))
+bundles<-list(agreement=b,overlap=overlap)
+# Before the statistical split, the valid canonical identity was .40.00.
+# The June8 country treatment changes while that product identity stays valid.
+for(spec in list(list(id='before_mobile',rev='2026_rev_8',at='2026-06-07T23:59:59-04:00',amount=25,code='9903.82.09'),
+ list(id='after_mobile',rev='2026_rev_10',at='2026-06-08T00:01:00-04:00',amount=15,code='9903.82.22'))) {
+ ff<-compile_s232_note16_fragment(load_s232_note16_source(spec$rev),'8427104000')
+ bb<-base;bb$revision<-spec$rev;bb$products<-list('8427104000');bb$countries<-list('5880')
+ bb$valid_from<-ff$supported_from;bb$valid_until<-ff$supported_until
+ bb<-compose_shipment_rules(bb,list(ff));facts<-q;facts$us_steel_origin_fraction<-0
+ r<-evaluate_shipment_bundle(bb,'8427104000','5880',spec$at,facts)
+ metal<-Filter(function(c)c$authority=='section_232'&&c$status=='applied',r$components)
+ stopifnot(sum(vapply(metal,`[[`,numeric(1),'amount'))==spec$amount,
+  spec$code%in%unlist(lapply(metal,`[[`,'reporting_codes')),!length(r$missing_inputs),is.null(r$complete_total))
+ bundles[[spec$id]]<-bb
+ cases[[length(cases)+1L]]<-list(name=paste('Original June8 amendment and historical code validity:',spec$id),bundle=spec$id,
+  hts10='8427104000',country='5880',entry_at=spec$at,facts=facts,expected=shipment_result_for_json(r))
+}
 if('--emit'%in%commandArgs(TRUE)) {
- out<-gzfile('tests/fixtures/shipment/note16-source-agreement.json.gz','w');writeLines(jsonlite::toJSON(list(bundles=list(agreement=b,overlap=overlap),cases=cases),auto_unbox=TRUE,null='null',digits=17),out);close(out)
+ out<-gzfile('tests/fixtures/shipment/note16-source-agreement.json.gz','w');writeLines(jsonlite::toJSON(list(bundles=bundles,cases=cases),auto_unbox=TRUE,null='null',digits=17),out);close(out)
 }
 cat(length(cases),'original-source agreement, native benchmark and missing-shipment-input cases passed\n')

@@ -1,0 +1,131 @@
+[
+  {
+    "entry_day": "2026-06-07",
+    "revision": "2026_rev_8",
+    "native_sha256": "04f4ddda584823a954097b65cd8ca3a5aa1982317c344c582aa4cc3d5021433a",
+    "valid_products": [
+      {
+        "hts10": "8427104000",
+        "general": {
+          "expression": "Free",
+          "source_code": "8427104000",
+          "source_row_index": 25278,
+          "source_indent": 2,
+          "footnotes": [
+            {
+              "columns": [
+                "general"
+              ],
+              "value": "See 9903.88.01. ",
+              "type": "endnote"
+            }
+          ]
+        },
+        "note16_scope": {
+          "tier": "annex_1b",
+          "ordinary_reporting_code": "9903.82.09",
+          "metals": [
+            "steel"
+          ],
+          "list_ids": [
+            "vii"
+          ],
+          "source_locators": [
+            "U.S. note 16(c)(vii)"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "entry_day": "2026-06-09",
+    "revision": "2026_rev_10",
+    "native_sha256": "66375d1cc8e56cae00bbf8327c400e62586eefe128cad7c8e4d936dc3d4eda2f",
+    "valid_products": [
+      {
+        "hts10": "8427104000",
+        "general": {
+          "expression": "Free",
+          "source_code": "8427104000",
+          "source_row_index": 25278,
+          "source_indent": 2,
+          "footnotes": [
+            {
+              "columns": [
+                "general"
+              ],
+              "value": "See 9903.88.01. ",
+              "type": "endnote"
+            }
+          ]
+        },
+        "note16_scope": {
+          "tier": "annex_1b",
+          "ordinary_reporting_code": "9903.82.09",
+          "metals": [
+            "steel"
+          ],
+          "list_ids": [
+            "xi"
+          ],
+          "source_locators": [
+            "U.S. note 16(c)(xi)"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "entry_day": "2026-09-15",
+    "revision": "2026_rev_19",
+    "native_sha256": "b83a0e40640e0fd36c434a37d0317c51e1d466ce9160613f7384609665128e28",
+    "valid_products": [
+      {
+        "hts10": "8427104010",
+        "general": {
+          "expression": "Free",
+          "source_code": "84271040",
+          "source_row_index": 25418,
+          "source_indent": 2,
+          "footnotes": []
+        },
+        "note16_scope": {
+          "tier": "annex_1b",
+          "ordinary_reporting_code": "9903.82.09",
+          "metals": [
+            "steel"
+          ],
+          "list_ids": [
+            "xi"
+          ],
+          "source_locators": [
+            "U.S. note 16(c)(xi)"
+          ]
+        }
+      },
+      {
+        "hts10": "8427104090",
+        "general": {
+          "expression": "Free",
+          "source_code": "84271040",
+          "source_row_index": 25418,
+          "source_indent": 2,
+          "footnotes": []
+        },
+        "note16_scope": {
+          "tier": "annex_1b",
+          "ordinary_reporting_code": "9903.82.09",
+          "metals": [
+            "steel"
+          ],
+          "list_ids": [
+            "xi"
+          ],
+          "source_locators": [
+            "U.S. note 16(c)(xi)"
+          ]
+        }
+      }
+    ]
+  }
+]

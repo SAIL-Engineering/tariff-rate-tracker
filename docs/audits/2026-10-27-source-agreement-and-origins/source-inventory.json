@@ -116,8 +116,8 @@
   },
   {
     "path": "tests/fixtures/shipment/note16-source-agreement.json.gz",
-    "sha256": "c5fd8b15a8131daf2e23092bc06b71bca0a121489019607e2b7786c0dd063b9c",
-    "bytes": 59880
+    "sha256": "bc0c0cf95374f911110b4bb96e6c041cc104c59300f5a23f9c0b282656d460d2",
+    "bytes": 69431
   },
   {
     "path": "tests/fixtures/shipment/pre-march-metals.json",
@@ -181,8 +181,18 @@
   },
   {
     "path": "tests/test_s232_xi_source_agreement.R",
-    "sha256": "a4e24b9869efb242d1de347b04a65bbcc6bd2131f32dcdda634c047013681f6d",
-    "bytes": 4696
+    "sha256": "ff893070e6d7f2e116239796047ebcc1c4f71de1c66ed025b0694330f5eaba69",
+    "bytes": 6008
+  },
+  {
+    "path": "tests/test_section301_revision.R",
+    "sha256": "fdd0dd117e0573d466f3614370f29b0f6d64efff51a520640705936cf7d3b1fc",
+    "bytes": 17231
+  },
+  {
+    "path": "tests/test_shipment_build.R",
+    "sha256": "bf439c84570ec09997aac7e19ab43026c7d020cbfee5a13445ccb0c8bbe81cce",
+    "bytes": 4178
   },
   {
     "path": "tests/test_shipment_entry_context.R",

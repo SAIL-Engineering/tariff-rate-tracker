@@ -94,6 +94,7 @@ fr <- compile_s301_revision_fragment(retro$extraction,unlist(retro$products))
 br <- b;br$revision<-'2026_rev_11';br$products<-retro$products
 br$valid_from<-'2026-07-01T00:00:00-04:00';br$valid_until<-'2026-07-21T00:00:00-04:00'
 br$rules<-list();br$sources<-list();br$fact_definitions<-list();br$claim_definitions<-list()
+br_seed <- br # Preserve original inputs for the independent permutation build.
 br <- compose_shipment_rules(br,list(fr))
 claim <- list(customs_value=100,claims=list('section301:9903.88.69'))
 pump <- names(Filter(function(d) identical(d$description,'Pump casings and bodies'),br$fact_definitions))
@@ -130,7 +131,7 @@ stopifnot(rr('8413919039',facts=modeled)$known_subtotal==0,
   any(grepl('claim_not_priced',rr('8413919039',facts=list(claims=list('unknown')))$source_errors)))
 permuted<-fr;permuted$rules<-rev(fr$rules);permuted$sources<-c(rev(fr$sources),fr$sources)
 permuted$relations<-c(rev(fr$relations),fr$relations)
-seed<-br;seed$rules<-list();seed$sources<-list();seed$fact_definitions<-list();seed$claim_definitions<-list()
+seed<-br_seed
 reordered<-compose_shipment_rules(seed,list(permuted))
 stopifnot(identical(.shipment_canonical(.evaluate_shipment_bundle(reordered,'8413919039','5700',
   '2026-07-02T12:00:00-04:00',claimed_pump)),.shipment_canonical(rr('8413919039',facts=claimed_pump))))
