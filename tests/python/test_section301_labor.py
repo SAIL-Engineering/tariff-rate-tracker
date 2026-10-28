@@ -33,6 +33,24 @@ def test_source_named_zero_payable_and_excluded_metal_heads(history):
     assert history['periods'][0]['items'][2]['qualified_codes'] == {'9903.94.06':'s232_usmca_auto_parts_not_kits'}
 
 
+def test_common_table_preserves_exact_ten_digit_coverage(history):
+    scope=history['common_products']
+    assert '0712908550' in scope['includes']
+    assert '07129085' not in scope['includes']
+    assert '8505110070' in scope['includes']
+    assert '85051100' not in scope['includes']
+    assert '02011005' in scope['includes']
+    assert scope['scope_grains']==[8,10]
+
+
+def test_unknown_common_condition_or_table_annotation_cannot_become_zero():
+    layout,published,_=labor.evidence();table=labor.clauses(layout,published)[0]['b']
+    with pytest.raises(ValueError,match='condition'):
+        labor.common_product_table(table.replace('articles that are classifiable','articles for exclusive specified use that are classifiable'))
+    with pytest.raises(ValueError,match='table content'):
+        labor.common_product_table(table+'\nOnly for specified military aircraft\n')
+
+
 def test_source_identity_is_order_and_duplicate_independent():
     meta=json.loads((labor.EVIDENCE/'sources.json').read_bytes())
     expected=labor.evidence(meta)

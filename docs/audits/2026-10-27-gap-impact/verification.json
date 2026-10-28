@@ -1,0 +1,38 @@
+{
+  "contract_version": "sail.audit-verification/v1",
+  "base_sha": "f49ebb8f",
+  "branch": "wjr_dev",
+  "python_tests": 462,
+  "node_tests": 848,
+  "r_common_products": 14,
+  "r_actual_auto_composition": 10,
+  "r_existing_301_232_interactions": 50,
+  "source_census_revisions": 55,
+  "source_census_conflicts": 0,
+  "parquet_duckdb_api_point_requests": 1,
+  "source_pins": {
+    "src/section301_labor.py": "fe696c02979d5b0f836bb45f2e63be2fecf3ca3fa38313837091d9a679815449",
+    "scripts/audit_section301_labor_policy.py": "cebbc85bc404772f832667ecc65ca7ed70e180336967c47556f94987deb5ca98",
+    "scripts/audit_shipment_gap_impact.py": "29f7a8e6cb50a14210ec63336ca45ed8f027d572a2c38a0e17d66c41b14c1ad2",
+    "tests/test_s301_labor_common_products.R": "df1cfcf68d6a8c7851d6f58ee5edae90f6dad020e852be59162afc1d5f0079ae",
+    "tests/test_s301_labor_common_pipeline.R": "e3eeb1722b1bfbf24d3cecf5bb60cf8a11a016a019d9d530b324761573eee3f2",
+    "tests/test_s301_labor_auto_composition.R": "800edd7047e5b9987a41174d9f88315c42a075bd6887c90fe1817ef5f1dff7ec",
+    "tests/python/test_section301_labor.py": "54cc5446f2c9caf1f422afa242551fd3523fbe2bdc2812fb9dbaabd0b28725f0",
+    "frontend/tests/shipment-section301-labor.test.mjs": "2a480b5784d7092a6c46914baeb1cd0f348586f56dadb8d9158e8ed83fbfa086",
+    "tests/fixtures/shipment/section301-labor-common.json.gz": "dae6b42f33a1dcb08fd19afaedc6b0d3636b408d2e452b899edb9d1107ebd3e2",
+    "tests/fixtures/shipment/section301-labor-auto.json.gz": "b7013546ce61e974d7f54645594c8586bcb0bf45f7e61eac07c0f4f0969e9c98",
+    "tests/fixtures/shipment/section301-labor-interactions.json.gz": "9c5e500f19398eaa551fa2fc02e068eff935325e980f37b965d99d60b46e1da1"
+  },
+  "full_R_gate": {
+    "status": "not_qualified",
+    "reason": "Historical missing/stale normalized artifacts and missing TPC input. The current full --require-data run is in progress and is not counted as passed."
+  },
+  "legal_coverage_complete": false,
+  "actual_unresolved_shipment_count": "Cannot be inferred from scope alone without shipment facts.",
+  "timeseries_rebuild_run": false,
+  "revision_rebuild_run": false,
+  "motherduck_access": "READ_ONLY",
+  "live_motherduck_modified": false,
+  "pushed": false,
+  "release_activated": false
+}

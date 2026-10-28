@@ -55,15 +55,18 @@ def audit(output):
                 if rates!=source['percentages']:conflicts.append(dict(revision=rev,reporting_code=code,column=column,question='Unreconciled original rate expression',expected=source['percentages'],actual=rates))
         reports.append(dict(revision=rev,source_from=fragment['supported_from'],source_until=fragment['supported_until'],native_hts_sha256=sha(data),
             corroborated_headings=present,original_amendments_applied=changes,
+            common_product_scope_corroborated=present>0,
             active_rule_ids=[r['id'] for r in fragment['rules'] if datetime.fromisoformat(r['scope']['from'])<end and datetime.fromisoformat(r['scope']['until'])>start]))
         print(rev,present,'original/amended definitions checked',flush=True)
     for path,pin in pins.items():
         if sha(Path(path).read_bytes())!=pin:raise ValueError('Source changed during forced-labor census')
     result=dict(contract_version='sail.section301-forced-labor-source-census/v1',revisions=reports,conflicts=conflicts,
         original_headings=len(headings),investigations=len(history['actions']),charge_headings=sum(len(a['headings']) for a in history['actions']),
+        common_product_scope=dict(entries=len(history['common_products']['includes']),scope_grains=history['common_products']['scope_grains'],
+            exact_hts10_entries=sum(len(p)==10 for p in history['common_products']['includes']),reporting_code=history['common_products']['reporting_code']),
         unresolved_decisions=history['unresolved_decisions'],origin_resolution=origins['origin_resolution'],sources=[dict(path=p,sha256=s) for p,s in sorted(pins.items())],
         legal_instants=[history[k] for k in ('from_','transit_until','amendment_from')],rates_calculated=False,shipment_grid_evaluated=False,
-        legal_coverage_complete=False,production_qualified=False,limitation='Original action/definition and dated reporting amendment census only. Section232 exemption is executable; remaining annex/claims/valuation/FTZ paths are explicitly unpriced.')
+        legal_coverage_complete=False,production_qualified=False,limitation='Original action/definition, common product scope and dated reporting amendment census. Product and Section232 exemptions are executable for verified ordinary-entry facts; remaining annex/claims/valuation/FTZ paths are explicitly unpriced.')
     (output/'summary.json').write_text(json.dumps(result,indent=2)+'\n')
     if conflicts:raise ValueError('Native/original conflicts require review; see summary.json')
     return result

@@ -18,7 +18,7 @@ from ieepa_emergency_rules import revision_window
 from ieepa_reciprocal_later import entry_instant
 from section301_sources import sha, unique_span
 from section232_note16_rules import val, fact, op, either, both
-from section232_stacking import reporting_codes, reported
+from section232_stacking import reporting_codes, reported, note as native_note
 from section122_rules import date_at
 
 EVIDENCE = ROOT/'resources/legal_evidence/section301/forced-labor'
@@ -109,9 +109,29 @@ def interaction_inventory(text):
     return result
 
 
+def common_product_table(text):
+    """A complete unconditional table, preserving both printed HTS10 styles.
+
+    A description, footnote or unparsed operand cannot disappear from a table
+    and become an unconditional exemption of an entire eight-digit parent.
+    """
+    prefix,sep,table=text.partition(':')
+    match=re.fullmatch(r'As provided in heading ('+H+r'), the duties imposed by headings ('+H+r'-'+H+
+        r') shall not apply to articles that are classifiable in the following provisions of the HTSUS',canonical(prefix))
+    if not sep or not match:raise ValueError('Unreviewed common-product exemption condition')
+    pattern=r'(?<![\d.])\d{4}\.\d{2}\.\d{2}(?:\.?\d{2})?(?![\d.])'
+    printed=re.findall(pattern,table)
+    if not printed or re.sub(pattern,'',table).strip():raise ValueError('Unparsed common-product table content')
+    codes=sorted({c.replace('.','') for c in printed})
+    return dict(reporting_code=match[1],target_reporting_codes=reporting_codes(match[2]),includes=codes,
+        scope_grains=sorted({len(c) for c in codes}),condition_text=canonical(prefix),
+        source_scope_sha256=sha(canonical(text).encode()),source_text=text)
+
+
 def load_history():
     layout, publication, sources = evidence()
     rows = original_headings(layout); note, pub = clauses(layout, publication)
+    common_products=common_product_table(note['b'])
     prefix = unique_span(publication, r'^Annex I\s*$', r'^1\. The following new provisions')
     begin = entry_instant(prefix)
     change = unique_span(publication, r'^B\. Effective with respect', r'^Annex II\s*$')
@@ -176,7 +196,7 @@ def load_history():
         raise ValueError('Unreconciled exemption carrier and amendment')
     pending=[dict(reporting_code=r['reporting_code'],description=r['description'],status='unresolved_source',
         question='Compile the original provision\'s complete scope, qualification, temporal/claim and valuation decision before pricing this path.')
-        for r in rows if r['reporting_code'] not in set(charge_codes)|f_codes]
+        for r in rows if r['reporting_code'] not in set(charge_codes)|f_codes|{common_products['reporting_code']}]
     ftz=unique_span(publication,r'^Any product of an economy that is subject to the additional duty',r'^In accordance with the specific direction of the President')
     if not all(t in ftz for t in ('domestic status','19 CFR\n146.43','privileged foreign status','19 CFR 146.41')):
         raise ValueError('Unreviewed original forced-labor FTZ admission clause')
@@ -189,8 +209,9 @@ def load_history():
         original_headings=rows, sources=sources, periods=[dict(from_=begin,until=modern,items=original_items),
             dict(from_=modern,until=horizon['audit_until'],items=new_items)],
         heading_amendments=[heading_change],unresolved_decisions=pending,
+        common_products=common_products,
         ftz_clause=dict(text=' '.join(ftz.split()),sha256=sha(canonical(ftz).encode())),
-        limitations=['The full original action inventory is reconciled; executable pricing currently covers the named Section232 exemption only.',
+        limitations=['The original action inventory is reconciled; executable pricing covers common-product and named Section232 exemptions.',
             'Product annexes, transit, preferences, Chapter98 valuation and FTZ pricing remain explicit unpriced decisions, not aggregate rates.'])
 
 
@@ -199,6 +220,20 @@ def compile_rules(revision_id, products, jurisdictions, jurisdiction_sources=Non
     end = min([end,history['audit_until']],key=datetime.fromisoformat)
     if any(not re.fullmatch(r'\d{10}',p) for p in products):raise ValueError('Exact HTS10 required')
     sources = history['sources'] + list(jurisdiction_sources or [])
+    common_products=history['common_products']
+    native_path=ROOT/f'data/hts_archives/hts_{revision_id}.json'
+    native=json.loads(native_path.read_bytes())
+    if any(r.get('htsno')==common_products['reporting_code'] for r in native):
+        pdf=ROOT/f'data/us_notes/chapter99_{revision_id}.pdf'
+        raw=subprocess.check_output(['pdftotext','-layout',str(pdf),'-'],text=True)
+        actual=common_product_table(native_note(raw,52)['b'])
+        if any(actual[k]!=common_products[k] for k in ('reporting_code','target_reporting_codes','includes','condition_text')):
+            raise ValueError('Common-product scope/amendment requires original-source reconciliation: '+revision_id)
+        release=revision_id.replace('_rev_','HTSRev').replace('_basic','HTSBasic')
+        for p in (native_path,pdf):
+            sources.append(dict(id='USITC-'+revision_id+'-note52-common-'+p.suffix[1:],path=str(p),sha256=sha(p.read_bytes()),
+                url='https://hts.usitc.gov/reststop/'+('exportList?release='+release+'&exportFormat=JSON' if p.suffix=='.json' else 'file?release='+release+'&filename=Chapter%2099'),
+                citation='Native note52(b) exact table and condition reconcile with the original USTR insertion; no HTS10 widening.'))
     if any(sha(Path(s['path']).read_bytes()) != s['sha256'] for s in sources):raise ValueError('Forced-labor compilation source changed')
     ids = sorted({s['id'] for s in sources}); rules=[]; facts={}
     for action in history['actions']:
@@ -206,6 +241,13 @@ def compile_rules(revision_id, products, jurisdictions, jurisdiction_sources=Non
         if not countries or any(not isinstance(c,str) or not re.fullmatch(r'\d{4}',c) for c in countries):
             raise ValueError('Unresolved original forced-labor origin: '+action['country_text'])
         aid='s301_forced_labor_'+action['headings'][0]['reporting_code'].replace('.','')
+        product_rule=dict(id=aid+'_common_products',action_id=aid,authority='section_301',kind='duty',verification='verified',source_ids=ids,
+            scope=dict(countries=sorted(set(countries)),hts_prefixes=common_products['includes'],**{'from':history['from_'],'until':history['audit_until']}),
+            when=op('if',fact('ieepa_ftz_entry'),{'unresolved_source':'section301_forced_labor_ftz_admission_classification_and_product_exemption_history'},val(True)),
+            formula=val(0),reporting_only=True,reporting_codes=[common_products['reporting_code']],legal_locator='Original U.S. note52(b)',
+            source_scope_sha256=common_products['source_scope_sha256'],source_action=action)
+        rules.append(product_rule)
+        product_exempt={'rule_applies':product_rule['id']}
         for i,period in enumerate(history['periods']):
             tests=[]
             for item in period['items']:
@@ -224,9 +266,9 @@ def compile_rules(revision_id, products, jurisdictions, jurisdiction_sources=Non
             scope=dict(countries=sorted(set(countries)),**{'from':period['from_'],'until':period['until']})
             common=dict(action_id=aid,authority='section_301',kind='duty',verification='verified',scope=scope,source_ids=ids,
                 legal_locator='Original U.S. note52(f)'+('; AnnexI B July31 amendment' if i else ''),source_action=action)
-            zero=dict(common,id=aid+'_s232_relief_'+str(i),when=predicate,formula=val(0),reporting_only=True,
+            zero=dict(common,id=aid+'_s232_relief_'+str(i),when=predicate,suppressed_when=product_exempt,formula=val(0),reporting_only=True,
                 reporting_codes=[next(r['reporting_code'] for r in history['original_headings'] if 'subdivision (f) of U.S. note 52' in r['description'])])
-            gap=dict(common,id=aid+'_remaining_'+str(i),suppressed_when=predicate,reporting_codes=[],
+            gap=dict(common,id=aid+'_remaining_'+str(i),suppressed_when=either(product_exempt,predicate),reporting_codes=[],
                 formula={'unresolved_source':'section301_forced_labor_remaining_annex_claim_valuation_and_ftz_decisions'},
                 potential_reporting_codes=[r['reporting_code'] for r in action['headings']])
             rules += [zero,gap]
