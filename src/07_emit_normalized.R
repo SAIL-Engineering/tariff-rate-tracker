@@ -1335,6 +1335,15 @@ emit_normalized_revision <- function(
     source(here::here('src/section232_autos.R'))
     automobiles <- compile_s232_autos_fragment(revision_id,executable_products,countries)
     write_rule_fragment(automobiles,'section232_automobile_rules.json')
+    source(here::here('src/section232_copper.R'))
+    copper <- compile_s232_copper_fragment(revision_id,executable_products)
+    write_rule_fragment(copper,'section232_copper_rules.json')
+    if(length(copper$candidate_memberships)) {
+      original_annex<-Filter(function(a)identical(a$source_id,'FR-2025-14893-ANNEX'),copper$source_artifacts)[[1]]
+      candidates$s232_copper_original_note36 <- list(
+        scope_matches=bind_rows(copper$candidate_memberships)%>%mutate(scope_grain='prefix'),
+        scope_source=original_annex$path,scope_sha256=original_annex$sha256)
+    }
     # Retain the original mixed-precision scope even where the aggregate path
     # selected another sector. Use/claim facts decide actual automobile duty.
     for(action in c('s232_automobiles','s232_automobile_parts')) {

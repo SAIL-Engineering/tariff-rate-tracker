@@ -1,0 +1,19 @@
+{
+  "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
+  "original_pdf_sha256": "a4cb2a59457ad6d73210025b5b80614ccb9d7a851a9d882c4c4820bacc8ea2ff",
+  "review": "Both original pages visually inspected; exact note36 and heading deletions transcribed in the runtime evidence record.",
+  "pages": [
+    {
+      "page": 64,
+      "printed_page": 18264,
+      "path": "primary/proclamation11021-page64.png",
+      "sha256": "1a83271d9fd04bdfcf0468ce8855478c81c952f78188dec5cf951cceb2da91fb"
+    },
+    {
+      "page": 65,
+      "printed_page": 18265,
+      "path": "primary/proclamation11021-page65.png",
+      "sha256": "db6e2a6fc7de7280163505efdf6931232fbb70fe658b59942bd19c981bf2bf16"
+    }
+  ]
+}

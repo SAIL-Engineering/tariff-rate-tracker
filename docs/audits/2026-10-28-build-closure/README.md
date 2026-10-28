@@ -6,6 +6,12 @@ certify complete Chapter99 coverage. No timeseries/revision rebuild, production
 MotherDuck write, release activation, push, workflow dispatch or deployment was
 performed. A six-cell ordinary-emitter cohort and three shipment scenarios were generated for local verification.
 
+Subsequent ordinary copper reconstruction and serving-path checks are recorded
+in [the copper follow-up](../2026-10-28-copper-action/README.md). That follow-up
+supersedes this checkpoint's unfinished ordinary pre-April copper item; FTZ,
+certified medium/heavy-duty parts and selected Chapter98 paths remain unfinished.
+The generated-artifact counts below describe this checkpoint's earlier gate.
+
 Tracker base: `768ce25a` on `wjr_dev`. SAIL base:
 `e0336413e72175f348eb75c4b2fbfa83bdb71270`; local commit `abee0254b` was
 fast-forwarded into `pinecone-hts`. Its temporary worktree and branch were removed.

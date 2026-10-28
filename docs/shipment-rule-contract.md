@@ -387,3 +387,10 @@ treatment. A primary-source clock manifest, source hashes, unchanged native
 classification hierarchy and an independent comparison with the latest
 published metal snapshot are required. This is source replay, not extension of
 a daily aggregate rate, and cannot attest a separate sector or PF history.
+
+The [source map](shipment-duty-sources.md) identifies the primary instruments,
+structured inputs, retained manifests and distinctions between missing facts,
+uncompiled law, unreconciled history and source defects. The original note36
+copper adapter binds one supported value expression into the participating
+actions. Its zero reporting role is distinct from a charge, and a pending
+Chapter98 applicability decision cannot establish another action's exclusion.
