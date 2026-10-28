@@ -18,7 +18,14 @@ bundles <- list(modern=make('2026_rev_19','7320103000','2026-09-15T00:00:00-04:0
 # EU additional-duty heading is zero. The metal applicability below is synthetic
 # and does NOT assert that this real truck is in a metal annex.
 probe <- compile_s232_autos_fragment('2025_rev_17','8704210100','4280',native_interactions=FALSE)
-pb <- bundles$retro_eu;pb$products <- list('8704210100');pb$rules <- pb$coverage <- pb$claim_definitions <- list();pb$fact_definitions <- list()
+# Start from uncompiled inputs. Copying an already bound bundle retains action
+# dependency metadata even after clearing its rules, and must be rejected.
+pb <- jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
+pb$revision <- '2025_rev_17';pb$dataset_version <- 'controlled-zero-auto-metal-overlap'
+pb$valid_from <- bundles$retro_eu$valid_from;pb$valid_until <- bundles$retro_eu$valid_until
+pb$products <- list('8704210100');pb$countries <- list('4280')
+pb$rules <- pb$coverage <- pb$claim_definitions <- list();pb$fact_definitions <- list()
+pb$coverage_requirements <- list('base','section_232')
 sid <- 'synthetic-country-metal-overlap'
 pb$sources <- list(list(id=sid,status='verified',sha256=paste(rep('0',64),collapse=''),url='https://example.invalid/metal-overlap',citation='Synthetic competing applicability only; not a legal product-scope oracle'))
 pb$rules <- list(list(id=sid,action_id=sid,authority='section_232',kind='duty',verification='verified',

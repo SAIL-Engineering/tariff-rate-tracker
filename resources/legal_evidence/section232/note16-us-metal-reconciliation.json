@@ -1,0 +1,16 @@
+{
+  "contract_version": "sail.note16-us-metal-reconciliation/v1",
+  "reviewed_clauses": {
+    "2(b)": "e98d567db412de6d57e34091e8b787b311580e912993d5b3e9f973efa70f3082",
+    "2(c)": "d0ed27824f722169764560e59809772dbcf63835c3ced8200bcc939eb6b26dee"
+  },
+  "cbp_source": {
+    "id": "CBP-CSMS-68855869-note16",
+    "path": "resources/legal_evidence/section232/CSMS-68855869.txt",
+    "sha256": "8082a6ca2277f651bcc14cbae5744c6d9144b6824d56619235bf0af9d8fc61a4",
+    "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/41aa83d",
+    "citation": "CBP CSMS68855869, June5,2026, effective June8: original .82.06/.15 collection instructions; does not amend the proclamation."
+  },
+  "method": "Compare actual amounts under the proclamation, the native heading and CBP instruction. Price only when they agree; retain all different interpretations as unresolved. For partners, require that agreed US treatment also satisfies the source-defined lowest-rate rule.",
+  "limitation": "The bulletin confirms the native additional-rate wording; it does not settle the inconsistent original combined-duty clause. No hierarchy or maximum/minimum is invented to decide differing source interpretations."
+}

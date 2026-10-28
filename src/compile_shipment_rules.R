@@ -31,6 +31,27 @@ compose_shipment_rules <- function(bundle, fragments) {
         .shipment_time(bundle$valid_until)>.shipment_time(fragment$supported_until))))
       stop('Bundle exceeds verified fragment horizon: ',fragment$id)
   }
+  # Compiler capability is explicit data. An ordinary-entry fragment cannot
+  # silently price a foreign-trade-zone history from the current entry date.
+  # Other fragments with verified FTZ branches retain their own decisions.
+  fragments <- lapply(fragments,function(fragment) {
+    context<-fragment$entry_context
+    if(is.null(context))return(fragment)
+    own_sources<-vapply(Filter(function(s)identical(s$status,'verified'),fragment$sources),`[[`,character(1),'id')
+    if(!identical(context$mode,'ordinary_only')||!is.character(context$fact)||length(context$fact)!=1L||
+       !grepl('^[A-Za-z][A-Za-z0-9_]*$',context$fact)||
+       !identical(fragment$fact_definitions[[context$fact]]$type,'boolean')||
+       !is.character(context$unresolved_source)||length(context$unresolved_source)!=1L||!nzchar(context$unresolved_source)||
+       !length(context$source_ids)||!all(unlist(context$source_ids)%in%own_sources))stop('Unverified entry-context capability: ',fragment$id)
+    fragment$rules<-lapply(fragment$rules,function(rule) {
+      prior<-if(is.null(rule$when))list(value=TRUE) else rule$when
+      context_when<-list(op='if',args=list(list(fact=context$fact),list(unresolved_source=context$unresolved_source),list(value=TRUE)))
+      rule$when<-list(op='and',args=list(prior,context_when))
+      rule$source_ids<-as.list(sort(unique(c(unlist(rule$source_ids),unlist(context$source_ids)))))
+      rule
+    })
+    fragment
+  })
   merge_by_id <- function(items, label) {
     out <- list()
     for (item in items) {

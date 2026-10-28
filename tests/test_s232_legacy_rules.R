@@ -2,14 +2,14 @@ suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/section232_legacy.R');source('src/compile_shipment_rules.R')
 products<-c('7318158085','7308200035','7308200036','7304110010','7208101500','7202115000',
   '8431310040','7604101000','7616995160','2203000030','7317005503','7317005590','7302909000')
-make_bundle<-function(rev) {
+make_bundle<-function(rev,uncompiled=FALSE) {
  x<-load_s232_legacy_source(rev);f<-compile_s232_legacy_fragment(x,products)
  b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
  b$rules<-list();b$coverage<-list();b$claim_definitions<-list();b$fact_definitions<-list()
  b$products<-as.list(products);b$countries<-as.list(as.character(read.csv('resources/census_codes.csv')$Code))
  b$valid_from<-f$supported_from;b$valid_until<-f$supported_until
  b$coverage_requirements<-list('base','section_232');b$revision<-rev;b$dataset_version<-'legacy-metal-regression-not-release'
- compose_shipment_rules(b,list(f))
+ if(uncompiled)b else compose_shipment_rules(b,list(f))
 }
 bundles<-list(late=make_bundle('2026_rev_4'),early=make_bundle('2025_rev_4'),june=make_bundle('2025_rev_14'))
 cases<-list()
@@ -84,7 +84,9 @@ for(c in cases) {
 cat(length(cases),'source-backed historical metal decisions passed; complete coverage is not attested\n')
 # Composition fixtures exercise action dependencies; the added charge itself is
 # synthetic and is not an oracle for a real automobile or emergency rate.
-base<-bundles$late
+# New composition starts from original inputs; previously bound rule/claim
+# dependencies must not be retained after substituting a controlled action.
+base<-make_bundle('2026_rev_4',uncompiled=TRUE)
 base$sources<-c(base$sources,list(list(id='synthetic-composition',status='verified',sha256=paste(rep('0',64),collapse=''),
  url='https://example.invalid/composition-test',citation='Synthetic dependency fixture; not a tariff rate source')))
 fixture_rule<-function(id,code,authority,amount,when=list(value=TRUE)) list(id=id,action_id=id,authority=authority,
@@ -119,7 +121,7 @@ cat('Auto precedence, zero-duty floor, USMCA reevaluation and Section 301 exclus
 # The actual emergency amount is deliberately synthetic; these tests isolate
 # the verified change of ordering and claim reevaluation, not a complete stack.
 early_fragment<-compile_s232_legacy_fragment(load_s232_legacy_source('2025_rev_4'),products)
-base<-bundles$early;base$sources<-c(base$sources,list(list(id='synthetic-composition',status='verified',sha256=paste(rep('0',64),collapse=''),
+base<-make_bundle('2025_rev_4',uncompiled=TRUE);base$sources<-c(base$sources,list(list(id='synthetic-composition',status='verified',sha256=paste(rep('0',64),collapse=''),
  url='https://example.invalid/composition-test',citation='Synthetic action relation test')))
 emergency<-fixture_rule('synthetic-canada','9903.01.10','ieepa_fentanyl',25,list(op='not',args=list(list(claim='USMCA'))))
 base$rules<-list(emergency);base$claim_definitions<-list(list(id='USMCA',label='USMCA',rule_ids=list(emergency$id),source_ids=list('synthetic-composition')))

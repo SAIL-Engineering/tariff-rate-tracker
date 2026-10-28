@@ -217,6 +217,15 @@ def load_history():
 
 def compile_rules(revision_id, products, jurisdictions, jurisdiction_sources=None):
     history = load_history(); start,end = revision_window(revision_id)
+    owners = {}
+    for action in history['actions']:
+        countries = jurisdictions.get(action['country_text'])
+        if not countries or any(not isinstance(c,str) or not re.fullmatch(r'\d{4}',c) for c in countries):
+            raise ValueError('Unresolved original forced-labor origin: '+action['country_text'])
+        for country in set(countries):
+            previous = owners.setdefault(country,action['country_text'])
+            if previous != action['country_text']:
+                raise ValueError('Overlapping original forced-labor origin: '+country+' maps to '+previous+' and '+action['country_text'])
     end = min([end,history['audit_until']],key=datetime.fromisoformat)
     if any(not re.fullmatch(r'\d{10}',p) for p in products):raise ValueError('Exact HTS10 required')
     sources = history['sources'] + list(jurisdiction_sources or [])

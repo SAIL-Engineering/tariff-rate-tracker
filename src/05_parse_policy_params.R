@@ -43,6 +43,9 @@ build_country_lookup <- function(census_path) {
 
   # Start with official names (lowercase)
   lookup <- setNames(census$Code, tolower(census$Name))
+  curated <- read_csv(here::here('resources/country_name_aliases.csv'),col_types=cols(.default=col_character()))
+  if(anyNA(curated)||any(!curated$census_code %in% census$Code))stop('Invalid sourced Census country alias')
+  lookup <- c(lookup,setNames(curated$census_code,tolower(curated$gn_name)))
 
   # Add common aliases used in HTS descriptions
   aliases <- c(
@@ -62,7 +65,6 @@ build_country_lookup <- function(census_path) {
     'brunei' = '5610',
     'east timor' = '5601', 'timor-leste' = '5601',
     'eswatini' = '7990', 'swaziland' = '7990',
-    'cabo verde' = '7210', 'cape verde' = '7210',
     'gambia' = '7420',
     'bosnia' = '4793', 'bosnia and herzegovina' = '4793',
     'trinidad' = '2740', 'trinidad and tobago' = '2740',
@@ -76,7 +78,9 @@ build_country_lookup <- function(census_path) {
     'north macedonia' = '4794'
   )
 
-  lookup <- c(lookup, aliases)
+  qualified <- .qualified_country_names()
+  qualified_codes <- census$Code[match(qualified$canonical_name,census$Name)]
+  lookup <- c(lookup, aliases,setNames(qualified_codes,tolower(qualified$qualified_name)))
   return(lookup)
 }
 
@@ -133,6 +137,8 @@ extract_countries_from_description <- function(description) {
 
   # Handle "including X and Y" → extract X, Y
   countries_text <- gsub('including\\s+', '', countries_text)
+  qualified <- .protect_qualified_country_names(countries_text)
+  countries_text <- qualified$text
 
   # Protect compound country names before splitting on "and"
   compound_subs <- c(
@@ -150,6 +156,7 @@ extract_countries_from_description <- function(description) {
 
   # Split on ", " or " or " or ", or " or " and "
   parts <- str_split(countries_text, '\\s*,\\s*(?:or\\s+)?|\\s+or\\s+|\\s+and\\s+')[[1]]
+  parts <- qualified$restore(parts)
 
   # Restore compound names
   parts <- gsub('_AND_', ' and ', parts)
@@ -203,11 +210,10 @@ match_countries <- function(country_names, lookup) {
     census_code = map_chr(country_names, function(name) {
       code <- lookup[tolower(name)]
       if (is.na(code)) {
-        # Try partial matching
-        matches <- names(lookup)[str_detect(names(lookup), fixed(tolower(name)))]
-        if (length(matches) > 0) {
-          code <- lookup[matches[1]]
-        }
+        # Shared exact/aliased and unambiguous resolution. Arbitrary substring
+        # selection can assign an unknown or ambiguous origin to another state.
+        resolved <- resolve_country_name(name)
+        if (length(resolved)==1L) code <- resolved
       }
       as.character(code)
     })

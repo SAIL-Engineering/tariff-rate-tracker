@@ -4,6 +4,8 @@ from pathlib import Path
 import subprocess
 import sys
 import unittest
+import tempfile
+import hashlib
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src'))
@@ -101,6 +103,38 @@ class Note16Sources(unittest.TestCase):
         self.assertEqual(compiled['rules'],[])
         self.assertEqual(compiled['claim_definitions'],[])
         self.assertEqual(compiled['coverage'],[])  # No all232 absence inference.
+
+    def test_native_free_benchmark_is_not_an_importer_or_model_assumption(self):
+        jurisdictions=dict(all=['5700'],uk=[],russia=[],non_ntr=[],usmca=[],xi_partner=[])
+        compiled=compile_note16(self.latest,['8427104090'],jurisdictions)
+        decision,=compiled['column1_reference_decisions']
+        self.assertEqual(decision['status'],'source_zero')
+        self.assertEqual(decision['source']['expression'],'Free')
+        self.assertTrue('8427104090'.startswith(decision['source']['source_code']))
+        self.assertNotIn('column1_duty_amount',json.dumps(compiled['rules']))
+
+    def test_changed_nonfree_or_missing_native_benchmark_never_defaults_to_zero(self):
+        jurisdictions=dict(all=['5700'],uk=[],russia=[],non_ntr=[],usmca=[],xi_partner=[])
+        reference=compile_note16(self.latest,['8427104090'],jurisdictions)['column1_reference_decisions'][0]
+        native_source=next(s for s in self.latest['sources'] if Path(s['path']).suffix=='.json')
+        original=json.loads(Path(native_source['path']).read_bytes())
+        # Controlled source-version changes test extraction/ownership and no-zero
+        # behavior. They are not assertions that either changed rate is lawful.
+        for expression in ('5%','See an unresolved authority'):
+            with tempfile.TemporaryDirectory() as tmp:
+                rows=copy.deepcopy(original)
+                rows[reference['source']['source_row_index']]['general']=expression
+                raw=json.dumps(rows).encode();path=Path(tmp)/'controlled-native.json';path.write_bytes(raw)
+                x=copy.deepcopy(self.latest)
+                source=next(s for s in x['sources'] if Path(s['path']).suffix=='.json')
+                source.update(path=str(path),sha256=hashlib.sha256(raw).hexdigest())
+                compiled=compile_note16(x,['8427104090'],jurisdictions)
+                decision,=compiled['column1_reference_decisions']
+                self.assertEqual(decision['status'],'requires_actual_column1_benchmark')
+                self.assertIn('column1_duty_amount',json.dumps(compiled['rules']))
+                source['sha256']='0'*64
+                with self.assertRaisesRegex(ValueError,'benchmark source changed'):
+                    compile_note16(x,['8427104090'],jurisdictions)
 
 
 if __name__ == '__main__':

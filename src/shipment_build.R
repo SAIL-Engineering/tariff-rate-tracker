@@ -142,6 +142,8 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
       expression_parser=digest::digest(file=file.path(root,'src/shipment_duty_expression.R'),algo='sha256'),
       gn3_parser=x$gn3$parser_sha256,country_resolver=digest::digest(file=file.path(root,'src/helpers.R'),algo='sha256'),
       country_mapping=digest::digest(file=file.path(root,'resources/census_codes.csv'),algo='sha256'),
+      curated_country_mapping=digest::digest(file=file.path(root,'resources/country_name_aliases.csv'),algo='sha256'),
+      qualified_country_mapping=digest::digest(file=file.path(root,'resources/country_qualified_names.csv'),algo='sha256'),
       source_calendar=digest::digest(file=file.path(root,'config/revision_dates.csv'),algo='sha256'),
       build_contract=digest::digest(file=file.path(root,'resources/shipment_rules/build_contract.json'),algo='sha256')),
     limitations=list('Unclaimed ordinary base treatment only. Preferences/Chapter98 and FTZ histories must be evaluated across all matched rules; no other-authority coverage is attested.'))

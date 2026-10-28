@@ -1,0 +1,188 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 68855869 - GUIDANCE:  Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States
+U.S. Customs and Border Protection sent this bulletin at 06/05/2026 03:23 PM EDT
+Cargo Systems Messaging Service
+CSMS # 68855869 - GUIDANCE: Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States
+The purpose of this message is to provide guidance on the implementation of the June 1, 2026, Proclamation, “Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States.”
+BACKGROUND
+On April 2, 2026, the President issued Proclamation 11021, “Strengthening Actions Taken to Adjust Imports of Aluminum, Steel, and Copper into the United States,” under Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862).  This proclamation imposes 10-50% additional duties on the full customs value of certain imports of steel, aluminum, copper articles (metal articles) and their derivatives from all countries, effective April 6, 2026. See 91 FR 18201 and CSMS 68253075.
+On June 1, 2026, the President issued Proclamation 11032, “Further Adjusting the Tariff Regimes for Imports of Aluminum, Steel, and Copper Into the United States” amending Proclamation 11021, adding new metals derivatives subject to Section 232 duties and reducing the Section 232 duty rates for other derivatives. See 91 FR 34085.
+GUIDANCE
+This guidance provides instructions for importers, brokers, and filers on submitting entries to U.S. Customs and Border Protection (CBP) on certain steel, aluminum, and copper articles and their derivatives from all countries as provided in Harmonized Tariff Schedule of the United States (HTSUS) headings 9903.82.01 to 9903.82.26.  Separate instructions will be provided on HTSUS headings 9903.82.18 and 9903.82.19 at a later date.
+Effective with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern time on June 8, 2026:
+The following HTSUS classifications will be subject to Section 232 duties under Proclamation 11021, as amended:
+3701.30.00
+9403.20.0075
+9403.20.0082
+9403.99.9040
+The following HTSUS classifications will be subject to reduced Section 232 duty rates:
+8427.10.40
+8429.20.00
+8429.59.10
+8701.91.50
+8427.10.80
+8429.30.00
+8429.59.50
+8701.92.50
+8427.20.40
+8429.40.00
+8431.20.00
+8701.93.50
+8427.20.80
+8429.51.10
+8431.42.00
+8701.94.50
+8427.90.00
+8429.51.50
+8431.49.90
+8701.95.50
+8429.11.00
+8429.52.10
+8701.10.01
+8705.10.00
+8429.19.00
+8429.52.50
+8701.30.50
+8705.20.00
+8407.90.10
+8415.10.60
+8415.10.90
+8415.81.01
+8415.82.01
+8415.90.80
+8419.81.50
+8432.10.00
+8432.90.00
+8433.20.00
+8433.51.00
+8433.59.00
+8433.90.50
+8479.89.55
+8479.89.65
+8516.29.00
+8701.30.10
+8701.91.10
+8701.92.10
+8701.93.10
+8701.94.10
+8701.95.10
+8703.21.01
+8706.00.30
+8708.40.30
+8708.40.60
+8708.92.10
+8708.92.60
+8708.93.15
+8708.93.30
+8708.99.23
+8716.80.10
+8716.90.10
+8708.29.2120
+8708.29.2130
+See the attachment for the Chapter 1 to 97 HTSUS classifications which correspond to each Chapter 99 heading.  All changes listed above are indicated in bold in the attachment.
+Except for the changes listed above, for HTSUS 9903.82.01 to 9903.82.19, the additional duties were effective with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern time on April 6, 2026.
+Headings 9903.82.07, 9903.82.08, 9903.82.10, 9903.82.11, and 9903.82.12 were effective with respect to goods entered for consumption or withdrawn from warehouse for consumption on or after 12:01 a.m. eastern time on April 6, 2026, and before January 1, 2028.
+For HTSUS 9903.82.20 to 9903.82.26, the additional duties will take effect with respect to goods entered for consumption, or withdrawn from warehouse for
+consumption, on or after 12:01 a.m. eastern time on June 8, 2026, and before January 1, 2028.
+Effective with respect to goods entered for consumption or withdrawn from warehouse for consumption on or after 12:01 a.m. eastern time on January 1, 2028:
+the goods covered by headings 9903.82.07, 9903.82.08, 9903.82.10, 9903.82.11, and 9903.82.12 will be subject to the duty rates under HTSUS 9903.82.05, 9903.82.06, and 9903.82.09; and.
+the goods covered by HTSUS 9903.82.20 to 9903.82.26 will be subject to the duty rates under HTSUS 9903.82.05, 9903.82.06, 9903.82.09, 9903.82.15 and 9903.82.16.
+Additional guidance will be provided prior to January 1, 2028.
+9903.82.01:  Articles provided for in subdivision (c) of U.S. note 16 to this subchapter that do not contain any aluminum, steel, or copper.
+0% additional ad valorem rate of duty
+9903.82.02: Except as provided for in headings 9903.82.14, 9903.85.67 and 9903.85.68, applies to articles of aluminum, of steel, or of copper and derivative aluminum or steel articles, as provided for in subdivision (c)(i) -(v) of U.S. note 16 to this subchapter.
+50% additional ad valorem rate of duty
+9903.82.03: Except for articles classifiable in Chapters 72, 73, 74, or 76, articles where the weight of the applicable metal is less than 15 percent of the weight of the imported article, as provided for in subdivision (c) of U.S. note 16 to this subchapter.
+0% additional ad valorem rate of duty
+When reporting HTSUS 9903.82.03, report the aggregate weight of the applicable metal(s) in kg as a second quantity on the entry summary line.
+9903.82.04: Applies to articles of aluminum or of steel and derivative aluminum or steel articles that are the product of the United Kingdom in which at least 95 percent of the aluminum was smelted or most recently cast in the United Kingdom, or in which at least 95 percent of the steel was melted and poured in the United Kingdom as provided for in subdivisions (c)(i)-(iv) and (d) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+9903.82.05: Applies to derivative aluminum or steel articles that are the product of the United Kingdom in which at least 95 percent of the aluminum was smelted or most recently cast in the United Kingdom, or in which at least 95 percent of the steel was
+melted and poured in the United Kingdom as provided for in subdivisions (c)(vi)-(vii) and (d) of U.S. note 16 to this subchapter.
+15% additional ad valorem rate of duty
+Effective with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. eastern time on June 8, 2026, the threshold for imported products to qualify as made "entirely" from American aluminum, steel, or copper, is modified from 95 percent to 85 percent, as follows:
+Headings 9903.82.06, 9903.82.07, 9903.82.08, 9903.82.23 and 9903.82.24 apply to certain articles of copper and derivative aluminum and steel articles provided for in subdivision (c) of this note.
+For derivative articles provided for in subdivisions (c)(ii), (vi), and (ix), at least 85 percent of the aluminum content of the article must be composed of aluminum that was smelted and cast in the United States.
+For derivative articles provided for in subdivisions (c)(iv), (vii), (x) and (xi), at least 85 percent of the steel content of the article must be composed of steel that was melted and poured in the United States.
+For articles provided for in subdivision (c)(viii), at least 85 percent of the copper content of the article must be composed of copper that was smelt and cast in the United States).
+These requirements are cumulative such that a derivative article in more than one subdivision must satisfy each requirement.
+9903.82.06: Except as provided for in headings 9903.82.15 and 9903.85.68, applies to articles of copper and derivative aluminum and steel articles as provided in subdivisions (c)(ii), (iv), (vi) - (viii), (xi) and (e) of U.S. note 16 to this subchapter.
+10% additional ad valorem rate of duty
+9903.82.07: Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, applies to derivative aluminum and steel articles, as provided in subdivisions (c)(ix)-(x) and (e) of U.S. note 16 to this subchapter.
+For articles for which the applicable column 1 duty rate is less than 10 percent, the sum of the column 1 duty rate and the additional ad valorem rate of duty will be 10%.
+9903.82.08: Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, applies to derivative aluminum and steel articles, as provided in subdivisions (c)(ix)-(x) and (e) of U.S. note 16 to this subchapter.
+For articles for which the applicable column 1 duty rate is 10 percent or higher, no additional duty is due.
+9903.82.09: Except as provided for in headings 9903.82.16, 9903.82.20–9903.82.26 and 9903.85.68, applies to articles of copper and derivative aluminum and steel articles as provided in subdivisions (c)(vi)-(viii) and (xi) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+9903.82.10: Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, applies to derivative aluminum and steel articles, as provided for in subdivision (c)(ix)-(x) and (f) of U.S. note 16 to this subchapter
+For articles for which the applicable column 1 duty rate is less than 15 percent, the sum of the column 1 duty rate and the additional ad valorem rate of duty will be 15%.
+9903.82.11: Except as provided for in headings 9903.82.12, 9903.82.17 and 9903.85.68, applies to derivative aluminum and steel articles, as provided for in subdivision (c)(ix)-(x) and (f) of U.S. note 16 to this subchapter
+For articles for which the applicable column 1 duty rate is 15 percent or higher, no additional duty is due.
+9903.82.12:  Except as provided for in headings 9903.82.17 and 9903.85.68 applies to derivative aluminum and steel articles, the product of any country identified in general note 3(b) (countries subject to the column 2 duty rates in the HTSUS), as provided for in subdivision (c)(ix)-(x) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+9903.82.13: Applies to articles that otherwise meet the criteria of subdivisions (c)(vi)-(viii) and (xi) that are motorcycle parts classifiable in Chapter 84, 85, or 87 for use in the manufacturing of motorcycles in the United States.
+0% additional ad valorem rate of duty
+9903.82.14: Applies to articles of steel or of copper and derivative steel that are the product of the Russian Federation as provided for in subdivisions (c)(iii)–(v) of U.S. note 16 to this subchapter.
+50% additional ad valorem rate of duty
+9903.82.15: Applies to articles of copper and derivative steel that are the product of the Russian Federation, as provided for in subdivisions (c)(iv), (vii), (viii), (xi) and (e) of U.S. note 16 to this subchapter.
+10% additional ad valorem rate of duty
+9903.82.16: Applies to articles of copper and derivative steel that are the product of the Russian Federation, as provided for in subdivisions (c)(vii)–(viii) and (xi) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+9903.82.17:   Applies to derivative steel articles that are the product of the Russian Federation, as provided for in subdivision (c)(x) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+For headings 9903.82.18 and 9903.18.19, entry filing instructions will be provided at another time.
+Headings 9903.82.20 and 9903.82.21:  Apply to derivative steel articles provided for in subdivision (c)(xi) that are the products of Canada and Mexico and eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA).
+9903.82.20:  Applies to the non-U.S. content of derivative steel articles and to U.S. content that exceeds 40 percent of the value of such derivative steel articles as provided in subdivision (j) of U.S. note 16 to this subchapter.
+25% additional ad valorem rate of duty
+9903.82.21:  Applies to the U.S. content of derivative steel articles as provided in subdivision (j) of U.S. note 16 to this subchapter, except that U.S. content that exceeds 40 percent of the value of such derivative steel articles shall be subject to the rates of duty provided in heading 9903.82.20.
+0% additional ad valorem rate of duty
+Do not report more than 40 percent of the value of the U.S. content of the good in heading 9903.82.21.
+For the purposes of U.S. note 16, U.S. content refers to the value of the article attributable to parts produced in the United States.  The non-U.S. content of the article shall be calculated by subtracting the value of the U.S. content in the article from the total value of the article.
+See additional reporting instructions for HTSUS 9903.82.20 and 9903.82.21 below.
+9903.82.22:   Applies to derivative steel articles the product of Argentina, Ecuador, El Salvador, Guatemala, Japan, the Republic of Korea, Liechtenstein, Switzerland, Taiwan, the United Kingdom, or a member nation of the European Union, as provided for in subdivision (c)(xi) of U.S. note 16 to this subchapter.
+15% additional ad valorem rate of duty
+Headings 9903.82.23–9903.82.26 apply to parts classifiable in the provisions of subdivision (c)(vi)–(viii) that are in chapters 84, 85, or 87 that will be used exclusively in the manufacturing of  agricultural equipment or fixed industrial equipment provided for in subdivision (c)(ix)−(x) or mobile industrial equipment provided for in subdivision (c)(xi). Headings 9903.82.23–9903.82.26 do not apply to products of any country identified in general note 3(b) (Belarus, Cuba, North Korea, and Russia).
+9903.82.23:   Applies to articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 10 percent, as provided for in subdivisions (e) and (k) of U.S. note 16 to this subchapter.
+For articles for which the applicable column 1 duty rate is less than 10 percent, the sum of the column one duty rate and the additional ad valorem rate of duty will be 10%.
+9903.82.24:   Applies to articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 10 percent, as provided for in subdivisions (e) and (k) of U.S. note 16 to this subchapter.
+For articles for which the applicable column one duty rate is 10 percent or higher, no additional duty is due.
+9903.82.25:   Applies to articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 less than 15 percent, as provided for in subdivisions (f) and (k) of U.S. note 16 to this subchapter.
+15% additional ad valorem rate of duty
+9903.82.26:  Applies to articles of copper and derivative aluminum and steel articles with an ad valorem (or ad valorem equivalent) rate of duty under column 1 equal to or greater than 15 percent, as provided for in subdivisions (f) and (k) of U.S. note 16 to this subchapter.
+0% additional ad valorem rate of duty
+Reporting Instructions for Applying the Tariff Treatment Under HTSUS 9903.82.20 and 9903.82.21
+When claiming treatment under HTSUS 9903.82.20 and 9903.82.21, the non-U.S. content and the U.S. content value of the derivative products must be reported on two lines.
+The first line will represent the value of the non-U.S. content and the U.S. content that exceeds 40 percent of the value of such derivative steel articles, while the second line will represent the value of the U.S. content.  Each line should be reported in accordance with the instructions below.
+Non-U.S. content, first line:
+Report the total quantity of the imported goods
+Report the value of the non-U.S. content by subtracting the value of the U.S. content reported under HTSUS 9903.82.21 from the entered value of such derivative articles.
+Report the Section 232 duties based on the value such content with HTSUS 9903.82.20.
+Report Special Program Indicator (SPI) code “S”
+Report Ch. 1-97 HTSUS, same HTSUS must be reported on both lines.
+Report country of origin (Canada or Mexico), same country of origin must be reported on both lines.
+Report all other applicable duties, such as antidumping and countervailing duties
+U.S. content, second line:
+Report 0 for quantity.
+Report the entered value of the U.S. content, up to 40 percent of the total entered value of the imported goods
+Report the 0 duties based on the value of U.S. content with HTSUS 9903.82.21.
+Report Special Program Indicator (SPI) code “S”
+Report the same Ch. 1-97 HTSUS reported on the first line.
+Report the same country of origin reported on the first line.
+Report all other applicable duties, such as antidumping and countervailing duties.
+Russia Aluminum Duties
+All imports of aluminum articles and aluminum derivative articles covered by this Proclamation that are the product of Russia or where any amount of primary aluminum used in the manufacture of these aluminum articles is smelt in Russia, or these aluminum articles are cast in Russia, shall continue to be subject to the 200 percent ad valorem rate of duty under HTSUS heading 9903.85.67 for aluminum products; and heading 9903.85.68 for aluminum derivative products.
+Russia aluminum and aluminum derivative products subject to HTSUS headings 9903.85.67 and 9903.85.68 may not be reported under HTSUS 9903.82.03.
+Reporting of Countries of Melt and Pour and Smelt and Cast
+Continue to report the countries of melt and pour for all subject steel and steel derivative products and the countries of smelt and cast for all subject aluminum and aluminum derivative products.  See, e.g., Cargo System Messaging Service (CSMS) messages 64348411, 64348288, and 65340246 for reporting instructions.
+CBP will issue a CSMS to announce when the reporting of the countries of copper smelt and cast will be required and the corresponding functionality is available in ACE for imports of copper products under the following HTSUS classifications:8544.42.10; 8544.42.20; 8544.42.90; and 8544.49.10.
+Please note that imports under HTSUS 9903.82.03, 9903.82.13 and 9903.82.21 are not eligible for the Section 122 exemption for Section 232 products under HTSUS 9903.03.06.  See CSMS # 67844987 - Imposing Temporary Section 122 Duties.
+For questions regarding Section 232 entry filing, contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Related Message Number(s): 68253075, 68554727
+Metals HTS LIST 6426FINAL.docx
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

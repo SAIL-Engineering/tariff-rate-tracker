@@ -1,0 +1,7 @@
+{
+  "catalog": "trade_intel_csms",
+  "access_mode": "READ_ONLY",
+  "sql": "SELECT csms_number,title,CAST(sent_at AS VARCHAR) sent_at,bulletin_url,source_hash,version_no,is_current,raw_object_path,body_html_object_path,content_sha256,body_text FROM notices WHERE body_text LIKE '%9903.82.06%' OR title ILIKE '%11032%' ORDER BY sent_at,csms_number",
+  "params": [],
+  "rows": []
+}

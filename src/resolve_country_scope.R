@@ -99,9 +99,10 @@ suppressPackageStartupMessages({
 load_country_universe <- function(
     census_path = here::here('resources', 'census_codes.csv'),
     alias_path  = here::here('resources', 'country_name_aliases.csv'),
-    policy_params = NULL) {
-  key <- paste(census_path, alias_path,
-               file.mtime(census_path), file.mtime(alias_path))
+    policy_params = NULL,
+    qualified_path = here::here('resources','country_qualified_names.csv')) {
+  key <- paste(census_path, alias_path,qualified_path,
+               file.mtime(census_path), file.mtime(alias_path),file.mtime(qualified_path))
   if (!is.null(.country_universe_cache[[key]])) return(.country_universe_cache[[key]])
 
   census <- suppressMessages(readr::read_csv(
@@ -139,6 +140,13 @@ load_country_universe <- function(
                                source = 'alias'))
     }
   }
+
+  qualified <- read.csv(qualified_path,colClasses='character')
+  codes <- census$code[match(qualified$canonical_name,census$name)]
+  if(anyNA(codes)||anyDuplicated(qualified$qualified_name))stop('Invalid qualified jurisdiction identity')
+  # Longest-first matching now consumes the complete qualified name before
+  # either embedded jurisdiction can be mistaken for another list member.
+  u <- bind_rows(u,tibble(name=qualified$qualified_name,census_codes=as.list(codes),source='qualified_alias'))
 
   # --- Supranational groups -------------------------------------------------
   # A Chapter 99 heading may be scoped to a bloc rather than a state: "articles
@@ -216,7 +224,8 @@ find_countries_in_text <- function(text, universe = load_country_universe()) {
   for (i in seq_len(nrow(universe))) {
     nm <- universe$name[i]
     # Word-bounded, case-SENSITIVE, literal (country names contain "." and "(")
-    pat <- paste0('(?<![A-Za-z])', stringr::str_escape(nm), '(?![A-Za-z])')
+    printed <- paste(stringr::str_escape(trimws(strsplit(nm,',',fixed=TRUE)[[1]])),collapse='\\s*,\\s*')
+    pat <- paste0('(?<![A-Za-z])', printed, '(?![A-Za-z])')
     m <- stringr::str_locate_all(text, stringr::regex(pat))[[1]]
     if (nrow(m) == 0) next
     for (r in seq_len(nrow(m))) {

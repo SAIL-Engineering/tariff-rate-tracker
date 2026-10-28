@@ -3,7 +3,7 @@ source('src/helpers.R')
 source('src/section232_revision.R')
 source('src/compile_shipment_rules.R')
 x <- load_s232_note16_source('2026_rev_21')
-products <- c('7318158085','8415908010','8427104000','7616995160','7308200035','8403100000','8473301180','7616995161')
+products <- c('7318158085','8415908010','8427104090','7616995160','7308200035','8403100000','8473301180','7616995161')
 fragment <- compile_s232_note16_fragment(x,products)
 base <- jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
 base$rules <- list(); base$coverage <- list();base$claim_definitions <- list();base$fact_definitions <- list()
@@ -15,11 +15,13 @@ base$revision <- x$revision
 bundle <- compose_shipment_rules(base,list(fragment))
 cases <- list()
 add <- function(name,hts,country,facts,subtotal,codes=character(),missing=character(),source_error=NULL,reporting=NULL) {
+  # These fixtures describe ordinary entries; FTZ capability is tested separately.
+  if(is.null(facts$ieepa_ftz_entry))facts$ieepa_ftz_entry<-FALSE
   cases[[length(cases)+1L]] <<- list(name=name,hts10=hts,country=country,entry_at='2026-10-10T12:00:00-04:00',facts=facts,
     expected=list(known_subtotal=subtotal,applied_codes=as.list(sort(codes)),missing_inputs=as.list(sort(missing)),
       source_error=source_error,reporting=reporting))
 }
-steel <- list(customs_value=100,steel_weight_fraction=1,us_steel_origin_fraction=0)
+steel <- list(customs_value=100,ieepa_ftz_entry=FALSE,steel_weight_fraction=1,us_steel_origin_fraction=0)
 add('ordinary steel exact source heading','7318158085','5700',steel,50,'9903.82.02')
 add('country-specific Russian steel heading','7318158085','4621',steel,50,'9903.82.14')
 q<-steel;q$us_steel_origin_fraction<-.85
@@ -39,11 +41,11 @@ add('weight boundary enters ordinary derivative tier','8403100000','5700',q,25,'
 q$motorcycle_part_for_us_manufacture<-TRUE
 add('motorcycle use selects source zero heading','8403100000','5700',q,0,'9903.82.13')
 q$motorcycle_part_for_us_manufacture<-FALSE;q$parts_exclusively_for_us_note16_equipment<-TRUE;q$column1_duty_amount<-5
-add('equipment use selects the legal floor','8403100000','5700',q,10,'9903.82.25')
+add('equipment use selects the floor over the published Free benchmark','8403100000','5700',q,15,'9903.82.25')
 q$column1_duty_amount<-15
-add('equipment floor satisfied selects no-change code','8403100000','5700',q,0,'9903.82.26')
+add('caller amount cannot invent a satisfied floor over a Free expression','8403100000','5700',q,15,'9903.82.25')
 q$us_steel_origin_fraction<-.85;q$column1_duty_amount<-5
-add('equipment domestic threshold has own floor','8403100000','5700',q,5,'9903.82.23')
+add('equipment domestic threshold has its own source-backed floor','8403100000','5700',q,10,'9903.82.23')
 q<-list(customs_value=100,aluminum_weight_fraction=.1,steel_weight_fraction=.1,
   aluminum_primary_smelted_or_cast_russia=FALSE,us_aluminum_origin_fraction=.85,us_steel_origin_fraction=.85,column1_duty_amount=5)
 add('mixed-metal requirements cumulative','8415908010','5700',q,5,'9903.82.07')
@@ -63,21 +65,20 @@ q<-list(customs_value=100,aluminum_weight_fraction=.01,steel_weight_fraction=.01
 add('Russian derivative exception is full value','8415908010','5700',q,200,'9903.85.68')
 q<-list(customs_value=100,steel_weight_fraction=.5,us_steel_origin_fraction=0,
   motorcycle_part_for_us_manufacture=FALSE,column1_duty_amount=5)
-add('mobile-equipment partner floor','8427104000','5880',q,10,'9903.82.22')
-add('mobile-equipment nonpartner ordinary tier','8427104000','5700',q,25,'9903.82.09')
+add('mobile-equipment partner floor uses the published Free benchmark','8427104090','5880',q,15,'9903.82.22')
+add('mobile-equipment nonpartner ordinary tier','8427104090','5700',q,25,'9903.82.09')
 q$claims<-list('USMCA');q$usmca_origin_eligible<-TRUE;q$us_produced_parts_value<-70
-add('USMCA content capped with two reporting lines','8427104000','2010',q,15,c('9903.82.20','9903.82.21'))
+add('USMCA content capped with two reporting lines','8427104090','2010',q,15,c('9903.82.20','9903.82.21'))
 q$us_produced_parts_value<-20
-add('USMCA actual non-US content','8427104000','1220',q,20,c('9903.82.20','9903.82.21'))
+add('USMCA actual non-US content','8427104090','1220',q,20,c('9903.82.20','9903.82.21'))
 q$us_produced_parts_value<-0
-add('zero exempt content does not invent second line','8427104000','2010',q,25,'9903.82.20')
+add('zero exempt content does not invent second line','8427104090','2010',q,25,'9903.82.20')
 q$us_produced_parts_value<-101
-add('conflicting US parts value requests corrected inputs','8427104000','2010',q,0,
+add('conflicting US parts value requests corrected inputs','8427104090','2010',q,0,
   missing=c('customs_value','us_produced_parts_value'))
 q$us_produced_parts_value<-0
 q$us_steel_origin_fraction<-.85
-add('known heading retains unresolved formula evidence','8427104000','2010',q,0,
-  source_error='note16_xi_us_metal_formula_conflict',reporting='9903.82.06')
+add('native Free benchmark resolves the mobile US-metal amount','8427104090','2010',q,10,'9903.82.06')
 add('adjacent statistical suffix not broadened','7616995161','5700',list(customs_value=100),0)
 add('electronics outside note16 stays outside this fragment','8473301180','5700',list(customs_value=100),0)
 q<-steel;q$modeled_share<-0;q$assembly_credit<-9999
@@ -114,9 +115,9 @@ early_base<-base;early_base$revision<-first$revision;early_base$valid_from<-earl
 early_base$valid_until<-early_fragment$supported_until
 early_bundle<-compose_shipment_rules(early_base,list(early_fragment))
 early_cases<-list(
-  list(name='historical 95 percent threshold',facts=list(customs_value=100,steel_weight_fraction=1,us_steel_origin_fraction=.9),subtotal=50,code='9903.82.02'),
-  list(name='historical qualifying domestic metal',facts=list(customs_value=100,steel_weight_fraction=1,us_steel_origin_fraction=.95),subtotal=10,code='9903.82.06'),
-  list(name='retroactive zero heading absent from original snapshot',facts=list(customs_value=100,steel_weight_fraction=0,aluminum_weight_fraction=0,copper_weight_fraction=0),subtotal=0,code='9903.82.01'))
+  list(name='historical 95 percent threshold',facts=list(customs_value=100,ieepa_ftz_entry=FALSE,steel_weight_fraction=1,us_steel_origin_fraction=.9),subtotal=50,code='9903.82.02'),
+  list(name='historical qualifying domestic metal',facts=list(customs_value=100,ieepa_ftz_entry=FALSE,steel_weight_fraction=1,us_steel_origin_fraction=.95),subtotal=10,code='9903.82.06'),
+  list(name='retroactive zero heading absent from original snapshot',facts=list(customs_value=100,ieepa_ftz_entry=FALSE,steel_weight_fraction=0,aluminum_weight_fraction=0,copper_weight_fraction=0),subtotal=0,code='9903.82.01'))
 for(case in early_cases) {
   r<-evaluate_shipment_bundle(early_bundle,'7318158085','5700','2026-04-06T00:01:00-04:00',case$facts)
   stopifnot(r$known_subtotal==case$subtotal,!length(r$missing_inputs),

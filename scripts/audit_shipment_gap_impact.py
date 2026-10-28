@@ -13,6 +13,7 @@ from shipment_base_sources import extract_rows
 from section301_labor import load_history
 from section301_sources import sha
 from audit_s232_note16 import audit_revision
+from audit_section301_labor_policy import resolve_origin_context
 
 
 def audit(output):
@@ -21,10 +22,10 @@ def audit(output):
     countries={r['Code'] for r in csv.DictReader((ROOT/'resources/census_codes.csv').open())}
     h=load_history();scope=h['common_products']['includes'];scope8={p for p in scope if len(p)==8};scope10={p for p in scope if len(p)==10}
     all_products=set();all_common=set();reports=[];active=[]
-    # These are the ordinary ingestion resolver's pinned original-country maps.
-    import gzip
-    previous=ROOT/'docs/audits/2026-10-27-section301-labor/source-census/summary.json.gz'
-    origins=json.loads(gzip.decompress(previous.read_bytes()))['origin_resolution']
+    # Reuse current ingestion identity resolution, not a fixed older audit's
+    # derived map. Its complete dependency/source pins accompany the census.
+    context=resolve_origin_context(calendar[0]['revision'])
+    origins=context['origin_resolution']
     covered_origins={c for a in origins for c in a['countries']}
     for row in calendar:
         rev=row['revision'];path=ROOT/f'data/hts_archives/hts_{rev}.json';raw=path.read_bytes()
@@ -50,8 +51,11 @@ def audit(output):
     metal_union=set();xi_union=set();metal_reports=[]
     for (report,scopes),row in zip(metals,calendar):
         members=set(scopes);xi={p for p,s in scopes.items() if 'xi' in s['list_ids']};metal_union|=members;xi_union|=xi
+        bases={p['hts10']:p['general'] for p in extract_rows(json.loads((ROOT/f"data/hts_archives/hts_{row['revision']}.json").read_bytes()))['products']} if xi else {}
+        free={p for p in xi if bases[p]['expression']=='Free'}
         metal_reports.append(dict(**report,candidate_origin_count=len(countries) if members else 0,
-            candidate_cells=len(members)*len(countries),xi_candidates=len(xi),xi_conditional_conflict_candidate_cells=len(xi)*len(countries)))
+            candidate_cells=len(members)*len(countries),xi_candidates=len(xi),xi_conditional_conflict_candidate_cells=len(xi)*len(countries),
+            xi_published_column1_free_candidates=len(free),xi_column1_sources={p:bases[p] for p in sorted(xi)}))
     result=dict(contract_version='sail.shipment-gap-impact/v1',method='Source-scope census; no rates calculated, no actual shipment fact prevalence assumed.',
         unique_ordinary_hts10=len(all_products),origins=len(countries),revisions=len(reports),
         product_revision_cells=sum(r['ordinary_products'] for r in reports),
@@ -63,7 +67,9 @@ def audit(output):
             candidate_cells=sum(r['candidate_cells'] for r in metal_reports),xi_unique_candidate_hts10=len(xi_union),
             xi_candidate_revisions=sum(bool(r['xi_candidates']) for r in metal_reports),xi_conditional_conflict_candidate_cells=sum(r['xi_conditional_conflict_candidate_cells'] for r in metal_reports)),
         classification_revisions=reports,section232_note16_revisions=metal_reports,
-        source_pins={str(p.relative_to(ROOT)):sha(p.read_bytes()) for p in [ROOT/'config/revision_dates.csv',ROOT/'resources/census_codes.csv',ROOT/'src/section301_labor.py',ROOT/'src/section232_sources.py',ROOT/'src/shipment_base_sources.py',previous,Path(__file__).resolve()]},
+        origin_resolution=origins,origin_source_artifacts=context['source_artifacts'],
+        origin_compiler_dependencies=context['compiler_dependencies'],
+        source_pins={str(p.relative_to(ROOT)):sha(p.read_bytes()) for p in [ROOT/'config/revision_dates.csv',ROOT/'resources/census_codes.csv',ROOT/'src/section301_labor.py',ROOT/'src/section232_sources.py',ROOT/'src/shipment_base_sources.py',ROOT/'scripts/audit_section301_labor_policy.py',Path(__file__).resolve()]},
         caveats=['Counts are potential scope, not proven errors or counts of actually unresolved shipments.',
             'Common-product counts resolve that forced-labor component for supported ordinary-entry facts; they do not certify the whole stack.',
             'Note16 counts cover that post-April metal regime, not all Section232 sectors or pre-April regimes.',

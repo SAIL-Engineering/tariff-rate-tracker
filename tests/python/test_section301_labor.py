@@ -72,7 +72,9 @@ def test_unreviewed_clause_or_missing_heading_cannot_pass(history):
 
 
 def test_no_aggregate_price_or_full_coverage_attestation(history):
-    jurisdictions={a['country_text']:['4280'] for a in history['actions']}
+    # Controlled disjoint identities test the compiler contract, not a legal
+    # country oracle. Real Census resolution is exercised by the R/source census.
+    jurisdictions={a['country_text']:[str(1000+i)] for i,a in enumerate(history['actions'])}
     fragment=labor.compile_rules('2026_rev_19',['7304313000'],jurisdictions)
     assert not fragment['coverage']
     assert all(r['formula']=={'value':0} for r in fragment['rules'] if r.get('reporting_only'))
@@ -83,3 +85,10 @@ def test_no_aggregate_price_or_full_coverage_attestation(history):
     assert 'modeled_' not in serialized
     with pytest.raises(ValueError,match='origin'):
         labor.compile_rules('2026_rev_19',['7304313000'],{})
+
+
+def test_overlapping_investigation_origins_cannot_silently_stack(history):
+    jurisdictions={a['country_text']:[str(1000+i)] for i,a in enumerate(history['actions'])}
+    jurisdictions['Hong Kong, China']=jurisdictions['China']
+    with pytest.raises(ValueError,match='Overlapping original forced-labor origin'):
+        labor.compile_rules('2026_rev_19',['7304313000'],jurisdictions)

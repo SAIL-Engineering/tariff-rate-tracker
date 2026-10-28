@@ -2,14 +2,14 @@ suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/section232_legacy.R');source('src/compile_shipment_rules.R')
 products<-c('7208101500','7202115000','7317005503','7317005590','8708103000','7604101000','7605290000',
  '7210706030','7210706060','7304191020','7304191080','7213914500','7616995160')
-make<-function(rev) {
+make<-function(rev,uncompiled=FALSE) {
  x<-load_s232_legacy_source(rev);f<-compile_s232_legacy_fragment(x,products)
  b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
  b$rules<-list();b$coverage<-list();b$claim_definitions<-list();b$fact_definitions<-list()
  b$products<-as.list(products);b$countries<-as.list(as.character(read.csv('resources/census_codes.csv')$Code))
  b$valid_from<-f$supported_from;b$valid_until<-f$supported_until;b$coverage_requirements<-list('base','section_232')
  b$revision<-rev;b$dataset_version<-'pre-march-regression-not-release'
- compose_shipment_rules(b,list(f))
+ if(uncompiled)b else compose_shipment_rules(b,list(f))
 }
 bundles<-list(january=make('2025_basic'),transition=make('2025_rev_4'))
 cases<-list()
@@ -88,7 +88,7 @@ if('--emit' %in% commandArgs(trailingOnly=TRUE)) jsonlite::write_json(list(bundl
 cat(length(cases),'pre-March source-backed decisions passed; full coverage not attested\n')
 # Cross-authority effects must use the actual emergency result after claims.
 f<-compile_s232_legacy_fragment(load_s232_legacy_source('2025_rev_4'),products)
-b<-bundles$transition;b$rules<-list();b$fact_definitions<-list();b$claim_definitions<-list();b$coverage<-list()
+b<-make('2025_rev_4',uncompiled=TRUE)
 rule<-function(id,code,authority,formula,when=list(value=TRUE)) list(id=id,action_id=id,authority=authority,kind='duty',verification='verified',
  scope=list(hts_exact=list('7208101500'),countries=list('2010')),when=when,formula=formula,reporting_codes=list(code),source_ids=list(b$sources[[1]]$id))
 b$rules<-list(rule('emergency','9903.01.01','ieepa_fentanyl',list(value=25),list(op='not',args=list(list(claim='USMCA')))))
@@ -100,7 +100,7 @@ q$claims<-list('USMCA');r<-evaluate_shipment_bundle(b,'7208101500','2010','2025-
 stopifnot(r$known_subtotal==25,any(vapply(r$components,function(c) '9903.81.85' %in% unlist(c$reporting_codes)&&c$status=='applied',logical(1))))
 # A metal GAE leaves ordinary base, China emergency and Section 301 duties intact.
 f<-compile_s232_legacy_fragment(load_s232_legacy_source('2025_basic'),products)
-b<-bundles$january;b$rules<-list();b$fact_definitions<-list();b$claim_definitions<-list();b$coverage<-list()
+b<-make('2025_basic',uncompiled=TRUE)
 for(authority in c('base','section_301','ieepa_fentanyl')) {
  z<-rule(authority,'9903.88.01',authority,list(value=5));z$scope<-list(hts_exact=list('7210706030'),countries=list('5700'));b$rules<-c(b$rules,list(z))
  if(authority=='base') b$rules[[length(b$rules)]]$base_treatment<-'column1_general'
@@ -110,7 +110,7 @@ r<-evaluate_shipment_bundle(b,'7210706030','5700','2025-01-15T12:00:00-05:00',q)
 stopifnot(r$known_subtotal==15,!any(grepl('claim_not_priced',r$source_errors)))
 # A GSP/AGOA or otherwise unreviewed base rule cannot inherit the ordinary-base
 # attestation: exclusion of Section 232 can change preference eligibility.
-b0<-bundles$january;b0$rules<-list(rule('base_sensitive','', 'base',list(value=0)))
+b0<-make('2025_basic',uncompiled=TRUE);b0$rules<-list(rule('base_sensitive','', 'base',list(value=0)))
 b0$rules[[1]]$scope<-list(hts_exact=list('7210706030'),countries=list('5700'))
 b0$claim_definitions<-list();b0$coverage<-list();b0$fact_definitions<-list()
 b0<-compose_shipment_rules(b0,list(f))

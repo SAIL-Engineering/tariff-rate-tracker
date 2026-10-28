@@ -1,0 +1,42 @@
+{
+  "ordinary_hts10": 20109,
+  "origins": 240,
+  "revisions": 55,
+  "ordinary_cells": 261167040,
+  "note16": {
+    "unique_candidate_hts10": 1992,
+    "candidate_revisions": 17,
+    "candidate_cells": 8078640,
+    "xi_unique_candidate_hts10": 93,
+    "xi_candidate_revisions": 12,
+    "xi_conditional_conflict_candidate_cells": 264720
+  },
+  "forced_labor": {
+    "origins": 86,
+    "operative_revisions": [
+      "2026_rev_13",
+      "2026_rev_14",
+      "2026_rev_15",
+      "2026_rev_16",
+      "2026_rev_17",
+      "2026_rev_18",
+      "2026_rev_19",
+      "2026_rev_20",
+      "2026_rev_21"
+    ],
+    "candidate_cells": 15422724,
+    "common_product_scope_entries": 863,
+    "exact_hts10_scope_entries": 7,
+    "common_unique_hts10": 1554,
+    "common_product_candidate_cells": 1202796
+  },
+  "china_investigation_candidate_cells_before_exemptions": 179334,
+  "complete_legal_coverage": false,
+  "actual_missing_fact_prevalence_known": false,
+  "xi_native_benchmark": {
+    "product_revision_records": 1103,
+    "published_free_records": 1103,
+    "all_published_free": true,
+    "status": "native zero benchmark closes the ordinary-entry formula discrepancy; shipment predicates, claims and FTZ decisions remain necessary"
+  }
+}

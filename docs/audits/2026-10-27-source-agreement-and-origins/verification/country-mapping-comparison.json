@@ -1,0 +1,18 @@
+{
+  "revisions": 55,
+  "conflicts": [],
+  "distinct_origins": 86,
+  "changed_identity_mappings": [
+    {
+      "name": "Hong Kong, China",
+      "before": [
+        "5700",
+        "5820"
+      ],
+      "after": [
+        "5820"
+      ]
+    }
+  ],
+  "limitation": "Identity/action ownership comparison, not a duty or actual-shipment error count."
+}

@@ -4459,7 +4459,9 @@ resolve_country_name <- function(name) {
   # "articles the product of Cameroon or the Democratic Republic of the Congo".
   # Only " or " (and commas) separate distinct origins in this corpus; " and " is
   # deliberately NOT a separator, per the names above.
-  parts <- unlist(strsplit(name, '\\s+or\\s+|,\\s*', perl = TRUE))
+  protected <- .protect_qualified_country_names(name)
+  parts <- unlist(strsplit(protected$text, '\\s+or\\s+|,\\s*', perl = TRUE))
+  parts <- protected$restore(parts)
   parts <- trimws(parts)
   parts <- parts[nzchar(parts)]
   if (length(parts) <= 1) return(character(0))
@@ -4481,6 +4483,9 @@ resolve_country_name <- function(name) {
 # Resolve one country name to census code(s). 'European Union' expands to EU27.
 .resolve_one_country <- function(name) {
   lookup <- .census_name_lookup()
+  qualified <- .qualified_country_names()
+  identity <- match(normalize_country_name(name),normalize_country_name(qualified$qualified_name))
+  if (!is.na(identity)) name <- qualified$canonical_name[identity]
   norm <- normalize_country_name(name)
   if (!nzchar(norm)) return(character(0))
   # A split part can retain the article, e.g. "Cameroon or THE Democratic
@@ -4508,6 +4513,7 @@ resolve_country_name <- function(name) {
     'republic of korea'               = 'south korea republic of korea',
     'north korea'                     = 'north korea democratic peoples republic of korea',
     'russian federation'              = 'russia',
+    'uk'                              = 'united kingdom',
     # Official long forms as they appear in HTSUS General Note 3(b). "Republic
     # of Belarus" silently failed to resolve, which would have dropped a
     # Column 2 origin from the non-NTR list entirely. These are listed
@@ -4545,6 +4551,39 @@ resolve_country_name <- function(name) {
 
 
 # Cached normalized Census name -> code lookup (240 origins).
+# Qualified jurisdiction names are identities, not lists. Resolve them before
+# applying the comma/or grammar. The registry is shared by extraction and exact
+# resolution; it contains evidence-backed names rather than tariff exceptions.
+.qualified_country_names_cache <- NULL
+.qualified_country_names <- function() {
+  if (!is.null(.qualified_country_names_cache)) return(.qualified_country_names_cache)
+  tbl <- read.csv(here::here('resources/country_qualified_names.csv'),colClasses='character',check.names=FALSE)
+  census <- read.csv(here::here('resources/census_codes.csv'),colClasses='character')
+  if (!all(c('qualified_name','canonical_name','source_url','source_locator') %in% names(tbl)) ||
+      anyNA(tbl) || any(!nzchar(as.matrix(tbl))) ||
+      anyDuplicated(normalize_country_name(tbl$qualified_name)) ||
+      any(!tbl$canonical_name %in% census$Name)) stop('Invalid sourced qualified-country identity registry')
+  .qualified_country_names_cache <<- tbl
+  tbl
+}
+
+.protect_qualified_country_names <- function(text) {
+  tbl <- .qualified_country_names()
+  tokens <- paste0('QUALIFIEDCOUNTRYIDENTITY',seq_len(nrow(tbl)),'TOKEN')
+  for (i in seq_len(nrow(tbl))) {
+    # Whitespace around the printed comma is typographic, not another origin.
+    words <- trimws(strsplit(tbl$qualified_name[i],',',fixed=TRUE)[[1]])
+    pattern <- paste(stringr::str_escape(words),collapse='\\s*,\\s*')
+    pattern <- paste0('(?<![[:alnum:]_])',pattern,'(?![[:alnum:]_])')
+    text <- stringr::str_replace_all(text,stringr::regex(pattern,ignore_case=TRUE),tokens[i])
+  }
+  restore <- function(parts) {
+    for (i in seq_along(tokens)) parts <- stringr::str_replace_all(parts,stringr::fixed(tokens[i]),tbl$canonical_name[i])
+    parts
+  }
+  list(text=text,restore=restore)
+}
+
 .census_name_lookup_cache <- NULL
 .census_name_lookup <- function() {
   if (!is.null(.census_name_lookup_cache)) return(.census_name_lookup_cache)

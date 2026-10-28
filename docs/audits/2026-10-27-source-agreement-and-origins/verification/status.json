@@ -1,0 +1,94 @@
+{
+  "branch": "wjr_dev",
+  "base_commit": "a4fc6bc9eadd8f837837023ce05287b5a9deb012",
+  "checks": [
+    {
+      "name": "python",
+      "command": "python3 -m pytest -q tests/python",
+      "count": 465,
+      "evidence": "verification/python-native-final.log.gz"
+    },
+    {
+      "name": "node",
+      "command": "python3 docs/audits/2026-10-27-source-agreement-and-origins/verification/run-node-final.py --node /path/to/node22 --out /tmp/new-node-proof",
+      "count": 859,
+      "evidence": "verification/node-complete-final-summary.json"
+    },
+    {
+      "name": "source_census",
+      "command": "python3 scripts/audit_section301_labor_policy.py --out /tmp/new-source-census",
+      "count": 55,
+      "evidence": "labor-source-census.json.gz"
+    },
+    {
+      "name": "scope_census",
+      "command": "python3 scripts/audit_shipment_gap_impact.py --out /tmp/new-scope-census",
+      "count": 55,
+      "evidence": "impact.json.gz"
+    },
+    {
+      "name": "delivery",
+      "command": "node frontend/scripts/check-normal-shipment-fixture.mjs --fixture /tmp/new-metal-fixture",
+      "count": 8,
+      "evidence": "verification/metal-delivery-final.log.gz"
+    },
+    {
+      "name": "mobile_delivery",
+      "count": 6,
+      "command": "MOBILE_BENCHMARK_PIPELINE_EXPORT=/tmp/new-mobile-fixture Rscript tests/test_s232_mobile_benchmark_pipeline.R; node frontend/scripts/check-normal-shipment-fixture.mjs --fixture /tmp/new-mobile-fixture",
+      "evidence": "verification/mobile-delivery-final.log.gz"
+    },
+    {
+      "name": "tracker_prototype_build",
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "verification/frontend-build-final.log.gz",
+      "generated_dist_restored": true
+    }
+  ],
+  "node_runtime": "22.22.3",
+  "r_targeted": {
+    "note16_existing": 35,
+    "source_agreement_and_composition": 11,
+    "forced_labor_common": 14,
+    "forced_labor_interaction": 50,
+    "forced_labor_auto": 10,
+    "civil_aircraft": 32,
+    "country_scope": 18,
+    "canonical_identity_roundtrips": 240,
+    "context": "ordinary, missing, FTZ, irrelevant product/predicate and malformed metadata",
+    "native_mobile_pipeline": 6,
+    "auto_metal_unit": 9,
+    "legacy_metal_unit": 49,
+    "pre_march_unit": 35
+  },
+  "parity": {
+    "status": "failed_before_parity",
+    "missing_assertions": 685,
+    "missing_parquet": 367,
+    "missing_json": 316,
+    "missing_revisions": [
+      "2026_rev_20",
+      "2026_rev_21"
+    ]
+  },
+  "tpc": {
+    "status": "failed_missing_input",
+    "path": "data/tpc/tariff_by_flow_day.csv"
+  },
+  "full_r_suite": {
+    "status": "in_progress_already_failed_normalized_prerequisites",
+    "command": "Rscript tests/run_all_tests.R --require-data",
+    "passed": false,
+    "additional_failures_targeted_reruns_passed": [
+      "test_s232_auto_metals.R",
+      "test_s232_legacy_rules.R",
+      "test_s232_pre_march.R"
+    ],
+    "note": "Initial invocation spans edits and has known prerequisite and fixture failures. Targeted reruns validate repaired fixtures and changed code; it is not a clean full-gate pass."
+  },
+  "legal_coverage_complete": false,
+  "motherduck_modified": false,
+  "revision_timeseries_rebuilt": false,
+  "production_release_qualified": false
+}

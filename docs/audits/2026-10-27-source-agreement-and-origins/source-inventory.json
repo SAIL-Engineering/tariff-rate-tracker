@@ -1,0 +1,192 @@
+[
+  {
+    "path": "frontend/tests/shipment-note16-source-agreement.test.mjs",
+    "sha256": "e82585664fc95cedeb531657a30c995bb2fc484b8b11fca1f25aa8b3cb0301b6",
+    "bytes": 824
+  },
+  {
+    "path": "resources/census_codes.csv",
+    "sha256": "71aaa5ad1ddbbcf0a2eaf9ed6a9e7152b3e2a5735fac101e3ab145629724b0b2",
+    "bytes": 4684
+  },
+  {
+    "path": "resources/country_name_aliases.csv",
+    "sha256": "e0cf975f11a7f0638c64a8fe500d5c202e150b45485636bfda6530286c15d282",
+    "bytes": 849
+  },
+  {
+    "path": "resources/country_qualified_names.csv",
+    "sha256": "9ac1f4e6047a3bfcd37e2090a87659a669f9a4f0cdcef2e6e9bfa7bb844573a5",
+    "bytes": 354
+  },
+  {
+    "path": "resources/legal_evidence/2026-11314/notice.txt",
+    "sha256": "6cba8707b0d523c2ad2bf61bda0d80cb8338fe6205e9d5cc9029687e9915a6ee",
+    "bytes": 19724
+  },
+  {
+    "path": "resources/legal_evidence/2026-11314/source.json",
+    "sha256": "cf902a02777a6b7b2e8378ee27058676408d75ca32ab839712d3b4a91d1072a3",
+    "bytes": 367
+  },
+  {
+    "path": "resources/legal_evidence/section232/CSMS-68855869.txt",
+    "sha256": "8082a6ca2277f651bcc14cbae5744c6d9144b6824d56619235bf0af9d8fc61a4",
+    "bytes": 19856
+  },
+  {
+    "path": "resources/legal_evidence/section232/note16-us-metal-reconciliation.json",
+    "sha256": "c7a26766e16710aa64f55c6365a4dd65f7b8561627529fc695a069937253b9c0",
+    "bytes": 1205
+  },
+  {
+    "path": "scripts/audit_section301_labor_policy.py",
+    "sha256": "e46f5f71c9f60c72af09733f7d0bd62b1e84ff9031da437840abd8acd20ecdc1",
+    "bytes": 6003
+  },
+  {
+    "path": "scripts/audit_shipment_gap_impact.py",
+    "sha256": "250ddf0a71adf935dfed67b8c5a5c073abb5ee82768cb49b12901a48966d35f7",
+    "bytes": 6979
+  },
+  {
+    "path": "src/05_parse_policy_params.R",
+    "sha256": "96b5eb82e5a8a4702137cf6a63dc0c8df251e0da6fb8edb2f5eeb20b2be2e5dc",
+    "bytes": 58290
+  },
+  {
+    "path": "src/compile_shipment_rules.R",
+    "sha256": "0525adcc92bd715a838d37aa0cb5d46bf69f0eb4e6d78d9f26c87fe02ef2cd63",
+    "bytes": 21762
+  },
+  {
+    "path": "src/helpers.R",
+    "sha256": "8fc841d6778b127cb2e04fac02319e7992cf0c2177dee4c3b5bba28450c36d75",
+    "bytes": 288513
+  },
+  {
+    "path": "src/ieepa_reciprocal_revision.R",
+    "sha256": "104721da83267a47b96bdf378f6c9d6e2edc96a5fecb179cfdaa10c7ca827a40",
+    "bytes": 11847
+  },
+  {
+    "path": "src/resolve_country_scope.R",
+    "sha256": "7643b6d9d439646035e28014faad32d36ee6a022aa998878fc8c77dbd02948b6",
+    "bytes": 16947
+  },
+  {
+    "path": "src/section232_civil_aircraft.R",
+    "sha256": "b97e13f53e65211c22a5e09ef5c9e0e877904324a734ea9a3af219a4891e7983",
+    "bytes": 2361
+  },
+  {
+    "path": "src/section232_note16_rules.py",
+    "sha256": "87cbd77f08930c2868757c05558449a3a26098d368534400b11101ce311caa6b",
+    "bytes": 25748
+  },
+  {
+    "path": "src/section301_labor.R",
+    "sha256": "4a40eff1fdc73011d6a456e6e30281af881a14fd826cb9eb17551090ec46d2f0",
+    "bytes": 2164
+  },
+  {
+    "path": "src/section301_labor.py",
+    "sha256": "3d216d151f8fe137dd3e92367e2d4f491cb3ffc1faafaf514d91f2a0cceffeb1",
+    "bytes": 22368
+  },
+  {
+    "path": "src/shipment_build.R",
+    "sha256": "8b9f2a8210a6efaa3d98273ab1fee3950c7d47c2ec31d14e71286a21ba1f8735",
+    "bytes": 42281
+  },
+  {
+    "path": "tests/fixtures/shipment/auto-metals.json.gz",
+    "sha256": "e90fa0f1dc6fc854cb261baff462a93a2229c8f74a2c6b1a925837da0f20089d",
+    "bytes": 126881
+  },
+  {
+    "path": "tests/fixtures/shipment/legacy-metals.json",
+    "sha256": "3967fa265123c9922ff9c46bf3e22a4b7a621d6c8fdf4419a73375973f6de8c8",
+    "bytes": 5439784
+  },
+  {
+    "path": "tests/fixtures/shipment/note16-composition.json",
+    "sha256": "15275542f1a16812b30edf46d00d8e4a5a5aa0d1f85712f5e3c51a2ccd51b6e4",
+    "bytes": 426359
+  },
+  {
+    "path": "tests/fixtures/shipment/note16-source-agreement.json.gz",
+    "sha256": "c5fd8b15a8131daf2e23092bc06b71bca0a121489019607e2b7786c0dd063b9c",
+    "bytes": 59880
+  },
+  {
+    "path": "tests/fixtures/shipment/pre-march-metals.json",
+    "sha256": "06342821921cd5f970319757eae73fa2382cf1ab7afd88e1660c221577255399",
+    "bytes": 2025132
+  },
+  {
+    "path": "tests/fixtures/shipment/section301-labor-auto.json.gz",
+    "sha256": "12353370d8eb251cd6192fe5c54af97fe0089ce781cd9d7d353e5fc02830b7a3",
+    "bytes": 118867
+  },
+  {
+    "path": "tests/fixtures/shipment/section301-labor-common.json.gz",
+    "sha256": "2e5ae44cf77c47eb08854a679ebe441b9804a92c8639bcb2b5cc4530c3089b1c",
+    "bytes": 71198
+  },
+  {
+    "path": "tests/fixtures/shipment/section301-labor-interactions.json.gz",
+    "sha256": "e12cade0f027bbffa5cc8503c676d9601275f235388ecae4bf4e0049d9ba5258",
+    "bytes": 1703955
+  },
+  {
+    "path": "tests/python/test_section232_sources.py",
+    "sha256": "8eac09490b55cf355d27ca36c55cb06e91d86569e744f13b6844abf8dc7c6b5f",
+    "bytes": 8294
+  },
+  {
+    "path": "tests/python/test_section301_labor.py",
+    "sha256": "12e5c928e6a9464079ed193d5456a711b12134044dd32eba5d4a54fe99d4bb26",
+    "bytes": 4488
+  },
+  {
+    "path": "tests/test_qualified_country_identity.R",
+    "sha256": "726cf457122fc48ee2d3b743dba9b9997604e6a04cd17240a6f8dd84f7e5ed16",
+    "bytes": 2249
+  },
+  {
+    "path": "tests/test_s232_auto_metals.R",
+    "sha256": "d25597f1c7187ff16abf3516a7156eaa24e02006a1bfc2221dd41e37dbbb1442",
+    "bytes": 6464
+  },
+  {
+    "path": "tests/test_s232_heading_resolution.R",
+    "sha256": "6c3865f871da229e3d3ccc5624e3c05f197830232860473310e48e860d1d3288",
+    "bytes": 12159
+  },
+  {
+    "path": "tests/test_s232_legacy_rules.R",
+    "sha256": "45c7c02e888736a187ac08397d7a2301d537b79e14f32ca655676f233ea8bd26",
+    "bytes": 15228
+  },
+  {
+    "path": "tests/test_s232_mobile_benchmark_pipeline.R",
+    "sha256": "8a02e4181c9d16f42e9f6d914e0a188b6ed6c71a4f7b1a31c360dc9c3c13239f",
+    "bytes": 3723
+  },
+  {
+    "path": "tests/test_s232_pre_march.R",
+    "sha256": "bb377cb1454dbb4f2812637e6d1efa02a151122eaed2303aa9b399582d56e4a3",
+    "bytes": 9892
+  },
+  {
+    "path": "tests/test_s232_xi_source_agreement.R",
+    "sha256": "a4e24b9869efb242d1de347b04a65bbcc6bd2131f32dcdda634c047013681f6d",
+    "bytes": 4696
+  },
+  {
+    "path": "tests/test_shipment_entry_context.R",
+    "sha256": "1d2d4ab96d9c6a18f9c80d2e02e76879e268c7386a49a5112bbc71b4d46ed741",
+    "bytes": 2580
+  }
+]

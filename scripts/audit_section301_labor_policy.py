@@ -12,16 +12,21 @@ from section301_labor import load_history,compile_rules,canonical
 from section301_sources import sha
 
 
-def audit(output):
-    output.mkdir(parents=True,exist_ok=False)
-    calendar=[r for r in csv.DictReader((ROOT/'config/revision_dates.csv').open()) if r['revision'].startswith(('2025_','2026_'))]
+def resolve_origin_context(revision):
+    """Use current ingestion resolution and preserve its input/source pins."""
     with tempfile.TemporaryDirectory() as temp:
         script=Path(temp)/'origins.R';context=Path(temp)/'origins.json'
         script.write_text("source('src/helpers.R');source('src/05_parse_policy_params.R');source('src/section301_labor.R')\n"
             "a<-commandArgs(TRUE);f<-compile_s301_labor_fragment(a[1],character())\n"
             "jsonlite::write_json(f,a[2],auto_unbox=TRUE,null='null',digits=NA)\n")
-        subprocess.run(['Rscript',str(script),calendar[0]['revision'],str(context)],cwd=ROOT,check=True)
-        origins=json.loads(context.read_bytes())
+        subprocess.run(['Rscript',str(script),revision,str(context)],cwd=ROOT,check=True)
+        return json.loads(context.read_bytes())
+
+
+def audit(output):
+    output.mkdir(parents=True,exist_ok=False)
+    calendar=[r for r in csv.DictReader((ROOT/'config/revision_dates.csv').open()) if r['revision'].startswith(('2025_','2026_'))]
+    origins=resolve_origin_context(calendar[0]['revision'])
     (output/'origin-resolution.json').write_text(json.dumps(origins,indent=2)+'\n')
     jurisdictions={r['country_text']:r['countries'] for r in origins['origin_resolution']}
     pins={a['path']:a['sha256'] for a in origins['source_artifacts']}

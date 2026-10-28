@@ -141,7 +141,7 @@ compile_reciprocal_initial_fragment <- function(x,products,root=here::here()) {
   if(!nrow(gn)||any(is.na(gn$source_url)|!nzchar(gn$source_url))) stop('Missing revision-bound GN3 country evidence')
   excluded<-lapply(gn$country_name,resolve_country_name)
   if(any(lengths(excluded)==0L)) stop('Unresolved GN3 country')
-  files<-c('resources/gn3_column2_countries.csv','resources/census_codes.csv','config/policy_params.yaml')
+  files<-c('resources/gn3_column2_countries.csv','resources/census_codes.csv','resources/country_qualified_names.csv','resources/country_name_aliases.csv','config/policy_params.yaml')
   # Country resolver uses the policy EU membership; preserve both its input
   # and implementation version with the derived jurisdiction inventory.
   files<-c(files,'src/helpers.R','src/05_parse_policy_params.R')

@@ -12,6 +12,8 @@ import json
 from pathlib import Path
 import re
 from section232_sources import matches, sha
+from section301_sources import unique_span
+from shipment_base_sources import extract_rows
 
 
 def val(x): return {'value': x}
@@ -30,6 +32,40 @@ def either(*args):
     args=[a for a in args if a!=val(False)]
     return val(False) if not args else args[0] if len(args)==1 else op('or',*args)
 def negate(x):return val(not x['value']) if 'value' in x else op('not',x)
+
+
+def xi_us_metal_sources(root):
+    """Keep conflicting original formulations; do not choose one by hierarchy.
+
+    A shipment can still be priced when all sourced formulations yield the
+    same additional amount. The CBP bulletin is implementation evidence, not
+    an amendment of a different proclamation or native heading expression.
+    """
+    review=json.loads((root/'resources/legal_evidence/section232/note16-us-metal-reconciliation.json').read_bytes())
+    if review['contract_version']!='sail.note16-us-metal-reconciliation/v1':raise ValueError('Unknown US-metal source review')
+    directory=root/'resources/legal_evidence/2026-11314';meta=json.loads((directory/'source.json').read_bytes())
+    body=directory/'notice.txt'
+    if sha(body.read_bytes())!=meta['sha256']:raise ValueError('US-metal original proclamation changed')
+    text=body.read_text();clauses={
+        '2(b)':unique_span(text,r'^\(b\) For products of',r'^\(c\)'),
+        '2(c)':unique_span(text,r'^\(c\) [\d.]+ percent, determined based',r'^\(d\)')}
+    for key,value in clauses.items():
+        if sha(' '.join(value.split()).encode())!=review['reviewed_clauses'][key]:raise ValueError('Unreviewed US-metal source semantics')
+    flat=' '.join(clauses['2(c)'].split());rate=re.match(r'\(c\) (\d+(?:\.\d+)?) percent, determined based',flat)
+    if not rate or 'in the same manner outlined in clause (2)(b)' not in flat:raise ValueError('Missing original US-metal floor')
+    cbp=review['cbp_source'];path=root/cbp['path']
+    if sha(path.read_bytes())!=cbp['sha256']:raise ValueError('US-metal CBP instructions changed')
+    raw=path.read_text();starts=list(re.finditer(r'^(9903\.\d{2}\.\d{2}):',raw,re.M));rates={}
+    for i,m in enumerate(starts):
+        block=raw[m.end():starts[i+1].start() if i+1<len(starts) else len(raw)]
+        match=re.search(r'^([\d.]+)% additional ad valorem rate of duty\s*$',block,re.M)
+        if match:
+            if m[1] in rates:raise ValueError('Duplicate CBP heading formula')
+            rates[m[1]]=float(match[1])/100
+    return dict(floor_rate=float(rate[1])/100,cbp_additional_rates=rates,sources=[
+        dict(id='FR-2026-11314-US-metal-body',path=str(body),sha256=meta['sha256'],url=meta['url'],
+             citation='Proclamation11032 clauses2(b),2(c),3(b): original combined-duty wording and lowest applicable treatment.'),
+        dict(cbp,path=str(path))])
 
 
 def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
@@ -59,7 +95,7 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
     p=root/'resources/legal_evidence/section232/2026-06960.pdf'
     sources.append(dict(id='FR-2026-06960-note16',status='verified',sha256=sha(p.read_bytes()),
         url='https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf',
-        citation='Proclamation 11021 clauses 1-10; Annex IV; 91 FR 18201. Clause 8 retains Russian-aluminum treatment for the revised annex lists.'))
+        citation='Proclamation 11021 clauses 1-12; Annex IV; 91 FR 18201. Clause 8 retains Russian-aluminum treatment; clause12 requires separate FTZ admission/status/classification reconciliation.'))
     artifacts.append(dict(source_id='FR-2026-06960-note16',path=str(p),sha256=sha(p.read_bytes())))
     ids.append('FR-2026-06960-note16')
     # Independent amendment evidence is necessary for the xi formula conflict
@@ -74,6 +110,10 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
             citation='Proclamation 11032 clauses 2(c), 3(b), 4; Annex IV A(2), A(12), 91 FR 34087-34088, 34135-34139.'))
         artifacts.append(dict(source_id='FR-2026-11314',path=str(p),sha256=sha(p.read_bytes())))
         ids.append('FR-2026-11314')
+        xi_sources=xi_us_metal_sources(root)
+        for s in xi_sources['sources']:
+            sources.append({k:s[k] for k in ('id','sha256','url','citation')}|dict(status='verified'))
+            artifacts.append(dict(source_id=s['id'],path=s['path'],sha256=s['sha256']));ids.append(s['id'])
     facts={}
     def f(name,label,kind='number',unit='fraction',description=None):
         definition=dict(type=kind,label=label,source_ids=ids)
@@ -83,6 +123,7 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         facts[name]=definition
         return fact(name)
     cv=f('customs_value','Customs value (USD)',unit='USD')
+    f('ieepa_ftz_entry','Entry withdrawn from a U.S. foreign-trade zone',kind='boolean')
     column1=f('column1_duty_amount','Applicable column 1 duty (USD)',unit='USD',
         description='Actual applicable column 1 duty after a valid preference, with specific/compound quantities priced. Never an aggregate or trade-weighted AVE.')
     weights={m:f(m+'_weight_fraction',m.title()+' fraction of total article weight') for m in ('aluminum','steel','copper')}
@@ -91,7 +132,23 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
     memberships=defaultdict(set)
     for row in matches(x,products):memberships[row['hts10']].add(row['list_id'])
     metals={s['id']:s['metal'] for s in x['lists']}
-    for hts,lists in memberships.items():groups[(tuple(sorted(lists)),hts[:2])].append(hts)
+    native_bases={};base_decisions=[]
+    if memberships:
+        native=[s for s in x['sources'] if Path(s['path']).suffix=='.json']
+        if len(native)!=1:raise ValueError('Missing unique native Column1 benchmark source')
+        raw=Path(native[0]['path']).read_bytes()
+        if sha(raw)!=native[0]['sha256']:raise ValueError('Native Column1 benchmark source changed')
+        native_bases={p['hts10']:p['general'] for p in extract_rows(json.loads(raw))['products']}
+    for hts,lists in memberships.items():
+        base=native_bases.get(hts)
+        # An explicitly printed Free expression is a known zero Column1
+        # benchmark, including for Column2 origins. It is not the final base
+        # component after another action suppresses or replaces that component.
+        # Different/unparsed expressions retain their actual-benchmark question.
+        free=bool(base) and base['expression']=='Free'
+        groups[(tuple(sorted(lists)),hts[:2],free)].append(hts)
+        base_decisions.append(dict(hts10=hts,source=base,status='source_zero' if free else 'requires_actual_column1_benchmark',
+            source_id=ids[1],benchmark='published_column1_general',formula=val(0) if free else fact('column1_duty_amount')))
     by_country=defaultdict(list)
     required=('all','uk','russia','non_ntr','usmca','xi_partner')
     if any(k not in jurisdictions for k in required):raise ValueError('Missing explicit country inventories')
@@ -118,6 +175,23 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         if h['formula_kind']!='column1_floor' or headings[heading(high)]['formula_kind']!='no_change':
             raise ValueError('Unreviewed floor pair')
         return choose(op('lt',column1,op('multiply',cv,val(h['rate']))),leaf(low),leaf(high))
+    def agreed_us_metal(code,question,locator,competitor=None,reported_code=None):
+        candidate=leaf(code);identity=candidate['code']
+        if identity not in xi_sources['cbp_additional_rates']:raise ValueError('Missing named US-metal CBP formula')
+        original=op('max',val(0),op('subtract',op('multiply',cv,val(xi_sources['floor_rate'])),column1))
+        collected=op('multiply',cv,val(xi_sources['cbp_additional_rates'][identity]))
+        agreement=both(op('eq',candidate['formula'],original),op('eq',candidate['formula'],collected))
+        if competitor is not None:
+            # Clause3(b), not an arbitrary rate selection, requires the
+            # lowest legally applicable treatment. A divergent original
+            # formulation remains unresolved even if its heading is known.
+            agreement=both(agreement,op('lte',candidate['formula'],competitor['formula']))
+        if reported_code is not None:
+            # The reporting identity/applicability is established even when
+            # the amount is not. Other programs must not need this valuation
+            # fact merely to recognize an explicitly named covered article.
+            return dict(candidate,formula=op('if',agreement,candidate['formula'],{'unresolved_source':question}),locator=locator)
+        return choose(agreement,candidate,gap(question,locator,reported_code))
     def walk(tree,path,group_id,scope):
         if isinstance(tree,dict) and tree.get('skip'):return
         if isinstance(tree,list):
@@ -145,7 +219,8 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         decisions.append(dict(rule_id=id,status='requires_input_correction' if invalid_inputs else
             'requires_source_reconciliation' if error else 'compiled',
             reason=error,reporting_codes=r['reporting_codes'],legal_locator=r['legal_locator']))
-    for gi,((lists,chapter),htss) in enumerate(sorted(groups.items())):
+    for gi,((lists,chapter,free),htss) in enumerate(sorted(groups.items())):
+        column1=val(0) if free else fact('column1_duty_amount')
         lists=set(lists); applicable_metals=sorted({metals[i] for i in lists})
         domestic=[]
         for d in params['domestic']:
@@ -173,8 +248,8 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
                         # The proclamation's clause 2(c) is a column-1 floor;
                         # Annex IV adds xi to the existing +10% heading without
                         # changing its expression. Both sources are retained.
-                        resolved=gap('note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
-                            'Proclamation 11032 clause 2(c); Annex IV A(12), A(14); heading '+heading(domestic_code),heading(domestic_code))
+                        resolved=agreed_us_metal(domestic_code,'note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
+                            'Proclamation 11032 clause 2(c); Annex IV A(12), A(14); heading '+heading(domestic_code),reported_code=heading(domestic_code))
                     tree=choose(us,resolved,tree)
                 if uk:
                     n=4 if ordinary==2 else 5
@@ -195,8 +270,8 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
                     # explicit minimum rule (clause 3(b)); do not choose a
                     # heading from its rate alone. The U.S.-metal discrepancy
                     # is kept narrow to shipments satisfying that predicate.
-                    if partner:tree=choose(us,gap('note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
-                        'Proclamation 11032 clauses 2(c), 3(b); Annex IV A(12); the floor/flat discrepancy can also change the lowest applicable reporting alternative'),leaf(22))
+                    if partner:tree=choose(us,agreed_us_metal(domestic_code,'note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
+                        'Proclamation 11032 clauses 2(c), 3(b); Annex IV A(12); the floor/flat discrepancy can also change the lowest applicable reporting alternative',competitor=leaf(22)),leaf(22))
                     if usmca:
                         us_value=f('us_produced_parts_value','Value attributable to parts produced in the U.S.',unit='USD',
                             description='Note 16(j): documented U.S.-produced parts value, not the origin of raw steel and not a trade share.')
@@ -210,8 +285,8 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
                         # Clause 3(b) makes the U.S.-metal concession lower than
                         # the content treatment, but the former's amount has a
                         # source conflict. Do not silently select the higher one.
-                        content=choose(us,gap('note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
-                            'Proclamation 11032 clauses 2(c), 3(b); Annex IV A(12)',heading(6)),content)
+                        content=choose(us,agreed_us_metal(domestic_code,'note16_xi_us_metal_formula_conflict:proclamation_11032_2c_vs_99038206',
+                            'Proclamation 11032 clauses 2(c), 3(b); Annex IV A(12)',reported_code=heading(domestic_code)),content)
                         eligible=both({'claim':'USMCA'},f('usmca_origin_eligible','Qualifies under General Note 11',kind='boolean'))
                         tree=choose(eligible,content,tree)
                 if chapter in params['motorcycle_chapters'] and lists.intersection(params['motorcycle_lists']):
@@ -251,7 +326,13 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         all(c.startswith('9903.82.') for c in r['reporting_codes'])]
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='s232_note16_'+rev,
         semantic_review_sha256=sha(grammar.read_bytes()),
-        sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,
+        compiler_dependencies={'src/shipment_base_sources.py':sha((root/'src/shipment_base_sources.py').read_bytes())}|({p:sha((root/p).read_bytes()) for p in (
+            'src/section301_sources.py',
+            'resources/legal_evidence/section232/note16-us-metal-reconciliation.json',
+            'resources/legal_evidence/2026-11314/source.json')} if 'xi' in {s['id'] for s in x['lists']} else {}),
+        sources=sources,source_artifacts=artifacts,rules=rules,fact_definitions=facts,column1_reference_decisions=base_decisions,
+        entry_context=dict(mode='ordinary_only',fact='ieepa_ftz_entry',
+            unresolved_source='note16_ftz_admission_status_classification_and_rate_history',source_ids=ids),
         claim_definitions=[dict(id='USMCA',label='USMCA',rule_ids=claim_ids,source_ids=ids)] if claim_ids else [],
         unchanged_claims=[dict(id='note16_'+rev+'_section301_claims',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],
             target_rule_ids=unchanged_301,source_ids=ids)] if unchanged_301 else [],

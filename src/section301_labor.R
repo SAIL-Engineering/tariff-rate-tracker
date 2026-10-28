@@ -11,7 +11,7 @@ compile_s301_labor_fragment <- function(revision_id,products,root=here::here()) 
   if(!exists('resolve_original_action_origins',mode='function'))source(file.path(root,'src/ieepa_reciprocal_revision.R'))
   jurisdictions<-setNames(lapply(history$actions,function(a)resolve_original_action_origins(a$country_text)),
     vapply(history$actions,`[[`,character(1),'country_text'))
-  files<-c('resources/census_codes.csv','src/helpers.R','src/05_parse_policy_params.R','config/policy_params.yaml','src/section301_labor.R','src/ieepa_reciprocal_revision.R')
+  files<-c('resources/census_codes.csv','resources/country_qualified_names.csv','resources/country_name_aliases.csv','src/helpers.R','src/05_parse_policy_params.R','config/policy_params.yaml','src/section301_labor.R','src/ieepa_reciprocal_revision.R')
   sources<-lapply(files,function(file)list(id=paste0('s301fl-jurisdiction-',gsub('[^A-Za-z0-9]','-',file)),
     path=normalizePath(file.path(root,file),mustWork=TRUE),sha256=digest::digest(file=file.path(root,file),algo='sha256'),
     url='https://www.census.gov/foreign-trade/schedules/c/countrycode.html',
