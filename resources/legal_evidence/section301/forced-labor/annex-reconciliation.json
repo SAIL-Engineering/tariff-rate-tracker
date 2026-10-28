@@ -1,0 +1,54 @@
+{
+  "contract_version": "sail.section301-forced-labor-annex-reconciliation/v1",
+  "source": {
+    "id": "FR-2026-15181-annex-page47382",
+    "path": "resources/legal_evidence/section301/forced-labor/published-annex-page47382.png",
+    "sha256": "edc5a3615147f70aaafa9928e8577c24077f707d22f99dea588f349a45f74739",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-28/pdf/2026-15181.pdf#page=65",
+    "citation": "Published Federal Register91FR47382, note52(j)(7)(iii), table for heading9903.06.09. Visual corroboration of the full original USTR glass-fabric rows; a native-copy omission is not a legal scope amendment."
+  },
+  "parent_pdf_sha256": "3c1e16a61af26b2a53b5d42f8b38e8e6a4f93f93a92238aba1f96026cdd45557",
+  "render_command": "pdftoppm -f 65 -l 65 -scale-to 1900 -png -singlefile 2026-15181-published.pdf published-p65",
+  "decisions": [
+    {
+      "reporting_code": "9903.06.09",
+      "original_scope_sha256": "eb75b423245c98ca4b1b07c7daa7108459ec05853e1aa176b9fcdd7c9c367f82",
+      "native_scope_sha256": "25a4d22a2f4ee162154c1a951b867b92c06d2796a4f2850bbda658ec31f53b5a",
+      "missing_from_native": [
+        "70191324",
+        "70191328",
+        "70191335",
+        "70191930",
+        "70191970",
+        "70191991",
+        "70196105",
+        "70196110",
+        "70196130",
+        "70196140",
+        "70196170",
+        "70196190",
+        "70196305",
+        "70196315",
+        "70196330",
+        "70196340",
+        "70196370",
+        "70196390",
+        "70196405",
+        "70196415",
+        "70196430",
+        "70196440",
+        "70196470",
+        "70196490",
+        "70196551",
+        "70196590",
+        "70196630",
+        "70196640",
+        "70196670",
+        "70196690"
+      ],
+      "additional_in_native": [],
+      "decision": "original_published_annex_retained",
+      "citation": "91FR47382, original note52(j)(7)(iii), published PDF page65; the six rows following 7019.13.15 are present. Native HTS omitted those six complete rows."
+    }
+  ]
+}

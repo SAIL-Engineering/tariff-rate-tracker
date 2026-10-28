@@ -3,6 +3,7 @@
 # or modeled share when constructing a shipment rule.
 source(here::here('src/compile_shipment_rules.R'))
 source(here::here('src/shipment_duty_expression.R'))
+source(here::here('src/ftz_valuation.R'))
 
 if(!exists('.shipment_base_hot',inherits=FALSE)).shipment_base_hot <- new.env(parent=emptyenv())
 .shipment_source_signature <- function(x) digest::digest(.shipment_canonical(x),algo='sha256')
@@ -39,9 +40,67 @@ load_shipment_base_source <- function(revision_id,root=here::here()) {
     url=paste0('https://hts.usitc.gov/reststop/file?release=',release,'&filename=General%20Note%203'),
     citation=paste('USITC',revision_id,'General Note3(a)-(c), including complete Column2 origin table')),
     parser_sha256=hash(gn_parser))
+  symbols <- env$parse_gn3_symbols(paste(text,collapse='\n'))
+  if(!any(symbols$symbol=='S' & grepl('United States-Mexico-Canada Agreement',symbols$program_name,fixed=TRUE)))
+    stop('Native GN3 does not establish the USMCA Special-column symbol')
+  x$gn3$program_symbols <- lapply(seq_len(nrow(symbols)),function(i)as.list(symbols[i,]))
   attr(x,'source_integrity') <- .shipment_source_signature(x)
   .shipment_base_hot$key <- key;.shipment_base_hot$value <- x
   x
+}
+
+# Consume the entire Special field, retaining each expression and its symbols.
+# A valid Free group for one program cannot erase a later conditional reference
+# for another. In particular S+ references do not establish quota entitlement.
+parse_shipment_special_column <- function(text) {
+  if(is.null(text)||!length(text)||!nzchar(trimws(text)))return(list(status='absent',groups=list()))
+  locations <- gregexpr('[^()]+\\([^()]*\\)',text,perl=TRUE)[[1]]
+  if(locations[1]<0L)return(list(status='unresolved_source',groups=list(),reason='unparsed_special_field'))
+  groups <- regmatches(text,list(locations))[[1]]
+  if(!identical(gsub('\\s+','',paste(groups,collapse='')),gsub('\\s+','',text)))
+    return(list(status='unresolved_source',groups=list(),reason='unconsumed_special_field'))
+  parsed <- lapply(groups,function(group) {
+    m<-regmatches(group,regexec('^\\s*(.*?)\\s*\\(([^()]*)\\)\\s*$',group,perl=TRUE))[[1]]
+    symbols<-unique(trimws(strsplit(m[3],',',fixed=TRUE)[[1]]))
+    if(!length(symbols)||any(!grepl('^[A-Z]{1,2}[+*]?$',symbols)))return(NULL)
+    list(expression=trimws(m[2]),symbols=as.list(symbols),parsed=parse_shipment_duty_expression(trimws(m[2])))
+  })
+  if(any(vapply(parsed,is.null,logical(1))))return(list(status='unresolved_source',groups=list(),reason='unparsed_special_symbols'))
+  all_symbols<-unlist(lapply(parsed,`[[`,'symbols'))
+  if(anyDuplicated(all_symbols))return(list(status='unresolved_source',groups=parsed,reason='duplicate_special_program'))
+  list(status='parsed',groups=parsed)
+}
+
+shipment_usmca_reference <- function(record) {
+  field<-parse_shipment_special_column(record$expression)
+  selected<-Filter(function(g)'S'%in%unlist(g$symbols),field$groups)
+  parsed<-if(field$status=='parsed'&&length(selected)==1L)selected[[1]]$parsed else NULL
+  list(raw=record$expression,source_code=record$source_code,source_row_index=record$source_row_index,
+    expression=if(length(selected)==1L)selected[[1]]$expression else NULL,normalized_text=parsed$normalized_text,field_status=field$status,
+    symbol='S',groups=field$groups,status=if(!is.null(parsed))parsed$status else 'unresolved_source',
+    formula=if(!is.null(parsed)&&parsed$status=='parsed')parsed$formula else
+      list(unresolved_source=paste0('column1_usmca_special_expression:',field$reason %||% 'conditional_or_absent_S_expression')),
+    fact_definitions=parsed$fact_definitions %||% list(),input_constraints=parsed$input_constraints %||% list())
+}
+
+# Independent legal benchmark expressions, before another action changes or
+# suppresses the payable base component. Shared by sector compilers; callers
+# must separately reconcile any preference or Chapter98 claim.
+compile_shipment_column1_references <- function(extraction,products,strict=TRUE,question_prefix='column1_general_expression') {
+  if(is.null(attr(extraction,'source_integrity'))||
+     !identical(attr(extraction,'source_integrity'),.shipment_source_signature(extraction)))stop('Unvalidated Column1 reference extraction')
+  native<-setNames(extraction$products,vapply(extraction$products,`[[`,character(1),'hts10'))
+  products<-sort(unique(as.character(products)))
+  if(strict&&any(!products%in%names(native)))stop('Product is not valid in the identified Column1 source revision')
+  setNames(lapply(products,function(p) {
+    record<-native[[p]]$general
+    parsed<-parse_shipment_duty_expression(record$expression)
+    list(raw=record$expression,normalized_text=parsed$normalized_text,normalization_steps=parsed$normalization_steps,
+      source_code=record$source_code,source_row_index=record$source_row_index,status=parsed$status,
+      formula=if(parsed$status=='parsed')parsed$formula else list(unresolved_source=paste(question_prefix,p,parsed$reason,sep=':')),
+      fact_definitions=parsed$fact_definitions,input_constraints=parsed$input_constraints %||% list(),
+      usmca=shipment_usmca_reference(native[[p]]$special))
+  }),products)
 }
 
 compile_shipment_base_fragment <- function(extraction,products,countries,root=here::here()) {
@@ -64,6 +123,9 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
   ids <- vapply(sources,`[[`,character(1),'id')
   artifacts <- list(list(source_id=ids[1],path=x$source$path,sha256=x$source$sha256),
                     list(source_id=ids[2],path=x$gn3$source$path,sha256=x$gn3$source$sha256))
+  ftz<-compile_ftz_valuation(root)
+  sources<-c(sources,ftz$sources);artifacts<-c(artifacts,ftz$source_artifacts)
+  ids<-vapply(sources,`[[`,character(1),'id')
   roster <- unlist(x$gn3$country_names)
   resolved <- lapply(roster,resolve_country_name)
   if(any(lengths(resolved)!=1L))stop('Unresolved or ambiguous primary GN3 origin inventory')
@@ -72,6 +134,10 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
   if(any(!countries %in% census)||any(!column2 %in% census))stop('Origin outside identified Census inventory')
   facts <- list(ieepa_ftz_entry=list(type='boolean',label='Entry from a foreign trade zone',source_ids=as.list(ids),
     description='An ordinary consumption entry uses this revision. An FTZ withdrawal also needs admission, status and classification/rate history; see19CFR146.65.'))
+  facts$usmca_origin_eligible<-list(type='boolean',label='Qualifies under General Note 11',source_ids=as.list(ids),
+    description='Verified preferential-origin eligibility. Nonpreferential country of origin alone does not establish this fact.')
+  facts$usmca_properly_claimed<-list(type='boolean',label='USMCA treatment properly claimed for this entry',source_ids=as.list(ids))
+  facts<-c(facts,ftz$fact_definitions)
   rules <- list();coverage <- list();source_rows <- list()
   for(treatment in c('column1_general','column2')) {
     origins <- if(treatment=='column2')intersect(countries,column2) else setdiff(countries,column2)
@@ -80,7 +146,8 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
     expressions <- vapply(records[ordinary_products],function(p)p[[field]]$expression %||% '',character(1))
     # Missing/unrelated owners must retain their individual source questions;
     # never collapse several malformed source branches to one generic zero.
-    groups <- split(ordinary_products,ifelse(nzchar(expressions),expressions,paste0('<unresolved>:',ordinary_products)))
+    special_expressions<-if(treatment=='column1_general')vapply(records[ordinary_products],function(p)p$special$expression %||% '',character(1)) else rep('',length(ordinary_products))
+    groups <- split(ordinary_products,paste(ifelse(nzchar(expressions),expressions,paste0('<unresolved>:',ordinary_products)),special_expressions,sep='\nSPECIAL\n'))
     rule_ids <- character()
     for(group in groups) {
       raw <- records[[group[1]]][[field]]$expression
@@ -91,23 +158,69 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
         if(!is.null(old)&&!identical(old,definition))stop('Conflicting legal base valuation unit')
         facts[[name]] <- definition
       }
-      id <- paste0('base_',revision,'_',treatment,'_',substr(digest::digest(raw,algo='sha256'),1,16))
+      id <- paste0('base_',revision,'_',treatment,'_',substr(digest::digest(list(raw,special_expressions[match(group[1],ordinary_products)]),algo='sha256'),1,16))
       record <- records[[group[1]]]
       errors <- Filter(function(e)grepl(field,e,fixed=TRUE),as.list(record$source_errors))
       formula <- if(parsed$status=='parsed')parsed$formula else
         list(unresolved_source=paste0('base_source:',revision,':',group[1],':',field,':',
           paste(unlist(errors),collapse=','),':owner=',record[[field]]$source_code %||% '<none>',
           ':row=',record[[field]]$source_row_index %||% '<none>',':',parsed$reason,':',raw %||% '<missing>'))
-      # FTZ rates cannot be priced from a withdrawal date alone. This is a
-      # source question, not an instruction to substitute today's ordinary rate.
+      constraints<-parsed$input_constraints %||% list()
+      preference<-NULL
+      if(treatment=='column1_general') {
+        preference<-shipment_usmca_reference(record$special)
+        # GN3(c)(i), symbol S; entitlement remains a shipment fact under GN11.
+        # Preserve S+ and other reference-only paths as source questions.
+        unchanged_free<-identical(formula,list(value=0))&&is.null(preference$raw)
+        if(!unchanged_free&&!identical(formula,preference$formula)) {
+          formula<-list(op='if',args=list(list(claim='USMCA'),preference$formula,formula))
+          constraints<-lapply(constraints,function(c) {c$test<-list(op='if',args=list(list(claim='USMCA'),list(value=TRUE),c$test));c})
+          for(c in preference$input_constraints) {
+            c$test<-list(op='if',args=list(list(claim='USMCA'),c$test,list(value=TRUE)));constraints[[length(constraints)+1L]]<-c
+          }
+          constraints[[length(constraints)+1L]]<-list(test=list(op='if',args=list(list(claim='USMCA'),
+            list(op='and',args=list(list(fact='usmca_origin_eligible'),list(fact='usmca_properly_claimed'))),list(value=TRUE))),
+            inputs=list('usmca_origin_eligible','usmca_properly_claimed'),reason='USMCA entitlement and proper claim must be established')
+        }
+        for(name in names(preference$fact_definitions))facts[[name]]<-c(preference$fact_definitions[[name]],list(source_ids=as.list(ids)))
+      }
+      # NPF (including recoverable waste under146.42(b)) uses constructive-
+      # transfer classification/quantity. Its valuation is146.65(b), not an
+      # importer-supplied ordinary customs value. PF needs historical rates.
+      consumes_value<-function(node) {
+        if(identical(node,list(fact='customs_value')))return(TRUE)
+        is.list(node)&&any(vapply(node,consumes_value,logical(1)))
+      }
+      replace_value<-function(node) {
+        if(identical(node,list(fact='customs_value')))return(ftz$formula)
+        if(is.list(node))lapply(node,replace_value) else node
+      }
+      ftz_formula<-replace_value(formula)
+      npf<-list(op='or',args=lapply(c('nonprivileged_foreign','recoverable_waste'),function(status)
+        list(op='eq',args=list(list(fact='ftz_status'),list(value=status)))))
+      # Until the preferential FTZ admission rules are reconciled, an ordinary
+      # preference formula cannot be reused to price an FTZ claim.
+      preference_requested<-list(op='or',args=list(list(claim='USMCA'),list(claim='COLUMN1_SPECIAL'),list(claim='CHAPTER_98')))
+      priced_npf<-list(op='and',args=list(npf,list(op='not',args=list(preference_requested))))
+      ftz_formula<-list(op='if',args=list(preference_requested,
+        list(unresolved_source='base_ftz_preference_and_chapter98_admission_treatment'),ftz_formula))
+      for(i in seq_along(constraints))constraints[[i]]$test<-list(op='if',args=list(list(fact='ieepa_ftz_entry'),
+        list(op='if',args=list(priced_npf,replace_value(constraints[[i]]$test),list(value=TRUE))),constraints[[i]]$test))
+      if(consumes_value(formula))for(constraint in ftz$constraints) {
+        constraint$test<-list(op='if',args=list(list(op='and',args=list(list(fact='ieepa_ftz_entry'),priced_npf)),constraint$test,list(value=TRUE)))
+        constraints[[length(constraints)+1L]]<-constraint
+      }
       formula <- list(op='if',args=list(list(fact='ieepa_ftz_entry'),
-        list(unresolved_source='base_ftz_admission_classification_and_rate_history'),formula))
+        list(op='if',args=list(npf,ftz_formula,list(op='if',args=list(
+          list(op='eq',args=list(list(fact='ftz_status'),list(value='domestic'))),
+          list(unresolved_source='base_ftz_domestic_status_and_production_reconciliation'),
+          list(unresolved_source='base_ftz_admission_classification_and_rate_history'))))),formula))
       rule <- list(id=id,action_id='ordinary_customs_duty',authority='base',kind='duty',verification='verified',
         base_treatment=treatment,scope=list(hts_exact=as.list(group),countries=as.list(origins)),formula=formula,
         published_expression=raw,normalized_expression=parsed$normalized_text,
         expression_normalization_steps=parsed$normalization_steps,reporting_codes=list(),source_ids=as.list(ids),
         legal_locator=paste('Native',revision,treatment,'duty column; General Note3; source owner map'),
-        input_constraints=parsed$input_constraints %||% list())
+        input_constraints=constraints,column1_special_reference=preference)
       rules[[length(rules)+1L]] <- rule;rule_ids <- c(rule_ids,id)
       for(hts in group)source_rows[[length(source_rows)+1L]] <- list(hts10=hts,rule_id=id,treatment=treatment,
         source_code=records[[hts]][[field]]$source_code,source_row_index=records[[hts]][[field]]$source_row_index,
@@ -132,21 +245,28 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
       footnotes=record$general$footnotes,source_errors=record$source_errors)
   }
   selection <- shipment_source_selection_window(revision,root)
+  preference_rules<-vapply(Filter(function(r)identical(r$base_treatment,'column1_general'),rules),`[[`,character(1),'id')
   list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('shipment_base_',revision),sources=sources,
     supported_from=selection$from,supported_until=selection$until,source_selection_window=selection,
-    source_artifacts=artifacts,rules=rules,fact_definitions=facts,claim_definitions=list(),relations=list(),coverage=coverage,
+    source_artifacts=artifacts,rules=rules,fact_definitions=facts,
+    claim_definitions=if(length(preference_rules))list(list(id='USMCA',label='USMCA',source_ids=as.list(ids),
+      rule_ids=as.list(preference_rules))) else list(),
+    derived_facts=setNames(lapply(c('s122_ftz_entry','s338_ftz_entry'),function(alias)
+      list(expression=list(fact='ieepa_ftz_entry'),source_ids=lapply(ftz$sources,`[[`,'id'))),c('s122_ftz_entry','s338_ftz_entry')),
+    relations=list(),coverage=coverage,
     base_source_map=source_rows,source_inventory=list(products=as.list(sort(names(records))),
       special_classifications=as.list(sort(names(special))),product_count=length(records),
       source_sha256=x$source$sha256,extractor_sha256=x$extractor_sha256),
     compiler_dependencies=list(shipment_build=digest::digest(file=file.path(root,'src/shipment_build.R'),algo='sha256'),
       expression_parser=digest::digest(file=file.path(root,'src/shipment_duty_expression.R'),algo='sha256'),
+      ftz_valuation=ftz$compiler_sha256,
       gn3_parser=x$gn3$parser_sha256,country_resolver=digest::digest(file=file.path(root,'src/helpers.R'),algo='sha256'),
       country_mapping=digest::digest(file=file.path(root,'resources/census_codes.csv'),algo='sha256'),
       curated_country_mapping=digest::digest(file=file.path(root,'resources/country_name_aliases.csv'),algo='sha256'),
       qualified_country_mapping=digest::digest(file=file.path(root,'resources/country_qualified_names.csv'),algo='sha256'),
       source_calendar=digest::digest(file=file.path(root,'config/revision_dates.csv'),algo='sha256'),
       build_contract=digest::digest(file=file.path(root,'resources/shipment_rules/build_contract.json'),algo='sha256')),
-    limitations=list('Unclaimed ordinary base treatment only. Preferences/Chapter98 and FTZ histories must be evaluated across all matched rules; no other-authority coverage is attested.'))
+    limitations=list('General, Column2 and direct S expressions; NPF and recoverable-waste base valuation under146.65. S+ references, other preferences, Chapter98, domestic-zone and PF rate histories require separate reconciliation. No other-authority coverage is attested.'))
 }
 
 # Fixed production inventory. Fragment presence, a positive rate, or a successful

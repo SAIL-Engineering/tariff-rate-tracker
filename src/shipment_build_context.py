@@ -82,7 +82,7 @@ def input_files(root):
         base = root / directory
         if base.exists():
             paths.extend(p for p in base.rglob('*') if p.is_file() and p.suffix.lower() in
-                         ('.r', '.py', '.json', '.csv', '.yaml', '.yml', '.pdf', '.txt', '.gz'))
+                         ('.r', '.py', '.json', '.csv', '.yaml', '.yml', '.pdf', '.txt', '.gz', '.xml', '.png'))
     paths.extend(p for p in (root / 'resources/census_codes.csv',
                             root / 'frontend/server/generated/shipmentRules.js',
                             root / 'frontend/server/generated/shipmentWide.js') if p.exists())

@@ -22,21 +22,14 @@ compile_s232_autos_fragment <- function(revision_id,products,countries=NULL,root
   base <- load_shipment_base_source(revision_id,root)
   native <- setNames(base$products,vapply(base$products,`[[`,character(1),'hts10'))
   if(any(!products %in% names(native)))stop('Automobile product is not valid in the identified revision')
-  amounts <- setNames(lapply(as.character(products),function(p) {
-    record <- native[[p]]$general
-    parsed <- parse_shipment_duty_expression(record$expression)
-    list(raw=record$expression,normalized_text=parsed$normalized_text,
-      normalization_steps=parsed$normalization_steps,source_code=record$source_code,source_row_index=record$source_row_index,
-      formula=if(parsed$status=='parsed')parsed$formula else list(unresolved_source=paste('auto_column1_general_expression',p,parsed$reason,sep=':')),
-      fact_definitions=parsed$fact_definitions,input_constraints=parsed$input_constraints %||% list())
-  }),as.character(products))
+  amounts <- compile_shipment_column1_references(base,products,question_prefix='auto_column1_general_expression')
   column2 <- sort(unique(as.character(unlist(lapply(base$gn3$country_names,resolve_country_name)))))
   if(!length(column2)||anyNA(column2))stop('Unresolved automobile Column2 inventory')
   jurisdictions$non_ntr <- as.list(intersect(countries,column2))
   input <- tempfile(fileext='.json');output <- tempfile(fileext='.json')
   on.exit(unlink(c(input,output)),add=TRUE)
   jsonlite::write_json(list(products=as.list(sort(unique(as.character(products)))),jurisdictions=jurisdictions,
-    jurisdiction_source=base$gn3$source,base_amounts=amounts,
+    jurisdiction_source=base$gn3$source,base_amounts=amounts,base_program_symbols=base$gn3$program_symbols,
     native_window=if(native_interactions)shipment_source_selection_window(revision_id,root) else NULL),
     input,auto_unbox=TRUE,null='null',digits=NA)
   status <- system2('python3',c(shQuote(file.path(root,'src/section232_autos.py')),
@@ -44,7 +37,7 @@ compile_s232_autos_fragment <- function(revision_id,products,countries=NULL,root
     '--input',shQuote(input),'--output',shQuote(output)))
   if(status!=0L)stop('Automobile source reconciliation failed; refusing aggregate fallback')
   result <- jsonlite::fromJSON(output,simplifyVector=FALSE)
-  dependencies <- c('src/section232_autos.R','src/shipment_duty_expression.R','src/shipment_base_sources.py',
+  dependencies <- c('src/section232_autos.R','src/shipment_build.R','src/shipment_duty_expression.R','src/shipment_base_sources.py',
     'src/helpers.R','resources/census_codes.csv')
   result$compiler_dependencies <- setNames(lapply(dependencies,function(p)
     digest::digest(file=file.path(root,p),algo='sha256')),dependencies)

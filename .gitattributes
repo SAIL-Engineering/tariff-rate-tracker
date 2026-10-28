@@ -1,0 +1,2 @@
+# Preserve the exact primary XML bytes used by legal-evidence source hashes.
+resources/legal_evidence/ftz/*.xml -text -whitespace

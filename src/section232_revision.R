@@ -136,6 +136,10 @@ compile_s232_note16_fragment <- function(extraction,products,jurisdictions=NULL)
   }
   input <- tempfile(fileext='.json');output <- tempfile(fileext='.json')
   on.exit(unlink(c(input,output)),add=TRUE)
+  source(here::here('src/shipment_build.R'))
+  base<-load_shipment_base_source(extraction$revision)
+  extraction$column1_amounts<-compile_shipment_column1_references(base,products,strict=FALSE)
+  extraction$additional_sources<-c(extraction$additional_sources,list(c(list(id=paste0('USITC-',extraction$revision,'-shipment-gn3')),base$gn3$source)))
   jsonlite::write_json(list(x=extraction,products=as.list(sort(unique(products))),
     jurisdictions=lapply(jurisdictions,as.list)),input,auto_unbox=TRUE,null='null',digits=NA)
   script <- here::here('src/section232_note16_rules.py')
@@ -144,6 +148,8 @@ compile_s232_note16_fragment <- function(extraction,products,jurisdictions=NULL)
   fragment <- jsonlite::fromJSON(output,simplifyVector=FALSE)
   fragment$compiler_sha256 <- digest::digest(file=script,algo='sha256')
   fragment$extraction_sha256 <- extraction$extractor_sha256
+  for(p in c('src/section232_revision.R','src/shipment_build.R','src/shipment_duty_expression.R'))
+    fragment$compiler_dependencies[[p]]<-digest::digest(file=here::here(p),algo='sha256')
   # The extraction belongs to a specific snapshot. An earlier/later bundle
   # cannot consume it to carry amended lists or thresholds across revisions.
   dates <- read.csv(here::here('config/revision_dates.csv'),stringsAsFactors=FALSE)

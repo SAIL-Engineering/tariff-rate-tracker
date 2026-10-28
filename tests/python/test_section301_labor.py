@@ -78,13 +78,26 @@ def test_no_aggregate_price_or_full_coverage_attestation(history):
     fragment=labor.compile_rules('2026_rev_19',['7304313000'],jurisdictions)
     assert not fragment['coverage']
     assert all(r['formula']=={'value':0} for r in fragment['rules'] if r.get('reporting_only'))
-    assert all('unresolved_source' in r['formula'] for r in fragment['rules'] if not r.get('reporting_only'))
-    assert all(not r['reporting_codes'] for r in fragment['rules'] if not r.get('reporting_only'))
+    charged=[r for r in fragment['rules'] if not r.get('reporting_only') and len(r['potential_reporting_codes'])==1]
+    floors=[r for r in fragment['rules'] if not r.get('reporting_only') and len(r['potential_reporting_codes'])==2]
+    assert charged and floors
+    assert all(r['formula']['op']=='multiply' and r['reporting_codes']==r['potential_reporting_codes'] for r in charged)
+    assert all(r['reporting_codes'] and set(r['reporting_codes'])<=set(r['potential_reporting_codes']) for r in floors)
+    assert all('authority_covered' in json.dumps(r['when']) for r in charged+floors)
+    assert len(fragment['forced_labor_history']['floor_policy']['actions'])==5
     serialized=json.dumps(fragment['rules'])
     assert 'positive_duty": true' not in serialized
     assert 'modeled_' not in serialized
+    assert 'column1_duty_amount' not in serialized
     with pytest.raises(ValueError,match='origin'):
         labor.compile_rules('2026_rev_19',['7304313000'],{})
+
+
+def test_before_original_action_no_future_rule_or_empty_claim_is_emitted(history):
+    jurisdictions={a['country_text']:[str(1000+i)] for i,a in enumerate(history['actions'])}
+    f=labor.compile_rules('2025_rev_11',['7304313000'],jurisdictions)
+    assert f['rules']==[] and f['claim_definitions']==[]
+    assert len(f['forced_labor_history']['actions'])==60
 
 
 def test_overlapping_investigation_origins_cannot_silently_stack(history):

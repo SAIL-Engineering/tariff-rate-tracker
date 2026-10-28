@@ -236,6 +236,7 @@ def extract(pdf, hts, revision):
             re.fullmatch(HEADING,r.get('htsno','')) and 'primary aluminum' in r.get('description','') and
             'smelted in Russia' in r.get('description','') and 'cast in Russia' in r.get('description','')}),
         base_sources={p['hts10']:p['general'] for p in extract_rows(schedule)['products']},
+        special_sources={p['hts10']:p['special'] for p in extract_rows(schedule)['products']},
         valid_products=sorted({r['htsno'].replace('.','') for r in schedule
             if re.fullmatch(r'\d{4}\.\d{2}\.\d{2}\.\d{2}',r.get('htsno',''))}),
         chapter98_provisions=sorted({r['htsno'].replace('.','')[:8] for r in schedule
@@ -324,8 +325,7 @@ def compile_rules(x, product_list, jurisdictions):
     us=f('s232_auto_us_content_value','Commerce-approved U.S. vehicle content value (USD)','number','USD')
     punitive=f('s232_auto_cbp_overstatement_finding','CBP U.S.-content overstatement finding applies to this model/importer and entry')
     ftz=f('ieepa_ftz_entry','Entry withdrawn from a U.S. foreign-trade zone')
-    column1=f('column1_duty_amount','Applicable column 1 duty (USD)','number','USD',
-        description='Actual applicable column 1 duty after a valid preference, with specific/compound quantities priced. Never an aggregate or trade-weighted AVE.')
+    selected_program=f('column1_special_program','Selected native Column1 Special programme symbol','string')
     proper_preference=f('s232_auto_column1_preference_properly_claimed','Selected Column1-Special preference was properly claimed for this entry')
     special_eligible=f('s232_auto_column1_preference_eligible','Goods actually satisfy the selected Column1-Special preference rules',
         description='Establish the selected program and its entitlement separately from USMCA eligibility. This fact does not establish base-duty relief or any other authority interaction.')
@@ -467,19 +467,32 @@ def compile_rules(x, product_list, jurisdictions):
                             general=base['formula'];checks=base['input_constraints']
                         else:
                             general={'unresolved_source':'auto_column1_general_source_expression_required'};checks=[]
-                        def floor(basis,rate_test=None):
+                        def floor(basis,rate_test=None,branch_checks=None):
+                            selected_checks=checks if branch_checks is None else branch_checks
                             test=rate_test if rate_test is not None else op('if',op('gt',cv,val(0)),op('gte',basis,threshold),
                                 {'unresolved_source':'auto_ave_floor_requires_positive_customs_value'})
-                            return branch(test,leaf(d[sector][0],checks=checks,subject=True,country=d['country']),
-                                leaf(d[sector][1],op('subtract',threshold,basis),checks,subject=True,country=d['country']))
+                            return branch(test,leaf(d[sector][0],checks=selected_checks,subject=True,country=d['country']),
+                                leaf(d[sector][1],op('subtract',threshold,basis),selected_checks,subject=True,country=d['country']))
+                        def per_dollar(node):
+                            if node==fact('customs_value'):return val(1)
+                            if isinstance(node,dict):return {k:per_dollar(v) for k,v in node.items()}
+                            if isinstance(node,list):return [per_dollar(v) for v in node]
+                            return node
+                        def selected_floor(reference):
+                            for name,definition in (reference.get('fact_definitions') or {}).items():
+                                definition=copy.deepcopy(definition);definition['source_ids']=ids
+                                old=facts.get(name)
+                                semantics=lambda q:{k:q[k] for k in ('type','unit','minimum','maximum','enum') if k in q}
+                                if old and semantics(old)!=semantics(definition):raise ValueError('Conflicting automobile Special valuation fact')
+                                facts[name]=definition
+                            formula=reference.get('formula') or {'unresolved_source':'auto_native_special_expression_not_compiled'}
+                            expression=reference.get('normalized_text',reference.get('expression'))
+                            fixed=isinstance(expression,str) and bool(re.fullmatch(r'(?:Free|[\d.]+%)',expression,re.I))
+                            rate_test=op('gte',per_dollar(formula),op('divide',val(d['percent']),val(100))) if fixed else None
+                            return floor(formula,rate_test,reference.get('input_constraints') or [])
                         rate_test=None
                         fixed_expression=base.get('normalized_text',base.get('raw')) if base else None
                         if isinstance(fixed_expression,str) and re.fullmatch(r'(?:Free|[\d.]+%)',fixed_expression,re.I):
-                            def per_dollar(node):
-                                if node==fact('customs_value'):return val(1)
-                                if isinstance(node,dict):return {k:per_dollar(v) for k,v in node.items()}
-                                if isinstance(node,list):return [per_dollar(v) for v in node]
-                                return node
                             rate_test=op('gte',per_dollar(general),op('divide',val(d['percent']),val(100)))
                         unclaimed=floor(general,rate_test)
                         # Korea expressly defines General OR Special and supplies
@@ -487,8 +500,19 @@ def compile_rules(x, product_list, jurisdictions):
                         # MFN; Japan's and Taiwan's specific/compound provisions
                         # name General. Do not silently equate these bases.
                         if d['country']=='South Korea':
+                            special=(base or {}).get('usmca') or {}
+                            native_special=x.get('special_sources',{}).get(ps[0])
+                            if special and (not native_special or special.get('raw')!=native_special['expression'] or
+                                any(special.get(k)!=native_special[k] for k in ('source_code','source_row_index'))):
+                                raise ValueError('Automobile native Special expression/owner mismatch')
+                            korus=[g for g in special.get('groups',[]) if 'KR' in g['symbols']]
+                            mapping=any(r.get('symbol')=='KR' and 'Korea' in r.get('program_name','') for r in x.get('base_program_symbols',[]))
+                            native_kr=selected_floor(korus[0]['parsed']) if special.get('field_status')=='parsed' and len(korus)==1 and mapping else unresolved(
+                                'auto_native_KR_expression_or_programme_mapping_not_compiled',subject=True,country=d['country'])
+                            source_basis=branch({'claim':'USMCA'},selected_floor(special),branch(op('eq',selected_program,val('KR')),native_kr,
+                                unresolved('auto_selected_special_programme_requires_reconciliation',subject=True,country=d['country'])))
                             entitlement=op('if',{'claim':'COLUMN1_SPECIAL'},special_eligible,eligible)
-                            claimed=branch(both(entitlement,proper_preference),floor(column1),
+                            claimed=branch(both(entitlement,proper_preference),source_basis,
                                 unresolved('auto_korea_column1_special_entitlement_not_established',subject=True,country=d['country']))
                         else:
                             claimed=unresolved('auto_country_preference_and_column1_general_special_reconciliation',subject=True,country=d['country'])
@@ -564,6 +588,7 @@ def main():
     native=extract(a.pdf,a.hts,a.revision)
     if x.get('jurisdiction_source'):native['jurisdiction_source']=x['jurisdiction_source']
     if x.get('base_amounts'):native['base_amounts']=x['base_amounts']
+    if x.get('base_program_symbols'):native['base_program_symbols']=x['base_program_symbols']
     if x.get('native_window'):native['native_window']=x['native_window']
     result=compile_rules(native,x['products'],x['jurisdictions'])
     result['compiler_sha256']=sha(Path(__file__).read_bytes())

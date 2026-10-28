@@ -88,6 +88,7 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         for i,(id,s) in enumerate(zip(ids,x['sources']))]
     artifacts=[dict(source_id=id,path=s['path'],sha256=s['sha256']) for id,s in zip(ids,x['sources'])]
     for s in x.get('additional_sources',[]):
+        if sha(Path(s['path']).read_bytes())!=s['sha256']:raise ValueError('Additional note16 primary source changed')
         sources.append({k:s[k] for k in ('id','sha256','url','citation')}|{'status':'verified'})
         artifacts.append(dict(source_id=s['id'],path=s['path'],sha256=s['sha256']))
         ids.append(s['id'])
@@ -124,31 +125,44 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         return fact(name)
     cv=f('customs_value','Customs value (USD)',unit='USD')
     f('ieepa_ftz_entry','Entry withdrawn from a U.S. foreign-trade zone',kind='boolean')
-    column1=f('column1_duty_amount','Applicable column 1 duty (USD)',unit='USD',
-        description='Actual applicable column 1 duty after a valid preference, with specific/compound quantities priced. Never an aggregate or trade-weighted AVE.')
     weights={m:f(m+'_weight_fraction',m.title()+' fraction of total article weight') for m in ('aluminum','steel','copper')}
     contains_metal=either(*(op('gt',w,val(0)) for w in weights.values()))
     groups=defaultdict(list)
     memberships=defaultdict(set)
     for row in matches(x,products):memberships[row['hts10']].add(row['list_id'])
     metals={s['id']:s['metal'] for s in x['lists']}
-    native_bases={};base_decisions=[]
+    native_bases={};base_decisions=[];basis_data={}
     if memberships:
         native=[s for s in x['sources'] if Path(s['path']).suffix=='.json']
         if len(native)!=1:raise ValueError('Missing unique native Column1 benchmark source')
         raw=Path(native[0]['path']).read_bytes()
         if sha(raw)!=native[0]['sha256']:raise ValueError('Native Column1 benchmark source changed')
-        native_bases={p['hts10']:p['general'] for p in extract_rows(json.loads(raw))['products']}
+        native_products={p['hts10']:p for p in extract_rows(json.loads(raw))['products']}
+        native_bases={p:r['general'] for p,r in native_products.items()}
     for hts,lists in memberships.items():
         base=native_bases.get(hts)
-        # An explicitly printed Free expression is a known zero Column1
-        # benchmark, including for Column2 origins. It is not the final base
-        # component after another action suppresses or replaces that component.
-        # Different/unparsed expressions retain their actual-benchmark question.
         free=bool(base) and base['expression']=='Free'
-        groups[(tuple(sorted(lists)),hts[:2],free)].append(hts)
-        base_decisions.append(dict(hts10=hts,source=base,status='source_zero' if free else 'requires_actual_column1_benchmark',
-            source_id=ids[1],benchmark='published_column1_general',formula=val(0) if free else fact('column1_duty_amount')))
+        supplied=x.get('column1_amounts',{}).get(hts)
+        if supplied and base and (supplied.get('raw')!=base['expression'] or any(
+            supplied.get(k)!=base[k] for k in ('source_code','source_row_index'))):
+            raise ValueError('Native Column1 expression/owner mismatch: '+hts)
+        if supplied:
+            data={k:supplied[k] for k in ('formula','fact_definitions','input_constraints','status')}
+            special=supplied.get('usmca')
+            if special:
+                owner=native_products.get(hts,{}).get('special',dict(expression=None,source_code=None,source_row_index=None))
+                if special.get('raw')!=owner['expression'] or any(special.get(k)!=owner[k] for k in ('source_code','source_row_index')):
+                    raise ValueError('Native Column1 Special expression/owner mismatch: '+hts)
+                data['usmca']=special
+        elif free:
+            data=dict(formula=val(0),fact_definitions={},input_constraints=[],status='parsed')
+        else:
+            data=dict(formula={'unresolved_source':'note16_native_column1_expression_not_compiled:'+hts},
+                fact_definitions={},input_constraints=[],status='unresolved_source')
+        signature=json.dumps(data,sort_keys=True,separators=(',',':'));basis_data[signature]=data
+        groups[(tuple(sorted(lists)),hts[:2],signature)].append(hts)
+        base_decisions.append(dict(hts10=hts,source=base,status='source_zero' if free else data['status'],
+            source_id=ids[1],benchmark='published_column1_general',formula=data['formula']))
     by_country=defaultdict(list)
     required=('all','uk','russia','non_ntr','usmca','xi_partner')
     if any(k not in jurisdictions for k in required):raise ValueError('Missing explicit country inventories')
@@ -210,6 +224,10 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
             formula=val(0) if invalid_inputs else {'unresolved_source':error} if error else tree['formula'],
             reporting_codes=[tree['code']] if tree.get('code') else [],source_ids=ids,
             legal_locator=tree.get('locator','U.S. note 16 and '+(tree.get('code') or '')))
+        # Constraints belong to a benchmark only when this branch consumes it;
+        # a flat Section232 amount must not demand an unrelated base quantity.
+        if benchmark_used(r['formula']) or benchmark_used(r['when']):
+            r['input_constraints']=basis_constraints
         if not error:r['published_expression']=headings[tree['code']]['duty_expression']
         if invalid_inputs:
             # The selected branch proves a contradiction in shipment facts.
@@ -219,8 +237,30 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         decisions.append(dict(rule_id=id,status='requires_input_correction' if invalid_inputs else
             'requires_source_reconciliation' if error else 'compiled',
             reason=error,reporting_codes=r['reporting_codes'],legal_locator=r['legal_locator']))
-    for gi,((lists,chapter,free),htss) in enumerate(sorted(groups.items())):
-        column1=val(0) if free else fact('column1_duty_amount')
+    def benchmark_used(node):
+        if node==column1 and column1!=val(0):return True
+        if isinstance(node,dict):return any(benchmark_used(v) for v in node.values())
+        if isinstance(node,list):return any(benchmark_used(v) for v in node)
+        return False
+    for gi,((lists,chapter,signature),htss) in enumerate(sorted(groups.items())):
+        basis=basis_data[signature];general=basis['formula'];basis_constraints=basis['input_constraints']
+        special=basis.get('usmca',dict(formula={'unresolved_source':'note16_native_column1_special_expression_not_compiled'},fact_definitions={},input_constraints=[]))
+        column1=general
+        definitions=dict(basis['fact_definitions'] or {})
+        definitions.update(special['fact_definitions'] or {})
+        if special['formula']!=general and not (general==val(0) and special.get('raw') is None):
+            column1=op('if',{'claim':'USMCA'},special['formula'],general)
+            f('usmca_origin_eligible','Qualifies under General Note 11',kind='boolean')
+            f('usmca_properly_claimed','USMCA treatment properly claimed for this entry',kind='boolean')
+            basis_constraints=[dict(c,test=op('if',{'claim':'USMCA'},val(True),c['test'])) for c in basis_constraints]
+            basis_constraints += [dict(c,test=op('if',{'claim':'USMCA'},c['test'],val(True))) for c in special['input_constraints']]
+            basis_constraints += [dict(test=op('if',{'claim':'USMCA'},both(fact('usmca_origin_eligible'),fact('usmca_properly_claimed')),val(True)),
+                inputs=['usmca_origin_eligible','usmca_properly_claimed'],reason='USMCA entitlement and proper claim must be established')]
+        for name,definition in definitions.items():
+            definition=dict(definition,source_ids=ids)
+            old=facts.get(name);semantic=lambda d:{k:d[k] for k in ('type','unit','minimum','maximum','enum') if k in d}
+            if old and semantic(old)!=semantic(definition):raise ValueError('Conflicting native Column1 valuation fact: '+name)
+            facts[name]=definition
         lists=set(lists); applicable_metals=sorted({metals[i] for i in lists})
         domestic=[]
         for d in params['domestic']:
@@ -231,6 +271,8 @@ def compile_note16(x: dict, products: list[str], jurisdictions: dict) -> dict:
         us=both(*domestic) if domestic else val(False)
         for ci,(country_flags,countries) in enumerate(sorted(by_country.items())):
             uk,russia,non_ntr,usmca,partner=country_flags
+            # GN3 Special entitlement is distinct from nonpreferential origin.
+            # Only the separate note16(h)-(j) concessions require CA/MX origin.
             # Only the legally matching heading family is considered. The
             # choice is by predicates, never whichever numeric rate is largest.
             tiers=[t for t in x['ordinary_tiers'] if lists.intersection(t['list_ids'])]

@@ -95,9 +95,16 @@ add('native truck base above Japan floor adds zero',0,'9903.94.40',hts10='870421
   at='2025-09-16T00:01:00-04:00',facts=f)
 f$claims <- list('COLUMN1_SPECIAL');f$s232_auto_usmca_eligible <- FALSE
 f$s232_auto_column1_preference_eligible <- TRUE
-f$s232_auto_column1_preference_properly_claimed <- TRUE;f$column1_duty_amount <- 0
+f$s232_auto_column1_preference_properly_claimed <- TRUE;f$column1_duty_amount <- NULL;f$column1_special_program<-'KR'
 add('Korea Special entitlement is independent of USMCA eligibility',15,'9903.94.61',country='5800',
   at='2025-11-01T00:01:00-04:00',facts=f)
+f$column1_duty_amount<-99
+add('Korean native Special expression cannot be replaced by caller duty amount',15,'9903.94.61',country='5800',
+  at='2025-11-01T00:01:00-04:00',facts=f)
+f$column1_special_program<-NULL
+add('Korean selected Special programme must be identified',0,character(),country='5800',
+ at='2025-11-01T00:01:00-04:00',facts=f,missing='column1_special_program')
+f$column1_special_program<-'KR'
 f$s232_auto_column1_preference_properly_claimed <- FALSE
 add('requested preference alone cannot establish Korea Special basis',0,character(),country='5800',
   at='2025-11-01T00:01:00-04:00',facts=f,error='auto_korea_column1_special_entitlement')

@@ -1,7 +1,9 @@
 suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/05_parse_policy_params.R');source('src/section301_labor.R');source('src/compile_shipment_rules.R');source('src/legal_intervals.R')
+source('tests/lib/bound_shipment_fixture.R')
 fragment<-compile_s301_labor_fragment('2026_rev_13','7304313000')
 fragments<-list('2026_rev_13'=fragment,'2026_rev_14'=compile_s301_labor_fragment('2026_rev_14','7304313000'))
+fragments<-lapply(fragments,bound_shipment_fixture_countries,countries=c('4280','5330'))
 history<-fragment$forced_labor_history
 stopifnot(length(history$actions)==60L,length(history$original_headings)==101L)
 stopifnot(setequal(as.character(legal_event_days(history)),c('2026-07-24','2026-07-28','2026-07-31','2026-10-23')))
@@ -19,7 +21,8 @@ check<-function(code,at,amount=0,qualified=NULL,name=code,relief=TRUE,country='4
  b$rules<-list(list(id='controlled-232',action_id='controlled-232',authority='section_232',kind='duty',verification='verified',source_ids=list(sid),
    reporting_codes=list(code),when=list(value=active),formula=list(value=amount)))
  if(other_amount>0)b$rules[[2]]<-list(id='independent-301',action_id='independent-301',authority='section_301',kind='duty',verification='verified',source_ids=list(sid),reporting_codes=list('9903.88.03'),formula=list(value=other_amount))
- b<-compose_shipment_rules(b,list(f));facts<-qualified %||% list();facts$modeled_aircraft_share<-0.90;facts$modeled_assembly_credit<-100000
+ b<-compose_shipment_rules(b,list(f));ordinary<-names(f$fact_definitions)[startsWith(names(f$fact_definitions),'s301_labor_')]
+ facts<-setNames(rep(list(FALSE),length(ordinary)),ordinary);facts<-modifyList(facts,qualified %||% list());facts$modeled_aircraft_share<-0.90;facts$modeled_assembly_credit<-100000
  if(!is.null(ftz))facts$ieepa_ftz_entry<-ftz
  r<-evaluate_shipment_bundle(b,'7304313000',country,at,facts)
  components<-Filter(function(c)startsWith(c$action_id,'s301_forced_labor_'),r$components)

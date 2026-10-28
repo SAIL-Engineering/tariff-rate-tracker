@@ -14,6 +14,22 @@ An explicit `suppressed_when` predicate implements exclusions or precedence and
 is evaluated anew for the supplied facts and claims. Dependencies refer to other
 rules' amounts; cycles and missing references are source errors.
 
+`equivalent_relief_group` identifies source-compiled alternatives that each
+remove the **entire same duty action**. Every member must be a verified duty
+rule with a literal zero formula, the same action and authority, and no
+dependencies on members of that group. Partial-value relief and positive duties
+cannot use this construct. The interpreter probes each matched member with its
+claims, source checks, conditions and valuation constraints. If one is proven,
+the first proven identifier in lexical order supplies a valid reporting decision;
+other alternatives are suppressed without requesting irrelevant facts. This is
+selection among already-proven equivalent exemptions, not rate precedence.
+If none is proven, missing facts and legal questions remain unresolved.
+Independent actions and the charged rule's explicit suppression remain intact.
+R and SAIL's shared TypeScript interpreter must be synchronized before serving
+bundles that use this optional v1 construct. The dataset fingerprint includes
+the interpreter and compiler versions. Older interpreters retain unresolved
+alternative components and cannot qualify the resulting total as complete.
+
 Scope has `hts_exact` and/or `hts_prefixes` (union, never silently truncated),
 `countries`, and `from`/`until` timestamps. Null or omitted scope restrictions
 mean all. Empty arrays mean none. Bundles also carry the complete revision's

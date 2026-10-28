@@ -8,7 +8,7 @@ source(here::here('src/shipment_exact.R'))
        evidence_snapshot_id = bundle$evidence_snapshot_id,
        status = if (length(errors)) 'unresolved_source' else 'complete',
        components = list(), rule_decisions = list(), coverage_decisions = list(), applied_rules = character(), suppressed_rules = character(),
-       missing_inputs = character(), required_facts = list(), claim_options = list(), source_errors = errors,
+       missing_inputs = character(), required_facts = structure(list(),names=character()), claim_options = list(), source_errors = errors,
        known_subtotal = 0, complete_total = if (length(errors)) NULL else 0)
 }
 
@@ -81,7 +81,30 @@ source(here::here('src/shipment_exact.R'))
       return(fail(paste0('conflicting_source:',s$id)))
     sources[[s$id]] <- s
   }
-  list(rules=rules,sources=sources,error=NULL)
+  relief_groups<-list()
+  references<-function(node) {
+    if(!is.list(node))return(character())
+    c(node$rule_applies,node$rule_amount,unlist(lapply(node,references),use.names=FALSE))
+  }
+  for(r in rules)if(!is.null(r$equivalent_relief_group)) {
+    group<-r$equivalent_relief_group
+    if(!is.character(group)||length(group)!=1L||!grepl('^[A-Za-z0-9_-]+$',group)||
+       !identical(r$verification,'verified')||!identical(r$kind,'duty')||
+       !is.character(r$action_id)||length(r$action_id)!=1L||!nzchar(r$action_id)||
+       !is.character(r$authority)||length(r$authority)!=1L||!nzchar(r$authority)||
+       !identical(names(r$formula),'value')||!is.numeric(r$formula$value)||length(r$formula$value)!=1L||!is.finite(r$formula$value)||r$formula$value!=0||
+       !length(r$source_ids)||any(!vapply(r$source_ids,function(id) {
+         s<-sources[[id]];!is.null(s)&&identical(s$status,'verified')&&is.character(s$sha256)&&grepl('^[a-f0-9]{64}$',s$sha256)&&nzchar(s$url)&&nzchar(s$citation)
+       },logical(1))))return(fail('invalid_equivalent_relief_group'))
+    relief_groups[[group]]<-c(relief_groups[[group]],r$id)
+  }
+  for(ids in relief_groups) {
+    members<-rules[ids]
+    if(length(unique(vapply(members,`[[`,character(1),'action_id')))!=1L||
+       length(unique(vapply(members,`[[`,character(1),'authority')))!=1L||
+       any(vapply(members,function(r)any(references(list(r$when,r$suppressed_when,r$formula,r$input_constraints))%in%ids),logical(1))))return(fail('invalid_equivalent_relief_group'))
+  }
+  list(rules=rules,sources=sources,relief_groups=relief_groups,error=NULL)
 }
 
 # A scope index is an execution optimization, never another duty calculator.
@@ -314,8 +337,9 @@ prepare_shipment_bundle <- function(bundle) {
     if(answer==0&&exact!=0)return(val(errors='non_representable_result'))
     val(answer,exact=exact)
   }
-  resolve <- function(id, applicability_only = FALSE) {
-    cache_key <- paste0(if (applicability_only) 'applies:' else 'amount:', id)
+  relief_choices<-new.env(parent=emptyenv())
+  resolve <- function(id, applicability_only = FALSE, relief_probe=FALSE) {
+    cache_key <- paste0(if(relief_probe)'relief:' else if (applicability_only) 'applies:' else 'amount:', id)
     if (exists(cache_key, envir = cache, inherits = FALSE)) return(get(cache_key, envir = cache))
     r <- rules[[id]]
     blank <- list(amount = NULL, missing = character(), errors = character(), state = 'unresolved')
@@ -348,6 +372,19 @@ prepare_shipment_bundle <- function(bundle) {
     if (!identical(r$verification, 'verified') || !length(r$source_ids) || !all(vapply(r$source_ids, valid_source, logical(1))) ||
         is.null(r$action_id) || is.null(r$authority)) {
       blank$errors <- paste0('rule_source_unverified:', id); return(finish(blank))
+    }
+    if(!applicability_only&&!relief_probe&&!is.null(r$equivalent_relief_group)) {
+      group<-r$equivalent_relief_group
+      if(!exists(group,envir=relief_choices,inherits=FALSE)) {
+        candidates<-sort(maps$relief_groups[[group]],method='radix')
+        proven<-Filter(function(candidate) {
+          probe<-resolve(candidate,FALSE,TRUE)
+          identical(probe$state,'applied')&&!length(probe$missing)&&!length(probe$errors)&&is.numeric(probe$amount)&&length(probe$amount)==1L&&is.finite(probe$amount)&&probe$amount==0
+        },as.list(candidates))
+        assign(group,if(length(proven))proven[[1]] else '',envir=relief_choices)
+      }
+      selected<-get(group,envir=relief_choices,inherits=FALSE)
+      if(nzchar(selected)&&selected!=id) {blank$amount<-0;blank$state<-'suppressed';return(finish(blank))}
     }
     condition <- if (is.null(r$when)) val(TRUE) else expr(r$when)
     if (identical(condition$value, FALSE)) {

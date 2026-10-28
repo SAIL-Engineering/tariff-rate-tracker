@@ -1,5 +1,5 @@
 // Generated from SAIL server/src/shared/duty/shipmentRules.ts. Do not edit.
-// Source SHA256: d77479de8e336a4e22bca1ad67b4d126baa8d8b9204a48a5a26b6bbe9b49961d
+// Source SHA256: 0957865b5a135d102d82f98f1f603c7073fb2d5cacc7c2fc0cade162074c2e56
 export function unavailableShipment(reason, bundle) {
     return { contract_version: 'sail.shipment-result/v1', dataset_version: bundle?.dataset_version ?? null,
         revision: bundle?.revision ?? null, evidence_snapshot_id: bundle?.evidence_snapshot_id ?? null,
@@ -129,6 +129,29 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
         const s = sources.get(id);
         return Boolean(s && s.status === 'verified' && /^[a-f0-9]{64}$/.test(s.sha256) && s.url && s.citation);
     };
+    const reliefGroups = new Map();
+    const references = (node) => {
+        if (node == null || typeof node !== 'object')
+            return [];
+        const x = node;
+        return [x.rule_applies, x.rule_amount].filter((v) => typeof v === 'string')
+            .concat(Object.values(x).flatMap(references));
+    };
+    for (const r of rules.values())
+        if (r.equivalent_relief_group != null) {
+            const group = r.equivalent_relief_group;
+            if (typeof group !== 'string' || !/^[A-Za-z0-9_-]+$/.test(group) || r.verification !== 'verified' || r.kind !== 'duty'
+                || !r.action_id || !r.authority || Object.keys(r.formula).length !== 1 || !('value' in r.formula) || r.formula.value !== 0
+                || !r.source_ids?.length || !r.source_ids.every(validSource))
+                return fail('invalid_equivalent_relief_group');
+            reliefGroups.set(group, [...reliefGroups.get(group) ?? [], r.id]);
+        }
+    for (const ids of reliefGroups.values()) {
+        const members = ids.map(id => rules.get(id));
+        if (new Set(members.map(r => r.action_id)).size !== 1 || new Set(members.map(r => r.authority)).size !== 1
+            || members.some(r => references([r.when, r.suppressed_when, r.formula, r.input_constraints]).some(id => ids.includes(id))))
+            return fail('invalid_equivalent_relief_group');
+    }
     if (facts == null || typeof facts !== 'object' || Array.isArray(facts))
         return fail('invalid_shipment_facts');
     if (facts.claims != null && (!Array.isArray(facts.claims) || facts.claims.some(c => typeof c !== 'string')))
@@ -283,8 +306,9 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
             return val(null, [], ['non_representable_result']);
         return val(answer, [], [], exact);
     }
-    function resolve(id, applicabilityOnly = false) {
-        const cacheKey = `${applicabilityOnly ? 'applies' : 'amount'}:${id}`;
+    const reliefChoices = new Map();
+    function resolve(id, applicabilityOnly = false, reliefProbe = false) {
+        const cacheKey = `${reliefProbe ? 'relief' : applicabilityOnly ? 'applies' : 'amount'}:${id}`;
         const old = cache.get(cacheKey);
         if (old)
             return old;
@@ -312,6 +336,19 @@ function evaluateBundle(bundle, hts10, country, entryAt, facts = {}) {
             return finish({ ...blank, errors: unpriced.map(claim => `claim_not_priced:${claim}:${id}`) });
         if (r.verification !== 'verified' || !r.source_ids?.length || !r.source_ids.every(validSource) || !r.action_id || !r.authority)
             return finish({ ...blank, errors: [`rule_source_unverified:${id}`] });
+        if (!applicabilityOnly && !reliefProbe && r.equivalent_relief_group != null) {
+            const group = r.equivalent_relief_group;
+            if (!reliefChoices.has(group)) {
+                const proven = reliefGroups.get(group).slice().sort().filter(candidate => {
+                    const probe = resolve(candidate, false, true);
+                    return probe.state === 'applied' && probe.amount === 0 && !probe.missing.length && !probe.errors.length;
+                });
+                reliefChoices.set(group, proven[0] ?? '');
+            }
+            const selected = reliefChoices.get(group);
+            if (selected && selected !== id)
+                return finish({ ...blank, amount: 0, state: 'suppressed' });
+        }
         const condition = r.when ? expr(r.when) : val(true);
         if (condition.value === false)
             return finish({ ...blank, amount: 0, state: 'not_applicable' });

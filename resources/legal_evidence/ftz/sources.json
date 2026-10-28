@@ -1,0 +1,66 @@
+{
+  "contract_version": "sail.ftz-legal-evidence/v1",
+  "as_of": "2026-10-22",
+  "sources": [
+    {
+      "id": "ECFR-19-146.41-20261022",
+      "path": "resources/legal_evidence/ftz/19cfr146.41.xml",
+      "sha256": "13fb207fcc61827d827617764954a9fd796c31e9d3f723d82ce7e7fb3783e534",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-19.xml?section=146.41",
+      "citation": "19CFR146.41, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "ECFR-19-146.42-20261022",
+      "path": "resources/legal_evidence/ftz/19cfr146.42.xml",
+      "sha256": "2ef8e924e245a453b8d08e3f2a4c0857635fc8455ffe9cd23a96da21ed23a0b6",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-19.xml?section=146.42",
+      "citation": "19CFR146.42, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "ECFR-19-146.43-20261022",
+      "path": "resources/legal_evidence/ftz/19cfr146.43.xml",
+      "sha256": "c437cd316a4fa77b4ba52d1fcc2adc89e35345dd969692a348cdaa66f7a53ae0",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-19.xml?section=146.43",
+      "citation": "19CFR146.43, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "ECFR-19-146.65-20261022",
+      "path": "resources/legal_evidence/ftz/19cfr146.65.xml",
+      "sha256": "c887ec2630428e42b2f4e83b2ae6d2b0e137f8bdbe5a747ffae0bad118d89ce0",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-19.xml?section=146.65",
+      "citation": "19CFR146.65, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "ECFR-15-400.13-20261022",
+      "path": "resources/legal_evidence/ftz/15cfr400.13.xml",
+      "sha256": "e5b4765780d4190bb24527b5c781ea968e0009288d07eb9d4c08a660c1292b3d",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-15.xml?section=400.13",
+      "citation": "15CFR400.13, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "ECFR-15-400.14-20261022",
+      "path": "resources/legal_evidence/ftz/15cfr400.14.xml",
+      "sha256": "53086fe162215c334c0976fcfb77a16e32e79a5a4f8c3f2a9e010f4032d8d08d",
+      "url": "https://www.ecfr.gov/api/versioner/v1/full/2026-10-22/title-15.xml?section=400.14",
+      "citation": "15CFR400.14, eCFR historical text at2026-10-22; XML retrieved through gstack browser."
+    },
+    {
+      "id": "CFR-2025-19-146.65",
+      "path": "resources/legal_evidence/ftz/19cfr14665-2025.xml",
+      "sha256": "e47070ada3b7cb0fc3dcb10024b8c9c7a5f41c0e4c3de4aa94619fee8627f593",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title19-vol2/xml/CFR-2025-title19-vol2-sec146-65.xml",
+      "citation": "19CFR146.65, 2025 annual edition; unchanged classification/value text, last cited amendment2016."
+    }
+  ],
+  "cross_snapshot": {
+    "path": "resources/legal_evidence/ftz/cross-selected-snapshot.json",
+    "sha256": "db900c2761e4ab0d2d9f91f651a4b1295b834b65d7c0ff3360df10431c352530",
+    "catalog": "trade_intel_cross",
+    "access_mode": "READ_ONLY"
+  },
+  "limitations": [
+    "CROSS interprets its own stated facts and operative historical law. Verify present paragraph references; current AD/CVD admission policy is15CFR400.13(c), whereas older H310256 cites400.14(e).",
+    "An evidence export is an interchange artifact. MotherDuck remains the source corpus. No production database was changed.",
+    "Current status/rate/valuation clauses alone do not reconstruct every action-specific PF admission and withdrawal clock."
+  ]
+}

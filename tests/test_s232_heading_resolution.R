@@ -48,9 +48,9 @@ q$us_steel_origin_fraction<-.85;q$column1_duty_amount<-5
 add('equipment domestic threshold has its own source-backed floor','8403100000','5700',q,10,'9903.82.23')
 q<-list(customs_value=100,aluminum_weight_fraction=.1,steel_weight_fraction=.1,
   aluminum_primary_smelted_or_cast_russia=FALSE,us_aluminum_origin_fraction=.85,us_steel_origin_fraction=.85,column1_duty_amount=5)
-add('mixed-metal requirements cumulative','8415908010','5700',q,5,'9903.82.07')
+add('mixed-metal requirements cumulative over native 1.4 percent base','8415908010','5700',q,8.6,'9903.82.07')
 q$us_steel_origin_fraction<-.84
-add('one nonqualifying metal selects ordinary floor','8415908010','5700',q,10,'9903.82.10')
+add('one nonqualifying metal selects the floor over native 1.4 percent base','8415908010','5700',q,13.6,'9903.82.10')
 q$us_steel_origin_fraction<-NULL
 add('missing actual origin is a shipment input','8415908010','5700',q,0,missing='us_steel_origin_fraction')
 q$us_steel_origin_fraction<-.84

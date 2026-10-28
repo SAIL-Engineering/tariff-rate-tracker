@@ -12,18 +12,20 @@ from section232_note16_rules import val, fact, op, both, either, negate
 def treatment(clause, family='cbp_agreed'):
     text=' '.join(clause.split())
     wording = 'do not' if family == 'section301' else 'shall not'
-    if family not in ('cbp_agreed','section301','ieepa_emergency'):
+    if family not in ('cbp_agreed','section301','ieepa_emergency','section301_labor'):
         raise ValueError('Unreviewed Chapter 98 authority family')
-    m=re.search(r'The additional dut(?:y|ies) imposed.*?'+wording+r' apply to goods for which entry is properly claimed under a provision of chapter 98.*?except for goods entered under (.*?)(?=For subheadings)',text)
+    lead='For goods entered under subheadings' if family=='section301_labor' else 'For subheadings'
+    m=re.search(r'The additional dut(?:y|ies) imposed.*?'+wording+r' apply to goods for which entry is properly claimed under a provision of chapter 98.*?except for goods entered under (.*?)(?='+lead+')',text)
     if not m or (family!='section301' and 'whenever CBP agrees' not in m[0]):
         raise ValueError('Unreviewed Chapter 98 claim predicate')
     if family=='section301' and not re.search(r'chapter 98 of the HTSUS, except',m[0]):
         raise ValueError('Unreviewed Section 301 Chapter 98 claim predicate')
     exceptions=sorted(set(re.findall(r'9802\.00\.\d{2}',m[1])))
-    repairs=re.search(r'For subheadings (.*?), the additional dut(?:y|ies) appl(?:y|ies) to the value of repairs, alterations,? or processing performed',text)
-    assembly_wording = ('article assembled abroad,' if family=='cbp_agreed' else
+    repairs=re.search(lead+r' (.*?), the additional dut(?:y|ies) appl(?:y|ies) to the value of repairs, alterations,? or processing performed',text)
+    assembly_wording = ('article assembled abroad,' if family in ('cbp_agreed','section301_labor') else
         r'article assembled abroad \(in (?:Mexico|Canada|China and Hong Kong)\),' if family=='ieepa_emergency' else 'article')
-    assembly=re.search(r'For heading (9802\.00\.\d{2}), the additional dut(?:y|ies) appl(?:y|ies) to the value of the '+assembly_wording+r' less the cost or value of such products of the United States',text)
+    assembly_lead='For goods entered under heading' if family=='section301_labor' else 'For heading'
+    assembly=re.search(assembly_lead+r' (9802\.00\.\d{2}), the additional dut(?:y|ies) appl(?:y|ies) to the value of the '+assembly_wording+r' less the cost or value of such products of the United States',text)
     if not repairs or not assembly:
         raise ValueError('Unreviewed Chapter 98 valuation clause')
     geography=None
@@ -47,10 +49,18 @@ def treatment(clause, family='cbp_agreed'):
                  r'less the cost or value of such products of the United States, as described in heading \1\.')
         if not re.fullmatch(grammar,tail):
             raise ValueError('Unreviewed Section 301 Chapter 98 valuation qualifier')
+    if family=='section301_labor':
+        tail=text[repairs.start():]
+        grammar=(r'For goods entered under subheadings (?:9802\.00\.\d{2}|[, ]|and)+, the additional duties apply to the value of '
+                 r'repairs, alterations or processing performed, as described in the applicable subheading\. '
+                 r'For goods entered under heading (9802\.00\.\d{2}), the additional duties apply to the value of the article '
+                 r'assembled abroad, less the cost or value of such products of the United States, as described\.')
+        if not re.fullmatch(grammar,tail):raise ValueError('Unreviewed forced-labor Chapter98 valuation qualifier')
     repaired=sorted(set(re.findall(r'9802\.00\.\d{2}',repairs[1])))
     if exceptions!=sorted(repaired+[assembly[1]]) or len(repaired)!=3:
         raise ValueError('Chapter 98 exceptions and valuation do not reconcile')
-    other=re.sub(r'(?:subheadings?|heading)|9802\.00\.\d{2}|\band\b|[,; .]', '',m[1])
+    exception_text=re.sub(r'\bor\b','',m[1]) if family=='section301_labor' else m[1]
+    other=re.sub(r'(?:subheadings?|heading)|9802\.00\.\d{2}|\band\b|[,; .]', '',exception_text)
     xxiii='subchapter XXIII of chapter 98 of the tariff schedule' in m[1]
     if xxiii:other=other.replace('subchapterXXIIIofchapter98ofthetariffschedule','')
     if other:

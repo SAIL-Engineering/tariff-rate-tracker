@@ -35,7 +35,7 @@ stopifnot(identical(.shipment_canonical(f),.shipment_canonical(reverse)))
 r <- evaluate_shipment_bundle(b,products[1],'2010','2025-04-09T12:00:00-04:00',list(customs_value=100))
 stopifnot(identical(r$missing_inputs,'ieepa_ftz_entry'),is.null(r$complete_total))
 r <- evaluate_shipment_bundle(b,products[1],'2010','2025-04-09T12:00:00-04:00',list(customs_value=100,ieepa_ftz_entry=TRUE))
-stopifnot(any(grepl('base_ftz_admission',r$source_errors)),is.null(r$complete_total))
+stopifnot('ftz_status'%in%r$missing_inputs,is.null(r$complete_total))
 cat('Ten base-source, country, quantity, integrity and entry-type checks passed\n')
 # The native Rev16 source prints a stranded .30.30 line under .25 and also
 # contains the separately valid .90.30 line. Neither inherited Free nor Column2

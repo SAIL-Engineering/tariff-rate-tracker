@@ -1,0 +1,8 @@
+source('src/helpers.R');source('src/shipment_build.R')
+record<-function(s)list(expression=s,source_code='01012100',source_row_index=1L)
+one<-shipment_usmca_reference(record('Free (S,AU,L)'))
+duplicate<-shipment_usmca_reference(record('Free (S,AU,L,L)'))
+stopifnot(one$status=='parsed',duplicate$status=='parsed',identical(one$formula,duplicate$formula))
+stopifnot(parse_shipment_special_column('Free (S) 2% (S)')$status=='unresolved_source')
+stopifnot(parse_shipment_special_column('Free (S) unsupported extra condition')$status=='unresolved_source')
+cat('Redundant programme membership cannot alter a sourced duty; conflicting rates and unconsumed conditions stay unresolved\n')

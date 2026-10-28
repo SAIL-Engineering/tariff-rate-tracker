@@ -130,11 +130,19 @@ class Note16Sources(unittest.TestCase):
                 source.update(path=str(path),sha256=hashlib.sha256(raw).hexdigest())
                 compiled=compile_note16(x,['8427104090'],jurisdictions)
                 decision,=compiled['column1_reference_decisions']
-                self.assertEqual(decision['status'],'requires_actual_column1_benchmark')
-                self.assertIn('column1_duty_amount',json.dumps(compiled['rules']))
+                self.assertEqual(decision['status'],'unresolved_source')
+                self.assertIn('note16_native_column1_expression_not_compiled',json.dumps(compiled['rules']))
                 source['sha256']='0'*64
                 with self.assertRaisesRegex(ValueError,'benchmark source changed'):
                     compile_note16(x,['8427104090'],jurisdictions)
+
+    def test_compiled_benchmark_must_retain_its_exact_native_owner(self):
+        jurisdictions=dict(all=['5700'],uk=[],russia=[],non_ntr=[],usmca=[],xi_partner=[])
+        x=copy.deepcopy(self.latest)
+        x['column1_amounts']={'8415908010':dict(raw='1.4%',source_code='unrelated',source_row_index=0,
+            formula={'value':0},fact_definitions={},input_constraints=[],status='parsed')}
+        with self.assertRaisesRegex(ValueError,'expression/owner mismatch'):
+            compile_note16(x,['8415908010'],jurisdictions)
 
 
 if __name__ == '__main__':

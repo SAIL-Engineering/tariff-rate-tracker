@@ -1,0 +1,148 @@
+{
+  "contract_version": "sail.section301-forced-labor-annex-review/v1",
+  "source": "Original note52(c)-(e),(j); published 91FR47382 independently corroborates the El Salvador glass-fabric rows omitted from native snapshots. Conditions reviewed in full, not inferred from HTS membership.",
+  "particular_clause_sha256": "75698cbb3d654296ac9dda327f3c4ab74326cf72ac453314b78d1df351e0da98",
+  "provisions": {
+    "9903.05.87": {
+      "prefix_sha256": "ab97ec50d18588014bf92d13a618cc7911d9e2054f0969e30b83cc4d3251fa2e",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.05.87, the duties imposed by headings 9903.05.20-9903.05.84 shall not apply to the following particular articles"
+    },
+    "9903.05.88": {
+      "prefix_sha256": "acf3c4ba7b2d23c85ed577bc3bb77f23ad833d79f25e791762ef206bc2338588",
+      "condition": "civil_aircraft_gn6",
+      "reviewed_prefix": "As provided in heading 9903.05.88, the additional duties imposed by headings 9903.05.20-9903.05.84 shall not apply to articles that are civil aircraft (all aircraft other than military aircraft); their engines, parts and components; their other parts, components and subassemblies; and ground flight simulators and their parts and components, that otherwise meet the criteria of general note 6 of the HTSUS and are classifiable in the following provisions of the HTSUS, but regardless of whether a product is entered under a provision for which the rate of duty \"Free (C)\" appears in the \"Special\" sub-column"
+    },
+    "9903.05.89": {
+      "prefix_sha256": "290e9e0fede3702a0ea898ff41c876f3ccc50c6d71af96b9b76d52827d99e95b",
+      "condition": "pharmaceutical_use",
+      "reviewed_prefix": "As provided in heading 9903.05.89, the additional duties imposed by headings 9903.05.20-9903.05.84 shall not apply to articles that are for use in pharmaceutical applications and that are classifiable in the following provisions of the HTSUS, but regardless of whether a product is entered under a provision for which the rate of duty \"Free (K)\" appears in the \"Special\" sub-column"
+    },
+    "9903.05.96": {
+      "prefix_sha256": "e38aa9e1e79b000070863e85df9f7495895b379b4d8005e83ce9ed459e7606e2",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.05.96, the duty imposed by heading 9903.05.81 shall not apply to articles the product of the United Kingdom that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.05.97": {
+      "prefix_sha256": "2a1a0b96dfee0df518f7175eec84a0c520df8a44e1c8a50517b7efca529436f6",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.05.97, the duties imposed by headings 9903.05.38-9903.05.39 shall not apply to articles the product of a member state of the European Union that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.05.98": {
+      "prefix_sha256": "c09a942a794e322f8acbc0dce07c6785c3cc5a79cc4bdd8f6df39ffe342cd254",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.05.98, the duties imposed by headings 9903.05.73-9903.05.74 shall not apply to articles the product of Switzerland that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.05.99": {
+      "prefix_sha256": "743d35ddbb07e8aba81888ef807c346a54584faf5f700ef7064436380c653c44",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.05.99, the duty imposed by heading 9903.05.54 shall not apply to articles the product of Malaysia that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.01": {
+      "prefix_sha256": "a141ee70ea4d898c77df0099b0f449b5ba12cba02fb31c241bceabec32baa10b",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.01, the duty imposed by heading 9903.05.54 shall not apply to the following particular articles the product of Malaysia"
+    },
+    "9903.06.02": {
+      "prefix_sha256": "94fc3cc9e524682954f331941bdf4d54dc3f3f4e0797cadb61aae2373734de11",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.02, the duty imposed by heading 9903.05.28 shall not apply to articles the product of Cambodia that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.03": {
+      "prefix_sha256": "e8e57ba4d50c82e487d659295f8f947a10f78295e616fc800759ace5a799c4d9",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.03, the duty imposed by heading 9903.05.28 shall not apply to the following particular articles the product of Cambodia"
+    },
+    "9903.06.04": {
+      "prefix_sha256": "fb835437ba3b696acf4b539275ababdb3f0656b7cd2dccf1420f9b611d4979c7",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.04, the duty imposed by heading 9903.05.40 shall not apply to articles the product of Guatemala that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.05": {
+      "prefix_sha256": "25b790479ceb4abba6ef2a003d6fa8cd337c8cea70e30db32c0047c7627d657d",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.05, the duty imposed by heading 9903.05.40 shall not apply to the following particular articles the product of Guatemala"
+    },
+    "9903.06.06": {
+      "prefix_sha256": "026592b94a4cc9ff9cb8966cda09250b0d27cb046b5a6d6fd7f80b52ef42307e",
+      "condition": "cafta_dr_claim_gn29",
+      "reviewed_prefix": "As provided in heading 9903.06.06, the duty imposed by heading 9903.05.40 shall not apply to articles the product of Guatemala for which entry is claimed under the Dominican Republic-Central America-United States Free Trade Agreement consistent with general note 29 of the HTSUS, and classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.07": {
+      "prefix_sha256": "06d47a5d6c52846276f667c218b78179ec696cba43cc6f5a7bfc060567ae24e1",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.07, the duty imposed by heading 9903.05.37 shall not apply to articles the product of El Salvador that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.08": {
+      "prefix_sha256": "7332e332343eee4a33c47f1daedb42e16e6812062eb782426d891ff4f7318fae",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.08, the duty imposed by heading 9903.05.37 shall not apply to the following particular articles the product of El Salvador"
+    },
+    "9903.06.09": {
+      "prefix_sha256": "3dcc70a3d69af66f05d0855b7582fa4a1743032d97441c9ea5b22f966ed12b97",
+      "condition": "cafta_dr_claim_gn29",
+      "reviewed_prefix": "As provided in heading 9903.06.09, the duty imposed by heading 9903.05.37 shall not apply to articles the product of El Salvador for which entry is claimed under the Dominican Republic-Central America-United States Free Trade Agreement consistent with general note 29 of the HTSUS and which are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.10": {
+      "prefix_sha256": "2e7a68ac12cf8b20c68ee84e4e5176039431fc2d842b8889b527cef886b8c80a",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.10, the duty imposed by heading 9903.05.22 shall not apply to articles the product of Argentina that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.11": {
+      "prefix_sha256": "8aa4a7de7bdc01429d3c88f1c1bd5f462f9c3a56e926a75545e0c4acc121cfe6",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.11, the duty imposed by heading 9903.05.22 shall not apply to the following particular articles the product of Argentina"
+    },
+    "9903.06.12": {
+      "prefix_sha256": "395965d384dc16bbf92627d88c900ffd98f122feadcdc89bd5a6f8c1f2829516",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.12, the duty imposed by heading 9903.05.26 shall not apply to articles the product of Bangladesh that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.13": {
+      "prefix_sha256": "e87d225a5a00e028b627107fe6f3e51271e4b3156aac0354d35ae689471b50bb",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.13, the duty imposed by heading 9903.05.26 shall not apply to the following particular articles the product of Bangladesh"
+    },
+    "9903.06.14": {
+      "prefix_sha256": "4e3b0b175449897d26163b8984ccdcb2dbffb59a893160ae13f991080dc47c9b",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.14, the duties imposed by headings 9903.05.75-9903.05.76 shall not apply to articles the product of Taiwan that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.15": {
+      "prefix_sha256": "e90c597765b21d8e11a38db2e7e039a62c575c86d0647b1475975cf4ea4c6468",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.15, the duties imposed by headings 9903.05.75-9903.05.76 shall not apply to the following particular articles the product of Taiwan"
+    },
+    "9903.06.16": {
+      "prefix_sha256": "55ff1b3c0335f1996beb3fdf43bf35638cccaeb8903f722e0c66bd74d487e31b",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.16, the duty imposed by heading 9903.05.45 shall not apply to articles the product of Indonesia that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.17": {
+      "prefix_sha256": "3dd8ca8420287d9349dc74de918eaec00a69a70105505bc7e6b1efc10180ee29",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.17, the duty imposed by heading 9903.05.45 shall not apply to the following particular articles the product of Indonesia"
+    },
+    "9903.06.18": {
+      "prefix_sha256": "6577ff9a3712ef2dba394a84ff7aadff7ba701b80a96a8217d050ed45aa2ce77",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.18, the duty imposed by heading 9903.05.35 shall not apply to articles the product of Ecuador that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.19": {
+      "prefix_sha256": "7a8c075a86315d47d22e15f07e735e88f4c7e3bba01c097902de70de991ad7c8",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.19, the duty imposed by heading 9903.05.35 shall not apply to the following particular articles the product of Ecuador"
+    },
+    "9903.06.20": {
+      "prefix_sha256": "8c8bc79841c2dc5358bce324e7beb93b660d1e291a74a15a26cd56e01ba31ec4",
+      "condition": "none",
+      "reviewed_prefix": "As provided in heading 9903.06.20, the duty imposed by heading 9903.05.50 shall not apply to articles the product of Jordan that are classifiable in the following provisions of the HTSUS"
+    },
+    "9903.06.21": {
+      "prefix_sha256": "d8e82a5a1b05fffad224ee97f3732df300302c05c88ef1e677ebf9949cd7ec89",
+      "condition": "article_description",
+      "reviewed_prefix": "As provided in heading 9903.06.21, the duty imposed by heading 9903.05.50 shall not apply to the following particular articles the product of Jordan"
+    }
+  },
+  "valuation_clause_sha256": "1a14d843e14d092129c20b373150677c5436995e6c549bf1b74252125b0062e0"
+}

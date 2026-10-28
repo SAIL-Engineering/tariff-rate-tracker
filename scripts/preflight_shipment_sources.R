@@ -17,11 +17,16 @@ reports <- lapply(revisions,function(revision) {
       unresolved <- Filter(function(s)!identical(parse_shipment_duty_expression(s)$status,'parsed'),as.list(raw))
       list(column=field,unique_expressions=length(raw),unresolved_complete_expressions=unresolved)
     })
+    special<-sort(unique(vapply(Filter(function(p)!is.null(p$special$expression),rows),function(p)p$special$expression,character(1))))
+    special_parsed<-lapply(special,parse_shipment_special_column)
+    unresolved_special<-special[vapply(special_parsed,function(p)p$status=='unresolved_source',logical(1))]
     list(revision=revision,status='source_extraction_verified',product_count=length(rows),
       hts_sha256=x$source$sha256,gn3_sha256=x$gn3$source$sha256,column2_country_names=x$gn3$country_names,
       missing_general=sum(vapply(rows,function(p)is.null(p$general$expression),logical(1))),
       missing_column2=sum(vapply(rows,function(p)is.null(p$column2$expression),logical(1))),
-      expressions=expressions)
+      expressions=expressions,special_column=list(unique_fields=length(special),unparsed_complete_fields=as.list(unresolved_special),
+        qualification='Complete field parsing only. Conditional references and program eligibility are retained; this does not establish entitlement.'),
+      gn3_program_symbols=x$gn3$program_symbols)
   },error=function(e)list(revision=revision,status='unresolved_source',error=conditionMessage(e)))
 })
 report <- list(contract_version='sail.shipment-source-preflight/v1',qualification='source_extraction_only',
