@@ -44,8 +44,9 @@ separate gates; missing old outputs cannot establish a logic failure or a pass.
    scope; a source-level reconciliation and published page are pinned, without
    production HTS examples. Procedural, USMCA/CAFTA and Chapter98 treatment plus
    the55 flat-rate country actions are compiled. Twenty source-derived rate, claim, transit, Chapter98 and country-floor calculations pass in R and TypeScript. All five paired floors use their original thresholds/reporting roles and native complete General expressions; supported direct S/KR claims use their selected native expressions. Reconciliation now checks every operative revision:55 source frames,9 native note52 snapshots,101 original headings,28 exemption provisions/56 condition rows and the July31 amendment. No unexplained conflict was found; the documented30-row omission remains reproduced in all9 snapshots.
-5. Intraday/source chronology: preserve prior action through an amendment's
-   actual instant; date-based source bounds alone leave known minute gaps.
+5. Intraday/source chronology: prior steel/aluminum and note16 treatment now
+   continues to the verified April6/June8,2026 00:01 instants. Pre-April copper
+   and other sector clocks still need their own coverage reconciliation.
 6. Serving/rebuild gates: test source->normal Parquet->DuckDB->R/TS->API. All
    timeseries builds remain manual. The existing data-dependent parity gate has
    685 missing generated-artifact checks; TPC comparison input is absent.
@@ -87,4 +88,38 @@ The Korean automobile Special benchmark also comes from the complete native Spec
 
 One canonical FTZ-entry fact now supplies the Section122/338 aliases in composed normal builds. A conflicting caller alias cannot bypass the FTZ branch. XML primary sources and published annex images participate in the build input fingerprint.
 
-The new normal-emitter two-point check verifies the Korean knife General compound amount6.44, actual Section232 amount25/9903.82.09 and forced-labor zero/9903.05.90. The initial test incorrectly expected the common-product exemption heading. The source-named Section232 exemption heading is9903.05.90; only the test oracle was corrected. The same outputs retain an incomplete full total. NPF ceramic base valuation is9.8 with an ordinary caller value999999 ignored; other uncompiled FTZ actions keep the result incomplete. Parquet/local DuckDB/API JSON, Arrow, batch, version invalidation and tamper checks pass.
+The normal-emitter check now covers six product/origin cells and three shipment scenarios: Korean knife General compound amount6.44, actual Section232 amount25/9903.82.09 and forced-labor zero/9903.05.90; NPF ceramic base9.8; NPF Chinese scrap Section301 additional10 on waste transfer value40. An ordinary caller value999999 cannot override the FTZ value. The initial knife test incorrectly expected the common-product exemption heading; only that test oracle was corrected. Full totals remain incomplete for unverified authorities. Parquet/local DuckDB/API JSON, Arrow, batch, version invalidation and tamper checks pass.
+
+## Section301 FTZ and classification checkpoint
+
+The traditional Section301 reconstruction had no FTZ context guard. It could price a current rate in the known subtotal even when PF admission classification/rate history was needed. A shared source-valued NPF transform now keeps current ordinary/NPF classification separate from PF history, prices the NP duty basis under146.65, and surfaces uncompiled FTZ Chapter98 treatment before unrelated value/entitlement questions. Nine R/TypeScript cases pass. The existing Section301 reconstruction/exclusion/retroactivity/Chapter98 suite also passes with explicit ordinary-entry fixture facts. Its large emitted fixture is compressed, without changing the data contract.
+
+The added ordinary-emitter test initially reused H310256's retired2020 scrap identity. The native2026 book correctly uses different statistical children. The Section301 compiler now validates requested products against the shared native ordinary and special-classification inventory, and rejects that retired suffix. The current valid Other scrap identity7602.00.00.75 supplies the2026 test. This is a generic validity check, not a production code substitution. Six normal Parquet product/origin cells and three R/DuckDB/API JSON/Arrow/batch cases pass, including NPF value40, source Section301 additional duty10 and an ignored caller ordinary value999999.
+
+Read-only CSMS FTZ expiry/termination research returned0 matching records. The separately retained latest60 CROSS results are bounded discovery evidence, not an exhaustive inventory. Primary law supplies rate-clock questions that still need executable historical source selection; no absence in these searches is treated as zero.
+
+## Final verification and additional clock corrections
+
+The91-suite full R invocation finished87OK/3ERROR/1SKIP, exit1. Two fixture errors
+were corrected and their focused R/API reruns pass. Normalized parity still
+cannot start:685 missing generated artifacts; TPC input absent. This gate is not
+reported as passed. Current Python471 and Node1040 checks pass, with independent
+logs for the subsequent intraday provenance fixture regeneration.
+
+Primary PDF review confirms the four malformed full Special strings. The parser
+now preserves independently unambiguous literal programmes while retaining raw
+text, uncertain membership, duplicate-group conflicts and conditional references.
+Arbitrary unknown prose blocks the field; no punctuation is guessed. Five
+R/TypeScript base-only scenarios and adversarial parser checks pass.
+
+Section122/338 current exemptions formerly preceded a complete FTZ-history
+capability check. Two red/green cases now prevent those exemptions from implying
+known zero liability for PF histories. No admission catalog is invented.
+
+An explicit primary-source transition manifest drives predecessor replay before
+the April6/June8,2026 metal amendments. Full native classification paths must
+match. The preceding build source must agree with the latest published metal
+semantics; unrelated retroactive policy dates cannot silently choose a different
+metal book. Six exact-instant R/TypeScript regressions and two rule-only normal
+assembly checks pass. The normal emitter writes this additional fragment.
+Pre-April copper, PF histories and other authority coverage remain unfinished.

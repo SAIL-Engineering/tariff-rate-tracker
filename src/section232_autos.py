@@ -507,7 +507,7 @@ def compile_rules(x, product_list, jurisdictions):
                                 raise ValueError('Automobile native Special expression/owner mismatch')
                             korus=[g for g in special.get('groups',[]) if 'KR' in g['symbols']]
                             mapping=any(r.get('symbol')=='KR' and 'Korea' in r.get('program_name','') for r in x.get('base_program_symbols',[]))
-                            native_kr=selected_floor(korus[0]['parsed']) if special.get('field_status')=='parsed' and len(korus)==1 and mapping else unresolved(
+                            native_kr=selected_floor(korus[0]['parsed']) if (special.get('programme_status') or {}).get('KR')=='unambiguous' and len(korus)==1 and mapping else unresolved(
                                 'auto_native_KR_expression_or_programme_mapping_not_compiled',subject=True,country=d['country'])
                             source_basis=branch({'claim':'USMCA'},selected_floor(special),branch(op('eq',selected_program,val('KR')),native_kr,
                                 unresolved('auto_selected_special_programme_requires_reconciliation',subject=True,country=d['country'])))

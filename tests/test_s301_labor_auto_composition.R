@@ -1,7 +1,9 @@
 source('src/helpers.R');source('src/05_parse_policy_params.R');source('src/section232_autos.R');source('src/section301_labor.R');source('src/compile_shipment_rules.R')
+source('tests/lib/bound_shipment_fixture.R')
 products<-c('8703230190','8704210100','8471500150','4009120020');origins<-c('2010','5880')
 autos<-compile_s232_autos_fragment('2026_rev_19',products,origins)
 labor<-compile_s301_labor_fragment('2026_rev_19',products)
+labor<-bound_shipment_fixture_countries(labor,origins)
 b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
 b$revision<-'2026_rev_19';b$dataset_version<-'s301fl-auto-source-composition-not-production'
 b$products<-as.list(products);b$countries<-as.list(origins);b$valid_from<-labor$supported_from;b$valid_until<-labor$supported_until
@@ -10,11 +12,15 @@ b<-compose_shipment_rules(b,list(autos,labor));prepared<-prepare_shipment_bundle
 vehicle<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_passenger_vehicle=TRUE,s232_auto_manufacture_year=2020)
 parts<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_parts_use=TRUE,s232_auto_usmca_eligible=FALSE)
 add<-function(name,facts=vehicle,hts='8703230190',country='2010',amount=25,exempt=TRUE,carrier='9903.05.90') {
+ # These particular scenarios have no other product/procedural relief. Such
+ # facts are explicit fixture evidence, never production defaults.
+ for(k in names(labor$fact_definitions))if(startsWith(k,'s301_labor_')&&
+  identical(labor$fact_definitions[[k]]$type,'boolean')&&is.null(facts[[k]]))facts[[k]]<-FALSE
  r<-evaluate_shipment_prepared(prepared,hts,country,'2026-09-15T12:00:00-04:00',facts)
  fl<-Filter(function(c)startsWith(c$action_id,'s301_forced_labor_')&&c$status=='applied',r$components)
  stopifnot(is.null(r$complete_total),r$known_subtotal==amount,!length(r$missing_inputs))
  if(exempt)stopifnot(length(fl)==1L,fl[[1]]$amount==0,carrier%in%unlist(fl[[1]]$reporting_codes))
- else stopifnot(!length(fl),any(grepl('section301_forced_labor_remaining',r$source_errors,fixed=TRUE)))
+ else stopifnot(!length(fl),'coverage_dependency_unverified:section_232'%in%r$source_errors)
  cases[[length(cases)+1L]]<<-list(name=name,bundle='actual',hts10=hts,country=country,entry_at='2026-09-15T12:00:00-04:00',facts=facts,expected=shipment_result_for_json(r))
 }
 add('Actual ordinary Mexican vehicle retains25 and removes forced-labor duty')

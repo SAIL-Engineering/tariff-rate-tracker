@@ -1392,6 +1392,9 @@ emit_normalized_revision <- function(
       auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
     fragment232 <- compile_s232_note16_fragment(evidence,executable_products)
     write_rule_fragment(fragment232,'section232_note16_rules.json')
+    source(here::here('src/section232_intraday.R'))
+    preceding_metals <- compile_s232_intraday_fragment(revision_id,executable_products)
+    if(!is.null(preceding_metals))write_rule_fragment(preceding_metals,'section232_intraday_rules.json')
   }
   # One stable Parquet schema across historical, revised and empty regimes.
   # Additional historical predicates/headings stay in the source/rule objects.

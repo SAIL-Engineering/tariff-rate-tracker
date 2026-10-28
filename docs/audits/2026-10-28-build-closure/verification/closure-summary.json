@@ -1,0 +1,40 @@
+{
+  "complete_plan": false,
+  "final_timeseries_rebuild_qualified": false,
+  "timeseries_rebuilt": false,
+  "motherduck_modified": false,
+  "tracker_branch": "wjr_dev",
+  "tracker_first_checkpoint": "9db36e7f",
+  "sail_branch": "pinecone-hts",
+  "sail_commit": "abee0254b",
+  "python": {
+    "passed": 471,
+    "failed": 0
+  },
+  "node": {
+    "tests": 1040,
+    "pass": 1040,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "node_latest_intraday_regenerated_cases": 6,
+  "r_full": {
+    "discovered_suites": 91,
+    "ok": 87,
+    "errors": 3,
+    "skipped": 1,
+    "exit_status": 1,
+    "subsequently_corrected_fixture_errors": 2,
+    "remaining_error": "missing_generated_artifacts_before_normalized_parity",
+    "missing_generated_artifacts": 685,
+    "tpc_input_missing": true,
+    "full_gate_passed": false
+  },
+  "source_preflight": {
+    "revisions": 55,
+    "unresolved_classification_inventories": 1,
+    "malformed_complete_special_strings": 4,
+    "independent_programme_groups_preserved": true
+  }
+}

@@ -212,6 +212,7 @@ def compile_rules(x,products):
         if description:d['description']=description
         if choices is not None:d['enum']=choices
         facts[name]=d;return fact(name)
+    f('s122_ftz_entry','Entry from a foreign trade zone')
     cv=f('customs_value','Customs value (USD)','number')
     # Reconcile the valuation clause with the original annex, independently of
     # later HTS note snapshots. Each source revision supplies valid Chapter 98
@@ -337,6 +338,8 @@ def compile_rules(x,products):
         compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','src/chapter98_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv')},
         supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',sources=history['sources'],source_artifacts=history['source_artifacts'],
         rules=rules,coverage=[],fact_definitions=facts,claim_definitions=claims,relations=[],interaction_history=history['periods'],
+        entry_context=dict(mode='ordinary_only',fact='s122_ftz_entry',source_ids=ids,
+            unresolved_source='section122_ftz_admission_classification_requires_separate_rule'),
         independent_interactions=history['independent_interactions'],
         unchanged_claims=[dict(id='s122_301_independence_'+x['revision'],claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=all_ids,source_ids=ids),
           dict(id='s122_232_reevaluation_'+x['revision'],effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=all_ids,source_ids=ids)],

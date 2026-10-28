@@ -92,6 +92,15 @@
       "skipped": 0
     },
     {
+      "file": "frontend/tests/shipment-ftz-current-exemptions.test.mjs",
+      "exit_code": 0,
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
       "file": "frontend/tests/shipment-ftz-valuation.test.mjs",
       "exit_code": 0,
       "tests": 19,
@@ -141,6 +150,15 @@
       "exit_code": 0,
       "tests": 49,
       "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-metal-intraday.test.mjs",
+      "exit_code": 0,
+      "tests": 6,
+      "pass": 6,
       "fail": 0,
       "cancelled": 0,
       "skipped": 0
@@ -209,6 +227,15 @@
       "skipped": 0
     },
     {
+      "file": "frontend/tests/shipment-section301-ftz.test.mjs",
+      "exit_code": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
       "file": "frontend/tests/shipment-section301-labor-annexes.test.mjs",
       "exit_code": 0,
       "tests": 99,
@@ -254,6 +281,15 @@
       "skipped": 0
     },
     {
+      "file": "frontend/tests/shipment-special-programme-groups.test.mjs",
+      "exit_code": 0,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
       "file": "frontend/tests/shipment-wide.test.mjs",
       "exit_code": 0,
       "tests": 3,
@@ -264,8 +300,8 @@
     }
   ],
   "totals": {
-    "tests": 1018,
-    "pass": 1018,
+    "tests": 1040,
+    "pass": 1040,
     "fail": 0,
     "cancelled": 0,
     "skipped": 0

@@ -24,6 +24,10 @@ facts<-list(customs_value=100,ieepa_ftz_entry=FALSE,column1_duty_amount=0,
 cases<-list()
 for(eligible in c(FALSE,TRUE)) {
  q<-facts;q$reciprocal_partner_civil_aircraft_gn6_excluding_unmanned<-eligible
+ # These fixtures are ordinary steel versus a qualifying manned GN6 article.
+ # Note52(d) has its own broader GN6 condition; the narrower reciprocal fact
+ # being FALSE alone would not exclude unmanned civil-aircraft eligibility.
+ q$s301_labor_civil_aircraft_gn6<-eligible
  result<-resolve_shipment_duties(dir,'7304313000','4280','2026-09-15T12:00:00-04:00',q)
  metals<-Filter(function(c)c$action_id=='s232_note16_metals'&&c$status=='applied',result$components)
  relief<-Filter(function(c)c$authority=='section_232'&&c$status=='applied'&&'9903.02.76' %in% c$reporting_codes,result$components)

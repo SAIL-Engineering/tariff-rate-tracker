@@ -53,35 +53,64 @@ load_shipment_base_source <- function(revision_id,root=here::here()) {
 # A valid Free group for one program cannot erase a later conditional reference
 # for another. In particular S+ references do not establish quota entitlement.
 parse_shipment_special_column <- function(text) {
-  if(is.null(text)||!length(text)||!nzchar(trimws(text)))return(list(status='absent',groups=list()))
-  locations <- gregexpr('[^()]+\\([^()]*\\)',text,perl=TRUE)[[1]]
-  if(locations[1]<0L)return(list(status='unresolved_source',groups=list(),reason='unparsed_special_field'))
-  groups <- regmatches(text,list(locations))[[1]]
-  if(!identical(gsub('\\s+','',paste(groups,collapse='')),gsub('\\s+','',text)))
-    return(list(status='unresolved_source',groups=list(),reason='unconsumed_special_field'))
-  parsed <- lapply(groups,function(group) {
-    m<-regmatches(group,regexec('^\\s*(.*?)\\s*\\(([^()]*)\\)\\s*$',group,perl=TRUE))[[1]]
-    symbols<-unique(trimws(strsplit(m[3],',',fixed=TRUE)[[1]]))
-    if(!length(symbols)||any(!grepl('^[A-Z]{1,2}[+*]?$',symbols)))return(NULL)
-    list(expression=trimws(m[2]),symbols=as.list(symbols),parsed=parse_shipment_duty_expression(trimws(m[2])))
-  })
-  if(any(vapply(parsed,is.null,logical(1))))return(list(status='unresolved_source',groups=list(),reason='unparsed_special_symbols'))
-  all_symbols<-unlist(lapply(parsed,`[[`,'symbols'))
-  if(anyDuplicated(all_symbols))return(list(status='unresolved_source',groups=parsed,reason='duplicate_special_program'))
-  list(status='parsed',groups=parsed)
+  if(is.null(text)||!length(text)||!nzchar(trimws(text)))return(list(status='absent',groups=list(),programme_status=structure(list(),names=character())))
+  remaining<-text;groups<-list();uncertain<-character();anomalies<-list();global<-FALSE
+  # Unknown SPI punctuation is retained, never repaired into an entitlement.
+  # Only isolated one/two-letter SPI candidates can localize that uncertainty.
+  candidates<-function(value) {
+    words<-strsplit(gsub('[.,()]+',' ',value),'\\s+',perl=TRUE)[[1]]
+    words<-words[nzchar(words)]
+    if(length(words)&&all(grepl('^[A-Z]{1,2}[+*]?$',words)))unique(words) else NULL
+  }
+  while(nzchar(trimws(remaining))) {
+    m<-regmatches(remaining,regexec('^\\s*([^()]+?)\\s*\\(([^()]*)\\)\\s*',remaining,perl=TRUE))[[1]]
+    if(!length(m)) {
+      # A malformed final See-heading group has no bearing on earlier complete
+      # programme groups. Arbitrary unconsumed prose can qualify the whole field.
+      tail<-regmatches(remaining,regexec('^\\s*See[[:space:]]+[0-9.,[:space:]–—-]+\\(([A-Z+*(),[:space:]]+)\\s*$',remaining,perl=TRUE))[[1]]
+      possible<-if(length(tail))candidates(tail[2]) else NULL
+      if(is.null(possible))global<-TRUE else uncertain<-union(uncertain,possible)
+      anomalies[[length(anomalies)+1L]]<-list(raw=remaining,reason='unconsumed_special_field',possible_programmes=as.list(possible),whole_field=is.null(possible))
+      break
+    }
+    raw_symbols<-trimws(strsplit(m[3],',',fixed=TRUE)[[1]])
+    if(!length(raw_symbols)) {global<-TRUE;anomalies[[length(anomalies)+1L]]<-list(raw=m[1],reason='empty_special_programmes',whole_field=TRUE)}
+    valid<-grepl('^[A-Z]{1,2}[+*]?$',raw_symbols)
+    for(token in raw_symbols[!valid]) {
+      possible<-candidates(token)
+      if(is.null(possible))global<-TRUE else uncertain<-union(uncertain,possible)
+      anomalies[[length(anomalies)+1L]]<-list(raw=token,reason='unparsed_special_symbol',possible_programmes=as.list(possible),whole_field=is.null(possible))
+    }
+    expression<-trimws(m[2])
+    groups[[length(groups)+1L]]<-list(expression=expression,symbols=as.list(unique(raw_symbols[valid])),
+      raw=m[1],raw_symbols=m[3],parsed=parse_shipment_duty_expression(expression))
+    remaining<-substring(remaining,nchar(m[1])+1L)
+  }
+  symbols<-unlist(lapply(groups,`[[`,'symbols'),use.names=FALSE)
+  duplicates<-unique(symbols[duplicated(symbols)])
+  if(length(duplicates))anomalies[[length(anomalies)+1L]]<-list(reason='duplicate_special_program',possible_programmes=as.list(duplicates))
+  uncertain<-union(uncertain,duplicates)
+  programmes<-sort(unique(c(symbols,uncertain)))
+  statuses<-setNames(lapply(programmes,function(symbol)if(!global&&sum(symbols==symbol)==1L&&!symbol%in%uncertain)'unambiguous' else 'unresolved_source'),programmes)
+  list(status=if(!length(anomalies)&&length(groups))'parsed' else 'unresolved_source',groups=groups,
+    reason=if(length(anomalies))anomalies[[1]]$reason else NULL,programme_status=statuses,
+    unresolved_regions=anomalies,unresolved_whole_field=global)
 }
 
-shipment_usmca_reference <- function(record) {
+shipment_special_reference <- function(record,symbol) {
   field<-parse_shipment_special_column(record$expression)
-  selected<-Filter(function(g)'S'%in%unlist(g$symbols),field$groups)
-  parsed<-if(field$status=='parsed'&&length(selected)==1L)selected[[1]]$parsed else NULL
+  selected<-Filter(function(g)symbol%in%unlist(g$symbols),field$groups)
+  parsed<-if(identical(field$programme_status[[symbol]],'unambiguous')&&length(selected)==1L)selected[[1]]$parsed else NULL
   list(raw=record$expression,source_code=record$source_code,source_row_index=record$source_row_index,
     expression=if(length(selected)==1L)selected[[1]]$expression else NULL,normalized_text=parsed$normalized_text,field_status=field$status,
-    symbol='S',groups=field$groups,status=if(!is.null(parsed))parsed$status else 'unresolved_source',
+    symbol=symbol,groups=field$groups,programme_status=field$programme_status,
+    unresolved_regions=field$unresolved_regions,status=if(!is.null(parsed))parsed$status else 'unresolved_source',
     formula=if(!is.null(parsed)&&parsed$status=='parsed')parsed$formula else
-      list(unresolved_source=paste0('column1_usmca_special_expression:',field$reason %||% 'conditional_or_absent_S_expression')),
+      list(unresolved_source=paste0(if(symbol=='S')'column1_usmca_special_expression:' else paste0('column1_',symbol,'_special_expression:'),field$reason %||% 'conditional_or_absent_programme_expression')),
     fact_definitions=parsed$fact_definitions %||% list(),input_constraints=parsed$input_constraints %||% list())
 }
+
+shipment_usmca_reference <- function(record)shipment_special_reference(record,'S')
 
 # Independent legal benchmark expressions, before another action changes or
 # suppresses the payable base component. Shared by sector compilers; callers
@@ -178,7 +207,7 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
           for(c in preference$input_constraints) {
             c$test<-list(op='if',args=list(list(claim='USMCA'),c$test,list(value=TRUE)));constraints[[length(constraints)+1L]]<-c
           }
-          constraints[[length(constraints)+1L]]<-list(test=list(op='if',args=list(list(claim='USMCA'),
+          if(identical(preference$status,'parsed'))constraints[[length(constraints)+1L]]<-list(test=list(op='if',args=list(list(claim='USMCA'),
             list(op='and',args=list(list(fact='usmca_origin_eligible'),list(fact='usmca_properly_claimed'))),list(value=TRUE))),
             inputs=list('usmca_origin_eligible','usmca_properly_claimed'),reason='USMCA entitlement and proper claim must be established')
         }

@@ -104,6 +104,15 @@ s301_revision_lookup <- function(matches) {
 # and unlisted claim effects must be composed separately).
 compile_s301_revision_fragment <- function(extraction, products) {
   revision <- extraction$revision
+  # A historical ruling or broad annex prefix cannot manufacture a current
+  # statistical suffix. Reuse the native hierarchy's complete product inventory.
+  source(here::here('src/shipment_build.R'))
+  native<-load_shipment_base_source(revision)
+  if(!identical(native$source$sha256,extraction$sources[[2]]$sha256))stop('Section301/native classification source mismatch')
+  products<-sort(unique(as.character(products)))
+  valid_products<-vapply(c(native$products,native$special_classifications),`[[`,character(1),'hts10')
+  if(any(!products%in%valid_products))
+    stop('Product is not valid in the identified Section301 source revision')
   source_ids <- paste0('USITC-',revision,c('-chapter99','-hts'))
   release <- build_release_name(revision)
   sources <- lapply(seq_along(source_ids),function(i) list(id=source_ids[i],status='verified',
@@ -197,16 +206,20 @@ compile_s301_revision_fragment <- function(extraction, products) {
     label='Chapter 98',source_ids=as.list(source_ids[1:2]),
     candidate_rule_ids=chapter98_ids,
     rule_ids=c(chapter98_ids,lapply(exclusions$rules,`[[`,'id')))))
-  list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('s301_china_',revision),
+  fragment<-list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('s301_china_',revision),
     compiler_sha256=digest::digest(file=here::here('src/section301_revision.R'),algo='sha256'),
-    compiler_dependencies=setNames(lapply(c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py'),
+    compiler_dependencies=setNames(lapply(c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py',
+      'src/shipment_build.R','src/shipment_base_sources.py'),
       function(p) digest::digest(file=here::here(p),algo='sha256')),
-      c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py')),
+      c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py','src/shipment_build.R','src/shipment_base_sources.py')),
     supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
     sources=sources,source_artifacts=artifacts,
     rules=rules,fact_definitions=facts,claim_definitions=claim_definitions,
     coverage=list(),relations=exclusions$relations,
     limitations=extraction$limitations)
+  source(here::here('src/ftz_valuation.R'))
+  compile_current_npf_context(fragment,'section301_pf_admission_classification_and_rate_history',
+    'section301_ftz_chapter98_admission_and_entry_treatment')
 }
 
 # Compile named exclusion effects from independently extracted product-code and

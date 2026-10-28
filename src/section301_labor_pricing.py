@@ -64,7 +64,7 @@ def compile_floor_rules(template,spec,policy,products,native_products,references
             native_groups=usmca.get('groups') or []
             korus=[g for g in native_groups if 'KR' in g['symbols']]
             mapped=any(r.get('symbol')=='KR' and 'Korea' in r.get('program_name','') for r in program_symbols or [])
-            if usmca.get('field_status')=='parsed' and len(korus)==1 and mapped:
+            if (usmca.get('programme_status') or {}).get('KR')=='unambiguous' and len(korus)==1 and mapped:
                 kr=copy.deepcopy(korus[0]['parsed']);kr['formula']=kr.get('formula') or {'unresolved_source':'note52_native_KR_expression_is_conditional'}
                 rr,rv,rc=rate(kr,True)
             else:rr,rv,rc={'unresolved_source':'note52_native_KR_expression_or_programme_mapping_not_compiled'},val(True),[]

@@ -354,3 +354,36 @@ changed descriptions, mixed revisions, absent sources and changed dates fail.
 The prepared release stores both the typed table and the bundle pin. The API
 rule/result contract remains v1; dataset/release identifiers continue to control
 cache isolation. Readers reject v6 rather than synthesize missing decisions.
+
+Special-column references retain the complete raw field, its native owner and
+source row, every rate/programme group and each unconsumed region. A malformed
+membership can localize uncertainty to its explicitly possible SPI identifiers;
+arbitrary unknown prose invalidates the whole field. A separately complete,
+unambiguous literal programme group can supply its own expression. This does not
+repair missing punctuation, select between conflicting rates or assign an
+uncertain membership. Conditional See-heading and S-plus references stay
+unpriced until their own legal conditions are compiled. A syntactically parsed
+expression is not proof of programme eligibility or currency; compilers validate
+GN3 identity and require actual entitlement/proper claim when it changes duty.
+
+FTZ current-classification adapters apply only to explicitly established NPF or
+recoverable-waste merchandise. Their source valuation replaces ordinary value
+in the action expression and relevant constraints. PF application/classification
+and rate history, domestic/mixed status and uncompiled FTZ claim interactions
+remain source questions; they cannot inflate a known subtotal with a current
+ordinary rate. Actual status, classification, duty origin and allocation require
+shipment evidence. No duty is collected merely on admission by this evaluator,
+and deposit calculations do not purport to determine final liquidation.
+
+Ordinary-only capabilities apply to every matched rule, including current-date
+zero exemptions. A product exemption at withdrawal cannot establish the duties
+attached to a privileged admission. An absent historical action is likewise not
+proof of no FTZ liability; complete inventory coverage still requires its own
+context-specific reconciliation.
+
+Intraday predecessors are separate, bounded fragments generated from the prior
+native source. They end exactly when the original instrument replaces that
+treatment. A primary-source clock manifest, source hashes, unchanged native
+classification hierarchy and an independent comparison with the latest
+published metal snapshot are required. This is source replay, not extension of
+a daily aggregate rate, and cannot attest a separate sector or PF history.

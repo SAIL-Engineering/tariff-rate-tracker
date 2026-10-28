@@ -44,6 +44,7 @@ def compile_rules(revision, products):
         if description:d['description']=description
         if choices is not None:d['enum']=choices
         facts[name]=d;return fact(name)
+    f('s338_ftz_entry','Entry from a foreign trade zone')
     cv=f('customs_value','Customs value (USD)','number')
     claimed=f('s338_chapter98_claimed','Entry claimed under Chapter 98')
     valuation=compile_valuation(x['general_note'],hts,f,claimed,cv)
@@ -113,6 +114,8 @@ def compile_rules(revision, products):
         compiler_sha256=sha(Path(__file__).read_bytes()),
         compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section338_sources.py','src/chapter98_rules.py','src/section232_note16_rules.py','src/section301_sources.py','resources/legal_evidence/section338/manifest.json','resources/census_codes.csv')},
         sources=x['sources'],source_artifacts=x['source_artifacts'],rules=rules,coverage=[],fact_definitions=facts,
+        entry_context=dict(mode='ordinary_only',fact='s338_ftz_entry',source_ids=ids,
+            unresolved_source='section338_ftz_admission_status_and_classification_not_compiled'),
         claim_definitions=[dict(id=c,label=label,rule_ids=rule_ids,source_ids=ids) for c,label in [('USMCA','USMCA'),('CHAPTER_98','Chapter 98')]] if rule_ids else [],
         relations=[],unchanged_claims=unchanged,supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
         action_history=periods(x),snapshot_reconciliation=snapshot,limitations=['No complete all-action authority coverage attestation.',

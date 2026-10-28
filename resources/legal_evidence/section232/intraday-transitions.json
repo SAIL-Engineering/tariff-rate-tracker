@@ -1,0 +1,30 @@
+{
+  "contract_version": "sail.section232-intraday-transitions/v1",
+  "role": "Verified amendment clocks; replay only the preceding source's unchanged classifications until these instants. This is not a PF admission-rate catalog or an all-authority coverage certificate.",
+  "transitions": [
+    {
+      "effective_from": "2026-04-06T00:01:00-04:00",
+      "prior_compiler": "legacy_metals",
+      "source": {
+        "id": "FR-2026-06960-intraday",
+        "path": "resources/legal_evidence/section232/2026-06960.pdf",
+        "sha256": "a4cb2a59457ad6d73210025b5b80614ccb9d7a851a9d882c4c4820bacc8ea2ff",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2026-04-09/pdf/2026-06960.pdf",
+        "citation": "Proclamation11021 clauses1-6, 91FR18201: metal valuation and replacement tariffs begin April6,2026 at00:01Eastern; prior steel/aluminum treatment continues before that instant.",
+        "required_text": ["on or after 12:01 a.m. eastern daylight time on April 6, 2026", "shall apply to the full customs"]
+      }
+    },
+    {
+      "effective_from": "2026-06-08T00:01:00-04:00",
+      "prior_compiler": "note16_metals",
+      "source": {
+        "id": "FR-2026-11314-intraday",
+        "path": "resources/legal_evidence/2026-11314/notice.txt",
+        "sha256": "6cba8707b0d523c2ad2bf61bda0d80cb8338fe6205e9d5cc9029687e9915a6ee",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2026-06-04/html/2026-11314.htm",
+        "citation": "Proclamation11032 clauses1-3 and AnnexIV, 91FR34085: amended lists, thresholds and treatments begin June8,2026 at00:01Eastern; the preceding note16 continues before that instant.",
+        "required_text": ["on or after 12:01 a.m. eastern daylight time on June 8, 2026", "modified as provided in Annex IV"]
+      }
+    }
+  ]
+}

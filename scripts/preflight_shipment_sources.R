@@ -25,7 +25,10 @@ reports <- lapply(revisions,function(revision) {
       missing_general=sum(vapply(rows,function(p)is.null(p$general$expression),logical(1))),
       missing_column2=sum(vapply(rows,function(p)is.null(p$column2$expression),logical(1))),
       expressions=expressions,special_column=list(unique_fields=length(special),unparsed_complete_fields=as.list(unresolved_special),
-        qualification='Complete field parsing only. Conditional references and program eligibility are retained; this does not establish entitlement.'),
+        programme_resolution=lapply(unresolved_special,function(raw) {
+          p<-parse_shipment_special_column(raw);list(raw=raw,programme_status=p$programme_status,unresolved_regions=p$unresolved_regions)
+        }),
+        qualification='Complete-field defects remain visible. Independently unambiguous literal programme groups are retained; uncertain membership, conditional references and programme eligibility are not assumed.'),
       gn3_program_symbols=x$gn3$program_symbols)
   },error=function(e)list(revision=revision,status='unresolved_source',error=conditionMessage(e)))
 })

@@ -44,7 +44,7 @@ f<-q;f$steel_content_value<-NULL
 add('missing content blocks both amounts',f,0,missing='steel_content_value')
 f<-q;f$contains_steel<-FALSE
 add('candidate with no metal does not claim a portion',f,10,hts='8431310040',codes='9903.03.01')
-add('exact statistical exemption needs no procedural facts',list(unrelated_fixture_flag=TRUE),0,hts='8505110070',codes='9903.03.03',missing=character())
+add('exact ordinary-entry statistical exemption needs no procedural facts',list(unrelated_fixture_flag=TRUE,s122_ftz_entry=FALSE),0,hts='8505110070',codes='9903.03.03',missing=character())
 add('adjacent suffix pays 122',q,10,hts='8505110010',codes='9903.03.01')
 f<-q;f$s122_loaded_and_final_transit_before_start<-TRUE
 add('transit relief before exact cutoff',f,10,at='2026-02-28T00:00:59-05:00',codes='9903.03.02')

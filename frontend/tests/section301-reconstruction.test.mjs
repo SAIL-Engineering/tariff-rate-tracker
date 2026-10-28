@@ -2,12 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
 import {DuckDBInstance} from '@duckdb/node-api';
 import {tableFromIPC} from 'apache-arrow';
 import {registerShipmentRoutes} from '../server/shipment-routes.js';
 import {RELEASE_CONTRACT} from '../server/shipment-store.js';
 import {evaluateShipmentBundle} from '../server/generated/shipmentRules.js';
-const fixture=JSON.parse(await fs.readFile(new URL('../../tests/fixtures/shipment/section301-reconstruction.json',import.meta.url)));
+const fixture=JSON.parse(gunzipSync(await fs.readFile(new URL('../../tests/fixtures/shipment/section301-reconstruction.json.gz',import.meta.url))));
 for(const c of fixture.cases) test(`source-derived Section 301: ${c.name}`,()=>{
   const result=evaluateShipmentBundle(fixture.bundles[c.bundle],c.hts10,c.country,c.entry_at,c.facts);
   assert.equal(result.known_subtotal,c.expected.known_subtotal);

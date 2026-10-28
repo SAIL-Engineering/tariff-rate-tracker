@@ -67,3 +67,48 @@ compile_ftz_valuation <- function(root=here::here()) {
  list(formula=formula,constraints=constraints,fact_definitions=facts,sources=sources,source_artifacts=artifacts,
   compiler_sha256=digest::digest(file=file.path(root,'src/ftz_valuation.R'),algo='sha256'))
 }
+
+# Apply the current-classification clock only to ordinary/NPF merchandise.
+# The caller must substantiate that clock for its action; PF history is not
+# made current by this valuation transform. Generated AST stays interpreter-
+# neutral, and no aggregate or supplied ordinary value can override FTZ value.
+compile_current_npf_context <- function(fragment,pf_question,chapter98_question,root=here::here()) {
+ ftz<-compile_ftz_valuation(root);ids<-vapply(ftz$sources,`[[`,character(1),'id')
+ flag<-list(fact='ieepa_ftz_entry');status<-list(fact='ftz_status')
+ npf<-list(op='or',args=lapply(c('nonprivileged_foreign','recoverable_waste'),function(s)
+  list(op='eq',args=list(status,list(value=s)))))
+ current<-list(op='and',args=list(flag,npf,list(op='not',args=list(list(claim='CHAPTER_98')))))
+ question<-function(s)list(unresolved_source=s)
+ replace<-function(node) {
+  if(identical(node,list(fact='customs_value')))return(list(op='if',args=list(flag,ftz$formula,node)))
+  if(is.list(node))lapply(node,replace) else node
+ }
+ consumes_value<-function(node) {
+  if(identical(node,list(fact='customs_value')))return(TRUE)
+  is.list(node)&&any(vapply(node,consumes_value,logical(1)))
+ }
+ fragment$rules<-lapply(fragment$rules,function(r) {
+  prior<-r$when %||% list(value=TRUE)
+  r$when<-list(op='if',args=list(flag,list(op='if',args=list(npf,
+   list(op='if',args=list(list(claim='CHAPTER_98'),question(chapter98_question),prior)),question(pf_question))),prior))
+  needs_value<-consumes_value(list(r$formula,r$input_constraints))
+  r$formula<-replace(r$formula);r$input_constraints<-lapply(r$input_constraints,replace)
+  if(needs_value)for(c in ftz$constraints) {
+   c$test<-list(op='if',args=list(current,c$test,list(value=TRUE)))
+   r$input_constraints[[length(r$input_constraints)+1L]]<-c
+  }
+  r$source_ids<-as.list(sort(unique(c(unlist(r$source_ids),ids))))
+  r
+ })
+ fragment$sources<-c(fragment$sources,ftz$sources);fragment$source_artifacts<-c(fragment$source_artifacts,ftz$source_artifacts)
+ fragment$fact_definitions$ieepa_ftz_entry<-list(type='boolean',label='Entry from a foreign trade zone',source_ids=as.list(ids))
+ for(k in names(ftz$fact_definitions)) {
+  old<-fragment$fact_definitions[[k]]
+  if(!is.null(old)&&!identical(old,ftz$fact_definitions[[k]]))stop('Conflicting FTZ action input: ',k)
+  fragment$fact_definitions[[k]]<-ftz$fact_definitions[[k]]
+ }
+ fragment$compiler_dependencies$ftz_valuation<-ftz$compiler_sha256
+ fragment$ftz_context<-list(mode='ordinary_or_npf_current_classification',source_ids=as.list(ids),
+  privileged_foreign_question=pf_question,chapter98_question=chapter98_question)
+ fragment
+}

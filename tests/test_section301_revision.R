@@ -1,6 +1,11 @@
 suppressPackageStartupMessages(source('src/helpers.R'))
 source('src/section301_revision.R')
 source('src/resolve_shipment_duties.R')
+# Existing scenarios expressly test ordinary consumption, not FTZ histories.
+ordinary_301<-function(bundle,hts10,country,entry_at,facts=list()) {
+ facts$ieepa_ftz_entry<-FALSE
+ .evaluate_shipment_bundle(bundle,hts10,country,entry_at,facts)
+}
 out <- tempfile('s301-test-');dir.create(out)
 status <- system2('python3','tests/python/test_section301_sources.py',
   env=paste0('S301_TEST_OUTPUT=',shQuote(out)))
@@ -29,7 +34,7 @@ b <- list(contract_version='sail.shipment-rules/v1',dataset_version='test-source
   coverage_requirements=list('section_301'),rules=f$rules,sources=f$sources,
   fact_definitions=f$fact_definitions,claim_definitions=f$claim_definitions,coverage=list())
 evaluate <- function(code,facts=list(customs_value=100),country='5700',bundle=b)
-  .evaluate_shipment_bundle(bundle,code,country,at,facts)
+  ordinary_301(bundle,code,country,at,facts)
 source('src/compile_shipment_rules.R')
 beyond <- b;beyond$valid_until <- '2026-11-01T00:00:00-05:00'
 stopifnot(inherits(try(compose_shipment_rules(beyond,list(f)),silent=TRUE),'try-error'))
@@ -66,7 +71,7 @@ bm$valid_from<-'2025-11-08T00:00:00-05:00';bm$valid_until<-'2025-11-11T00:00:00-
 bm$rules<-fm$rules;bm$sources<-fm$sources;bm$fact_definitions<-fm$fact_definitions
 mf <- list(customs_value=100)
 for(k in names(fm$fact_definitions)) if(fm$fact_definitions[[k]]$type=='boolean') mf[[k]]<-TRUE
-mr <- function(country,when,facts=mf) .evaluate_shipment_bundle(bm,'8426190000',country,when,facts)
+mr <- function(country,when,facts=mf) ordinary_301(bm,'8426190000',country,when,facts)
 stopifnot(mr('5700','2025-11-09T12:00:00-05:00')$known_subtotal==125,
   mr('5830','2025-11-09T12:00:00-05:00')$known_subtotal==100,
   mr('5700','2025-11-10T00:01:00-05:00')$known_subtotal==25,
@@ -101,7 +106,7 @@ pump <- names(Filter(function(d) identical(d$description,'Pump casings and bodie
 stopifnot(length(pump)==1)
 claimed_pump <- claim;claimed_pump[[pump]]<-TRUE
 rr <- function(code,when='2026-07-02T12:00:00-04:00',facts=claim)
-  .evaluate_shipment_bundle(br,code,'5700',when,facts)
+  ordinary_301(br,code,'5700',when,facts)
 stopifnot(rr('8483509040')$known_subtotal==0,
   rr('8483509040',facts=list(customs_value=100))$known_subtotal==25,
   length(rr('8413919039')$missing_inputs)>1,
@@ -133,17 +138,17 @@ permuted<-fr;permuted$rules<-rev(fr$rules);permuted$sources<-c(rev(fr$sources),f
 permuted$relations<-c(rev(fr$relations),fr$relations)
 seed<-br_seed
 reordered<-compose_shipment_rules(seed,list(permuted))
-stopifnot(identical(.shipment_canonical(.evaluate_shipment_bundle(reordered,'8413919039','5700',
+stopifnot(identical(.shipment_canonical(ordinary_301(reordered,'8413919039','5700',
   '2026-07-02T12:00:00-04:00',claimed_pump)),.shipment_canonical(rr('8413919039',facts=claimed_pump))))
 bc<-bm;bc$rules<-list();bc$sources<-list();bc$fact_definitions<-list();bc$claim_definitions<-list()
 bc<-compose_shipment_rules(bc,list(fm))
 crane_fact<-names(Filter(function(d) grepl('Importer certification:',d$description %||% '',fixed=TRUE),bc$fact_definitions))
 stopifnot(length(crane_fact)==1)
 crane_claim<-mf;crane_claim$claims<-list('section301:9903.91.09');crane_claim[[crane_fact]]<-TRUE
-cr<-.evaluate_shipment_bundle(bc,'8426190000','5700','2025-11-09T12:00:00-05:00',crane_claim)
+cr<-ordinary_301(bc,'8426190000','5700','2025-11-09T12:00:00-05:00',crane_claim)
 stopifnot(cr$known_subtotal==0,length(cr$suppressed_rules)==2)
 crane_claim[[crane_fact]]<-FALSE
-stopifnot(.evaluate_shipment_bundle(bc,'8426190000','5700','2025-11-09T12:00:00-05:00',crane_claim)$known_subtotal==125)
+stopifnot(ordinary_301(bc,'8426190000','5700','2025-11-09T12:00:00-05:00',crane_claim)$known_subtotal==125)
 crane_claim[[crane_fact]]<-TRUE
 
 reduce <- function(bundle,products) {
@@ -175,9 +180,11 @@ reduce <- function(bundle,products) {
 }
 sf <- list(customs_value=100)
 for(k in names(f$fact_definitions)) if(f$fact_definitions[[k]]$type=='boolean') sf[[k]]<-TRUE
-case <- function(name,bundle,hts,country,entry,facts,amount) list(name=name,bundle=bundle,
-  hts10=hts,country=country,entry_at=entry,facts=facts,
+case <- function(name,bundle,hts,country,entry,facts,amount) {
+ facts$ieepa_ftz_entry<-FALSE
+ list(name=name,bundle=bundle,hts10=hts,country=country,entry_at=entry,facts=facts,
   expected=list(known_subtotal=amount,complete_total=NULL,status='unresolved_source'))
+}
 fixture <- list(bundles=list(current=reduce(b,c('6307909891','6307909870','8542310015')),
   maritime=reduce(bc,'8426190000'),exclusions=reduce(br,c('8483509040','8413919039','8479909591'))),cases=list(
   case('neighboring non-mask remains List 4A','current','6307909891','5700',at,list(customs_value=100),7.5),
@@ -201,7 +208,7 @@ fixture <- list(bundles=list(current=reduce(b,c('6307909891','6307909870','85423
 cf<-list(customs_value=100,claims=list('CHAPTER_98'),chapter98_properly_claimed=TRUE,
   chapter98_provision='98020040',chapter98_repairs_alterations_processing_value=30)
 add98<-function(name,facts,amount,code='8542310015',bundle='current',entry=at) {
-  result<-.evaluate_shipment_bundle(fixture$bundles[[bundle]],code,'5700',entry,facts)
+  result<-ordinary_301(fixture$bundles[[bundle]],code,'5700',entry,facts)
   if(!identical(result$known_subtotal,amount)) print(result[c('known_subtotal','missing_inputs','source_errors')])
   stopifnot(result$known_subtotal==amount,is.null(result$complete_total),result$status=='unresolved_source')
   fixture$cases[[length(fixture$cases)+1L]]<<-case(name,bundle,code,'5700',entry,facts,amount)
@@ -236,9 +243,12 @@ add98('model assumptions cannot change Chapter 98 value',x,15)
 x<-claimed_pump;x$claims<-c(x$claims,list('CHAPTER_98'))
 add98('named product exclusion survives concurrent Chapter 98 request',x,0,'8413919039','exclusions','2026-07-02T12:00:00-04:00')
 destination <- Sys.getenv('S301_CONFORMANCE_OUTPUT','')
-if(nzchar(destination)) jsonlite::write_json(fixture,destination,auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA)
-committed <- 'tests/fixtures/shipment/section301-reconstruction.json'
+if(nzchar(destination)) {
+ connection<-if(grepl('\\.gz$',destination))gzfile(destination,'w') else file(destination,'w')
+ writeLines(jsonlite::toJSON(fixture,auto_unbox=TRUE,pretty=TRUE,null='null',digits=NA),connection);close(connection)
+}
+committed <- 'tests/fixtures/shipment/section301-reconstruction.json.gz'
 if(!nzchar(destination) && file.exists(committed)) stopifnot(identical(.shipment_canonical(fixture),
-  .shipment_canonical(jsonlite::fromJSON(committed,simplifyVector=FALSE))))
+  .shipment_canonical(jsonlite::fromJSON(gzfile(committed),simplifyVector=FALSE))))
 unlink(out,recursive=TRUE)
 cat('Section 301 source reconstruction, full revision scope, temporal and shipment checks passed\n')

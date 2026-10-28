@@ -1,0 +1,58 @@
+{
+  "contract_version": "sail.primary-field-review/v1",
+  "retrieved_at": "2026-10-28T06:06:59.878780+00:00",
+  "sources": [
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSBasic&filename=Chapter%2040",
+      "pdf_sha256": "d1d0dc63a6de3c916e161c3adde2cd1741a087183928f361f8e21fc8cb2f0d39",
+      "pdf_bytes": 924757,
+      "pdf_page": 15,
+      "source_code": "4011.90.20",
+      "rendered_page": "primary/chapter40-2025HTSBasic-target.png",
+      "render_sha256": "8baa3ed37974362ba32589ee9790377a21ff5624b2cd24f77c3084916d903316",
+      "decision": "Preserve malformed source tokens. Resolve only a separately unambiguous literal programme group; unknown memberships/references remain unresolved."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSBasic&filename=Chapter%2062",
+      "pdf_sha256": "d4ed697eefc41faf105e4c165ba275379b752fa0b8ba00cfa50117807fa899c5",
+      "pdf_bytes": 1387511,
+      "pdf_page": 74,
+      "source_code": "6204.63.11",
+      "rendered_page": "primary/chapter62-2025HTSBasic-target.png",
+      "render_sha256": "f719094ab4e69d602fd6bc1365fd87aefe92b5c9fc92e70d0429a832aaf6d216",
+      "decision": "Preserve malformed source tokens. Resolve only a separately unambiguous literal programme group; unknown memberships/references remain unresolved."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSBasic&filename=Chapter%204",
+      "pdf_sha256": "04cbbb36d5d7c493bed38a67f2a6f8846cb1ce731dafd0fa597603d185db4628",
+      "pdf_bytes": 1535265,
+      "pdf_page": 65,
+      "source_code": "0406.90.94",
+      "rendered_page": "primary/chapter4-2025HTSBasic-target.png",
+      "render_sha256": "f999a5aadc4aaae5075c13ec8a2e97f32047e6bf1d473bf427d7d053f7596172",
+      "decision": "Preserve malformed source tokens. Resolve only a separately unambiguous literal programme group; unknown memberships/references remain unresolved."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSBasic&filename=Chapter%204",
+      "pdf_sha256": "c7b484389d84f80c27862f3a28c2f0ae00f9b9b0ec190c3b7a6b97151c3ae267",
+      "pdf_bytes": 1531585,
+      "pdf_page": 64,
+      "source_code": "0406.90.94",
+      "rendered_page": "primary/chapter4-2026HTSBasic-target.png",
+      "render_sha256": "45199caf6c2567fc3c60a9b953d1eb782c79c0c83764030176d3e8ce2f8b00cd",
+      "decision": "Preserve malformed source tokens. Resolve only a separately unambiguous literal programme group; unknown memberships/references remain unresolved."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2025HTSRev16&filename=Chapter%2094",
+      "pdf_sha256": "e3fa0d4c620234f570830125f126c07e6d6dc336ec833d0a1750d0568b6de8ea",
+      "pdf_bytes": 918247,
+      "pdf_page": 9,
+      "source_code": "9401.99.30.30",
+      "rendered_page": "primary/chapter94-rev16-p9.png",
+      "render_sha256": "d5b9bf79f18a1c8301c08d47ef49b9a5b29d6460888e742c2070544d9915867a",
+      "decision": "The primary PDF also contains the stranded duplicate-description line without rates; both native JSON and the published book are malformed. No rate is borrowed from9401.99.25 or9401.99.90. An authoritative correction or rate provision is required."
+    }
+  ],
+  "render_command": "pdftoppm -f PAGE -l PAGE -scale-to1800 -png -singlefile PDF TARGET",
+  "role": "Independent visual audit. These page images are retained; full public PDF byte identities are recorded. They are not new runtime dependencies or rate overrides."
+}
