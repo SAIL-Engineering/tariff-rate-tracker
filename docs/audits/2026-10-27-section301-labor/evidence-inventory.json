@@ -1,0 +1,113 @@
+{
+  "contract_version": "sail.audit-evidence-inventory/v1",
+  "artifacts": [
+    {
+      "path": "ordinary-point/delivery_cases.json.gz",
+      "sha256": "dfa520eb8d94fff0bcf90a2df289e23f00865258542eec3cfa1d41888ff8f56c",
+      "decoded_sha256": "9e4d380634bc11135ec8056f90c38995f81d554243b0cb947ad9475b4e6fd140",
+      "decoded_bytes": 145116
+    },
+    {
+      "path": "ordinary-point/rates_fixture.parquet.gz",
+      "sha256": "865411632ca181b3fc4e3f87f99fcc2032465e5c01c2206441572676562684ce",
+      "decoded_sha256": "7c9192abec3377efc4b7d466735c389ba932448d24506525e80f69e8512179a3",
+      "decoded_bytes": 72834
+    },
+    {
+      "path": "s301fl-component-comparison.json.gz",
+      "sha256": "9ae302ec45cbfb8078596b6ab3acbc48a9626826a5fd4c774a09a009cb779548",
+      "decoded_sha256": "0438a63a833efe14927759498fd63bc8b6ddde200d775378b8d1431e3008b77b",
+      "decoded_bytes": 12959
+    },
+    {
+      "path": "s301fl-corpus-inventory.json.gz",
+      "sha256": "6e6521bf10a456920c6ca1f583e2ba4ad71cc046a2c6f9ed4a1a777c3503172e",
+      "decoded_sha256": "687b5a72a5ac2755698267cba6fe3e9ba5020bfb614442cc7e9130fc6952aa1f",
+      "decoded_bytes": 487653
+    },
+    {
+      "path": "source-census/origin-resolution.json.gz",
+      "sha256": "855802098563da252f3bff1992add96670446a011b2368776bd6a341d76f22b5",
+      "decoded_sha256": "dcc9370d28bb4d212dccdad7d210fe960c1a79ffbff92267d13a7480551c963b",
+      "decoded_bytes": 2583867
+    },
+    {
+      "path": "source-census/summary.json.gz",
+      "sha256": "6839c437a60ed6fb68db16e49fc67faa8b2405b5c560769b6a09fa470da3ee8d",
+      "decoded_sha256": "af0f3fcfb1b20230628efcb7f90f2677005f3f43b2017d350ea002ab1106c5dd",
+      "decoded_bytes": 105827
+    },
+    {
+      "path": "verification/node22-with-labor-freeze-summary.json.gz",
+      "sha256": "22b8e7d04c31d7185fae4589972389d974818522cb50e15772f3e98a35931d95",
+      "decoded_sha256": "b4931498dd846c8e9aa5414313fa3c087785e1ebaabeb11ef35ae38818e02180",
+      "decoded_bytes": 4281
+    },
+    {
+      "path": "verification/node22-with-labor-freeze.log.gz",
+      "sha256": "937503806e1787a15b9454587ff284e69f8440975151e9e11a65cfe25c0a58ab",
+      "decoded_sha256": "aec6f1c406402b37ab5c4dccc123ec625e9e63c077e1bafa8b4a8b4f48980d48",
+      "decoded_bytes": 189602
+    },
+    {
+      "path": "verification/normal-with-labor-ftz-final.log.gz",
+      "sha256": "7ace1ac81b455d8b433af8c08e8349937c8ade61645f8da1c1627881bb62fd02",
+      "decoded_sha256": "c0da60c79c2c2db2f6fe2924107d225aba1fbaca80f3ea27a26009983cb8dc40",
+      "decoded_bytes": 8973
+    },
+    {
+      "path": "verification/s301fl-auto-ftz-final.log.gz",
+      "sha256": "af0a32d9ad7e4e427e2e59e21ed7aa27c0e91d3aa26297d20af0373768cc10ff",
+      "decoded_sha256": "35b0b863c93a293f3ea90c48a62db88c9b3fb523820122306beffd0e270302f0",
+      "decoded_bytes": 1554
+    },
+    {
+      "path": "verification/s301fl-delivery-ftz-final.log.gz",
+      "sha256": "b890f7e0975552fdf4721347fa86714146ddd0471fc89981c1f942ab508fb57c",
+      "decoded_sha256": "46e32843bac0458a18f7f77d7302932fa23abdbd17a386b39b1e941fb3e29193",
+      "decoded_bytes": 226
+    },
+    {
+      "path": "verification/s301fl-legal-intervals.log.gz",
+      "sha256": "9765fea9eeb9279b59d9b39a4ab9ac50a6d1118644a2c43040a8febc9b59945a",
+      "decoded_sha256": "0c22f0c7715f01d7f449df1cace5f9891db4ec9f8569c823b7edb4c20bc10eef",
+      "decoded_bytes": 873
+    },
+    {
+      "path": "verification/s301fl-node-ftz-final.log.gz",
+      "sha256": "a07a9787ddb4a5db5e20d45638d51bdaab0ebc81ace62ea8fb8dbbe56e4e1bac",
+      "decoded_sha256": "5696839901cdab5a756870fb7684de4cfd5baf76ecc4e1508b8bdb83a583cff9",
+      "decoded_bytes": 14840
+    },
+    {
+      "path": "verification/s301fl-python-all-freeze.log.gz",
+      "sha256": "301ada32708fbcd8c87632edd333d193fac1c807cc2c90cad94ca2545c9a5e7d",
+      "decoded_sha256": "1dbc05d1e5cc44c2c7312dba3a2abc656eca84d7fac7778e18cfaf7c9a0c00da",
+      "decoded_bytes": 592
+    },
+    {
+      "path": "verification/s301fl-python-ftz-final.log.gz",
+      "sha256": "1ae82f3d07b43f1020fa6f62a260b4047cc76e4ccc0df913c9fdbf0f567040bf",
+      "decoded_sha256": "8073ec615e62a1432f4de9111f2080707c8712dc6eb1edce5fe54c7471e35c9d",
+      "decoded_bytes": 98
+    },
+    {
+      "path": "verification/s301fl-r-ftz-final.log.gz",
+      "sha256": "5279fec56ff4e30d72d8caeac22a45ebb250a45f529fcb117ad58510138b8136",
+      "decoded_sha256": "3e65b0aeeb4cc8e3fa469dbb4179eafcf20bd15a2fb94a9a74c03a0b7eb6c27f",
+      "decoded_bytes": 577
+    },
+    {
+      "path": "verification/s301fl-rates.log.gz",
+      "sha256": "59e904fdaeeab40a55b493dd7cb34365fec4bf8f1623308c1f1b9a3e739d340c",
+      "decoded_sha256": "1385684534d7ec451cda1d550ae29ad9480ed357bc4812462df6b152a31714ce",
+      "decoded_bytes": 17163
+    },
+    {
+      "path": "verification/s301fl-source-census-ftz-final.log.gz",
+      "sha256": "0fa050dffca1513bef71c237dd28667e707e536465286839ced9494b81e1dc29",
+      "decoded_sha256": "327118a05e0f9061cbbcd620caea7ec39babb2e3d23294834023c2bba946ed9e",
+      "decoded_bytes": 4004
+    }
+  ]
+}

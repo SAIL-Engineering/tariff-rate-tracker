@@ -212,6 +212,8 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
     if(!exists('load_reciprocal_scope',mode='function')) source(here::here('src/ieepa_reciprocal_revision.R'))
     source_events$reciprocal_scope <- load_reciprocal_scope(revision_id)$history
     source_events$reciprocal_policy <- load_reciprocal_legal_events()
+    if(!exists('load_s301_labor_history',mode='function')) source(here::here('src/section301_labor.R'))
+    source_events$forced_labor_policy <- load_s301_labor_history()
     if(!exists('load_s232_legacy_source',mode='function')) source(here::here('src/section232_legacy.R'))
     source_events$section232_legacy <- load_s232_legacy_source(revision_id)
   }

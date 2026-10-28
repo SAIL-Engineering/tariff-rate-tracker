@@ -1,0 +1,52 @@
+{
+  "contract_version": "sail.section301-forced-labor-interaction-review/v1",
+  "review": "Original note52(f)(1)-(7) and AnnexI B(2)(c)(8); qualified article roles retained; no positive-duty test.",
+  "items": {
+    "1": {
+      "sha256": "ad1ff9e076698b12ad256456044eed315f32ef7e2cfb62bcfc897d4c9c569a5e",
+      "role": "metals",
+      "qualified_codes": {}
+    },
+    "2": {
+      "sha256": "dc9f55e7dd12274bbaf5f84576b02cc16054fac85a45165f1e025600b3d1ae57",
+      "role": "passenger_vehicles",
+      "qualified_codes": {
+        "9903.94.02": "s232_auto_approved_us_content"
+      }
+    },
+    "3": {
+      "sha256": "7e2a3ba06cefd80a0d764316f975c77fd68827b7c746f2bb1a65971403c306a6",
+      "role": "passenger_vehicle_parts",
+      "qualified_codes": {
+        "9903.94.06": "s232_usmca_auto_parts_not_kits"
+      }
+    },
+    "4": {
+      "sha256": "1c189c173bc696d706588d220b52325bd786cd4d3149c08a68ddecd99d459093",
+      "role": "wood",
+      "qualified_codes": {}
+    },
+    "5": {
+      "sha256": "89d66188cfffedd089ffffc1973dea75c41468dd408ce15c3df3c9b4e803d7b7",
+      "role": "medium_heavy_vehicles",
+      "qualified_codes": {}
+    },
+    "6": {
+      "sha256": "d26860e37d6c2f087717876b1f9bfbc09dd193ae056c55448c1707139d2716f7",
+      "role": "medium_heavy_parts",
+      "qualified_codes": {
+        "9903.74.10": "s232_usmca_mhd_parts_not_kits"
+      }
+    },
+    "7": {
+      "sha256": "fb472a5393942d3c57de5cb1dae099343a4375f5e3ba8bbd5cc6df2a5484f77d",
+      "role": "semiconductors",
+      "qualified_codes": {}
+    },
+    "8": {
+      "sha256": "5a3a3e3407f29edbdee52dd6b7fc755dace1d11cede24bdd649cb2a3dc7012ad",
+      "role": "patented_pharmaceuticals",
+      "qualified_codes": {}
+    }
+  }
+}

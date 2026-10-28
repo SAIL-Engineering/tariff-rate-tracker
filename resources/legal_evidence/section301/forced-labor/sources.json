@@ -1,0 +1,35 @@
+{
+  "contract_version": "sail.section301-forced-labor-evidence/v1",
+  "sources": [
+    {
+      "id": "USTR-2026-forced-labor-final-pdf",
+      "role": "original_pdf",
+      "path": "resources/legal_evidence/section301/forced-labor/ustr-final.pdf",
+      "sha256": "589ec037c92df201c04e0698672eac2217fe3b68458b43b03ac52fea97e78638",
+      "url": "https://ustr.gov/sites/default/files/files/Press/Releases/2026/FLIP%20301%20Investigation%20Final%20Action%20FRN%207-23-26%20FINAL.pdf",
+      "citation": "USTR July23 final action: AnnexI original heading/note52 insertions and July31 amendment; prepublication original tables"
+    },
+    {
+      "id": "USTR-2026-forced-labor-final-layout",
+      "role": "original_layout",
+      "path": "resources/legal_evidence/section301/forced-labor/ustr-final-layout.txt.gz",
+      "sha256": "d2c28f5c7f8d591bc0626e88134bcb9ca2b5b027681b54c9f5095c3d41fd35ca",
+      "url": "https://ustr.gov/sites/default/files/files/Press/Releases/2026/FLIP%20301%20Investigation%20Final%20Action%20FRN%207-23-26%20FINAL.pdf",
+      "citation": "pdftotext -layout of USTR original final action; exact operative tables, not aggregate CSVs"
+    },
+    {
+      "id": "FR-2026-15181-forced-labor-notice",
+      "role": "published_notice",
+      "path": "resources/legal_evidence/section301/forced-labor/published-notice.txt",
+      "sha256": "d3f85a757eca6f7ea331fb2cb38aa02ef9c7c0a2db132e00d23b2c66790e7942",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-28/html/2026-15181.htm",
+      "citation": "91FR47318, AnnexI A(2), note52(f), and B: published original clauses and July31 amendment"
+    }
+  ],
+  "published_pdf": {
+    "url": "https://www.govinfo.gov/content/pkg/FR-2026-07-28/pdf/2026-15181.pdf",
+    "sha256": "3c1e16a61af26b2a53b5d42f8b38e8e6a4f93f93a92238aba1f96026cdd45557",
+    "bytes": 25556467,
+    "limitation": "Image tables are not independently machine-readable. USTR final tables are retained; published textual operative clauses are independently reconciled."
+  }
+}

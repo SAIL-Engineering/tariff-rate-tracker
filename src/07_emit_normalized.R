@@ -1289,6 +1289,9 @@ emit_normalized_revision <- function(
   if(is.null(reciprocal) && grepl('^202[56]_',revision_id))
     stop('Missing original-annex reciprocal scope in normalized state')
   decisions <- reciprocal_scope_decisions(reciprocal,products$hts10)
+  source(here::here('src/section301_labor.R'))
+  write_rule_fragment(compile_s301_labor_fragment(revision_id,executable_products),
+    'section301_forced_labor_rules.json')
   .write_parquet_safe(decisions,file.path(output_dir,revision_id,'ieepa_reciprocal_scope_decisions.parquet'))
   if(!is.null(reciprocal)) {
     jsonlite::write_json(reciprocal,file.path(output_dir,revision_id,'ieepa_reciprocal_source.json'),auto_unbox=TRUE,null='null',digits=NA)

@@ -1,0 +1,98 @@
+{
+  "contract_version": "sail.audit-verification/v1",
+  "base_sha": "51e3763bc140951439e044a52cbe7c971ebcde12",
+  "branch": "wjr_dev",
+  "python_tests": 460,
+  "python_final_affected_tests": 5,
+  "node_tests": 832,
+  "node_full_sweep_before_final_ftz_cases": 830,
+  "node_final_affected_tests": 58,
+  "node_method": "All test modules executed directly with Node22.22.3: full830 sweep plus final58 affected conformance cases after adding two FTZ cases. Unchanged modules account for774 cases.",
+  "r_rate_tests": 151,
+  "r_controlled_interaction_tests": 50,
+  "r_actual_auto_composition_tests": 8,
+  "r_legal_interval_gate": "passed",
+  "source_census": {
+    "revisions": 55,
+    "conflicts": 0,
+    "investigations": 60,
+    "census_origins": 86,
+    "charge_headings": 65,
+    "original_headings": 101,
+    "other_unpriced_reporting_provisions": 35,
+    "rates_calculated": false,
+    "independent_published_image_table_cell_reconciliation": false
+  },
+  "point_serving_checks": {
+    "grid_cells": 1,
+    "requests": 2,
+    "component_exemption": true,
+    "complete_total": null,
+    "checks": [
+      "ordinary Parquet and normalized relationship checks",
+      "R/TypeScript",
+      "local DuckDB",
+      "JSON",
+      "Arrow",
+      "batch",
+      "dataset invalidation",
+      "bundle tampering"
+    ]
+  },
+  "motherduck": {
+    "access_mode": "READ_ONLY",
+    "new_writes": false,
+    "observation_rows": 275,
+    "observation_revisions": 55,
+    "observation_inventory": "../2026-10-27-civil-aircraft/motherduck/cases.json.gz",
+    "decoded_observation_sha256": "9ae896739b43e9f9b5583765574b8640f74a16b799ae16e2d50ff742a9602a2c",
+    "new_trade_intel_inventory": "s301fl-corpus-inventory.json.gz",
+    "complete_totals_comparable": false
+  },
+  "commands": [
+    "python3 -m pytest tests/python -q",
+    "python3 -m pytest tests/python/test_section301_labor.py -q",
+    "Rscript tests/test_s301_labor_interactions.R --emit",
+    "Rscript tests/test_s301_labor_auto_composition.R --emit",
+    "Rscript tests/test_rate_calculation.R",
+    "Rscript tests/test_legal_intervals.R",
+    "node22: execute frontend/tests/*.test.mjs directly and inspect individual TAP counts",
+    "node22 frontend/tests/shipment-section301-labor.test.mjs",
+    "python3 scripts/audit_section301_labor_policy.py --out /tmp/shipment-legal-review-20261027/s301fl-source-census-ftz-final",
+    "AIRCRAFT_PIPELINE_EXPORT=/tmp/shipment-legal-review-20261027/normal-with-labor-ftz-final Rscript tests/test_s232_civil_aircraft_pipeline.R",
+    "node22 frontend/scripts/check-normal-shipment-fixture.mjs --fixture /tmp/shipment-legal-review-20261027/normal-with-labor-ftz-final"
+  ],
+  "source_pins": {
+    "src/section301_labor.py": "153bc64869ab90b83e81e32f42d40bf28cf365f5d8706bec6c45e7e8676ff4fa",
+    "src/section301_labor.R": "8b9df51252d90dc2acc65ab58c0e3a2a0b85c32cad104f19878a0257dbeb7949",
+    "src/07_emit_normalized.R": "db11f1ab385684d1e6eeda593a8891cc5f9d62821d109578bd648f90ab423903",
+    "src/legal_intervals.R": "d67872011106189ce100cc389fc28c9ffc945e2edcc9089541f3fc6a014c612f",
+    "scripts/audit_section301_labor_policy.py": "98ffdbd8eb002796d9e57f6bd3bdf24d0d77aebba7ef7dce880e23417c98d34a",
+    "resources/legal_evidence/section301/forced-labor/ustr-final.pdf": "589ec037c92df201c04e0698672eac2217fe3b68458b43b03ac52fea97e78638",
+    "resources/legal_evidence/section301/forced-labor/sources.json": "ced02ef539f8583f3ffb59cb7095f1f0f6e269e8f83ca1677ebabfede446cbc6",
+    "resources/legal_evidence/section301/forced-labor/reviewed-interactions.json": "39b79f009da943b05705981f355bea1ba3c185416216b3a1fe9355efe594c941",
+    "resources/legal_evidence/section301/forced-labor/published-notice.txt": "d3f85a757eca6f7ea331fb2cb38aa02ef9c7c0a2db132e00d23b2c66790e7942",
+    "resources/legal_evidence/section301/forced-labor/ustr-final-layout.txt.gz": "d2c28f5c7f8d591bc0626e88134bcb9ca2b5b027681b54c9f5095c3d41fd35ca",
+    "tests/fixtures/shipment/section301-labor-interactions.json.gz": "94180ce51d1bf012ffb3345b87af71b321107117cfc904414f6112bb822a7c2e",
+    "tests/fixtures/shipment/section301-labor-auto.json.gz": "93e5a8594a4789a2c2d27bc9313be41ed8dd82d6c1bfcec9d75d58d32c5f47c1"
+  },
+  "full_R_gate": {
+    "status": "not_qualified",
+    "reason": "Previously unsuccessful: missing/stale normalized artifacts and absent TPC input; not represented as passing or rerun here."
+  },
+  "gate_scope": "Full Python and Node sweeps preceded the final FTZ guard. Changed module and all58 source-conformance cases were rerun after it, followed by a fresh all55 source census and ordinary Parquet/DuckDB/API point check.",
+  "legal_coverage_complete": false,
+  "production_qualified": false,
+  "timeseries_rebuild_run": false,
+  "revision_rebuild_run": false,
+  "live_motherduck_modified": false,
+  "release_activated": false,
+  "pushed": false,
+  "aggregate_differences": "Not qualified; no series rebuilt.",
+  "remaining": [
+    "Remaining forced-labor annex, origin/claim, cap, Chapter98 and FTZ decisions, plus subsequent TRQ implementation",
+    "Brazil action and broader authority/claim/source inventories",
+    "AD/CVD and remaining consumers/release integration",
+    "Existing aggregate Section201 schedule, max-empty parse and denormalization warnings in retained point log"
+  ]
+}
