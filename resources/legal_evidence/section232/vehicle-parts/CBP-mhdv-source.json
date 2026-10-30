@@ -1,0 +1,9 @@
+{
+  "id": "CBP-mhdv-FAQ-vehicle-parts",
+  "path": "resources/legal_evidence/section232/vehicle-parts/CBP-mhdv-FAQ.txt",
+  "sha256": "a120aff37006a556f9ef57ecc92f52ab91e0d725549d787b5421fc12743ad336",
+  "url": "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-mhdv",
+  "citation": "CBP additional Section232 FAQ: USMCA treatment explicitly includes importer-certified production/repair parts. Current interpretive page, not an independent amendment clock.",
+  "retrieved_at": "2026-10-28",
+  "method": "gstack browse text"
+}

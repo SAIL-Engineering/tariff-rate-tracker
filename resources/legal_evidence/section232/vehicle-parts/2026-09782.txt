@@ -1,0 +1,495 @@
+[Federal Register Volume 91, Number 94 (Friday, May 15, 2026)]
+[Notices]
+[Pages 27914-27918]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2026-09782]
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+International Trade Administration
+[Docket No. 260506-0125]
+RIN 0625-XC060
+Amending the Procedures To Administer Import Adjustment Offset
+Amounts for Certain Imports of Automobile Parts Under Proclamation
+10908 To Include Medium- and Heavy-Duty Vehicle Parts
+AGENCY: International Trade Administration, U.S. Department of
+Commerce.
+ACTION: Notice.
+-----------------------------------------------------------------------
+SUMMARY: On June 13, 2025, the International Trade Administration
+published a Notice titled ``Procedures To Administer Import Adjustment
+Offset Amounts for Certain Imports of Automobile Parts Under
+Proclamation 10908, as Amended'' (June 13 Notice), which established
+procedures for automobile manufacturers to apply for and use the import
+adjustment offset amount established by Presidential Proclamation 10925
+of April 29, 2025, ``Amendments to Adjusting Imports of Automobiles and
+Automobile Parts Into the United States'' to incentivize domestic
+automobile production and reduce American reliance on imports of
+foreign automobiles and their parts. This notice amends those
+procedures consistent with the amendments to Proclamation 10925 set
+forth in Presidential Proclamation 10984 of October 17, 2025,
+``Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and
+Heavy-Duty Vehicle Parts, and Buses Into the United States''. This
+notice also amends those procedures to allow domestic manufacturers of
+Medium- and Heavy-Duty Vehicles (MHDV) to claim import adjustment
+offsets for imports of MHDV parts (MHDVPs) and automobile parts in a
+manner consistent with Proclamation 10984. The procedures exclude
+certain heavy-duty vehicle assembly operations determined to be
+``limited production operations'' from being considered in the
+calculation of offsets, and notes that these procedures will be amended
+to exclude limited production operations for automobiles and medium-
+duty vehicles at a later date. This notice replaces the procedures set
+forth in ITA's June 13 Notice. The import adjustment offset process
+will be amended at a later date to establish an equivalent process for
+domestic manufacturers of automobile engines and MHDV engines, as
+provided for in Proclamation 10984.
+DATES: Applications from domestic manufacturers of MHDVs can be
+submitted starting May 15, 2026. Domestic manufacturers of automobiles
+may continue to submit applications at the address below.
+ADDRESSES: Offset applications must be submitted electronically to:
+autooffset@trade.gov.
+FOR FURTHER INFORMATION CONTACT: Emily Davis, Director for Public
+Affairs, International Trade Administration, U.S. Department of
+Commerce, 202-482-3809, Emily.Davis@trade.gov.
+SUPPLEMENTARY INFORMATION:
+I. Background
+On March 26, 2025, the President issued Proclamation 10908, finding
+that imports of automobiles (defined as passenger vehicles (sedans,
+sport utility vehicles, crossover utility vehicles, minivans, and cargo
+vans) and light trucks) and certain automobile parts continue to
+threaten to impair the national security of the United States and
+imposing specified tariffs to adjust imports of automobiles and certain
+automobile parts so that such imports will not threaten to impair
+national security pursuant to section 232 of the Expansion Act of 1962,
+as amended (19 U.S.C. 1862) (90 FR 14705). Proclamation 10908 imposed a
+25 percent tariff on certain imports of automobiles, effective April 3,
+2025, and certain imports of automobile parts, effective May 3, 2025.
+On April 29, 2025, the President issued Proclamation 10925, which
+allowed for automobile manufacturers assembling automobiles in the
+United States to apply for an import adjustment offset amount, which
+would offset certain tariff liability under Proclamation 10908 on
+imports of automobile parts (90 FR 18899). Proclamation 10925 required
+the Secretary of Commerce (Commerce) to establish a process by which
+automobile manufacturers may submit documentation supporting
+eligibility for an import adjustment offset amount. Commerce
+established an import adjustment offset process through the June 13
+Notice ``Procedures To Administer Import Adjustment Offset Amounts for
+Certain Imports of
+[[Page 27915]]
+Automobile Parts Under Proclamation 10908, as Amended'' (90 FR 25027)
+(Offset Process).
+On October 17, 2025, the President issued Proclamation 10984,
+finding that imports of MHDVs, certain MHDVPs, and buses threaten to
+impair the national security of the United States and imposing
+specified tariffs to adjust imports of MHDVs, certain MHDVPs, and buses
+so that such imports will not threaten to impair national security, and
+imposing a 25 percent tariff on certain imports of MHDVs and MHDVPs,
+effective November 1, 2025 (90 FR 48451). Under Proclamation 10984,
+buses and other vehicles classified in Harmonized Tariff Schedule of
+the United States (HTSUS) heading 8702 are subject to a 10 percent
+tariff. Given the ``close connections and overlap between part
+suppliers'' for the automobile industry and the MHDV industry,
+Proclamation 10984 also amends Proclamation 10925 to conform certain
+aspects of the tariff system imposed by Proclamations 10908 and 10925
+for automobiles and automobile parts to the tariff system imposed by
+Proclamation 10984.
+Proclamation 10984 allowed MHDV manufacturers assembling MHDVs in
+the United States to apply for an import adjustment offset amount,
+which would offset certain tariff liability under Proclamation 10984 on
+imports of MHDVPs. Proclamation 10984 required Commerce to establish a
+process by which MHDV manufacturers may submit documentation supporting
+eligibility for an import adjustment offset amount. This notice amends
+the Offset Process to allow domestic manufacturers of MHDVs to apply
+for and receive import adjustment offsets, including application,
+documentation, and certification requirements, eligibility conditions,
+and coordination with U.S. Customs and Border Protection (CBP).
+Commerce is still considering if and how the Offset Process should
+apply to manufacturers based on bus production; no determination
+regarding the availability of such offsets has yet been made. The
+Offset Process procedures set forth in this notice replace the Offset
+Process procedures set forth in the June 13 Notice.
+Proclamation 10984 authorized Commerce to issue regulations and
+guidance consistent with that proclamation, including to address
+operational necessity. Commerce has determined that, in light of the
+``close connections and overlap between part suppliers'' for the
+automobile industry and the MHDV industry identified in Proclamation
+10984, and the fact that the President found that conforming the tariff
+systems between automobiles and MHDVs will more effectively address the
+threat to national security found in Proclamations 10908 and 10984, it
+is necessary to allow MHDV manufacturers assembling MHDVs in the United
+States to apply for an import adjustment offset amount for automobile
+parts as well as for MHDVPs, allowing them to offset tariff liability
+under both Proclamation 10984 and Proclamation 10908. Similarly,
+Commerce has determined that, in light of that close connection, it is
+necessary to allow automobile manufacturers assembling automobiles in
+the United States to apply for an import adjustment offset amount for
+MHDVPs as well as for automobile parts, allowing them to offset tariff
+liability under both Proclamation 10908 and Proclamation 10984.
+Proclamation 10984 also provides Commerce with the authority to
+prohibit MHDV manufacturers from using offset amounts for imports of
+products where offsets would be inconsistent with addressing the threat
+to the national security found in that Proclamation. Through
+Proclamation 10984, for MHDV, the President sought to strengthen supply
+chains, bolster industrial resilience, create high-quality jobs that
+will expand the skilled workforce in the United States, and increase
+domestic capacity utilization and U.S. MHDV market share. Similarly,
+for automobiles, Proclamation 10925 expressed the goals of reducing
+reliance on foreign manufacturing and importation of automobiles and
+automobile parts, strengthening U.S. vehicle assembly operations,
+shifting manufacturing activity into the United States, creating jobs
+in the automotive industry, and ensuring that other benefits of
+production are concentrated in the United States.
+In light of these goals, Commerce found that it is appropriate to
+exclude assembly operations determined to be ``limited production
+operations'' from being considered in the calculation of offsets.
+Commerce also found that what should be determined to be ``limited
+production operations'' should be determined in light of the
+manufacturing processes for that particular class of vehicles.
+With respect to heavy-duty vehicles (vehicles in Classes 7 and 8,
+as defined in 49 CFR 565.15), Commerce has determined that production
+operations in the United States that rely on imported chassis, chassis
+gliders, chassis with engine, or engines, should be considered to be
+limited production operations. Heavy-duty vehicles are large enough to
+allow for separate components to be fully assembled elsewhere,
+imported, and bolted together to make a finished heavy-duty vehicle,
+and this type of limited production operation does not forward the
+national security goals of Proclamation 10984. Therefore, heavy-duty
+vehicle production that includes incorporating an imported chassis,
+chassis glider, chassis with engine, or engine in the vehicle, is not
+eligible for offsets under the Offset Process.
+Commerce is not applying this definition of limited production
+operations to automobiles (including light-duty trucks classifiable in
+the HTSUS subheadings listed in Part A of Annex I to Proclamation
+10908) and medium-duty vehicles (Classes 3, 4, 5, and 6 as defined in
+49 CFR 565.15) vehicles because of the significant differences in the
+manufacturing operations between those vehicles and heavy-duty vehicles
+(Class 7 and 8); manufacturing operations for these different classes
+of vehicles are fundamentally different. Processes differ in terms of
+scale of production, number and type of significant components sourced
+from outside parties, type of assembly activity conducted and the state
+of the vehicles when they leave the production line. Because of these
+differences, it is appropriate to limit the determination above
+regarding what should be considered ``limited production operations''
+to heavy-duty vehicles.
+Commerce is not restricting offsets for automobiles and medium-duty
+vehicles on the basis of ``limited production operations'' at this time
+as Commerce is still considering what assembly operations for these
+vehicles should be considered to be ``limited production operations.''
+Commerce will further consider this issue and amend the Offset Process
+at a later date once it makes a determination. As part of this
+consideration, Commerce will review information submitted with offset
+applications with respect to current vehicle assembly operations in the
+United States.
+Section 3 of Proclamation 10925 states that Commerce, ``in
+consultation with the Secretary of the Treasury and the Commissioner of
+CBP, shall issue such regulations, guidance, and procedures as
+necessary to carry out the provisions of this proclamation and
+Proclamation 10908, and may establish standards for . . . validating
+manufacturer certifications.'' To validate MHDV and automobile
+manufacturer certifications used to calculate offsets provided in
+preceding years, the Secretary has determined that
+[[Page 27916]]
+it is necessary for U.S. manufacturers to provide details on their
+production, including vehicles produced and the value of those vehicles
+produced, from any preceding year in which they claimed an offset.
+Should an applicant produce fewer vehicles or produce vehicles at a
+lower value than projected in information provided to Commerce in
+previous Offset Process applications, Commerce may adjust the following
+year's offset amount accordingly.
+Proclamation 10984 also requires Commerce to establish an offset
+process for MHDV engine manufacturers and an offset process for
+automobile engine manufacturers equivalent to the processes for
+manufacturers of MHDVs and automobiles. Commerce will publish a Federal
+Register notice amending the Offset Process to allow such offsets at a
+later date. In light of these separate offsets, Commerce has determined
+that the cost of engines incorporated into an automobile or MHDV should
+not be included in the calculation of the aggregate value of MHDVs or
+automobiles assembled in the United States by a manufacturer.
+II. Application Process
+A. Import Adjustment Offset Amount Structure and Duration
+Proclamation 10984 provides that MHDV manufacturers are eligible
+for an import adjustment offset amount equal to 3.75 percent of the
+aggregate value of all MHDVs assembled in the United States by that
+manufacturer, as determined annually by Commerce, from November 1,
+2025, through October 31, 2030. The relevant annual periods are:
+MHDVs assembled between November 1, 2025, and October 31,
+2026;
+MHDVs assembled between November 1, 2026, and October 31,
+2027;
+MHDVs assembled between November 1, 2027, and October 31,
+2028;
+MHDVs assembled between November 1, 2028, and October 31,
+2029; and
+MHDVs assembled between November 1, 2029, and October 31,
+2030.
+Proclamation 10984 also provides that automobile manufacturers are
+eligible for an import adjustment offset equal to 3.75 percent of the
+aggregate Manufacturer's Suggested Retail Price (MSRP) of all
+automobiles assembled in the United States by that manufacturer, as
+determined annually by Commerce, from April 5, 2025, through April 30,
+2030. The relevant annual periods are:
+Automobiles assembled between April 5, 2025 and April 30,
+2026;
+Automobiles assembled between May 1, 2026, and April 30,
+2027;
+Automobiles assembled between May 1, 2027, and April 30,
+2028;
+Automobiles assembled between May 1, 2028, and April 30,
+2029; and
+Automobiles assembled between May 1, 2029, and April 30,
+2030.
+Import adjustment offset amounts may be used by MHDV manufacturers
+to reduce tariffs on MHDVPs provided for in Proclamation 10984 or
+tariffs on automobile parts provided for in Proclamation 10908, as
+amended, and may be carried forward indefinitely until fully exhausted,
+provided they were granted based on qualifying MHDVs assembled between
+November 1, 2025 and October 31, 2030. Similarly, import adjustment
+offset amounts may be used by automobile manufacturers to reduce
+tariffs on MHDVPs provided for in Proclamation 10984 or tariffs on
+automobile parts provided for in Proclamation 10908, and may be carried
+forward indefinitely until fully exhausted, provided they were granted
+based on qualifying automobiles assembled between April 5, 2025 and
+April 30, 2030.
+For purposes of this notice:
+``MHDVPs'' means the articles subject to duties under
+Proclamation 10984 and classified under the subheadings of the
+Harmonized Tariff Schedule of the United States (HTSUS) that were
+established by Proclamation 10984 in U.S. note 38(i) of subchapter III
+of chapter 99 of the HTSUS, or goods entered under a tariff heading
+subject to Proclamation 10984, based on a certification by the importer
+of record that such parts will be used for MHDV production or repair
+activity in the United States.
+``Automobile parts'' means the articles subject to duties
+under Proclamation 10908 and classified under the subheadings of the
+HTSUS that were established by that proclamation, in U.S. note 33(g) of
+the HTSUS, or goods entered under a tariff heading subject to
+Proclamation 10908, as amended, based on the appropriate certification
+by the importer of record that such parts will be used in automobile
+production or repair activity in the United States.
+``MHDV'' means articles that would be subject to duties
+under Proclamation 10984 and classified under the subheadings of the
+HTSUS that were established by that proclamation in U.S. note 38(b) of
+subchapter III of chapter 99 of the HTSUS. This definition includes
+both ``medium-duty vehicles'' and ``heavy-duty vehicles,'' as described
+below.
+``Medium-duty vehicle'' means a subcategory of MHDVs
+classified in Class 3 through Class 6 as defined in 49 CFR 565.15 with
+a gross vehicle weight of 10,001 pounds to 26,000 pounds.
+``Heavy-duty vehicle'' means a subcategory of MHDVs
+classified in Class 7 and 8 as defined in 49 CFR 565.15 with a gross
+vehicle weight of 26,001 pounds and above.
+``Automobile'' means articles that would be subject to
+duties under Proclamation 10908 and classified under the subheadings of
+the HTSUS that were established by that proclamation in U.S. note 33(b)
+of subchapter III of chapter 99 of the HTSUS. This definition includes
+light-duty trucks classifiable in the HTSUS subheadings listed in Part
+A of Annex I to Proclamation 10908 with a gross vehicle weight under
+10,000 pounds.
+B. Application Requirements
+Manufacturers seeking an import adjustment offset amount must
+submit the following documentation for each period for which an import
+adjustment offset amount is sought. For MHDV manufacturers, this
+requires submission of one set of documentation for the period of
+November 1, 2025 through October 31, 2026; and separate sets of
+documentation for each of the periods of November 1, 2026 through
+October 31, 2027; November 1, 2027 through October 31, 2028; November
+1, 2028 through October 31, 2029; and November 1, 2029 through October
+31, 2030. For automobile manufacturers, this requires submission of one
+set of documentation for each period of April 5, 2025 through April 30,
+2026; May 1, 2026 through April 30, 2027; May 1, 2027 through April 30,
+2028; May 1, 2028 through April 30, 2029; and May 1, 2029 through April
+30, 2030.
+Automobile manufacturers that have already submitted documentation
+covering April 5, 2025 through April 30, 2026 are not required to
+submit a revised offset application. However, automobile manufacturers
+who have already submitted documentation covering periods from May 1,
+2026 and onward must resubmit documentation, given changes to the
+Offset Process.
+1. Production Forecast:
+a. For MHDVs: The number of completed MHDVs projected to be
+produced in the United States by make and model and the plant locations
+where the projected MHDVs will undergo final production during each
+reporting period. MHDV manufacturers shall also describe the U.S.
+manufacturing activities for each model
+[[Page 27917]]
+at each plant location. For heavy-duty vehicles, the manufacturer's
+production forecast shall not include models where production includes
+the incorporation of an imported chassis, chassis glider, chassis with
+engine, or engine. Manufacturers of medium-duty vehicles must provide
+the gross weight of the vehicle they seek to include in their
+production forecast, and may include in their production forecast
+operations that include the incorporation of an imported chassis,
+chassis glider, chassis with engine, or engine for the identified
+medium-duty vehicle; however, manufacturers of medium-duty vehicles
+must still report U.S. manufacturing activities for each model at each
+plant location, including the location where each part identified as
+super-core and listed in Column 1 of Table A.2 of the Appendix to
+Chapter 4 of the U.S.-Mexico-Canada Agreement (USMCA) is incorporated
+into the finished medium-duty vehicle, and the country of origin for
+each part. Manufacturers of MHDVs that rely on third parties to conduct
+final vehicle upfitting of MHDVs in order to produce specialty
+vocational MHDVs may report the projected number of MHDVs to be
+produced in the United States prior to the third party upfitting the
+MHDV into a specialty vocational MHDV, so long as the MHDV manufacturer
+relied on such third party upfitters in the ordinary course of trade
+prior to November 1, 2025. Third parties that do not assemble MHDVs but
+instead procure MHDVs from MHDV manufacturers and conduct final vehicle
+upfitting of MHDVs in order to produce specialty vocational MHDVs are
+not eligible to receive offsets under the Offset Process.
+b. For Automobiles: The number of automobiles projected to be
+produced in the United States by make and model and the plant locations
+where the projected automobiles will undergo final production during
+each reporting period. Automobile manufacturers shall also describe the
+U.S. manufacturing activities for each model at each plant location,
+including the location where each part identified as super-core and
+listed in Table A.2 of the Appendix to Chapter 4 of the USMCA is
+incorporated into the finished automobile and the country of origin for
+each part.
+2. Vehicle Value:
+a. For MHDVs: The aggregate value of all such MHDVs identified in
+the Production Forecast as eligible for an offset assembled in the
+United States during each reporting period. The aggregate value shall
+not include the cost (if purchased from a third party) or value (if
+manufactured by the MHDV producer) of the engine contained in the MHDV;
+manufacturers must calculate the aggregate value using whichever of the
+following three valuation methods they used in the ordinary course of
+trade prior to November 1, 2025: MSRP, Dealer Net Cost, or Factory List
+Price. In calculating the cost of an engine purchased from a third
+party, manufacturers should use the price paid on the sale from the
+engine manufacturer to the MHDV manufacturer. In calculating the value
+of an engine that was not purchased from a third party, manufacturers
+should use a methodology consistent with the method for calculating net
+cost set out in Chapter 4 of the USMCA.
+b. For Automobiles: The aggregate MSRP value of all such
+automobiles identified in the Production Forecast as eligible for an
+offset assembled in the United States during each reporting period. For
+documentation covering production forecasts for May 1, 2026 and later,
+manufacturers must deduct the cost (if purchased from a third party) or
+value (if manufactured by the automobile producer) of the engine
+contained in the automobile from this MSRP value. In calculating the
+cost of the engine purchased from a third party, manufacturers should
+use the price paid on the sale from the engine manufacturer to the
+automobile manufacturer. In calculating the value of the engine,
+manufacturers should determine value using the net cost methodology set
+forth in Chapter 4 of the USMCA. Manufacturers are not required to
+deduct the cost or value of the automobile engine for documentation
+covering the April 5, 2025 through April 30, 2026 period.
+3. Prior Year Production and Vehicle Value:
+a. For MHDVs: If a manufacturer received an offset in the previous
+year, the manufacturer must provide the number of completed MHDVs
+produced in the United States in the previous reporting period, the
+aggregate value of those MHDVs, and a description of the U.S.
+manufacturing activities for each model at each plant location. In
+providing these figures, manufacturers must use the eligibility
+considerations and vehicle value methodology used in the prior year's
+application.
+b. For Automobiles: If a manufacturer received an offset in the
+previous year, the manufacturer must provide the number of automobiles
+produced in the United States in the previous reporting period and the
+aggregate MSRP value of those automobiles. In providing these figures,
+manufacturers must use the same production calculation and vehicle
+value methodology used in the prior year's application.
+4. Tariff Liability Estimate:
+a. For MHDVs: Projected MHDV and MHDVPs tariff liability under
+clauses 1, 7, and 12 of Proclamation 10984, broken down by Proclamation
+10984 tariff costs the manufacturer will incur directly and
+Proclamation 10984 tariff costs the manufacturer's suppliers will
+incur. These estimates should not include the tariff liability for MHDV
+engines or parts used in the manufacture of MHDV engines.
+b. For Automobiles: Projected automobiles and automobile parts
+tariff liability under Proclamation 10908 or under clause 12 of
+Proclamation 10984, broken down by tariff costs the manufacturer will
+incur directly and tariff costs the manufacturer's suppliers will
+incur. These estimates should not include the tariff liability for
+automobile engines or parts used in the manufacture of automobile
+engines.
+5. Offset Calculation:
+a. For MHDVs and Automobiles: Requested total import adjustment
+offset amount for each reporting period, including details of how such
+amount was calculated.
+6. Importers of Record:
+a. For MHDV manufacturers and Automobile manufacturers: A list of
+authorized importers of record eligible to decrement against the
+manufacturer's import adjustment offset amount. This list must include
+the importer's Importer of Record number and the amount of the import
+adjustment offset amount allotted to each importer of record. Updates
+to this list may be submitted electronically to Commerce at
+autooffset@trade.gov. At its discretion, Commerce may update this list
+at other times during the duration of the Offset Process.
+7. Certification:
+a. For MHDVs and Automobiles: A sworn statement from a senior
+officer of the manufacturer confirming that the submission is true,
+accurate, and complete to the best of the manufacturer's knowledge
+under penalty of perjury and confirming that the manufacturer has
+conducted reasonable diligence to verify the accuracy of the assertions
+and facts contained in its submissions.
+8. Additional Information:
+a. For MHDVs and Automobiles: Any other information the applicant
+feels is necessary to facilitate decision making.
+C. Review and Approval Process
+Commerce will review applications for completeness. Commerce may
+request supplemental documentation or clarification. Approved
+manufacturers will be notified in writing of approval and amount of
+offset granted, and
+[[Page 27918]]
+relevant import adjustment offset amount data, including amounts and
+importer of record numbers, will be transmitted by Commerce to CBP. CBP
+will administer the offset at the time of entry summary filing and may
+request additional documentation to validate entries.
+D. Usage and Enforcement
+Import Adjustment Offset amounts claimed at time of entry for both
+MHDVs and Automobiles:
+May be used only by approved importers associated with the
+approved manufacturer;
+May be applied only to reduce tariff liability incurred
+under clauses 1, 7, or 12 of Proclamation 10984 or Proclamation 10908
+on eligible MHDV or automobile parts;
+May not exceed the manufacturer's total tariff liability
+on covered MHDVPs and automobile parts; and
+May not be traded, sold, or transferred.
+E. Oversight and Adjustments
+Commerce will monitor manufacturer and importer compliance and
+communicate information regarding noncompliance to CBP, where
+appropriate. CBP may exercise its authority to conduct audits to ensure
+compliance with this regulation. If it is determined that inaccurate,
+incomplete, or false information, has been submitted, penalties may be
+imposed.
+F. Amendments to Harmonized Tariff Schedule
+Under Proclamation 10984, Commerce, in consultation with the United
+States International Trade Commission and CBP, shall determine the
+modifications necessary to the HTSUS to effectuate that proclamation
+and shall make such modifications to the HTSUS through notice in the
+Federal Register. The HTSUS is modified as set forth below.
+Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern daylight time on November 1, 2025:
+Subdivision (i) of U.S. note 38 to subchapter III of chapter 99 of
+the HTSUS is modified by deleting the first paragraph, and inserting
+the following in lieu thereof: ``Subject to a manufacturer's import
+adjustment offset amount that may be determined by the Secretary of
+Commerce under Proclamation 10984 of October 17, 2025 (90 FR 48451),
+the rates of duty set forth in heading 9903.74.08 applies to parts of
+medium- and heavy-duty vehicles classifiable in the provisions of the
+HTSUS enumerated in this subdivision:''
+III. Paperwork Reduction Act Public Burden Statement
+A Federal agency may not conduct or sponsor, and a person is not
+required to respond to, nor shall a person be subject to a penalty for
+failure to comply with an information collection subject to the
+requirements of the Paperwork Reduction Act of 1995 unless the
+information collection has a currently valid OMB Control Number. The
+approved OMB Control Number for this information collection is 0690-
+0283. Without this approval, we could not conduct this information
+collection. Public reporting for this information collection is
+estimated to be approximately 40 hours per response, including the time
+for reviewing instructions, searching existing data sources, gathering
+and maintaining the data needed, and completing and reviewing the
+information collection. The estimated burden hours are within the
+approved burden hour limits of this control number. All responses to
+this information collection are voluntary. Send comments regarding this
+burden estimate or any other aspect of this information collection,
+including suggestions for reducing this burden to the International
+Trade Administration Paperwork Reduction Act Program: PRA@trade.gov.
+William Kimmitt,
+Under Secretary for International Trade, United States Department of
+Commerce.
+[FR Doc. 2026-09782 Filed 5-14-26; 8:45 am]
+BILLING CODE 3510-DR-P

@@ -121,6 +121,15 @@ def load_history():
     for k, digest in review['stable_clause_sha256'].items():
         if sha(baseline['clauses'][k].encode()) != digest:
             raise ValueError('Unreviewed automobile baseline claim semantics')
+    from section232_mhd_parts import add_source
+    extra=ROOT/'resources/legal_evidence/section232/vehicle-parts'
+    offset_notice=canonical(add_source(json.loads((extra/'2025-10740-source.json').read_bytes()),sources,artifacts))
+    offset_intro=re.search(r'inserting the following in lieu thereof: ``(Subject to a manufacturer\x27s import adjustment offset amount.*?)\x27\x27',offset_notice)
+    if not offset_intro:raise ValueError('Missing original automobile offset scope introduction')
+    part_intros=[baseline['clauses']['g'].split('this subdivision:',1)[0],offset_intro[1].split('this subdivision:',1)[0]]
+    cbp=add_source(json.loads((extra/'CBP-autos-source.json').read_bytes()),sources,artifacts)
+    if 'self-certified by importers' not in cbp or 'are eligible to use HTS 9903.94.06' not in cbp:
+        raise ValueError('Unreviewed certified automobile USMCA interpretation')
     def code(k):
         m = re.search(r'Heading ('+HEADING+r') applies to', baseline['clauses'][k])
         if not m:raise ValueError('Missing automobile claim reporting role')
@@ -191,7 +200,7 @@ def load_history():
         if not all(c in body for c in codes+vehicle) or f'{percent:g}%' not in body:
             raise ValueError('Original automobile floor/table disagreement: '+doc)
         expected={}
-        for high,low in [vehicle,codes[:2]] if vehicle else [codes[:2]]:
+        for high,low in ([vehicle] if vehicle else [])+[codes[i:i+2] for i in range(0,len(codes),2)]:
             # The original row, not the suffix, distinguishes "No change"
             # from a printed ordinary-duty passthrough. Both add zero here.
             row=re.search(r'^`*'+re.escape(high)+r'\.{2,}([^\n]*)',body,re.M)
@@ -204,7 +213,7 @@ def load_history():
             expected[low]=expressions(f'{percent:g}%')
         deals.append(dict(country=country, **{'from':instant(body[:body.index('U.S. note 33')])},
             vehicles=vehicle,parts=codes[:2], percent=percent, source_id=id,kind='column1_floor',heading_expressions=expected,
-            excluded={'vehicles':excluded_codes(body,subdivisions[0]) if vehicle else [],'parts':excluded_codes(body,subdivisions[1])}))
+            certified=codes[2:],excluded={'vehicles':excluded_codes(body,subdivisions[0]) if vehicle else [],'parts':excluded_codes(body,subdivisions[1])}))
     priority=amendment();s=priority['source']
     sources.append({k:s[k] for k in ('id','sha256','url','citation')}|{'status':'verified'})
     artifacts.append(dict(source_id=s['id'],path=s['path'],sha256=s['sha256']))
@@ -222,6 +231,7 @@ def load_history():
         citation='CBP CSMS65054270, May15,2025; duty owed/payable interpretation before the November subject-to amendment.'))
     artifacts.append(dict(source_id='CBP-CSMS-65054270',path=str(p),sha256=m['sha256']))
     return dict(vehicles=vehicles,parts=parts,roles=roles,age_years=int(age[1]),deals=deals,
+        parts_scope_intros=part_intros,
         priority_from=priority['effective_from'],until=review['cutoff_until'],review=review,baseline=baseline,sources=sources,source_artifacts=artifacts)
 
 
@@ -231,7 +241,10 @@ def extract(pdf, hts, revision):
     schedule = json.loads(hts.read_bytes())
     headings = [{k:r.get(k,'') for k in ('htsno','description','general','special','other')}
         for r in schedule if re.fullmatch(r'9903\.94\.\d{2}',r.get('htsno',''))]
+    mhd_headings=[{k:r.get(k,'') for k in ('htsno','description','general','special','other')}
+        for r in schedule if re.fullmatch(r'9903\.74\.\d{2}',r.get('htsno',''))]
     return dict(revision=revision,clauses=note(raw,33) if headings else {},headings=headings,
+        mhd_clauses=note(raw,38) if mhd_headings else {},mhd_headings=mhd_headings,
         russian_reporting_codes=sorted({r['htsno'] for r in schedule if
             re.fullmatch(HEADING,r.get('htsno','')) and 'primary aluminum' in r.get('description','') and
             'smelted in Russia' in r.get('description','') and 'cast in Russia' in r.get('description','')}),
@@ -254,6 +267,24 @@ def reconcile_native(x, h=None):
         for k,group in [('b','vehicles'),('g','parts')]:
             if k in clauses and native_scope(clauses[k])!=h[group]['prefixes']:
                 raise ValueError('Unreviewed automobile '+k+' product scope')
+        from section232_mhd_parts import semantic
+        if 'g' in clauses:
+            intro=clauses['g'].split('this subdivision:',1)[0]
+            groups=[{h['parts']['code']}]
+            # The source country annexes expressly add their listed-part
+            # reporting references. Publication chronology changes this native
+            # cross-reference, never the primary instrument's operative clock.
+            for country in ('Japan','European Union','South Korea','Taiwan'):
+                deal=next(d for d in h['deals'] if d['country']==country)
+                groups.append(groups[-1]|set(deal['parts']))
+            pattern=r'heading (.*?) applies to parts'
+            match=re.search(pattern,intro)
+            if not match or set(reporting_codes(match[1])) not in groups:
+                raise ValueError('Unreviewed automobile g reporting references')
+            remainder=re.sub(r'9903\.\d{2}\.\d{2}|\band\b|[,\s]','',match[1])
+            stripped=intro[:match.start(1)]+h['parts']['code']+intro[match.end(1):]
+            if remainder or semantic(stripped) not in [semantic(t) for t in h['parts_scope_intros']]:
+                raise ValueError('Unreviewed automobile g scope qualification')
         if 'h' in clauses:
             normalized = clauses['h'].replace('enumerated in subdivision','enumerated subdivision').replace(
                 ' or meeting the requirements of subdivision (p) of this note','')
@@ -276,6 +307,8 @@ def reconcile_native(x, h=None):
 def compile_rules(x, product_list, jurisdictions):
     h = copy.deepcopy(load_history())
     reconcile_native(x,h)
+    from section232_vehicle_certified import add_certified_history
+    certified_history=add_certified_history(h,x)
     if not jurisdictions.get('all'):raise ValueError('Missing automobile country inventory')
     product_list=sorted(set(product_list))
     if any(not re.fullmatch(r'\d{10}',p) for p in product_list):raise ValueError('Invalid automobile HTS10 inventory')
@@ -318,6 +351,8 @@ def compile_rules(x, product_list, jurisdictions):
     facts['s232_auto_entry_calendar_year']['enum']=list(range(datetime.fromisoformat(h['vehicles']['from']).year,
         datetime.fromisoformat(h['until']).year+1))
     use_parts=f('s232_auto_parts_use','Article is a part of a passenger vehicle or light truck as defined by U.S. note33(f)')
+    election=f('s232_vehicle_parts_certification','IOR certified declaration under Proclamation10984 clause12','string')
+    facts['s232_vehicle_parts_certification']['enum']=['none','automobile','mhd']
     eligible=f('s232_auto_usmca_eligible','Goods actually qualify for preferential treatment under USMCA',
         description='Eligibility is a legal shipment fact; neither Canada/Mexico origin nor a requested claim establishes eligibility.')
     kit=f('s232_auto_knockdown_kit_or_compilation','Shipment is an automobile knock-down kit or parts compilation')
@@ -364,6 +399,7 @@ def compile_rules(x, product_list, jurisdictions):
             scope=scope,when=op('if',path,ordinary,val(False)),formula=tree['formula'],
             reporting_codes=[tree['code']] if tree['code'] else [],source_ids=ids,
             legal_locator='Proclamation10908 clauses1-5,8; AnnexI note33; original country amendment annexes')
+        if not tree['subject'] and tree['formula']==val(0):r['reporting_only']=True
         checks=list(tree['checks'])
         if checks:r['input_constraints']=checks
         rules.append(r)
@@ -383,15 +419,19 @@ def compile_rules(x, product_list, jurisdictions):
         # including a zero-additional combined-rate heading. Those relationships
         # cannot wait for the reporting heading to appear in a later snapshot.
         for d in h['deals']:
-            sector='vehicles' if action=='s232_automobiles' else 'parts'
+            sector='vehicles' if action=='s232_automobiles' else 'certified' if action=='s232_certified_automobile_parts' else 'parts'
             if tree['code'] in d[sector] or tree['country']==d['country']:
                 relations.append(dict(id=id+'_country_nonstacking',effect='suppress',when_rule_applies=id,
-                    target_reporting_codes=d['excluded'][sector],source_ids=[d['source_id']]))
+                    target_reporting_codes=d['excluded']['parts' if sector=='certified' else sector],source_ids=[d['source_id']]))
+        if action=='s232_certified_automobile_parts' and tree['subject']:
+            period=next(p for p in certified_history['periods'] if p['from_']<=scope['from']<p['until'])
+            relations.append(dict(id=id+'_original_certified_nonstacking',effect='suppress',when_rule_applies=id,
+                target_reporting_codes=period['targets'],source_ids=ids))
         window=x.get('native_window')
         if window and tree['subject']:
             lo=max(window['from'],h['priority_from']);hi=window['until']
             if lo<hi:
-                clause='a' if action=='s232_automobiles' else 'f'
+                clause='a' if action=='s232_automobiles' else 'p' if action=='s232_certified_automobile_parts' else 'f'
                 targets=excluded_codes(x['clauses'].get(clause,''))
                 relations.append(dict(id=id+'_native_nonstacking',effect='suppress',when_rule_applies=id,
                     target_reporting_codes=targets,source_ids=ids,source_window={'from':lo,'until':hi}))
@@ -404,10 +444,12 @@ def compile_rules(x, product_list, jurisdictions):
         return branch(offset_claim,unpriced(tree),tree)
     # Group exact products by source membership, not by an economic sector's
     # winning candidate. A source-listed HTS10 cannot widen to its HTS8 parent.
-    for sector,action in [('vehicles','s232_automobiles'),('parts','s232_automobile_parts')]:
-        group=h[sector];members=[p for p in product_list if any(p.startswith(prefix) for prefix in group['prefixes'])]
+    for sector,action in [('vehicles','s232_automobiles'),('parts','s232_automobile_parts'),('certified','s232_certified_automobile_parts')]:
+        group=h[sector]
+        members=certified_history['members'](product_list) if sector=='certified' else [p for p in product_list if any(p.startswith(prefix) for prefix in group['prefixes'])]
         if not members:continue
         boundaries=sorted({group['from'],h['until']}|{d['from'] for d in h['deals'] if d[sector] and d['from']>group['from']})
+        if sector=='certified':boundaries=sorted(set(boundaries)|{p['from_'] for p in certified_history['periods']})
         if sector=='vehicles':
             boundaries=sorted(set(boundaries)|{datetime(y,1,1,tzinfo=ZoneInfo('America/New_York')).isoformat()
                 for y in range(datetime.fromisoformat(group['from']).year+1,datetime.fromisoformat(h['until']).year+1)
@@ -428,9 +470,10 @@ def compile_rules(x, product_list, jurisdictions):
                 by_decision={}
                 for p in members:
                     key=tuple(d['country'] for d in active if origin in jurisdictions.get(d['country'],[]) and
-                        (d['kind']!='uk_quota' or any(p.startswith(a) for a in d[sector+'_prefixes'])))
-                    by_decision.setdefault(key,[]).append(p)
-                for countries,ps in by_decision.items():
+                        (d['kind']!='uk_quota' or sector=='certified' or any(p.startswith(a) for a in d[sector+'_prefixes'])))
+                    possible_vehicle=sector=='certified' and any(p.startswith(a) for a in h['vehicles']['prefixes'])
+                    by_decision.setdefault((key,possible_vehicle),[]).append(p)
+                for (countries,possible_vehicle),ps in by_decision.items():
                     # Country floors use the complete native General expression
                     # in an unclaimed entry. Keep unlike valuation expressions
                     # separate; neither an input AVE nor an economic rate selects it.
@@ -440,9 +483,9 @@ def compile_rules(x, product_list, jurisdictions):
                         signature=json.dumps(data,sort_keys=True) if countries else ''
                         bases.setdefault(signature,[]).append(p)
                     for basis,items in bases.items():
-                        key=(countries,tuple(items),origin in jurisdictions.get('non_ntr',[]))
+                        key=(countries,tuple(items),origin in jurisdictions.get('non_ntr',[]),possible_vehicle)
                         groups.setdefault(key,[]).append(origin)
-            for (countries,ps,column2),origins in groups.items():
+            for (countries,ps,column2,possible_vehicle),origins in groups.items():
                 ordinary_charge=leaf(group['code'],amount(group['percent']),subject=True)
                 # Only operative country instruments can replace the ordinary
                 # action; publication/snapshot dates do not select the rate.
@@ -450,7 +493,8 @@ def compile_rules(x, product_list, jurisdictions):
                     if d['country'] not in countries:continue
                     if d['kind']=='uk_quota':
                         ordinary_charge=branch(quota,leaf(d[sector][0],amount(d['percent']),subject=True),ordinary_charge) if sector=='vehicles' else branch(
-                            uk_parts_use,leaf(d[sector][0],amount(d['parts_percent']),subject=True,replaces_base=True),ordinary_charge)
+                            uk_parts_use,branch(special_requested,leaf(d[sector][0],amount(d['parts_percent']),subject=True),
+                                leaf(d[sector][0],amount(d['parts_percent']),subject=True,replaces_base=True)),ordinary_charge)
                     else:
                         threshold=amount(d['percent'])
                         base=x.get('base_amounts',{}).get(ps[0])
@@ -546,14 +590,21 @@ def compile_rules(x, product_list, jurisdictions):
                 else:
                     exception=op('if',eligible,negate(kit),val(False))
                     tree=branch(use_parts,branch(exception,leaf(h['roles']['exempt_parts'],subject=True),offset(ordinary_charge)),leaf(h['roles']['exempt_parts']))
+                    if sector=='certified':
+                        selected=both({'claim':'SECTION_232_CERTIFIED_AUTO_PARTS'},op('eq',election,val('automobile')))
+                        if possible_vehicle:selected=op('if',use_vehicle,val(False),selected)
+                        tree=branch(selected,
+                            branch(use_parts,branch(exception,leaf(h['roles']['exempt_parts'],subject=True),offset(ordinary_charge)),dict(skip=True)),dict(skip=True))
                 walk(tree,val(True),dict(hts_exact=list(ps),countries=origins,**{'from':current_from,'until':until}),action)
     rids=[r['id'] for r in rules]
+    certified_ids=[r['id'] for r in rules if r['action_id']=='s232_certified_automobile_parts']
     # Candidate provenance is the original mixed-precision annex, not the first
     # retained country amendment or a statistical code invented during expansion.
     memberships={action:[dict(hts10=p,scope_code=prefix,
         scope_grain='exact_hts10' if len(prefix)==10 else 'prefix')
         for p in product_list for prefix in h[sector]['prefixes'] if p.startswith(prefix)]
         for sector,action in [('vehicles','s232_automobiles'),('parts','s232_automobile_parts')]}
+    memberships['s232_certified_automobile_parts']=[dict(hts10=p,scope_code=p,scope_grain='exact_hts10') for p in certified_history['members'](product_list)]
     scope_source=next(a for a in h['source_artifacts'] if a['source_id']=='FR-2025-05930-auto-pdf')
     # Existing cross-program compilers used independently entered aliases for
     # these same legal facts. In a composed normal build they must resolve from
@@ -568,13 +619,17 @@ def compile_rules(x, product_list, jurisdictions):
         supported_from='2025-01-01T00:00:00-05:00',supported_until=h['until'],sources=h['sources'],source_artifacts=h['source_artifacts'],
         rules=rules,relations=relations,fact_definitions=facts,derived_facts=derived,coverage=[],
         candidate_memberships=memberships,candidate_scope_source=scope_source,
+        certified_candidate_scope_source=certified_history['scope_source'],
         claim_definitions=[dict(id=c,label=l,rule_ids=rids,source_ids=ids) for c,l in [('USMCA','USMCA'),('CHAPTER_98','Chapter 98'),
             ('COLUMN1_SPECIAL','Selected Column 1 Special preference'),
-            ('SECTION_232_AUTO_US_CONTENT','Commerce-approved automobile U.S. content'),('SECTION_232_AUTO_IMPORT_OFFSET','Automobile import-adjustment offset')]] if rids else [],
-        unchanged_claims=[dict(id='autos_'+x['revision']+'_301_independent',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=rids,source_ids=ids)] if rids else [],
-        unresolved_questions=[dict(id='auto_additional_certified_parts',question='Reconcile note33(p)/(q)/(r) certified U.S. production/repair parts outside original(g), including MHDV exclusions, original November commencement and later country amendments.',source_ids=ids),
-            dict(id='auto_remaining_valuation',question='Price approved offsets, other Chapter98 and FTZ histories; country/content elections and CBP overstatement findings remain explicit shipment branches.',source_ids=ids)],
-        limitations=['Original listed passenger/light-truck vehicles and parts only; no complete Section232 coverage attestation.',
+            ('SECTION_232_AUTO_US_CONTENT','Commerce-approved automobile U.S. content'),('SECTION_232_AUTO_IMPORT_OFFSET','Automobile import-adjustment offset')]]+
+            ([dict(id='SECTION_232_CERTIFIED_AUTO_PARTS',label='Certified U.S. automobile production/repair parts',rule_ids=rids,candidate_rule_ids=certified_ids,source_ids=ids)] if certified_ids else []) if rids else [],
+        unchanged_claims=([dict(id='autos_'+x['revision']+'_301_independent',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=rids,source_ids=ids)]+
+            ([dict(id='autos_'+x['revision']+'_certified_reevaluation',effect='reevaluate',claim_authority='section_232',
+                claim_ids=['SECTION_232_CERTIFIED_AUTO_PARTS'],target_authorities=['base','section_201','section_232','section_301',
+                    'ieepa_fentanyl','ieepa_reciprocal','ieepa_other','section_122','section_338','adcvd','other_chapter99'],source_ids=ids)] if certified_ids else [])) if rids else [],
+        unresolved_questions=[dict(id='auto_remaining_valuation',question='Price approved offsets, other Chapter98 and FTZ histories; country/content elections and CBP overstatement findings remain explicit shipment branches.',source_ids=ids)],
+        limitations=['Original listed passenger/light-truck vehicles/parts and importer-certified parts; no complete Section232 coverage attestation.',
             'Unclaimed country floors use native whole General duty expressions and legal quantities. Korea Special treatment requires established entitlement and actual duty; other country preference/AVE and Chapter98 floor interactions remain unpriced.',
             'Manufacture exception uses the entry calendar year. No modeled shares or assembly credit alters these decisions.'])
 

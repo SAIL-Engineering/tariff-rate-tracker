@@ -1,0 +1,9 @@
+{
+  "id": "FR-2026-09782-vehicle-parts-offset-process",
+  "path": "resources/legal_evidence/section232/vehicle-parts/2026-09782.txt",
+  "sha256": "1d5ce8f23aa091cdfdc10aa985e67eec9809e2248d930d4316793966375dcff9",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2026-05-15/html/2026-09782.htm",
+  "citation": "Commerce offset process, partsII(B)-(F): original account/approval, importer allocations, use restrictions and retroactive HTS introduction. This does not establish any actual importer balance.",
+  "retrieved_at": "2026-10-30",
+  "method": "gstack browse text"
+}

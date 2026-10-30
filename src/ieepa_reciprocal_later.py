@@ -235,6 +235,19 @@ def sector_links(partners):
     vehicle=amendment();sources += [dict(meta,path=str(p)),vehicle['source']]
     links.append(dict(from_=vehicle['effective_from'],codes=sorted({c for row in rows for c in reporting_codes(row)}),priority=False,
         source_ids=[meta['id'],vehicle['source']['id']],source_clause_sha256=sha(note.encode())))
+    path=ROOT/'resources/legal_evidence/section232/vehicle-parts/reciprocal-source.json'
+    meta=json.loads(path.read_bytes());p=ROOT/meta['path']
+    if sha(p.read_bytes())!=meta['sha256'] or sha((ROOT/meta['pdf_path']).read_bytes())!=meta['pdf_sha256']:
+        raise ValueError('Certified vehicle-part reciprocal evidence changed')
+    text=flat(p.read_text())
+    inserted=re.search(r'subdivision \(v\)\(xi\) by deleting “heading (.*?)” and inserting “headings (.*?)”',text)
+    if not inserted or reporting_codes(inserted[1])!=reporting_codes(inserted[2])[:1]:
+        raise ValueError('Unreconciled certified automobile reciprocal amendment')
+    codes=sorted(set(reporting_codes(inserted[2]))-set(reporting_codes(inserted[1])))
+    if not codes:raise ValueError('Certified automobile reciprocal amendment has no added reporting roles')
+    sources.append(dict(meta,path=str(p)))
+    links.append(dict(from_=vehicle['effective_from'],codes=codes,priority=False,
+        source_ids=[meta['id'],vehicle['source']['id']],source_clause_sha256=sha(inserted[0].encode())))
     path=ROOT/'resources/legal_evidence/2026-01052/CSMS-67400472-source.json'
     meta=json.loads(path.read_bytes());p=ROOT/meta['path']
     if sha(p.read_bytes())!=meta['sha256']:raise ValueError('Semiconductor reporting instruction changed')

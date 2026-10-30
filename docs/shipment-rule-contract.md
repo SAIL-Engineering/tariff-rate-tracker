@@ -394,3 +394,22 @@ uncompiled law, unreconciled history and source defects. The original note36
 copper adapter binds one supported value expression into the participating
 actions. Its zero reporting role is distinct from a charge, and a pending
 Chapter98 applicability decision cannot establish another action's exclusion.
+
+## Optional certified vehicle-part elections
+
+Source-compiled `SECTION_232_CERTIFIED_AUTO_PARTS` and
+`SECTION_232_CERTIFIED_MHD_PARTS` claims select the optional importer-certified
+production/repair paths. Their candidate rule IDs retain native classification
+scope and historical windows. Ordinary unclaimed entries need no optional
+certification fact. When selected, `s232_vehicle_parts_certification` records the
+actual IOR-certified program (`automobile` or `mhd`) and the relevant factual
+part/use predicates still apply. Country of origin does not establish USMCA
+eligibility or a certification. A factual answer alone does not request a claim.
+Other matched actions reevaluate their existing source-bound dependencies;
+certification is not a discount applied after summing the stack.
+
+A verified literal-zero `reporting_only` line remains available to explicitly
+named reporting-role predicates, but is omitted from an `exclude: true`
+reporting predicate's inventory of unidentified duty actions. A zero-payable
+covered action without that source role remains in the inventory and can govern
+statutory priority. This distinction is compiled before either interpreter runs.

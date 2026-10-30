@@ -1,0 +1,282 @@
+[Federal Register Volume 90, Number 113 (Friday, June 13, 2025)]
+[Notices]
+[Pages 25027-25030]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2025-10740]
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+International Trade Administration
+[Docket No. 250609-0096]
+RIN 0625-XC055
+Procedures To Administer Import Adjustment Offset Amounts for
+Certain Imports of Automobile Parts Under Proclamation 10908, as
+Amended
+AGENCY: International Trade Administration, U.S. Department of
+Commerce.
+ACTION: Notice.
+-----------------------------------------------------------------------
+SUMMARY: This notice announces the procedures for automobile
+manufacturers to apply for and use the import adjustment offset amount
+established by Presidential Proclamation 10925 of April 29, 2025,
+``Amendments to Adjusting Imports of Automobiles and Automobile Parts
+Into the United States,'' (Proclamation 10925) to incentivize domestic
+automobile production and reduce American reliance on imports of
+foreign automobiles and their parts. Eligibility for the import
+adjustment offset amount is based on domestic final assembly of
+automobiles during an approximately two-year period. Import adjustment
+offset amounts awarded for qualifying automobiles assembled between
+April 3, 2025, and April 30, 2027, may be carried forward beyond that
+period until the full approved import adjustment offset amount is
+exhausted. No new import adjustment offset amounts will be granted for
+automobiles assembled after April 30, 2027. The intent of this program
+is to strengthen the U.S. automobile assembly operation capabilities
+and ensure national security objectives are met by reducing reliance on
+foreign automobile production and parts sourcing.
+[[Page 25028]]
+DATES: Applications can be submitted starting June 13, 2025.
+ADDRESSES: Applications must be submitted electronically to:
+autooffset@trade.gov.
+FOR FURTHER INFORMATION CONTACT: Emily Davis, Director for Public
+Affairs, International Trade Administration, U.S. Department of
+Commerce, 202-482-3809, Emily.Davis@trade.gov.
+SUPPLEMENTARY INFORMATION:
+I. Background
+On March 26, 2025, the President issued Proclamation 10908 (90 FR
+14705), ``Adjusting Imports of Automobiles and Automobile Parts Into
+the United States,'' (Proclamation 10908) finding that imports of
+automobiles and certain automobile parts continue to threaten to impair
+the national security of the United States and imposing specified
+tariffs to adjust imports of automobiles and certain automobile parts
+so that such imports will not threaten to impair national security
+pursuant to Section 232. Proclamation 10908 imposed a 25 percent tariff
+on certain imports of automobiles, effective April 3, 2025, and certain
+imports of automobile parts, effective May 3, 2025.
+On April 29, 2025, the President issued Proclamation 10925 (90 FR
+18899), which allowed for automobile manufactures assembling
+automobiles in the United States to apply for an import adjustment
+offset amount, which would offset certain tariff liability under
+Proclamation 10908 on imports of automobile parts. Proclamation 10925
+required the Secretary of the Department of Commerce (Commerce) to
+establish a process by which automobile manufacturers could submit
+documentation supporting eligibility for an import adjustment offset
+amount. This notice announces procedures for administration of the
+import adjustment offset amount program, including application,
+documentation, and certification requirements, eligibility conditions,
+and coordination with U.S. Customs and Border Protection (CBP).
+II. Application Process
+A. Import Adjustment Offset Amount Structure and Duration
+Proclamation 10925 provides that automobile manufacturers are
+eligible for an import adjustment offset amount calculated as a
+percentage of the aggregate Manufacturer's Suggested Retail Price
+(MSRP) value of automobiles assembled in the United States, as follows:
+3.75% of aggregate MSRP for eligible automobiles assembled
+between April 3, 2025, and April 30, 2026; and
+2.5% of aggregate MSRP for eligible automobiles assembled
+between May 1, 2026, and April 30, 2027.
+Import adjustment offset amounts may be used to reduce Section 232
+tariffs on automobile parts and may be carried forward indefinitely
+until fully exhausted, provided they were granted based on qualifying
+automobiles assembled between April 3, 2025 and April 30, 2027. While
+Proclamation 10925 limits the import adjustment offset to vehicles
+assembled in the United States between April 3, 2025 and April 30,
+2027, it does not include a deadline for use of the offset amount, and
+providing manufacturers flexibility in this regard is consistent with
+the Proclamation's goals (which include to ``strengthen United States
+vehicle assembly operations by encouraging companies to expand domestic
+production capacity, which is critical to a strong domestic defense
+industrial base'' (Proclamation 10925 preamble, Section 7)) and with
+the flexibilities the Proclamation expressly provides to manufacturers
+(e.g., to determine the importer of record eligible to decrement
+against that manufacturer's import adjustment offset amount
+(Proclamation 10925, Section 1)). Section 3 of Proclamation 10925
+provides that the Secretary shall issue regulations, guidance, or
+procedures necessary to carry out the provisions of the Proclamation,
+and the Department has determined that such flexibility is necessary to
+effectively carry out the Proclamation. This notice establishes that no
+offset amounts will be granted for automobiles assembled after April
+30, 2027.
+For purposes of this notice, ``automobile parts'' means the
+articles classified under the subheadings of the Harmonized Tariff
+Schedule of the United States (HTSUS) that were made subject to Section
+232 duties pursuant to section B of the Annex to Proclamation 10908,
+and any amendments thereto.
+B. Application Requirements
+Manufacturers seeking an import adjustment offset amount must
+submit the following documentation for each period for which an import
+adjustment offset amount is sought (i.e., one set of documentation for
+the period of April 3, 2025 through April 30, 2026; and a separate set
+of documentation for the period of May 1, 2026 through April 30, 2027):
+1. Production Forecast: The number of automobiles (i.e., passenger
+vehicles (sedans, sport utility vehicles, crossover utility vehicles,
+minivans, and cargo vans) and light trucks) projected to be produced in
+the United States by make and model and the plant locations where the
+projected automobiles will undergo final production during each
+reporting period.
+2. MSRP: The aggregate MSRP value of all such automobiles assembled
+in the United States during each reporting period.
+3. Tariff Liability Estimate: Projected automobiles and automobile
+parts tariff liability under Proclamation 10908, broken down by
+Proclamation 10908 tariff costs the manufacturer will incur directly
+and Proclamation 10908 tariff costs the manufacturer's suppliers will
+incur.
+4. Offset Calculation: Requested total import adjustment offset
+amount for each reporting period, including details of how such amount
+was calculated.
+5. Importers of Record: A list of authorized importers of record
+eligible to decrement against the manufacturer's import adjustment
+offset amount. This list must include the importer's Importer of Record
+number and the amount of the import adjustment offset amount allotted
+to each importer of record. Updates to this list may be submitted
+electronically to Commerce at autooffset@trade.gov. Commerce will
+inform CBP of list updates on December 1, 2025; June 1, 2026; and
+December 1, 2026. At its discretion, Commerce may update this list at
+other times during the program period.
+6. Certification: A sworn statement from a senior officer of the
+manufacturer confirming that the submission is true, accurate, and
+complete to the best of the manufacturer's knowledge under penalty of
+perjury, and confirming that the manufacturer has conducted reasonable
+diligence to verify the accuracy of the assertions and facts contained
+in its submissions.
+7. Additional Information: Any other information the applicant
+feels is necessary to facilitate decision making.
+C. Review and Approval Process
+Commerce will review applications for completeness. Commerce may
+request, in writing, supplemental documentation or clarification.
+Approved manufacturers will be notified in writing of approval and
+amount of offset granted, and relevant import adjustment offset amount
+data, including amounts and importer of record numbers, will be
+transmitted by Commerce to CBP. CBP will administer the offset at the
+time of entry summary filing and may request additional documentation
+to validate entries.
+[[Page 25029]]
+D. Usage and Enforcement
+Import Adjustment Offset amounts:
+May be used only by approved importers associated with the
+approved manufacturer;
+May be applied only to reduce tariff liability under
+Proclamation 10908 on eligible automobile parts;
+May not exceed the manufacturer's total tariff liability
+on covered parts; and
+May not be traded, sold, or transferred.
+E. Oversight and Adjustments
+Commerce will monitor manufacturer and importer compliance and
+communicate information regarding noncompliance to CBP, where
+appropriate. CBP may exercise its authority to conduct audits to ensure
+compliance with this regulation. If it is determined that inaccurate,
+incomplete, or false information, has been submitted, penalties may be
+imposed.
+Under Proclamation 10908, Commerce, in consultation with the United
+States International Trade Commission and CBP, shall determine the
+modifications necessary to the HTSUS to effectuate this proclamation
+and shall make such modifications to the HTSUS through notice in the
+Federal Register. The HTSUS is modified as set forth below.
+Effective with respect to goods entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m.
+eastern daylight time on May 3, 2025:
+Subdivision (g) of U.S. note 33 to subchapter III of chapter 99 of
+the HTSUS is modified by deleting the first paragraph, and inserting
+the following in lieu thereof: ``Subject to a manufacturer's import
+adjustment offset amount that may be determined by the Secretary of
+Commerce under Proclamation 10925 of April 29, 2025 (90 FR 18899), the
+rates of duty set forth in heading 9903.94.05 applies to parts of
+passenger vehicles (sedans, sport utility vehicles, crossover utility
+vehicles, minivans, and cargo vans) and light trucks classifiable in
+the provisions of the HTSUS enumerated in this subdivision: ''
+III. Paperwork Reduction Act
+In accordance with section 3507(d) of the Paperwork Reduction Act
+of 1995 (44 U.S.C. 3501 et seq.), and the Office of Management and
+Budget (OMB) implementing regulations at 5 CFR 1320.13, ITA is
+requesting emergency processing for this information collection. In
+Proclamation 10925 of April 29, 2025, ``Amendments to Adjusting Imports
+of Automobiles and Automobile Parts Into the United States,'' the
+President determined it was necessary and appropriate to modify the
+system of monetary fees and related measures imposed to adjust imports
+of automobiles and certain automobile parts pursuant to Proclamation
+10908 to more effectively eliminate the threat imports of automobiles
+and certain automobile parts pose on the national security of the
+United States. Proclamation 10925 provided that for automobiles
+assembled in the United States, automobile manufacturers shall be
+eligible to receive an import adjustment offset amount applicable to
+section 232 duties on automobile parts by reducing duties assessed on
+automobile parts accounting for 15 percent of the value of an
+automobile assembled in the United States for an opening period and
+equivalent to 10 percent of that value for an additional year after the
+initial period closes. Because the Proclamation requires timely
+implementation of the offset mechanism to support domestic automobile
+production and reduce the national security risk posed by automobile
+part imports, ITA cannot reasonably comply with the normal clearance
+procedures. Delaying this collection would impede the ability of
+manufacturers to claim offset amounts and compromise the effectiveness
+of the Proclamation's implementation. Therefore, ITA is requesting
+emergency PRA processing under 5 CFR 1320.13 to initiate this process
+without delay.
+With the publication of the notice, ITA is requesting an emergency
+approval to meet the requirements of Proclamation 10925. ITA is also
+announcing a process for automobile manufacturers with final production
+in the United States to submit documentation to request an import
+adjustment offset amount that may only be used by importers of record
+authorized by that manufacturer, and the amount may only be used to
+offset tariff liability related to that manufacturer's automobile parts
+tariff liability under Proclamation 10908. ITA estimates the burden to
+the public for this notification will average 2,400 hours (30
+respondents * 40 hours per response *2 expected responses per year),
+including the time for reviewing instructions, searching existing data
+sources, gathering the data needed, and completing and reviewing the
+collection of information. The estimated total annual cost to the
+Federal Government is $111,600.
+The public may access this ITA request, including all supporting
+materials, at www.reginfo.gov/public/do/PRAMain and inserting the OMB
+control number [0625-0283] or the name of the collection. Please send
+written comments to Emily Davis, Director for Public Affairs, 202-482-
+3809, Emily.Davis@trade.gov. A comment to OMB is best assured of having
+its full effect if OMB receives it within 60 days of publication of
+this notice. All written comments submitted in response to this notice
+will be included in the record and will be made available to the
+public. Please be advised that the substance of the comments and the
+identity of the individuals or entities submitting the comments will be
+subject to public disclosure. Written comments will be publicly
+available on the internet via https://www.regulations.gov.
+We are soliciting comments from the public (as well as affected
+agencies) concerning our information collection and recordkeeping
+requirements. These comments will help us:
+(1) Evaluate whether the information collection is necessary for
+the proper performance of our agency's functions, including whether the
+information will have practical utility.
+(2) Evaluate the accuracy of our estimate of the burden of the
+information collection, including the validity of the methodology and
+assumptions used.
+(3) Enhance the quality, utility, and clarity of the information to
+be collected; and
+(4) Minimize the burden of the information collection on those who
+are to respond (such as through the use of appropriate automated,
+electronic, mechanical, or other technological collection techniques or
+other forms of information technology, e.g., permitting electronic
+submission of responses).
+Estimate of burden: Public reporting burden for this collection of
+information is estimated to average 40 hours per response.
+Respondents: Private Sector.
+Estimated annual number of respondents: 30.
+Estimated annual number of responses per respondent: 2.
+Estimated annual number of responses: 60.
+Estimated total annual burden on respondents: 2,400.
+(Due to averaging, the total annual burden hours may not equal the
+product of the annual number of responses multiplied by the reporting
+burden per response).
+Copies of this information collection can be obtained from Emily
+Davis, Director for Public Affairs, 202-482-3809,
+Emily.Davis@trade.gov.
+Notwithstanding any other provision of law, no person is required
+to respond
+[[Page 25030]]
+to, nor is subject to a penalty for failure to comply with, a
+collection of information, subject to the requirements of the Paperwork
+Reduction Act of 1995 (44 U.S.C. 3501 et seq.) (PRA), unless that
+collection of information displays a currently valid OMB Control
+Number.
+Trevor Kellogg,
+Performing the Non-Exclusive Functions and Duties of the Under
+Secretary for International Trade, Chief of Staff and Senior Advisor,
+Office of the Under Secretary, International Trade Administration,
+Commerce Department.
+[FR Doc. 2025-10740 Filed 6-12-25; 8:45 am]
+BILLING CODE 3510-DR-P

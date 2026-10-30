@@ -115,7 +115,7 @@ for (rd in revision_dirs) {
   layers <- REQUIRED_LAYERS
   if(grepl('^202[56]_',rev_id)) {
     layers <- c(layers,'section301_scope_decisions.parquet','section232_scope_decisions.parquet', 'ieepa_action_decisions.parquet','claim_effects.parquet','ieepa_reciprocal_scope_decisions.parquet','chapter99_provisions.parquet','chapter99_notes.parquet')
-    for(file in c('section301_source.json','section301_rules.json','ieepa_reciprocal_source.json','ieepa_reciprocal_scope_evidence.json','ieepa_reciprocal_initial_rules.json','section232_copper_rules.json','chapter99_inventory_sources.json')) {
+    for(file in c('section301_source.json','section301_rules.json','ieepa_reciprocal_source.json','ieepa_reciprocal_scope_evidence.json','ieepa_reciprocal_initial_rules.json','section232_copper_rules.json','section232_mhd_parts_rules.json','chapter99_inventory_sources.json')) {
       if(!file.exists(file.path(rd,file))) {
         log_fail(paste0(rev_id,'/',file,' missing; corrected source-backed rebuild required'))
         fail_count <- fail_count+1L

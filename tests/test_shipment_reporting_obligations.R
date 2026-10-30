@@ -33,3 +33,19 @@ f$relations[[1]]$preserve_reporting_only<-FALSE
 old<-compose_shipment_rules(b,list(f));r0<-evaluate_shipment_bundle(old,unlist(old$products)[1],unlist(old$countries)[1],at,list())
 stopifnot('exemption-report' %in% r0$suppressed_rules)
 cat('Monetary suppression retains separately identified zero-duty reporting obligations\n')
+# Catch-all predicates for other duty actions must not classify a distinct
+# reporting-only line as unknown liability. An actual zero-payable action is
+# still recognized, since zero payable is not the reporting-only source role.
+other<-r('other-zero',0,'9903.79.99',TRUE);other$authority<-'section_232'
+surcharge<-r('surcharge',8,'9903.03.01');surcharge$authority<-'section_122'
+surcharge$formula<-list(op='if',args=list(list(reporting_predicate=list(authority='section_232',codes=list('9903.79.01'),positive_duty=FALSE,exclude=TRUE)),
+ list(unresolved_source='unreconciled_other232_action'),list(value=8)))
+p<-list(id='other-action-fixture',sources=list(s),rules=list(other,surcharge),coverage=list())
+for(reporting in c(TRUE,FALSE)) {
+ p$rules[[1]]$reporting_only<-reporting
+ bb<-compose_shipment_rules(b,list(p))
+ rr<-evaluate_shipment_bundle(bb,unlist(b$products)[1],unlist(b$countries)[1],at,list())
+ stopifnot(rr$known_subtotal==if(reporting)8 else 0,
+  any(grepl('unreconciled_other232_action',rr$source_errors,fixed=TRUE))==!reporting)
+}
+cat('Unknown-action predicates distinguish reporting obligations from zero-payable covered actions\n')

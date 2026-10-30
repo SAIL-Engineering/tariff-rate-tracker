@@ -1,0 +1,71 @@
+{
+  "implementation_base": "13e1919c758f88d6b049e7d8e7d59a5a047cdec6",
+  "branch": "wjr_dev",
+  "shared_sail_interpreter_sha256": "0957865b5a135d102d82f98f1f603c7073fb2d5cacc7c2fc0cade162074c2e56",
+  "source_census": {
+    "revisions": 55,
+    "native_mhd_revisions": 29,
+    "origins": 240,
+    "qualification": "source and conditional membership census, not complete legal coverage"
+  },
+  "python": {
+    "passed": 486,
+    "evidence": "python.log"
+  },
+  "node": {
+    "passed": 1139,
+    "failed": 0,
+    "skipped": 0,
+    "evidence": "node-summary.json"
+  },
+  "targeted_R": {
+    "vehicle_parts_cases": 66,
+    "auto_cases": 62,
+    "labor_auto_cases": 10,
+    "additional_suites": "affected-R.json",
+    "reporting_role_checks": "reporting-obligations-R.log",
+    "semiconductor_composition": "action-composition-R.log"
+  },
+  "normal_serving": {
+    "source_revision": "2026_rev_4",
+    "parquet_grid_cells": 2,
+    "api_scenarios": 6,
+    "checks": [
+      "Parquet relationships",
+      "R/TypeScript",
+      "JSON",
+      "Arrow",
+      "batch",
+      "dataset invalidation",
+      "tamper rejection"
+    ],
+    "evidence": "normal-API.json"
+  },
+  "motherduck": {
+    "access": "READ_ONLY",
+    "catalog": "duty_calculator",
+    "sample_rows": 12,
+    "production_writes": false,
+    "release_activation": false
+  },
+  "full_data_gate": {
+    "status": "failed_before_parity",
+    "missing_artifacts": 791,
+    "tpc_input_present": false,
+    "evidence": "normalized-parity.log",
+    "full_timeseries_rebuilt": false
+  },
+  "limitations": [
+    "No complete Section232/action inventory qualification.",
+    "Offset, Chapter98, privileged FTZ and other authorities/consumers remain unfinished.",
+    "No production MotherDuck or deployment qualification."
+  ],
+  "tracker_frontend_build": {
+    "status": "passed",
+    "checks": [
+      "TypeScript",
+      "Vite production build"
+    ],
+    "evidence": "frontend-build.log"
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "hts10": "7408113000",
+    "country": "4279",
+    "rate_232": 0.5,
+    "statutory_rate_232": null,
+    "statutory_total_rate": null,
+    "shipment_status": "unresolved_source",
+    "shipment_missing_inputs_json": "[\"chapter98_provision\",\"contains_copper\",\"ieepa_ftz_entry\",\"s122_chapter98_claimed\",\"s122_personal_baggage\"]"
+  },
+  {
+    "hts10": "8544429090",
+    "country": "4279",
+    "rate_232": 0.5,
+    "statutory_rate_232": null,
+    "statutory_total_rate": null,
+    "shipment_status": "unresolved_source",
+    "shipment_missing_inputs_json": "[\"chapter98_provision\",\"contains_aluminum\",\"contains_copper\",\"ieepa_ftz_entry\",\"s122_chapter98_claimed\",\"s122_personal_baggage\"]"
+  }
+]

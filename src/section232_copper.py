@@ -255,9 +255,11 @@ def compile_rules(x,products):
             candidate_required_fields=['exclusion_claim_id'],target_rule_ids=[r['id'] for r in rules],source_ids=ids)] if rules else [],
         snapshot_reconciliation=x['reconciliation'],candidate_memberships=[dict(hts10=p,scope_code=p[:8],scope_grain='hts8') for p in selected],
         legal_window=dict(from_=h['from_'],until=h['until']),
-        authority_interactions=dict(automobile=dict(status='source_scope_disjoint',overlapping_products=[])),
+        authority_interactions=dict(listed_automobile=dict(status='source_scope_disjoint',overlapping_products=[]),
+            certified_vehicle_parts=dict(status='independent_source_bound_peer_action_required')),
         limitations=['No full Section232 coverage attestation; distinct actions and AD/CVD remain cumulative unless specifically displaced.',
-            'Privileged FTZ history, certified MHD part paths and selected Chapter98 treatment remain explicitly uncompiled.'])
+            'Certified vehicle-part precedence is supplied by independent source-bound fragments; no rate-positive shortcut is used.',
+            'Privileged FTZ history and selected Chapter98 treatment remain explicitly uncompiled.'])
 
 
 if __name__=='__main__':

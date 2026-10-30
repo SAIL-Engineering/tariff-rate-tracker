@@ -1,0 +1,50 @@
+[
+  {
+    "test": "test_s232_auto_interactions.R",
+    "exit_code": 0,
+    "seconds": 89.22
+  },
+  {
+    "test": "test_s232_auto_metals.R",
+    "exit_code": 0,
+    "seconds": 69.15
+  },
+  {
+    "test": "test_s301_labor_auto_composition.R",
+    "exit_code": 0,
+    "seconds": 38.58,
+    "initial_exit_code": 1,
+    "final_evidence": "labor-auto-R.log",
+    "correction": "Fixture ordinary-use scenario now explicitly records no optional IOR certification; no production default."
+  },
+  {
+    "test": "test_s232_copper.R",
+    "exit_code": 0,
+    "seconds": 21.71
+  },
+  {
+    "test": "test_s232_scope_sources.R",
+    "exit_code": 0,
+    "seconds": 1.37
+  },
+  {
+    "test": "test_s232_civil_aircraft_pipeline.R",
+    "exit_code": 0,
+    "seconds": 137.57
+  },
+  {
+    "test": "test_s122_conditions.R",
+    "exit_code": 0,
+    "seconds": 1.52
+  },
+  {
+    "test": "test_ieepa_actions.R",
+    "exit_code": 0,
+    "seconds": 13.93
+  },
+  {
+    "test": "test_ieepa_reciprocal_rules.R",
+    "exit_code": 0,
+    "seconds": 1235.0
+  }
+]

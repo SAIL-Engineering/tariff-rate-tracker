@@ -1,0 +1,1375 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+=== Stage 1: emitter smoke assertions ===
+[OK]    normalized dir exists: /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/output/normalized
+[OK]    found 142 per-revision directories
+[FAIL]  2026_rev_20/ missing configured normalized revision
+[FAIL]  2026_rev_21/ missing configured normalized revision
+[OK]    2019_basic/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_basic/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_basic/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_1/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_1/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_1/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_10/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_10/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_10/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_11/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_11/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_11/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_11/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_12/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_12/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_12/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_12/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_13/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_13/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_13/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_13/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_14/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_14/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_14/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_14/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_15/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_15/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_15/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_15/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_16/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_16/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_16/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_16/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_17/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_17/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_17/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_17/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_18/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_18/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_18/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_18/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_19/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_19/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_19/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2019_rev_19/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_2/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_2/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_2/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_20/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_20/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2019_rev_20/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2019_rev_20/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_3/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_3/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_3/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_4/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_4/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_4/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_5/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_5/authority_country_rates.parquet: 6 rows, 10 cols
+[OK]    2019_rev_5/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_6/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_6/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_6/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_7/products_base.parquet: 19133 rows, 23 cols
+[OK]    2019_rev_7/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_7/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_8/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_8/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_8/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2019_rev_9/products_base.parquet: 19139 rows, 23 cols
+[OK]    2019_rev_9/authority_country_rates.parquet: 5 rows, 10 cols
+[OK]    2019_rev_9/authority_product_applicability.parquet: 7353 rows, 16 cols
+[OK]    2019_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_basic/products_base.parquet: 19152 rows, 23 cols
+[OK]    2020_basic/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_basic/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_1/products_base.parquet: 19152 rows, 23 cols
+[OK]    2020_rev_1/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_1/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_10/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_10/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_10/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_11/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_11/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_11/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_11/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_12/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_12/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_12/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_12/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_13/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_13/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_13/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_13/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_14/products_base.parquet: 19400 rows, 23 cols
+[OK]    2020_rev_14/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_14/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_14/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_15/products_base.parquet: 19400 rows, 23 cols
+[OK]    2020_rev_15/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_15/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_15/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_16/products_base.parquet: 19400 rows, 23 cols
+[OK]    2020_rev_16/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_16/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_16/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_17/products_base.parquet: 19400 rows, 23 cols
+[OK]    2020_rev_17/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_17/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_17/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_18/products_base.parquet: 19400 rows, 23 cols
+[OK]    2020_rev_18/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_18/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_18/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_2/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_2/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_2/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_3/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_3/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_3/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_4/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_4/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_4/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_5/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_5/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_5/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_6/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_6/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_6/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_7/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_7/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_7/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_8/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_8/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_8/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2020_rev_9/products_base.parquet: 19156 rows, 23 cols
+[OK]    2020_rev_9/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2020_rev_9/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2020_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_basic/products_base.parquet: 19419 rows, 23 cols
+[OK]    2021_basic/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_basic/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_1/products_base.parquet: 19419 rows, 23 cols
+[OK]    2021_rev_1/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_1/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_10/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_10/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_10/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_11/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_11/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_11/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_11/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_12/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_12/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_12/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_12/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_2/products_base.parquet: 19419 rows, 23 cols
+[OK]    2021_rev_2/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_2/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_3/products_base.parquet: 19419 rows, 23 cols
+[OK]    2021_rev_3/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_3/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_4/products_base.parquet: 19419 rows, 23 cols
+[OK]    2021_rev_4/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_4/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_5/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_5/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_5/authority_product_applicability.parquet: 11839 rows, 16 cols
+[OK]    2021_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_6/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_6/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_6/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_7/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_7/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_7/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_8/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_8/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_8/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2021_rev_9/products_base.parquet: 19448 rows, 23 cols
+[OK]    2021_rev_9/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2021_rev_9/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2021_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_basic/products_base.parquet: 19824 rows, 23 cols
+[OK]    2022_basic/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_basic/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_1/products_base.parquet: 19823 rows, 23 cols
+[OK]    2022_rev_1/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_1/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_10/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_10/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_10/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_11/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_11/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_11/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_11/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_12/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_12/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_12/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_12/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_2/products_base.parquet: 19824 rows, 23 cols
+[OK]    2022_rev_2/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_2/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_3/products_base.parquet: 19824 rows, 23 cols
+[OK]    2022_rev_3/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_3/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_4/products_base.parquet: 19824 rows, 23 cols
+[OK]    2022_rev_4/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_4/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_5/products_base.parquet: 19824 rows, 23 cols
+[OK]    2022_rev_5/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_5/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_6/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_6/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_6/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_7/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_7/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_7/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_8/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_8/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_8/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2022_rev_9/products_base.parquet: 19884 rows, 23 cols
+[OK]    2022_rev_9/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2022_rev_9/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2022_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_basic/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_basic/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_basic/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_1/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_1/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_1/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_10/products_base.parquet: 20047 rows, 23 cols
+[OK]    2023_rev_10/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_10/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_11/products_base.parquet: 20047 rows, 23 cols
+[OK]    2023_rev_11/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_11/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_11/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_2/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_2/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_2/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_3/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_3/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_3/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_4/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_4/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_4/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_5/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_5/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_5/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_6/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_6/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_6/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_7/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_7/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_7/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_8/products_base.parquet: 19974 rows, 23 cols
+[OK]    2023_rev_8/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_8/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2023_rev_9/products_base.parquet: 20047 rows, 23 cols
+[OK]    2023_rev_9/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2023_rev_9/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2023_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_basic/products_base.parquet: 20145 rows, 23 cols
+[OK]    2024_basic/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_basic/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_1/products_base.parquet: 20145 rows, 23 cols
+[OK]    2024_rev_1/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_1/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_10/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_10/authority_country_rates.parquet: 11 rows, 10 cols
+[OK]    2024_rev_10/authority_product_applicability.parquet: 10681 rows, 16 cols
+[OK]    2024_rev_10/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_2/products_base.parquet: 20145 rows, 23 cols
+[OK]    2024_rev_2/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_2/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_3/products_base.parquet: 20145 rows, 23 cols
+[OK]    2024_rev_3/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_3/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_4/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_4/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_4/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_5/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_5/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_5/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_6/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_6/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_6/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_6/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_7/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_7/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_7/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_7/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_8/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_8/authority_country_rates.parquet: 7 rows, 10 cols
+[OK]    2024_rev_8/authority_product_applicability.parquet: 10320 rows, 16 cols
+[OK]    2024_rev_8/authority_exemptions.parquet: 62890 rows, 13 cols
+[OK]    2024_rev_9/products_base.parquet: 20174 rows, 23 cols
+[OK]    2024_rev_9/authority_country_rates.parquet: 8 rows, 10 cols
+[OK]    2024_rev_9/authority_product_applicability.parquet: 10321 rows, 16 cols
+[OK]    2024_rev_9/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_basic/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_basic/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_basic/products_base.parquet: 20204 rows, 23 cols
+[OK]    2025_basic/authority_country_rates.parquet: 14 rows, 10 cols
+[OK]    2025_basic/authority_product_applicability.parquet: 10702 rows, 16 cols
+[OK]    2025_basic/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_basic/section301_scope_decisions.parquet missing
+[FAIL]  2025_basic/section232_scope_decisions.parquet missing
+[FAIL]  2025_basic/ieepa_action_decisions.parquet missing
+[FAIL]  2025_basic/claim_effects.parquet missing
+[FAIL]  2025_basic/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_basic/chapter99_provisions.parquet missing
+[FAIL]  2025_basic/chapter99_notes.parquet missing
+[FAIL]  2025_rev_1/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_1/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_1/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_1/authority_country_rates.parquet: 16 rows, 10 cols
+[OK]    2025_rev_1/authority_product_applicability.parquet: 10702 rows, 16 cols
+[OK]    2025_rev_1/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_rev_1/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_1/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_1/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_1/claim_effects.parquet missing
+[FAIL]  2025_rev_1/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_1/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_1/chapter99_notes.parquet missing
+[FAIL]  2025_rev_10/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_10/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_10/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_10/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_10/authority_product_applicability.parquet: 11242 rows, 16 cols
+[OK]    2025_rev_10/authority_exemptions.parquet: 62996 rows, 13 cols
+[FAIL]  2025_rev_10/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_10/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_10/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_10/claim_effects.parquet missing
+[FAIL]  2025_rev_10/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_10/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_10/chapter99_notes.parquet missing
+[FAIL]  2025_rev_11/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_11/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_11/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_11/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_11/authority_product_applicability.parquet: 11589 rows, 16 cols
+[OK]    2025_rev_11/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_11/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_11/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_11/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_11/claim_effects.parquet missing
+[FAIL]  2025_rev_11/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_11/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_11/chapter99_notes.parquet missing
+[FAIL]  2025_rev_12/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_12/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_12/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_12/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_12/authority_product_applicability.parquet: 11589 rows, 16 cols
+[OK]    2025_rev_12/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_12/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_12/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_12/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_12/claim_effects.parquet missing
+[FAIL]  2025_rev_12/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_12/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_12/chapter99_notes.parquet missing
+[FAIL]  2025_rev_13/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_13/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_13/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_13/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_13/authority_product_applicability.parquet: 11589 rows, 16 cols
+[OK]    2025_rev_13/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_13/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_13/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_13/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_13/claim_effects.parquet missing
+[FAIL]  2025_rev_13/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_13/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_13/chapter99_notes.parquet missing
+[FAIL]  2025_rev_14/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_14/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_14/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_14/authority_country_rates.parquet: 263 rows, 10 cols
+[OK]    2025_rev_14/authority_product_applicability.parquet: 11589 rows, 16 cols
+[OK]    2025_rev_14/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_14/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_14/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_14/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_14/claim_effects.parquet missing
+[FAIL]  2025_rev_14/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_14/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_14/chapter99_notes.parquet missing
+[FAIL]  2025_rev_15/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_15/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_15/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_15/authority_country_rates.parquet: 263 rows, 10 cols
+[OK]    2025_rev_15/authority_product_applicability.parquet: 11589 rows, 16 cols
+[OK]    2025_rev_15/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_15/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_15/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_15/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_15/claim_effects.parquet missing
+[FAIL]  2025_rev_15/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_15/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_15/chapter99_notes.parquet missing
+[FAIL]  2025_rev_16/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_16/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_16/products_base.parquet: 20242 rows, 23 cols
+[OK]    2025_rev_16/authority_country_rates.parquet: 263 rows, 10 cols
+[OK]    2025_rev_16/authority_product_applicability.parquet: 11591 rows, 16 cols
+[OK]    2025_rev_16/authority_exemptions.parquet: 63519 rows, 13 cols
+[FAIL]  2025_rev_16/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_16/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_16/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_16/claim_effects.parquet missing
+[FAIL]  2025_rev_16/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_16/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_16/chapter99_notes.parquet missing
+[FAIL]  2025_rev_17/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_17/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_17/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_17/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_17/authority_product_applicability.parquet: 11591 rows, 16 cols
+[OK]    2025_rev_17/authority_exemptions.parquet: 63406 rows, 13 cols
+[FAIL]  2025_rev_17/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_17/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_17/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_17/claim_effects.parquet missing
+[FAIL]  2025_rev_17/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_17/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_17/chapter99_notes.parquet missing
+[FAIL]  2025_rev_18/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_18/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_18/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_18/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_18/authority_product_applicability.parquet: 11591 rows, 16 cols
+[OK]    2025_rev_18/authority_exemptions.parquet: 63406 rows, 13 cols
+[FAIL]  2025_rev_18/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_18/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_18/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_18/claim_effects.parquet missing
+[FAIL]  2025_rev_18/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_18/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_18/chapter99_notes.parquet missing
+[FAIL]  2025_rev_19/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_19/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_19/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_19/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_19/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_19/authority_exemptions.parquet: 63406 rows, 13 cols
+[FAIL]  2025_rev_19/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_19/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_19/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_19/claim_effects.parquet missing
+[FAIL]  2025_rev_19/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_19/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_19/chapter99_notes.parquet missing
+[FAIL]  2025_rev_2/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_2/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_2/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_2/authority_country_rates.parquet: 16 rows, 10 cols
+[OK]    2025_rev_2/authority_product_applicability.parquet: 10702 rows, 16 cols
+[OK]    2025_rev_2/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_rev_2/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_2/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_2/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_2/claim_effects.parquet missing
+[FAIL]  2025_rev_2/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_2/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_2/chapter99_notes.parquet missing
+[FAIL]  2025_rev_20/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_20/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_20/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_20/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_20/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_20/authority_exemptions.parquet: 63406 rows, 13 cols
+[FAIL]  2025_rev_20/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_20/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_20/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_20/claim_effects.parquet missing
+[FAIL]  2025_rev_20/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_20/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_20/chapter99_notes.parquet missing
+[FAIL]  2025_rev_21/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_21/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_21/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_21/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_21/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_21/authority_exemptions.parquet: 63406 rows, 13 cols
+[FAIL]  2025_rev_21/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_21/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_21/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_21/claim_effects.parquet missing
+[FAIL]  2025_rev_21/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_21/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_21/chapter99_notes.parquet missing
+[FAIL]  2025_rev_22/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_22/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_22/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_22/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_22/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_22/authority_exemptions.parquet: 63445 rows, 13 cols
+[FAIL]  2025_rev_22/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_22/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_22/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_22/claim_effects.parquet missing
+[FAIL]  2025_rev_22/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_22/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_22/chapter99_notes.parquet missing
+[FAIL]  2025_rev_23/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_23/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_23/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_23/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_23/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_23/authority_exemptions.parquet: 63445 rows, 13 cols
+[FAIL]  2025_rev_23/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_23/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_23/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_23/claim_effects.parquet missing
+[FAIL]  2025_rev_23/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_23/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_23/chapter99_notes.parquet missing
+[FAIL]  2025_rev_24/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_24/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_24/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_24/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_24/authority_product_applicability.parquet: 12099 rows, 16 cols
+[OK]    2025_rev_24/authority_exemptions.parquet: 63445 rows, 13 cols
+[FAIL]  2025_rev_24/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_24/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_24/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_24/claim_effects.parquet missing
+[FAIL]  2025_rev_24/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_24/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_24/chapter99_notes.parquet missing
+[FAIL]  2025_rev_25/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_25/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_25/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_25/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_25/authority_product_applicability.parquet: 12212 rows, 16 cols
+[OK]    2025_rev_25/authority_exemptions.parquet: 63026 rows, 13 cols
+[FAIL]  2025_rev_25/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_25/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_25/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_25/claim_effects.parquet missing
+[FAIL]  2025_rev_25/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_25/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_25/chapter99_notes.parquet missing
+[FAIL]  2025_rev_26/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_26/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_26/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_26/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_26/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_26/authority_exemptions.parquet: 63116 rows, 13 cols
+[FAIL]  2025_rev_26/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_26/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_26/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_26/claim_effects.parquet missing
+[FAIL]  2025_rev_26/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_26/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_26/chapter99_notes.parquet missing
+[FAIL]  2025_rev_27/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_27/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_27/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_27/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_27/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_27/authority_exemptions.parquet: 63116 rows, 13 cols
+[FAIL]  2025_rev_27/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_27/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_27/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_27/claim_effects.parquet missing
+[FAIL]  2025_rev_27/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_27/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_27/chapter99_notes.parquet missing
+[FAIL]  2025_rev_28/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_28/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_28/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_28/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_28/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_28/authority_exemptions.parquet: 63116 rows, 13 cols
+[FAIL]  2025_rev_28/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_28/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_28/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_28/claim_effects.parquet missing
+[FAIL]  2025_rev_28/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_28/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_28/chapter99_notes.parquet missing
+[FAIL]  2025_rev_29/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_29/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_29/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_29/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_29/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_29/authority_exemptions.parquet: 63590 rows, 13 cols
+[FAIL]  2025_rev_29/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_29/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_29/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_29/claim_effects.parquet missing
+[FAIL]  2025_rev_29/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_29/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_29/chapter99_notes.parquet missing
+[FAIL]  2025_rev_3/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_3/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_3/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_3/authority_country_rates.parquet: 21 rows, 10 cols
+[OK]    2025_rev_3/authority_product_applicability.parquet: 10996 rows, 16 cols
+[OK]    2025_rev_3/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_rev_3/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_3/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_3/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_3/claim_effects.parquet missing
+[FAIL]  2025_rev_3/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_3/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_3/chapter99_notes.parquet missing
+[FAIL]  2025_rev_30/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_30/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_30/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_30/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_30/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_30/authority_exemptions.parquet: 63590 rows, 13 cols
+[FAIL]  2025_rev_30/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_30/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_30/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_30/claim_effects.parquet missing
+[FAIL]  2025_rev_30/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_30/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_30/chapter99_notes.parquet missing
+[FAIL]  2025_rev_31/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_31/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_31/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_31/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_31/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_31/authority_exemptions.parquet: 63590 rows, 13 cols
+[FAIL]  2025_rev_31/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_31/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_31/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_31/claim_effects.parquet missing
+[FAIL]  2025_rev_31/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_31/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_31/chapter99_notes.parquet missing
+[FAIL]  2025_rev_32/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_32/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_32/products_base.parquet: 20241 rows, 23 cols
+[OK]    2025_rev_32/authority_country_rates.parquet: 264 rows, 10 cols
+[OK]    2025_rev_32/authority_product_applicability.parquet: 12532 rows, 16 cols
+[OK]    2025_rev_32/authority_exemptions.parquet: 63590 rows, 13 cols
+[FAIL]  2025_rev_32/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_32/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_32/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_32/claim_effects.parquet missing
+[FAIL]  2025_rev_32/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_32/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_32/chapter99_notes.parquet missing
+[FAIL]  2025_rev_4/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_4/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_4/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_4/authority_country_rates.parquet: 23 rows, 10 cols
+[OK]    2025_rev_4/authority_product_applicability.parquet: 11021 rows, 16 cols
+[OK]    2025_rev_4/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_rev_4/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_4/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_4/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_4/claim_effects.parquet missing
+[FAIL]  2025_rev_4/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_4/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_4/chapter99_notes.parquet missing
+[FAIL]  2025_rev_5/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_5/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_5/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_5/authority_country_rates.parquet: 23 rows, 10 cols
+[OK]    2025_rev_5/authority_product_applicability.parquet: 11168 rows, 16 cols
+[OK]    2025_rev_5/authority_exemptions.parquet: 62890 rows, 13 cols
+[FAIL]  2025_rev_5/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_5/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_5/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_5/claim_effects.parquet missing
+[FAIL]  2025_rev_5/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_5/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_5/chapter99_notes.parquet missing
+[FAIL]  2025_rev_6/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_6/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_6/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_6/authority_country_rates.parquet: 23 rows, 10 cols
+[OK]    2025_rev_6/authority_product_applicability.parquet: 11241 rows, 16 cols
+[OK]    2025_rev_6/authority_exemptions.parquet: 62935 rows, 13 cols
+[FAIL]  2025_rev_6/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_6/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_6/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_6/claim_effects.parquet missing
+[FAIL]  2025_rev_6/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_6/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_6/chapter99_notes.parquet missing
+[FAIL]  2025_rev_7/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_7/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_7/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_7/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_7/authority_product_applicability.parquet: 11242 rows, 16 cols
+[OK]    2025_rev_7/authority_exemptions.parquet: 62996 rows, 13 cols
+[FAIL]  2025_rev_7/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_7/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_7/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_7/claim_effects.parquet missing
+[FAIL]  2025_rev_7/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_7/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_7/chapter99_notes.parquet missing
+[FAIL]  2025_rev_8/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_8/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_8/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_8/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_8/authority_product_applicability.parquet: 11242 rows, 16 cols
+[OK]    2025_rev_8/authority_exemptions.parquet: 62996 rows, 13 cols
+[FAIL]  2025_rev_8/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_8/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_8/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_8/claim_effects.parquet missing
+[FAIL]  2025_rev_8/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_8/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_8/chapter99_notes.parquet missing
+[FAIL]  2025_rev_9/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2025_rev_9/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2025_rev_9/products_base.parquet: 20206 rows, 23 cols
+[OK]    2025_rev_9/authority_country_rates.parquet: 261 rows, 10 cols
+[OK]    2025_rev_9/authority_product_applicability.parquet: 11242 rows, 16 cols
+[OK]    2025_rev_9/authority_exemptions.parquet: 62996 rows, 13 cols
+[FAIL]  2025_rev_9/section301_scope_decisions.parquet missing
+[FAIL]  2025_rev_9/section232_scope_decisions.parquet missing
+[FAIL]  2025_rev_9/ieepa_action_decisions.parquet missing
+[FAIL]  2025_rev_9/claim_effects.parquet missing
+[FAIL]  2025_rev_9/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2025_rev_9/chapter99_provisions.parquet missing
+[FAIL]  2025_rev_9/chapter99_notes.parquet missing
+[FAIL]  2026_basic/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_basic/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_basic/products_base.parquet: 20241 rows, 23 cols
+[OK]    2026_basic/authority_country_rates.parquet: 267 rows, 10 cols
+[OK]    2026_basic/authority_product_applicability.parquet: 12539 rows, 16 cols
+[OK]    2026_basic/authority_exemptions.parquet: 63596 rows, 13 cols
+[FAIL]  2026_basic/section301_scope_decisions.parquet missing
+[FAIL]  2026_basic/section232_scope_decisions.parquet missing
+[FAIL]  2026_basic/ieepa_action_decisions.parquet missing
+[FAIL]  2026_basic/claim_effects.parquet missing
+[FAIL]  2026_basic/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_basic/chapter99_provisions.parquet missing
+[FAIL]  2026_basic/chapter99_notes.parquet missing
+[FAIL]  2026_rev_1/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_1/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_1/products_base.parquet: 20241 rows, 23 cols
+[OK]    2026_rev_1/authority_country_rates.parquet: 267 rows, 10 cols
+[OK]    2026_rev_1/authority_product_applicability.parquet: 12536 rows, 16 cols
+[OK]    2026_rev_1/authority_exemptions.parquet: 63586 rows, 13 cols
+[FAIL]  2026_rev_1/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_1/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_1/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_1/claim_effects.parquet missing
+[FAIL]  2026_rev_1/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_1/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_1/chapter99_notes.parquet missing
+[FAIL]  2026_rev_10/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_10/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_10/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_10/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_10/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_10/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_10/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_10/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_10/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_10/claim_effects.parquet missing
+[FAIL]  2026_rev_10/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_10/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_10/chapter99_notes.parquet missing
+[FAIL]  2026_rev_11/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_11/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_11/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_11/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_11/authority_product_applicability.parquet: 14622 rows, 16 cols
+[OK]    2026_rev_11/authority_exemptions.parquet: 65227 rows, 13 cols
+[FAIL]  2026_rev_11/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_11/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_11/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_11/claim_effects.parquet missing
+[FAIL]  2026_rev_11/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_11/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_11/chapter99_notes.parquet missing
+[FAIL]  2026_rev_12/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_12/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_12/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_12/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_12/authority_product_applicability.parquet: 14622 rows, 16 cols
+[OK]    2026_rev_12/authority_exemptions.parquet: 65227 rows, 13 cols
+[FAIL]  2026_rev_12/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_12/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_12/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_12/claim_effects.parquet missing
+[FAIL]  2026_rev_12/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_12/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_12/chapter99_notes.parquet missing
+[FAIL]  2026_rev_13/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_13/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_13/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_13/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_13/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_13/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_13/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_13/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_13/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_13/claim_effects.parquet missing
+[FAIL]  2026_rev_13/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_13/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_13/chapter99_notes.parquet missing
+[FAIL]  2026_rev_14/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_14/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_14/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_14/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_14/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_14/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_14/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_14/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_14/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_14/claim_effects.parquet missing
+[FAIL]  2026_rev_14/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_14/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_14/chapter99_notes.parquet missing
+[FAIL]  2026_rev_15/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_15/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_15/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_15/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_15/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_15/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_15/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_15/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_15/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_15/claim_effects.parquet missing
+[FAIL]  2026_rev_15/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_15/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_15/chapter99_notes.parquet missing
+[FAIL]  2026_rev_16/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_16/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_16/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_16/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_16/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_16/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_16/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_16/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_16/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_16/claim_effects.parquet missing
+[FAIL]  2026_rev_16/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_16/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_16/chapter99_notes.parquet missing
+[FAIL]  2026_rev_17/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_17/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_17/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_17/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_17/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_17/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_17/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_17/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_17/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_17/claim_effects.parquet missing
+[FAIL]  2026_rev_17/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_17/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_17/chapter99_notes.parquet missing
+[FAIL]  2026_rev_18/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_18/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_18/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_18/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_18/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_18/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_18/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_18/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_18/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_18/claim_effects.parquet missing
+[FAIL]  2026_rev_18/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_18/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_18/chapter99_notes.parquet missing
+[FAIL]  2026_rev_19/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_19/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_19/products_base.parquet: 20422 rows, 23 cols
+[OK]    2026_rev_19/authority_country_rates.parquet: 17 rows, 10 cols
+[OK]    2026_rev_19/authority_product_applicability.parquet: 14621 rows, 16 cols
+[OK]    2026_rev_19/authority_exemptions.parquet: 63571 rows, 13 cols
+[FAIL]  2026_rev_19/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_19/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_19/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_19/claim_effects.parquet missing
+[FAIL]  2026_rev_19/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_19/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_19/chapter99_notes.parquet missing
+[FAIL]  2026_rev_2/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_2/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_2/products_base.parquet: 20328 rows, 23 cols
+[OK]    2026_rev_2/authority_country_rates.parquet: 267 rows, 10 cols
+[OK]    2026_rev_2/authority_product_applicability.parquet: 12543 rows, 16 cols
+[OK]    2026_rev_2/authority_exemptions.parquet: 63584 rows, 13 cols
+[FAIL]  2026_rev_2/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_2/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_2/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_2/claim_effects.parquet missing
+[FAIL]  2026_rev_2/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_2/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_2/chapter99_notes.parquet missing
+[FAIL]  2026_rev_3/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_3/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_3/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_3/authority_country_rates.parquet: 267 rows, 10 cols
+[OK]    2026_rev_3/authority_product_applicability.parquet: 12543 rows, 16 cols
+[OK]    2026_rev_3/authority_exemptions.parquet: 63584 rows, 13 cols
+[FAIL]  2026_rev_3/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_3/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_3/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_3/claim_effects.parquet missing
+[FAIL]  2026_rev_3/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_3/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_3/chapter99_notes.parquet missing
+[FAIL]  2026_rev_4/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_4/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_4/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_4/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_4/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_4/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_4/products_base.parquet: 1 rows, 26 cols
+[OK]    2026_rev_4/authority_country_rates.parquet: 1 rows, 14 cols
+[OK]    2026_rev_4/authority_product_applicability.parquet: 4 rows, 19 cols
+[OK]    2026_rev_4/authority_exemptions.parquet: 62938 rows, 19 cols
+[OK]    2026_rev_4/section301_scope_decisions.parquet: 0 rows, 14 cols
+[OK]    2026_rev_4/section232_scope_decisions.parquet: 0 rows, 12 cols
+[OK]    2026_rev_4/ieepa_action_decisions.parquet: 1 rows, 24 cols
+[OK]    2026_rev_4/claim_effects.parquet: 0 rows, 14 cols
+[FAIL]  2026_rev_4/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_4/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_4/chapter99_notes.parquet missing
+[FAIL]  2026_rev_5/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_5/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_5/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_5/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_5/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_5/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_5/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_5/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_5/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_5/claim_effects.parquet missing
+[FAIL]  2026_rev_5/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_5/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_5/chapter99_notes.parquet missing
+[FAIL]  2026_rev_6/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_6/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_6/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_6/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_6/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_6/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_6/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_6/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_6/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_6/claim_effects.parquet missing
+[FAIL]  2026_rev_6/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_6/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_6/chapter99_notes.parquet missing
+[FAIL]  2026_rev_7/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_7/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_7/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_7/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_7/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_7/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_7/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_7/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_7/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_7/claim_effects.parquet missing
+[FAIL]  2026_rev_7/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_7/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_7/chapter99_notes.parquet missing
+[FAIL]  2026_rev_8/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_8/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_8/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_8/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_8/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_8/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_8/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_8/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_8/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_8/claim_effects.parquet missing
+[FAIL]  2026_rev_8/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_8/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_8/chapter99_notes.parquet missing
+[FAIL]  2026_rev_9/section301_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/section301_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/ieepa_reciprocal_source.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/ieepa_reciprocal_scope_evidence.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/ieepa_reciprocal_initial_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/section232_copper_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/section232_mhd_parts_rules.json missing; corrected source-backed rebuild required
+[FAIL]  2026_rev_9/chapter99_inventory_sources.json missing; corrected source-backed rebuild required
+[OK]    2026_rev_9/products_base.parquet: 20329 rows, 23 cols
+[OK]    2026_rev_9/authority_country_rates.parquet: 257 rows, 10 cols
+[OK]    2026_rev_9/authority_product_applicability.parquet: 14604 rows, 16 cols
+[OK]    2026_rev_9/authority_exemptions.parquet: 65234 rows, 13 cols
+[FAIL]  2026_rev_9/section301_scope_decisions.parquet missing
+[FAIL]  2026_rev_9/section232_scope_decisions.parquet missing
+[FAIL]  2026_rev_9/ieepa_action_decisions.parquet missing
+[FAIL]  2026_rev_9/claim_effects.parquet missing
+[FAIL]  2026_rev_9/ieepa_reciprocal_scope_decisions.parquet missing
+[FAIL]  2026_rev_9/chapter99_provisions.parquet missing
+[FAIL]  2026_rev_9/chapter99_notes.parquet missing
+[OK]    static revisions.parquet present
+[OK]    static product_metal_content.parquet present
+[OK]    static country_group_membership.parquet present
+
+Stage 1 FAILED with 791 errors. Stopping before parity.

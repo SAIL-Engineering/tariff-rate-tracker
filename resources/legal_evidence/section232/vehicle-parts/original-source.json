@@ -1,0 +1,9 @@
+{
+  "id": "FR-2025-19639-vehicle-parts-annex-reviewed",
+  "path": "resources/legal_evidence/section232/vehicle-parts/original-annex-reviewed.json",
+  "sha256": "12087b4276c92d46c09c8b539bcdf3fc2a475ce4bff87927d1bf9af018cac7d2",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-22/pdf/2025-19639.pdf",
+  "citation": "Proclamation10984 AnnexI A(1), note38(h)-(l), A(2) and A(11)(i)-(k), A(12); pp48461-48464 and48470-48474. JSON transcription independently checked against rendered original pages; no legal dates inferred from native revision.",
+  "original_pdf_path": "resources/legal_evidence/2025-19639/proclamation.pdf",
+  "original_pdf_sha256": "8765798ba39aedd2921b0c60c26846728b7cc313291713eb3bdacc6bf84d5136"
+}

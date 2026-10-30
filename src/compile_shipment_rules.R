@@ -143,6 +143,12 @@ compose_shipment_rules <- function(bundle, fragments) {
          !is.logical(p$positive_duty)||length(p$positive_duty)!=1 ||
          !is.logical(p$exclude)||length(p$exclude)!=1) stop('Invalid reporting predicate')
       selected<-Filter(function(r)overlap(scope,r$scope),reporting_candidates[[p$authority]])
+      # A reporting-only line is not an unidentified additional duty action.
+      # Keep it available to expressly named reporting-role predicates, while
+      # excluding it from the catch-all for other liability. The source flag
+      # above requires a verified literal-zero formula; ordinary zero-payable
+      # covered actions do not get this flag.
+      if(p$exclude)selected<-Filter(function(r)!isTRUE(r$reporting_only),selected)
       selected<-Filter(function(r) {
         hit<-intersect(unlist(r$reporting_codes),unlist(p$codes))
         if(length(hit)&&length(setdiff(unlist(r$reporting_codes),unlist(p$codes)))) stop('Mixed reporting decision must be split: ',r$id)

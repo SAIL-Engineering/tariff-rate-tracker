@@ -9,7 +9,7 @@ b$revision<-'2026_rev_19';b$dataset_version<-'s301fl-auto-source-composition-not
 b$products<-as.list(products);b$countries<-as.list(origins);b$valid_from<-labor$supported_from;b$valid_until<-labor$supported_until
 b$rules<-b$coverage<-b$claim_definitions<-list();b$fact_definitions<-list();b$coverage_requirements<-list('base','section_232','section_301','adcvd')
 b<-compose_shipment_rules(b,list(autos,labor));prepared<-prepare_shipment_bundle(b);cases<-list()
-vehicle<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_passenger_vehicle=TRUE,s232_auto_manufacture_year=2020)
+vehicle<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_vehicle_parts_certification='none',s232_auto_passenger_vehicle=TRUE,s232_auto_manufacture_year=2020)
 parts<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_parts_use=TRUE,s232_auto_usmca_eligible=FALSE)
 add<-function(name,facts=vehicle,hts='8703230190',country='2010',amount=25,exempt=TRUE,carrier='9903.05.90') {
  # These particular scenarios have no other product/procedural relief. Such

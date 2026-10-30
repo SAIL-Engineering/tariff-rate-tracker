@@ -1,0 +1,157 @@
+{
+  "root_role": "bounded two-cell ordinary Parquet test; not production or a full revision build",
+  "files": {
+    "2026_rev_4/authority_country_rates.parquet": {
+      "bytes": 4392,
+      "sha256": "9e48a09e96c51309e9d661654575654497e399631c08f99be83e8ce1632b3b16"
+    },
+    "2026_rev_4/authority_exemptions.parquet": {
+      "bytes": 345298,
+      "sha256": "ca3a04a3f7fe7eca07a77afa6dabf6899c04e5d0aa6a8b32fabeb51a766caf89"
+    },
+    "2026_rev_4/authority_product_applicability.parquet": {
+      "bytes": 9511,
+      "sha256": "7d79f20f27d10e2a6f0189a64f1aae4d49a653439b1f1c486b1d59d7c01d4b67"
+    },
+    "2026_rev_4/authority_product_candidates.parquet": {
+      "bytes": 4322,
+      "sha256": "ebcc3813001c40da9c39669015d700ff93e525b3edfa9c2a5c08ce8aa215db1b"
+    },
+    "2026_rev_4/chapter99_inventory_sources.json": {
+      "bytes": 65394,
+      "sha256": "aa142647f88e11fd8287b4564ec6c0aecead78d595ead77b01789fbd285c2656"
+    },
+    "2026_rev_4/chapter99_notes.parquet": {
+      "bytes": 733163,
+      "sha256": "09a6ce4321bc18ee9b3ad97045d7e99441fa3efbd3a7ce54a295eeec04ad7b39"
+    },
+    "2026_rev_4/chapter99_provisions.parquet": {
+      "bytes": 1271595,
+      "sha256": "83b0f59a8c53a9adbcfcd7e5c89538fa1f9294eee6d4e32d90bbd6bf45a52d28"
+    },
+    "2026_rev_4/claim_effects.parquet": {
+      "bytes": 21303,
+      "sha256": "cc685579f570016751e70bbc92db0793e477d8e7af7f7af9f187c3e802effa54"
+    },
+    "2026_rev_4/ieepa_action_decisions.parquet": {
+      "bytes": 6010,
+      "sha256": "062f23f60926e6eb0eaaff8f59810161115499aba5dd7d200dfe3dd1fab6a596"
+    },
+    "2026_rev_4/ieepa_reciprocal_initial_rules.json": {
+      "bytes": 50372,
+      "sha256": "15994912b173dd9a0a66a130cc05b55231342019761c59571bb56ccc6e3fb4c4"
+    },
+    "2026_rev_4/ieepa_reciprocal_scope_decisions.parquet": {
+      "bytes": 7184,
+      "sha256": "01095d2fca88a89356da1fdf2b9b259113a563ca0c8c623a3b8ad46fe2fa5e1b"
+    },
+    "2026_rev_4/ieepa_reciprocal_scope_evidence.json": {
+      "bytes": 588393,
+      "sha256": "ea3c353d6e4c416060d1c3ab34e7e43b43eeb4da3e796d0add63303994d0f6c8"
+    },
+    "2026_rev_4/ieepa_reciprocal_source.json": {
+      "bytes": 892946,
+      "sha256": "098ac84dde8f03531ecd5ca1e630693e87cb83698f7f92b3d0b4eba60c5ef536"
+    },
+    "2026_rev_4/products_base.parquet": {
+      "bytes": 8759,
+      "sha256": "2a985145aa7770247206886d0ef36babae3e137b3d788926821551313d650145"
+    },
+    "2026_rev_4/section122_rules.json": {
+      "bytes": 2044814,
+      "sha256": "a098a7acf2ce6d734c298683cfabd63dd726216f9251af30f0d9d68923d2a196"
+    },
+    "2026_rev_4/section122_source.json": {
+      "bytes": 34503661,
+      "sha256": "4eac479dd690d0d223a750d165312401988739d7051f00bd4811f3e5c990399d"
+    },
+    "2026_rev_4/section232_automobile_rules.json": {
+      "bytes": 724562,
+      "sha256": "b5a5b42d151cdf0adde8ae216b63f9040a2d04c16cc4b459ea156e69fca61b37"
+    },
+    "2026_rev_4/section232_civil_aircraft_rules.json": {
+      "bytes": 51490,
+      "sha256": "12fabcb0043d2ad503ebb2f0f38ff936169948ac3cebfb6616cea4c44f6ef5de"
+    },
+    "2026_rev_4/section232_copper_rules.json": {
+      "bytes": 38187,
+      "sha256": "55a408b58253635b24753efb494b8507db74f535ef29eadb4017efe6f0f0c226"
+    },
+    "2026_rev_4/section232_legacy_rules.json": {
+      "bytes": 56967,
+      "sha256": "d210a4070afdd3702bd231cb14442716e08781ac7514a07924727c55646b9f17"
+    },
+    "2026_rev_4/section232_legacy_source.json": {
+      "bytes": 257539,
+      "sha256": "abd0c11b1a56fa76b0cc940216b72e710fc4ffee2ca7f50568f476ffd496eabf"
+    },
+    "2026_rev_4/section232_mhd_parts_rules.json": {
+      "bytes": 49293,
+      "sha256": "c432fc33f6d02bdb9b7757e91b0d38fc11097f0a3f3ca7fb5e654f75e0accfd0"
+    },
+    "2026_rev_4/section232_scope_decisions.parquet": {
+      "bytes": 6475,
+      "sha256": "9ebf04192abdaa9c6d0a2f1d052c23be16bee789110f117828a51ed10a3de306"
+    },
+    "2026_rev_4/section232_semiconductors_rules.json": {
+      "bytes": 20566,
+      "sha256": "2828298d94753636722fae3c1e62174dec26bb9acfc6258626bb3a0570631d02"
+    },
+    "2026_rev_4/section301_forced_labor_rules.json": {
+      "bytes": 405883,
+      "sha256": "dbd5a1fc718db1f60a1aac183bfe874f339e9e0beed3f7ec3e0989d82afc378c"
+    },
+    "2026_rev_4/section301_rules.json": {
+      "bytes": 175552,
+      "sha256": "42f0de26ee40d1b2a476058e466629c6d12ccb83194e62290fe5e5c30b4f5c16"
+    },
+    "2026_rev_4/section301_scope_decisions.parquet": {
+      "bytes": 6483,
+      "sha256": "ca6cdb427bdfcc5902f818a7e3c34f0369bab3232077d04cec47fc1905c740ac"
+    },
+    "2026_rev_4/section301_source.json": {
+      "bytes": 1799154,
+      "sha256": "47c6ad79d6b8d30d2776b7648299e0d147dce41a22a1fe1caa709b504cd4f551"
+    },
+    "2026_rev_4/section338_rules.json": {
+      "bytes": 58987,
+      "sha256": "a80ec377fa8239ab8eef3aa05f50cb7d5629e3fa271697133c1759c57e32a0c5"
+    },
+    "2026_rev_4/section338_source.json": {
+      "bytes": 55686,
+      "sha256": "4948d957c7eec7178df174e3f3b9fa7ed45936766a3d17e20479ead1739703e4"
+    },
+    "2026_rev_4/shipment_base_rules.json": {
+      "bytes": 301213,
+      "sha256": "8dc9afbc9decb91ac2f8c667fb9c83b69ef98678c9da7f913dcfb662886d2898"
+    },
+    "2026_rev_4/shipment_bundle_342345ba7fd59588580f6302dcdb3358136384843f69a959d6e823f07bdb43b9.json": {
+      "bytes": 4583190,
+      "sha256": "fa17a5cb9d95bb4a3d6f215dc0b067be133c2bad2443c4999c9a2e8e582247a1"
+    },
+    "2026_rev_4/shipment_decision_classes.parquet": {
+      "bytes": 17407,
+      "sha256": "ae974da6f4bedf051847e5d3c827356a9438f2b0289d278384265ea457b898f2"
+    },
+    "2026_rev_4/shipment_decision_membership.parquet": {
+      "bytes": 4506,
+      "sha256": "3ffd7b7683759d1217a85e25bf8df8d60db124df51d8e330132130da8aa20ac4"
+    },
+    "2026_rev_4/shipment_rules.json": {
+      "bytes": 1087,
+      "sha256": "169345f7405bd49adf4dfd9105285b7e4aed98eba7e8fbb3f1e029a805056cc1"
+    },
+    "delivery_cases.json": {
+      "bytes": 3890610,
+      "sha256": "28db0403b2ba5d04c5779f81b7ee853b5287cbcce67b95963e44fd432c9bf845"
+    },
+    "product_metal_content.parquet": {
+      "bytes": 2147,
+      "sha256": "08d94026d29c64c010528786ca59352b0fe227408926d5fb0d7a84fe7773f9fb"
+    },
+    "rates_fixture.parquet": {
+      "bytes": 75988,
+      "sha256": "f061dab83f14f51012135d5e0a325ec56627f7c339c837161f6f893beaaad11c"
+    }
+  }
+}

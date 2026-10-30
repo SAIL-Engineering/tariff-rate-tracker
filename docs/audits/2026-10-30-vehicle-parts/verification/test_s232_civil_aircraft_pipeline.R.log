@@ -1,0 +1,175 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+here() starts at /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Reading HTS JSON from: /tmp/RtmprF3ozb/file33a4c4aba9a.json
+  Total items: 970
+  Parsed products: 573
+  8-digit leaf lines retained (padded to 10): 0
+  With Chapter 99 refs: 6
+  With complex rates: 2
+  Inherited parent rate: 427 (74.5%)
+  With NA base_rate: 0
+  Rate basis: ad_valorem = 127, free = 446
+  Qty duty-relevant: 0
+  With special rates: 127
+  With Column 2 rates: 559
+  Calc status: ok = 573
+Reading HTS JSON from: data/hts_archives/hts_2026_rev_19.json
+  Total items: 35804
+  Chapter 99 entries: 637
+  Country scope via parent-line inheritance: 62 heading(s)
+  Scope: 15 heading(s) state "any country" -> all origins
+  Scope recovered from hierarchy for 60 heading(s) previously unresolved (55 carrying a rate)
+
+=== Chapter 99 Summary [2026_rev_19] ===
+  Total entries: 637
+  With parsed rates: 339
+  By authority:
+# A tibble: 8 × 2
+  authority            n
+  <chr>            <int>
+1 section_301        219
+2 ieepa_reciprocal   154
+3 other              121
+4 section_232         88
+5 section_201         22
+6 ieepa_fentanyl      17
+7 section_122         11
+8 section_338          5
+
+  By country type:
+# A tibble: 4 × 2
+  country_type     n
+  <chr>        <int>
+1 specific       351
+2 unknown        146
+3 all_except     107
+4 all             33
+[2026-10-30 00:29:52] [WARN] Ch99 country scope [2026_rev_19]: 146 entries with unknown country_type (86 not_duty_relevant_trq, 38 handled_by_s232_extractor, 8 s301fl_exclusion_no_rate, 4 unresolved_s201, 3 handled_by_s201_extractor, 2 handled_by_fentanyl_extractor, 2 handled_by_s122_config, 2 ieepa_exclusion_no_rate, 1 handled_by_s338_config)
+[2026-10-30 00:29:52] [WARN] Truly unresolved entries (4):
+[2026-10-30 00:29:52] [WARN]   9903.45.01 [section_201]: "If entered in an aggregate quantity, in any quarterly period specified in note 1..."
+[2026-10-30 00:29:52] [WARN]   9903.45.02 [section_201]: "Other..."
+[2026-10-30 00:29:52] [WARN]   9903.45.05 [section_201]: "If entered in an annual aggregate quantity not exceeding the quantity specified ..."
+[2026-10-30 00:29:52] [WARN]   9903.45.06 [section_201]: "Other..."
+
+  By resolution status:
+# A tibble: 11 × 2
+   resolution_status                 n
+   <chr>                         <int>
+ 1 resolved_by_parser              487
+ 2 not_duty_relevant_trq            86
+ 3 handled_by_s232_extractor        38
+ 4 s301fl_exclusion_no_rate          8
+ 5 handled_by_s201_extractor         5
+ 6 unresolved_s201                   4
+ 7 handled_by_fentanyl_extractor     2
+ 8 handled_by_s122_config            2
+ 9 handled_by_s201_determination     2
+10 ieepa_exclusion_no_rate           2
+11 handled_by_s338_config            1
+Calculating rates for revision: 2026_rev_19 (2026-09-15)
+  Section 201 quartz: 6 temporally bounded scope/quota candidates; aggregate rates unchanged
+  Dropping 5 Ch99 entries not yet legally active at 2026-09-15 (earliest activation: 2026-11-10)
+  Dropping 17 Ch99 entries suspended or expired per the U.S. notes at 2026-09-15 (17 carried a rate)
+  Section 301 exclusion candidates: 144 hts10 across 2 in-window heading(s) at 2026-09-15 (9903.88.69, 9903.88.70)
+Calculating rates (fast mode)...
+  Product-country combinations: 0
+  Product-Ch99 ref pairs: 0
+  Product-Ch99 pairs with rates: 0
+  Full expansion: 0
+  After country filtering: 0
+  No footnote-linked rates for 2026_rev_19 — blanket authorities will seed rows
+  IEEPA collection ended at this entry date: 2026_rev_19
+  Source-backed unconditional reciprocal exemptions: 0
+  Country-EO exempt products active at 2026-09-15: 952 (HS8, ch99) pairs across 1 EOs
+  No per-revision floor exemptions for 2026_rev_19; using static fallback
+  Loaded 3817 floor exempt products (1691 unique HTS8)
+  Loaded USMCA H2 average (value-weighted): 20015 product-country pairs (6 months, Jul-Dec 2025); HS8 fallback table: 12924 pairs
+  Loaded MFN exemption shares: 4695 HS2-country pairs
+  Post-IEEPA grid expansion: adding 1 product-country pairs (base rate only)
+Extracting Section 232 blanket rates...
+  Auto 232: 25% (all countries)
+  Auto deal rates: 14 country-specific entries (4120, 5880, 4330, 5800, 5830)
+  Softwood 232: 10%
+  Wood furniture/cabinets 232: 25%
+  Wood deal rates: 5 country-specific entries (4120, 5880, 4330, 5800, 5830)
+  MHD vehicles 232: 25%
+  Semiconductor 232: 25%
+  232 coverage: autos + wood + MHD + semi
+  Skipping 232 heading "copper" — Ch99 entries not in this revision
+  Section 232 coverage: 1 steel + 0 aluminum + 0 auto + 0 copper + 0 wood + 0 MHD + 0 semi products
+  Steel: 0 countries, aluminum: 0, auto: 1 (blanket metal path empty — annex regime carries steel/aluminum)
+  Loaded 655 Section 232 derivative product prefixes
+  Metal content: no derivative products to adjust
+  Revision note 16: 1 list memberships; 1 products
+  Annex rate override: annex_1a=1
+  Section 301: 1 exact products from 2026_rev_19; 0 require product facts
+Extracting Section 122 rates...
+  Section 122 base rate (9903.03.01): 10%
+  Section 122 expired (2026-07-23) — not applied
+Extracting Section 201 (safeguard) rates...
+  Solar 201 active: 2 Ch99 entries (HTS Rates-of-Duty column shows the FIRST stage: 30 %)
+  Section 201 (solar): 0% on 0 product-country pairs (3 HTS10 covered, Canada exempt)
+  MFN exemption shares: adjusted base_rate for 0 product-country pairs
+  Loaded MFN exemption shares: 4695 HS2-country pairs
+  Section 301 forced labor: 0 product-country pairs across 0 census origins (§232 articles fully excluded per note 52(f); CA/MX USMCA-free entries per note 52(g)/(h); aircraft/pharma exempt shares 0.9/0.5 — ASSUMED, not measured)
+  Section 338 Canada not applicable to this revision (effective 2026-08-22)
+  EO 14289 (s338): 0 row(s) had a lower-precedence action suppressed; aggregate rate_232 +0.0000
+  Statutory totals: mean statutory_total_rate NaN vs trade-weighted total_rate 0.5000
+  §201: 7 of 16 safeguard heading(s) dropped — country scope did not parse (fail-closed; duty NOT applied)
+  Section 232 reporting codes: 1 unresolved; rate/chapter/broadest-heading inference is disabled
+  ch99_code_301: 0 rated rows attributed from the recorded source; 0 left NA (214 §301 headings active)
+  ch99_code_s122: 0 rated rows left NA — 11 §122 headings active and no recorded source
+  [denorm_state] unknown slots present (ok for forward compat): ieepa_evidence, reciprocal_scope_source, fentanyl_evidence, country_eo_exemptions, s232_note16_source, s232_legacy_source, s232_legacy_memberships, s232_note16_matches, s232_note16_projection, s301_source, s301_matches, heading_candidates
+  Loaded 308 fentanyl carve-out product prefixes (3 categories)
+  Loaded 655 Section 232 derivative product prefixes
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+  Metal content: no derivative products to adjust
+  Policy dates: swapped 51 revision effective dates
+Loaded 144 revision dates from /home/wijreid/Desktop/SAIL/SAIL_Engineering/GitHub_tariff-rate-tracker/tariff-rate-tracker/config/revision_dates.csv
+  Date range: 2019-02-21 to 2026-10-09
+  TPC validation dates: 5
+  Products-countries: 1
+  With IEEPA reciprocal: 0
+  With Section 232: 1
+  With Section 301: 0
+  With Section 122: 0
+  USMCA eligible: 0
+  Duty ledger: 7 step(s) recorded -> output/provenance/duty_steps_2026_rev_19_2026-09-15.csv
+Warning messages:
+1: There was 1 warning in `summarise()`.
+ℹ In argument: `rate = max(rate)`.
+Caused by warning in `max()`:
+! no non-missing arguments to max; returning -Inf 
+2: §201: no staged schedule available for 2026-09-15 — falling back to the config constant (0%), which goes stale by construction. Run scripts/extract_note_rules.R to regenerate resources/ch99_staged_rates.csv. 
+3: In validate_denorm_state(denorm_state, revision_id = revision_id,  :
+  denorm_state contract violated (revision=2026_rev_19):
+  - slot country_ieepa — NULL (expected tibble or NULL from the IEEPA-inactive branch)
+Actual-source steel: USD50 ordinary metal versus sourced aircraft waiver; model invariance and complete one-cell Parquet check passed

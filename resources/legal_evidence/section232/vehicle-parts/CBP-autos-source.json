@@ -1,0 +1,9 @@
+{
+  "id": "CBP-autos-FAQ-vehicle-parts",
+  "path": "resources/legal_evidence/section232/vehicle-parts/CBP-autos-FAQ.txt",
+  "sha256": "d13809d93e4a258d7f33769bec0d032ab843ccf05d64590f195323e60f4dc50b",
+  "url": "https://www.cbp.gov/trade/programs-administration/entry-summary/section-232-additional-faqs-autos",
+  "citation": "CBP additional Section232 FAQ: USMCA treatment explicitly includes importer-certified production/repair parts. Current interpretive page, not an independent amendment clock.",
+  "retrieved_at": "2026-10-28",
+  "method": "gstack browse text"
+}

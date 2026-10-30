@@ -1,0 +1,406 @@
+TAP version 13
+# Subtest: Source-backed vehicle-parts R/TypeScript: Ordinary copper is unaffected when no optional declaration was made
+ok 1 - Source-backed vehicle-parts R/TypeScript: Ordinary copper is unaffected when no optional declaration was made
+  ---
+  duration_ms: 14.497615
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified MHD part pays25 on the article instead of50 on copper
+ok 2 - Source-backed vehicle-parts R/TypeScript: Certified MHD part pays25 on the article instead of50 on copper
+  ---
+  duration_ms: 11.434005
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: USMCA individual MHD part remains subject while payable duty is zero
+ok 3 - Source-backed vehicle-parts R/TypeScript: USMCA individual MHD part remains subject while payable duty is zero
+  ---
+  duration_ms: 7.878242
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: USMCA MHD knockdown kit remains charged
+ok 4 - Source-backed vehicle-parts R/TypeScript: USMCA MHD knockdown kit remains charged
+  ---
+  duration_ms: 7.877339
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: A declaration alone cannot turn a non-part into MHD coverage
+ok 5 - Source-backed vehicle-parts R/TypeScript: A declaration alone cannot turn a non-part into MHD coverage
+  ---
+  duration_ms: 8.233573
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Ordinary entry needs no optional certification facts
+ok 6 - Source-backed vehicle-parts R/TypeScript: Ordinary entry needs no optional certification facts
+  ---
+  duration_ms: 6.181193
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Requested certified path needs the actual importer certification
+ok 7 - Source-backed vehicle-parts R/TypeScript: Requested certified path needs the actual importer certification
+  ---
+  duration_ms: 6.362839
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified passenger vehicle part suppresses original copper
+ok 8 - Source-backed vehicle-parts R/TypeScript: Certified passenger vehicle part suppresses original copper
+  ---
+  duration_ms: 6.177985
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: A non-part cannot acquire an optional automobile reporting exemption
+ok 9 - Source-backed vehicle-parts R/TypeScript: A non-part cannot acquire an optional automobile reporting exemption
+  ---
+  duration_ms: 6.868391
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified EU part uses the source General floor
+ok 10 - Source-backed vehicle-parts R/TypeScript: Certified EU part uses the source General floor
+  ---
+  duration_ms: 7.763391
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified Japanese part uses the source General floor
+ok 11 - Source-backed vehicle-parts R/TypeScript: Certified Japanese part uses the source General floor
+  ---
+  duration_ms: 7.565606
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified Korean part uses the source General floor
+ok 12 - Source-backed vehicle-parts R/TypeScript: Certified Korean part uses the source General floor
+  ---
+  duration_ms: 9.477404
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified UK part used in a UK automobile uses the combined10heading
+ok 13 - Source-backed vehicle-parts R/TypeScript: Certified UK part used in a UK automobile uses the combined10heading
+  ---
+  duration_ms: 6.952018
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: UK-origin part without UK-vehicle use retains ordinary certified charge
+ok 14 - Source-backed vehicle-parts R/TypeScript: UK-origin part without UK-vehicle use retains ordinary certified charge
+  ---
+  duration_ms: 6.220255
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified auto part USMCA relief re-evaluates copper suppression
+ok 15 - Source-backed vehicle-parts R/TypeScript: Certified auto part USMCA relief re-evaluates copper suppression
+  ---
+  duration_ms: 5.854907
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Certified auto knockdown kit pays statutory25
+ok 16 - Source-backed vehicle-parts R/TypeScript: Certified auto knockdown kit pays statutory25
+  ---
+  duration_ms: 6.730939
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Before the optional certified commencement copper remains payable
+ok 17 - Source-backed vehicle-parts R/TypeScript: Before the optional certified commencement copper remains payable
+  ---
+  duration_ms: 5.642732
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: At the original legal minute the MHD declaration changes the action
+ok 18 - Source-backed vehicle-parts R/TypeScript: At the original legal minute the MHD declaration changes the action
+  ---
+  duration_ms: 5.78699
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Listed MHD part needs no optional certification election
+ok 19 - Source-backed vehicle-parts R/TypeScript: Listed MHD part needs no optional certification election
+  ---
+  duration_ms: 5.587786
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Listed statistical code with non-part use receives the actual non-part heading
+ok 20 - Source-backed vehicle-parts R/TypeScript: Listed statistical code with non-part use receives the actual non-part heading
+  ---
+  duration_ms: 4.971632
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Chapter73 cannot use certified MHD path but listed MHD scope remains
+ok 21 - Source-backed vehicle-parts R/TypeScript: Chapter73 cannot use certified MHD path but listed MHD scope remains
+  ---
+  duration_ms: 4.97137
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: An unallocated model credit cannot price an actual importer offset
+ok 22 - Source-backed vehicle-parts R/TypeScript: An unallocated model credit cannot price an actual importer offset
+  ---
+  duration_ms: 6.053585
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Express MHD9802full-value exception does not use processing-only value
+ok 23 - Source-backed vehicle-parts R/TypeScript: Express MHD9802full-value exception does not use processing-only value
+  ---
+  duration_ms: 6.365491
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Other Chapter98 treatment is not an invented full-value duty
+ok 24 - Source-backed vehicle-parts R/TypeScript: Other Chapter98 treatment is not an invented full-value duty
+  ---
+  duration_ms: 6.889282
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-06T00:00:59-04:00
+ok 25 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-06T00:00:59-04:00
+  ---
+  duration_ms: 0.626574
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-06T00:01:00-04:00
+ok 26 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-06T00:01:00-04:00
+  ---
+  duration_ms: 0.496908
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-23T00:00:59-05:00
+ok 27 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-23T00:00:59-05:00
+  ---
+  duration_ms: 0.474582
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-23T00:01:00-05:00
+ok 28 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-04-23T00:01:00-05:00
+  ---
+  duration_ms: 0.550777
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-06-08T00:00:59-04:00
+ok 29 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-06-08T00:00:59-04:00
+  ---
+  duration_ms: 0.488092
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-06-08T00:01:00-04:00
+ok 30 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.78.01 2026-06-08T00:01:00-04:00
+  ---
+  duration_ms: 0.466171
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-06T00:00:59-04:00
+ok 31 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-06T00:00:59-04:00
+  ---
+  duration_ms: 0.465852
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-06T00:01:00-04:00
+ok 32 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-06T00:01:00-04:00
+  ---
+  duration_ms: 0.511679
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-23T00:00:59-05:00
+ok 33 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-23T00:00:59-05:00
+  ---
+  duration_ms: 0.591379
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-23T00:01:00-05:00
+ok 34 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-04-23T00:01:00-05:00
+  ---
+  duration_ms: 0.501962
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-06-08T00:00:59-04:00
+ok 35 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-06-08T00:00:59-04:00
+  ---
+  duration_ms: 0.57638
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-06-08T00:01:00-04:00
+ok 36 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.17 2026-06-08T00:01:00-04:00
+  ---
+  duration_ms: 0.549634
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-06T00:00:59-04:00
+ok 37 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-06T00:00:59-04:00
+  ---
+  duration_ms: 0.487237
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-06T00:01:00-04:00
+ok 38 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-06T00:01:00-04:00
+  ---
+  duration_ms: 0.465505
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-23T00:00:59-05:00
+ok 39 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-23T00:00:59-05:00
+  ---
+  duration_ms: 0.445085
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-23T00:01:00-05:00
+ok 40 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-04-23T00:01:00-05:00
+  ---
+  duration_ms: 0.468167
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-06-08T00:00:59-04:00
+ok 41 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-06-08T00:00:59-04:00
+  ---
+  duration_ms: 0.457778
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-06-08T00:01:00-04:00
+ok 42 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.19 2026-06-08T00:01:00-04:00
+  ---
+  duration_ms: 0.484479
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-06T00:00:59-04:00
+ok 43 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-06T00:00:59-04:00
+  ---
+  duration_ms: 0.499249
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-06T00:01:00-04:00
+ok 44 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-06T00:01:00-04:00
+  ---
+  duration_ms: 0.460539
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-23T00:00:59-05:00
+ok 45 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-23T00:00:59-05:00
+  ---
+  duration_ms: 0.446728
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-23T00:01:00-05:00
+ok 46 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-04-23T00:01:00-05:00
+  ---
+  duration_ms: 0.460599
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-06-08T00:00:59-04:00
+ok 47 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-06-08T00:00:59-04:00
+  ---
+  duration_ms: 0.453779
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-06-08T00:01:00-04:00
+ok 48 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.26 2026-06-08T00:01:00-04:00
+  ---
+  duration_ms: 0.475791
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-06T00:00:59-04:00
+ok 49 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-06T00:00:59-04:00
+  ---
+  duration_ms: 0.462936
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-06T00:01:00-04:00
+ok 50 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-06T00:01:00-04:00
+  ---
+  duration_ms: 0.432993
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-23T00:00:59-05:00
+ok 51 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-23T00:00:59-05:00
+  ---
+  duration_ms: 0.46252
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-23T00:01:00-05:00
+ok 52 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-04-23T00:01:00-05:00
+  ---
+  duration_ms: 0.477324
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-06-08T00:00:59-04:00
+ok 53 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-06-08T00:00:59-04:00
+  ---
+  duration_ms: 0.430241
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-06-08T00:01:00-04:00
+ok 54 - Source-backed vehicle-parts R/TypeScript: Original nonstacking boundary 9903.82.03 2026-06-08T00:01:00-04:00
+  ---
+  duration_ms: 0.422186
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Legacy contradictory MHD aliases cannot replace the source-owned eligibility decision
+ok 55 - Source-backed vehicle-parts R/TypeScript: Legacy contradictory MHD aliases cannot replace the source-owned eligibility decision
+  ---
+  duration_ms: 7.450921
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Modeled shares and assembly credits cannot affect vehicle decisions
+ok 56 - Source-backed vehicle-parts R/TypeScript: Modeled shares and assembly credits cannot affect vehicle decisions
+  ---
+  duration_ms: 6.280542
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation none
+ok 57 - Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation none
+  ---
+  duration_ms: 9.049389
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation none
+ok 58 - Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation none
+  ---
+  duration_ms: 11.026374
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation mhd
+ok 59 - Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation mhd
+  ---
+  duration_ms: 7.422708
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation mhd
+ok 60 - Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation mhd
+  ---
+  duration_ms: 10.019476
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation mhd_usmca
+ok 61 - Source-backed vehicle-parts R/TypeScript: Original Mexico emergency/MHD relation mhd_usmca
+  ---
+  duration_ms: 11.967492
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation mhd_usmca
+ok 62 - Source-backed vehicle-parts R/TypeScript: Original Section122/MHD relation mhd_usmca
+  ---
+  duration_ms: 10.540894
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion automobile 4279
+ok 63 - Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion automobile 4279
+  ---
+  duration_ms: 26.423132
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion automobile 5800
+ok 64 - Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion automobile 5800
+  ---
+  duration_ms: 19.40469
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion mhd 4279
+ok 65 - Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion mhd 4279
+  ---
+  duration_ms: 18.537963
+  type: 'test'
+  ...
+# Subtest: Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion mhd 5800
+ok 66 - Source-backed vehicle-parts R/TypeScript: Original reciprocal certified vehicle-part exclusion mhd 5800
+  ---
+  duration_ms: 19.232017
+  type: 'test'
+  ...
+1..66
+# tests 66
+# suites 0
+# pass 66
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 359.993778

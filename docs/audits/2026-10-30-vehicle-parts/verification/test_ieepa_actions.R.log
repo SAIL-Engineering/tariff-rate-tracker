@@ -1,0 +1,96 @@
+Failed to connect to bus: Operation not permitted
+Warning message:
+In system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+  Policy dates: IEEPA invalidation -> 2026-02-20
+  Policy dates: S122 effective -> 2026-02-24
+  Policy dates: S122 expiry -> 2026-07-23
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 34
+  Expanding 1 EU entries to 27 member states each...
+  Country-rate pairs extracted: 85
+  Phase 1 (Apr 9, terminated): 85
+  Phase 2 (Aug 7, active): 0
+  Rate types (Phase 2): 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 34
+  Expanding 1 EU entries to 27 member states each...
+  Country-rate pairs extracted: 85
+  Phase 1 (Apr 9, terminated): 85
+  Phase 2 (Aug 7, active): 0
+  Rate types (Phase 2): 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 111
+  Dropping 3 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83
+  Expanding 3 EU entries to 27 member states each...
+  Country-rate pairs extracted: 211
+  Phase 1 (Apr 9, terminated): 86
+  Phase 2 (Aug 7, active): 122
+  Rate types (Phase 2): floor=27, passthrough=27, surcharge=68
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 119
+  Dropping 5 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83, 9903.01.85, 9903.01.87
+  Expanding 3 EU entries to 27 member states each...
+  Country-rate pairs extracted: 217
+  Phase 1 (Apr 9, terminated): 88
+  Phase 2 (Aug 7, active): 124
+  Rate types (Phase 2): floor=28, passthrough=28, surcharge=68
+Warning messages:
+1: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+2: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+3: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 124
+  Dropping 7 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83, 9903.01.85, 9903.01.87, 9903.02.76, 9903.02.78
+  Expanding 6 EU entries to 27 member states each...
+  Country-rate pairs extracted: 298
+  Phase 1 (Apr 9, terminated): 88
+  Phase 2 (Aug 7, active): 205
+  Rate types (Phase 2): floor=28, passthrough=109, surcharge=68
+Warning messages:
+1: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+2: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 124
+  Dropping 7 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83, 9903.01.85, 9903.01.87, 9903.02.76, 9903.02.78
+  Expanding 6 EU entries to 27 member states each...
+  Country-rate pairs extracted: 298
+  Phase 1 (Apr 9, terminated): 88
+  Phase 2 (Aug 7, active): 205
+  Rate types (Phase 2): floor=28, passthrough=109, surcharge=68
+Warning messages:
+1: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+2: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 137
+  Dropping 10 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83, 9903.01.85, 9903.01.87, 9903.02.76, 9903.02.78, 9903.02.81, 9903.02.85, 9903.02.90
+  Expanding 6 EU entries to 27 member states each...
+  Country-rate pairs extracted: 308
+  Phase 1 (Apr 9, terminated): 88
+  Phase 2 (Aug 7, active): 215
+  Rate types (Phase 2): floor=31, passthrough=116, surcharge=68
+Warning messages:
+1: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+2: Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 111
+  Dropping 3 entries with no country extracted: 9903.01.78, 9903.01.82, 9903.01.83
+  Expanding 3 EU entries to 27 member states each...
+  Country-rate pairs extracted: 211
+  Phase 1 (Apr 9, terminated): 86
+  Phase 2 (Aug 7, active): 122
+  Rate types (Phase 2): floor=27, passthrough=27, surcharge=68
+Warning message:
+Discarded non-country fragment(s) from origin text: "classified in the subheadings" 
+Extracting IEEPA country-specific rates...
+  IEEPA tier entries found: 0
+IEEPA operative headings, retroactive amendments, independent actions and missing inputs passed
+IEEPA collection chronology, source evidence and normalized independent-action parity passed
+  Section 232 reporting codes: 1 unresolved; rate/chapter/broadest-heading inference is disabled

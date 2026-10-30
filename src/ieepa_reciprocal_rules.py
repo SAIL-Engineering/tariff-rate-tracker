@@ -368,7 +368,7 @@ def compile_reciprocal(x, products, jurisdictions, base_amounts=None):
                 # Literal source inventory, including named zero-payable metal
                 # headings. Other zero decisions are not blanket exemptions.
                 covered=reported([c for key,codes in history['section232'].items() if not portion or key in ('x','xi') for c in codes])
-                covered=either(covered,reported([c for d in auto_deals if time(begin)>=time(d['from']) for sector in ('vehicles','parts') for c in d[sector]]))
+                covered=either(covered,reported([c for d in auto_deals if time(begin)>=time(d['from']) for sector in ('vehicles','parts','certified') for c in d.get(sector,[])]))
                 covered=either(covered,reported([c for link in sector_links if time(link['from_'])<=time(begin) for c in link['codes']]))
                 if not portion:
                     # EO 14257 section 3(b)(ii) independently covers the

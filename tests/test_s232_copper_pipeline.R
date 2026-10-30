@@ -29,7 +29,7 @@ for(s in specs) {
  validation<-validate_shipment_partition(dir,file.path(out,'rates_fixture.parquet'))
  stopifnot(validation$grid_cells==length(s$products)*length(s$countries),!validation$legal_coverage_complete,
   file.exists(file.path(dir,'section232_copper_rules.json')))
- facts<-list(customs_value=100,ieepa_ftz_entry=FALSE,contains_copper=TRUE,s232_copper_only_material=FALSE,
+ facts<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_vehicle_parts_certification='none',contains_copper=TRUE,s232_copper_only_material=FALSE,
   copper_value_determination='substantiated',declared_copper_content_value=20,copper_content_value=99,
   copper_weight_fraction=1,us_copper_origin_fraction=0,
   ieepa_personal_accompanied_baggage=FALSE,ieepa_qualifying_humanitarian_donation=FALSE,
@@ -53,6 +53,20 @@ for(s in specs) {
  r<-resolve_shipment_duties(dir,s$products[1],'4279',times[1],q)
  stopifnot('declared_copper_content_value'%in%r$missing_inputs,is.null(r$complete_total))
  cases[[length(cases)+1L]]<-list(hts10=s$products[1],country='4279',entry_at=times[1],facts=q,expected=shipment_result_for_json(r))
+ if(s$revision=='2026_rev_4'&&'8544429090'%in%s$products)for(mode in c('mhd','automobile','mhd_usmca')) {
+  v<-facts;v$s232_vehicle_parts_certification<-if(mode=='automobile')'automobile' else 'mhd'
+  v$claims<-list(if(mode=='automobile')'SECTION_232_CERTIFIED_AUTO_PARTS' else 'SECTION_232_CERTIFIED_MHD_PARTS')
+  v$s232_auto_parts_use<-mode=='automobile';v$s232_mhd_parts_use<-mode!='automobile'
+  v$s232_auto_usmca_eligible<-FALSE;v$s232_mhd_usmca_eligible<-mode=='mhd_usmca';v$s232_mhd_knockdown_kit_or_compilation<-FALSE
+  # Deliberately contradict the old aliases. The emitted peer-action decisions
+  # must own the claim interaction in Section122 and338 as well.
+  v$s232_usmca_mhd_parts_not_kits<-v$s122_usmca_mhd_parts_not_kits<-v$s338_usmca_mhd_parts_not_kits<-mode!='mhd_usmca'
+  r<-resolve_shipment_duties(dir,'8544429090','4279',times[1],v)
+  expected<-switch(mode,mhd=25,automobile=12.4,mhd_usmca=0)
+  got<-sum(vapply(Filter(function(c)c$authority=='section_232'&&c$status=='applied',r$components),`[[`,numeric(1),'amount'))
+  stopifnot(isTRUE(all.equal(got,expected)),is.null(r$complete_total))
+  cases[[length(cases)+1L]]<-list(hts10='8544429090',country='4279',entry_at=times[1],facts=v,expected=shipment_result_for_json(r))
+ }
  jsonlite::write_json(list(revision_dir=s$revision,cases=cases),file.path(out,'delivery_cases.json'),auto_unbox=TRUE,null='null',digits=17)
 }
 if(!nzchar(export))unlink(parent,recursive=TRUE)

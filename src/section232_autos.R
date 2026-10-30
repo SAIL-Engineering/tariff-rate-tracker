@@ -37,7 +37,8 @@ compile_s232_autos_fragment <- function(revision_id,products,countries=NULL,root
     '--input',shQuote(input),'--output',shQuote(output)))
   if(status!=0L)stop('Automobile source reconciliation failed; refusing aggregate fallback')
   result <- jsonlite::fromJSON(output,simplifyVector=FALSE)
-  dependencies <- c('src/section232_autos.R','src/shipment_build.R','src/shipment_duty_expression.R','src/shipment_base_sources.py',
+  dependencies <- c('src/section232_autos.R','src/section232_autos.py','src/section232_vehicle_certified.py','src/section232_mhd_parts.py',
+    'src/shipment_build.R','src/shipment_duty_expression.R','src/shipment_base_sources.py',
     'src/helpers.R','resources/census_codes.csv')
   result$compiler_dependencies <- setNames(lapply(dependencies,function(p)
     digest::digest(file=file.path(root,p),algo='sha256')),dependencies)
