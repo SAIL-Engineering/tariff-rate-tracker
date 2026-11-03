@@ -413,3 +413,36 @@ named reporting-role predicates, but is omitted from an `exclude: true`
 reporting predicate's inventory of unidentified duty actions. A zero-payable
 covered action without that source role remains in the inventory and can govern
 statutory priority. This distinction is compiled before either interpreter runs.
+
+## MHD vehicle/bus decisions
+
+The ordinary build also emits `section232_mhd_vehicles_rules.json`. Original
+mixed-precision vehicle/bus scope, rate columns, reporting roles, content and
+manufacture-year exceptions are reconciled to note38(a)-(g) and operative original
+amendments. `SECTION_232_MHD_US_CONTENT` requests the Commerce-approved content
+path; it does not imply USMCA eligibility, approval, content value or absence of
+an applicable CBP finding. The source requires proper SPI S treatment and
+Commerce-authorized non-US entered value covering the actual importer/model/entry;
+the required USMCA election activates only in the applicable MHD context. The
+procedure's origin condition and authorized retroactive entries are retained.
+Column2 treatment comes from primary GN3 and the
+printed Other expression. Relevant facts, formulas and reporting roles flow
+through the existing v1 bundle/result contracts; no runtime legal constants or
+new React calculation are required.
+
+Shared source membership preserves possible vehicle/part overlaps. Actual whole
+MHD identity cannot also price a part; contradictory light/medium-heavy vehicle
+facts remain incomplete. Earlier dates retain their own actions. Cross-program
+eligibility aliases bind to matched source decisions within the consumer's scope
+and interval. Original Russian-aluminum priority is distinct from the later
+separate Russian-metal reporting action. See the [source/verification record](audits/2026-10-30-mhd-vehicles/README.md).
+
+Raw v2 fragments declare `required_compiler_features` under
+`resources/shipment_rules/fragment_contract.json`. `claim_implications` carries
+verified directed claim dependencies and optional `activation_rule_ids`;
+`rule_value_predicates` binds declared candidate rules to a consumer's scope and
+requires actual applicability plus a resolved amount. Missing or suppressed base
+liability cannot establish an entered-free exemption. Cycles, undeclared/unknown
+features, references and unsupported versions fail compilation. Compiled formulas
+use the existing v1 interpreter primitives, with a v2 composer receipt. The raw
+fragment upgrade prevents an older compiler silently ignoring new legal behavior.

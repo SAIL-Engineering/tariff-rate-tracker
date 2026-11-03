@@ -1,0 +1,86 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 66665333 - GUIDANCE: Import Duties on Medium- and Heavy-duty Trucks, Medium- and Heavy-duty Truck Parts and Buses
+U.S. Customs and Border Protection sent this bulletin at 10/29/2025 05:23 PM EDT
+Cargo Systems Messaging Service
+CSMS # 66665333 - GUIDANCE: Import Duties on Medium- and Heavy-duty Trucks, Medium- and Heavy-duty Truck Parts and Buses
+This message provides entry filing instructions for Section 232 duties on Medium- and Heavy-Duty Vehicles (MHDVs), Medium- and Heavy-Duty Vehicle Parts (MHDVPs) and buses pursuant to Presidential Proclamation 10984 issued on October 17, 2025.
+BACKGROUNDOn October 17, 2025, the President issued Proclamation 10984, “Adjusting Imports of Medium- and Heavy-Duty Trucks, Medium- and Heavy-Duty Truck Parts, and Buses into the United States,” under Section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C. 1862), imposing between 10 to 25 percent ad valorem tariffs on imports of MHDVs and MHDVPs and buses and other vehicles, effective November 1, 2025. See Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses into the United States, 90 FR 48451 (October 22, 2025).
+ENTRY FILING INSTRUCTIONSThis guidance provides instructions for importers, brokers, and filers on submitting entries to U.S. Customs and Border Protection (CBP) subject to tariffs on MHDVs and MHDVPs from all countries that are provided for in headings 9903.74.01 through 9903.74.11, respectively. This guidance also provides instructions on submitting entries for tariffs on other parts of passenger vehicles and light trucks from all countries that are provided for in headings 9903.94.07 and 9903.94.33 through 9903.94.55.
+The additional duties will take effect with respect to goods entered for consumption, or withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on November 1, 2025.
+MEDIUM- AND HEAVY-DUTY VEHICLES (MHDVs) AND BUSES9903.74.01: Applies to imports of MHDVs classifiable in headings 8701, 8704, 8705, 8706, and 8709 of the Harmonized Tariff Schedule of the United States (HTSUS) classifications enumerated in subdivision (b) of U.S. note 38 to subchapter III (see attached list of HTSUS classifications).
+25% additional ad valorem rate of duty
+9903.74.02: Applies to imports of buses and other vehicles classifiable in heading 8702 of the HTSUS enumerated in subdivision (c) of U.S. note 38 to subchapter III (see attached list of HTSUS classifications).
+10% additional ad valorem rate of duty
+9903.74.03: Applies to the non-U.S. content of MHDVs that are eligible for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA), upon approval from the Secretary of Commerce to apply the 25% ad valorem rate of duty exclusively to the value of the non-U.S. content of the vehicle.
+25% additional ad valorem rate of duty on the value of the non-U.S. content
+Contact the U.S. Department of Commerce for details on the process to receive approval from the Secretary of Commerce.
+DO NOT REPORT ANY DUTIES BASED ON NON-U.S. CONTENT UNDER THIS HTSUS CLASSIFICATION UNTIL FURTHER GUIDANCE IS PROVIDED
+9903.74.05:  Applies to imports classifiable in headings 8701, 8704, 8705, 8706, and 8709 of the HTSUS enumerated in subdivision (b) of U.S. note 38 to subchapter III, that are not MHDVs.
+0% additional ad valorem rate of duty
+9903.74.06: Applies to the U.S. content of MHDVs that received approval from the Secretary of Commerce as noted under HTSUS 9903.74.03.
+0% additional ad valorem rate of duty
+Contact the U.S. Department of Commerce for details on the process to receive approval from the Secretary of Commerce.
+DO NOT REPORT ANY DUTIES BASED ON U.S. CONTENT UNDER THIS HTSUS CLASSIFICATION UNTIL FURTHER GUIDANCE IS PROVIDED
+9903.74.07: Applies to all entries of MHDVs and buses and other vehicles that were manufactured in a year at least 25 years prior to the year of the date of entry.
+0% additional ad valorem rate of duty
+MEDIUM AND HEAVY-DUTY VEHICLE PARTS (MHDVPs)9903.74.08: Applies to parts of MHDVs enumerated in subdivision (i) of U.S. note 38 to subchapter III (see attached list of HTSUS classifications).
+25% additional ad valorem rate of duty
+9903.74.10: Applies to parts of MHDVs that qualify for preferential treatment under USMCA, other than MHDV knock-down kits or parts compilations.
+0% additional ad valorem rate of duty
+9903.74.11: Applies to all entries of articles classifiable under the provisions of the HTSUS enumerated in subdivision (i) of U.S. note 38 to subchapter III that are not parts of MHDVs.
+0% additional ad valorem rate of duty
+9903.74.09: Applies to parts of MHDVs when certified by the importer of record that such parts will be used for MHDV production or repair activity in the United States, excluding articles classifiable in chapters 72, 73, or 76; or articles classifiable in the provisions of subdivision (i) of U.S. note 38 to subchapter III (MHDV parts) or subdivision (g) of U.S. note 33 (auto parts) to subchapter III.
+25% additional ad valorem rate of duty
+PARTS OF PASSENGER VEHICLES AND LIGHT TRUCKSApplies to parts of passenger vehicles and light trucks (automobiles) when certified by the importer of record that such parts will be used for automobile production or repair activity in the United States, excluding articles classifiable in chapters 72, 73, or 76; and articles classifiable in the provision of subdivision (g) of U.S. note 33 (auto parts) (subdivision (j) for the United Kingdom), or in the provisions of subdivision (i) of U.S. note 38 (MHDV parts).
+Automobile parts, for this purpose, include engines and engine parts, transmissions and powertrain parts, and electrical components. Do not use the Chapter 99 classifications below for any auto parts that are subject to HTSUS 9903.94.05, 9903.94.52/53 (European Union), 9903.94.42/43 (Japan) or 9903.94.32 (UK).
+To certify that such parts will be used for automobile production or repair activity in the United States, and not covered by the exclusions above, report one of the following Chapter 99 HTSUS:
+For such imported parts of all countries except for the member countries of the European Union, Japan, and United Kingdom:
+Use HTSUS 9903.94.07, 25% additional ad valorem rate of duty
+For the member countries of the European Union (Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden):
+With a Column 1 duty rate greater than or equal to 15 percent ad valorem:Use HTSUS 9903.94.44, 0% additional ad valorem rate of duty
+With a Column 1 duty rate less than 15 percent ad valorem:Use HTSUS 9903.94.45, 15% (see below for reporting instructions)(15% is the combined Column 1 and Section 232 tariff rate)
+For Japan:
+With a Column 1 duty rate greater than or equal to 15 percent ad valorem:Use HTSUS 9903.94.54, 0% additional ad valorem rate of duty
+With a Column 1 duty rate less than 15 percent ad valorem:
+Use HTSUS 9903.94.55, 15% (see below for reporting instructions)(15% is the combined Column 1 and Section 232 tariff rate)
+For HTSUS 9903.94.45 and 9903.94.55
+Report the 15 percent duty amount on heading 9903.94.45 or 9903.94.55.
+Report 0 duty amount and the line value on the Chapter 1 to 97 HTSUS classification.
+For the United Kingdom:
+To certify that such parts will be used in automobiles that are products of the United Kingdom, and not covered by the exclusions above, report the following Chapter 99 HTSUS:
+Use HTSUS 9903.94.33, 10% (see below for reporting instructions)(10% is the combined Column 1 and Section 232 tariff rate)
+For HTSUS 9903.94.33:
+Report the 10 percent duty amount on heading 9903.94.33
+Report 0 duty amount and the line value on the Chapter 1 to 97 HTSUS classification.
+FOREIGN TRADE ZONEAny MHDVs or MHDVPs or buses and other vehicles, except those that are eligible for admission to a foreign trade zone under “domestic status” as defined in 19 CFR 146.43 and are admitted into a United States foreign trade zone on or after 12:01 a.m. eastern daylight time on November 1, 2025, must be admitted as “privileged foreign status” as defined in 19 CFR 146.41. Such articles will be subject, upon entry for consumption, to any ad valorem rates of duty related to the classification under the applicable HTSUS subheading.
+DIRECT IDENTIFICATION AND SUBSTITUTION MANUFACTURING DRAWBACK ON MHDVPs and AUTOMOBILE PARTSEffective for drawback claims filed on or after November 1, 2025, the additional Section 232 duties on MHDVPs pursuant to the Proclamation 10984 and auto parts pursuant to Proclamation 10908, as amended, shall be eligible for Direct Identification Manufacturing Drawback Claims, under 19 U.S.C. 1313(a) and Substitution Manufacturing Drawback Claims under 19 U.S.C. 1313(b). No other type of drawback may be claimed. This applies to the following HTS headings: 9903.74.08, 9903.74.09, 9903.94.05, 9903.94.07, 9903.94.32, 9903.94.33, 9903.94.43, 9903.94.45, 9903.94.53, and 9903.94.55.
+CHAPTER 98 PROVISIONGoods for which entry is claimed under a provision of chapter 98, and which are subject to the additional duties prescribed herein shall be eligible for and subject to the terms of such provision and applicable CBP regulations, except that duties under subheading 9802.00.60 shall be assessed based upon the full value of the imported article.
+No claim for entry or for any duty exemption or reduction shall be allowed for the medium- and heavy-duty vehicles or parts, buses and other vehicles, and automobile parts under a provision of chapter 99 that may set forth a lower rate of duty or provide duty-free treatment, taking into account information supplied by CBP, but any additional duty prescribed in any provision of this subchapter or subchapter IV of chapter 99 shall be imposed in addition to the duty in headings 9903.74.01 through 9903.74.03, 9903.74.08 and 9903.74.09, 9903.94.07, 9903.94.33, 9903.94.45, and 9903.94.55.
+All antidumping, countervailing, or other duties and charges applicable to such goods shall continue to be imposed in addition to the duty in headings 9903.74.01 through 9903.74.03, 9903.74.08 and 9903.74.09, 9903.94.07, 9903.94.33, 9903.94.45, and 9903.94.55.
+Not Subject to Certain Additional Duties:MHDVs, MHDVPs and buses and other vehicles, including MHDVPs qualifying for USMCA and filed under HTSUS 9903.74.10, are not subject to the additional duties imposed on:
+entries of semi-finished copper products and copper-intensive derivative products under heading 9903.78.01
+entries of aluminum products under heading 9903.85.02 and 9903.85.12
+entries of derivative aluminum products under headings 9903.85.04, 9903.85.07, 9903.85.08, 9903.85.13, 9903.85.14, and 9903.85.15
+entries of iron or steel products under headings 9903.81.87, 9903.81.88, 9903.81.94 and 9903.81.95;
+entries of derivative iron or steel products under headings 9903.81.89, 9903.81.90, 9903.81.91, 9903.81.93, 9903.81.96, 9903.81.97, 9903.81.98 and 9903.81.99;
+entries of articles the product of Canada under heading 9903.01.10;
+entries of articles the product of Mexico under heading 9903.01.01; and
+entries of wood products under headings 9903.76.01, 9903.76.02 and 9903.76.03. (applies to MHDVPs only)
+As of November 1, 2025, automobiles classified under HTSUS 9903.94.40 and 9903.94.50, parts of automobiles classified under HTSUS 9903.94.06, 9903.94.42, 9903.94.44, 9903.94.52, and 9903.94.54, and parts of MHDVs classified under 9903.74.10, are considered subject to Proclamation 10984 and Proclamation 10908, as amended, (for purposes of Executive Order 14289) and are not subject to the specified additional duties listed above.
+APPLICABILITY OF RECIPROCAL/IEEPA DUTIES1. The additional duties imposed by headings 9903.01.25, 9903.01.35, 9903.01.39, 9903.01.63, and 9903.02.01-9903.02.73 shall not apply to medium- and heavy-duty vehicles and medium- and heavy-duty vehicle parts provided for in headings 9903.74.01, 9903.74.02, 9903.74.03, 9903.74.08 and 9903.74.09.
+2. The additional duties imposed by heading 9903.01.77 shall not apply to medium- and heavy-duty vehicles and medium- and heavy-duty vehicle parts provided for in headings 9903.74.01, 9903.74.02, 9903.74.03, 9903.74.08 and 9903.74.09.
+3. The additional duties imposed by heading 9903.01.84 shall not apply to medium- and heavy-duty vehicles and medium- and heavy-duty vehicle parts provided for in headings 9903.74.01, 9903.74.02, 9903.74.03, 9903.74.08 and 9903.74.09.
+When filing the Chapter 99 HTSUS for MHDVs and MHDVPs, file one of the following HTSUS to claim the exemption for the following reciprocal/IEEPA duties:
+Heading 9903.01.33, Reciprocal dutiesHeading 9903.01.34, U.S. content excluded from Reciprocal DutiesHeading 9903.01.83, Brazil IEEPA dutiesHeading 9903.01.87, Russian Oil/India IEEPA duties
+Reminder:  Importers, brokers, and/or filers should refer to CSMS # 64018403 (Updated Entry Summary Order of Reporting For Multiple Harmonized Tariff Schedule (HTSUS) in the Automated Commercial Environment (ACE) for guidance when filing an entry summary in which a heading or subheading in Chapter 99 is claimed on imported merchandise.
+For reference, a summary of MHDVs/MHDVPs Chapter 99 HTSUS classification list is attached.
+Questions from the importing community concerning ACE entry rejections involving MHDVs and MHDVP filings should be referred to their CBP Client Representative.
+For questions regarding our trade Remedy programs, please visit our cbp.gov webpage at https://www.cbp.gov/trade/programs-administration/trade-remedies or contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Section 232 MHDV Attachment.pdf
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

@@ -6,7 +6,7 @@ base$rules <- list(list(id='consumer',action_id='consumer',authority='synthetic'
 base$claim_definitions <- list();base$coverage <- list()
 base$fact_definitions <- list(actual_value=list(type='number',minimum=0),old_independently_entered_value=list(type='number',minimum=0))
 edge <- list(expression=list(fact='actual_value'),source_ids=list('synthetic'))
-fragment <- list(id='source-backed-alias',rules=list(),sources=list(),derived_facts=list(old_independently_entered_value=edge))
+fragment <- list(contract_version='sail.shipment-rule-fragment/v1',id='source-backed-alias',rules=list(),sources=list(),derived_facts=list(old_independently_entered_value=edge))
 b <- compose_shipment_rules(base,list(fragment))
 stopifnot(identical(b$rules[[1]]$formula,list(fact='actual_value')))
 r <- evaluate_shipment_bundle(b,fixture$hts10,fixture$country,fixture$entry_at,

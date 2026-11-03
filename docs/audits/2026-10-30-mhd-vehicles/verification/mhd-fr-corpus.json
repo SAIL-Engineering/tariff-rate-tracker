@@ -1,0 +1,224 @@
+{
+  "catalog": "trade_intel_fr",
+  "access_mode": "READ_ONLY",
+  "summary": [
+    {
+      "document_count": 15081,
+      "first_date": "2015-01-02",
+      "last_date": "2026-10-21"
+    }
+  ],
+  "sql": "SELECT document_number,title,publication_date::VARCHAR publication_date,effective_on::VARCHAR effective_on,citation,html_url,listing_hash,length(full_text) text_length FROM documents WHERE publication_date>=DATE '2025-10-17' AND publication_date<=DATE '2026-10-22' AND (full_text LIKE '%10984%' OR title ILIKE '%heavy%duty%' OR title ILIKE '%medium%duty%') ORDER BY publication_date,document_number",
+  "rows": [
+    {
+      "document_number": "2025-19639",
+      "title": "Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses Into the United States",
+      "publication_date": "2025-10-22",
+      "effective_on": null,
+      "citation": "90 FR 48451",
+      "html_url": "https://www.federalregister.gov/documents/2025/10/22/2025-19639/adjusting-imports-of-medium--and-heavy-duty-vehicles-medium--and-heavy-duty-vehicle-parts-and-buses",
+      "listing_hash": "e72bfb9545c7542859caefc9b665bc28c959617b0d494aef66a51139cab73b62",
+      "text_length": 36998
+    },
+    {
+      "document_number": "2025-21114",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Section 232 Tariff Offsets and Inclusion Processes for Automobiles and Vehicle Parts",
+      "publication_date": "2025-11-26",
+      "effective_on": null,
+      "citation": "90 FR 54299",
+      "html_url": "https://www.federalregister.gov/documents/2025/11/26/2025-21114/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "babcf2dd4d48d3ced999bcf71d45ab8cd4df727bfb2381fc941071799e6353d6",
+      "text_length": 8159
+    },
+    {
+      "document_number": "2025-21940",
+      "title": "Implementing Certain Tariff-Related Elements of the U.S.-Korea Strategic Trade and Investment Deal",
+      "publication_date": "2025-12-04",
+      "effective_on": "2025-12-04",
+      "citation": "90 FR 55964",
+      "html_url": "https://www.federalregister.gov/documents/2025/12/04/2025-21940/implementing-certain-tariff-related-elements-of-the-us-korea-strategic-trade-and-investment-deal",
+      "listing_hash": "d053545d7390d992ccade21a17f297c8a741e72c08dadc25d363ad78c2900cbf",
+      "text_length": 49159
+    },
+    {
+      "document_number": "2026-00245",
+      "title": "To Implement the United States-Israel Agreement on Trade in Agricultural Products and for Other Purposes",
+      "publication_date": "2026-01-08",
+      "effective_on": null,
+      "citation": "91 FR 889",
+      "html_url": "https://www.federalregister.gov/documents/2026/01/08/2026-00245/to-implement-the-united-states-israel-agreement-on-trade-in-agricultural-products-and-for-other",
+      "listing_hash": "4ed82aace528c97e7b72ac50d5c23d318cbd9369e98fba70877bc276b40dfb3f",
+      "text_length": 19675
+    },
+    {
+      "document_number": "2026-02049",
+      "title": "Procedures for Submissions by Importers of Medium- and Heavy-Duty Vehicles Qualifying for Preferential Tariff Treatment Under the USMCA To Determine U.S. Content",
+      "publication_date": "2026-02-02",
+      "effective_on": null,
+      "citation": "91 FR 4504",
+      "html_url": "https://www.federalregister.gov/documents/2026/02/02/2026-02049/procedures-for-submissions-by-importers-of-medium--and-heavy-duty-vehicles-qualifying-for",
+      "listing_hash": "94fc440affcfa7c355635d47aeb26ebdc69d188d21f87c73e3aa7a4f7c3241a4",
+      "text_length": 15936
+    },
+    {
+      "document_number": "2026-04031",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Inclusions to the Section 232 National Security Adjustments to Automobile Parts Imports",
+      "publication_date": "2026-03-02",
+      "effective_on": null,
+      "citation": "91 FR 10066",
+      "html_url": "https://www.federalregister.gov/documents/2026/03/02/2026-04031/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "52465bcb1c242a676e8cb665140107333c4528ddf67b3f83f704ed136f8fb422",
+      "text_length": 5657
+    },
+    {
+      "document_number": "2026-04696",
+      "title": "Heavy Walled Rectangular Pipes and Tubes From Mexico: Preliminary Results and Rescission, in Part, of the Antidumping Duty Administrative Review; 2023-2024",
+      "publication_date": "2026-03-10",
+      "effective_on": null,
+      "citation": "91 FR 11504",
+      "html_url": "https://www.federalregister.gov/documents/2026/03/10/2026-04696/heavy-walled-rectangular-pipes-and-tubes-from-mexico-preliminary-results-and-rescission-in-part-of",
+      "listing_hash": "b37129f818a6b9d70287f5bdeac6ced34aff7ddad8ca0bf4cd0d9c0b07f257c7",
+      "text_length": 26709
+    },
+    {
+      "document_number": "2026-05467",
+      "title": "Heavy Walled Rectangular Welded Carbon Steel Pipes and Tubes From the Republic of Korea: Preliminary Results and Rescission, in Part, of Antidumping Duty Administrative Review; 2023-2024",
+      "publication_date": "2026-03-20",
+      "effective_on": null,
+      "citation": "91 FR 13588",
+      "html_url": "https://www.federalregister.gov/documents/2026/03/20/2026-05467/heavy-walled-rectangular-welded-carbon-steel-pipes-and-tubes-from-the-republic-of-korea-preliminary",
+      "listing_hash": "d6b02ef884db11cee7d7ed989c09fb53d0e5247f3c3630125c84804ece1246a5",
+      "text_length": 22045
+    },
+    {
+      "document_number": "2026-07987",
+      "title": "Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production To Obtain Tariff Adjustments Under Proclamation 10984",
+      "publication_date": "2026-04-23",
+      "effective_on": null,
+      "citation": "91 FR 21790",
+      "html_url": "https://www.federalregister.gov/documents/2026/04/23/2026-07987/procedures-for-submissions-by-certain-steel-and-aluminum-producers-committing-to-new-us-steel-or",
+      "listing_hash": "d230560223a0bf5c0da3d457a866c2deda09882d6ded459e5b57ad0a42a836fc",
+      "text_length": 28138
+    },
+    {
+      "document_number": "2026-09318",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Parts Tariff Offset Program for Motor Vehicles and Motor Vehicle Parts",
+      "publication_date": "2026-05-12",
+      "effective_on": null,
+      "citation": "91 FR 25864",
+      "html_url": "https://www.federalregister.gov/documents/2026/05/12/2026-09318/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "44c78f8604e4958cc2b282a904ba02ebdf414d780992bde396c072110d996778",
+      "text_length": 6244
+    },
+    {
+      "document_number": "2026-09782",
+      "title": "Amending the Procedures To Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908 To Include Medium- and Heavy-Duty Vehicle Parts",
+      "publication_date": "2026-05-15",
+      "effective_on": null,
+      "citation": "91 FR 27914",
+      "html_url": "https://www.federalregister.gov/documents/2026/05/15/2026-09782/amending-the-procedures-to-administer-import-adjustment-offset-amounts-for-certain-imports-of",
+      "listing_hash": "58b4885278ad55d3928189e4ab7788df2f009e27ac645c361edfca7456bb5aa6",
+      "text_length": 30420
+    },
+    {
+      "document_number": "2026-12092",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Parts Tariff Offset Program for Automobiles, MHDVs, and Engines",
+      "publication_date": "2026-06-16",
+      "effective_on": null,
+      "citation": "91 FR 36119",
+      "html_url": "https://www.federalregister.gov/documents/2026/06/16/2026-12092/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "11aacbfe33d0387a31298f49b8197491f4982879dedae770c3cb5b9287bf2153",
+      "text_length": 7894
+    },
+    {
+      "document_number": "2026-12343",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production to Obtain Tariff Adjustments Under Proclamation 10984",
+      "publication_date": "2026-06-18",
+      "effective_on": null,
+      "citation": "91 FR 36803",
+      "html_url": "https://www.federalregister.gov/documents/2026/06/18/2026-12343/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "09203da61521f912ffb0f5e706fafcb1c5055b7bf7184f35f2955ffaf5189b5c",
+      "text_length": 9672
+    },
+    {
+      "document_number": "2026-14542",
+      "title": "Notice of Action: Brazil's Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; and Illegal Deforestation",
+      "publication_date": "2026-07-20",
+      "effective_on": null,
+      "citation": "91 FR 45516",
+      "html_url": "https://www.federalregister.gov/documents/2026/07/20/2026-14542/notice-of-action-brazils-acts-policies-and-practices-related-to-digital-trade-and-electronic-payment",
+      "listing_hash": "cdb74107ecfc03a086f040d13ff7006d24b133d66dcec34f84d87c486e367392",
+      "text_length": 111114
+    },
+    {
+      "document_number": "2026-14990",
+      "title": "Further Strengthening Actions Taken To Adjust Imports of Aluminum Into the United States",
+      "publication_date": "2026-07-23",
+      "effective_on": null,
+      "citation": "91 FR 46635",
+      "html_url": "https://www.federalregister.gov/documents/2026/07/23/2026-14990/further-strengthening-actions-taken-to-adjust-imports-of-aluminum-into-the-united-states",
+      "listing_hash": "c1899f55c260cc448670b7c9393226a01114fa734c4634b1173efd83ef60e26b",
+      "text_length": 15594
+    },
+    {
+      "document_number": "2026-15181",
+      "title": "Notice of Actions in Section 301 Investigations of Acts, Policies, and Practices of Various Economies Related to the Failure of Each Economy To Impose and Effectively Enforce a Prohibition on the Importation of Goods Produced With Forced Labor",
+      "publication_date": "2026-07-28",
+      "effective_on": null,
+      "citation": "91 FR 47318",
+      "html_url": "https://www.federalregister.gov/documents/2026/07/28/2026-15181/notice-of-actions-in-section-301-investigations-of-acts-policies-and-practices-of-various-economies",
+      "listing_hash": "19dd44d9b1686de83bf670c9703c0d36cc30fc44af47814ea24b0cc1f0b4078b",
+      "text_length": 175523
+    },
+    {
+      "document_number": "2026-15280",
+      "title": "Procedures To Administer Import Adjustment Offset Amounts for Certain Imports of Automobile and Medium- and Heavy-Duty Vehicle Parts for Automobile and Medium- and Heavy-Duty Vehicle Engine Manufacturers",
+      "publication_date": "2026-07-29",
+      "effective_on": null,
+      "citation": "91 FR 47807",
+      "html_url": "https://www.federalregister.gov/documents/2026/07/29/2026-15280/procedures-to-administer-import-adjustment-offset-amounts-for-certain-imports-of-automobile-and",
+      "listing_hash": "db2f585e8606b05b59da5bdd3c207b82a6f7e2276ca3785b03cda060b5a053a9",
+      "text_length": 26841
+    },
+    {
+      "document_number": "2026-16859",
+      "title": "Amending Procedures for Submissions by Importers of Automobiles Qualifying for Preferential Tariff Treatment Under the USMCA To Determine U.S. Content",
+      "publication_date": "2026-08-19",
+      "effective_on": null,
+      "citation": "91 FR 53602",
+      "html_url": "https://www.federalregister.gov/documents/2026/08/19/2026-16859/amending-procedures-for-submissions-by-importers-of-automobiles-qualifying-for-preferential-tariff",
+      "listing_hash": "6fd90cacc4cb8df06c806779d44090da23ec4634494a7cba8d660448e96a1ff4",
+      "text_length": 20087
+    },
+    {
+      "document_number": "2026-17155",
+      "title": "Agency Information Collection Activities; Submission to the Office of Management and Budget (OMB) for Review and Approval; Comment Request; Procedures for Submissions by Certain Steel and Aluminum Producers Committing to New U.S. Steel or Aluminum Production To Obtain Tariff Adjustments Under Proclamation 10984",
+      "publication_date": "2026-08-21",
+      "effective_on": null,
+      "citation": "91 FR 54308",
+      "html_url": "https://www.federalregister.gov/documents/2026/08/21/2026-17155/agency-information-collection-activities-submission-to-the-office-of-management-and-budget-omb-for",
+      "listing_hash": "13ffe77249785e67a0a047ff101f74f2d905d126b31e08a2a9d9abf1e3efc168",
+      "text_length": 7659
+    },
+    {
+      "document_number": "2026-18087",
+      "title": "Heavy Walled Rectangular Pipes and Tubes from Mexico: Final Results of Antidumping Duty Administrative Review; 2023-2024",
+      "publication_date": "2026-09-03",
+      "effective_on": null,
+      "citation": "91 FR 56634",
+      "html_url": "https://www.federalregister.gov/documents/2026/09/03/2026-18087/heavy-walled-rectangular-pipes-and-tubes-from-mexico-final-results-of-antidumping-duty",
+      "listing_hash": "740ba4b49eabadc630cb1de6173e28678417c1834f288f0ab481c5fc80d78968",
+      "text_length": 15285
+    },
+    {
+      "document_number": "2026-19272",
+      "title": "Heavy Walled Rectangular Welded Carbon Steel Pipes and Tubes From the Republic of Korea: Final Results of the Antidumping Duty Administrative Review; 2023-2024",
+      "publication_date": "2026-09-21",
+      "effective_on": null,
+      "citation": "91 FR 59766",
+      "html_url": "https://www.federalregister.gov/documents/2026/09/21/2026-19272/heavy-walled-rectangular-welded-carbon-steel-pipes-and-tubes-from-the-republic-of-korea-final",
+      "listing_hash": "c400bd026757fd558aa5ad16a51c14ee6acb6cc61b724ea661771f4dde807448",
+      "text_length": 15455
+    }
+  ]
+}

@@ -2,10 +2,21 @@
 # Does not infer scope, create coverage attestations, or load aggregate columns.
 source('src/resolve_shipment_duties.R')
 
+validate_shipment_fragment_contract <- function(fragment) {
+  spec<-jsonlite::fromJSON(here::here('resources/shipment_rules/fragment_contract.json'),simplifyVector=FALSE)
+  version<-fragment$contract_version;features<-unlist(fragment$required_compiler_features,use.names=FALSE)
+  if(length(version)!=1L||!version%in%unlist(spec$versions)||any(!features%in%unlist(spec$features))||
+     (identical(version,spec$feature_version)&&!length(features))||
+     (!identical(version,spec$feature_version)&&length(features)))stop('Unsupported shipment rule fragment capability contract')
+  has_node<-function(x,key)is.list(x)&&(key%in%names(x)||any(vapply(x,has_node,logical(1),key=key)))
+  if((length(fragment$claim_implications)&&!'claim_implications'%in%features)||
+     (has_node(fragment,'rule_predicate')&&!'rule_value_predicates'%in%features))stop('Undeclared required shipment compiler feature')
+  invisible(TRUE)
+}
+
 read_shipment_rule_fragment <- function(path) {
   fragment <- jsonlite::fromJSON(path, simplifyVector = FALSE)
-  if (!identical(fragment$contract_version, 'sail.shipment-rule-fragment/v1'))
-    stop('Unsupported shipment rule fragment')
+  validate_shipment_fragment_contract(fragment)
   if (!length(fragment$sources) || !length(fragment$source_artifacts)) stop('Missing fragment evidence')
   for (s in fragment$sources) {
     artifacts <- Filter(function(a) identical(a$source_id, s$id), fragment$source_artifacts)
@@ -22,9 +33,10 @@ read_shipment_rule_fragment <- function(path) {
 
 compose_shipment_rules <- function(bundle, fragments) {
   if (!identical(bundle$contract_version, 'sail.shipment-rules/v1')) stop('Unsupported base rule contract')
-  if(identical(bundle$compiler$id,'sail.shipment-rule-composer/v1'))
+  if(length(bundle$compiler$id)==1L&&startsWith(bundle$compiler$id,'sail.shipment-rule-composer/'))
     stop('Cannot add fragments to a compiled shipment bundle; reassemble all original fragments together to rebind action dependencies')
   for (fragment in fragments) {
+    validate_shipment_fragment_contract(fragment)
     if ((!is.null(fragment$supported_from) && (is.na(.shipment_time(bundle$valid_from)) ||
         .shipment_time(bundle$valid_from)<.shipment_time(fragment$supported_from))) ||
         (!is.null(fragment$supported_until) && (is.na(.shipment_time(bundle$valid_until)) ||
@@ -106,6 +118,7 @@ compose_shipment_rules <- function(bundle, fragments) {
     TRUE
   }
   original_rules <- bundle$rules
+  original_rule_ids<-vapply(original_rules,`[[`,character(1),'id')
   reporting_candidates <- split(original_rules,vapply(original_rules,`[[`,character(1),'authority'))
   # A source-backed compiler can establish that an older independently asked
   # input is the same legal decision/value already evaluated by another action.
@@ -136,6 +149,16 @@ compose_shipment_rules <- function(bundle, fragments) {
   for(key in names(derived))expand_derived(list(fact=key))
   bind_reporting <- function(node,scope) {
     if(!is.list(node)) return(node)
+    if(!is.null(node$rule_predicate)) {
+      p<-node$rule_predicate;requested<-unlist(p$rule_ids,use.names=FALSE)
+      if(length(node)!=1L||!setequal(names(p),c('rule_ids','amount_equal'))||!length(requested)||
+         any(!requested%in%original_rule_ids)||!is.numeric(p$amount_equal)||length(p$amount_equal)!=1L||
+         !is.finite(p$amount_equal))stop('Unverified rule-value predicate')
+      selected<-Filter(function(r)r$id%in%requested&&overlap(scope,r$scope),original_rules)
+      args<-lapply(selected,function(r)list(op='and',args=list(list(rule_applies=r$id),
+        list(op='eq',args=list(list(rule_amount=r$id),list(value=p$amount_equal))))))
+      return(if(!length(args))list(value=FALSE) else if(length(args)==1L)args[[1]] else list(op='or',args=args))
+    }
     if(!is.null(node$reporting_predicate)) {
       p<-node$reporting_predicate
       if(length(node)!=1 || !identical(p$authority,'section_232') || !length(p$codes) ||
@@ -325,6 +348,55 @@ compose_shipment_rules <- function(bundle, fragments) {
         effect=if(identical(edge$effect,'reevaluate')) 'claim_reevaluates_action_dependencies' else 'claim_leaves_liability_unchanged',rule_ids=edge$target_rule_ids,source_ids=edge$source_ids)
     }
   }
+  # A source can require another election as part of a requested treatment.
+  # Compile the directed claim closure into ordinary AST; interpreters need
+  # no program-specific constants and the caller's original elections survive.
+  implications<-merge_by_id(unlist(lapply(fragments,`[[`,'claim_implications'),recursive=FALSE),'claim implication')
+  if(length(implications)) {
+    claim_ids<-vapply(bundle$claim_definitions,`[[`,character(1),'id')
+    for(edge in implications) {
+      scalar<-function(x)is.character(x)&&length(x)==1L&&!is.na(x)&&nzchar(x)
+      if(!scalar(edge$claim_id)||!scalar(edge$implies)||edge$claim_id==edge$implies||
+         !all(c(edge$claim_id,edge$implies)%in%claim_ids)||!length(edge$source_ids)||
+         !all(unlist(edge$source_ids)%in%known_sources))stop('Unverified claim implication: ',edge$id)
+      if(!is.null(edge$activation_rule_ids)&&any(!unlist(edge$activation_rule_ids)%in%ids))
+        stop('Unknown claim activation rule: ',edge$id)
+    }
+    ancestors<-function(id,visiting=character()) {
+      if(id%in%visiting)stop('Cyclic claim implication: ',id)
+      direct<-vapply(Filter(function(e)identical(e$implies,id),implications),`[[`,character(1),'claim_id')
+      sort(unique(c(direct,unlist(lapply(direct,ancestors,visiting=c(visiting,id)),use.names=FALSE))))
+    }
+    closure<-setNames(lapply(claim_ids,ancestors),claim_ids)
+    implied_claim<-function(id) {
+      args<-list(list(claim=id))
+      for(edge in Filter(function(e)identical(e$implies,id),implications)) {
+        used_sources<<-union(used_sources,unlist(edge$source_ids,use.names=FALSE))
+        trigger<-implied_claim(edge$claim_id)
+        if(!is.null(edge$activation_rule_ids)) {
+          gates<-lapply(sort(unique(unlist(edge$activation_rule_ids))),function(rid)list(rule_applies=rid))
+          gate<-if(!length(gates))list(value=FALSE) else if(length(gates)==1L)gates[[1]] else list(op='or',args=gates)
+          trigger<-list(op='and',args=list(trigger,gate))
+        }
+        args[[length(args)+1L]]<-trigger
+      }
+      if(length(args)==1L)args[[1]] else list(op='or',args=args)
+    }
+    expand_claims<-function(node) {
+      if(!is.list(node))return(node)
+      if(length(node)==1L&&!is.null(node$claim)&&length(closure[[node$claim]])) {
+        return(implied_claim(node$claim))
+      }
+      lapply(node,expand_claims)
+    }
+    bundle$rules<-lapply(bundle$rules,function(r) {
+      used_sources<<-character()
+      for(k in c('when','suppressed_when','formula','input_constraints'))if(!is.null(r[[k]]))r[[k]]<-expand_claims(r[[k]])
+      r$source_ids<-as.list(sort(unique(c(unlist(r$source_ids),used_sources))))
+      r
+    })
+    bundle$claim_implication_decisions<-implications
+  }
   # Adding actions deliberately invalidates incomplete existing inventories.
   # Only a separate legal review may attest all-action authority coverage.
   bundle$coverage <- c(bundle$coverage, unlist(lapply(fragments, `[[`, 'coverage'), recursive = FALSE))
@@ -335,7 +407,9 @@ compose_shipment_rules <- function(bundle, fragments) {
       stop('Mixed Commerce grant evidence snapshots')
     bundle$evidence_dependencies$section232_grants<-fragment$grant_snapshot
   }
-  bundle$compiler <- list(id = 'sail.shipment-rule-composer/v1',
+  features<-sort(unique(unlist(lapply(fragments,`[[`,'required_compiler_features'),use.names=FALSE)))
+  bundle$compiler <- list(id = if(length(features))'sail.shipment-rule-composer/v2' else 'sail.shipment-rule-composer/v1',
     fragments = as.list(sort(unique(vapply(fragments,`[[`,character(1),'id')))))
+  if(length(features))bundle$compiler$features<-as.list(features)
   bundle
 }

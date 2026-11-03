@@ -122,6 +122,18 @@ def test_rule_links_preserve_legal_scope_and_condition_without_granting_coverage
     assert api().extract_inventory(TEXT, ROWS, '2026_rev_21', fragments=[f,f]) == x
 
 
+def test_feature_fragments_are_versioned_and_unknown_capabilities_fail():
+    f=fragment();f['contract_version']='sail.shipment-rule-fragment/v2'
+    f['required_compiler_features']=['claim_implications']
+    x=api().extract_inventory(TEXT,ROWS,'2026_rev_21',fragments=[f])
+    assert x['coverage']==[] and any(p['rule_links'] for p in x['provisions'])
+    f['required_compiler_features']=['unknown-feature']
+    with pytest.raises(ValueError):api().extract_inventory(TEXT,ROWS,'2026_rev_21',fragments=[f])
+    f['contract_version']='sail.shipment-rule-fragment/v1'
+    f['required_compiler_features']=['claim_implications']
+    with pytest.raises(ValueError):api().extract_inventory(TEXT,ROWS,'2026_rev_21',fragments=[f])
+
+
 def test_unverified_and_conflicting_rule_definitions_cannot_be_linked_as_verified():
     bad = fragment();bad['sources'][0]['status'] = 'unresolved_source'
     with pytest.raises(ValueError, match='unverified'):

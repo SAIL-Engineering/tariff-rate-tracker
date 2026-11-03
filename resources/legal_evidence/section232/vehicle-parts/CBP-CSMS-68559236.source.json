@@ -1,0 +1,10 @@
+{
+  "id": "CBP-CSMS-68559236",
+  "path": "resources/legal_evidence/section232/vehicle-parts/CBP-CSMS-68559236.txt",
+  "sha256": "3f210947ca98b404ed620bcc4b0d627f6ef8c2580bb9beff3d16b6860021936b",
+  "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4162184",
+  "citation": "CBP CSMS68559236, issued 2026-05-06; original public message found through the official CBP CSMS PDF archive. Retrospective entry treatment and current filing procedures are separate.",
+  "issued_at": "2026-05-06",
+  "retrieved_at": "2026-10-30",
+  "method": "gstack browse; link resolved from official archive"
+}

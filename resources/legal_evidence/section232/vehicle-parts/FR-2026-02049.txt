@@ -1,0 +1,255 @@
+[Federal Register Volume 91, Number 21 (Monday, February 2, 2026)]
+[Notices]
+[Pages 4504-4506]
+From the Federal Register Online via the Government Publishing Office [www.gpo.gov]
+[FR Doc No: 2026-02049]
+-----------------------------------------------------------------------
+DEPARTMENT OF COMMERCE
+International Trade Administration
+[Docket No. 260127-0036]
+RIN 0625-XC059
+Procedures for Submissions by Importers of Medium- and Heavy-Duty
+Vehicles Qualifying for Preferential Tariff Treatment Under the USMCA
+To Determine U.S. Content
+AGENCY: International Trade Administration, U.S. Department of
+Commerce.
+ACTION: Procedures for submission of documentation related to medium-
+and heavy-duty vehicles tariffs.
+-----------------------------------------------------------------------
+SUMMARY: In Presidential Proclamation 10984 of October 17, 2025,
+``Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and
+Heavy-Duty Vehicle Parts, and Buses Into the United States''
+(Proclamation 10984), the President imposed additional tariffs on
+imports of specified medium- and heavy-duty vehicles (MHDVs), medium-
+and heavy-duty vehicles parts (MHDVPs), and buses to eliminate the
+threat to national security posed by such imports. That Proclamation
+also provided that for MHDVs that qualify for preferential tariff
+treatment under the United States-Mexico-Canada Agreement (USMCA),
+importers of such MHDVs may submit documentation to the Secretary of
+Commerce (Secretary) identifying the amount of U.S. content in each
+model imported into the United States. This notice announces procedures
+for submission and review of such documentation by the Department of
+Commerce (Department).
+DATES: Importers may begin submitting documentation as described below
+on or after February 2, 2026.
+ADDRESSES: Applications must be submitted electronically to: mail to:
+MHDV232USMCAContent@trade.gov.
+FOR FURTHER INFORMATION CONTACT: Emily Davis, Director for Public
+Affairs, International Trade Administration, U.S. Department of
+Commerce, 202-482-3809, Emily.Davis@trade.gov.
+SUPPLEMENTARY INFORMATION:
+I. Background
+On October 17, 2025, the President issued Proclamation 10984,
+``Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and
+Heavy-Duty Vehicle Parts, and Buses Into the United States'' (90 FR
+48451) (the Proclamation), finding that imports of medium- and heavy-
+duty vehicles (MHDVs), medium- and heavy-duty vehicle parts (MHDVPs),
+and buses threaten to impair the national security of the United States
+and determining that it is necessary and appropriate to impose
+specified tariffs to adjust imports of MHDVs, MHDVPs, and buses so that
+such imports will not threaten to impair national security pursuant to
+section 232 of the Trade Expansion Act of 1962, as amended (19 U.S.C.
+1862). The Proclamation imposed a 25 percent tariff on certain imports
+of MHDVs and MHDVPs, effective November 1, 2025, and a 10 percent
+tariff on certain imports of buses, effective November 1, 2025.
+However, the Proclamation also provided that for MHDVs that qualify for
+preferential tariff treatment under the USMCA, importers of such MHDVs
+may submit documentation to the Secretary identifying the amount of
+United States content in each model imported into the United States.
+The Proclamation specified that ``United States content'' refers to the
+value of MHDVs attributable to United States-based activity supporting
+domestic production, as determined by the Secretary. The Secretary has
+determined that, for purposes of this process, U.S. content should be
+understood as U.S. production and U.S. production-related activity
+directly supporting the manufacture of the imported vehicle and in a
+manner consistent with the definition of ``production'' in Article 4.1
+of USMCA (available at: https://ustr.gov/trade-agreements/free-trade-agreements/united-states-mexico-canada-agreement/agreement-between).
+The Proclamation authorized the Secretary to approve imports of such
+MHDVs to be eligible to apply the additional tariff exclusively to the
+value of the non-U.S. content of the MHDVs and provided that the non-
+U.S. content of the MHDVs is to be calculated by subtracting the value
+of the U.S. content in a MHDV from the total value of the MHDV.
+II. Eligibility
+Only MHDVs imported from Mexico and Canada that qualify for
+preferential tariff treatment under the USMCA may be found to be
+eligible to apply the additional tariff exclusively to the value of the
+non-U.S. content of the MHDV. MHDVs imported from non-USMCA countries
+and MHDVs from Canada and Mexico that do not qualify for preferential
+tariff treatment under the USMCA may not be found to be eligible.
+III. Opportunity To Submit Documentation
+Importers of MHDVs qualifying for preferential treatment under the
+USMCA seeking preferential tariff treatment on the U.S. content of
+their MHDVs may submit documentation, on a model basis, identifying the
+type and value of U.S. content attributable to each model imported into
+the United States.
+Each submission should include documentation certified by an
+importer's Chief Financial Officer, General Counsel, or an equivalent-
+level of senior officer that identifies the following:
+1. The total declared customs value of an MHDV in the model at the
+time of importation based on 19 U.S.C 1401a. If the customs value
+varies within the model, the importer may provide an average value
+consistent with an averaging methodology set forth in Article 5 of the
+Appendix to Annex 4-B, ``Provisions Related to the Product-Specific
+Rules of Origin for Automotive Goods,'' of Chapter 4 of the USMCA
+(``Automotive Appendix'') (available at: https://ustr.gov/trade-agreements/free-trade-agreements/united-states-mexico-canada-agreement/agreement-between).
+2. The total value of U.S. content for an MHDV in that model, as
+determined by calculating the portion of the vehicle's value, based on
+19 U.S.C. 1401a, that is attributable to United States-based activity
+supporting domestic production, as determined by the Secretary. The
+Secretary has determined that, for purposes of this process, ``U.S.
+content'' should be understood as U.S. production and U.S. production-
+related activities that directly support the manufacture of the
+imported vehicle and in a manner consistent with the definition of
+``production'' in Article 4.1 of USMCA (available at: https://ustr.gov/trade-agreements/free-trade-agreements/united-states-mexico-canada-agreement/agreement-between). If the U.S. content varies within a
+model, the importer may provide an average value consistent with an
+averaging
+[[Page 4505]]
+methodology set forth in the USMCA Automotive Appendix Article 5.
+3. Total value of non-U.S. content of an MHDV for that model,
+calculated by subtracting the value of the U.S. content for an MHDV in
+the model from the total value of the MHDV. If the value varies within
+the model, the importer may provide an average consistent with an
+averaging methodology set forth in the USMCA Automotive Appendix
+Article 5.
+4. MHDV production location(s) and country of final assembly. MHDV
+production locations may include more than one country.
+5. Certification of eligibility for USMCA preference (i.e., the
+signed origin certification that supports the import meeting the rules
+of origin requirements as well as the approved producer-submitted
+certifications, jointly reviewed/approved by U.S. Customs and Border
+Protection and the Department of Labor, for meeting North American
+steel and aluminum content, and North American labor value content
+requirements) for the model as submitted to U.S. Customs and Border
+Protection (CBP), including whether the model is subject to an approved
+Alternative Staging Regime outlined in the USMCA Automotive Appendix
+Article 8 of Chapter 4 of the USMCA (available at: https://ustr.gov/trade-agreements/free-trade-agreements/united-states-mexico-canada-agreement/agreement-between).
+6. The importer name, importer of record number, manufacturer name,
+manufacturer facility, country of origin, and model information for
+every model requested in the submission. If retroactive treatment is
+requested, the importer should provide entry numbers for previously
+imported medium- and heavy-duty vehicles.
+IV. Review Process
+The Department will review each submission for completeness and
+compliance. The Department may request supplemental documentation or
+clarification. Upon verification by the Department that a submission is
+consistent with this notice and upon a determination of the value of
+the U.S. content and non-U.S. content for the requested model, the
+Department will inform the importer and CBP of that determination and
+of the value of the non-U.S. content for each model. The Commerce
+Department will provide CBP with a list of importers and MHDVs
+authorized by Commerce, including importer name, importer of record
+number, manufacturer name, manufacturer facility, country of origin,
+and model of each authorized MHDV.
+The additional tariff will apply exclusively to the value of the
+non-U.S. content for the relevant model. The Secretary may
+retroactively extend this treatment to qualifying models for vehicles
+imported on or after November 1, 2025, at his discretion, and provide
+CBP with the entry numbers of the previously imported MHDVs subject to
+any retroactive treatment. If a change in sourcing or production
+results in a decrease in U.S. content relevant to the eligibility
+determination, the importer must promptly inform the Department and
+request a new eligibility determination by providing the documentation
+described above. If a change in sourcing or production results in an
+increase in U.S. content, the importer may inform the Department and
+request a new eligibility determination by providing a new submission
+containing the information required by section III. Regardless,
+eligibility determinations issued in 2026 are only valid for vehicles
+imported in 2025 or 2026, and importers seeking eligibility for a model
+imported in 2027 must submit new documentation no later than October 1,
+2026 to ensure timely processing. Eligibility determinations issued for
+imports after December 31, 2026 shall only be valid for one calendar
+year, and importers seeking eligibility for a model imported after
+December 31, 2026 must submit documentation supporting eligibility no
+later than the October 1 before the start of the calendar year of
+importation to ensure timely processing. Importers of a new model may
+apply at any time for a U.S. content eligibility determination, which
+shall remain valid only until the end of the calendar year in which the
+importer's application is made.
+V. Consequences for Misreporting
+If CBP determines that the declared U.S. content is overstated or
+inconsistent with a U.S. content figure approved by the Secretary, the
+25 percent tariff will apply retroactively (from November 1, 2025, to
+the date of the inaccurate overstatement) and prospectively (from the
+date of the inaccurate overstatement to the date the importer corrects
+the overstatement, as verified by CBP) to the full value of all medium-
+and heavy-duty vehicles of the same model imported by the same
+importer, as provided for in Proclamation 10984. This does not apply to
+or otherwise affect any other applicable fees or penalties.
+VI. Confidential Business Information
+Submissions containing confidential business information must be
+clearly marked as such.
+VII. No Effect on USMCA Preferential Status
+This process does not affect or alter the determination of whether
+a vehicle qualifies for USMCA preferential tariff treatment.
+VIII. Authority
+This notice is issued pursuant to the authority delegated to the
+Secretary by Proclamation 10984 consistent with section 232 of the
+Trade Expansion Act of 1962, as amended (19 U.S.C. 1862).
+IX. Paperwork Reduction Act
+In accordance with section 3507(d) of the Paperwork Reduction Act
+of 1995 (44 U.S.C. 3501 et seq.), and the Office of Management and
+Budget (OMB) implementing regulations at 5 CFR 1320.13, this collection
+is covered under OMB control number 0625-0143, Domestic and
+International Client Export Services and Customized Forms Renewal. With
+this notice, ITA is establishing a process for importers of MHDVs that
+qualify for USMCA duty preference to submit documentation supporting a
+claim that certain parts of the MHDVs are U.S. content. In the notice,
+ITA estimated the burden to the public for this notification will
+average 800 hours (20 respondents * 20 hours per response * 2 expected
+responses per year), including the time for reviewing instructions,
+searching existing data sources, gathering the data needed, and
+completing and reviewing the collection of information. The estimated
+total annual cost to the Federal Government is $37,000. The public may
+access this ITA request, including all supporting materials, at
+www.reginfo.gov/public/do/PRAMain and inserting the OMB control number
+or the name of the collection. Please send written comments to Emily
+Davis, Director for Public Affairs, 202-482-3809,
+Emily.Davis@trade.gov. A comment to OMB is best assured of having its
+full effect if OMB receives it within 60 days of publication of this
+notice. All written comments submitted in response to this notice will
+be included in the record and will be made available to the public.
+Please be advised that the substance of the comments and the identity
+of the individuals or entities submitting the comments will be subject
+to public disclosure. Written comments will be publicly available on
+the internet via https://www.regulations.gov.
+We are soliciting comments from the public (as well as affected
+agencies) concerning our information collection and recordkeeping
+requirements. These comments will help us:
+[[Page 4506]]
+(1) Evaluate whether the information collection is necessary for
+the proper performance of our agency's functions, including whether the
+information will have practical utility.
+(2) Evaluate the accuracy of our estimate of the burden of the
+information collection, including the validity of the methodology and
+assumptions used.
+(3) Enhance the quality, utility, and clarity of the information to
+be collected; and
+(4) Minimize the burden of the information collection on those who
+are to respond (such as through the use of appropriate automated,
+electronic, mechanical, or other technological collection techniques or
+other forms of information technology, e.g., permitting electronic
+submission of responses).
+Estimate of burden: Public reporting burden for this collection of
+information is estimated to average 20 hours per response.
+Respondents: Private Sector.
+Estimated annual number of respondents: 20.
+Estimated annual number of responses per respondent: 2.
+Estimated annual number of responses: 40.
+Estimated total annual burden on respondents: 800.
+(Due to averaging, the total annual burden hours may not equal the
+product of the annual number of responses multiplied by the reporting
+burden per response.)
+Copies of this information collection can be obtained from Emily
+Davis, Director for Public Affairs, 202-482-3809,
+Emily.Davis@trade.gov.
+Notwithstanding any other provision of law, no person is required
+to respond to, nor is subject to a penalty for failure to comply with,
+a collection of information, subject to the requirements of the
+Paperwork Reduction Act of 1995 (44 U.S.C. 3501 et seq.) (PRA), unless
+that collection of information displays a currently valid OMB Control
+Number.
+William Kimmitt,
+Under Secretary for International Trade, United States Department of
+Commerce.
+[FR Doc. 2026-02049 Filed 1-30-26; 8:45 am]
+BILLING CODE 3510-DR-P

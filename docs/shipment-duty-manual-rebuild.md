@@ -25,17 +25,21 @@ codes/provenance are retained under `aggregate_*`, with reporting decisions in
 the executable result. Model shares and credits cannot alter these decisions.
 
 **Keep the final rebuild on hold.** Broader executable authority coverage,
-financial consumers and the production release preparer's multi-bundle/index
-upgrade remain unfinished. The current v7 release preparer rejects the new index;
-the local API fixture is a serializer/evaluator test, not production release
-preparation. A real pinned export also remains required. Do not activate a wide
-table alone or relabel the placeholder as an evidence snapshot.
+financial consumers and production release qualification remain unfinished.
+The v8 index release preparer is now implemented locally, alongside the legacy
+v7 contract. The bounded local API fixture is a serializer/evaluator test, not
+production release preparation or activation. A reconciled pinned export and
+complete release remain required. Do not activate a wide table alone or relabel
+the placeholder as an evidence snapshot.
 
 The October26 automobile checkpoint also connects original listed vehicle/parts
 actions, country amendment windows and shared cross-program auto decisions to
 the normal build. Unclaimed combined rates evaluate complete native General
-expressions; source/fact gaps remain nullable. Expanded certified parts, remaining
-claims/valuations and production release preparation are still open. See
+expressions; source/fact gaps remain nullable. Remaining claims/valuations and
+production release qualification are still open. The later
+October30 checkpoints add certified parts and original MHD vehicles/buses,
+including approved content, manufacture year and historical priority. See
+`docs/audits/2026-10-30-mhd-vehicles/README.md` and
 `docs/audits/2026-10-26-automobile-decisions/README.md` for exact coverage and tests.
 
 Read-only source/extraction preflight (does not build any rates):

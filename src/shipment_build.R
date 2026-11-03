@@ -275,13 +275,16 @@ compile_shipment_base_fragment <- function(extraction,products,countries,root=he
   }
   selection <- shipment_source_selection_window(revision,root)
   preference_rules<-vapply(Filter(function(r)identical(r$base_treatment,'column1_general'),rules),`[[`,character(1),'id')
-  list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('shipment_base_',revision),sources=sources,
+  list(contract_version='sail.shipment-rule-fragment/v2',required_compiler_features=list('rule_value_predicates'),id=paste0('shipment_base_',revision),sources=sources,
     supported_from=selection$from,supported_until=selection$until,source_selection_window=selection,
     source_artifacts=artifacts,rules=rules,fact_definitions=facts,
     claim_definitions=if(length(preference_rules))list(list(id='USMCA',label='USMCA',source_ids=as.list(ids),
       rule_ids=as.list(preference_rules))) else list(),
-    derived_facts=setNames(lapply(c('s122_ftz_entry','s338_ftz_entry'),function(alias)
+    derived_facts=c(setNames(lapply(c('s122_ftz_entry','s338_ftz_entry'),function(alias)
       list(expression=list(fact='ieepa_ftz_entry'),source_ids=lapply(ftz$sources,`[[`,'id'))),c('s122_ftz_entry','s338_ftz_entry')),
+      list(s122_usmca_entered_free=list(source_ids=as.list(ids),expression=if(length(preference_rules))
+        list(op='and',args=list(list(claim='USMCA'),list(fact='usmca_origin_eligible'),list(fact='usmca_properly_claimed'),
+          list(rule_predicate=list(rule_ids=as.list(preference_rules),amount_equal=0)))) else list(value=FALSE)))),
     relations=list(),coverage=coverage,
     base_source_map=source_rows,source_inventory=list(products=as.list(sort(names(records))),
       special_classifications=as.list(sort(names(special))),product_count=length(records),

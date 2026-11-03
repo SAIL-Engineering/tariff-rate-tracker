@@ -1,0 +1,9 @@
+{
+  "id": "FR-2025-19639-mhd-vehicles-reviewed",
+  "path": "resources/legal_evidence/section232/vehicle-parts/original-mhd-vehicles-reviewed.json",
+  "sha256": "c1eaa3aa7859fa0ca54564fb8fce75238fa7387cc4c5323f13a70a67b45a60b0",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2025-10-22/pdf/2025-19639.pdf",
+  "citation": "Proclamation10984 AnnexI A(1)-(2), note38(a)-(g), pp48459-48464. JSON transcription checked against rendered original pages9-11,13-14; original body clauses1,2,6,9,10 determine operative liability.",
+  "original_pdf_path": "resources/legal_evidence/2025-19639/proclamation.pdf",
+  "original_pdf_sha256": "8765798ba39aedd2921b0c60c26846728b7cc313291713eb3bdacc6bf84d5136"
+}

@@ -15,8 +15,8 @@ base<-list(customs_value=100,ieepa_ftz_entry=FALSE,s232_vehicle_parts_certificat
  contains_copper=TRUE,s232_copper_only_material=FALSE,copper_value_determination='substantiated',declared_copper_content_value=20)
 add<-function(name,facts=base,hts='8544429090',country='2010',at='2026-03-01T12:00:00-05:00',amount=10,
  codes=NULL,missing=NULL,source=NULL,bundle=b,variant=NULL) {
- if(identical(facts$s232_vehicle_parts_certification,'mhd'))facts$claims<-as.list(unique(c(unlist(facts$claims),'SECTION_232_CERTIFIED_MHD_PARTS'))
- if(identical(facts$s232_vehicle_parts_certification,'automobile'))facts$claims<-as.list(unique(c(unlist(facts$claims),'SECTION_232_CERTIFIED_AUTO_PARTS'))
+ if(identical(facts$s232_vehicle_parts_certification,'mhd'))facts$claims<-as.list(unique(c(unlist(facts$claims),'SECTION_232_CERTIFIED_MHD_PARTS')))
+ if(identical(facts$s232_vehicle_parts_certification,'automobile'))facts$claims<-as.list(unique(c(unlist(facts$claims),'SECTION_232_CERTIFIED_AUTO_PARTS')))
  cache_key<-if(is.null(variant))'main' else variant
  if(!exists(cache_key,envir=prepared_bundles,inherits=FALSE))prepared_bundles[[cache_key]]<-prepare_shipment_bundle(bundle)
  r<-evaluate_shipment_prepared(prepared_bundles[[cache_key]],hts,country,at,facts)

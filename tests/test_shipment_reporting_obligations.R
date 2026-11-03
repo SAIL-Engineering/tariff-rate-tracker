@@ -4,7 +4,7 @@ s<-list(id='reporting-fixture',status='verified',sha256=paste(rep('0',64),collap
 b$sources<-list(s);b$rules<-list();b$coverage_requirements<-list('unverified-other-authority');b$coverage<-list();b$claim_definitions<-list();b$fact_definitions<-list()
 r<-function(id,amount,code,reporting=FALSE)list(id=id,action_id=id,authority='synthetic',kind='duty',verification='verified',source_ids=list(s$id),
  when=list(value=TRUE),formula=list(value=amount),reporting_codes=list(code),reporting_only=reporting)
-f<-list(id='reporting-fixture',sources=list(s),rules=list(r('charge',25,'9903.79.01'),r('exemption-report',0,'9903.01.33',TRUE),r('ordinary-charge',10,'9903.01.25')),
+f<-list(contract_version='sail.shipment-rule-fragment/v1',id='reporting-fixture',sources=list(s),rules=list(r('charge',25,'9903.79.01'),r('exemption-report',0,'9903.01.33',TRUE),r('ordinary-charge',10,'9903.01.25')),
  relations=list(list(id='monetary-priority',effect='suppress',when_rule_applies='charge',target_reporting_codes=list('9903.01.33','9903.01.25'),preserve_reporting_only=TRUE,source_ids=list(s$id))),coverage=list())
 x<-compose_shipment_rules(b,list(f));at<-x$valid_from
 result<-evaluate_shipment_bundle(x,unlist(x$products)[1],unlist(x$countries)[1],at,list())
@@ -40,7 +40,7 @@ other<-r('other-zero',0,'9903.79.99',TRUE);other$authority<-'section_232'
 surcharge<-r('surcharge',8,'9903.03.01');surcharge$authority<-'section_122'
 surcharge$formula<-list(op='if',args=list(list(reporting_predicate=list(authority='section_232',codes=list('9903.79.01'),positive_duty=FALSE,exclude=TRUE)),
  list(unresolved_source='unreconciled_other232_action'),list(value=8)))
-p<-list(id='other-action-fixture',sources=list(s),rules=list(other,surcharge),coverage=list())
+p<-list(contract_version='sail.shipment-rule-fragment/v1',id='other-action-fixture',sources=list(s),rules=list(other,surcharge),coverage=list())
 for(reporting in c(TRUE,FALSE)) {
  p$rules[[1]]$reporting_only<-reporting
  bb<-compose_shipment_rules(b,list(p))

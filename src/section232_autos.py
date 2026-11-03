@@ -17,7 +17,7 @@ import subprocess
 from zoneinfo import ZoneInfo
 
 from section301_sources import sha, verify_revision_header, unique_span
-from section232_stacking import note, reporting_codes, amendment
+from section232_stacking import note, reporting_codes, amendment,reported,russian_aluminum_codes,russian_aluminum_stacking_source
 from section232_note16_rules import val, fact, op, both, either, negate, choose
 from shipment_base_sources import extract_rows
 
@@ -217,12 +217,9 @@ def load_history():
     priority=amendment();s=priority['source']
     sources.append({k:s[k] for k in ('id','sha256','url','citation')}|{'status':'verified'})
     artifacts.append(dict(source_id=s['id'],path=s['path'],sha256=s['sha256']))
-    p=ROOT/'resources/legal_evidence/2025-09066/notice.txt'
-    m=json.loads(p.with_name('source.json').read_bytes())
-    if sha(p.read_bytes())!=m['sha256'] or 'encompasses Proclamation 10522' not in canonical(p.read_text()):
-        raise ValueError('Unreviewed Russian-aluminum stacking inclusion')
-    sources.append(dict(id='FR-2025-09066',status='verified',**{k:m[k] for k in ('sha256','url','citation')}))
-    artifacts.append(dict(source_id='FR-2025-09066',path=str(p),sha256=m['sha256']))
+    m=russian_aluminum_stacking_source()
+    sources.append(dict(status='verified',**{k:m[k] for k in ('id','sha256','url','citation')}))
+    artifacts.append(dict(source_id=m['id'],path=m['path'],sha256=m['sha256']))
     audit=ROOT/'docs/audits/2026-10-23-stacking-followup'
     m=next(s for s in json.loads((audit/'sources.json').read_bytes()) if s['path']=='CSMS-65054270.txt')
     p=audit/m['path']
@@ -245,9 +242,7 @@ def extract(pdf, hts, revision):
         for r in schedule if re.fullmatch(r'9903\.74\.\d{2}',r.get('htsno',''))]
     return dict(revision=revision,clauses=note(raw,33) if headings else {},headings=headings,
         mhd_clauses=note(raw,38) if mhd_headings else {},mhd_headings=mhd_headings,
-        russian_reporting_codes=sorted({r['htsno'] for r in schedule if
-            re.fullmatch(HEADING,r.get('htsno','')) and 'primary aluminum' in r.get('description','') and
-            'smelted in Russia' in r.get('description','') and 'cast in Russia' in r.get('description','')}),
+        russian_reporting_codes=russian_aluminum_codes(schedule),
         base_sources={p['hts10']:p['general'] for p in extract_rows(schedule)['products']},
         special_sources={p['hts10']:p['special'] for p in extract_rows(schedule)['products']},
         valid_products=sorted({r['htsno'].replace('.','') for r in schedule
@@ -353,6 +348,7 @@ def compile_rules(x, product_list, jurisdictions):
     use_parts=f('s232_auto_parts_use','Article is a part of a passenger vehicle or light truck as defined by U.S. note33(f)')
     election=f('s232_vehicle_parts_certification','IOR certified declaration under Proclamation10984 clause12','string')
     facts['s232_vehicle_parts_certification']['enum']=['none','automobile','mhd']
+    mhd_vehicle=f('s232_mhd_vehicle','Article is a medium- or heavy-duty vehicle under the matched original action')
     eligible=f('s232_auto_usmca_eligible','Goods actually qualify for preferential treatment under USMCA',
         description='Eligibility is a legal shipment fact; neither Canada/Mexico origin nor a requested claim establishes eligibility.')
     kit=f('s232_auto_knockdown_kit_or_compilation','Shipment is an automobile knock-down kit or parts compilation')
@@ -401,6 +397,9 @@ def compile_rules(x, product_list, jurisdictions):
             legal_locator='Proclamation10908 clauses1-5,8; AnnexI note33; original country amendment annexes')
         if not tree['subject'] and tree['formula']==val(0):r['reporting_only']=True
         checks=list(tree['checks'])
+        if action=='s232_automobiles' and possible_mhd:
+            checks.append(dict(test=negate(both(use_vehicle,mhd_vehicle)),inputs=['s232_auto_passenger_vehicle','s232_mhd_vehicle'],
+                label='Actual passenger/light and medium/heavy vehicle identities cannot both apply'))
         if checks:r['input_constraints']=checks
         rules.append(r)
         if tree['replaces_base']:
@@ -449,6 +448,8 @@ def compile_rules(x, product_list, jurisdictions):
         members=certified_history['members'](product_list) if sector=='certified' else [p for p in product_list if any(p.startswith(prefix) for prefix in group['prefixes'])]
         if not members:continue
         boundaries=sorted({group['from'],h['until']}|{d['from'] for d in h['deals'] if d[sector] and d['from']>group['from']})
+        mhd_from=certified_history['periods'][0]['from_']
+        if group['from']<mhd_from<h['until']:boundaries=sorted(set(boundaries)|{mhd_from})
         if sector=='certified':boundaries=sorted(set(boundaries)|{p['from_'] for p in certified_history['periods']})
         if sector=='vehicles':
             boundaries=sorted(set(boundaries)|{datetime(y,1,1,tzinfo=ZoneInfo('America/New_York')).isoformat()
@@ -472,8 +473,9 @@ def compile_rules(x, product_list, jurisdictions):
                     key=tuple(d['country'] for d in active if origin in jurisdictions.get(d['country'],[]) and
                         (d['kind']!='uk_quota' or sector=='certified' or any(p.startswith(a) for a in d[sector+'_prefixes'])))
                     possible_vehicle=sector=='certified' and any(p.startswith(a) for a in h['vehicles']['prefixes'])
-                    by_decision.setdefault((key,possible_vehicle),[]).append(p)
-                for (countries,possible_vehicle),ps in by_decision.items():
+                    possible_mhd=current_from>=mhd_from and any(p.startswith(a) for a in certified_history['mhd_vehicle_prefixes'])
+                    by_decision.setdefault((key,possible_vehicle,possible_mhd),[]).append(p)
+                for (countries,possible_vehicle,possible_mhd),ps in by_decision.items():
                     # Country floors use the complete native General expression
                     # in an unclaimed entry. Keep unlike valuation expressions
                     # separate; neither an input AVE nor an economic rate selects it.
@@ -483,9 +485,9 @@ def compile_rules(x, product_list, jurisdictions):
                         signature=json.dumps(data,sort_keys=True) if countries else ''
                         bases.setdefault(signature,[]).append(p)
                     for basis,items in bases.items():
-                        key=(countries,tuple(items),origin in jurisdictions.get('non_ntr',[]),possible_vehicle)
+                        key=(countries,tuple(items),origin in jurisdictions.get('non_ntr',[]),possible_vehicle,possible_mhd)
                         groups.setdefault(key,[]).append(origin)
-            for (countries,ps,column2,possible_vehicle),origins in groups.items():
+            for (countries,ps,column2,possible_vehicle,possible_mhd),origins in groups.items():
                 ordinary_charge=leaf(group['code'],amount(group['percent']),subject=True)
                 # Only operative country instruments can replace the ordinary
                 # action; publication/snapshot dates do not select the rate.
@@ -593,8 +595,11 @@ def compile_rules(x, product_list, jurisdictions):
                     if sector=='certified':
                         selected=both({'claim':'SECTION_232_CERTIFIED_AUTO_PARTS'},op('eq',election,val('automobile')))
                         if possible_vehicle:selected=op('if',use_vehicle,val(False),selected)
+                        if possible_mhd:selected=both(negate(mhd_vehicle),selected)
                         tree=branch(selected,
                             branch(use_parts,branch(exception,leaf(h['roles']['exempt_parts'],subject=True),offset(ordinary_charge)),dict(skip=True)),dict(skip=True))
+                    elif possible_mhd:
+                        tree=branch(mhd_vehicle,dict(skip=True),tree)
                 walk(tree,val(True),dict(hts_exact=list(ps),countries=origins,**{'from':current_from,'until':until}),action)
     rids=[r['id'] for r in rules]
     certified_ids=[r['id'] for r in rules if r['action_id']=='s232_certified_automobile_parts']
@@ -609,8 +614,8 @@ def compile_rules(x, product_list, jurisdictions):
     # Existing cross-program compilers used independently entered aliases for
     # these same legal facts. In a composed normal build they must resolve from
     # one authoritative automobile decision/value, not contradictory answers.
-    approved_content=both(use_vehicle,content_claim,eligible,approved)
-    individual_parts=both(use_parts,eligible,negate(kit))
+    approved_content=both(use_vehicle,content_claim,eligible,approved,reported([h['roles']['non_us_content']]))
+    individual_parts=both(use_parts,eligible,negate(kit),reported([h['roles']['exempt_parts']]))
     derived={name:dict(expression=expression,source_ids=ids) for expression,names in [
         (approved_content,['s232_auto_approved_us_content','s122_commerce_approved_us_vehicle_content','s338_commerce_approved_us_vehicle_content']),
         (individual_parts,['s232_usmca_auto_parts_not_kits','s122_usmca_auto_parts_not_kits','s338_usmca_auto_parts_not_kits']),

@@ -1,0 +1,5 @@
+{
+  "versions": ["sail.shipment-rule-fragment/v1", "sail.shipment-rule-fragment/v2"],
+  "feature_version": "sail.shipment-rule-fragment/v2",
+  "features": ["claim_implications", "rule_value_predicates"]
+}

@@ -1,6 +1,8 @@
 # Shipment-duty rebuild readiness
 
-Updated October 26, 2026 on tracker `wjr_dev`, continuing from `291d49aa`.
+Updated October30,2026 on tracker `wjr_dev`. The latest
+[MHD vehicle/bus checkpoint](audits/2026-10-30-mhd-vehicles/README.md) follows the
+[vehicle-part checkpoint](audits/2026-10-30-vehicle-parts/README.md).
 The normal calculator now assembles exact-time rule bundles and decision classes
 and replaces shipment scalar projections from those decisions. Economic series
 retain their separate modeled meaning. Indexed v8 release preparation and
@@ -25,7 +27,7 @@ are a consequence of the deferred rebuild; they are not the main reason to wait.
 | The normal build's executable inventory remains incomplete | Automatic assembly, exact-time evaluation, decision Parquet and nullable shipment projections now run in the ordinary calculator. Missing program coverage remains `unresolved_source`. | Complete the independent action/claim/valuation inventory. Fragment presence, executable formulas and a successful build do not certify absence of another duty. |
 | Section 232 legal coverage is narrower than the aggregate candidate inventory | The modeled calculation still selects a winning candidate. Shipment rules independently preserve verified auto/parts, metal and semiconductor predicates and action priority, including zero-payable branches. | Finish remaining sectors, country/claim exceptions and original-instrument interactions. Keep aggregate maxima, shares and assembly credits out of executable shipment rules. |
 | Conditional shipment scalars cannot be treated as economic averages | The ordinary calculator now projects the shared legal decisions into shipment columns, retaining modeled legacy values separately. Conditional metal/use/claim/source paths intentionally leave affected scalars NULL. | Verify full grids from immutable decisions with `scripts/validate_shipment_partition.R`; price actual facts through the same resolver. Do not substitute a modeled rate or NULL-to-zero conversion. |
-| Reciprocal executable chronology stops at August 7, 2025 | Subsequent work adds June 30 UK aircraft relief, the suspension continuations and August 1 copper portions. `ieepa_reciprocal_rules.py` ends at the August 7 country-policy boundary. Later source-derived product-exemption history exists, but is not a complete country/claim/sector evaluator. | Compile the subsequent original amendments, country measures, sector exceptions and reporting transitions through the collection end, with effective dates independent of HTS publication dates. |
+| Later reciprocal chronology is implemented beyond the original August7 boundary, but complete coverage remains unqualified | Original later country measures, suspension continuations, aircraft/sector exemptions, MHD/certified-part references and content decisions now compile from original sources. Transit, evasion, preference/floor, Chapter98 and FTZ branches still need their own complete validation. | Finish the remaining source-backed decisions through collection end. Do not treat a fragment's supported horizon or successful examples as complete legal coverage. |
 | Drug-emergency IEEPA is not all IEEPA | `ieepa_emergency_rules.py` handles the identified emergency actions, explicitly leaving FTZ/de minimis histories unresolved. Its audit excludes other country-specific IEEPA actions from that compiler. | Inventory every distinct action; reconcile its origin coverage, replacement/cumulation, transit, preference and sector treatment. Do not treat an authority rollup as one legal action. |
 | Section 232 coverage and claims remain incomplete | Legacy-metals and note-16 compilers emit empty coverage attestations; note-16 explicitly requires separate civil-aircraft/Chapter 98 and other-action composition. Sector candidates and conditional fragments do not prove a complete sector inventory. | Establish complete source-backed decisions for vehicles/parts, machinery/derivatives, semiconductors, copper, timber, MHD and other enumerated sectors; resolve country deals, floors/caps, offset treatment, grants and historical quota discrepancies. Investigate reporting references against original annexes and operative notes before accepting unresolved status. |
 | Sections 122 and 338 have explicit uncompiled paths | `section122_rules.py` rejects unlisted Section 232 interactions and FTZ; its limitations include import-adjustment offsets. `section338_rules.py` rejects unlisted Section 232 decisions and FTZ. | Reconcile all operative annex versions and action references. Define whole-article versus portion treatment and Chapter 98 overlaps for each action/window; remove an unresolved path only after its legal interpretation is executable and tested. |
@@ -112,7 +114,8 @@ for every candidate action and proof of verified non-application.
 Then regenerate all 55 configured revisions, including normalized revisions 20
 and 21, run full output reconciliation and aggregate differences, prepare the
 complete local release, and seek separate approval for MotherDuck activation.
-The currently missing 526 artifacts should be regenerated, not waived. The actual
+The October30 required-artifact gate reports844 missing items; these should be
+regenerated, not waived. The actual
 TPC input is a separate aggregate check, not a source of customs law.
 
 Primary-source checks behind the portion distinction:

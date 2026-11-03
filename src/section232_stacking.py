@@ -3,10 +3,30 @@
 Reporting numbers are extracted from each source note. Mixed headings require
 product facts; an out-of-scope use must not suppress another duty program.
 """
+import json
 import re
+from pathlib import Path
 from ieepa_fentanyl_sources import verified_source, windows
-from section301_sources import clean_pages, unique_span
+from section301_sources import clean_pages, unique_span,sha
 from section232_note16_rules import val, op, both, either
+
+
+def russian_aluminum_codes(schedule):
+    """Native reporting roles of the original Proclamation10522 action.
+
+    Do not expand this to a later Russia heading merely from its rate/origin.
+    Later instruments can expressly retain a separate Russian-metal exception.
+    """
+    return sorted({r['htsno'] for r in schedule if re.fullmatch(r'9903\.\d{2}\.\d{2}',r.get('htsno','')) and
+        all(s in r.get('description','') for s in ('primary aluminum','smelted in Russia','cast in Russia'))})
+
+
+def russian_aluminum_stacking_source():
+    root=Path(__file__).resolve().parents[1];p=root/'resources/legal_evidence/2025-09066/notice.txt'
+    m=json.loads(p.with_name('source.json').read_bytes())
+    if sha(p.read_bytes())!=m['sha256'] or 'encompasses Proclamation 10522' not in ' '.join(p.read_text().split()):
+        raise ValueError('Unreviewed Russian-aluminum stacking inclusion')
+    return dict(id='FR-2025-09066',path=str(p),**{k:m[k] for k in ('sha256','url','citation')})
 
 
 def amendment():

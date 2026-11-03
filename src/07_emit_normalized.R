@@ -1338,6 +1338,9 @@ emit_normalized_revision <- function(
     source(here::here('src/section232_mhd_parts.R'))
     mhd_parts <- compile_s232_mhd_parts_fragment(revision_id,executable_products)
     write_rule_fragment(mhd_parts,'section232_mhd_parts_rules.json')
+    source(here::here('src/section232_mhd_vehicles.R'))
+    mhd_vehicles <- compile_s232_mhd_vehicles_fragment(revision_id,executable_products,countries)
+    write_rule_fragment(mhd_vehicles,'section232_mhd_vehicles_rules.json')
     source(here::here('src/section232_copper.R'))
     copper <- compile_s232_copper_fragment(revision_id,executable_products)
     write_rule_fragment(copper,'section232_copper_rules.json')
@@ -1363,7 +1366,17 @@ emit_normalized_revision <- function(
       members<-unlist(mhd_parts$candidate_memberships[[kind]],use.names=FALSE)
       if(length(members)) {
         evidence<-Filter(function(a)identical(a$source_id,'FR-2025-19639-vehicle-parts-annex-reviewed'),mhd_parts$source_artifacts)[[1]]
-        candidates[[paste0('s232_mhd_parts_',kind)]]<-list(scope_matches=tibble(hts10=members,scope_code=members,scope_grain='exact_hts10'),
+        matches<-if(kind=='listed')bind_rows(mhd_parts$candidate_scope_matches$listed) else
+          tibble(hts10=members,scope_code=members,scope_grain='exact_hts10')
+        candidates[[paste0('s232_mhd_parts_',kind)]]<-list(scope_matches=matches,
+          scope_source=evidence$path,scope_sha256=evidence$sha256)
+      }
+    }
+    for(kind in c('vehicles','buses')) {
+      members<-unlist(mhd_vehicles$candidate_memberships[[kind]],use.names=FALSE)
+      if(length(members)) {
+        evidence<-Filter(function(a)identical(a$source_id,'FR-2025-19639-mhd-vehicles-reviewed'),mhd_vehicles$source_artifacts)[[1]]
+        candidates[[paste0('s232_mhd_',kind)]]<-list(scope_matches=bind_rows(mhd_vehicles$candidate_scope_matches[[kind]]),
           scope_source=evidence$path,scope_sha256=evidence$sha256)
       }
     }

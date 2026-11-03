@@ -56,8 +56,15 @@ def note_index(text):
 
 def rule_index(fragments):
     rules, fragments_by_id, sources = {}, {}, {}
+    spec=json.loads((Path(__file__).resolve().parents[1]/'resources/shipment_rules/fragment_contract.json').read_bytes())
+    def has_node(x,key):
+        return isinstance(x,dict) and (key in x or any(has_node(v,key) for v in x.values())) or isinstance(x,list) and any(has_node(v,key) for v in x)
     for fragment in fragments:
-        if fragment.get('contract_version') != 'sail.shipment-rule-fragment/v1':
+        version=fragment.get('contract_version');features=fragment.get('required_compiler_features',[])
+        if version not in spec['versions'] or not isinstance(features,list) or any(f not in spec['features'] for f in features) or \
+            (version==spec['feature_version'] and not features) or (version!=spec['feature_version'] and features) or \
+            (fragment.get('claim_implications') and 'claim_implications' not in features) or \
+            (has_node(fragment,'rule_predicate') and 'rule_value_predicates' not in features):
             raise ValueError('Unsupported inventory rule fragment')
         fid = fragment['id']
         digest = sha(encoded(fragment).encode())

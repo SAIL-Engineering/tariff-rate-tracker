@@ -92,5 +92,5 @@ def add_certified_history(h,x):
             if expected and any(semantic(current[c][k])!=semantic(expected[k]) for k in expected):
                 raise ValueError('Unreviewed certified automobile country rate')
     def members(products):return memberships(m,products,h['parts']['prefixes'])['certified']
-    return dict(periods=m['periods'],members=members,
+    return dict(periods=m['periods'],members=members,mhd_vehicle_prefixes=m['vehicle_scopes']['vehicles'],
         scope_source=next(a for a in m['source_artifacts'] if a['source_id']=='FR-2025-19639-vehicle-parts-annex-reviewed'))

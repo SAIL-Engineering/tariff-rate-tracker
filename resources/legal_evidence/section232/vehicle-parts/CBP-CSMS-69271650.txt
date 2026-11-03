@@ -1,0 +1,22 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 69271650 - New Validation for Import Adjustment Offset for Section 232 Duties for Automobile and Medium and Heavy-Duty Vehicle Parts to Deploy July 18, 2026 – ACE CATAIR Error Dictionary Updated
+U.S. Customs and Border Protection sent this bulletin at 07/17/2026 05:33 PM EDT
+Cargo Systems Messaging Service
+CSMS # 69271650 - New Validation for Import Adjustment Offset for Section 232 Duties for Automobile and Medium and Heavy-Duty Vehicle Parts to Deploy July 18, 2026 – ACE CATAIR Error Dictionary Updated
+On July 18, 2026, 2026, U.S. Customs and Border Protection (CBP) will deploy a new validation in the Automated Commercial Environment (ACE) for import adjustment offsets for Section 232 duties on automobile and medium and heavy-duty vehicle parts.
+An updated version of the ACE CATAIR Error Dictionary V51 has been posted under the Supporting Documents: Documentation for Entry Summary Chapters section on CBP.gov. This update includes the following errors related to Auto Part Credit Long-Term Solution:
+F866: AUTO LICENSE PRESENT – DUTY NOT ALLOWEDAn Automobile License for Importer's Additional Declaration Record Type '11' is submitted on a line, yet duty is present on the corresponding auto part ch.99 HTS number.
+F861: AUTO LICENSE INSUFFICIENT BALANCEThe submitted Automobile License for Importer's Additional Declaration Record Type '11' has a balance that is not sufficient to cover the submitted auto part duty.
+This update is scheduled to deploy to the CERTIFICATION (CERT) environment and the PRODUCTION (PROD) environment on July 18, 2026.
+For information about using ACE Reports to monitor the total Section 232 duty amounts offset by import adjustment offset licenses for automobile and medium and heavy-duty parts, please refer to CSMS # 67640669.
+For guidance on how to file an import adjustment offset for Section 232 duties for automobile and medium and heavy-duty parts, please see CSMS # 69087399.
+For questions regarding Section 232 entry filing, contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+For any technical questions regarding this update, please contact your assigned Client Representative.
+For questions or concerns regarding Entry Summary, please contact Entry Summary Accounts & Revenue Division (ESAR) at esar@cbp.dhs.gov.
+Related messages: CSMS #: 69087399, 67640669, 66684128
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

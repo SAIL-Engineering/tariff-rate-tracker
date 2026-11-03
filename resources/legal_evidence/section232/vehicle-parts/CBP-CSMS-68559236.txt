@@ -1,0 +1,47 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 68559236 - GUIDANCE: Applying Section 232 Import Duties on USMCA-Qualifying Medium-and Heavy-Duty Vehicles (MHDVs)
+U.S. Customs and Border Protection sent this bulletin at 05/06/2026 03:40 PM EDT
+Cargo Systems Messaging Service
+CSMS # 68559236 - GUIDANCE: Applying Section 232 Import Duties on USMCA-Qualifying Medium-and Heavy-Duty Vehicles (MHDVs)
+The purpose of this message is to provide guidance on applying the 25 percent Section 232 duties imposed by Proclamation 10984 exclusively to the value of the non-U.S. content for approved imports of MHDVs qualifying for preferential tariff treatment under the United States-Mexico-Canada Agreement (USMCA).
+BACKGROUND
+On October 17, 2025, Presidential Proclamation 10984 authorized the Secretary of Commerce to approve imports of MHDVs qualifying for preferential tariff treatment under USMCA to be eligible to apply the ad valorem tariff of 25 percent exclusively to the value of the non-U.S. content of the MHDV. See 90 FR 48451.
+On February 2, 2026, the Commerce Department issued “Procedures for Submissions by Importers of Medium- and Heavy-Duty Vehicles Qualifying for Preferential Tariff Treatment Under the USMCA To Determine U.S. Content”. See 91 FR 4504.
+ENTRY FILING INSTRUCTIONS
+This guidance provides instructions for importers, brokers, and filers on submitting entries to U.S. Customs and Border Protection (CBP) of MHDVs that have received approval from the Secretary of Commerce to apply the Section 232 tariff imposed by Proclamation 10984 exclusively to the value of the non-U.S. content, as provided for in heading 9903.74.03 of the Harmonized Tariff Schedule of the United States (HTSUS).   See 90 FR 48451.
+The 25 percent tariff will apply exclusively to the value of the non-U.S. content with respect to certain USMCA-qualifying vehicles that were entered for consumption, or
+withdrawn from warehouse for consumption, on or after 12:01 a.m. Eastern Daylight Time on November 1, 2025.
+9903.74.03:  Applies to the non-U.S. content of MHDVs for special tariff treatment under the United States-Mexico-Canada Agreement (USMCA), upon approval from the Secretary of Commerce to apply the 25% ad valorem rate of duty exclusively to the value of the non-U.S. content of the MHDV.
+25% additional ad valorem rate of duty
+9903.74.06: Applies to the U.S. content of MHDVs that received approval from the Secretary of Commerce as noted under HTSUS 9903.74.03.
+0% additional ad valorem rate of duty
+Reporting Instructions for Applying the Special Tariff Treatment Approved by the Commerce Department
+Importers that receive approval from the Secretary of Commerce should follow the instructions below on how to apply the 25 percent ad valorem duty exclusively to the value of the non-U.S. content.
+The non-U.S. content and the U.S. content value of the MHDV must be reported on two lines.
+The first line will represent the value of the non-U.S. content while the second line will represent the value of the U.S. content.  Each line should be reported in accordance with the instructions below.
+Non-U.S. content, first line:
+Report the total quantity of the imported goods
+Report the value of the non-U.S. content approved by the Commerce Department for entered value
+Report the Section 232 duties based on the value of the non-U.S. content with HTSUS 9903.74.03.
+Report Special Program Indicator (SPI) code “S”
+Report Ch. 1-97 HTSUS, same HTSUS must be reported on both lines.
+Report country of origin, same country of origin must be reported on both lines.
+Report all other applicable duties, such as antidumping and countervailing duties
+U.S. content, second line:
+Report 0 for quantity.
+Report the entered value of the U.S. content by subtracting the value of the non-U.S. content from the entered value of the article.
+Report the 0 duties based on the value of U.S. content with HTSUS 9903.74.06.
+Report Special Program Indicator (SPI) code “S”
+Report the same Ch. 1-97 HTSUS reported on the first line.
+Report the same country of origin reported on the first line.
+Report all other applicable duties, such as antidumping and countervailing duties.
+Questions from the importing community concerning ACE entry rejections involving automobile filings should be referred to their CBP Client Representative.
+For questions regarding our trade Remedy programs, please visit our cbp.gov webpage at https://www.cbp.gov/trade/programs-administration/trade-remedies or contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Related Message Number(s): 66665333
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

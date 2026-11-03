@@ -1,0 +1,46 @@
+We only use cookies that are necessary for this site to function to provide you with the best experience. The controller of this site may choose to place supplementary cookies to support additional functionality such as support analytics, and has an obligation to disclose these cookies. Learn more in our Cookie Statement.
+CSMS # 69087399 - GUIDANCE: Duty Offset for Imports of Automobile and Medium and Heavy-Duty Vehicle Parts
+U.S. Customs and Border Protection sent this bulletin at 06/29/2026 11:00 AM EDT
+Cargo Systems Messaging Service
+CSMS # 69087399 - GUIDANCE: Duty Offset for Imports of Automobile and Medium and Heavy-Duty Vehicle Parts
+The purpose of this message is to provide guidance on the import adjustment offset applicable to Section 232 duties on automobile and medium and heavy-duty vehicle parts.
+This message updates CSMS #6684128 relating to the import adjustment offset for Section 232 duties on automobile parts and provides new guidance on the offset for Section 232 duties on medium and heavy-duty vehicle parts.
+BACKGROUND
+On March 26, 2025, the President issued Proclamation 10908, imposing a 25 percent ad valorem tariff on certain imports of automobile parts under Section 232, effective May 3, 2025.  See Adjusting Imports of Automobiles and Automobile Parts Into the United States, 90 FR 14705 (April 3, 2025).
+On April 29, 2025, the President issued Proclamation 10925, providing for an import adjustment offset amount applicable to Section 232 duties on imported automobile parts.  See Amendments to Adjusting Imports of Automobiles and Automobile Parts into the United States, 90 FR 18899 (May 2, 2025).  On June 13, 2025, U.S. Department of Commerce’s International Trade Administration published procedures to administer the offset.  See Procedures to Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts under Proclamation 10908, as Amended, 90 FR 25027 (June 13, 2025).
+On October 17, 2025, the President issued Proclamation 10984, which, among other provisions, amended Proclamation 10908, and established an import adjustment offset program applicable to Section 232 duties on imported medium and heavy-duty vehicle (MHDV) parts.  See Adjusting Imports of Medium- and Heavy-Duty Vehicles, Medium- and Heavy-Duty Vehicle Parts, and Buses into the United States, 90 FR 48451 (October 22, 2025).  On May 15, 2026, the U.S. Department of Commerce published procedures to administer the offset on automobile and MHDV parts.  See Amending the Procedures to Administer Import Adjustment Offset Amounts for Certain Imports of Automobile Parts Under Proclamation 10908 To Include Medium- and Heavy-Duty Vehicle Parts, 91 FR 27914 (May 15, 2026).
+The functionality for the Section 232 import adjustment offset for both automobile and MHDV parts is available in the Automated Commercial Environment (ACE).
+ENTRY FILING INSTRUCTIONS
+Importers that have been granted a Department of Commerce (DOC) import adjustment offset established by Presidential Proclamations 10925 and 10984 should follow the instructions listed below when filing entries with U.S. Customs and Border Protection (CBP) of automobile parts and medium and heavy-duty vehicle parts subject to Section 232 duties under Proclamation 10908 and 10984, as amended.
+The import adjustment offset may only be claimed by importers that have been granted an import adjustment offset by DOC and only up to the amount granted by DOC.  The import adjustment offset amount may be used to offset automobile or medium and heavy-duty vehicle parts tariff liability under Proclamations 10908 and 10984, as amended.
+Importers should track the usage of each import adjustment offset license so they do not exceed the total offset amount of each license.  The TR-015 report is available in ACE to assist importers to track their usage of offset licenses.  Importers who exceed the amount of offset licenses are liable for the Section 232 duty amounts on the overages and may be subject to penalty action under 19 USC 1592.
+When claiming the import adjustment offset:
+continue to file automobile parts HTSUS 9903.94.05 or 9903.94.07 or MHDV parts 9903.74.08 or 9903.74.09;
+file zero (0) for the duty amount on HTSUS 9903.94.05, 9903.94.07, 9903.74.08 or 9903.74.09 on the Chapter 99 HTSUS; and
+file the column one duty amount on the Chapter 1 to 97 HTSUS when the license number is submitted on the entry summary line.
+For automobile parts from Japan, the United Kingdom, the member countries of the European Union (Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia (Czech Republic), Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden), South Korea, and Taiwan, the additional tariff rate for automobile parts is calculated based on the difference between the column one duty rate and the 232 duty rate.  Only the portion assessed under the 232 duties may be offset.
+For example, automobile parts of the United Kingdom imported under HTSUS 9903.94.32 are subject to a total tariff of 10 percent (including any column one tariffs).  Only the portion assessed under the Section 232 duties, the difference between 10 percent and the column one rate, may be offset.
+For imports of automobile parts from Japan, the United Kingdom, member countries of the European Union, South Korea, and Taiwan, when claiming the import adjustment offset:
+continue to file automobile parts HTSUS 9903.94.43, 9903.94.55, 9903.94.32, 9903.94.33, 9903.94.53, 9903.94.45, 9903.94.63, 9903.94.65, 9903.94.67 or 9903.94.69;
+file zero (0) for the duty amount on Chapter 99 HTSUS;
+file the column one duty amount on the Chapter 1 to 97 HTSUS when the license number is submitted on the entry summary line.
+When claiming an import adjustment offset, if submitting HTSUS 9802.00.40, 9802.00.50, 9802.00.60, 9802.00.80 on the same entry summary line with the automobile or MDHV parts Chapter 99 classification, file zero (0) for the duty amount on these Chapter 98 classifications.
+Importers claiming the import adjustment offset should list the offset license number provided by DOC on the entry summary lines for automobile parts or medium and heavy-duty vehicle parts subject to Section 232 duties.  The automobile or MHDV parts offset license number should be submitted in the Importer Additional Declaration Field (54 record), Type Code 11 (Offset License) of the entry summary data, based on the following format:
+8-character format = AANNNNNN
+“A” represents the alphabetic characters and “N” represents the numeric characters of the DOC granted automobile/MHDV parts offset license number.
+For the avoidance of doubt, the imported automobile or MHDV part is still considered to be “subject to” the Section 232 duties under Proclamation 10908 and 10984, as amended, when the import adjustment offset amount is used to reduce the otherwise applicable Section 232 duties under Proclamation 10908 and 10984, as amended, on the imported automobile or MHDV part.
+Importers filing automobile or MHDV parts Chapter 99 HTSUS with the offset license number are not subject to Section 232 metals or wood duties.  No Chapter 99 HTSUS is needed for the exemption from the other remedies noted above.
+POST SUMMARY CORRECTION
+Importers claiming an offset license on the automobile or the MHDV part may submit a post summary correction to amend previous entry summaries where section 232 duties were paid to be credited against the offset license credit amount.
+CBP has updated the ACE Entry Summary Create/Update CATAIR (v108) and the ACE Error Dictionary CATAIR (v44) for implementing the new requirements to submit offset license numbers.
+Both documents are available on the ACE CATAIR webpage in the Chapters: Current Capabilities section on CBP.gov.
+For technical questions regarding this update, contact your assigned CBP Client Representative.
+For questions regarding trade Remedy programs, please visit our cbp.gov webpage at https://www.cbp.gov/trade/programs-administration/trade-remedies or contact the Trade Remedy Branch at TradeRemedy@cbp.dhs.gov.
+If you encounter any errors in filing an entry summary, contact your CBP client representative or the ACE Help Desk.
+Related Message Number(s): 68762890, 66987366, 66684128, 66665333, 66336270, 66242844, 65475725, 64916652, 64913145
+Update your subscriptions, modify your password or e-mail address, or stop subscriptions at any time on your Subscriber Preferences Page. You will need to use your e-mail address to log in. If you have questions or problems with the subscription service, please contact subscriberhelp.govdelivery.com.
+This service is provided to you at no charge by U.S. Customs and Border Protection.
+Privacy Policy | GovDelivery is providing this information on behalf of U.S. Department of Homeland Security, and may not use the information for any other purposes.
+Subscribe to updates from U.S. Customs and Border ProtectionEmail Addresse.g. name@example.comShare Bulletin
+Powered by
+Privacy Policy | Cookie Statement | Help

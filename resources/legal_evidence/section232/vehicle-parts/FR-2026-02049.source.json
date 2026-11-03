@@ -1,0 +1,9 @@
+{
+  "id": "FR-2026-02049",
+  "path": "resources/legal_evidence/section232/vehicle-parts/FR-2026-02049.txt",
+  "sha256": "462309ccb865a12ad8857dd5367ac5c783aa26878b222c4accebe66a91f74ec5",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2026-02-02/html/2026-02049.htm",
+  "citation": "91FR4504-4506: MHD US-content approval; eligible import-from countries, per-model/importer and retroactive entry authorization, approved values, review and misreporting. SectionsII-V/VII.",
+  "retrieved_at": "2026-10-30",
+  "method": "gstack browse text"
+}

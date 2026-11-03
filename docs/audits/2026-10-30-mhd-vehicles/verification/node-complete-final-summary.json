@@ -1,0 +1,345 @@
+{
+  "node": "v22.22.3",
+  "files": [
+    {
+      "file": "frontend/tests/rate-arrow.test.mjs",
+      "exit_code": 0,
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/revision-intervals.test.mjs",
+      "exit_code": 0,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/section301-reconstruction.test.mjs",
+      "exit_code": 0,
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-audit.test.mjs",
+      "exit_code": 0,
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-auto-history.test.mjs",
+      "exit_code": 0,
+      "tests": 83,
+      "pass": 83,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-bundle-index.test.mjs",
+      "exit_code": 0,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-civil-aircraft.test.mjs",
+      "exit_code": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-conditional.test.mjs",
+      "exit_code": 0,
+      "tests": 36,
+      "pass": 36,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-copper.test.mjs",
+      "exit_code": 0,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-diagnostic-ordering.test.mjs",
+      "exit_code": 0,
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-equivalent-relief.test.mjs",
+      "exit_code": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-ftz-current-exemptions.test.mjs",
+      "exit_code": 0,
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-ftz-valuation.test.mjs",
+      "exit_code": 0,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-grants.test.mjs",
+      "exit_code": 0,
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-ieepa-emergency.test.mjs",
+      "exit_code": 0,
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-ieepa-reciprocal.test.mjs",
+      "exit_code": 0,
+      "tests": 121,
+      "pass": 121,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-index-release.test.mjs",
+      "exit_code": 0,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-legacy-metals.test.mjs",
+      "exit_code": 0,
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-metal-intraday.test.mjs",
+      "exit_code": 0,
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-mhd-content.test.mjs",
+      "exit_code": 0,
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-mhd-vehicles.test.mjs",
+      "exit_code": 0,
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-note16-column1-benchmarks.test.mjs",
+      "exit_code": 0,
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-note16-source-agreement.test.mjs",
+      "exit_code": 0,
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-note16.test.mjs",
+      "exit_code": 0,
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-pre-march.test.mjs",
+      "exit_code": 0,
+      "tests": 35,
+      "pass": 35,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-reciprocal-later.test.mjs",
+      "exit_code": 0,
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-release.test.mjs",
+      "exit_code": 0,
+      "tests": 66,
+      "pass": 66,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section122.test.mjs",
+      "exit_code": 0,
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section301-ftz.test.mjs",
+      "exit_code": 0,
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section301-labor-annexes.test.mjs",
+      "exit_code": 0,
+      "tests": 99,
+      "pass": 99,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section301-labor-valuation.test.mjs",
+      "exit_code": 0,
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section301-labor.test.mjs",
+      "exit_code": 0,
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-section338.test.mjs",
+      "exit_code": 0,
+      "tests": 42,
+      "pass": 42,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-semiconductor-history.test.mjs",
+      "exit_code": 0,
+      "tests": 30,
+      "pass": 30,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-special-programme-groups.test.mjs",
+      "exit_code": 0,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-vehicle-parts.test.mjs",
+      "exit_code": 0,
+      "tests": 66,
+      "pass": 66,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "frontend/tests/shipment-wide.test.mjs",
+      "exit_code": 0,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  ],
+  "totals": {
+    "tests": 1201,
+    "pass": 1201,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  }
+}
