@@ -726,6 +726,24 @@ run_test('fails loud on NA total_rate / total_additional (never coalesces)', {
   }
 })
 
+run_test('an unknown ad valorem total over a non-representable base is not a failure', {
+  # 0102.29.40 is 1c/kg, so the parser leaves base_rate NA and an ad valorem
+  # total over it is unknown. The row survives with the total still NA; deriving
+  # one from the base filled afterwards would publish 7.5% for a §301 row that
+  # owes 7.5% plus 1c/kg.
+  df <- tibble(hts10 = '0102294024', country = '5700',
+               base_rate = NA_real_, rate_301 = 0.075,
+               total_additional = 0.075, total_rate = NA_real_)
+  result <- enforce_rate_schema(df)
+  stopifnot(nrow(result) == 1, is.na(result$total_rate))
+  stopifnot(abs(result$total_additional - 0.075) < 1e-12)
+  # The same NA total over a KNOWN base is still the upstream bug it was.
+  bad <- df; bad$base_rate <- 0.02
+  err <- tryCatch({ enforce_rate_schema(bad); NULL },
+                  error = function(e) conditionMessage(e))
+  stopifnot(!is.null(err), grepl('total_rate', err, fixed = TRUE))
+})
+
 run_test('a computed (non-NA) total passes the guard untouched', {
   df <- tibble(hts10 = '0101300000', country = '5700',
                base_rate = 0.02, rate_232 = 0.5,

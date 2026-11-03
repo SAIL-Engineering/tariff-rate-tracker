@@ -2147,9 +2147,26 @@ enforce_rate_schema <- function(df) {
   # a bare `s232_annex == '<annex>'` if_else condition wipes rate_232 (and with
   # it §122/base) for every non-annex product. Surface it here instead of hiding
   # it. Fix the source; never coalesce.
+  #
+  # One NA total is lawful rather than a bug: a base duty with no ad valorem
+  # equivalent. Heading 0102.29.40 is 1¢/kg, so the parser leaves base_rate NA
+  # by design, and an ad valorem total over it is unknown, not wrong. Deriving
+  # one from the base filled below would publish 7.5% for a §301 row owing
+  # 7.5% plus 1¢/kg — missing-to-zero in a new place. Such rows keep a NA
+  # total and are counted. A NA total over a KNOWN base still means a rate
+  # column entered stacking NA, which remains a bug and still stops the build.
   for (col in c('total_additional', 'total_rate')) {
     if (!col %in% names(df)) next
     na_idx <- which(is.na(df[[col]]))
+    if (col == 'total_rate' && length(na_idx) > 0 && 'base_rate' %in% names(df)) {
+      unpriced <- is.na(df$base_rate[na_idx])
+      if (any(unpriced)) {
+        message('  Non-representable base duty: ', sum(unpriced),
+                ' row(s) keep an unknown ad valorem total (specific or ',
+                'compound base; the per-unit duty is not an AVE)')
+        na_idx <- na_idx[!unpriced]
+      }
+    }
     if (length(na_idx) > 0) {
       id_cols <- intersect(c('hts10', 'country'), names(df))
       sample_txt <- if (length(id_cols) > 0) {
