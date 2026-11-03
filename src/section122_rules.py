@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import datetime,timezone,timedelta
 from zoneinfo import ZoneInfo
 from section301_sources import sha
+from build_contract import audit_from, audit_until
 from section122_sources import extract
 from section232_note16_rules import val, fact, op, both, either, negate
 from chapter98_rules import compile_valuation, overlap_value, treatment
@@ -335,8 +336,8 @@ def compile_rules(x,products):
     claims=[dict(id=c,label=c if c=='USMCA' else 'CAFTA-DR',rule_ids=all_ids,source_ids=ids) for c in ('USMCA','CAFTA_DR')]
     claims.append(dict(id='CHAPTER_98',label='Chapter 98',rule_ids=all_ids,source_ids=ids))
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='section122_'+x['revision'],compiler_sha256=sha(Path(__file__).read_bytes()),
-        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','src/chapter98_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv')},
-        supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',sources=history['sources'],source_artifacts=history['source_artifacts'],
+        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section122_sources.py','src/section301_sources.py','src/section232_note16_rules.py','src/chapter98_rules.py','resources/legal_evidence/section122/interactions/review.json','resources/census_codes.csv','resources/shipment_rules/build_contract.json')},
+        supported_from=audit_from(),supported_until=audit_until(),sources=history['sources'],source_artifacts=history['source_artifacts'],
         rules=rules,coverage=[],fact_definitions=facts,claim_definitions=claims,relations=[],interaction_history=history['periods'],
         entry_context=dict(mode='ordinary_only',fact='s122_ftz_entry',source_ids=ids,
             unresolved_source='section122_ftz_admission_classification_requires_separate_rule'),

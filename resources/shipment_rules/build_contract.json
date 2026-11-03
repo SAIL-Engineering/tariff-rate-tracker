@@ -1,7 +1,7 @@
 {
   "contract_version": "sail.shipment-build/v1",
   "audit_from": "2025-01-01T00:00:00-05:00",
-  "audit_until": "2026-10-23T00:00:00-04:00",
+  "audit_until": "2026-11-03T00:00:00-05:00",
   "coverage_authorities": ["base", "section_201", "section_232", "section_301", "ieepa_fentanyl", "ieepa_reciprocal", "ieepa_other", "section_122", "section_338", "adcvd", "other_chapter99", "trade_intelligence_evidence"],
   "source_selection_role": "build_support_only_not_statutory_effectiveness"
 }

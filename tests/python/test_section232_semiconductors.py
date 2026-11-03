@@ -6,6 +6,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'src'))
 from section232_semiconductors import load_history, extract, compile_rules
+from build_contract import audit_until
 
 
 class SemiconductorHistory(unittest.TestCase):
@@ -29,7 +30,7 @@ class SemiconductorHistory(unittest.TestCase):
         self.assertIn('9903.94.66', periods[3]['target_reporting_codes'])
         self.assertIn('9903.82.26', periods[4]['target_reporting_codes'])
         # June Annex IV B reverses this only in 2028, outside this audit.
-        self.assertEqual(periods[-1]['until'], '2026-10-23T00:00:00-04:00')
+        self.assertEqual(periods[-1]['until'], audit_until())
         for p in periods:
             self.assertIn('9903.01.77', p['target_reporting_codes'])
             self.assertIn('9903.01.84', p['target_reporting_codes'])

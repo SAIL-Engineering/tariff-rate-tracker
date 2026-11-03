@@ -72,7 +72,7 @@ f$chapter98_provision <- '98020080'
 add('other Chapter98 terms must precede priority','2026-07-01T12:00:00-04:00',0,facts=f,error='semiconductor_chapter98_selected_provision',code=character())
 f <- q;f$claims <- list('SYNTHETIC_301_EXCLUSION')
 add('independent 301 exclusion does not waive semiconductor duty','2026-07-01T12:00:00-04:00',26,june,facts=f)
-add('after source cutoff','2026-10-23T00:00:00-04:00',0,code=character(),error='outside_bundle_interval')
+add('after source cutoff',fragment$supported_until,0,code=character(),error='outside_bundle_interval')
 if('--emit' %in% commandArgs(trailingOnly=TRUE)) {
   file <- gzfile('tests/fixtures/shipment/semiconductor-history.json.gz','w')
   writeLines(jsonlite::toJSON(list(bundles=list(history=bundle),cases=lapply(cases,function(c){c$bundle<-'history';c})),

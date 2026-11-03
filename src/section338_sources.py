@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from section301_sources import sha, clean_pages, verify_revision_header
+from build_contract import audit_until
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'resources/legal_evidence/section338'
@@ -134,15 +135,27 @@ def extract():
         annex = re.split(r'Annex I[IT]', doc['annex'])[-1]
         when = instant(one(r'12:01 a\.m\. eastern time on (\w+ \d+, \d{4})', annex, 'amendment commencement')[1])
         remove = codes(one(r'deleting the following subheadings:(.*?)(?=b\. inserting)', annex, 'deleted scope')[1])
-        insert = codes(one(r'inserting the following subheadings in numerical order:?(.*?)(?=2\. Subdivision)', annex, 'inserted scope')[1])
-        # Original replacement operands must reconcile when amendments are
-        # applied in legal order. In particular the first narrows a range's
-        # first endpoint; the second replaces the resulting entire range.
-        change=one(r'2\. Subdivision \(c\).*?in lieu thereof',annex,'232 amendment')
-        old,new=replacement(change[0]);before=heading_set(target)
-        target=replace_once(target,old,new);after=heading_set(target)
+        # The inserted list runs to the next numbered instruction, or to the end
+        # of the document when the amendment issues no further instruction.
+        insert = codes(one(r'inserting the following subheadings in numerical order:?(.*?)(?=2\. Subdivision|\[FR Doc\.|\Z)', annex, 'inserted scope')[1])
         heading=next(a['heading'] for a in actions if a['program']==doc['program'])
-        if before^after!={heading}:raise ValueError('Unreviewed multi-action Section 338 amendment')
+        # An amendment need not touch subdivision (c). A scope-only amendment
+        # leaves the section 232 interaction exactly as its predecessors left
+        # it, so the inventory is carried forward rather than re-derived: for
+        # this heading that is cumulation, in force since the heading was
+        # removed from (c), and restated in the amendment's own paragraph (1).
+        subdivision_c=re.findall(r'2\. Subdivision \(c\).*?in lieu thereof',annex,re.S)
+        if len(subdivision_c)>1:raise ValueError('Ambiguous Section 338 232 amendment')
+        old=new=None
+        if subdivision_c:
+            # Original replacement operands must reconcile when amendments are
+            # applied in legal order. In particular the first narrows a range's
+            # first endpoint; the second replaces the resulting entire range.
+            old,new=replacement(subdivision_c[0]);before=heading_set(target)
+            target=replace_once(target,old,new);after=heading_set(target)
+            if before^after!={heading}:raise ValueError('Unreviewed multi-action Section 338 amendment')
+        else:
+            after=heading_set(target)
         amendments.append(dict(id=doc['id'], program=doc['program'], effective_at=when,
                                delete=remove, insert=insert, s232_exempt=heading in after,
                                interaction_delete=old, interaction_insert=new, source_id='FR-'+doc['id']))
@@ -163,7 +176,7 @@ def periods(x):
             state = state | dict(from_=amendment['effective_at'],
                 products=sorted(set(state['products'])-set(amendment['delete'])|set(amendment['insert'])),
                 s232_exempt=amendment['s232_exempt'], amendment_id=amendment['id'])
-        result.append(state | {'until':'2026-10-23T00:00:00-04:00'})
+        result.append(state | {'until':audit_until()})
     return result
 
 

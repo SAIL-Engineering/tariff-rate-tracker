@@ -88,11 +88,14 @@
     "changed_rows": 1,
     "rate_fields_changed": false,
     "changed_heading": "9903.01.63",
-    "change": "Removal of compiler suspension annotation from description; not evidence of legal reactivation"
+    "change": "Removal of compiler suspension annotation from description; not evidence of legal reactivation",
+    "resolution": "editorial_annotation_removal_no_reactivation",
+    "resolution_artifact": "docs/audits/2026-11-03-revision-22/heading-9903-01-63-resolution.json",
+    "suspension_authority": "Executive-order continuation chain, suspended until 2026-11-10T00:01:00-05:00; outlasts the audited horizon, so no reactivation occurs in scope."
   },
-  "audit_horizon_exclusive": "2026-10-23T00:00:00-04:00",
-  "status": "downloaded_annex_reconciled_pending_horizon_extension",
-  "in_active_revision_calendar": false,
+  "audit_horizon_exclusive": "2026-11-03T00:00:00-05:00",
+  "status": "sources_reconciled_registered_pending_rebuild",
+  "in_active_revision_calendar": true,
   "legal_coverage_verified": false,
   "production_qualified": false,
   "timeseries_rebuilt": false,

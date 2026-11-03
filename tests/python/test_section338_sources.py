@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'src'))
 from section338_sources import extract,periods,ROOT
+from build_contract import audit_until
 from section338_rules import compile_rules,interaction_codes
 from chapter98_rules import treatment
 
@@ -23,11 +24,34 @@ def test_original_amendments_reconcile_at_exact_precision(source):
         for key in ('id','program','effective_at','s232_exempt'):assert a[key]==b[key]
         for key in ('insert','delete'):assert set(a[key])==set(b[key])
     windows=periods(source)
-    assert len(windows)==5
+    assert len(windows)==6
     assert all(w['s232_exempt'] for w in windows if w['program']=='dairy')
-    assert {w['until'] for w in windows if 'amendment_id' not in w}=={'2026-09-15T00:01:00-04:00','2026-10-23T00:00:00-04:00'}
+    assert {w['until'] for w in windows if 'amendment_id' not in w}=={'2026-09-15T00:01:00-04:00',audit_until()}
     a=next(w for w in windows if w.get('amendment_id')=='2026-18838')
     assert '22083060' not in a['products'] and '2208306075' in a['products'] and '2208306085' not in a['products']
+
+def test_scope_only_amendment_carries_section232_cumulation_forward(source):
+    windows=periods(source)
+    prior=next(w for w in windows if w.get('amendment_id')=='2026-18839')
+    later=next(w for w in windows if w.get('amendment_id')=='2026-22292')
+    # Proclamation 11076 issues no subdivision (c) instruction. Cumulation must
+    # carry forward from the September amendment, not revert to the original
+    # exemption, and the September state is its required predecessor.
+    assert later['program']=='motor_vehicles' and later['from_']=='2026-10-30T00:01:00-04:00'
+    assert not prior['s232_exempt'] and not later['s232_exempt']
+    assert prior['until']=='2026-10-30T00:01:00-04:00'
+    # Counts reconcile against codified note 51(b)(3): 513 codes in revision 21,
+    # 591 in revision 22, both including six ten-digit statistical codes.
+    assert len(prior['products'])==513 and len(later['products'])==591
+    assert set(later['products'])==set(prior['products'])-set(a_deleted(source))|set(a_inserted(source))
+    assert '12122100' in prior['products'] and '12122100' not in later['products']
+    assert '18061005' not in prior['products'] and '18061005' in later['products']
+
+def a_deleted(source):
+    return next(m['delete'] for m in source['amendments'] if m['id']=='2026-22292')
+
+def a_inserted(source):
+    return next(m['insert'] for m in source['amendments'] if m['id']=='2026-22292')
 
 def test_amendment_order_and_missing_predecessor(source):
     x=copy.deepcopy(source);x['amendments'].reverse()
@@ -54,7 +78,7 @@ def test_compiler_precision_model_independence_and_source_horizon():
     a=compile_rules('2026_rev_17',ps)
     assert compile_rules('2026_rev_17',list(reversed(ps))+ps)==a
     assert not a['coverage']
-    assert a['supported_until']=='2026-10-23T00:00:00-04:00'
+    assert a['supported_until']==audit_until()
     later=[r for r in a['rules'] if r['scope']['from']=='2026-09-15T00:01:00-04:00']
     assert {p for r in later for p in r['scope']['hts_exact']}=={'2208306075','8537109130'}
     assert 'authority_covered' not in str(later)  # these two actions become additive

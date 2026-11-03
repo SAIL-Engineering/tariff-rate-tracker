@@ -1,0 +1,43 @@
+{
+  "contract_version": "sail.source-discrepancy-resolution/v1",
+  "resolved_on": "2026-11-03",
+  "heading": "9903.01.63",
+  "finding": {
+    "revision": "2026_rev_22",
+    "predecessor": "2026_rev_21",
+    "changed_rows": 1,
+    "change": "The description loses its trailing annotation \"[Compiler's note: provision suspended. See 90 Fed. Reg. 50729.]\". No rate field changes: general, special and other are byte-identical.",
+    "risk": "inline_provision_status() in src/parse_note_rules.R derives 'suspended' from exactly this annotation, so a reader that trusts the printed line would see the status fall away and could treat the duty as reactivated."
+  },
+  "resolution": "editorial_annotation_removal_no_reactivation",
+  "basis": {
+    "operative_instruments": "The suspension of heading 9903.01.63 is sourced from the executive-order chain, not from the HTS annotation. src/ieepa_reciprocal_initial.py requires the originating order to state that the heading 'and subdivision ... [is] hereby suspended', and src/ieepa_reciprocal_later.py requires each continuation to state that it 'shall continue to be suspended until' a named instant, checking the predecessor order and chronology of every link.",
+    "chain": [
+      {
+        "from": "2025-05-14T00:01:00-04:00",
+        "until": "2025-08-12T00:01:00-04:00",
+        "source_id": "original order"
+      },
+      {
+        "from": "2025-08-12T00:01:00-04:00",
+        "until": "2025-11-10T00:01:00-05:00",
+        "source_id": "FR-2025-15554",
+        "note_locator": "(v)(xiv)(10)"
+      },
+      {
+        "from": "2025-11-10T00:01:00-05:00",
+        "until": "2026-11-10T00:01:00-05:00",
+        "source_id": "FR-2025-19826",
+        "note_locator": "(v)(xvii)(10)"
+      }
+    ],
+    "suspended_until": "2026-11-10T00:01:00-05:00",
+    "revision_22_effective_at": "2026-10-30T00:01:00-04:00",
+    "revision_22_instant_inside_suspension": true,
+    "audit_until": "2026-11-03T00:00:00-05:00",
+    "suspension_covers_entire_audited_window": true,
+    "usitc_change_record": "The Revision 22 change record lists one item, U.S. note 51(b)(3) of subchapter III chapter 99, modified October 30 by Proclamation 11076. It attests no change to heading 9903.01.63. Change records exclude endnotes and minor nonsubstantive format adjustments, which is what the removed compiler's note is."
+  },
+  "conclusion": "The suspension runs to 2026-11-10T00:01:00-05:00, past the audited horizon of 2026-11-03T00:00:00-05:00. Heading 9903.01.63 is therefore suspended throughout the audited window, including at Revision 22's effective instant. Removing the annotation changes the printed description only; it neither establishes nor accompanies a reactivation, and no unresolved_source is required.",
+  "forward_requirement": "The chain's last continuation ends at 2026-11-10T00:01:00-05:00, seven days after the current horizon. Any later extension of audit_until past that instant must first reconcile the next continuation instrument. Absent one, heading 9903.01.63 reactivates by its own terms at 2026-11-10T00:01:00-05:00 and the reciprocal China rate resumes; that is a legal event to be sourced, not a default to be assumed."
+}

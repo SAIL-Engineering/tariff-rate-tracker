@@ -10,6 +10,7 @@ import copy
 import csv
 from datetime import datetime
 from functools import lru_cache
+from build_contract import audit_until
 import json
 from pathlib import Path
 import re
@@ -144,7 +145,7 @@ def load_history():
     clock=re.search(r'12:01 a\.m\. eastern daylight time on (\w+ \d+, \d{4})',june)
     if not match or not clock:raise ValueError('Missing original June MHD operation/clock')
     replace_range(*match.groups());periods.append(dict(from_=instant(clock[1]),clause=copy.deepcopy(state)))
-    until='2026-10-23T00:00:00-04:00'
+    until=audit_until()
     for i,p in enumerate(periods):
         p['until']=periods[i+1]['from_'] if i+1<len(periods) else until
         p['targets']=sorted({c for row in p['clause']['rows'] for c in reporting_codes(row)})

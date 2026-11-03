@@ -6,7 +6,7 @@ fragments<-list('2026_rev_13'=fragment,'2026_rev_14'=compile_s301_labor_fragment
 fragments<-lapply(fragments,bound_shipment_fixture_countries,countries=c('4280','5330'))
 history<-fragment$forced_labor_history
 stopifnot(length(history$actions)==60L,length(history$original_headings)==101L)
-stopifnot(setequal(as.character(legal_event_days(history)),c('2026-07-24','2026-07-28','2026-07-31','2026-10-23')))
+stopifnot(setequal(as.character(legal_event_days(history)),c('2026-07-24','2026-07-28','2026-07-31',substr(history$audit_until,1,10))))
 base<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
 base$revision<-'2026_rev_13';base$dataset_version<-'s301fl-controlled-interaction-not-production'
 base$products<-list('7304313000');base$countries<-list('4280','5330');base$rules<-list();base$coverage<-list()

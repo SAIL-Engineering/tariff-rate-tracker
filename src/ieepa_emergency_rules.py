@@ -11,6 +11,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 from ieepa_fentanyl_sources import ROOT, HEADING, verified_source, inception_sources, windows
 from section301_sources import sha, unique_span
+from build_contract import audit_until
 from section232_note16_rules import val, fact, op, both, either, negate
 from chapter98_rules import compile_valuation
 from section232_stacking import amendment, timber_amendment, vehicle_predicate, reported
@@ -63,7 +64,7 @@ def revision_window(revision):
     dates={r['revision']:r['policy_effective_date'] if r['policy_effective_date']!='NA' else r['effective_date'] for r in rows}
     begin=dates[revision];ends=[d for d in dates.values() if d>begin]
     instant=lambda d:datetime.fromisoformat(d).replace(tzinfo=ZoneInfo('America/New_York')).isoformat()
-    return instant(begin),instant(min(ends)) if ends else '2026-10-23T00:00:00-04:00'
+    return instant(begin),instant(min(ends)) if ends else audit_until()
 
 
 def role(a):
@@ -216,7 +217,7 @@ def compile_emergency(x,products):
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='ieepa_emergency_'+rev,
         supported_from=start,supported_until=end,compiler_sha256=sha(Path(__file__).read_bytes()),
         semantic_review_sha256=sha(review_path.read_bytes()),
-        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/chapter98_rules.py','src/ieepa_fentanyl_sources.py','src/section232_stacking.py','src/section232_note16_rules.py','config/revision_dates.csv','resources/census_codes.csv')},
+        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/chapter98_rules.py','src/ieepa_fentanyl_sources.py','src/section232_stacking.py','src/section232_note16_rules.py','config/revision_dates.csv','resources/census_codes.csv','resources/shipment_rules/build_contract.json')},
         sources=sources,source_artifacts=artifacts,rules=rules,coverage=[],fact_definitions=facts,relations=[],
         claim_definitions=[dict(id=c,label=l,rule_ids=rids,source_ids=ids) for c,l in [('USMCA','USMCA'),('CHAPTER_98','Chapter 98')]] if rids else [],
         unchanged_claims=[dict(id='ieepa_'+rev+'_301_independent',claim_authority='section_301',candidate_required_fields=['exclusion_claim_id'],target_rule_ids=rids,source_ids=ids),

@@ -36,7 +36,11 @@ b <- list(contract_version='sail.shipment-rules/v1',dataset_version='test-source
 evaluate <- function(code,facts=list(customs_value=100),country='5700',bundle=b)
   ordinary_301(bundle,code,country,at,facts)
 source('src/compile_shipment_rules.R')
-beyond <- b;beyond$valid_until <- '2026-11-01T00:00:00-05:00'
+# A bundle may not reach past the fragment's supported window. Deriving the
+# violation from supported_until keeps this edge meaningful when the audited
+# horizon moves; a fixed instant silently stops violating anything.
+beyond <- b;beyond$valid_until <- sub('T00:00:00','T00:00:01',f$supported_until,fixed=TRUE)
+stopifnot(beyond$valid_until!=f$supported_until)
 stopifnot(inherits(try(compose_shipment_rules(beyond,list(f)),silent=TRUE),'try-error'))
 r <- evaluate('6307909891')
 stopifnot(r$known_subtotal==7.5,is.null(r$complete_total),r$status=='unresolved_source')

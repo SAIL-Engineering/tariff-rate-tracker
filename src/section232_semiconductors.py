@@ -10,6 +10,7 @@ import argparse
 import copy
 from datetime import datetime, timedelta, timezone
 from functools import lru_cache
+from build_contract import audit_until
 import json
 from pathlib import Path
 import re
@@ -196,7 +197,7 @@ def load_history():
     june_a = june.split('B. Effective')[0]
     replace_from(june_a, r'Subdivision \(a\)\(5\) of U\.S\. note 39.*?deleting "(.*?)" and inserting "(.*?)" in lieu thereof',
                  pdf_instant('FR-2026-11314'), ['FR-2026-11314', 'FR-2026-11314-reviewed-transcription'], 4)
-    until = '2026-10-23T00:00:00-04:00'
+    until = audit_until()
     periods = []
     active_sources = []
     for i, (date, state, source_ids) in enumerate(states):

@@ -4,6 +4,14 @@
 
 if (!exists('.shipment_time', mode='function')) source(here::here('src/resolve_shipment_duties.R'))
 
+# The audited build window is stated once, in the build contract. Repeating its
+# end instant as a literal is what lets a horizon extension leave a compiler
+# behind, emitting an interval whose end precedes its start.
+.s301_audit_window <- function() {
+  if(!exists('SHIPMENT_BUILD_SPEC')) source(here::here('src/shipment_build.R'))
+  get('SHIPMENT_BUILD_SPEC')
+}
+
 load_s301_revision_source <- function(revision_id, root = here::here(), download = TRUE) {
   if (!grepl('^202[56]_(basic|rev_[0-9]+)$', revision_id))
     stop('Section 301 source extraction requires an identified 2025/2026 revision')
@@ -209,10 +217,10 @@ compile_s301_revision_fragment <- function(extraction, products) {
   fragment<-list(contract_version='sail.shipment-rule-fragment/v1',id=paste0('s301_china_',revision),
     compiler_sha256=digest::digest(file=here::here('src/section301_revision.R'),algo='sha256'),
     compiler_dependencies=setNames(lapply(c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py',
-      'src/shipment_build.R','src/shipment_base_sources.py'),
+      'src/shipment_build.R','src/shipment_base_sources.py','resources/shipment_rules/build_contract.json'),
       function(p) digest::digest(file=here::here(p),algo='sha256')),
-      c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py','src/shipment_build.R','src/shipment_base_sources.py')),
-    supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
+      c('src/section301_chapter98.py','src/chapter98_rules.py','src/section301_sources.py','src/shipment_build.R','src/shipment_base_sources.py','resources/shipment_rules/build_contract.json')),
+    supported_from=.s301_audit_window()$audit_from,supported_until=.s301_audit_window()$audit_until,
     sources=sources,source_artifacts=artifacts,
     rules=rules,fact_definitions=facts,claim_definitions=claim_definitions,
     coverage=list(),relations=exclusions$relations,
@@ -250,10 +258,11 @@ compile_s301_exclusion_rules <- function(extraction, products, revision_source_i
       if(!length(matched)) next
       for(w in seq_along(extraction$exclusions$windows[[record$reporting_code]])) {
         window <- extraction$exclusions$windows[[record$reporting_code]][[w]]
-        start <- max(instant(binding$valid_from,'2025-01-01T00:00:00-05:00'),
-          .shipment_time(window$possible_from),.shipment_time('2025-01-01T00:00:00-05:00'))
-        end <- min(instant(binding$valid_until,'2026-10-23T00:00:00-04:00'),
-          .shipment_time(window$possible_until),.shipment_time('2026-10-23T00:00:00-04:00'))
+        audited <- .s301_audit_window()
+        start <- max(instant(binding$valid_from,audited$audit_from),
+          .shipment_time(window$possible_from),.shipment_time(audited$audit_from))
+        end <- min(instant(binding$valid_until,audited$audit_until),
+          .shipment_time(window$possible_until),.shipment_time(audited$audit_until))
         if(start>=end) next
         known_start <- max(start,.shipment_time(window$valid_from))
         known_end <- min(end,.shipment_time(window$valid_until))

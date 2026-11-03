@@ -1,11 +1,12 @@
 suppressPackageStartupMessages(library(tidyverse))
 source('src/helpers.R');source('src/section338_revision.R');source('src/compile_shipment_rules.R')
-products<-c('2203000030','0402101000','8537109130','8537109120','7608100030','9403200090','2208306085','2208306075')
+products<-c('2203000030','0402101000','8537109130','8537109120','7608100030','9403200090','2208306085','2208306075',
+ '1212210000','1806100500')
 fragment<-compile_s338_fragment('2026_rev_17',products)
 b<-jsonlite::fromJSON('tests/fixtures/shipment/conformance.json',simplifyVector=FALSE)[[1]]$bundle
 b$products<-as.list(products);b$countries<-list('1220','2010');b$rules<-list();b$coverage<-list()
 b$claim_definitions<-list();b$fact_definitions<-list();b$coverage_requirements<-list('base','section_232','section_338')
-b$valid_from<-'2026-08-01T00:00:00-04:00';b$valid_until<-'2026-10-23T00:00:00-04:00'
+b$valid_from<-'2026-08-01T00:00:00-04:00';b$valid_until<-fragment$supported_until
 b$dataset_version<-'synthetic-coverage-section338';b$revision<-'2026_rev_17'
 sid<-'synthetic338-interactions';b$sources<-c(b$sources,list(list(id=sid,status='verified',sha256=paste(rep('0',64),collapse=''),url='https://example.invalid/338-fixture',citation='Synthetic counterfactual action and coverage; not an authority attestation')))
 make<-function(rule=NULL,coverage=TRUE) {
@@ -38,6 +39,15 @@ add('metal action exempts whole article before September',bundle='metal',subtota
 add('zero-dollar named metal decision still exempts',bundle='zero',subtotal=0,codes='9903.03.15')
 add('unknown zero decision cannot prove absence',bundle='unknown',subtotal=0,error='unlisted_section232')
 add('missing inventory cannot become fifty',bundle='uncovered',subtotal=0,error='coverage_dependency_unverified')
+
+# Proclamation 11076 moves the motor-vehicle scope at 12:01 a.m. ET on October
+# 30: one product leaves the action and another joins it. Both directions are
+# checked on either side of the instant, so a dropped amendment cannot pass as
+# a product that was simply never covered.
+add('scope removed by Proclamation 11076 still applies before it',hts='1212210000',at='2026-10-29T12:00:00-04:00',codes='9903.03.14')
+add('scope removed by Proclamation 11076 does not apply after it',hts='1212210000',at='2026-11-02T12:00:00-05:00',subtotal=0,codes=character())
+add('scope added by Proclamation 11076 does not apply before it',hts='1806100500',at='2026-10-29T12:00:00-04:00',subtotal=0,codes=character())
+add('scope added by Proclamation 11076 applies after it',hts='1806100500',at='2026-11-02T12:00:00-05:00',codes='9903.03.14')
 add('September first second stacks independent motor action',bundle='metal',subtotal=75,hts='8537109130',at='2026-09-15T00:01:00-04:00',codes='9903.03.14')
 add('September preceding second keeps old interaction',bundle='metal',subtotal=25,hts='8537109130',at='2026-09-15T00:00:59-04:00',codes='9903.03.15')
 add('September alcohol amount no longer needs 232 inventory',bundle='uncovered',at='2026-09-15T00:01:00-04:00',codes='9903.03.12')

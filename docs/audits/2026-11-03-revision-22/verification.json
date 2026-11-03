@@ -14,27 +14,28 @@
     "shipment_decision_ids_json"
   ],
   "timeseries_rebuilt": false,
-  "revision22_registered": false,
+  "revision22_registered": true,
   "production_writes": false,
   "frontend_files_changed": false,
   "production_qualified": false,
   "artifact_sha256": {
     "FR-2026-22292-body.txt": "2f553a615da5f3e2114cbede3bd307e9ea0ae026eb9ae80d3df50b2e999280bd",
     "FR-2026-22292-proclamation-11076.pdf": "7f2b9becda1bc6f8cca3cf76a2b83bba813e588f753aff69eab89dd31c7cf4d4",
-    "README.md": "f68be68665e935b8841308149df34b5a51c972cbea4d772c829cdc779f35281b",
+    "README.md": "a201b48937cb6cc59c550cfc7ee0846e7351a0535687a2b5d200855a7ef8594a",
     "annex-reconciliation.json": "9fcbc34b4381419a5d4f3112ee65f8385d16c0745182b8630cbe6b3f73c7105c",
     "change_record.txt": "9562c5fa48c426e7b732f3d22b0410baaac62c027981af808691a893f7f91fd5",
     "change_record_2026_rev_22.pdf": "2684027ebb4d14ad6380bd5f561266958e37e07a3693a5be2a6095326684239c",
+    "heading-9903-01-63-resolution.json": "f8bbe6fdba4206bd97e318ae4e348b1a827e441b6f4c238e9c645e613dca69fe",
     "json-row-diff.json": "4ffd5a3d8596d2928874f781093dd5bea12bd5733ee395908f36cdeb795d008a",
     "motherduck-read-only-points.json": "2f58a36d9c406875368b35c539e62ebe598307992edf98d68ceec46a81ae3b14",
     "reconcile-annex.py": "3465a953ee5bfa00d8d2ae96d653e24231b64b66f233daeb20ba6f596db2b41f",
     "release-list-after.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
     "release-list-before.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
-    "source-manifest.json": "1b6ab144d0481f59445d3c3047449b3f9adadc31b92380f1f01c681dcf813161"
+    "source-manifest.json": "a63aa48aa8f82b66502c59fce1f6dd2860ad4b3541fbc3f4091afeb96a6ea7ee"
   },
   "annex_reconciliation": {
     "performed_on": "2026-11-03",
-    "tracker_code_commit": "8e445e25e6dc27da04ea1ca8c829f6177002b5b2",
+    "tracker_code_commit": "c86d2b505b113a08be581d19f2cdc1f73c8b46d9",
     "original_graphic_annex_retained": true,
     "independent_sources": 3,
     "ocr_free_source_included": true,
@@ -47,5 +48,31 @@
     "reproducible_script": "docs/audits/2026-11-03-revision-22/reconcile-annex.py",
     "script_rerun_reproduces_artifact": true
   },
-  "revision22_annex_reconciled": true
+  "revision22_annex_reconciled": true,
+  "audit_until_extended_to": "2026-11-03T00:00:00-05:00",
+  "rebuild_inventory_revisions": 56,
+  "revision_calendar_rows": 145,
+  "horizon_literals_migrated_to_contract": 9,
+  "heading_9903_01_63": {
+    "resolution": "editorial_annotation_removal_no_reactivation",
+    "suspended_until": "2026-11-10T00:01:00-05:00",
+    "covers_entire_audited_window": true,
+    "artifact": "docs/audits/2026-11-03-revision-22/heading-9903-01-63-resolution.json"
+  },
+  "section338_amendment_registered": {
+    "id": "2026-22292",
+    "effective_at": "2026-10-30T00:01:00-04:00",
+    "deleted": 22,
+    "inserted": 100,
+    "section232_cumulation_preserved": true,
+    "note51b3_products": "513 -> 591"
+  },
+  "tests_after_change": {
+    "python": "491 passed",
+    "r_section338": "45 cases",
+    "r_semiconductors": "29 cases",
+    "r_section301_revision": "21 unit tests + scenario suite",
+    "r_s301_labor_interactions": "50 cases",
+    "r_full_suite": "see commit message"
+  }
 }

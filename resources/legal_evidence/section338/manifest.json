@@ -244,7 +244,49 @@
       "path": "resources/legal_evidence/section338/2026-17294.txt",
       "sha256": "87e607ca5023ae68a4721da727001dc9af8f020049f375ea15ad78a33d98a035",
       "url": "https://www.govinfo.gov/content/pkg/FR-2026-08-24/html/2026-17294.htm"
+    },
+    {
+      "id": "2026-22292",
+      "program": "motor_vehicles",
+      "kind": "amendment",
+      "path": "resources/legal_evidence/section338/2026-22292.pdf",
+      "sha256": "7f2b9becda1bc6f8cca3cf76a2b83bba813e588f753aff69eab89dd31c7cf4d4",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-30/pdf/2026-22292.pdf",
+      "ocr": [
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-04.txt",
+          "sha256": "abbf766188b65ee994d0add4243d2f5ef29ab11a6202271e7fa9668b3d1fffcb"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-05.txt",
+          "sha256": "deeac4cc3270f3fc12e3200b07dfde85f0b06c8abae82df75f423dc2f28f25ca"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-06.txt",
+          "sha256": "38eec2937c083d1806e077ec2f93cf93839bed25df7d7aa0c6c0a3eb4ca6ba03"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-07.txt",
+          "sha256": "9d473016002e60b7eaa4bbb0cfd0141be3f00808a20bab84afe6a5aa46bac9f5"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-08.txt",
+          "sha256": "265cc89bf9f8b6902270a7fa88fa2e1119e6c666ae211930fedff1975800b576"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-09.txt",
+          "sha256": "f30b2836d3b2f38a92d1faf61f1f33a15e7aef36a4d1e29debdb4798898c3732"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-10.txt",
+          "sha256": "5f5e93fecefccc401051079b70f6ed69fa8a61cb2ffcd348a95b17c71b2ebb81"
+        },
+        {
+          "path": "resources/legal_evidence/section338/ocr/2026-22292-11.txt",
+          "sha256": "2657fd4429185c1ba17eb66676f3120cc5d2995159479efd0ad9ffbeb9ece3a2"
+        }
+      ]
     }
   ],
-  "review": "Original Annex I discovery tables and Annex II operative tables reconciled independently; table OCR retained with source-page identity. Motor page 25 uses PSM 6 to preserve row order. Source PDF is authoritative."
+  "review": "Original Annex I discovery tables and Annex II operative tables reconciled independently; table OCR retained with source-page identity. Motor page 25 uses PSM 6 to preserve row order. Source PDF is authoritative. Proclamation 11076 (2026-22292) amends scope only and issues no subdivision (c) instruction, so the section 232 interaction carries forward unchanged; its annex pages were produced by scripts/ocr_legal_annex.py and its Annex II lists agree with the independent reconciliation in docs/audits/2026-11-03-revision-22."
 }

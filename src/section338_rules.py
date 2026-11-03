@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse, csv, json, re
 from pathlib import Path
 from section338_sources import extract, periods, reconcile_snapshot, ROOT, sha
+from build_contract import audit_from, audit_until
 from section232_note16_rules import val, fact, op, both, either, negate
 from chapter98_rules import compile_valuation, overlap_value
 
@@ -112,12 +113,12 @@ def compile_rules(revision, products):
           dict(id='s338_'+revision+'_232_reevaluate',effect='reevaluate',claim_authority='section_232',candidate_required_fields=['grant_id','grant_snapshot_id'],target_rule_ids=rule_ids,source_ids=ids)]
     return dict(contract_version='sail.shipment-rule-fragment/v1',id='section338_'+revision,
         compiler_sha256=sha(Path(__file__).read_bytes()),
-        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section338_sources.py','src/chapter98_rules.py','src/section232_note16_rules.py','src/section301_sources.py','resources/legal_evidence/section338/manifest.json','resources/census_codes.csv')},
+        compiler_dependencies={p:sha((ROOT/p).read_bytes()) for p in ('src/section338_sources.py','src/chapter98_rules.py','src/section232_note16_rules.py','src/section301_sources.py','resources/legal_evidence/section338/manifest.json','resources/census_codes.csv','resources/shipment_rules/build_contract.json')},
         sources=x['sources'],source_artifacts=x['source_artifacts'],rules=rules,coverage=[],fact_definitions=facts,
         entry_context=dict(mode='ordinary_only',fact='s338_ftz_entry',source_ids=ids,
             unresolved_source='section338_ftz_admission_status_and_classification_not_compiled'),
         claim_definitions=[dict(id=c,label=label,rule_ids=rule_ids,source_ids=ids) for c,label in [('USMCA','USMCA'),('CHAPTER_98','Chapter 98')]] if rule_ids else [],
-        relations=[],unchanged_claims=unchanged,supported_from='2025-01-01T00:00:00-05:00',supported_until='2026-10-23T00:00:00-04:00',
+        relations=[],unchanged_claims=unchanged,supported_from=audit_from(),supported_until=audit_until(),
         action_history=periods(x),snapshot_reconciliation=snapshot,limitations=['No complete all-action authority coverage attestation.',
             'FTZ admission status/classification and unlisted Section 232 offset decisions require separate rules. Chapter 98 entitlement is an explicit shipment evidence predicate.'])
 

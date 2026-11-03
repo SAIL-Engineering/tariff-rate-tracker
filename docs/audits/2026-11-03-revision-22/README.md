@@ -48,19 +48,51 @@ does not substitute for human review of the original, which is retained for
 that purpose.
 
 The parsed JSON differs from revision 21 in only one row: heading 9903.01.63
-loses its compiler suspension annotation. No numeric rate field changes. This
-is a separate source discrepancy requiring reconciliation with the operative
-IEEPA instruments; removal of an annotation cannot establish reactivation.
+loses its compiler suspension annotation. No numeric rate field changes. That
+annotation is not decorative -- `inline_provision_status()` derives the
+`suspended` status from exactly this text -- so its removal is reconciled in
+`heading-9903-01-63-resolution.json` rather than accepted.
+
+The suspension's authority is the executive-order chain, not the printed line.
+Each link must state that the heading "shall continue to be suspended until" a
+named instant, and the extractor checks the predecessor order and the
+chronology of every link. The chain runs from 2025-05-14 to
+**2026-11-10T00:01:00-05:00**, so the heading is suspended across the whole
+audited window, including Revision 22's own effective instant. The USITC change
+record attests one item, note 51(b)(3), and no change to this heading; change
+records exclude endnotes and nonsubstantive formatting, which is what the
+annotation is. The removal is therefore editorial and establishes no
+reactivation, and no `unresolved_source` is needed.
+
+One forward requirement follows: the chain ends seven days after the current
+horizon. Extending `audit_until` past 2026-11-10T00:01:00-05:00 requires
+reconciling the next continuation instrument first. Absent one, the heading
+reactivates by its own terms at that instant -- a legal event to be sourced,
+not a default to assume.
+
 The material Section338 scope amendment is in note text, so comparison of rate
 rows alone would miss it.
 
-The executable build horizon still ends exclusively at
-`2026-10-23T00:00:00-04:00`. Revision 22 is therefore **downloaded and annex
-reconciled, pending horizon extension**, not a validated shipment release. It
-has not been added to `config/revision_dates.csv`, the served source map or the
-weekday publication workflow. No timeseries build, MotherDuck write, push,
-workflow dispatch or deployment was performed. Existing 55-revision local
-validation commands remain valid for the original cutoff.
+The executable build horizon now ends exclusively at
+`2026-11-03T00:00:00-05:00` (eastern standard time; daylight saving ended
+November 1). Revision 22 is registered in `config/revision_dates.csv` with
+`effective_date` 2026-10-30 and the same policy instant, and the rebuild
+inventory moves from 55 to **56** revisions.
+
+The horizon lived as a literal in nine places besides the contract, and the
+Section 338 amendment exposed what that costs: an action period beginning
+2026-10-30 against a compiler still pinned to 2026-10-23 produced an interval
+whose end preceded its start, and the bundle carrying it was rejected whole,
+far from the file that was actually stale. Those call sites now read
+`resources/shipment_rules/build_contract.json` through `src/build_contract.py`
+(or `.s301_audit_window()` in R), and the contract is declared in the affected
+`compiler_dependencies` so changing it re-compiles.
+
+Revision 22 is therefore **sources reconciled and registered, pending the
+timeseries rebuild** -- not yet a validated shipment release. It is not in the
+served source map or the weekday publication workflow. No timeseries build,
+MotherDuck write, push, workflow dispatch or deployment was performed here.
+Local validation commands now cover 56 revisions.
 
 Frontend inspection of SAIL `pinecone-hts` at
 `abee0254b6072a6165eac099cb41a7c29f892037` confirms the shared interpreter/client
