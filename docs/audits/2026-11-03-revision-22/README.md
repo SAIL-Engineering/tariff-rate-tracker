@@ -64,11 +64,20 @@ records exclude endnotes and nonsubstantive formatting, which is what the
 annotation is. The removal is therefore editorial and establishes no
 reactivation, and no `unresolved_source` is needed.
 
-One forward requirement follows: the chain ends seven days after the current
-horizon. Extending `audit_until` past 2026-11-10T00:01:00-05:00 requires
-reconciling the next continuation instrument first. Absent one, the heading
-reactivates by its own terms at that instant -- a legal event to be sourced,
-not a default to assume.
+The chain ends seven days after the current horizon, so a later instrument
+extending the suspension should be added to the configured suspension documents
+to keep it reconciled. A lapse would not by itself resume a reciprocal charge
+on consumption entries: collection for EO14257 and all amendments ended
+**2026-02-24T00:00:00-05:00** (FR-2026-03832, CBP CSMS 67834313), and
+`compile_reciprocal()` already emits a verified `no_applicable_rules`
+determination for every interval after that instant, with Sections 232 and 301
+independent of it. The suspension and the collection ending are independent
+legal events, so neither terminates the other; a lapse would reach only entries
+that some later instrument brought back into collection.
+
+The existing guard in `src/ieepa_reciprocal_rules.py` asserts that the
+suspension outlasts the collection ending, which it does by eight months. That
+guard is against the collection ending, not against `audit_until`.
 
 The material Section338 scope amendment is in note text, so comparison of rate
 rows alone would miss it.
