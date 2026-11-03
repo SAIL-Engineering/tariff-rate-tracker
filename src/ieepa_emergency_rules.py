@@ -90,6 +90,9 @@ def compile_emergency(x,products):
     hts_path=Path(x['sources'][1]['path']);hts=json.loads(hts_path.read_bytes())
     if sha(hts_path.read_bytes())!=x['sources'][1]['sha256']:raise ValueError('Emergency classification source changed')
     products=sorted(set(products));valid={r.get('htsno','').replace('.','') for r in hts}
+    # A revision can have an HTS8 leaf, whose statistical extension is 00.
+    statistical_parents={p[:8] for p in valid if len(p)==10}
+    valid|={p+'00' for p in valid if len(p)==8 and p not in statistical_parents}
     if any(not re.fullmatch(r'\d{10}',p) or p not in valid for p in products):raise ValueError('Revision-valid exact HTS10 required')
     ids=[f'USITC-{rev}-ieepa-emergency-'+s for s in ('note2','headings')]
     release=rev.replace('_rev_','HTSRev').replace('_basic','HTSBasic')

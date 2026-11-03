@@ -65,3 +65,13 @@ def test_original_vehicle_amendment_and_mixed_headings(source):
     assert '9903.74.11' not in str(after) # non-MHD parts cannot trigger priority
     assert '9903.74.10' in str(after)
     assert 'not passenger vehicles' in note(raw,33)['c']
+
+
+def test_hts8_leaf_padded_to_ten_is_revision_valid(source):
+    # An HTS8 leaf IS the tariff line, so normalize_hts() pads it to 10 with
+    # '00' and every product reaching the compiler carries that form — 473 of
+    # them in 2025_rev_1, which is what stopped the revision. The padded form of
+    # an HTS8 that does have statistical children is still not a real line.
+    f=compile_emergency(source,['9101114000'])
+    assert f['rules']
+    with pytest.raises(ValueError,match='exact HTS10'):compile_emergency(source,['0101210000'])
