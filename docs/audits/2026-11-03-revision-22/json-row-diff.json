@@ -1,0 +1,53 @@
+[
+  {
+    "row_index": 34160,
+    "old": {
+      "htsno": "9903.01.63",
+      "indent": "0",
+      "description": "Except for goods loaded onto a vessel at the port of loading and in transit on the final mode of transit before 12:01 a.m. eastern daylight time on April 10, 2025, except for products described in headings 9903.01.28\u20139903.01.33, except as provided for in heading 9903.01.34, and except as provided for in U.S. note 2(w), articles the product of China, including Hong Kong and Macau, as provided for in subdivision (v) of U.S. note 2 to this subchapter [Compiler's note: provision suspended. See 90 Fed. Reg. 50729.]",
+      "superior": null,
+      "units": [],
+      "general": "The duty provided in the applicable subheading + 34%",
+      "special": "The duty provided in the applicable subheading + 34%",
+      "other": "The duty provided in the applicable subheading",
+      "footnotes": [
+        {
+          "columns": [
+            "stat",
+            "units"
+          ],
+          "marker": "1",
+          "value": " See chapter 99 statistical note 1. ",
+          "type": "footnote"
+        }
+      ],
+      "quotaQuantity": null,
+      "additionalDuties": "",
+      "addiitionalDuties": null
+    },
+    "new": {
+      "htsno": "9903.01.63",
+      "indent": "0",
+      "description": "Except for goods loaded onto a vessel at the port of loading and in transit on the final mode of transit before 12:01 a.m. eastern daylight time on April 10, 2025, except for products described in headings 9903.01.28\u20139903.01.33, except as provided for in heading 9903.01.34, and except as provided for in U.S. note 2(w), articles the product of China, including Hong Kong and Macau, as provided for in subdivision (v) of U.S. note 2 to this subchapter",
+      "superior": null,
+      "units": [],
+      "general": "The duty provided in the applicable subheading + 34%",
+      "special": "The duty provided in the applicable subheading + 34%",
+      "other": "The duty provided in the applicable subheading",
+      "footnotes": [
+        {
+          "columns": [
+            "stat",
+            "units"
+          ],
+          "marker": "1",
+          "value": " See chapter 99 statistical note 1. ",
+          "type": "footnote"
+        }
+      ],
+      "quotaQuantity": null,
+      "additionalDuties": "",
+      "addiitionalDuties": null
+    }
+  }
+]

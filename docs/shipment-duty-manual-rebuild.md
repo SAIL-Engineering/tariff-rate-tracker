@@ -1,5 +1,11 @@
 # Manual rebuild and verification commands
 
+**Start with [the short November3 handoff](shipment-duty-rebuild-next.md).** It
+contains the single recommended diagnostic command and the optional full
+55-revision local validation command with live logs. Revision22 is downloaded
+but needs original-annex reconciliation and an executable-horizon extension;
+it is not included in the original-cutoff rebuild below.
+
 WJR requested that **all timeseries/revision rebuilds be run manually**. None of
 these build commands was run during the MotherDuck audit. The code is integrated
 locally into `wjr_dev`; no push or MotherDuck write is part of this runbook.

@@ -1,0 +1,37 @@
+                   Harmonized Tariff Schedule of the United States (2026 Revision 22)
+
+                                              October 30, 2026
+
+                                               Change Record
+
+The modifications set forth in this change record reflect updates to the HTS following 2026 Revision 21,
+published October 9, 2026. The change record does not include staged rates, endnotes or minor
+nonsubstantive format adjustments. The following chapter is affected: 99.
+
+
+           Item changed                    Nature of change               Effective date            Source
+U.S. note 51(b)(3), subch III, ch 99     Modified                      October 30, 2026          PP 11076
+
+
+
+
+                   Term                                       Meaning
+                                 Establishment of two or more 10-digit statistical reporting
+                                 numbers under the listed HTS number, where it was
+            Annotated            previously not subdivided into statistical reporting numbers
+            Deleted              Removal of an HTS number or note
+            Established          Insertion of a new HTS number or note
+                                 Cessation of legal effect of provision based upon a previously
+            Expired              scheduled end date
+            Modified             Change(s) to existing legal or statistical text in the HTS
+                                 Reactivation of a provision that was previously annotated,
+            Restored             terminated, suspended or expired
+                                 Redesignation of existing legal or statistical text to a new
+            Renumbered           alphabetical or numerical subdivision
+                                 The legal text is no longer in effect for a temporary period of
+            Suspended            time; the suspension period may or may not be known
+                                 Rectification of a clerical error or minor editorial alteration so
+                                 that the text corresponds with the proclaimed source
+            Errata               document which modified the HTS
+            Terminated           The legal text is no longer in effect
+

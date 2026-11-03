@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-03",
+  "tracker_code_commit": "f9da4d99fe30d7729ee44ceb762095d42c278c97",
+  "source_hashes_checked": 4,
+  "revision_pdf_headers_checked": 2,
+  "configured_original_cutoff_source_pairs_checked": 55,
+  "command_blocks_syntax_checked_not_executed": 2,
+  "motherduck_access_mode": "READ_ONLY",
+  "motherduck_point_rows": 18,
+  "missing_shipment_columns": [
+    "shipment_contract_version",
+    "shipment_dataset_version",
+    "shipment_status",
+    "shipment_decision_ids_json"
+  ],
+  "timeseries_rebuilt": false,
+  "revision22_registered": false,
+  "production_writes": false,
+  "frontend_files_changed": false,
+  "production_qualified": false,
+  "artifact_sha256": {
+    "FR-2026-22292-body.txt": "2f553a615da5f3e2114cbede3bd307e9ea0ae026eb9ae80d3df50b2e999280bd",
+    "README.md": "4393f2bcda918caa34ce372250a57d5d91734379bfef94dc122ff4c5d71c7ef3",
+    "change_record.txt": "9562c5fa48c426e7b732f3d22b0410baaac62c027981af808691a893f7f91fd5",
+    "change_record_2026_rev_22.pdf": "2684027ebb4d14ad6380bd5f561266958e37e07a3693a5be2a6095326684239c",
+    "json-row-diff.json": "4ffd5a3d8596d2928874f781093dd5bea12bd5733ee395908f36cdeb795d008a",
+    "motherduck-read-only-points.json": "2f58a36d9c406875368b35c539e62ebe598307992edf98d68ceec46a81ae3b14",
+    "release-list-after.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
+    "release-list-before.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
+    "source-manifest.json": "b75c9801249a0c6b4f3b1f714812986fd8045e624153e2e883e89afdc20510fd"
+  }
+}
