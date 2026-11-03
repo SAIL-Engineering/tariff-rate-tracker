@@ -42,6 +42,16 @@
       "file": "change_record_2026_rev_22.pdf",
       "sha256": "2684027ebb4d14ad6380bd5f561266958e37e07a3693a5be2a6095326684239c",
       "local_path": "docs/audits/2026-11-03-revision-22/change_record_2026_rev_22.pdf"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-30/pdf/2026-22292.pdf",
+      "status": 200,
+      "type": "application/pdf",
+      "size": 1112754,
+      "file": "FR-2026-22292-proclamation-11076.pdf",
+      "sha256": "7f2b9becda1bc6f8cca3cf76a2b83bba813e588f753aff69eab89dd31c7cf4d4",
+      "local_path": "docs/audits/2026-11-03-revision-22/FR-2026-22292-proclamation-11076.pdf",
+      "retained_for": "original graphic annex (Annexes I-II), absent from the FR text record"
     }
   ],
   "original_instrument": {
@@ -52,7 +62,20 @@
     "effective_at": "2026-10-30T00:01:00-04:00",
     "body_path": "docs/audits/2026-11-03-revision-22/FR-2026-22292-body.txt",
     "body_sha256": "2f553a615da5f3e2114cbede3bd307e9ea0ae026eb9ae80d3df50b2e999280bd",
-    "original_annex_pdf_retained": false
+    "original_annex_pdf_retained": true,
+    "annex_pdf_path": "docs/audits/2026-11-03-revision-22/FR-2026-22292-proclamation-11076.pdf",
+    "annex_pdf_sha256": "7f2b9becda1bc6f8cca3cf76a2b83bba813e588f753aff69eab89dd31c7cf4d4",
+    "annex_is_graphic_only": true,
+    "annex_graphics": [
+      "TD30OC26.100",
+      "TD30OC26.101",
+      "TD30OC26.102",
+      "TD30OC26.103",
+      "TD30OC26.104",
+      "TD30OC26.105",
+      "TD30OC26.106",
+      "TD30OC26.107"
+    ]
   },
   "usitc_change_record": {
     "provision": "U.S. note 51(b)(3), subchapter III, chapter 99",
@@ -68,10 +91,21 @@
     "change": "Removal of compiler suspension annotation from description; not evidence of legal reactivation"
   },
   "audit_horizon_exclusive": "2026-10-23T00:00:00-04:00",
-  "status": "downloaded_pending_annex_reconciliation_and_horizon_extension",
+  "status": "downloaded_annex_reconciled_pending_horizon_extension",
   "in_active_revision_calendar": false,
   "legal_coverage_verified": false,
   "production_qualified": false,
   "timeseries_rebuilt": false,
-  "motherduck_written": false
+  "motherduck_written": false,
+  "annex_reconciliation": {
+    "artifact": "docs/audits/2026-11-03-revision-22/annex-reconciliation.json",
+    "provision": "U.S. note 51(b)(3), subchapter III, chapter 99 (heading 9903.03.14)",
+    "deleted": 22,
+    "inserted": 100,
+    "independent_sources": 3,
+    "ocr_free_source": "Chapter 99 revision 21 -> 22 note 51(b)(3) diff (native text layer)",
+    "three_way_agreement": true,
+    "all_codes_in_rev22_hts_universe": true,
+    "reconciled": true
+  }
 }

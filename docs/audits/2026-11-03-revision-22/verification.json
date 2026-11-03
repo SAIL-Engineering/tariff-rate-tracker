@@ -20,13 +20,32 @@
   "production_qualified": false,
   "artifact_sha256": {
     "FR-2026-22292-body.txt": "2f553a615da5f3e2114cbede3bd307e9ea0ae026eb9ae80d3df50b2e999280bd",
-    "README.md": "4393f2bcda918caa34ce372250a57d5d91734379bfef94dc122ff4c5d71c7ef3",
+    "FR-2026-22292-proclamation-11076.pdf": "7f2b9becda1bc6f8cca3cf76a2b83bba813e588f753aff69eab89dd31c7cf4d4",
+    "README.md": "f68be68665e935b8841308149df34b5a51c972cbea4d772c829cdc779f35281b",
+    "annex-reconciliation.json": "9fcbc34b4381419a5d4f3112ee65f8385d16c0745182b8630cbe6b3f73c7105c",
     "change_record.txt": "9562c5fa48c426e7b732f3d22b0410baaac62c027981af808691a893f7f91fd5",
     "change_record_2026_rev_22.pdf": "2684027ebb4d14ad6380bd5f561266958e37e07a3693a5be2a6095326684239c",
     "json-row-diff.json": "4ffd5a3d8596d2928874f781093dd5bea12bd5733ee395908f36cdeb795d008a",
     "motherduck-read-only-points.json": "2f58a36d9c406875368b35c539e62ebe598307992edf98d68ceec46a81ae3b14",
+    "reconcile-annex.py": "3465a953ee5bfa00d8d2ae96d653e24231b64b66f233daeb20ba6f596db2b41f",
     "release-list-after.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
     "release-list-before.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
-    "source-manifest.json": "b75c9801249a0c6b4f3b1f714812986fd8045e624153e2e883e89afdc20510fd"
-  }
+    "source-manifest.json": "1b6ab144d0481f59445d3c3047449b3f9adadc31b92380f1f01c681dcf813161"
+  },
+  "annex_reconciliation": {
+    "performed_on": "2026-11-03",
+    "tracker_code_commit": "8e445e25e6dc27da04ea1ca8c829f6177002b5b2",
+    "original_graphic_annex_retained": true,
+    "independent_sources": 3,
+    "ocr_free_source_included": true,
+    "three_way_delete_agreement": true,
+    "three_way_insert_agreement": true,
+    "net_change_reconciles": true,
+    "codes_reconciled": 122,
+    "unknown_vs_rev22_hts_universe": 0,
+    "source_url_revalidated": "https://www.govinfo.gov/content/pkg/FR-2026-10-30/pdf/2026-22292.pdf (HTTP 200, content-length 1112754, matches retained bytes)",
+    "reproducible_script": "docs/audits/2026-11-03-revision-22/reconcile-annex.py",
+    "script_rerun_reproduces_artifact": true
+  },
+  "revision22_annex_reconciled": true
 }
