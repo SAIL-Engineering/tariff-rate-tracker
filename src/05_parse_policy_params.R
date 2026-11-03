@@ -445,7 +445,7 @@ extract_ieepa_fentanyl_rates <- function(hts_raw, country_lookup, effective_date
   if(!is.null(revision_id) && grepl('^202[56]_',revision_id)) {
     evidence <- load_ieepa_emergency_source(revision_id)
     # Reject mismatched in-memory JSON, not just mismatched source filenames.
-    archived <- jsonlite::fromJSON(evidence$sources[[2]]$path,simplifyVector=FALSE)
+    archived <- read_hts_archive(evidence$sources[[2]]$path)
     if(!identical(hts_raw,archived)) stop('Emergency extraction revision/JSON mismatch')
     rows <- emergency_source_rows(evidence,country_lookup)
     selected <- select_ieepa_emergency_actions(rows,effective_date,daily=TRUE)

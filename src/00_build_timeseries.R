@@ -291,7 +291,7 @@ build_full_timeseries <- function(
       json_path <- resolve_json_path(rev_id, archive_dir)
 
       # b. Read raw JSON (needed for IEEPA/USMCA extraction)
-      hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
+      hts_raw <- read_hts_archive(json_path)
 
       # c. Parse Chapter 99 entries
       ch99_data <- parse_chapter99(json_path, revision_id = rev_id)
@@ -1169,7 +1169,7 @@ reemit_normalized_for_cached <- function(
 
       # Re-extract revision-level structures from raw JSON
       json_path <- resolve_json_path(rev_id, archive_dir)
-      hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
+      hts_raw <- read_hts_archive(json_path)
       ieepa_rates    <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)
       fentanyl_rates <- extract_ieepa_fentanyl_rates(hts_raw, country_lookup, effective_date = eff_date, revision_id = rev_id)
       s232_rates     <- extract_section232_rates(ch99_data)

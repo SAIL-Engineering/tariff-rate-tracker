@@ -74,3 +74,16 @@ stopifnot(inherits(try(select_ieepa_emergency_actions(missing,'2025-03-07T00:01:
 missing<-late;missing$termination_source_ids<-''
 stopifnot(inherits(try(select_ieepa_emergency_actions(missing,'2026-02-24T00:00:00-05:00'),silent=TRUE),'try-error'))
 cat('March relief commencement, transit expiry and sourced midnight collection end passed\n')
+
+# The guard rejecting mismatched in-memory JSON must compare content, not
+# jsonlite's parse representation. Every production caller reads the archive
+# through read_hts_archive(); reading the same bytes with simplifyVector=FALSE
+# leaves footnote `columns` arrays as lists instead of character vectors, which
+# would reject an identical file and with it every 2025/26 revision.
+hts_raw<-read_hts_archive('data/hts_archives/hts_2025_rev_3.json')
+built<-extract_ieepa_fentanyl_rates(hts_raw,lookup,effective_date='2025-03-04',revision_id='2025_rev_3')
+stopifnot(nrow(built)>0,all(!is.na(built$census_code)))
+# A genuinely foreign revision's JSON is still rejected.
+stopifnot(inherits(try(extract_ieepa_fentanyl_rates(read_hts_archive('data/hts_archives/hts_2025_rev_7.json'),
+  lookup,effective_date='2025-03-04',revision_id='2025_rev_3'),silent=TRUE),'try-error'))
+cat('Emergency guard accepts the archive as its callers read it and rejects a foreign revision\n')

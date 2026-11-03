@@ -56,7 +56,7 @@ for (rev_id in revisions_to_process) {
 
   tryCatch({
     json_path <- resolve_json_path(rev_id, here('data', 'hts_archives'))
-    hts_raw <- fromJSON(json_path, simplifyDataFrame = FALSE)
+    hts_raw <- read_hts_archive(json_path)
     ch99_data <- parse_chapter99(json_path)
     products <- parse_products(json_path)
     ieepa_rates <- extract_ieepa_rates(hts_raw, country_lookup, effective_date = eff_date)

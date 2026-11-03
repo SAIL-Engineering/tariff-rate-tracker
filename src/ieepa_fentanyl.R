@@ -1,5 +1,13 @@
 # Revision-bound emergency evidence. General selection has no max-rate or
 # first-row arbitration. Conditional replacements remain separate candidates.
+
+# One reader for an HTS archive. The emergency guard compares a caller's
+# in-memory JSON against the archive on disk, so both sides must parse it the
+# same way: footnote `columns` arrays simplify to character vectors here and
+# stay lists under simplifyVector=FALSE, which reports an identical file as a
+# mismatch and rejects every 2025/26 revision.
+read_hts_archive <- function(path) jsonlite::fromJSON(path,simplifyDataFrame=FALSE)
+
 load_ieepa_emergency_source <- function(revision_id,root=here::here()) {
   pdf <- file.path(root,'data/us_notes',paste0('chapter99_',revision_id,'.pdf'))
   hts <- file.path(root,'data/hts_archives',paste0('hts_',revision_id,'.json'))
