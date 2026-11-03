@@ -1,3 +1,4 @@
 revision,effective_date,effective_date_label,source_url,source_sha256,acquired_at,notes
 2026_rev_9,2026-09-01,"September 1, 2026",,bbcc24a9a9870e0e08cca8eeea67535efbdf8751069aed071a02228105aa4eb5,2026-09-02T18:24:36+00:00,
 2026_rev_10,2026-10-01,October 2026 TARIC snapshot,https://circabc.europa.eu/ui/group/0e5f18c2-4b2f-42e9-aed4-dfe50ae1263b/library/42ac4443-5aa0-44ed-9122-4430b38fd18b,afe099c427f06ce8c827e84861765eae67c4028feed59fb7ae83713ef9572891,2026-10-14T00:06:11+00:00,
+2026_rev_11,2026-11-01,November 2026 TARIC snapshot,https://circabc.europa.eu/ui/group/0e5f18c2-4b2f-42e9-aed4-dfe50ae1263b/library/e8082cdc-fa7f-4adb-882b-f0039bbe7a98,6db38414d6733547b64680e703788496f1fb627b99f0f0e0d1c4bfebd39eddae,2026-11-03T06:56:44+00:00,
