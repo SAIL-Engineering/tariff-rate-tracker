@@ -31,7 +31,8 @@
     "reconcile-annex.py": "3465a953ee5bfa00d8d2ae96d653e24231b64b66f233daeb20ba6f596db2b41f",
     "release-list-after.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
     "release-list-before.json.gz": "a344c57d8bc45e678b2853f7420d223faabbf4041162f3c45b02a4a7232cd354",
-    "source-manifest.json": "a63aa48aa8f82b66502c59fce1f6dd2860ad4b3541fbc3f4091afeb96a6ea7ee"
+    "source-manifest.json": "a63aa48aa8f82b66502c59fce1f6dd2860ad4b3541fbc3f4091afeb96a6ea7ee",
+    "source-preflight.json": "834f26e219b9a2add2bdec9a7f2c5d19c29e1901832b40b1c3cb01806817c959"
   },
   "annex_reconciliation": {
     "performed_on": "2026-11-03",
@@ -74,5 +75,27 @@
     "r_section301_revision": "21 unit tests + scenario suite",
     "r_s301_labor_interactions": "50 cases",
     "r_full_suite": "see commit message"
+  },
+  "source_preflight": {
+    "artifact": "docs/audits/2026-11-03-revision-22/source-preflight.json",
+    "revisions_checked": 56,
+    "all_source_extraction_verified": true,
+    "revision_22": {
+      "status": "source_extraction_verified",
+      "product_count": 19926,
+      "missing_general": 0,
+      "missing_column2": 0,
+      "hts_sha256_matches_manifest": true
+    },
+    "unresolved_primary_inventories": [
+      {
+        "revision": "2025_rev_16",
+        "missing_general": 1,
+        "missing_column2": 1
+      }
+    ],
+    "unresolved_is_preexisting": "2025_rev_16 malformed native HTS branch, recorded in docs/shipment-duty-manual-rebuild.md and docs/audits/2026-10-25-shipment-normal-build; the preflight reports it rather than succeeding silently, so a non-zero exit is expected.",
+    "exit_status": 1,
+    "legal_coverage_verified": false
   }
 }

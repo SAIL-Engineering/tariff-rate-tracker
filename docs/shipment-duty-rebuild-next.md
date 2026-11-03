@@ -16,8 +16,8 @@ and periodic activity. It does not replace canonical outputs or contact MotherDu
 
 ## All affected historical revisions, if a larger local validation is wanted
 
-The corrections target **2025 and 2026**. There are 55 configured revisions through
-October 22: 33 in 2025 and 22 in 2026, ending at `2026_rev_21`. The following
+The corrections target **2025 and 2026**. There are 56 configured revisions through
+November 2: 33 in 2025 and 23 in 2026, ending at `2026_rev_22`. The following
 rebuilds every one, preserving older-year history in the combined output. It
 replaces canonical local outputs, so keep the checkout and inputs fixed while
 it runs and save existing outputs first if a before/after comparison is needed.
@@ -46,15 +46,25 @@ emission. Rebuilding only the last revision leaves earlier corrected intervals
 stale. Do not use the old three-column migration plus wide-only push as a
 shipment-contract release.
 
-## Revision 22: downloaded, outside current executable horizon
+## Revision 22: reconciled, registered, inside the executable horizon
 
-Revision 22's JSON, Chapter 99 and GN3 are installed in their normal local source
-directories. Its Change Record and hashes are retained in
-[the source receipt](audits/2026-11-03-revision-22/README.md). Its October 30
-commencement is beyond the current executable audit horizon. It is deliberately
-not added to the active revision calendar yet: doing so would make a strict
-shipment build fail on that interval before the amendment and horizon are
-implemented. Neither command above builds revision 22.
+Revision 22's JSON, Chapter 99 and GN3 are installed in their normal local
+source directories, and its Change Record, hashes, annex reconciliation and
+source preflight are retained in
+[the source receipt](audits/2026-11-03-revision-22/README.md).
+
+Its one legal change -- Proclamation 11076 amending U.S. note 51(b)(3) at
+12:01 a.m. eastern time on 2026-10-30 -- is implemented, and `audit_until` now
+reaches `2026-11-03T00:00:00-05:00`, so the October 30 commencement is inside
+the executable window. `2026_rev_22` is registered in the revision calendar and
+in the rebuild inventory, and the commands above build it.
+
+Two things to carry forward. The aggregate `rates` table is daily, so it cannot
+represent the 12:01 a.m. boundary: an October 30 entry before that instant is
+priced as if after it. Only the rule-bundle path, whose intervals are
+`TIMESTAMPTZ`, carries the instant. And the heading 9903.01.63 suspension runs
+to 2026-11-10T00:01:00-05:00, seven days past the horizon, so any further
+horizon extension must reconcile the next continuation instrument first.
 
 ## Frontend and MotherDuck
 

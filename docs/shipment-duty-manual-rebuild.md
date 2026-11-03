@@ -2,9 +2,9 @@
 
 **Start with [the short November3 handoff](shipment-duty-rebuild-next.md).** It
 contains the single recommended diagnostic command and the optional full
-55-revision local validation command with live logs. Revision22 is downloaded
-but needs original-annex reconciliation and an executable-horizon extension;
-it is not included in the original-cutoff rebuild below.
+56-revision local validation command with live logs. Revision22's original
+annex is now reconciled and the executable horizon reaches
+2026-11-03T00:00:00-05:00, so it is included in the rebuild below.
 
 WJR requested that **all timeseries/revision rebuilds be run manually**. None of
 these build commands was run during the MotherDuck audit. The code is integrated
@@ -55,7 +55,7 @@ Rscript scripts/preflight_shipment_sources.R \
   --output=output/manual-shipment-rebuild/source-preflight.json
 ```
 
-All55 configured primary HTS/Chapter99/GN3 files are present. The census identified
+All56 configured primary HTS/Chapter99/GN3 files are present. The census identified
 one malformed native HTS branch in2025_rev_16; it remains explicitly unpriced,
 with its PDF/JSON discrepancy and neighboring valid code retained in
 `docs/audits/2026-10-25-shipment-normal-build`. The preflight reports it as an
@@ -69,7 +69,7 @@ count, published-manifest hash and reference-artifact hashes. A valid export
 remains `requires_reconciliation`; it does not certify AD/CVD scope coverage.
 Configured Commerce grant snapshots also enter the dataset/cache identity.
 
-## Rebuild all 55 configured revisions through the audit cutoff
+## Rebuild all 56 configured revisions through the audit cutoff
 
 Run from the original tracker checkout on `wjr_dev` with the project's R packages,
 HTS archives, trade inputs and existing environment available:
@@ -84,9 +84,9 @@ SAIL_EMIT_NORMALIZED=1 SAIL_REQUIRE_NORMALIZED=1 \
   > output/manual-shipment-rebuild/build.log 2>&1
 ```
 
-Check the exit code before continuing. The checked-in list selects all 55 revisions
-(including 2026 revisions 20 and 21), not just the last revision. It does not select
-future revisions after October 22. Append only additionally verified releases
+Check the exit code before continuing. The checked-in list selects all 56 revisions
+(including 2026 revisions 20, 21 and 22), not just the last revision. It does not
+select future revisions after November 2. Append only additionally verified releases
 within that cutoff after legal review. Existing older snapshots are not rebuilt
 by this command; the combine retains their history.
 
@@ -395,7 +395,7 @@ node --test frontend/tests/shipment-pre-march.test.mjs
 ```
 
 Choose unused output paths. The pipeline test writes only its bounded fixture to
-a temporary directory. The all-55 manual rebuild command above remains the
+a temporary directory. The all-56 manual rebuild command above remains the
 required route for regenerating rates, normalized outputs and downstream data.
 Individual Commerce grants and inconsistent published quota references remain
 unresolved; do not treat a passing source audit as all-authority qualification.
@@ -416,7 +416,7 @@ export SECTION232_GRANT_SNAPSHOT=/absolute/path/to/reviewed-grant-export/snapsho
 python3 src/section232_grants.py "$SECTION232_GRANT_SNAPSHOT"
 ```
 
-Then run the all-55 build at the top of this document manually, retaining that
+Then run the all-56 build at the top of this document manually, retaining that
 environment variable for every revision. Do not point it at the synthetic test
 fixture. A configured missing/corrupt snapshot fails compilation. The output
 fragment includes the snapshot as a hashed source artifact; recomposition
@@ -507,7 +507,7 @@ Rscript tests/test_section301_revision.R
 node --test frontend/tests/section301-reconstruction.test.mjs
 ```
 
-The audit checks all 55 revisions without rebuilding rates or writing MotherDuck.
+The audit checks all 56 revisions without rebuilding rates or writing MotherDuck.
 See [the legal and verification report](audits/2026-10-24-section301-chapter98/README.md).
 
 ## Executable IEEPA emergency follow-up
