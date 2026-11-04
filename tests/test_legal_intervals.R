@@ -112,3 +112,23 @@ history <- load_reciprocal_legal_events()
 days <- as.character(legal_event_days(history))
 stopifnot(all(c('2025-09-01','2025-10-05','2025-11-14','2026-02-24') %in% days))
 cat('Ordinary builder consumes original reciprocal country, claim and sector event windows\n')
+
+# The grid check is evaluated one legal window at a time rather than over the
+# whole concatenated snapshot. A duplicate (hts10,country) inside a window is
+# still a duplicate triple overall, and a window whose grid differs from the
+# first window's is still an incomplete grid -- both must fail closed, and a
+# well-formed two-window snapshot must still pass.
+two <- bind_rows(
+  x[1, ] %>% mutate(valid_from = as.Date('2025-11-13'), valid_until = as.Date('2025-11-13')),
+  x[1, ] %>% mutate(country = '5700', valid_from = as.Date('2025-11-13'), valid_until = as.Date('2025-11-13')),
+  x[1, ] %>% mutate(valid_from = as.Date('2025-11-14'), valid_until = as.Date('2025-11-14')),
+  x[1, ] %>% mutate(country = '5700', valid_from = as.Date('2025-11-14'), valid_until = as.Date('2025-11-14')))
+stopifnot(identical(
+  validate_snapshot_intervals(two, as.Date('2025-11-13'), as.Date('2025-11-14')), two))
+dup <- bind_rows(two, two[4, ])
+stopifnot(inherits(try(validate_snapshot_intervals(
+  dup, as.Date('2025-11-13'), as.Date('2025-11-14')), silent = TRUE), 'try-error'))
+lopsided <- two[-4, ]
+stopifnot(inherits(try(validate_snapshot_intervals(
+  lopsided, as.Date('2025-11-13'), as.Date('2025-11-14')), silent = TRUE), 'try-error'))
+cat('Per-window grid validation accepts a tiled snapshot and rejects duplicates and gaps\n')

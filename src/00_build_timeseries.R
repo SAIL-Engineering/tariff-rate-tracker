@@ -501,6 +501,12 @@ build_full_timeseries <- function(
         message('  ERROR: ', r$error)
         message('  Skipping ', r$rev_id, ' and continuing...')
       }
+      # Release the revision before starting the next one. Each revision's
+      # legal states peak in the gigabytes, and without an explicit
+      # collection R keeps that high-water mark for the rest of the process
+      # -- a 56-revision serial build otherwise holds the largest revision's
+      # footprint for hours and competes with the desktop for memory.
+      rm(r); invisible(gc(full = TRUE))
     }
     cli::cli_progress_done()
   }

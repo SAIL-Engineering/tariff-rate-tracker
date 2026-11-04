@@ -71,11 +71,21 @@ validate_snapshot_intervals <- function(snapshot,start,end) {
      windows$valid_from[1]!=as.Date(start)||tail(windows$valid_until,1)!=as.Date(end)||
      (nrow(windows)>1L && any(windows$valid_from[-1]!=head(windows$valid_until,-1)+1)))
     stop('Snapshot legal intervals do not tile the configured revision; rebuild required')
-  if(anyDuplicated(snapshot[c('hts10','country','valid_from')])) stop('Duplicate shipment pair in legal interval')
-  identities <- paste(snapshot$hts10,snapshot$country,sep='|')
-  sets <- split(identities,snapshot$valid_from)
-  if(!all(vapply(sets,function(keys) setequal(keys,sets[[1]]),logical(1))))
-    stop('Incomplete product-country grid across legal intervals')
+  # Check the grid one legal window at a time. The previous form keyed every
+  # row at once and then split() copied the result, so a four-state revision
+  # paid several times the grid in character vectors on top of the states
+  # themselves. Same two predicates: (hts10,country) is unique within a
+  # window, and valid_from differs between windows, so a duplicate triple can
+  # only ever be a duplicate pair inside one window.
+  reference <- NULL
+  for(w in seq_len(nrow(windows))) {
+    rows <- which(snapshot$valid_from==windows$valid_from[w])
+    keys <- paste(snapshot$hts10[rows],snapshot$country[rows],sep='|')
+    if(anyDuplicated(keys)) stop('Duplicate shipment pair in legal interval')
+    if(is.null(reference)) reference <- keys
+    else if(!setequal(keys,reference)) stop('Incomplete product-country grid across legal intervals')
+  }
+  reference <- NULL
   snapshot
 }
 
@@ -236,7 +246,14 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
       normalized_output_dir=roots[i],normalized_valid_until=segments$valid_until[i])
     states[[i]]$valid_from <- day;states[[i]]$valid_until <- segments$valid_until[i]
   }
-  rates <- validate_snapshot_intervals(dplyr::bind_rows(states),min(segments$valid_from),max(segments$valid_until))
+  # A single legal state needs no concatenation. bind_rows would copy the
+  # whole 4.9M-row state a second time, and 41 of the 56 rebuild revisions
+  # have exactly one state. Either way the list is dropped before validation,
+  # so the states are not resident alongside the combined frame.
+  combined <- if(length(states)==1L) states[[1]] else dplyr::bind_rows(states)
+  states <- NULL
+  rates <- validate_snapshot_intervals(combined,min(segments$valid_from),max(segments$valid_until))
+  combined <- NULL
   if(emit) {
     dir.create(normalized_root,recursive=TRUE,showWarnings=FALSE)
     merge_normalized_segments(roots,revision_id,normalized_root,segments)
