@@ -43,7 +43,9 @@ def compile_floor_rules(template,spec,policy,products,native_products,references
             for name,definition in (reference.get('fact_definitions') or {}).items():
                 definition=dict(definition,source_ids=ids)
                 semantic=lambda d:{k:d[k] for k in ('type','unit','minimum','maximum','enum') if k in d}
-                if name in facts and semantic(facts[name])!=semantic(definition):raise ValueError('Conflicting note52 benchmark valuation fact')
+                if name in facts and semantic(facts[name])!=semantic(definition):raise ValueError(
+                    'Conflicting note52 benchmark valuation fact: '+name+' '+
+                    json.dumps(semantic(facts[name]),sort_keys=True)+' vs '+json.dumps(semantic(definition),sort_keys=True))
                 facts[name]=definition
         def rate(reference,special=False):
             register(reference)

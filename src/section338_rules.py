@@ -4,6 +4,7 @@ import argparse, csv, json, re
 from pathlib import Path
 from section338_sources import extract, periods, reconcile_snapshot, ROOT, sha
 from build_contract import audit_from, audit_until
+from hts_canonical import revision_valid_hts10
 from section232_note16_rules import val, fact, op, both, either, negate
 from chapter98_rules import compile_valuation, overlap_value
 
@@ -61,7 +62,7 @@ def compile_rules(revision, products):
     def matches(product,entries):return any(product==c or (len(c)==8 and product.startswith(c)) for c in entries)
     products=sorted(set(products))
     if any(not re.fullmatch(r'\d{10}',p) for p in products):raise ValueError('Exact HTS10 required')
-    valid={r['htsno'].replace('.','') for r in hts if 'htsno' in r}
+    valid=revision_valid_hts10(r['htsno'] for r in hts if 'htsno' in r)
     if not set(products)<=valid:raise ValueError('Product not valid in requested source revision')
     for action in periods(x):
       for aircraft_member in (True,False):

@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 from ieepa_fentanyl_sources import ROOT, HEADING, verified_source, inception_sources, windows
 from section301_sources import sha, unique_span
 from build_contract import audit_until
+from hts_canonical import revision_valid_hts10
 from section232_note16_rules import val, fact, op, both, either, negate
 from chapter98_rules import compile_valuation
 from section232_stacking import amendment, timber_amendment, vehicle_predicate, reported
@@ -89,10 +90,7 @@ def compile_emergency(x,products):
     rev=x['revision'];start,end=revision_window(rev)
     hts_path=Path(x['sources'][1]['path']);hts=json.loads(hts_path.read_bytes())
     if sha(hts_path.read_bytes())!=x['sources'][1]['sha256']:raise ValueError('Emergency classification source changed')
-    products=sorted(set(products));valid={r.get('htsno','').replace('.','') for r in hts}
-    # A revision can have an HTS8 leaf, whose statistical extension is 00.
-    statistical_parents={p[:8] for p in valid if len(p)==10}
-    valid|={p+'00' for p in valid if len(p)==8 and p not in statistical_parents}
+    products=sorted(set(products));valid=revision_valid_hts10(r.get('htsno','') for r in hts)
     if any(not re.fullmatch(r'\d{10}',p) or p not in valid for p in products):raise ValueError('Revision-valid exact HTS10 required')
     ids=[f'USITC-{rev}-ieepa-emergency-'+s for s in ('note2','headings')]
     release=rev.replace('_rev_','HTSRev').replace('_basic','HTSBasic')

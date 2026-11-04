@@ -49,3 +49,21 @@ for (text in c('', '4.4/kg', '4.4¢/kg + unspecified', '5% on an unknown basis',
   stopifnot(p$status == 'unresolved_source', is.null(p$formula))
 }
 cat('Complete duty expressions, exact quantity units, compound sums and bounds passed\n')
+
+# The schedule prints one legal unit two ways. Both share a fact key, because
+# the key collapses punctuation, so both must also carry one unit string: two
+# spellings under one key read as a conflicting definition to the valuation
+# checks in section232_autos.py and section301_labor_pricing.py, and cost
+# 2025_basic and 2026_rev_22 their whole revision.
+spaced <- parse_shipment_duty_expression('2.1¢/pf. liter')$fact_definitions
+tight <- parse_shipment_duty_expression('2.1¢/pf.liter')$fact_definitions
+stopifnot('quantity_pf_liter' %in% names(spaced),
+          'quantity_pf_liter' %in% names(tight),
+          identical(spaced$quantity_pf_liter$unit, 'pf.liter'),
+          identical(spaced$quantity_pf_liter, tight$quantity_pf_liter))
+check('2.1¢/pf. liter', list(quantity_pf_liter = 10), .21)
+check('2.1¢/pf.liter', list(quantity_pf_liter = 10), .21)
+# A space that carries meaning is still kept.
+units <- parse_shipment_duty_expression('1.4¢/clean kg')$fact_definitions
+stopifnot(identical(units$quantity_clean_kg$unit, 'clean kg'))
+cat('One legal unit yields one fact definition whichever way the schedule prints it\n')

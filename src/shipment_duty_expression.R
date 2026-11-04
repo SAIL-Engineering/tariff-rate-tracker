@@ -74,7 +74,15 @@ parse_shipment_duty_expression <- function(text, value_fact = 'customs_value') {
       '((?: on (?:drained weight|contents and container|entire contents of container|ethyl alcohol content|lead content|tungsten content|molybdenum content|copper content|magnesium content)| of total sugars)?)$'), expression)
     if (!length(specific) || (specific[2] == '' && specific[4] == '') ||
         (specific[2] == '$' && specific[4] == '¢')) return(NULL)
-    unit <- paste0(specific[5], specific[6])
+    # The schedule prints one legal unit two ways ("2.1c/pf.liter" and
+    # "2.1c/pf. liter"), which the pattern above accepts as `pf\\. ?liters?`.
+    # The key below collapses punctuation, so both spellings share a key while
+    # carrying different unit strings, and the valuation-fact checks in
+    # section232_autos.py and section301_labor_pricing.py read that as a
+    # conflicting definition. Canonicalise the spacing after a period only:
+    # "clean kg" and "1,000 pins" keep their meaningful spaces, and the unit
+    # is still taken from the legal rate rather than inferred.
+    unit <- paste0(gsub('\\.[[:space:]]+', '.', specific[5]), specific[6])
     key <- paste0('quantity_', gsub('[^A-Za-z0-9]+', '_', unit))
     definitions[[key]] <<- list(type = 'number', minimum = 0, unit = unit,
       label = paste0('Quantity in ', unit, ' (legal duty basis)'))

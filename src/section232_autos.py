@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from hts_canonical import revision_valid_hts10
 from zoneinfo import ZoneInfo
 
 from section301_sources import sha, verify_revision_header, unique_span
@@ -245,8 +246,7 @@ def extract(pdf, hts, revision):
         russian_reporting_codes=russian_aluminum_codes(schedule),
         base_sources={p['hts10']:p['general'] for p in extract_rows(schedule)['products']},
         special_sources={p['hts10']:p['special'] for p in extract_rows(schedule)['products']},
-        valid_products=sorted({r['htsno'].replace('.','') for r in schedule
-            if re.fullmatch(r'\d{4}\.\d{2}\.\d{2}\.\d{2}',r.get('htsno',''))}),
+        valid_products=sorted(revision_valid_hts10(r.get('htsno','') for r in schedule)),
         chapter98_provisions=sorted({r['htsno'].replace('.','')[:8] for r in schedule
             if re.fullmatch(r'98\d{2}\.\d{2}\.\d{2}(?:\.\d{2})?',r.get('htsno',''))}),
         sources=[dict(path=str(p.resolve()),sha256=sha(p.read_bytes())) for p in (pdf,hts)])
@@ -504,11 +504,13 @@ def compile_rules(x, product_list, jurisdictions):
                             source=x['base_sources'].get(ps[0])
                             if not source or any(base.get(k)!=source.get(k) for k in ('source_code','source_row_index')) or base.get('raw')!=source.get('expression'):
                                 raise ValueError('Automobile native base expression/owner mismatch')
-                            for name,definition in base['fact_definitions'].items():
+                            for name,definition in (base['fact_definitions'] or {}).items():
                                 definition=copy.deepcopy(definition);definition['source_ids']=ids
                                 old=facts.get(name)
                                 semantics=lambda q:{k:q[k] for k in ('type','unit','minimum','maximum','enum') if k in q}
-                                if old and semantics(old)!=semantics(definition):raise ValueError('Conflicting automobile base valuation fact')
+                                if old and semantics(old)!=semantics(definition):raise ValueError(
+                                    'Conflicting automobile base valuation fact: '+name+' '+
+                                    json.dumps(semantics(old),sort_keys=True)+' vs '+json.dumps(semantics(definition),sort_keys=True))
                                 facts[name]=definition
                             general=base['formula'];checks=base['input_constraints']
                         else:

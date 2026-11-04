@@ -12,6 +12,7 @@ from pathlib import Path
 from ieepa_reciprocal_initial import initial_history, HEADING
 from ieepa_reciprocal_history import history as scope_history
 from ieepa_emergency_rules import revision_window
+from hts_canonical import revision_valid_hts10
 from ieepa_fentanyl_sources import ROOT
 from section301_sources import sha
 from section232_note16_rules import val, fact, op, both, either, negate
@@ -71,10 +72,7 @@ def compile_reciprocal(x, products, jurisdictions, base_amounts=None):
     for s in x['sources']+x['history']['sources']+history['sources']:
         if sha(Path(s['path']).read_bytes())!=s['sha256']:raise ValueError('Reciprocal source hash mismatch')
     hts=json.loads(Path(x['sources'][1]['path']).read_bytes())
-    valid={r.get('htsno','').replace('.','') for r in hts}
-    # A revision can have an HTS8 leaf, whose statistical extension is 00.
-    statistical_parents={p[:8] for p in valid if len(p)==10}
-    valid|={p+'00' for p in valid if len(p)==8 and p not in statistical_parents}
+    valid=revision_valid_hts10(r.get('htsno','') for r in hts)
     if any(not re.fullmatch(r'\d{10}',p) or p not in valid for p in products):raise ValueError('Revision-valid exact products required')
     country_codes=set(jurisdictions['all'])
     if not country_codes or not set(jurisdictions['non_ntr'])<=country_codes:raise ValueError('Missing country inventory')
