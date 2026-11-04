@@ -17,8 +17,13 @@ stopifnot(r$modeled_legacy_statutory_rate_s338[r$hts10=='8537109120']==0,
  all(is.na(r$statutory_rate_s338)),all(is.na(r$statutory_total_rate)),
  all(r$shipment_status=='unresolved_source'),setequal(r$country,'1220'),nrow(r)==4)
 fragment<-read_shipment_rule_fragment(file.path(out,'2026_rev_19','section338_rules.json'))
+# Six actions since Proclamation 11076 added the 2026-10-30 motor-vehicle
+# scope amendment (9903.03.14, 513 -> 591 provisions). The fragment carries
+# the whole chronology with per-action from_/until, and the predecessor's
+# window now closes at 2026-10-30T00:01-04:00, so a 2026-09-15 entry still
+# resolves against the 513-provision action rather than the new one.
 stopifnot(fragment$id=='section338_2026_rev_19',length(fragment$rules)>0,
- length(fragment$action_history)==5,!length(fragment$coverage))
+ length(fragment$action_history)==6,!length(fragment$coverage))
 app<-arrow::read_parquet(file.path(out,'2026_rev_19','authority_product_applicability.parquet')) %>% filter(authority=='section_338')
 stopifnot(nrow(app)==101+52+513,all(is.na(app$statutory_rate)),all(app$legal_rate_parameter==.5),
  '8537109130'%in%app$hts10,!'85371091'%in%app$hts_prefix,
