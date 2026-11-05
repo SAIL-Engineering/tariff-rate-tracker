@@ -499,6 +499,15 @@ build_full_timeseries <- function(
         failed_revisions <- c(failed_revisions, r$rev_id)
         log_error('FAILED: ', r$rev_id, ' — ', r$error)
         message('  ERROR: ', r$error)
+        # A strict shipment rebuild cannot bank a partial series. Continuing
+        # past a failed revision let a 56-revision run report success while
+        # revisions were silently missing their normalized tree -- the one
+        # gate a release is not allowed to waive. Opt-in aggregate builds
+        # (SAIL_REQUIRE_NORMALIZED unset) keep the skip-and-continue behaviour.
+        if (identical(Sys.getenv('SAIL_REQUIRE_NORMALIZED', '0'), '1'))
+          stop('Required normalized emission failed for ', r$rev_id,
+               '; stopping rather than banking a partial series: ', r$error,
+               call. = FALSE)
         message('  Skipping ', r$rev_id, ' and continuing...')
       }
       # Release the revision before starting the next one. Each revision's

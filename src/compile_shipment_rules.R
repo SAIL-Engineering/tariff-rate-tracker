@@ -64,15 +64,22 @@ compose_shipment_rules <- function(bundle, fragments) {
     })
     fragment
   })
+  # Accumulate in a hashed environment, not a named list. `out[[id]] <- item`
+  # on a list is a linear scan of the names plus a full reallocation per
+  # insert, so building one is quadratic: measured 0.18 s at 5,000 items and
+  # 11.6 s at 40,000, which extrapolates to ~5.5 minutes for the 214,023
+  # relations of a single revision. The returned order is unchanged.
   merge_by_id <- function(items, label) {
-    out <- list()
+    out <- new.env(parent = emptyenv(), hash = TRUE, size = max(29L, length(items)))
     for (item in items) {
       if (is.null(item$id) || !nzchar(item$id)) stop('Missing ', label, ' identifier')
-      if (!is.null(out[[item$id]]) && !identical(.shipment_canonical(out[[item$id]]), .shipment_canonical(item)))
+      prior <- if (exists(item$id, envir = out, inherits = FALSE))
+        get(item$id, envir = out, inherits = FALSE) else NULL
+      if (!is.null(prior) && !identical(.shipment_canonical(prior), .shipment_canonical(item)))
         stop('Conflicting ', label, ': ', item$id)
-      out[[item$id]] <- item
+      assign(item$id, item, envir = out)
     }
-    unname(out[sort(names(out))])
+    unname(mget(sort(ls(out, all.names = TRUE)), envir = out))
   }
   # One immutable instrument can substantiate several programs at different
   # locators. Merge those locator citations while keeping byte identity, URL,
@@ -224,11 +231,32 @@ compose_shipment_rules <- function(bundle, fragments) {
   relations <- merge_by_id(unlist(lapply(fragments, `[[`, 'relations'), recursive = FALSE), 'relation')
   ids <- vapply(bundle$rules, `[[`, character(1), 'id')
   source_ids <- vapply(bundle$sources, `[[`, character(1), 'id')
-  targets <- list()
-  for (i in seq_along(bundle$rules)) for (code in unlist(bundle$rules[[i]]$reporting_codes))
-    targets[[code]] <- c(targets[[code]], i)
+  # Build the code -> rule-index map in one pass. Appending with
+  # `targets[[code]] <- c(targets[[code]], i)` reallocated the whole vector per
+  # rule, so a code carried by 10,450 rules paid ~55M element copies.
+  id_index <- setNames(seq_along(ids), ids)
+  codes_per_rule <- lapply(bundle$rules, function(r) unlist(r$reporting_codes, use.names = FALSE))
+  flat_codes <- unlist(codes_per_rule, use.names = FALSE)
+  targets <- if (length(flat_codes))
+    split(rep(seq_along(bundle$rules), lengths(codes_per_rule)), flat_codes) else list()
   action_targets <- split(seq_along(bundle$rules),vapply(bundle$rules,`[[`,character(1),'action_id'))
+  rule_scopes <- lapply(bundle$rules, `[[`, 'scope')
   decisions <- list()
+  # Combine a condition set in one call instead of re-wrapping per edge. The
+  # incremental form appended with c(old$args, list(cond)), rebuilding the whole
+  # argument list every time: one aluminium rule reached 75,656 arguments and the
+  # pass cost 1.9e12 pointer copies, about 3.5 hours for a single revision. These
+  # forms are structurally identical to the incremental ones -- a lone condition
+  # stays unwrapped, a matching operator extends its arguments -- so only the
+  # number of intermediate copies changes.
+  combine_conditions <- function(old, op, conds) {
+    if (!length(conds)) return(old)
+    if (is.null(old)) return(if (length(conds) == 1L) conds[[1]] else list(op = op, args = conds))
+    if (identical(old$op, op)) return(list(op = op, args = c(old$args, conds)))
+    list(op = op, args = c(list(old), conds))
+  }
+  acc_target <- integer(0); acc_kind <- character(0)
+  acc_cond <- list(); acc_src <- list(); nacc <- 0L
   for (edge in relations) {
     if (!edge$effect %in% c('suppress','require_predicate','suppress_by_reporting_codes') ||
         (edge$effect == 'suppress' && !edge$when_rule_applies %in% ids) ||
@@ -255,17 +283,38 @@ compose_shipment_rules <- function(bundle, fragments) {
       if(end<=lower||start>=upper)next
       if(start<lower||end>upper)stop('Source-windowed relation requires exact bundle tiling: ',edge$id)
     }
-    trigger_ids <- character()
+    trigger_ids <- character(0); trigger_ix <- integer(0)
     if(edge$effect=='suppress_by_reporting_codes') {
       trigger_ix <- sort(unique(unlist(targets[unlist(edge$trigger_reporting_codes)])))
-      for(j in trigger_ix) {
+      # Same contract check over the whole trigger set; only the accumulation
+      # changed. Growing trigger_ids with c() per rule was quadratic, and a
+      # single code-level relation can legitimately name 70,424 trigger rules.
+      for(j in trigger_ix)
         if(length(setdiff(unlist(bundle$rules[[j]]$reporting_codes),unlist(edge$trigger_reporting_codes))))
           stop('Mixed trigger reporting codes: ',bundle$rules[[j]]$id)
-        trigger_ids <- c(trigger_ids,bundle$rules[[j]]$id)
-      }
+      trigger_ids <- ids[trigger_ix]
     }
     target_ix <- if(length(edge$target_action_ids))unlist(action_targets[unlist(edge$target_action_ids)]) else
       unlist(targets[unlist(edge$target_reporting_codes)])
+    # A trigger that cannot share a product, origin or interval with the target
+    # can never fire. resolve_shipment_duties.R returns amount 0 and state
+    # not_applicable for an out-of-scope rule, so such a disjunct is always
+    # FALSE and contributes nothing to the determination. overlap() only
+    # reports FALSE when disjointness is provable, so pruning on it removes
+    # dead terms and never a live one.
+    trigger_scope <- if (identical(edge$effect,'suppress'))
+      rule_scopes[[ id_index[[edge$when_rule_applies]] ]] else NULL
+    # Invert the trigger set by product once per relation so a target tests
+    # only the triggers that could possibly reach it, instead of all of them.
+    # overlap() stays the sole authority on liveness -- this only narrows the
+    # candidates it is asked about. It can exclude nothing live: overlap()
+    # clears the product dimension exactly when the trigger lists no exact
+    # product (trig_universal), the target lists none, the target carries
+    # prefixes, or the two share a product (trig_by_product).
+    trig_hts <- lapply(trigger_ix,function(j)unlist(rule_scopes[[j]]$hts_exact,use.names=FALSE))
+    trig_universal <- trigger_ix[lengths(trig_hts)==0L]
+    trig_by_product <- if(length(trigger_ix)&&sum(lengths(trig_hts)))
+      split(rep(trigger_ix,lengths(trig_hts)),unlist(trig_hts,use.names=FALSE)) else list()
     for (i in sort(unique(target_ix))) {
       target <- bundle$rules[[i]]
       if(!is.null(edge$target_authority)&&!identical(target$authority,edge$target_authority))next
@@ -280,31 +329,52 @@ compose_shipment_rules <- function(bundle, fragments) {
       if (length(edge$target_reporting_codes)&&length(setdiff(unlist(target$reporting_codes), matches))) stop('Mixed action reporting codes: ', target$id)
       if (edge$effect == 'suppress' && identical(target$id, edge$when_rule_applies)) stop('Self-suppressing action: ', target$id)
       if (edge$effect %in% c('suppress','suppress_by_reporting_codes')) {
-        if(edge$effect=='suppress') condition <- if(identical(edge$trigger_test,'positive_duty'))
-          list(op='gt',args=list(list(rule_amount=edge$when_rule_applies),list(value=0))) else list(rule_applies = edge$when_rule_applies)
-        else {
+        if(edge$effect=='suppress') {
+          if(!overlap(trigger_scope, target$scope)) next
+          condition <- if(identical(edge$trigger_test,'positive_duty'))
+            list(op='gt',args=list(list(rule_amount=edge$when_rule_applies),list(value=0))) else list(rule_applies = edge$when_rule_applies)
+        } else {
           if(target$id %in% trigger_ids) stop('Self-suppressing reporting relation: ',edge$id)
           if(!length(trigger_ids)) next # no invented trigger; coverage remains independently required
-          condition <- list(op='or',args=lapply(trigger_ids,function(id)
+          t_hts <- unlist(target$scope$hts_exact,use.names=FALSE)
+          cand <- if(!length(t_hts)||length(target$scope$hts_prefixes)) trigger_ix else
+            sort(unique(c(trig_universal,
+              unlist(trig_by_product[intersect(t_hts,names(trig_by_product))],use.names=FALSE))))
+          live <- cand[vapply(cand,function(j)overlap(rule_scopes[[j]],target$scope),logical(1))]
+          if(!length(live)) next
+          condition <- list(op='or',args=lapply(ids[live],function(id)
             if(identical(edge$trigger_test,'positive_duty'))
               list(op='gt',args=list(list(rule_amount=id),list(value=0))) else list(rule_applies=id)))
         }
-        old <- target$suppressed_when
-        if (!is.null(old)) condition <- list(op = 'or', args = if(identical(old$op,'or')) c(old$args,list(condition)) else list(old,condition))
-        target$suppressed_when <- condition
+        nacc <- nacc+1L; acc_kind[[nacc]] <- 'suppressed_when'
       } else {
         condition <- edge$predicate
-        if (!is.null(target$when)) condition <- list(op='and',args=if(identical(target$when$op,'and')) c(target$when$args,list(condition)) else list(target$when,condition))
-        target$when <- condition
+        nacc <- nacc+1L; acc_kind[[nacc]] <- 'when'
       }
-      target$source_ids <- as.list(sort(unique(c(unlist(target$source_ids), unlist(edge$source_ids)))))
-      bundle$rules[[i]] <- target
+      acc_target[[nacc]] <- i; acc_cond[[nacc]] <- condition
+      acc_src[[nacc]] <- unlist(edge$source_ids)
       decision <- list(relation_id = edge$id, rule_id = target$id,
         when_rule_applies = edge$when_rule_applies, effect = edge$effect,
         reporting_codes = as.list(matches), source_ids = edge$source_ids)
       if(!is.null(edge$target_action_ids))decision$target_action_ids <- edge$target_action_ids
       if(!is.null(edge$source_window))decision$source_window <- edge$source_window
       decisions[[length(decisions)+1L]] <- decision
+    }
+  }
+  # Apply the collected conditions once per target. Ordering matches the
+  # incremental form exactly: conditions were recorded in relation order and,
+  # within a relation, in ascending target index, and split() preserves that
+  # order inside each group -- so every argument list is identical to what the
+  # per-edge rewrite produced. The union of source ids is order-independent.
+  if (nacc) {
+    for (sel in split(seq_len(nacc), acc_target)) {
+      i <- acc_target[[sel[[1L]]]]; target <- bundle$rules[[i]]
+      sup <- sel[acc_kind[sel] == 'suppressed_when']
+      whn <- sel[acc_kind[sel] == 'when']
+      if (length(sup)) target$suppressed_when <- combine_conditions(target$suppressed_when, 'or', acc_cond[sup])
+      if (length(whn)) target$when <- combine_conditions(target$when, 'and', acc_cond[whn])
+      target$source_ids <- as.list(sort(unique(c(unlist(target$source_ids), unlist(acc_src[sel])))))
+      bundle$rules[[i]] <- target
     }
   }
   # Relations can introduce predicates after initial rule binding. They use
