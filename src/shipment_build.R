@@ -752,6 +752,44 @@ project_shipment_state <- function(rates,index,normalized_dir) {
   list(rates=out,memberships=dplyr::bind_rows(memberships),classes=dplyr::bind_rows(classes))
 }
 
+#' Label an explicitly aggregate-only build without discarding its own numbers.
+#'
+#' mark_shipment_contract_unavailable() below blanks statutory_* and the ch99
+#' codes because, on a build that was *trying* to produce a shipment contract,
+#' a missing projection means there is no source-backed value and the column
+#' must not imply one. That is right for that case and wrong for this one.
+#'
+#' A build run with SAIL_EMIT_NORMALIZED=0 never asked for a shipment contract;
+#' it is the aggregate-history writer, and the aggregate pipeline computed those
+#' statutory_* and ch99_code_* values itself. Blanking them makes an
+#' aggregate-only refresh destructive: it was populated before 646dba47 put the
+#' shipment evaluation in the ordinary build, frontend/server/db.js serves
+#' statutory_base_rate, and SAIL's RATE_FIELDS validates eight statutory fields
+#' with isNumber rather than a nullable check -- so NULLs there do not read as
+#' "absent", they coerce to zero inside SAIL's arithmetic.
+#'
+#' The schema stays identical to the unavailable path, including the aggregate_*
+#' and modeled_legacy_* copies, so a loader cannot tell the two apart by shape.
+#' What differs is that the originals keep their values and shipment_status says
+#' which kind of number they are. Nothing is promoted: the modeled figure is
+#' still published under modeled_legacy_*, and no source-backed claim is made.
+mark_aggregate_only_scope <- function(rates,reason) {
+  for(name in intersect(c('duty_provenance_json','ch99_rules_json','s232_suppressed_json','pending_activation_json'),names(rates)))
+    rates[[paste0('aggregate_',name)]] <- rates[[name]]
+  for(name in grep('^statutory_',names(rates),value=TRUE))
+    rates[[paste0('modeled_legacy_',name)]] <- rates[[name]]
+  for(name in grep('^ch99_code_',names(rates),value=TRUE))
+    rates[[paste0('aggregate_',name)]] <- rates[[name]]
+  rates$shipment_status <- 'aggregate_only'
+  rates$shipment_contract_version <- 'aggregate_modeled_no_shipment_contract'
+  rates$shipment_projection_version <- 'sail.shipment-wide/v1'
+  rates$shipment_source_errors_json <- .shipment_json(list(reason));rates$shipment_dataset_version <- NA_character_
+  rates$shipment_evidence_snapshot_id <- NA_character_;rates$shipment_decision_ids_json <- NA_character_
+  rates$shipment_bundle_ids_json <- NA_character_;rates$shipment_missing_inputs_json <- NA_character_
+  rates$shipment_quote_profile <- NA_character_;rates$shipment_exact_time_required <- NA
+  rates
+}
+
 mark_shipment_contract_unavailable <- function(rates,reason) {
   for(name in intersect(c('duty_provenance_json','ch99_rules_json','s232_suppressed_json','pending_activation_json'),names(rates))) {
     rates[[paste0('aggregate_',name)]] <- rates[[name]];rates[[name]] <- NA_character_

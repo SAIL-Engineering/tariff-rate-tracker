@@ -3634,7 +3634,16 @@ calculate_rates_for_revision <- function(
     })
   }
 
-  rates <- if(is.null(shipment_projection))mark_shipment_contract_unavailable(rates,'ordinary_build_missing_verified_shipment_projection') else shipment_projection$rates
+  # Which absence this is matters. A build that asked for a shipment contract
+  # and did not get one must not leave statutory_* looking source-backed. A
+  # build explicitly run with SAIL_EMIT_NORMALIZED=0 never asked: it is the
+  # aggregate-history path, and discarding the statutory_* and ch99_code_*
+  # values the aggregate pipeline just computed makes that refresh destructive
+  # against what production already serves.
+  rates <- if(!is.null(shipment_projection)) shipment_projection$rates else
+    if(identical(Sys.getenv('SAIL_EMIT_NORMALIZED','1'),'0'))
+      mark_aggregate_only_scope(rates,'aggregate_only_build_no_shipment_contract_requested') else
+      mark_shipment_contract_unavailable(rates,'ordinary_build_missing_verified_shipment_projection')
   rates$valid_from <- state_from
   rates$valid_until <- state_until
 
