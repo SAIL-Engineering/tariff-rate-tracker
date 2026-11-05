@@ -415,7 +415,22 @@ assemble_shipment_state <- function(revision,products,countries,valid_from,valid
       coverage_requirements=as.list(SHIPMENT_BUILD_AUTHORITIES),fact_definitions=list(),claim_definitions=list(),
       evidence_dependencies=list(build_inputs=context$input_manifest,evidence_snapshot=context$evidence_pin,source_selection=source_window),
       unresolved_questions=questions)
+    # Name the interval and its inputs before composing. This call carried the
+    # whole cost of a revision and printed nothing, so a stall here was
+    # indistinguishable from a hang. Report the step, then its outcome.
+    .asm_rss <- function() tryCatch({
+      l <- grep('^VmRSS', readLines('/proc/self/status'), value = TRUE)[1]
+      as.numeric(gsub('[^0-9]', '', l)) / 1048576
+    }, error = function(e) NA_real_)
+    .asm_t <- Sys.time()
+    message(sprintf('    [interval %d/%d] %s -> %s: composing %d fragment(s), %d rule(s), %d relation(s); RSS %.2f GB',
+      i, length(instants)-1L, .shipment_iso(from), .shipment_iso(until), length(selected),
+      sum(vapply(selected,function(f)length(f$rules),integer(1))),
+      sum(vapply(selected,function(f)length(f$relations),integer(1))), .asm_rss()))
     b <- compose_shipment_rules(b,selected)
+    message(sprintf('    [interval %d/%d] composed in %.1f min: %d rule(s); RSS %.2f GB',
+      i, length(instants)-1L, as.numeric(difftime(Sys.time(), .asm_t, units='mins')),
+      length(b$rules), .asm_rss()))
     # An explicit question is retained alongside every unreviewed inventory.
     # It is not promoted to a no-applicable-rules determination.
     for(authority in SHIPMENT_BUILD_AUTHORITIES) {

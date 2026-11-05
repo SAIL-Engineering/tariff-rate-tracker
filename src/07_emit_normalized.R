@@ -1467,14 +1467,42 @@ emit_normalized_revision <- function(
 
   shipment <- NULL
   if(grepl('^202[56]_',revision_id)) {
+    # Report progress and resident size through the shipment block. Everything
+    # from here to the bundle write used to emit nothing at all, so a run that
+    # stalled or was killed left no indication of which step it was in -- the
+    # 2026-11-04 and 2026-11-05 attempts each died in this block and the log's
+    # last line was the metal-content emission above. Timing and RSS per step
+    # cost nothing and make the next failure self-describing.
+    .ship_rss <- function() tryCatch({
+      line <- grep('^VmRSS', readLines('/proc/self/status'), value = TRUE)[1]
+      as.numeric(gsub('[^0-9]', '', line)) / 1048576
+    }, error = function(e) NA_real_)
+    .ship_t0 <- Sys.time()
+    .ship_step <- function(label) message(sprintf(
+      '  [shipment %5.1f min, RSS %5.2f GB] %s',
+      as.numeric(difftime(Sys.time(), .ship_t0, units = 'mins')), .ship_rss(), label))
+    .ship_step('block entered')
     source(here::here('src/shipment_build.R'))
     base <- compile_shipment_base_fragment(base_extraction,products$hts10,countries)
     write_rule_fragment(base,'shipment_base_rules.json')
+    .ship_step(sprintf('base fragment written: %d rules', length(base$rules)))
     # Admit only files written by this invocation, never stale directory files.
-    fragments <- lapply(inventory_fragments,read_shipment_rule_fragment)
+    # Read one at a time so the log names the fragment that costs the memory;
+    # every fragment is resident at once from here on, which is itself a
+    # ceiling independent of what the composer then does with them.
+    fragments <- vector('list', length(inventory_fragments))
+    for (fi in seq_along(inventory_fragments)) {
+      fragments[[fi]] <- read_shipment_rule_fragment(inventory_fragments[[fi]])
+      .ship_step(sprintf('read %-38s %6.1f MB on disk, %d rules, %d relations',
+        basename(inventory_fragments[[fi]]),
+        file.size(inventory_fragments[[fi]]) / 1e6,
+        length(fragments[[fi]]$rules), length(fragments[[fi]]$relations)))
+    }
+    .ship_step('all fragments resident; assembling')
     shipment <- assemble_shipment_state(revision_id,products$hts10,countries,
       valid_from %||% effective_date,valid_until %||% effective_date,fragments,load_shipment_build_context(),
       file.path(output_dir,revision_id))
+    .ship_step(sprintf('assembled: %d bundle(s)', length(shipment$bundles)))
   }
   invisible(list(shipment=shipment,revision_dir=file.path(output_dir,revision_id),fragment_paths=inventory_fragments))
 }
