@@ -364,7 +364,7 @@ def compile_rules(x, product_list, jurisdictions):
     quota=f('s232_uk_auto_quota_allocated','CBP allocation for this UK passenger-vehicle entry is within the applicable annual and quarterly quota')
     uk_parts_use=f('s232_uk_auto_parts_uk_vehicle_use','UK-produced part is for use in an automobile that is a product of the United Kingdom',
         description='EO14309 sec2(b) requires both UK origin of the part and UK origin of the automobile in which it is used.')
-    rules=[];relations=[]
+    rules=[];relations=[];merged={}
     chapter98=f('chapter98_properly_claimed','Entry properly claimed under the selected Chapter 98 provision')
     facts['chapter98_provision']=dict(type='string',label='Chapter 98 provision (eight digits)',enum=x['chapter98_provisions'],source_ids=ids)
     full=re.search(r'except that duties under subheading (9802\.\d{2}\.\d{2}) shall be assessed based upon the full value',h['baseline']['clauses']['a'])
@@ -391,8 +391,11 @@ def compile_rules(x, product_list, jurisdictions):
             return
         if tree.get('skip'):return
         id=f'auto_{x["revision"]}_{len(rules)}'
+        # Own the scope. One dict is created per decision group and handed to
+        # every rule the tree below it emits, so a shared scope cannot be
+        # mutated when rules merge.
         r=dict(id=id,action_id=action,authority='section_232',kind='duty',verification='verified',
-            scope=scope,when=op('if',path,ordinary,val(False)),formula=tree['formula'],
+            scope=dict(scope,hts_exact=list(scope['hts_exact'])),when=op('if',path,ordinary,val(False)),formula=tree['formula'],
             reporting_codes=[tree['code']] if tree['code'] else [],source_ids=ids,
             legal_locator='Proclamation10908 clauses1-5,8; AnnexI note33; original country amendment annexes')
         if not tree['subject'] and tree['formula']==val(0):r['reporting_only']=True
@@ -401,9 +404,28 @@ def compile_rules(x, product_list, jurisdictions):
             checks.append(dict(test=negate(both(use_vehicle,mhd_vehicle)),inputs=['s232_auto_passenger_vehicle','s232_mhd_vehicle'],
                 label='Actual passenger/light and medium/heavy vehicle identities cannot both apply'))
         if checks:r['input_constraints']=checks
-        rules.append(r)
+        if tree['replaces_base']:r['valuation_role']='combined_ordinary_duty_including_mfn'
+        # One rule per decision, carrying every product it decides. The groups
+        # above split by origin and by base valuation signature, which re-derives
+        # the same decision for product after product: at 800 products the tree
+        # emitted 98,470 rules holding 515 distinct decisions, and the identical
+        # ones differed only in which exact HTS10 they listed. Emitting each of
+        # them separately cost 28 GB and 6.8 GB of JSON for one revision, so a
+        # repeat decision extends the product list of the rule that already
+        # states it. The key is the whole rule but its id and product list, so
+        # any difference in formula, reporting code, constraints, valuation role,
+        # origin or window still yields its own rule, and the relations below --
+        # which read only the tree, the action and scope['from'] -- are already
+        # recorded against it.
+        key=(json.dumps({k:v for k,v in r.items() if k not in ('id','scope')},sort_keys=True),
+            json.dumps({k:v for k,v in r['scope'].items() if k!='hts_exact'},sort_keys=True))
+        prior=merged.get(key)
+        if prior is not None:
+            listed=set(prior['scope']['hts_exact'])
+            prior['scope']['hts_exact'].extend(p for p in r['scope']['hts_exact'] if p not in listed)
+            return
+        rules.append(r);merged[key]=r
         if tree['replaces_base']:
-            r['valuation_role']='combined_ordinary_duty_including_mfn'
             relations.append(dict(id=id+'_replaces_ordinary_base',effect='suppress',when_rule_applies=id,
                 target_action_ids=['ordinary_customs_duty'],source_ids=['FR-2025-11473-auto-order','FR-2025-12060-auto-original-text']))
         if tree['subject'] and x['russian_reporting_codes']:
