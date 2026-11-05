@@ -1,5 +1,5 @@
 {
-  "cutoff_until": "2026-10-23T00:00:00-04:00",
+  "cutoff_until": "2026-11-03T00:00:00-05:00",
   "sources": [
     {
       "id": "FR-2025-12060-auto-original-text",
@@ -149,6 +149,129 @@
       "general": "The duty provided in the applicable subheading",
       "special": "The duty provided in the applicable subheading",
       "other": "The duty provided in the applicable subheading."
+    }
+  ],
+  "cutoff_extensions": [
+    {
+      "from": "2026-10-23T00:00:00-04:00",
+      "to": "2026-11-03T00:00:00-05:00",
+      "basis": "no_new_instrument",
+      "reviewed_window": {
+        "from": "2026-10-24",
+        "to": "2026-11-03"
+      },
+      "method": "federalregister.gov API v1 only; document HTML was not scraped, as the site restricts programmatic access to its API. Two passes: (1) enumerated every presidential document published in the window (conditions[type]=PRESDOCU), returning 7, all listed below; (2) full-text term searches across every document type, listed under federal_register_term_searches. The terms deliberately go beyond 'automobile' because Proclamation 11076 itself uses 'motor vehicle' six times and 'automobile' never, so a term search on 'automobile' alone cannot establish a negative.",
+      "presidential_documents_enumerated": [
+        {
+          "document_number": "2026-22049",
+          "publication_date": "2026-10-28",
+          "title": "Adjusting Imports of Wind Turbines and Their Parts and Components Into the United States",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22050",
+          "publication_date": "2026-10-28",
+          "title": "National Seafood Month, 2026",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22051",
+          "publication_date": "2026-10-28",
+          "title": "Decreasing Housing Costs for the American People",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22052",
+          "publication_date": "2026-10-28",
+          "title": "Presidential Determination Pursuant to Section 303 of the Defense Production Act of 1950",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22292",
+          "publication_date": "2026-10-30",
+          "title": "Further Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed To Offset Canadian Action",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22385",
+          "publication_date": "2026-11-02",
+          "title": "Adjusting Imports of Robotics, Industrial Machinery, and Their Parts and Components Into the United States",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22386",
+          "publication_date": "2026-11-02",
+          "title": "Delegation of Authority Under Section 8335 of the National Defense Authorization Act for Fiscal Year 2026",
+          "section_232_automobiles": false
+        }
+      ],
+      "automobile_term_matches": [
+        {
+          "document_number": "2026-21929",
+          "publication_date": "2026-10-28",
+          "type": "Notice",
+          "title": "Van-Type Trailers and Subassemblies Thereof From the People's Republic of China: Antidumping Duty Order",
+          "section_232_automobiles": false,
+          "note": "Antidumping proceeding, not a section 232 instrument."
+        },
+        {
+          "document_number": "2026-22055",
+          "publication_date": "2026-10-29",
+          "type": "Proposed Rule",
+          "title": "Air Plan Approval; California; Reasonable Further Progress Plan for the Coachella Valley Ozone Nonattainment Area",
+          "section_232_automobiles": false,
+          "note": "Unrelated; the term appears in ambient air-quality discussion."
+        }
+      ],
+      "hts_corroboration": "The HTS 2026 Revision 22 change record lists exactly one modification: U.S. note 51(b)(3), subchapter III, chapter 99, effective 2026-10-30, source Proclamation 11076 -- a section 338 scope amendment. The Rev 22 JSON row diff contains no 9903.94 delta, and none of Rev 22's 638 Chapter 99 entries carries an automobile provision change. Because the HTS is the operative implementation of a proclamation's annex, this is the dispositive evidence that no automobile provision changed.",
+      "conclusion": "No Section 232 automobile or automobile-parts instrument issued between 2026-10-24 and 2026-11-03. The reviewed source set is therefore unchanged and the executable horizon is extended without adding or altering any source.",
+      "observed_unmodelled_authorities": "Proclamations 2026-22049 (wind turbines, published 2026-10-28) and 2026-22385 (robotics and industrial machinery, published 2026-11-02) establish new section 232 sectors that this repository does not model. Neither appears among the 638 Chapter 99 entries of Rev 22, so no provision exists to extract at or before this horizon. They require their own extraction when they reach the HTS.",
+      "reviewed_on": "2026-11-04",
+      "limitation": "This attestation covers Section 232 automobile and automobile-parts instruments only. It attests no completeness for any other authority. It does not re-examine instruments published on or before 2026-10-23 whose effective instants fall inside this window; those remain the responsibility of the prior cutoff. It rests on Federal Register coverage and on the HTS Revision 22 change record; it does not cover CBP CSMS guidance, which is published outside the Federal Register and is not indexed by the searches above.",
+      "federal_register_term_searches": [
+        {
+          "term": "automobile",
+          "documents_matched": 2,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "automobile parts",
+          "documents_matched": 1,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "motor vehicle",
+          "documents_matched": 24,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "passenger vehicle",
+          "documents_matched": 11,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "light truck",
+          "documents_matched": 11,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "section 232",
+          "documents_matched": 14,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "9903.94",
+          "documents_matched": 0,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "automobile knock-down",
+          "documents_matched": 0,
+          "section_232_automobiles_found": false
+        }
+      ],
+      "term_search_assessment": "Every match across all terms is Department of Transportation, NHTSA, EPA, FMCSA or PHMSA rulemaking, a Foreign-Trade Zone Board production-activity notification, an antidumping or countervailing proceeding, an agency information-collection notice, or one of the three presidential documents separately assessed below. Of note and expressly considered: 2026-22231 (Foreign-Trade Zone 38, production activity, ElringKlinger, an automobile-parts manufacturer) matched 'section 232'. FTZ production-activity notifications recite the section 232 status of inputs as a procedural matter; they are not section 232 instruments and alter no scope, rate or reporting requirement. The search for '9903.94' returned no document, so no Federal Register document published in the window references the automobile Chapter 99 headings.",
+      "evidence_not_relied_on": "Proclamation 11076's annex is reproduced in the Federal Register as graphics: the retained body text (FR-2026-22292-body.txt, pages 68861-68871) ends in '[GRAPHIC] [TIFF OMITTED]' markers, so the annex tables are absent from it. A text search of that body is therefore NOT dispositive as to the annex contents and is not relied on here. The original graphic annex remains unretained and unreconciled, which is an open item for the section 338 work that Proclamation 11076 actually amends; it does not affect this cutoff, which rests on the HTS change record and row diff above."
     }
   ]
 }
