@@ -201,6 +201,89 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
 }
 
 
+# Assemble a revision's legal states without ever holding them all at once.
+# `bind_rows(states)` allocated the combined frame while every state was still
+# resident, so the peak was twice the revision's whole panel: one state is
+# 4,901,280 rows x 95 columns = 3.42 GB, and 2026_rev_22's four states reached
+# a 51.5 GB peak on a 62 GB machine. Here each state is spilled as it is
+# computed and read back once into preallocated columns, so the peak is the
+# combined frame plus one state (~17 GB for four) rather than twice the set.
+# The result must be identical to what bind_rows produced: this is the duty
+# panel, so a coerced type or a reordered row is a changed legal answer.
+.legal_state_rss <- function() {
+  x <- tryCatch(readLines('/proc/self/status'),error=function(e) character(0))
+  v <- function(k) {
+    h <- grep(k,x,value=TRUE)
+    if(!length(h)) return(NA_real_)
+    # Strip every non-digit rather than matching a space before the number.
+    # The kernel pads the value into a fixed width, so once RSS passes 8
+    # digits (about 9.5 GB) the separator is a bare tab and a pattern
+    # expecting ' (\\d+) kB' stops matching -- returning the whole line and
+    # an NA. It failed silently at exactly the sizes worth reporting.
+    as.numeric(gsub('[^0-9]','',h[1]))/2^20
+  }
+  c(rss=v('^VmRSS'),peak=v('^VmHWM'))
+}
+
+# Compared at spill time AND at read time. bind_rows would coerce a column
+# whose type disagrees between two legal states -- a logical that is character
+# in one state becomes character for the whole revision -- which on a duty
+# panel is a silently changed answer, so this refuses instead. Checking at
+# spill time matters for the schedule: a four-state revision takes ~10 min per
+# state, so catching it on the state that introduces it costs 20 minutes
+# instead of the 46 it takes to compute all four and begin assembling.
+check_legal_state_schema <- function(state,template,i) {
+  cols <- names(template)
+  if(!identical(names(state),cols))
+    stop('Legal state ',i,' does not carry the same column set: ',
+         paste(c(setdiff(names(state),cols),setdiff(cols,names(state))),collapse=', '),
+         call.=FALSE)
+  for(col in cols) {
+    if(!identical(class(state[[col]]),class(template[[col]])))
+      stop('Legal state ',i,' disagrees on the type of ',col,': ',
+           paste(class(state[[col]]),collapse='/'),' vs ',
+           paste(class(template[[col]]),collapse='/'),call.=FALSE)
+    if(is.factor(template[[col]]) && !identical(levels(state[[col]]),levels(template[[col]])))
+      stop('Legal state ',i,' disagrees on the levels of ',col,call.=FALSE)
+  }
+  invisible(TRUE)
+}
+
+assemble_legal_states <- function(paths,counts,template) {
+  if(length(paths)!=length(counts)) stop('Legal state spill is not accounted for')
+  total <- sum(counts);cols <- names(template)
+  # Indexing a zero-row column with NA yields a typed, attribute-preserving
+  # vector: Date stays Date, a factor keeps its levels, integer stays integer.
+  nas <- rep(NA_integer_,total)
+  out <- lapply(template,function(x) x[nas])
+  nas <- NULL
+  at <- 1L
+  for(i in seq_along(paths)) {
+    state <- readRDS(paths[i])
+    check_legal_state_schema(state,template,i)
+    if(nrow(state)!=counts[i]) stop('Legal state ',i,' changed length while spilled')
+    idx <- seq.int(at,length.out=counts[i])
+    for(col in cols) {
+      # Drop the list's reference before widening the column, so the
+      # subassignment is in place. `out[[col]][idx] <- v` leaves the vector
+      # referenced twice and copies the whole column instead.
+      v <- out[[col]];out[[col]] <- logical(0)
+      v[idx] <- state[[col]]
+      out[[col]] <- v;v <- NULL
+    }
+    at <- at+counts[i]
+    state <- NULL;unlink(paths[i]);gc(FALSE)
+  }
+  if(at-1L!=total) stop('Assembled legal states do not fill the revision')
+  attrs <- attributes(template);attrs$row.names <- .set_row_names(total)
+  attributes(out) <- attrs
+  m <- .legal_state_rss()
+  message('  Assembled ',length(paths),' legal states into ',
+          format(total,big.mark=','),' rows; RSS ',round(m[['rss']],2),
+          ' GB, peak ',round(m[['peak']],2),' GB')
+  out
+}
+
 # Shared by the full build and normalized re-emission. Individual point
 # calculations remain available for fixtures and deliberately date-scoped audits.
 calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,countries,
@@ -234,24 +317,40 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
   Sys.setenv(SAIL_EMIT_NORMALIZED=if(emit) '1' else '0')
   stage <- tempfile(paste0('normalized-',revision_id,'-'))
   on.exit(unlink(stage,recursive=TRUE),add=TRUE)
-  states <- vector('list',nrow(segments));roots <- character(nrow(segments))
-  for(i in seq_len(nrow(segments))) {
+  n <- nrow(segments)
+  roots <- character(n);counts <- integer(n);paths <- rep(NA_character_,n)
+  # A single legal state needs no concatenation and no spill; 41 of the 56
+  # rebuild revisions have exactly one. Beyond one, no state is kept in memory
+  # after it is computed -- see assemble_legal_states for why.
+  spill <- file.path(stage,'_states')
+  if(n>1L) dir.create(spill,recursive=TRUE,showWarnings=FALSE)
+  combined <- NULL;template <- NULL
+  for(i in seq_len(n)) {
     day <- segments$valid_from[i];roots[i] <- file.path(stage,as.character(day))
-    states[[i]] <- calculate_rates_for_revision(products,ch99_data,
+    state <- calculate_rates_for_revision(products,ch99_data,
       extract_ieepa_rates(hts_raw,country_lookup,effective_date=day),usmca,countries,revision_id,day,
       s232_rates=extract_section232_rates(ch99_data,effective_date=day),
       fentanyl_rates=extract_ieepa_fentanyl_rates(hts_raw,country_lookup,effective_date=day,revision_id=revision_id),
       stacking_method=stacking_method,policy_params=policy_params,ch99_other=ch99_other,
       s301_exclusions=build_s301_exclusion_candidates(ch99_data,day),
       normalized_output_dir=roots[i],normalized_valid_until=segments$valid_until[i])
-    states[[i]]$valid_from <- day;states[[i]]$valid_until <- segments$valid_until[i]
+    state$valid_from <- day;state$valid_until <- segments$valid_until[i]
+    counts[i] <- nrow(state)
+    if(n==1L) {combined <- state;next}
+    if(is.null(template)) template <- state[0,,drop=FALSE] else
+      check_legal_state_schema(state,template,i)
+    paths[i] <- file.path(spill,sprintf('state-%03d.rds',i))
+    # Uncompressed: this is scratch read back once, and compressing 3.42 GB
+    # costs more wall clock than the write it saves.
+    saveRDS(state,paths[i],compress=FALSE)
+    state <- NULL;gc(FALSE)
+    m <- .legal_state_rss()
+    message('  Legal state ',i,' of ',n,' (',format(counts[i],big.mark=','),
+            ' rows) spilled to ',round(file.size(paths[i])/2^30,2),' GB on disk; RSS ',
+            round(m[['rss']],2),' GB, peak ',round(m[['peak']],2),' GB')
   }
-  # A single legal state needs no concatenation. bind_rows would copy the
-  # whole 4.9M-row state a second time, and 41 of the 56 rebuild revisions
-  # have exactly one state. Either way the list is dropped before validation,
-  # so the states are not resident alongside the combined frame.
-  combined <- if(length(states)==1L) states[[1]] else dplyr::bind_rows(states)
-  states <- NULL
+  if(n>1L) combined <- assemble_legal_states(paths,counts,template)
+  template <- NULL
   rates <- validate_snapshot_intervals(combined,min(segments$valid_from),max(segments$valid_until))
   combined <- NULL
   if(emit) {
