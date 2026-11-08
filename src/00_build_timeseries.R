@@ -355,12 +355,25 @@ build_full_timeseries <- function(
 
       result$n_rows <- nrow(rates)
       if (nrow(rates) > 0) {
-        ieepa_summary <- rates %>%
-          filter(rate_ieepa_recip > 0) %>%
-          summarise(n_countries = n_distinct(country),
-                    mean_rate   = mean(rate_ieepa_recip))
-        result$ieepa_n_countries <- ieepa_summary$n_countries
-        result$ieepa_mean_rate   <- ieepa_summary$mean_rate
+        # Summarise IEEPA reach from two columns, never by slicing the panel.
+        # `rates %>% filter(rate_ieepa_recip > 0)` materialised all 95 columns
+        # of every matching row just to produce two scalars. IEEPA covers ~88%
+        # of rows from 2025_rev_7 (2025-04-05) onward, so on a multi-state
+        # revision that is a second copy of nearly the whole panel on top of a
+        # panel that is already the largest object in the process. It is what
+        # the kernel OOM-killed on 2025_rev_13: 41.9 GB anon-RSS, 41 s after
+        # the snapshot had been written, with no R-level error to show for it.
+        # The 3-state 2025_rev_4 survived at a 27.06 GB peak only because IEEPA
+        # was not yet in force and the filter matched nothing.
+        #
+        # Equivalence: dplyr's filter() treats NA as FALSE, which the mask
+        # reproduces; length(unique(.)) matches n_distinct()'s 0 on an empty
+        # match, and mean(numeric(0)) is NaN exactly as summarise() returned.
+        recip <- rates$rate_ieepa_recip
+        keep  <- !is.na(recip) & recip > 0
+        result$ieepa_n_countries <- length(unique(rates$country[keep]))
+        result$ieepa_mean_rate   <- mean(recip[keep])
+        recip <- NULL; keep <- NULL
       }
     }, error = function(e) {
       result$status <<- 'failed'
