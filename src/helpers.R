@@ -2158,8 +2158,47 @@ enforce_rate_schema <- function(df) {
   for (col in c('total_additional', 'total_rate')) {
     if (!col %in% names(df)) next
     na_idx <- which(is.na(df[[col]]))
-    if (col == 'total_rate' && length(na_idx) > 0 && 'base_rate' %in% names(df)) {
-      unpriced <- is.na(df$base_rate[na_idx])
+    if (col == 'total_rate' && length(na_idx) > 0) {
+      # `is.na(base_rate)` recognises that lawful case only on the FIRST pass.
+      # The fill below sets base_rate to 0, so a SECOND enforce_rate_schema()
+      # over the same frame -- which the Parquet combine performs on every
+      # saved snapshot (00_build_timeseries.R) -- had lost the evidence and
+      # stopped the build on the very rows the build had already cleared and
+      # counted. 2025_rev_14 carried 765,896 of them: exactly the 382,948 per
+      # legal state the build reported as it wrote the snapshot. This function
+      # is applied twice to the same rows by design, so it must be idempotent.
+      #
+      # calc_status survives the round trip -- it is a parse-time provenance
+      # column, in RATE_SCHEMA, defaulting to 'ok' -- and states the same
+      # condition directly. These three statuses are exactly the ones where the
+      # parser found no complete ad valorem base:
+      #   base_ad_valorem_only    specific-only or compound general rate
+      #   base_not_representable  apportioned / cross_reference /
+      #                           ch98_conditional / alt_base_pct /
+      #                           free_conditional
+      #   needs_manual_review     the general rate did not classify at all
+      # Together they cover every NA total in the rebuild (2025_rev_14:
+      # 427,200 + 199,016 + 139,680 = 765,896). A base the parser could not
+      # classify leaves the ad valorem total unknown for the same reason a
+      # 1c/kg base does.
+      #
+      # This does NOT loosen the guard this was ported for. An authority rate
+      # that entered stacking NA poisons total_additional as well, and that is
+      # caught on this loop's PREVIOUS iteration and never reaches here. A NA
+      # total over a base the parser did resolve still stops the build, because
+      # such a row keeps calc_status 'ok' -- which is also why a frame carrying
+      # neither base_rate nor calc_status still fails loudly.
+      #
+      # Do not substitute rate_basis for calc_status: 'unknown' there spans both
+      # needs_manual_review and base_not_representable, so it would exempt on a
+      # weaker fact than the parser's own verdict.
+      unpriced <- rep(FALSE, length(na_idx))
+      if ('base_rate' %in% names(df))
+        unpriced <- unpriced | is.na(df$base_rate[na_idx])
+      if ('calc_status' %in% names(df))
+        unpriced <- unpriced | df$calc_status[na_idx] %in%
+          c('base_ad_valorem_only', 'base_not_representable',
+            'needs_manual_review')
       if (any(unpriced)) {
         message('  Non-representable base duty: ', sum(unpriced),
                 ' row(s) keep an unknown ad valorem total (specific or ',
