@@ -3049,6 +3049,22 @@
       ],
       "commentary": "Archive-driven from USITC HTS archive Modification Source(s). Use links to validate legal authority, effective dates, and Chapter 99 text.",
       "needs_review": false
+    },
+    "2026_rev_22": {
+      "effective_date": "2026-10-30",
+      "policy_effective_date": "2026-10-30",
+      "policy_family": "section_338_canada",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Further Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed to Offset Canadian Discrimination Against the Commerce of the United States with Respect to Motor Vehicles",
+          "citation": "91 Fed. Reg. 68861",
+          "url": "https://www.federalregister.gov/documents/2026/10/30/2026-22292/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset",
+          "url_type": "fr_document"
+        }
+      ],
+      "commentary": "Identified from the USITC Change Record for 2026 Revision 22 (PP 11076, U.S. note 51(b)(3) modified October 30) and from the original proclamation. The USITC archive listing returned Access Denied earlier on 2026-11-03 and was reachable later the same day; the title, citation and Federal Register link above are the archive's own, and they agree with the citation read independently from the proclamation. effective_date is the USITC releaseStartDate (10/30/2026); policy_effective_date is the proclamation's own 12:01 a.m. ET instant on the same day. The annex is graphic only, so its 22 deleted and 100 inserted subheadings were reconciled three ways, one of them an OCR-free diff of codified note 51(b)(3) between revisions 21 and 22, in docs/audits/2026-11-03-revision-22/annex-reconciliation.json.",
+      "needs_review": false
     }
   }
 }
