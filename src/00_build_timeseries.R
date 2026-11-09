@@ -756,10 +756,15 @@ build_full_timeseries <- function(
 
     rev_part_dir <- file.path(parquet_dir, paste0('revision=', snap$revision[1]))
     dir.create(rev_part_dir, showWarnings = FALSE)
-    arrow::write_parquet(snap %>% select(-revision),
-                          file.path(rev_part_dir, 'data.parquet'),
-                          compression = 'zstd',
-                          compression_level = 3L)
+    # Row groups, not one Arrow table over the whole revision -- see
+    # write_rate_parquet() in src/helpers.R for the measurement. A multi-state
+    # revision converted in one call needs the R frame and an Arrow copy ~2.4x
+    # its character columns at the same time, which is what killed this loop on
+    # 2025_rev_13.
+    write_rate_parquet(snap %>% select(-revision),
+                       file.path(rev_part_dir, 'data.parquet'),
+                       compression = 'zstd',
+                       compression_level = 3L)
 
     rm(snap); gc(verbose = FALSE)
   }

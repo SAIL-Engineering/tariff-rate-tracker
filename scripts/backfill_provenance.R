@@ -74,7 +74,12 @@ for (p in parts) {
 
   if (!dryrun) {
     df$duty_provenance_json <- spliced
-    write_parquet(df, f)
+    # Row groups, not one Arrow table over the whole partition: this reads a
+    # revision in full, so on a multi-state 2025/2026 partition it faced the
+    # same kill the combine did (see write_rate_parquet() in src/helpers.R).
+    # Also writes zstd now, as the combine does -- arrow's default is snappy,
+    # so this used to re-encode a zstd partition on every backfill.
+    write_rate_parquet(df, f, compression = 'zstd', compression_level = 3L)
   }
   total <- total + nrow(df); touched <- touched + n_changed
   message('  ', rev, ': ', n_changed, ' base slots updated / ', nrow(df), ' rows',

@@ -104,7 +104,10 @@ for (i in seq_along(parts)) {
   old_files <- list.files(part, pattern = '\\.parquet$', full.names = TRUE)
   keep_name <- if (length(old_files) == 1) basename(old_files) else 'data.parquet'
   tmp <- file.path(part, '.reported-units.parquet.tmp')
-  arrow::write_parquet(tbl, tmp)
+  # Row groups, not one Arrow table over the whole partition -- see
+  # write_rate_parquet() in src/helpers.R. zstd to match the combine; arrow's
+  # default is snappy, which silently re-encoded the partition.
+  write_rate_parquet(tbl, tmp, compression = 'zstd', compression_level = 3L)
   file.remove(old_files)
   file.rename(tmp, file.path(part, keep_name))
 

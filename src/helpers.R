@@ -677,6 +677,105 @@ open_rate_timeseries <- function(parquet_path = here('data', 'timeseries', 'rate
   ds
 }
 
+#' Write one revision's rate frame to Parquet without materialising it twice
+#'
+#' arrow::write_parquet() converts the WHOLE data.frame into an Arrow table
+#' before writing a byte, and that table is not a cheap view of the R frame. R
+#' keeps one copy of each distinct string in its global CHARSXP cache, so a
+#' character column holds 8-byte pointers into it; Arrow materialises every
+#' row's bytes in full. These frames are 81 character columns wide and the
+#' largest of them hold per-row JSON that repeats heavily across rows
+#' (duty_provenance_json, ch99_rules_json, special_programs_json,
+#' statutory_alternatives_json), so the Arrow table runs well above the R frame
+#' it came from -- and it exists alongside that frame, not instead of it.
+#'
+#' One legal state is ~4.85M rows by 172 columns, and the combine writes all of
+#' a revision's states as one partition. 2025_rev_13 is three states:
+#' 14,548,320 rows, 18.3 GB resident in R. Converting that in one call asked for
+#' roughly 50 GB on top of it and the kernel killed the build 18 minutes into
+#' the write (anon-rss 49,932,564 kB, global_oom, 2026-11-09 13:26:13), after
+#' revision=2025_rev_13/ had been created but before any bytes landed in it.
+#' 2026_rev_22 has four legal states, so this grows rather than being a ceiling.
+#'
+#' Writing row groups through ParquetFileWriter caps the Arrow side at one
+#' chunk, leaving peak memory at the R frame plus a chunk instead of the R frame
+#' plus all of it. rows_per_chunk defaults to 1e6 because that is effectively
+#' what write_parquet already chose -- the partitions it wrote carry ~969,888
+#' rows per row group -- so these files keep the layout the readers already see.
+#'
+#' The output stays a single data.parquet. Arrow would read several files from
+#' one partition directory happily enough, but scripts/backfill_provenance.R
+#' looks up that exact name and skips the revision when it is absent, so
+#' splitting a partition would quietly stop the provenance backfill finding
+#' anything to do.
+#'
+#' Bytes go to a temporary name and are renamed once the writer closes cleanly.
+#' The failed write above left an empty partition directory; a partial file
+#' would have been worse, because open_dataset() reads whatever is there.
+#'
+#' @param df Data frame to write (already schema-enforced and ordered)
+#' @param path Destination .parquet file path
+#' @param rows_per_chunk Rows converted to Arrow at a time
+#' @param compression,compression_level Passed through to the writer properties
+#' @return The path, invisibly
+write_rate_parquet <- function(df, path, rows_per_chunk = 1e6,
+                               compression = 'zstd', compression_level = 3L) {
+  if (!requireNamespace('arrow', quietly = TRUE)) {
+    stop('Package "arrow" is required. Install with: install.packages("arrow")')
+  }
+  n   <- nrow(df)
+  tmp <- paste0(path, '.partial')
+  unlink(tmp)
+
+  props <- arrow::ParquetWriterProperties$create(
+    column_names      = names(df),
+    compression       = compression,
+    compression_level = compression_level)
+  # Column types come from the R classes, which row subsetting cannot change,
+  # so the schema of an empty slice is the schema of every chunk. If that ever
+  # stopped holding, WriteTable() rejects the mismatched table rather than
+  # writing a column under the wrong type.
+  schema <- arrow::Table$create(df[0, , drop = FALSE])$schema
+  sink   <- arrow::FileOutputStream$create(tmp)
+  writer <- arrow::ParquetFileWriter$create(schema, sink, properties = props)
+
+  finished <- FALSE
+  on.exit({
+    if (!finished) {
+      try(writer$Close(), silent = TRUE)
+      try(sink$close(), silent = TRUE)
+      unlink(tmp)
+    }
+  }, add = TRUE)
+
+  if (n == 0) {
+    writer$WriteTable(arrow::Table$create(df), chunk_size = 1L)
+  } else {
+    for (start in seq.int(1L, n, by = rows_per_chunk)) {
+      last  <- min(start + rows_per_chunk - 1L, n)
+      chunk <- arrow::Table$create(df[start:last, , drop = FALSE])
+      writer$WriteTable(chunk, chunk_size = last - start + 1L)
+      # rm() drops the R binding, but the Arrow table's buffers are held by C++
+      # until the R object is finalised, so without a collection here the chunks
+      # accumulate instead of being reused: measured 36.96 GB peak on
+      # 2025_rev_13 against an 18.4 GB frame, where one live chunk costs ~3.4 GB.
+      # The row slice above is an ordinary R copy and needs collecting too.
+      rm(chunk)
+      gc(verbose = FALSE)
+    }
+  }
+
+  writer$Close()
+  try(sink$close(), silent = TRUE)
+  finished <- TRUE
+
+  if (!file.rename(tmp, path)) {
+    unlink(tmp)
+    stop('Wrote ', tmp, ' but could not move it into place at ', path, call. = FALSE)
+  }
+  invisible(path)
+}
+
 #' Query the rate timeseries with optional filters
 #'
 #' Returns a lazy Arrow query (call collect() to materialize).

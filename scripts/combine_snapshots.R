@@ -95,10 +95,13 @@ for (i in seq_along(snapshot_files)) {
   # Write Parquet partitioned by revision
   rev_part_dir <- file.path(parquet_dir, paste0('revision=', snap$revision[1]))
   dir.create(rev_part_dir, showWarnings = FALSE)
-  write_parquet(snap %>% select(-revision),
-                file.path(rev_part_dir, 'data.parquet'),
-                compression = 'zstd',
-                compression_level = 3L)
+  # Row groups, not one Arrow table over the whole revision -- see
+  # write_rate_parquet() in src/helpers.R. This script and the combine inside
+  # 00_build_timeseries.R write the same partitions, so they must stay in step.
+  write_rate_parquet(snap %>% select(-revision),
+                     file.path(rev_part_dir, 'data.parquet'),
+                     compression = 'zstd',
+                     compression_level = 3L)
 
   rm(snap); gc(verbose = FALSE)
 }

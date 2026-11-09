@@ -24,6 +24,11 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+# For write_rate_parquet(). helpers.R defines functions and loads only
+# tidyverse/jsonlite/yaml/here at the top level, so sourcing it here adds no
+# behaviour beyond the writer.
+source(here('src', 'helpers.R'))
+
 USMCA_COUNTRIES <- c('1220', '2010')
 
 patch_parquet_file <- function(pf) {
@@ -33,7 +38,11 @@ patch_parquet_file <- function(pf) {
   }
   tbl$usmca_eligible <- tbl$usmca_eligible & tbl$country %in% USMCA_COUNTRIES
   tmp <- paste0(pf, '.tmp')
-  arrow::write_parquet(tbl, tmp, compression = 'snappy')
+  # Row groups, not one Arrow table over the whole partition -- see
+  # write_rate_parquet() in src/helpers.R. Reads a revision in full, so on a
+  # multi-state 2025/2026 partition it faced the same kill the combine did.
+  # zstd to match the combine rather than re-encoding the partition to snappy.
+  write_rate_parquet(tbl, tmp, compression = 'zstd', compression_level = 3L)
   file.rename(tmp, pf)
   TRUE
 }

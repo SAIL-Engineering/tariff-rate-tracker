@@ -79,7 +79,10 @@ for (i in seq_along(parts)) {
   # atomic write: temp file in the partition dir, then swap in
   old_files <- list.files(part, pattern = '\\.parquet$', full.names = TRUE)
   tmp <- file.path(part, '.part-backfill.parquet.tmp')
-  arrow::write_parquet(tbl, tmp)
+  # Row groups, not one Arrow table over the whole partition -- see
+  # write_rate_parquet() in src/helpers.R. zstd to match the combine; arrow's
+  # default is snappy, which silently re-encoded the partition.
+  write_rate_parquet(tbl, tmp, compression = 'zstd', compression_level = 3L)
   file.remove(old_files)
   file.rename(tmp, file.path(part, 'part-0.parquet'))
 
