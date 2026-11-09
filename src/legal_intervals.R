@@ -311,6 +311,19 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
     source_events$section232_legacy <- load_s232_legacy_source(revision_id)
   }
   segments <- revision_legal_segments(revision_id,revision_dates,policy_params,source_events)
+  # The §338 action columns this revision must carry in EVERY state -- see the
+  # zero-fill in calculate_rates_for_revision() for why a per-state answer is
+  # not enough. The action set comes from the original annex: amendments only
+  # insert and delete products within an existing program (a new program would
+  # leave load_s338_actions()'s heading lookup empty and stop()), so they cannot
+  # change it. Requested only when some state really does reach the in-force
+  # branch, mirroring both of that branch's conditions so this can never add a
+  # column the in-force state will not also have.
+  s338_actions <- character(0)
+  if(!is.null(policy_params$SECTION_338) && !is.null(source_events$section338) &&
+     any(as.Date(segments$valid_from) >= as.Date(policy_params$SECTION_338$effective_date)) &&
+     as.character(policy_params$SECTION_338$country %||% '1220') %in% countries)
+    s338_actions <- sort(unique(vapply(source_events$section338$actions,`[[`,character(1),'program')))
   emit <- emit_normalized %||% !identical(Sys.getenv('SAIL_EMIT_NORMALIZED','1'),'0')
   old_emit <- Sys.getenv('SAIL_EMIT_NORMALIZED',unset=NA_character_)
   on.exit(if(is.na(old_emit)) Sys.unsetenv('SAIL_EMIT_NORMALIZED') else Sys.setenv(SAIL_EMIT_NORMALIZED=old_emit),add=TRUE)
@@ -332,7 +345,7 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
       s232_rates=extract_section232_rates(ch99_data,effective_date=day),
       fentanyl_rates=extract_ieepa_fentanyl_rates(hts_raw,country_lookup,effective_date=day,revision_id=revision_id),
       stacking_method=stacking_method,policy_params=policy_params,ch99_other=ch99_other,
-      s301_exclusions=build_s301_exclusion_candidates(ch99_data,day),
+      s301_exclusions=build_s301_exclusion_candidates(ch99_data,day),s338_actions=s338_actions,
       normalized_output_dir=roots[i],normalized_valid_until=segments$valid_until[i])
     state$valid_from <- day;state$valid_until <- segments$valid_until[i]
     counts[i] <- nrow(state)

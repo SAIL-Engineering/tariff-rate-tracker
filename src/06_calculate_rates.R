@@ -646,6 +646,7 @@ calculate_rates_for_revision <- function(
   policy_params = NULL,
   ch99_other = NULL,
   s301_exclusions = NULL,
+  s338_actions = character(0),
   normalized_output_dir = NULL,
   normalized_valid_until = NULL
 ) {
@@ -3266,6 +3267,39 @@ calculate_rates_for_revision <- function(
     } else {
       message('  Section 338 Canada not applicable to this revision (effective ',
               s338_cfg$effective_date, ')')
+    }
+    # Every legal state of a revision must carry the same columns, and the
+    # per-action columns above are created ONLY on the in-force branch. §338
+    # commenced 2026-08-22, inside 2026_rev_16's window (2026-08-14 to
+    # 2026-08-23): state 1 precedes commencement and state 2 does not, so state
+    # 2 carried nine columns state 1 lacked and the revision could not be
+    # assembled at all.
+    #
+    # Each action column takes the value its own aggregate already takes before
+    # commencement, which is NOT the same on both sides: rate_s338 is 0 (the
+    # guard in add_total_rate(), and compute_s338_components() likewise returns
+    # rate 0 for a pre-commencement date) while statutory_rate_s338 is NA,
+    # because nothing source-backed establishes a §338 duty that has not
+    # commenced. So the modeled action is 0 and the statutory action is NA, and
+    # each component agrees with the aggregate it sums into. Filling 0 on the
+    # statutory side would assert a source-backed zero the sources do not give;
+    # bind_rows() used to fill BOTH sides with NA, which left modeled components
+    # reading NA against a modeled aggregate of 0.
+    #
+    # s338_actions is the revision-wide action set supplied by
+    # calculate_revision_legal_states(). It is empty unless some state of this
+    # revision actually reaches the in-force branch, so revisions wholly before
+    # commencement gain no columns, and revisions wholly after it already have
+    # them and are left untouched. NA_real_ keeps the column numeric, which the
+    # type half of check_legal_state_schema() requires. This runs before
+    # project_shipment_state(), which derives the modeled_legacy_statutory_*
+    # names by renaming, so those follow from these.
+    .s338_fill <- c(statutory_rate_s338_ = NA_real_, modeled_rate_s338_ = 0)
+    for (.action in s338_actions) {
+      for (.prefix in names(.s338_fill)) {
+        .col <- paste0(.prefix, .action)
+        if (!.col %in% names(rates)) rates[[.col]] <- unname(.s338_fill[[.prefix]])
+      }
     }
   }
 
