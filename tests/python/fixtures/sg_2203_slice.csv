@@ -1,0 +1,8 @@
+GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SECTION,CHAPTER,PDF_PAGE,PRINTED_PAGE
+2203,22.03,Beer made from malt.,0,,,,,,IV,22,113,94
+,,Stout or porter :,1,,,,,,IV,22,113,94
+22030011,2203.00.11,Of an alcoholic strength by volume not exceeding 5.8 % vol.,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94
+22030019,2203.00.19,Other,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94
+,,"Other, including ale :",1,,,,,,IV,22,113,94
+22030091,2203.00.91,Of an alcoholic strength by volume not exceeding 5.8 % vol.,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94
+22030099,2203.00.99,Other,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94

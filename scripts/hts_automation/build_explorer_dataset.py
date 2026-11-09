@@ -14,6 +14,16 @@ build_duty_rates.py is the richer surface):
       special = compact preferential summary, other = General Tariff
   EU  empty — EU duties are measures (per-origin), not schedule columns
   DO  general = Grav. (MFN %); ITBIS/Selectivo are taxes, not tariffs -> duty JSON
+  SG  general = CUSTOMS DUTY (FULL), special = CUSTOMS DUTY (PREF),
+      other   = EXCISE DUTY, prefixed "Excise: ".
+
+      Singapore prints all three in the schedule, and almost every line is
+      blank in all three because the duty is genuinely nil, not because the
+      source is silent: of 14,460 codes, 8 carry a full customs duty (beer and
+      samsu), 16 a preferential one, and 597 an excise duty (chapters 21, 22,
+      24, 27, 33, 38 and 87). The "other" column means US Column 2 elsewhere,
+      so the excise value is prefixed rather than dropped in bare - it must
+      never be read as a customs rate.
 
   build_explorer_dataset.py <csv> --source-format cbsa --jurisdiction CA \
       --out ca_2026_revision_2.json
@@ -59,7 +69,9 @@ def _do_rates(csv_path: Path) -> dict[str, dict[str, str]]:
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("csv_path", type=Path)
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "ch", "kr", "tw"), required=True)
+    p.add_argument("--source-format",
+                   choices=("cbsa", "taric", "dga", "ch", "kr", "tw", "sg"),
+                   required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--lang", default="en")
     p.add_argument("--out", type=Path, required=True)
@@ -68,10 +80,17 @@ def main() -> int:
     bhc.CORPUS_LANG = args.lang if args.lang in bhc._BASKET_RES else "en"
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
                "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr,
-               "tw": bhc.load_rows_tw}
+               "tw": bhc.load_rows_tw, "sg": bhc.load_rows_sg}
     rows, stats = loaders[args.source_format](args.csv_path)
 
     rates: dict[str, dict[str, str]] = {}
+    if args.source_format == "sg":
+        # The duty columns are already on the parsed row, keyed by code.
+        with args.csv_path.open(newline="", encoding="utf-8-sig") as fh:
+            for row in csv.DictReader(fh):
+                digits = (row.get("GOODS_CODE") or "").strip()
+                if digits:
+                    rates[digits] = row
     if args.source_format == "cbsa":
         rates = _ca_rates(args.csv_path)
     elif args.source_format == "dga":
@@ -91,6 +110,12 @@ def main() -> int:
             parts = [f"{c}: {r[c].strip()}" for c in CA_SPECIAL_COLS
                      if (r.get(c) or "").strip()]
             special = "; ".join(parts)
+        elif args.source_format == "sg" and digits in rates:
+            r = rates[digits]
+            general = (r.get("DUTY_FULL") or "").strip()
+            special = (r.get("DUTY_PREF") or "").strip()
+            excise = (r.get("EXCISE") or "").strip()
+            other = f"Excise: {excise}" if excise else ""
         elif args.source_format == "dga" and digits in rates:
             grav = rates[digits].get("Grav.") or rates[digits].get("Grav") or ""
             general = f"{grav}%" if grav else ""

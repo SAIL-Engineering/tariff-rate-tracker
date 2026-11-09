@@ -1,0 +1,12 @@
+[
+  {"query": "live koi carp ornamental freshwater fish", "expect_heading": "0301"},
+  {"query": "beer made from malt stout", "expect_heading": "2203"},
+  {"query": "men's cotton t-shirt knitted short sleeve", "expect_heading": "6109"},
+  {"query": "laptop computer portable automatic data processing machine", "expect_heading": "8471"},
+  {"query": "stainless steel wood screws", "expect_heading": "7318"},
+  {"query": "fresh bananas", "expect_heading": "0803"},
+  {"query": "cigarettes containing tobacco", "expect_heading": "2402"},
+  {"query": "motor car spark ignition engine saloon", "expect_heading": "8703"},
+  {"query": "ships bunkers fuel oil loaded on board for own consumption", "expect_heading": "9893"},
+  {"query": "natural honey", "expect_heading": "0409"}
+]

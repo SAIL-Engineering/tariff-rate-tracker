@@ -85,9 +85,13 @@ def build_ctx(spec: dict, res) -> RunCtx:
         (spec.get("notes") or {}).get("out_dir", "data/hts_notes/{revision}"),
         ctx,
     )
-    notes_prefix = f"us_{ctx['revision']}.notes"
-    # Notes are currently US-only, but defining their logical artifacts for
-    # every context keeps the generic preflight/ship machinery declarative.
+    notes_prefix = f"{ctx['jur_lower']}_{ctx['revision']}.notes"
+    # The prefix was hard-coded to "us_" while the US corpus was the only one.
+    # Singapore now has one too (data/hts_notes/sg_2022/sg_2022.notes.*, from
+    # scripts/hts_automation/parse_sg_stcced.py), and jur_lower is "us" for the
+    # US, so this is the same string there and these paths stay unchanged.
+    # Defining the logical artifacts for every context keeps the generic
+    # preflight/ship machinery declarative.
     ctx["notes_dir"] = notes_dir
     ctx["notes_json"] = str(Path(notes_dir) / f"{notes_prefix}.json")
     ctx["notes_manifest"] = str(Path(notes_dir) / f"{notes_prefix}.manifest.json")

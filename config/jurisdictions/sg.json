@@ -1,0 +1,56 @@
+{
+  "_comment": "Singapore — Trade Classification, Customs and Excise Duties (STCCED), 2022 edition, the current one. Singapore publishes NO machine-readable schedule: the only source is a 655-page PDF (https://file.go.gov.sg/stcced2022.pdf) linked from customs.gov.sg. So there is no acquire adapter and no scheduled refresh — the PDF is fetched by hand into data/sg_tariff_source/ and scripts/hts_automation/parse_sg_stcced.py converts it, emitting both the tariff CSV this spec consumes and the legal-notes corpus under data/hts_notes/sg_2022/. The edition is annual at most and has no revision numbering, so revision_id_pattern is the bare year. Codes are 8-digit; hierarchy is the dash depth the book prints.",
+  "_comment_verify": "No verify thresholds: those compare a new revision against its predecessor, and there is only one edition. Add them when a second edition lands.",
+  "code": "SG",
+  "name": "Singapore",
+  "tariff_schedule_name": "Singapore Trade Classification, Customs and Excise Duties (STCCED)",
+  "lang": "en",
+  "acquire": {
+    "adapter": "manual",
+    "manual_dir": "data/sg_tariff_source",
+    "manual_prefix": "stcced",
+    "options": {
+      "source_url": "https://file.go.gov.sg/stcced2022.pdf",
+      "landing_url": "https://www.customs.gov.sg/doing-business/business-resources/hs-classification-of-goods/understanding-hs-classification/",
+      "parser": "scripts/hts_automation/parse_sg_stcced.py",
+      "system_requires": ["pdftotext"]
+    }
+  },
+  "source_format": "sg",
+  "chapters_file": "scripts/hts_automation/chapters_sg.json",
+  "max_depth": 8,
+  "revision_id_pattern": "{year}",
+  "namespace_pattern": "sg__{year}",
+  "stem_pattern": "sg_{year}",
+  "registry": "config/jurisdictions/sg_revisions.csv",
+  "steps": [
+    "build",
+    "publish",
+    "register"
+  ],
+  "publish": {
+    "keep": 2,
+    "golden_queries": "config/jurisdictions/sg_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "sg_stcced_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/sg_{year}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/sg_{year}_revision_0.json"
+      }
+    ],
+    "prune_keep": 2,
+    "tag_name": "sg-stcced-{year}",
+    "commit_message": "chore: Singapore STCCED {year} dataset node index"
+  }
+}

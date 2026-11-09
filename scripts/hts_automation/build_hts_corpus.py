@@ -463,6 +463,70 @@ def load_rows_tw(path: Path):
     return rows, stats
 
 
+def _sg_display(digits: str) -> str:
+    """Singapore dotting, as the STCCED prints it: 0101 -> "01.01",
+    010130 -> "0101.30", 01012100 -> "0101.21.00". The schedule stops at 8."""
+    if len(digits) <= 4:
+        return f"{digits[:2]}.{digits[2:]}" if len(digits) == 4 else digits
+    if len(digits) <= 6:
+        return f"{digits[:4]}.{digits[4:]}"
+    return f"{digits[:4]}.{digits[4:6]}.{digits[6:]}"
+
+
+def load_rows_sg(path: Path):
+    """Canonical sg CSV from scripts/hts_automation/parse_sg_stcced.py.
+
+    Singapore publishes no machine-readable schedule, so this CSV is parsed out
+    of the STCCED PDF. Two things make it the simplest of these loaders:
+
+      * INDENT is the dash depth the book itself prints ("- - - Oxen"), not an
+        inference, and it was checked against digit-prefix parentage for all
+        14,460 codes before being written out.
+      * Uncoded rows are carried through with an empty code, which is exactly
+        what build_tree() wants for a condition row. The printed book relies on
+        them heavily: "- Horses :" is what distinguishes the two codes beneath
+        it, both of which read only "Pure-bred breeding animals" and "Other".
+
+    `official_leaf_digits` comes from the UNIT OF QUANTITY column, which is
+    Singapore's own marker of a reportable line, not from anything this
+    pipeline derives. That makes the exit-7 cross-check a real given-truth
+    test: the parser reported leaf set and unit-bearing set agreeing exactly at
+    11,423 codes with no exception either way, and this asserts the tree
+    rebuilt here still agrees.
+    """
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            unit = (r.get("UNIT") or "").strip()
+            if not digits:
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": indent,
+                             "_code": "", "_digits": ""})
+                continue
+            if not digits.isdigit() or len(digits) not in (4, 6, 8):
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate Singapore code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if unit:
+                stats.official_leaf_digits.add(digits)
+            display = _sg_display(digits)
+            rows.append({"HTS Number": display, "Description": desc,
+                         "Unit of Quantity": unit, "_indent": indent,
+                         "_code": display, "_digits": digits})
+    return rows, stats
+
+
 def load_rows_ch(path: Path):
     rows = []
     stats = LoadStats()
@@ -902,12 +966,16 @@ def main() -> int:
     p.add_argument("out_stem", help="Output base name; .jsonl and .manifest.json are appended")
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
-    p.add_argument("--source-format", choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw"), default="usitc",
+    p.add_argument("--source-format",
+                   choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw", "sg"),
+                   default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
                         "taric = the canonical EU CSV from acquire/eu_taric.py; "
                         "dga = the Dominican Republic Arancel CSV (Spanish, "
-                        "dash-prefix hierarchy).")
+                        "dash-prefix hierarchy); sg = the Singapore STCCED CSV "
+                        "from parse_sg_stcced.py (8-digit, dash-prefix "
+                        "hierarchy printed in the source).")
     p.add_argument("--lang", choices=tuple(_BASKET_RES), default="en",
                    help="Corpus language: drives basket-provision detection "
                         "('Los demás') and the exclusion-clause template.")
@@ -926,7 +994,8 @@ def main() -> int:
 
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
                "taric": load_rows_taric, "dga": load_rows_dga,
-               "ch": load_rows_ch, "kr": load_rows_kr, "tw": load_rows_tw}
+               "ch": load_rows_ch, "kr": load_rows_kr, "tw": load_rows_tw,
+               "sg": load_rows_sg}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

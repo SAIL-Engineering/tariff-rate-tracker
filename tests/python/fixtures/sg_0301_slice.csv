@@ -1,0 +1,50 @@
+GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SECTION,CHAPTER,PDF_PAGE,PRINTED_PAGE
+0301,03.01,Live fish.,0,,,,,,I,03,27,8
+,,Ornamental fish :,1,,,,,,I,03,27,8
+030111,0301.11,Freshwater :,2,,,,,,I,03,27,8
+03011110,0301.11.10,Fry,3,CEN,,,,1,I,03,27,8
+,,Other :,3,,,,,,I,03,27,8
+03011191,0301.11.91,Koi carp (Cyprinus carpio),4,CEN,,,,1,I,03,27,8
+03011192,0301.11.92,Goldfish (Carassius auratus),4,CEN,,,,1,I,03,27,8
+03011193,0301.11.93,Siamese fighting fish (Beta splendens),4,CEN,,,,1,I,03,27,8
+03011195,0301.11.95,Arowanas (Scleropages formosus),4,CEN,,,,1,I,03,27,8
+03011199,0301.11.99,Other,4,CEN,,,,1,I,03,27,8
+030119,0301.19,Other :,2,,,,,,I,03,27,8
+03011910,0301.19.10,Fry,3,CEN,,,,1,I,03,27,8
+03011990,0301.19.90,Other,3,CEN,,,,1,I,03,27,8
+,,Other live fish :,1,,,,,,I,03,27,8
+03019100,0301.91.00,"Trout (Salmo trutta, Oncorhynchus mykiss, Oncorhynchus clarki, Oncorhynchus aguabonita, Oncorhynchus gilae, Oncorhynchus apache and Oncorhynchus chrysogaster)",2,TNE,,,,1,I,03,27,8
+03019200,0301.92.00,Eels (Anguilla spp.),2,TNE,,,,1,I,03,27,8
+030193,0301.93,"Carp (Cyprinus spp., Carassius spp., Ctenopharyngodon idellus, Hypophthalmichthys spp., Cirrhinus spp., Mylopharyngodon piceus, Catla catla, Labeo spp., Osteochilus hasselti, Leptobarbus hoeveni, Megalobrama spp.) :",2,,,,,,I,03,27,8
+,,"Cyprinus spp., Carassius spp., Ctenopharyngodon idellus, Hypophthalmichthys spp., Cirrhinus spp., Mylopharyngodon piceus :",3,,,,,,I,03,27,8
+03019321,0301.93.21,"Breeding, other than fry",4,TNE,,,,1,I,03,27,8
+03019322,0301.93.22,Fry,4,TNE,,,,1,I,03,27,8
+03019329,0301.93.29,Other,4,TNE,,,,1,I,03,27,8
+,,"Catla catla, Labeo spp., Osteochilus hasselti, Leptobarbus hoeveni, Megalobrama spp. :",3,,,,,,I,03,28,9
+03019331,0301.93.31,"Breeding, other than fry",4,TNE,,,,1,I,03,28,9
+03019332,0301.93.32,Fry,4,TNE,,,,1,I,03,28,9
+03019339,0301.93.39,Other,4,TNE,,,,1,I,03,28,9
+03019400,0301.94.00,"Atlantic and Pacific bluefin tunas (Thunnus thynnus, Thunnus orientalis)",2,TNE,,,,1,I,03,28,9
+03019500,0301.95.00,Southern bluefin tunas (Thunnus maccoyii),2,TNE,,,,1,I,03,28,9
+030199,0301.99,Other :,2,,,,,,I,03,28,9
+,,"Milkfish and Grouper, fry :",3,,,,,,I,03,28,9
+03019911,0301.99.11,Breeding,4,TNE,,,,1,I,03,28,9
+03019919,0301.99.19,Other,4,TNE,,,,1,I,03,28,9
+,,Other fish fry :,3,,,,,,I,03,28,9
+03019922,0301.99.22,"Other carp, breeding",4,TNE,,,,1,I,03,28,9
+03019923,0301.99.23,Other carp,4,TNE,,,,1,I,03,28,9
+03019924,0301.99.24,"Other, breeding",4,TNE,,,,1,I,03,28,9
+03019929,0301.99.29,Other,4,TNE,,,,1,I,03,28,9
+,,"Milkfish and grouper, other than fry :",3,,,,,,I,03,28,9
+03019931,0301.99.31,"Milkfish, breeding",4,TNE,,,,1,I,03,28,9
+03019932,0301.99.32,"Milkfish, other",4,TNE,,,,1,I,03,28,9
+03019933,0301.99.33,Leopard coral grouper (Plectropomus leopardus),4,TNE,,,,1,I,03,28,9
+03019934,0301.99.34,Brown-marbled grouper (Epinephelus fuscoguttatus),4,TNE,,,,1,I,03,28,9
+03019935,0301.99.35,Humpback grouper (Cromileptes altivelis),4,TNE,,,,1,I,03,28,9
+03019936,0301.99.36,Other grouper,4,TNE,,,,1,I,03,28,9
+,,"Other, freshwater fish :",3,,,,,,I,03,28,9
+03019941,0301.99.41,Tilapias (Oreochromis spp.),4,TNE,,,,1,I,03,28,9
+03019942,0301.99.42,"Other carp, for breeding",4,TNE,,,,1,I,03,28,9
+03019949,0301.99.49,Other,4,TNE,,,,1,I,03,28,9
+03019950,0301.99.50,"Other, marine fish",3,TNE,,,,1,I,03,28,9
+03019990,0301.99.90,Other,3,TNE,,,,1,I,03,28,9

@@ -136,6 +136,10 @@ data/eu_tariff_source/.circabc_download/
 data/gb_tariff_source/.uk_download/
 data/ch_tariff_source/.ch_download/
 data/kr_tariff_source/.kr_download/
+# Singapore's only source is an 11 MB PDF; the canonical CSV parsed out of it
+# is tracked instead, with its sha256 in config/jurisdictions/sg_revisions.csv.
+data/sg_tariff_source/.sg_download/
+data/sg_tariff_source/*.xml
 data/tw_tariff_source/.tw_download/
 
 # USITC legal-notes cache and generated sidecars. The source-PDF checksums and
