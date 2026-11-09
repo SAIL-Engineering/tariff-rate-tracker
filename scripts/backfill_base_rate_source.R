@@ -76,15 +76,25 @@ for (i in seq_along(parts)) {
   if ('base_rate_source' %in% names(tbl)) tbl$base_rate_source <- NULL  # --force redo
   tbl <- tbl %>% left_join(last_map, by = 'hts10')
 
-  # atomic write: temp file in the partition dir, then swap in
+  # atomic write: temp file in the partition dir, then swap in under the name
+  # that is already there. This used to swap in as 'part-0.parquet' whatever it
+  # found, so a partition it touched stopped being readable by anything that
+  # looks the file up by name -- scripts/backfill_provenance.R opens
+  # '<partition>/data.parquet' and silently next()s the revision when it is
+  # absent, so one run of this script would quietly remove revisions from the
+  # provenance backfill's reach. Every live partition is 'data.parquet' (the
+  # combine writes that name) and nothing anywhere reads 'part-0.parquet', so
+  # the old name had no reader to serve. Arrow itself globs the directory and
+  # does not care either way.
   old_files <- list.files(part, pattern = '\\.parquet$', full.names = TRUE)
+  keep_name <- if (length(old_files) == 1) basename(old_files) else 'data.parquet'
   tmp <- file.path(part, '.part-backfill.parquet.tmp')
   # Row groups, not one Arrow table over the whole partition -- see
   # write_rate_parquet() in src/helpers.R. zstd to match the combine; arrow's
   # default is snappy, which silently re-encoded the partition.
   write_rate_parquet(tbl, tmp, compression = 'zstd', compression_level = 3L)
   file.remove(old_files)
-  file.rename(tmp, file.path(part, 'part-0.parquet'))
+  file.rename(tmp, file.path(part, keep_name))
 
   n_done <- n_done + 1L
   n_na <- sum(is.na(tbl$base_rate_source))
