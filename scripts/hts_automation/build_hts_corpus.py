@@ -527,6 +527,68 @@ def load_rows_sg(path: Path):
     return rows, stats
 
 
+def _my_display(digits: str) -> str:
+    """Malaysian dotting, as P.U. (A) 384 prints it: 0101 -> "01.01",
+    010130 -> "0101.30", 29034300 -> "2903.43.00",
+    0101210000 -> "0101.21.00 00" (the statistical pair is set apart)."""
+    if len(digits) <= 4:
+        return f"{digits[:2]}.{digits[2:]}" if len(digits) == 4 else digits
+    if len(digits) <= 6:
+        return f"{digits[:4]}.{digits[4:]}"
+    if len(digits) <= 8:
+        return f"{digits[:4]}.{digits[4:6]}.{digits[6:]}"
+    return f"{digits[:4]}.{digits[4:6]}.{digits[6:8]} {digits[8:]}"
+
+
+def load_rows_my(path: Path):
+    """Canonical my CSV from scripts/hts_automation/parse_my_pdk.py.
+
+    Structure comes from the gazette (P.U. (A) 384) and the extra rate columns
+    from the ezHS portal, joined there by code — the portal's own table is
+    sorted rather than in document order, so it cannot carry a dash-depth
+    hierarchy. See that script's header.
+
+    Code lengths 4, 6, 8 and 10 are all real. The 8-digit ones are internal
+    nodes with 10-digit children (2903.43.00 over 2903.43.00 10/20/30), not
+    truncations, so no padding happens here.
+
+    `official_leaf_digits` comes from the UNIT column, Malaysia's own marker of
+    a reportable line: all 11,441 ten-digit lines carry one and nothing else
+    does, so the exit-7 cross-check is a real given-truth test.
+    """
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            desc = " ".join((r.get("DESCRIPTION") or "").split())
+            indent = int(r.get("INDENT") or 0)
+            unit = (r.get("UNIT") or "").strip()
+            if not digits:
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": indent,
+                             "_code": "", "_digits": ""})
+                continue
+            if not digits.isdigit() or len(digits) not in (4, 6, 8, 10):
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate Malaysian code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if unit:
+                stats.official_leaf_digits.add(digits)
+            display = _my_display(digits)
+            rows.append({"HTS Number": display, "Description": desc,
+                         "Unit of Quantity": unit, "_indent": indent,
+                         "_code": display, "_digits": digits})
+    return rows, stats
+
+
 def load_rows_ch(path: Path):
     rows = []
     stats = LoadStats()
@@ -967,7 +1029,8 @@ def main() -> int:
     p.add_argument("--jurisdiction", required=True, help="ISO alpha-2, e.g. US")
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
     p.add_argument("--source-format",
-                   choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw", "sg"),
+                   choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw",
+                            "sg", "my"),
                    default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
@@ -975,7 +1038,9 @@ def main() -> int:
                         "dga = the Dominican Republic Arancel CSV (Spanish, "
                         "dash-prefix hierarchy); sg = the Singapore STCCED CSV "
                         "from parse_sg_stcced.py (8-digit, dash-prefix "
-                        "hierarchy printed in the source).")
+                        "hierarchy printed in the source); my = the Malaysian "
+                        "PDK CSV from parse_my_pdk.py (gazette structure, "
+                        "portal rates).")
     p.add_argument("--lang", choices=tuple(_BASKET_RES), default="en",
                    help="Corpus language: drives basket-provision detection "
                         "('Los demás') and the exclusion-clause template.")
@@ -995,7 +1060,7 @@ def main() -> int:
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
                "taric": load_rows_taric, "dga": load_rows_dga,
                "ch": load_rows_ch, "kr": load_rows_kr, "tw": load_rows_tw,
-               "sg": load_rows_sg}
+               "sg": load_rows_sg, "my": load_rows_my}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

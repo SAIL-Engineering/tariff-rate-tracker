@@ -140,6 +140,10 @@ data/kr_tariff_source/.kr_download/
 # is tracked instead, with its sha256 in config/jurisdictions/sg_revisions.csv.
 data/sg_tariff_source/.sg_download/
 data/sg_tariff_source/*.xml
+# Malaysia: a 25 MB gazette PDF plus a 5.7 MB portal page. The canonical CSV
+# parsed out of them is tracked instead, with both sha256s in my_revisions.csv.
+data/my_tariff_source/.my_download/
+data/my_tariff_source/*.xml
 data/tw_tariff_source/.tw_download/
 
 # USITC legal-notes cache and generated sidecars. The source-PDF checksums and

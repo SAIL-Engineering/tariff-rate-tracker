@@ -1,0 +1,10 @@
+GOODS_CODE,DISPLAY,HEADING,DESCRIPTION,INDENT,UNIT,IMPORT_RATE,IMPORT_RATE_BASIS,EXPORT_RATE,TRQ_IN_QUOTA,TRQ_OUT_QUOTA,TRQ_AGENCY,SST,EXCISE,CESS_1,CESS_2,CESS_3,IS_LEAF,SECTION,CHAPTER,PDF_PAGE
+2903420000,2903.42.00 00,29.03,Difluoromethane (HFC-32),2,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+29034300,2903.43.00 ,29.03,"Fluoromethane (HFC-41), 1,2difluoroethane (HFC-152) and 1,1difluoroethane (HFC-152a)",2,,,,,,,,,,,,,,VI,29,287
+2903430010,2903.43.00 10,29.03,Fluoromethane (HFC-41),3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+2903430020,2903.43.00 20,29.03,"1,1-difluoroethane (HFC-152a)",3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+2903430030,2903.43.00 30,29.03,"1,2-difluoroethane (HFC-152)",3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+29034400,2903.44.00 ,29.03,"Pentafluoroethane (HFC-125), 1,1,1trifluoroethane (HFC143a) and 1,1,2trifluoroethane (HFC-143)",2,,,,,,,,,,,,,,VI,29,287
+2903440010,2903.44.00 10,29.03,Pentafluoroethane (HFC-125),3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+2903440020,2903.44.00 20,29.03,"1,1,1-trifluoroethane (HFC-143a)",3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287
+2903440030,2903.44.00 30,29.03,"1,1,2-trifluoroethane (HFC-143)",3,kg,0%,schedule,0%,,,,5%,,,,,1,VI,29,287

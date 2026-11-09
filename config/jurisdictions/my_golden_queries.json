@@ -1,0 +1,12 @@
+[
+  {"query": "live swine weighing less than 50 kg", "expect_heading": "0103"},
+  {"query": "palm oil crude", "expect_heading": "1511"},
+  {"query": "natural rubber ribbed smoked sheets", "expect_heading": "4001"},
+  {"query": "men's cotton t-shirt knitted", "expect_heading": "6109"},
+  {"query": "laptop computer portable data processing machine", "expect_heading": "8471"},
+  {"query": "motor car spark ignition saloon", "expect_heading": "8703"},
+  {"query": "cigarettes containing tobacco", "expect_heading": "2402"},
+  {"query": "integrated circuits processors and controllers", "expect_heading": "8542"},
+  {"query": "stainless steel wood screws", "expect_heading": "7318"},
+  {"query": "fresh bananas", "expect_heading": "0803"}
+]

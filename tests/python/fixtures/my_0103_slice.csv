@@ -1,0 +1,6 @@
+GOODS_CODE,DISPLAY,HEADING,DESCRIPTION,INDENT,UNIT,IMPORT_RATE,IMPORT_RATE_BASIS,EXPORT_RATE,TRQ_IN_QUOTA,TRQ_OUT_QUOTA,TRQ_AGENCY,SST,EXCISE,CESS_1,CESS_2,CESS_3,IS_LEAF,SECTION,CHAPTER,PDF_PAGE
+0103,0103,01.03,Live swine.,0,,,,,,,,,,,,,,I,01,17
+0103100000,0103.10.00 00,01.03,Pure-bred breeding animals,1,u,0%,schedule,0%,,,,0%,,,,,1,I,01,17
+,,01.03,Other,1,,,,,,,,,,,,,,,,17
+0103910000,0103.91.00 00,01.03,Weighing less than 50kg,2,u,,trq_appendix_b,0%,15%,20%,Department of Veterinary Services,0%,,,,,1,I,01,17
+0103920000,0103.92.00 00,01.03,Weighing 50kg or more,2,u,,trq_appendix_b,0%,15%,20%,Department of Veterinary Services,0%,,,,,1,I,01,17

@@ -24,6 +24,15 @@ build_duty_rates.py is the richer surface):
       24, 27, 33, 38 and 87). The "other" column means US Column 2 elsewhere,
       so the excise value is prefixed rather than dropped in bare - it must
       never be read as a customs rate.
+  MY  general = import duty, special = the tariff-rate-quota detail where one
+      applies, other = sales tax, excise and export duty, each labelled.
+
+      Malaysia prints real rates: of 11,441 lines, 11,414 carry an import duty
+      and 27 are quota-controlled with the figures in Appendix B of the
+      gazette. A quota line's import duty is deliberately EMPTY with
+      IMPORT_RATE_BASIS=trq_appendix_b, because the portal shows it blank and
+      reading that as zero would publish quota-controlled meat as duty-free;
+      the in-quota and out-of-quota rates go in `special` instead.
 
   build_explorer_dataset.py <csv> --source-format cbsa --jurisdiction CA \
       --out ca_2026_revision_2.json
@@ -70,7 +79,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("csv_path", type=Path)
     p.add_argument("--source-format",
-                   choices=("cbsa", "taric", "dga", "ch", "kr", "tw", "sg"),
+                   choices=("cbsa", "taric", "dga", "ch", "kr", "tw", "sg", "my"),
                    required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--lang", default="en")
@@ -80,11 +89,12 @@ def main() -> int:
     bhc.CORPUS_LANG = args.lang if args.lang in bhc._BASKET_RES else "en"
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
                "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr,
-               "tw": bhc.load_rows_tw, "sg": bhc.load_rows_sg}
+               "tw": bhc.load_rows_tw, "sg": bhc.load_rows_sg,
+               "my": bhc.load_rows_my}
     rows, stats = loaders[args.source_format](args.csv_path)
 
     rates: dict[str, dict[str, str]] = {}
-    if args.source_format == "sg":
+    if args.source_format in ("sg", "my"):
         # The duty columns are already on the parsed row, keyed by code.
         with args.csv_path.open(newline="", encoding="utf-8-sig") as fh:
             for row in csv.DictReader(fh):
@@ -116,6 +126,26 @@ def main() -> int:
             special = (r.get("DUTY_PREF") or "").strip()
             excise = (r.get("EXCISE") or "").strip()
             other = f"Excise: {excise}" if excise else ""
+        elif args.source_format == "my" and digits in rates:
+            r = rates[digits]
+            general = (r.get("IMPORT_RATE") or "").strip()
+            in_q = (r.get("TRQ_IN_QUOTA") or "").strip()
+            out_q = (r.get("TRQ_OUT_QUOTA") or "").strip()
+            if in_q or out_q:
+                agency = (r.get("TRQ_AGENCY") or "").strip()
+                special = (f"TRQ in-quota: {in_q or '-'}; out-of-quota: "
+                           f"{out_q or '-'}" + (f" ({agency})" if agency else ""))
+            parts = []
+            for label, key in (("SST", "SST"), ("Excise", "EXCISE"),
+                               ("Export", "EXPORT_RATE")):
+                value = (r.get(key) or "").strip()
+                if value:
+                    parts.append(f"{label}: {value}")
+            for i in (1, 2, 3):
+                value = (r.get(f"CESS_{i}") or "").strip()
+                if value:
+                    parts.append(f"Cess {i}: {value}")
+            other = "; ".join(parts)
         elif args.source_format == "dga" and digits in rates:
             grav = rates[digits].get("Grav.") or rates[digits].get("Grav") or ""
             general = f"{grav}%" if grav else ""

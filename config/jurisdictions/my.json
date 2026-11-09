@@ -1,0 +1,58 @@
+{
+  "_comment": "Malaysia — Customs Duties Order 2025, P.U. (A) 384, in force 1 November 2025. TWO sources, both needed. Structure, descriptions and the import/export duties come from the gazette PDF (1,466 pages), because the ezHS portal's table is sorted rather than in document order and so cannot carry the dash-depth hierarchy. Sales tax, excise and cess come from the portal (https://ezhs.customs.gov.my/public-tariff), joined by 10-digit code; the portal has no duplicate codes, so the join is exact. Tariff-rate-quota figures come from Appendix B of the gazette, which the portal leaves blank. Codes are 4/6/8/10 digits and the 8-digit ones are internal nodes, not truncations. Neither source is downloadable on a schedule, so there is no adapter: both are fetched by hand and scripts/hts_automation/parse_my_pdk.py converts them.",
+  "_comment_ftas": "The portal also serves 19 preferential schedules (ATIGA, ACFTA, AHKFTA, MPCEPA, AKFTA, AJCEP, AANZFTA, AINDFTA, MNZFTA, MICECA, D8PTA, MCFTA, MAFTA, MTFTA, RCEP, CPTPP, TPS-OIC, MY-UAE-CEPA) at the same URL shape with a per-scheme km key. Out of scope here: a preferential rate is per-origin and belongs in the duty-rates surface, not in the Explorer's three rate columns.",
+  "_comment_verify": "No verify thresholds: those compare a revision against its predecessor and this is the first edition captured.",
+  "code": "MY",
+  "name": "Malaysia",
+  "tariff_schedule_name": "Malaysia Customs Duties Order (PDK)",
+  "lang": "en",
+  "acquire": {
+    "adapter": "manual",
+    "manual_dir": "data/my_tariff_source",
+    "manual_prefix": "my_tariff",
+    "options": {
+      "gazette_url": "https://www.customs.gov.my/images/06-prosedur/perintah-kastam/perintah/PUA_384.pdf",
+      "portal_url": "https://ezhs.customs.gov.my/",
+      "portal_scheme": "PDK 2025",
+      "parser": "scripts/hts_automation/parse_my_pdk.py",
+      "system_requires": ["pdftotext"]
+    }
+  },
+  "source_format": "my",
+  "chapters_file": "scripts/hts_automation/chapters_my.json",
+  "max_depth": 10,
+  "revision_id_pattern": "pdk{year}",
+  "namespace_pattern": "my__pdk{year}",
+  "stem_pattern": "my_pdk{year}",
+  "registry": "config/jurisdictions/my_revisions.csv",
+  "steps": [
+    "build",
+    "publish",
+    "register"
+  ],
+  "publish": {
+    "keep": 2,
+    "golden_queries": "config/jurisdictions/my_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "my_pdk_{year}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/my_pdk{year}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/my_pdk{year}_revision_0.json"
+      }
+    ],
+    "prune_keep": 2,
+    "tag_name": "my-pdk-{year}",
+    "commit_message": "chore: Malaysia PDK {year} dataset node index"
+  }
+}
