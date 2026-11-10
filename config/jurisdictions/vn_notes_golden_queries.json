@@ -1,0 +1,8 @@
+[
+  {"family": "section", "query": "reference to a genus or species of animal includes the young of that species", "expect_cite_id": "SN-I-1"},
+  {"family": "section", "query": "this section does not cover animal brush making bristles or human hair", "expect_cite_id": "SN-XI-1"},
+  {"family": "chapter", "query": "this chapter covers all live animals except fish and crustaceans", "expect_cite_id": "N-1-1"},
+  {"family": "chapter", "query": "pellets means products agglomerated by compression or with a binder", "expect_cite_id": "N-3-2"},
+  {"family": "chapter", "query": "starch content and ash content criteria for products of the milling of cereals", "expect_cite_id": "N-11-2"},
+  {"family": "chapter", "query": "homogenised preparations of meat put up for retail sale as infant food", "expect_cite_id": "SHN-16-1"}
+]

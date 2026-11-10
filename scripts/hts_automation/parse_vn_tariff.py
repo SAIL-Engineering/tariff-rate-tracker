@@ -136,6 +136,37 @@ EXPECTED = {
     "ch98_corresponding_pair": 569,
     "ch98_distinct_codes": 531,
     "ch98_rows": 662,
+    # Chapter 98's English, composed from the Chapter 1-97 rows each line points
+    # at: 447 of the 531 English-less CODED rows resolve. The 268 left without a
+    # description are the ones that should not have one -- 84 chapter 98 group
+    # headers plus the 184 uncoded grouping rows in that chapter, which carry
+    # structure rather than goods.
+    "desc_en_composed_from_corresponding": 447,
+    "desc_en_absent": 268,
+    # UNCODED GROUPING ROWS. Every one of these qualifies the lines nested under
+    # it ("- Horses:", "- Loại khác:") and so has to reach build_tree() as a
+    # condition row. 2,273 carry a coded TYPE marker with an empty code cell
+    # (2,345 such rows exist; 72 of them are note bullets, below); the other 182
+    # are in chapter 98, which marks nothing and is read from the dash prefix. Dropping them is not neutral: without them the row BELOW a
+    # group header adopts the coded row above it, which mis-parented 2,734 lines
+    # and made 504 unit-bearing codes internal nodes.
+    "condition_rows": 2455,
+    # Bullet lines inside note blocks that the sheet marks with a coded type
+    # code; uncoded and dash-prefixed, so indistinguishable from a group header
+    # except by the open note block. See parse_workbook().
+    "note_bullet_as_code_row": 72,
+    # Two chapter-98 rows REPEAT a code that already appeared at a shallower
+    # dash depth, as the header of a nested group: 9808 (row 19086) and 9849.43
+    # (row 19889, "- - Loại khác (trừ loại thuộc phân nhóm 8506.10 ...)"). They
+    # are group headers, not a second tariff line, so collapse_ch98() turns them
+    # into condition rows -- the same treatment the Dominican Arancel needs for
+    # its three repeated 6-digit codes. Hence 2,455 + 2 in the emitted CSV.
+    "condition_rows_collapsed": 2457,
+    # ONE grouping row legitimately qualifies nothing: "- - Loại khác:" at sheet
+    # row 19500 heads the four malformed 9849.17/9849.19 codes, which are
+    # excluded from the tree as anomalies, so its children are gone with them.
+    # Pinned rather than tolerated: a second one would mean a depth read wrong.
+    "stranded_grouping_rows": 1,
 }
 # The source carries section and chapter notes and NO interpretative rules, so
 # only these two families may be asserted. A count that merely matches cannot
@@ -212,6 +243,19 @@ class Row:
     sheet_row: int
 
 
+def condition_row(indent: int, en: str, vi: str, section: str,
+                  chapter: int | None, sheet_row: int) -> "Row":
+    """An uncoded grouping row, in the shape build_tree() reads as a condition.
+
+    Everything a coded row carries is absent by definition -- no code, no
+    display, no unit, no rate -- so only the depth and the text are real."""
+    return Row(code="", display="", indent=indent, desc_en=en, desc_vi=vi,
+               unit="", corresponding="", mfn="", ordinary="", vat="",
+               mfn_doc="", mfn_date="",
+               section=section_of(chapter) if chapter else section,
+               chapter=chapter, sheet_row=sheet_row)
+
+
 @dataclass
 class NoteBlock:
     kind: str
@@ -228,6 +272,7 @@ class Parse:
     rows: list = field(default_factory=list)
     notes: list = field(default_factory=list)
     chapters: dict = field(default_factory=dict)
+    sections: dict = field(default_factory=dict)
     stats: Counter = field(default_factory=Counter)
     anomalies: list = field(default_factory=list)
 
@@ -241,6 +286,11 @@ def parse_workbook(path: Path) -> Parse:
     chapter: int | None = None
     note_kind = ""
     current: NoteBlock | None = None
+    # Chapter 98 carries NO type marker on any of its rows (see dash_depth), so
+    # the only signal that we are inside it is a code beginning 98. It is the
+    # last chapter in the sheet, so this latches once and never has to unlatch;
+    # the else-branch is there so a reordered edition cannot silently inherit it.
+    in_ch98 = False
 
     def close_note() -> None:
         nonlocal current
@@ -281,7 +331,14 @@ def parse_workbook(path: Path) -> Parse:
                 out.chapters.setdefault(chapter, {"section": section_of(chapter) or section})
                 out.chapters[chapter]["title"] = en or vi
             continue
-        if rtype in (T_SECTION_TITLE, T_SUBCHAPTER, T_SUBCHAPTER_TITLE):
+        if rtype == T_SECTION_TITLE:
+            # The section's own title, printed on the row after its header. The
+            # chapters file carries it per chapter (sectionTitle), the same shape
+            # chapters_sg.json and chapters_my.json use.
+            if section:
+                out.sections.setdefault(section, en or vi)
+            continue
+        if rtype in (T_SUBCHAPTER, T_SUBCHAPTER_TITLE):
             continue
         if rtype in T_NOTES_HDRS:
             close_note()
@@ -313,14 +370,44 @@ def parse_workbook(path: Path) -> Parse:
             continue
 
         has_code = bool(digits_of(raw[C_CODE]))
-        if rtype in T_CODE or (has_code and not rtype):
+        if has_code:
+            in_ch98 = digits_of(raw[C_CODE])[:2] == "98"
+        # An uncoded grouping row inside chapter 98 has neither a code nor a type
+        # marker; the dash prefix is all it has, so require one. That excludes
+        # the chapter's three unmarked prelude lines ("Chương 98", its title and
+        # the "3. Danh mục ..." lead-in), which carry no dashes.
+        is_ch98_group = in_ch98 and not rtype and not has_code and dash_depth(vi) >= 1
+        if rtype in T_CODE or (has_code and not rtype) or is_ch98_group:
+            if not digits_of(raw[C_CODE]) and (current is not None or note_kind):
+                # NOT a grouping row. 72 bullet lines INSIDE note blocks carry a
+                # coded type marker instead of a note-paragraph one -- chapter
+                # 28's note 1 ("- individual nuclides, excluding, however ...")
+                # and chapter 61's subheading note 3(a) defining a suit ("- one
+                # suit coat or jacket the outer shell of which ..."). They are
+                # uncoded and dash-prefixed, so they look exactly like a group
+                # header; what tells them apart is that a note block is still
+                # open, and a real group header can never be the first thing
+                # after a chapter's notes (its heading row has to come first).
+                # They stay out of the tree. They are also not recovered into
+                # the note body -- a separate, pre-existing gap in this parser.
+                out.stats["note_bullet_as_code_row"] += 1
+                continue
             close_note()
             note_kind = ""
             d = digits_of(raw[C_CODE])
-            if not d:
-                continue
             indent = (T_CODE[rtype] if rtype in T_CODE
                       else dash_depth(vi or en))
+            if not d:
+                # CONDITION ROW. It has no code of its own and it is not a
+                # classification target, but it OCCUPIES its indent level and
+                # its text is what distinguishes the lines beneath it, so it has
+                # to survive into the CSV exactly as the SG and MY parsers emit
+                # theirs. build_tree() consumes a row with an empty code as a
+                # condition row and nothing else.
+                out.rows.append(condition_row(indent, en, vi, section,
+                                              98 if in_ch98 else chapter, i))
+                out.stats["condition_rows"] += 1
+                continue
             if rtype not in T_CODE:
                 out.stats["row_without_type_marker"] += 1
             if len(d) not in (4, 6, 8):
@@ -373,7 +460,7 @@ def tree_leaves(rows: list) -> set:
     """Codes no other code extends. The source's own unit-of-quantity column is
     the independent witness: validate() requires the two to agree exactly, which
     is the same cross-check that holds Singapore and Malaysia."""
-    codes = {r.code for r in rows}
+    codes = {r.code for r in rows if r.code}
     lengths = sorted({len(c) for c in codes})
     # Mark each code's shorter prefixes as internal, rather than asking of every
     # code whether any other extends it: the latter is O(n^2) and takes minutes
@@ -387,7 +474,49 @@ def tree_leaves(rows: list) -> set:
     return codes - internal
 
 
-CSV_COLUMNS = ["GOODS_CODE", "DISPLAY", "DESCRIPTION", "INDENT", "UNIT",
+RE_LEAD_DASHES = re.compile(r"^(?:-\s+)+")
+
+
+def compose_ch98_english(row, english_by_code, display_by_code):
+    """English for a chapter 98 line, composed from the rows it points at.
+
+    Chapter 98 is Vietnam's special-preference chapter and the workbook prints it
+    in Vietnamese ONLY -- 531 coded rows carry no English. The chapter is not
+    separate goods, though: each line gives an alternative rate for goods
+    classified elsewhere, and names those Chapter 1-97 codes in the column this
+    parser reads as CORRESPONDING_CODES. Those rows DO have English, in this same
+    file.
+
+    So the English is composed from source text rather than translated or left
+    blank: "Goods of 0306.15.00 (Norway lobsters (Nephrops norvegicus))" for
+    9804.15.00. Nothing is invented -- the description is another row's own
+    English and the mapping is the one the schedule prints. It resolves 447 of
+    the 531 (84.2%); the remaining 84 are group headers with no corresponding
+    code, which legitimately have no description.
+
+    The leading dashes are stripped from the borrowed text: that depth describes
+    the DONOR row's position in the Chapter 1-97 tree, and carrying it over would
+    assert an indent this chapter 98 row does not have.
+
+    DESCRIPTION_SOURCE records which of the three happened, so a consumer can
+    tell the schedule's own English from a composition, and never has to guess.
+    """
+    if row.desc_en:
+        return row.desc_en, "source"
+    if not row.corresponding:
+        return "", "absent"
+    parts = []
+    for code in row.corresponding.split(";"):
+        desc = english_by_code.get(code)
+        if not desc:
+            continue
+        parts.append(f"{display_by_code.get(code, code)} ({RE_LEAD_DASHES.sub('', desc)})")
+    if not parts:
+        return "", "absent"
+    return f"Goods of {'; '.join(parts)}", "composed_from_corresponding"
+
+
+CSV_COLUMNS = ["GOODS_CODE", "DISPLAY", "DESCRIPTION", "DESCRIPTION_SOURCE", "INDENT", "UNIT",
                "CORRESPONDING_CODES", "MFN_RATE", "ORDINARY_RATE", "VAT",
                "MFN_DECREE", "MFN_EFFECTIVE", "IS_LEAF", "SECTION", "CHAPTER",
                "SHEET_ROW"]
@@ -403,8 +532,21 @@ def collapse_ch98(rows: list) -> list:
     substance of the chapter and must survive."""
     out, seen = [], {}
     for r in rows:
+        if not r.code:
+            # A condition row has no identity to collapse on, and all of them
+            # would collapse onto each other if it tried.
+            out.append(r)
+            continue
         if r.code in seen:
             prev = seen[r.code]
+            if r.indent != prev.indent:
+                # Not a pairing repeat: the chapter prints the heading's code
+                # again on the header of a nested group one dash deeper. Keeping
+                # it as a code would be a duplicate; dropping it would orphan
+                # the lines beneath it onto their own sibling. It is a condition.
+                out.append(condition_row(r.indent, r.desc_en, r.desc_vi,
+                                         r.section, r.chapter, r.sheet_row))
+                continue
             if r.corresponding and r.corresponding not in prev.corresponding.split(";"):
                 prev.corresponding = (f"{prev.corresponding};{r.corresponding}"
                                       if prev.corresponding else r.corresponding)
@@ -421,14 +563,21 @@ def write_csv(parse: Parse, path: Path, language: str) -> int:
     --lang and needs a per-language row set, not a per-language column."""
     rows = collapse_ch98(parse.rows)
     leaves = tree_leaves(rows)
+    english_by_code = {r.code: r.desc_en for r in rows if r.desc_en}
+    display_by_code = {r.code: r.display for r in rows}
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
         w.writeheader()
         for r in rows:
+            if language == "vi":
+                desc, src = r.desc_vi, "source" if r.desc_vi else "absent"
+            else:
+                desc, src = compose_ch98_english(r, english_by_code, display_by_code)
+                parse.stats[f"desc_en_{src}"] += 1
             w.writerow({
                 "GOODS_CODE": r.code, "DISPLAY": r.display,
-                "DESCRIPTION": r.desc_vi if language == "vi" else r.desc_en,
+                "DESCRIPTION": desc, "DESCRIPTION_SOURCE": src,
                 "INDENT": r.indent, "UNIT": r.unit,
                 "CORRESPONDING_CODES": r.corresponding,
                 "MFN_RATE": r.mfn, "ORDINARY_RATE": r.ordinary, "VAT": r.vat,
@@ -439,9 +588,34 @@ def write_csv(parse: Parse, path: Path, language: str) -> int:
     return len(rows)
 
 
+# Chapter 98 is Vietnam's own chapter and the sheet gives it no type marker, so
+# parse_workbook() never sees a chapter header for it and it would be missing
+# from the chapters file -- which build_hts_corpus.py reports as "chapters with
+# codes but no chapters-file entry" and then builds every chapter-98 record with
+# no chapter prefix at all. Its printed Vietnamese heading is a sentence rather
+# than a title ("QUY ĐỊNH MÃ HÀNG VÀ MỨC THUẾ SUẤT THUẾ NHẬP KHẨU ƯU ĐÃI
+# RIÊNG ..."), and the workbook prints no English for it anywhere, so the entry
+# is stated here rather than scraped.
+CH98_ENTRY = {
+    "chapter": "98",
+    "description": "Commodity codes and separate preferential import duty rates",
+    "section": "",
+    "sectionTitle": "",
+}
+
+
 def write_chapters(parse: Parse, path: Path) -> None:
-    payload = {str(k): {"title": v.get("title", ""), "section": v.get("section", "")}
-               for k, v in sorted(parse.chapters.items())}
+    """A LIST of {chapter, description, section, sectionTitle}, chapter numbers
+    zero-padded -- the shape build_hts_corpus.load_chapters() reads and the
+    shape chapters_sg.json and chapters_my.json already have. A dict keyed by an
+    unpadded number, which this wrote first, makes load_chapters() raise on
+    `c["chapter"]` before the corpus build starts."""
+    payload = [{"chapter": f"{k:02d}",
+                "description": v.get("title", ""),
+                "section": v.get("section", ""),
+                "sectionTitle": parse.sections.get(v.get("section", ""), "")}
+               for k, v in sorted(parse.chapters.items())]
+    payload.append(dict(CH98_ENTRY))
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
                     encoding="utf-8")
 
@@ -600,8 +774,11 @@ def validate(parse: Parse, records: dict) -> list[str]:
         "chapter_hdr": parse.stats["chapter_hdr"],
         "no_english": parse.stats["no_english"],
         "no_english_outside_ch98": parse.stats["no_english_outside_ch98"],
+        "condition_rows": parse.stats["condition_rows"],
+        "note_bullet_as_code_row": parse.stats["note_bullet_as_code_row"],
+        "condition_rows_collapsed": sum(1 for r in collapsed if not r.code),
     }
-    core = [r for r in collapsed if r.code[:2] != "98"]
+    core = [r for r in collapsed if r.code and r.code[:2] != "98"]
     ch98 = [r for r in collapsed if r.code[:2] == "98"]
     got["core_leaves"] = sum(1 for r in core if r.code in leaves)
     got["core_rows_with_unit"] = sum(1 for r in core if r.unit)
@@ -609,6 +786,18 @@ def validate(parse: Parse, records: dict) -> list[str]:
     got["ch98_distinct_codes"] = len(ch98)
     got["ch98_rows"] = sum(1 for r in parse.rows if r.code[:2] == "98")
     got["row_without_type_marker"] = parse.stats["row_without_type_marker"]
+    got["desc_en_composed_from_corresponding"] = parse.stats["desc_en_composed_from_corresponding"]
+    got["desc_en_absent"] = parse.stats["desc_en_absent"]
+    # A grouping row that is not followed by something deeper governs nothing,
+    # which is the signature of a depth read off the wrong column -- the failure
+    # that drops a whole branch while every count still adds up.
+    stranded = [r.sheet_row for i, r in enumerate(collapsed)
+                if not r.code and (i + 1 >= len(collapsed)
+                                   or collapsed[i + 1].indent <= r.indent)]
+    got["stranded_grouping_rows"] = len(stranded)
+    if stranded != [19500]:
+        errors.append(f"grouping rows qualifying no line: {stranded[:10]} "
+                      f"(only sheet row 19500 is expected -- see EXPECTED)")
     # The strong cross-check, scoped to the AHTN schedule: two independent
     # witnesses in the same file -- the indent column and the unit column -- must
     # name the same leaf set. Chapter 98 is excluded because its unit column is
@@ -632,6 +821,8 @@ def validate(parse: Parse, records: dict) -> list[str]:
     # the (code, corresponding code) pairing the chapter is made of.
     seen: dict = {}
     for r in parse.rows:
+        if not r.code:
+            continue
         if r.code in seen and r.code[:2] != "98":
             errors.append(f"duplicate code {r.display} outside chapter 98 "
                           f"(sheet rows {seen[r.code]} and {r.sheet_row})")
@@ -666,6 +857,7 @@ def main() -> int:
           f"{parse.stats['digits_8']:,} eight)")
     print(f"  tree leaves {len(leaves):,}; rows carrying a unit of quantity "
           f"{parse.stats['rows_with_unit']:,}")
+    print(f"  grouping (condition) rows: {parse.stats['condition_rows']:,}")
     print(f"  sections {parse.stats['section_hdr']}, chapters {parse.stats['chapter_hdr']}, "
           f"chapter titles {len(parse.chapters)}")
     print(f"  no English: {parse.stats['no_english']} "

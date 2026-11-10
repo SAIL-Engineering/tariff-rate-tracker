@@ -82,6 +82,10 @@ _BASKET_RES = {
     "it": re.compile(r"^(altr[oie]|altre)$", re.IGNORECASE),
     "ko": re.compile(r"^(기타)$"),
     "zh": re.compile(r"^(其他|其他者)$"),
+    # Vietnamese prints the residual as "Loại khác" ("other kind") on 4,147
+    # lines of the 2026 schedule; the bare "Khác" is the form the preferential
+    # sheets use for the same provision.
+    "vi": re.compile(r"^(lo[ạa]i\s+kh[áa]c|kh[áa]c)$", re.IGNORECASE),
 }
 _EXCLUSION_TEMPLATES = {
     "en": "{desc}, other than: {clause}",
@@ -91,6 +95,7 @@ _EXCLUSION_TEMPLATES = {
     "it": "{desc}, diversi da: {clause}",
     "ko": "{desc} (제외: {clause})",
     "zh": "{desc}（不包括：{clause}）",
+    "vi": "{desc}, trừ: {clause}",
 }
 CORPUS_LANG = "en"
 
@@ -589,6 +594,106 @@ def load_rows_my(path: Path):
     return rows, stats
 
 
+# Vietnam's CSV keeps the dash prefix the schedule PRINTS ("- - Pure-bred
+# breeding animals"), because depth there is stated by the source's own row-type
+# column and the dashes are typography rather than the hierarchy signal they are
+# for the Dominican Arancel. They still have to come off before the text is
+# embedded: with them on, NOT ONE of the 4,076 English "Other" lines (4,147
+# "Loại khác") is recognised as a basket provision, so the single biggest class
+# of residual codes in the schedule goes into Pinecone as the uninformative
+# string it starts as. Requiring whitespace after each dash is what keeps
+# "- -Thionyl clorua" and "-Vòng nhôm 3077 (Mini)" intact -- there the dash is
+# part of the name the source prints.
+_VN_DASH_RE = re.compile(r"^(?:-\s+)+")
+
+
+def _vn_display(digits: str) -> str:
+    """Vietnamese dotting, as the Import-Export Tariff prints it: 0101 ->
+    "01.01", 010130 -> "0101.30", 01012100 -> "0101.21.00". Same three forms as
+    Singapore (both schedules are AHTN 2022 and stop at 8 digits), kept separate
+    so a later Vietnamese edition can diverge without moving SG's output.
+    Chapter 98 shares the dotting: 9849.17.11 is printed like any other line."""
+    if len(digits) <= 4:
+        return f"{digits[:2]}.{digits[2:]}" if len(digits) == 4 else digits
+    if len(digits) <= 6:
+        return f"{digits[:4]}.{digits[4:]}"
+    return f"{digits[:4]}.{digits[4:6]}.{digits[6:]}"
+
+
+def load_rows_vn(path: Path):
+    """Canonical vn CSV from scripts/hts_automation/parse_vn_tariff.py.
+
+    Vietnam states its structure outright: on the source sheet the row's TYPE
+    cell encodes its depth, so INDENT is read rather than inferred, and the
+    uncoded grouping rows come through with an empty code exactly as they do for
+    Singapore and Malaysia. Codes are 4, 6 and 8 digits; the schedule never goes
+    to 10, so --max-depth is 8.
+
+    `official_leaf_digits` HAS TO BE READ PER CHAPTER, which is the one thing
+    this loader does that SG's and MY's do not:
+
+      * Chapters 1-97 are the AHTN schedule, and there the UNIT column is
+        Vietnam's own marker of a reportable line. 11,414 rows carry one and the
+        tree rebuilt from the printed indents has exactly those 11,414 leaves,
+        so the exit-7 cross-check is a real given-truth test.
+      * Chapter 98 is Vietnam's national special-preference chapter, and its
+        UNIT column is EMPTY throughout: the source overloads that column with
+        the Chapter 1-97 code each preferential line maps to, which the parser
+        moves to CORRESPONDING_CODES. Reading the unit as a leaf marker there
+        would declare the whole chapter leafless and fail the cross-check with
+        459 "official non-leaves" that are the chapter's entire set of
+        classification targets. So chapter 98's leaf flag comes from IS_LEAF,
+        the column the parser derives from code extension -- still independent
+        of the indent tree this builder reconstructs, which is what the
+        cross-check is actually testing.
+    """
+    rows = []
+    stats = LoadStats()
+    stats.official_leaf_digits = set()
+    seen: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            stats.raw_row_count += 1
+            digits = (r.get("GOODS_CODE") or "").strip()
+            desc = _VN_DASH_RE.sub("", " ".join((r.get("DESCRIPTION") or "").split()))
+            indent = int(r.get("INDENT") or 0)
+            unit = (r.get("UNIT") or "").strip()
+            if not digits:
+                stats.condition_row_count += 1
+                rows.append({"HTS Number": "", "Description": desc,
+                             "Unit of Quantity": "", "_indent": indent,
+                             "_code": "", "_digits": ""})
+                continue
+            if not digits.isdigit() or len(digits) not in (4, 6, 8):
+                raise SystemExit(f"ERROR: bad GOODS_CODE {digits!r} in {path.name}")
+            if digits in seen:
+                raise SystemExit(f"ERROR: duplicate Vietnamese code {digits}")
+            seen.add(digits)
+            stats.coded_row_count += 1
+            stats.coded_digits.add(digits)
+            if digits[:2] == "98":
+                # The overload leaves residue on ten rows: 9811.00.10/90 carry
+                # "7224"/"7229" (chapter 1-97 HEADINGS, too short for the
+                # parser's 6-to-10-digit corresponding-code rule) and eight
+                # more carry the classification instruction the schedule prints
+                # in that cell ("Tùy theo bản chất mặt hàng ..." -- classify by
+                # the nature of the goods under Section I, Appendix II). None
+                # of it is a unit of quantity, and publishing an HS heading as
+                # one is worse than publishing nothing, so the column is
+                # dropped for the whole chapter rather than filtered.
+                official_leaf = (r.get("IS_LEAF") or "").strip() == "1"
+                unit = ""
+            else:
+                official_leaf = bool(unit)
+            if official_leaf:
+                stats.official_leaf_digits.add(digits)
+            display = _vn_display(digits)
+            rows.append({"HTS Number": display, "Description": desc,
+                         "Unit of Quantity": unit, "_indent": indent,
+                         "_code": display, "_digits": digits})
+    return rows, stats
+
+
 def load_rows_ch(path: Path):
     rows = []
     stats = LoadStats()
@@ -1030,7 +1135,7 @@ def main() -> int:
     p.add_argument("--revision", required=True, help="e.g. 2026_rev_12")
     p.add_argument("--source-format",
                    choices=("usitc", "cbsa", "taric", "dga", "ch", "kr", "tw",
-                            "sg", "my"),
+                            "sg", "my", "vn"),
                    default="usitc",
                    help="usitc = US CSV with an Indent column; cbsa = Canadian "
                         "export where hierarchy is implied by code digit length; "
@@ -1040,7 +1145,10 @@ def main() -> int:
                         "from parse_sg_stcced.py (8-digit, dash-prefix "
                         "hierarchy printed in the source); my = the Malaysian "
                         "PDK CSV from parse_my_pdk.py (gazette structure, "
-                        "portal rates).")
+                        "portal rates); vn = the Vietnamese Import-Export "
+                        "Tariff CSV from parse_vn_tariff.py (indent stated by "
+                        "the source; chapter 98 marks its leaves differently "
+                        "from chapters 1-97).")
     p.add_argument("--lang", choices=tuple(_BASKET_RES), default="en",
                    help="Corpus language: drives basket-provision detection "
                         "('Los demás') and the exclusion-clause template.")
@@ -1060,7 +1168,7 @@ def main() -> int:
     loaders = {"usitc": load_rows, "cbsa": load_rows_cbsa,
                "taric": load_rows_taric, "dga": load_rows_dga,
                "ch": load_rows_ch, "kr": load_rows_kr, "tw": load_rows_tw,
-               "sg": load_rows_sg, "my": load_rows_my}
+               "sg": load_rows_sg, "my": load_rows_my, "vn": load_rows_vn}
     raw_rows, load_stats = loaders[args.source_format](csv_path)
     chapters_map = load_chapters(chapters_path)
     roots = build_tree(raw_rows)

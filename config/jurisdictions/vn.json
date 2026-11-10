@@ -1,0 +1,72 @@
+{
+  "_comment": "Vietnam — the Import-Export Tariff (Biểu thuế xuất khẩu, nhập khẩu) as compiled at 5 April 2026. Vietnam publishes no machine-readable schedule of its own: the source is one 32 MB bilingual xlsx workbook, compiled by the Quang Ninh Customs Sub-Department and redistributed through a third-party law library, so there is no acquire adapter and no scheduled refresh. The workbook is fetched by hand into data/vn_tariff_source/.vn_download/ and scripts/hts_automation/parse_vn_tariff.py converts it, emitting the tariff CSV this spec consumes in BOTH languages (vn_tariff_<rev>.csv and .vi.csv, same codes and indents in the same order) plus the legal-notes corpus under data/hts_notes/vn_2026_0405/. Codes are 4/6/8 digits and the schedule never goes to 10, so max_depth is 8 — not 10 like Malaysia. Hierarchy is STATED by the source (the row's type cell encodes its depth) rather than inferred from printed dashes.",
+  "_comment_authority": "The workbook is NOT the issuing instrument. Vietnam enacts its schedule by Government / Ministry of Finance Decree, and the Decree is the citable authority; each rate cell in the source names its own Decree and effective date (MFN_DECREE, MFN_EFFECTIVE in the CSV) so a published rate can be cited. Anything built from this file should say so.",
+  "_comment_ch98": "Chapter 98 is Vietnam's own special-preference chapter — alternative duty lines for specified goods otherwise classified in chapters 1-97 — and it behaves differently from the AHTN schedule in three ways the loader has to know about: its rows carry no type marker (depth comes from the printed dash prefix), its UNIT column is empty because the source overloads it with the chapter 1-97 code each line maps to (moved to CORRESPONDING_CODES), and so its leaf flag comes from IS_LEAF rather than from a unit of quantity. See load_rows_vn() in build_hts_corpus.py.",
+  "_comment_lang": "lang is en because the workbook is bilingual for chapters 1-97 (100% English there) and the English CSV is the default build. It is NOT bilingual for chapter 98: the source prints no English for any of its 531 lines, so a Vietnamese corpus built from the .vi.csv with --lang vi is the only one in which chapter 98 carries retrievable prose. The vi basket pattern and exclusion template are registered in build_hts_corpus.py for exactly that build.",
+  "_comment_revision": "The revision id is the workbook's compilation date, 5 April 2026 -> 2026_0405, because the source has no edition or revision numbering of its own. The short link in circulation encodes the same date, so a later edition is expected to appear under a NEW link rather than at this URL. No resolver consumes revision_id_pattern today; it records the shape.",
+  "_comment_verify": "No verify thresholds: those compare a revision against its predecessor and this is the first edition captured.",
+  "code": "VN",
+  "name": "Vietnam",
+  "tariff_schedule_name": "Vietnam Import-Export Tariff",
+  "lang": "en",
+  "acquire": {
+    "adapter": "manual",
+    "manual_dir": "data/vn_tariff_source",
+    "manual_prefix": "vn_tariff",
+    "manual_revision": {
+      "rev_id": "2026_0405",
+      "year": 2026,
+      "rev_num": 405,
+      "source": "vn_tariff_2026_0405.csv",
+      "effective_date": "2026-04-05",
+      "effective_date_label": "Import-Export Tariff workbook as at 5 April 2026",
+      "_comment": "The workbook is versioned by compilation DATE, not number, so rev_num is mmdd: it orders correctly and keeps two 2026 editions distinct under hts_revisions' (country, year, number) key."
+    },
+    "options": {
+      "source_url": "https://docs.google.com/spreadsheets/d/1Tv3kzX5M-HOA0GoFjaGydTrHWD8piDh5/export?format=xlsx",
+      "landing_url": "https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/ho-tro-phap-luat/chinh-sach-moi/109354/",
+      "sheet": "BT2026",
+      "parser": "scripts/hts_automation/parse_vn_tariff.py",
+      "python_requires": [
+        "openpyxl"
+      ]
+    }
+  },
+  "source_format": "vn",
+  "chapters_file": "scripts/hts_automation/chapters_vn.json",
+  "max_depth": 8,
+  "revision_id_pattern": "{year}_{mmdd}",
+  "namespace_pattern": "vn__{revision}",
+  "stem_pattern": "vn_{revision}",
+  "registry": "config/jurisdictions/vn_revisions.csv",
+  "steps": [
+    "build",
+    "publish",
+    "register"
+  ],
+  "publish": {
+    "keep": 2,
+    "golden_queries": "config/jurisdictions/vn_golden_queries.json"
+  },
+  "register": {
+    "ragie_partition_id_template": "vn_tariff_{revision}",
+    "promote_country_pointer": true
+  },
+  "ship": {
+    "owner": "SAIL-Engineering",
+    "repo": "sail-gtx-prerelease",
+    "also": [
+      {
+        "from": "codes_json",
+        "to": "server/data/hts/vn_{revision}.codes.json"
+      },
+      {
+        "from": "explorer_json",
+        "to": "server/data/hts/vn_{revision}_revision_0.json"
+      }
+    ],
+    "prune_keep": 2,
+    "tag_name": "vn-tariff-{revision}",
+    "commit_message": "chore: Vietnam Import-Export Tariff {revision} dataset node index"
+  }
+}

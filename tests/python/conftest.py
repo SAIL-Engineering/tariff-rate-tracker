@@ -34,7 +34,8 @@ def build(csv_path: Path, chapters_path: Path, *, source_format="usitc",
     """Run the full in-process pipeline the way main() does."""
     loaders = {"usitc": bhc.load_rows, "cbsa": bhc.load_rows_cbsa,
                "taric": bhc.load_rows_taric, "dga": bhc.load_rows_dga,
-               "sg": bhc.load_rows_sg, "my": bhc.load_rows_my}
+               "sg": bhc.load_rows_sg, "my": bhc.load_rows_my,
+               "vn": bhc.load_rows_vn}
     rows, stats = loaders[source_format](csv_path)
     chapters = bhc.load_chapters(chapters_path)
     roots = bhc.build_tree(rows)

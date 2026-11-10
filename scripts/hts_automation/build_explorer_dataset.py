@@ -33,6 +33,23 @@ build_duty_rates.py is the richer surface):
       IMPORT_RATE_BASIS=trq_appendix_b, because the portal shows it blank and
       reading that as zero would publish quota-controlled meat as duty-free;
       the in-quota and out-of-quota rates go in `special` instead.
+  VN  general = MFN_RATE (the preferential duty), other = ORDINARY_RATE
+      prefixed "Ordinary rate: ", special = the VAT band and, on chapter 98
+      lines, the Chapter 1-97 codes the line maps to, both labelled.
+
+      Vietnam prints TWO import duty columns and they must never be swapped.
+      The MFN rate is what an eligible importer pays; the ordinary rate is what
+      applies ABSENT MFN or FTA eligibility and is higher by construction (27 vs
+      40.5 on frozen shrimp). "other" means US Column 2 elsewhere, which is the
+      same idea, but the value is still labelled rather than left bare so it can
+      never be read as the MFN figure. Both are percentages and are suffixed "%"
+      only when the cell is purely numeric: 49 of them carry a qualifier the
+      source states in words ("40 (NHN: 80)" = 40% in quota, 80% out; "150%
+      thuế MFN" = 150% OF the MFN duty), and those pass through verbatim.
+
+      The VAT band ("8/10", "*/5/8/10") is a tax, not a tariff, so it is named
+      in `special` rather than put in a duty column; "*" means not subject to
+      VAT and the alternatives are the successive statutory bands.
 
   build_explorer_dataset.py <csv> --source-format cbsa --jurisdiction CA \
       --out ca_2026_revision_2.json
@@ -64,6 +81,23 @@ def _ca_rates(csv_path: Path) -> dict[str, dict[str, str]]:
     return out
 
 
+def _vn_pct(value: str | None) -> str:
+    """Vietnam states its duty columns as bare percentages, so the sign has to
+    be added here -- but only where the cell is nothing but a number. 49 of the
+    distinct values carry the qualifier the source prints with them, e.g.
+    "40 (NHN: 80)" (40% within quota, 80% outside) or "150% thuế MFN" (150% OF
+    the MFN duty, not 150 percentage points), and appending "%" to those would
+    state a rate the schedule does not."""
+    raw = (value or "").strip()
+    if not raw:
+        return ""
+    try:
+        float(raw)
+    except ValueError:
+        return raw
+    return f"{raw}%"
+
+
 def _do_rates(csv_path: Path) -> dict[str, dict[str, str]]:
     out: dict[str, dict[str, str]] = {}
     with csv_path.open(newline="", encoding="utf-8-sig") as fh:
@@ -79,7 +113,8 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("csv_path", type=Path)
     p.add_argument("--source-format",
-                   choices=("cbsa", "taric", "dga", "ch", "kr", "tw", "sg", "my"),
+                   choices=("cbsa", "taric", "dga", "ch", "kr", "tw", "sg", "my",
+                            "vn"),
                    required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--lang", default="en")
@@ -90,11 +125,11 @@ def main() -> int:
     loaders = {"cbsa": bhc.load_rows_cbsa, "taric": bhc.load_rows_taric,
                "dga": bhc.load_rows_dga, "ch": bhc.load_rows_ch, "kr": bhc.load_rows_kr,
                "tw": bhc.load_rows_tw, "sg": bhc.load_rows_sg,
-               "my": bhc.load_rows_my}
+               "my": bhc.load_rows_my, "vn": bhc.load_rows_vn}
     rows, stats = loaders[args.source_format](args.csv_path)
 
     rates: dict[str, dict[str, str]] = {}
-    if args.source_format in ("sg", "my"):
+    if args.source_format in ("sg", "my", "vn"):
         # The duty columns are already on the parsed row, keyed by code.
         with args.csv_path.open(newline="", encoding="utf-8-sig") as fh:
             for row in csv.DictReader(fh):
@@ -146,6 +181,21 @@ def main() -> int:
                 if value:
                     parts.append(f"Cess {i}: {value}")
             other = "; ".join(parts)
+        elif args.source_format == "vn" and digits in rates:
+            r = rates[digits]
+            general = _vn_pct(r.get("MFN_RATE"))
+            ordinary = _vn_pct(r.get("ORDINARY_RATE"))
+            other = f"Ordinary rate: {ordinary}" if ordinary else ""
+            parts = []
+            vat = (r.get("VAT") or "").strip()
+            if vat:
+                parts.append(f"VAT: {vat}")
+            maps_to = [c.strip() for c in
+                       (r.get("CORRESPONDING_CODES") or "").split(";") if c.strip()]
+            if maps_to:
+                parts.append("Applies to goods of "
+                             + ", ".join(bhc._vn_display(c) for c in maps_to))
+            special = "; ".join(parts)
         elif args.source_format == "dga" and digits in rates:
             grav = rates[digits].get("Grav.") or rates[digits].get("Grav") or ""
             general = f"{grav}%" if grav else ""

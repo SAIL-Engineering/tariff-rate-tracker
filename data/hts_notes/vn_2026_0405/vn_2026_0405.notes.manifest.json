@@ -1,7 +1,7 @@
 {
   "artifact_sha256": {
-    "vn_2026_0405.notes.chapter.jsonl": "13f80e54a73ac3d80ee5b5443d35747b508ee8cd0d382a0b0f96ad386213536b",
-    "vn_2026_0405.notes.section.jsonl": "2af025d531dca24e7c6ecf2a76aa64b4fa35657fe250caa3d06e2b8390a27f03"
+    "vn_2026_0405.notes.chapter.jsonl": "34f38a4e3663d603ac9a701ba3d796e1687ddd7b1d857926ca808eb03dd7a30f",
+    "vn_2026_0405.notes.section.jsonl": "5aa1c24913f4d1801def3ef3589ee7c7215c2c5d284905892731b514be051f84"
   },
   "counts": {
     "by_chapter": {
@@ -32,7 +32,7 @@
       "25": 4,
       "26": 5,
       "27": 8,
-      "28": 7,
+      "28": 9,
       "29": 10,
       "30": 6,
       "31": 6,
@@ -63,8 +63,8 @@
       "58": 7,
       "59": 8,
       "60": 4,
-      "61": 3,
-      "62": 3,
+      "61": 10,
+      "62": 10,
       "63": 4,
       "64": 5,
       "65": 2,
@@ -74,7 +74,7 @@
       "69": 2,
       "70": 6,
       "71": 14,
-      "72": 2,
+      "72": 5,
       "73": 2,
       "74": 2,
       "75": 2,
@@ -85,12 +85,12 @@
       "82": 3,
       "83": 2,
       "84": 15,
-      "85": 16,
+      "85": 20,
       "86": 3,
       "87": 5,
       "88": 3,
       "89": 1,
-      "90": 6,
+      "90": 7,
       "91": 4,
       "92": 2,
       "93": 2,
@@ -100,9 +100,9 @@
       "97": 6
     },
     "by_kind": {
-      "chapter_note": 346,
+      "chapter_note": 365,
       "section_note": 44,
-      "subheading_note": 73
+      "subheading_note": 78
     },
     "by_section": {
       "I": 19,
@@ -111,23 +111,23 @@
       "IV": 36,
       "IX": 14,
       "V": 17,
-      "VI": 65,
+      "VI": 67,
       "VII": 24,
       "VIII": 12,
       "X": 32,
-      "XI": 57,
+      "XI": 71,
       "XII": 12,
       "XIII": 10,
       "XIV": 14,
       "XIX": 2,
-      "XV": 27,
-      "XVI": 36,
+      "XV": 30,
+      "XVI": 40,
       "XVII": 17,
-      "XVIII": 12,
+      "XVIII": 13,
       "XX": 15,
       "XXI": 6
     },
-    "total": 463
+    "total": 487
   },
   "edition": "Import-Export Tariff workbook as at 5 April 2026",
   "jurisdiction": "VN",

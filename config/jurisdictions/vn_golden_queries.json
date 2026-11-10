@@ -1,0 +1,12 @@
+[
+  {"query": "roasted coffee beans not decaffeinated", "expect_heading": "0901"},
+  {"query": "semi-milled or wholly milled white rice", "expect_heading": "1006"},
+  {"query": "frozen shrimps and prawns headless", "expect_heading": "0306"},
+  {"query": "natural rubber ribbed smoked sheets", "expect_heading": "4001"},
+  {"query": "men's cotton t-shirt knitted short sleeve", "expect_heading": "6109"},
+  {"query": "footwear with rubber outer soles and leather uppers", "expect_heading": "6403"},
+  {"query": "laptop computer portable automatic data processing machine", "expect_heading": "8471"},
+  {"query": "telephones for cellular networks smartphones", "expect_heading": "8517"},
+  {"query": "new pneumatic rubber tyres for motor cars", "expect_heading": "4011"},
+  {"query": "wooden furniture for the bedroom", "expect_heading": "9403"}
+]
