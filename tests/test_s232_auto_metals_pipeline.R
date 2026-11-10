@@ -23,7 +23,16 @@ rates <- calculate_rates_for_revision(products,ch99,NULL,NULL,c('2010','4120'),'
   policy_params=load_policy_params(),normalized_output_dir=out,normalized_valid_until=as.Date('2026-09-16'))
 stopifnot(all(is.na(rates$statutory_rate_232)),all(is.na(rates$statutory_total_rate)),all(rates$shipment_status=='unresolved_source'))
 stopifnot(all(rates$valid_from==as.Date('2026-09-15')),all(rates$valid_until==as.Date('2026-09-16')))
+# s232_mhd_* belong here beside the s232_auto_* pair: a medium/heavy-duty vehicle
+# parts authority was added to §232 after these cases were written, and an article
+# can be in scope of it independently of the light-vehicle annex. Without them the
+# nonauto case (s232_auto_parts_use=FALSE) is not under-specified by accident --
+# it falls through to the MHD branch, which correctly fail-closes on two unknown
+# facts, so §232 came back unresolved and the applied amount was 0 rather than the
+# 50% steel derivative. The asserted fail-closed case below pins that behaviour so
+# these facts cannot be dropped again without a test saying so.
 base <- list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_parts_use=TRUE,s232_auto_usmca_eligible=FALSE,
+  s232_mhd_parts_use=FALSE,s232_mhd_usmca_eligible=FALSE,
   steel_weight_fraction=1,aluminum_weight_fraction=0,copper_weight_fraction=0,us_steel_origin_fraction=0)
 facts <- list(covered=base,nonauto=base,eligible=base,kit=base)
 facts$nonauto$s232_auto_parts_use <- FALSE
@@ -36,6 +45,20 @@ for(name in names(facts)) {
   stopifnot(sum(vapply(applied,`[[`,numeric(1),'amount'))==expected[[name]],is.null(r$complete_total))
   cases[[length(cases)+1L]] <- list(hts10='7320103000',country='2010',entry_at=at,facts=facts[[name]],expected=shipment_result_for_json(r))
 }
+# Omitting the MHD facts must leave §232 unresolved and NAME them, never price 0.
+blind <- facts$nonauto;blind$s232_mhd_parts_use <- NULL;blind$s232_mhd_usmca_eligible <- NULL
+rb <- resolve_shipment_duties(file.path(out,'2026_rev_19'),'7320103000','2010','2026-09-15T12:00:00-04:00',blind)
+stopifnot(all(c('s232_mhd_parts_use','s232_mhd_usmca_eligible') %in% rb$missing_inputs),
+  is.null(rb$complete_total),
+  sum(vapply(Filter(function(c)c$authority=='section_232'&&c$status=='applied',rb$components),
+             `[[`,numeric(1),'amount'))==0,
+  any(vapply(rb$components,function(c)c$authority=='section_232'&&c$status=='unresolved',logical(1))))
+# An MHD part is dutied under the MHD annex, not the plain steel derivative.
+mhd <- facts$nonauto;mhd$s232_mhd_parts_use <- TRUE
+rm_ <- resolve_shipment_duties(file.path(out,'2026_rev_19'),'7320103000','2010','2026-09-15T12:00:00-04:00',mhd)
+stopifnot(sum(vapply(Filter(function(c)c$authority=='section_232'&&c$status=='applied',rm_$components),
+             `[[`,numeric(1),'amount'))==25)
+cat('MHD scope: unknown facts fail closed and named; in-scope parts price under the MHD annex\n')
 for(mode in c('uk_auto','other_auto','nonauto','unknown_auto_origin')) {
   f <- list(customs_value=100,ieepa_ftz_entry=FALSE,s232_auto_parts_use=mode!='nonauto',s232_auto_usmca_eligible=FALSE)
   if(mode!='unknown_auto_origin')f$s232_uk_auto_parts_uk_vehicle_use <- mode=='uk_auto'
