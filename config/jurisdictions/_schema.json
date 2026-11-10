@@ -9,7 +9,8 @@
     "code": {"type": "string", "pattern": "^[A-Z]{2}$"},
     "name": {"type": "string"},
     "tariff_schedule_name": {"type": "string"},
-    "lang": {"enum": ["en", "es"]},
+    "_comment_lang": "Must stay in step with _BASKET_RES and _EXCLUSION_TEMPLATES in scripts/hts_automation/build_hts_corpus.py: the corpus builder needs an 'other'-basket pattern and an exclusion template per language, and --lang silently falls back to en for anything it does not know. The enum listed only en and es, so ko and zh were buildable but not declarable - which is why tw and kr sit at lang=en despite bilingual sources.",
+    "lang": {"enum": ["en", "es", "de", "fr", "it", "ko", "zh", "vi"]},
     "acquire": {
       "type": "object",
       "required": ["adapter"],

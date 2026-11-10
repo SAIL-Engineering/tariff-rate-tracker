@@ -834,6 +834,15 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
             if m:
                 flush_title(); close_note(); close_row()
                 section = m.group(1).upper()
+                # The chapter in hand belongs to the section just ended. Section
+                # XI prints its own Subheading Notes between this header and
+                # chapter 50, and while the chapter persisted they were filed as
+                # SHN-49-*, attributing the textile-blend rule that governs
+                # chapters 50-63 to a chapter in Section X -- with the record's
+                # own `section` field saying XI. flush_title() already guards on
+                # `chapter is not None`, and a chapter header always precedes
+                # that chapter's rows, so nothing else reads it in between.
+                chapter = None
                 out.sections.setdefault(section, {})
                 region = "section_title"
                 out.stats["section_hdr"] += 1
@@ -1161,6 +1170,13 @@ def build_note_records(book: BookParse, gri: list[dict], source_sha: str) -> dic
             cite = f"SN-{block.section}-{block.number}"
             label = f"Section {block.section}, Note {block.number}"
             scope, chapter = block.section, None
+        elif block.kind == "subheading_note" and block.chapter is None:
+            # Section XI's own Subheading Notes. Section scope is what makes them
+            # retrievable for every chapter they bind, and it matches the cite
+            # the Malaysian order produces for the same two notes.
+            cite = f"SHN-{block.section}-{block.number}"
+            label = f"Section {block.section}, Subheading Note {block.number}"
+            scope, chapter = block.section, None
         elif block.kind == "subheading_note":
             cite = f"SHN-{block.chapter}-{block.number}"
             label = f"Chapter {block.chapter}, Subheading Note {block.number}"
@@ -1182,6 +1198,12 @@ EXPECTED = {"sections": 21, "chapters": 98, "note_hdr": 96,
             "subheading_note_hdr": 38, "promoted_headings": 1,
             "stitched_rows": 3, "note_misnumbered": 1, "note_tables": 1,
             "note_table_unattached": 0}
+
+# Matching a number cannot catch a family that produces NOTHING, and a count
+# pinned at zero would enshrine the absence. The Malaysian order shipped for
+# months with no section notes and no interpretative rules because its gates
+# compared only the counts it happened to list; this asserts presence instead.
+REQUIRED_NOTE_KINDS = ("chapter_note", "subheading_note", "section_note", "gri")
 
 
 def validate(book: BookParse, notes: dict, toc: dict,
@@ -1207,6 +1229,12 @@ def validate(book: BookParse, notes: dict, toc: dict,
     for key, want in EXPECTED.items():
         if got[key] != want:
             errors.append(f"{key}: parsed {got[key]}, expected {want}")
+
+    kinds = Counter(r["kind"] for r in notes.values())
+    for kind in REQUIRED_NOTE_KINDS:
+        if not kinds.get(kind):
+            errors.append(f"note family {kind!r} is empty - the book carries it, "
+                          f"so nothing should reduce it to zero")
 
     if reference is not None:
         parsed_units = set(reference.get("units_of_quantity") or {})

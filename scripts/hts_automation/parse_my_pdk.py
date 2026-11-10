@@ -115,6 +115,38 @@ RE_SUBHEADING_NOTE_HDR = re.compile(r"^SUB-?HEADING\s+NOTES?\.$", re.IGNORECASE)
 # whichever block preceded it and 30 blocks were dropped as duplicate cites.
 RE_NATIONAL_NOTE_HDR = re.compile(r"^NATIONAL\s+NOTES?\.$", re.IGNORECASE)
 RE_NOTE_NUM = re.compile(r"^(\d{1,2})\.$")
+# The gazette heads section notes "Section Note." / "Section Notes.", which
+# RE_NOTE_HDR cannot match: it allows only an optional CHAPTER prefix. Those
+# blocks therefore matched nothing, note_kind stayed empty, and every section
+# note in the order was skipped -- notes.section.jsonl came out empty. The
+# chapter counts were never inflated, because the text was dropped rather than
+# misfiled.
+RE_SECTION_NOTE_HDR = re.compile(r"^SECTION\s+NOTES?\.$", re.IGNORECASE)
+# Section headings matter for attribution, not just for titles: a section note
+# is printed between its SECTION heading and that section's first chapter, so
+# the chapter in hand still belongs to the PREVIOUS section. Without resetting
+# it the note would be filed under the wrong section -- and the existing
+# "chapter is None" fallback could never fire, since nothing cleared it.
+RE_SECTION_HDR = re.compile(r"^SECTION\s+([IVXL]+)$", re.IGNORECASE)
+# "1.   Rule 1:" in the Second Schedule.
+RE_GRI_HDR = re.compile(r"^(\d)\.\s+Rule\s+(\d)\s*:?\s*$", re.IGNORECASE)
+RE_GRI_SKIP = re.compile(
+    r"^(JADUAL\s+KEDUA/SECOND\s+SCHEDULE"
+    r"|\[Perenggan\s+\d+/Paragraph\s+\d+\]"
+    r"|RUKUN\s+TAFSIRAN.*"
+    r"|GENERAL\s+RULES\s+FOR\s+THE\s+INTERPRETATION.*)$", re.IGNORECASE)
+# Pages 1461-1463, after the First Schedule's table ends at 1366 and outside the
+# Appendix B window, which is why the rules were never read. The Third Schedule
+# (abbreviations) begins at 1464 and bounds this one.
+PAGE_SECOND_SCHEDULE = (1461, 1463)
+# Where the First Schedule's TEXT begins -- one page before PAGE_MAIN, which is
+# the first page of the tariff GRID. Page 15 carries "JADUAL PERTAMA/FIRST
+# SCHECULE" (the gazette's own typo), SECTION I, Section I's notes and the
+# Chapter 1 header; page 16 opens with the "(1) (2) (3)" column row. Guarding
+# section detection at PAGE_MAIN would drop Section I's notes by exactly one
+# page, which is what hid them. Everything before this is the contents list,
+# where the section names recur and must not be read as headings.
+PAGE_FIRST_SCHEDULE = 15
 RE_SUBPARA = re.compile(r"^\(([A-Za-z0-9]{1,4})\)$")
 
 
@@ -336,6 +368,7 @@ class NoteBlock:
 class GazetteParse:
     chapters: dict = field(default_factory=dict)
     notes: list = field(default_factory=list)
+    gri: list = field(default_factory=list)
     stats: Counter = field(default_factory=Counter)
     anomalies: list = field(default_factory=list)
 
@@ -383,9 +416,15 @@ def parse_gazette(pdf: Path) -> GazetteParse:
     """Chapter titles plus section, chapter and subheading notes.
 
     The gazette prints "Chapter Note." / "Chapter Notes." where the WCO text
-    says "Notes.", and prints section notes BEFORE the chapter header with no
-    header of their own, so a note block is attributed to the section when no
-    chapter has been opened since the last section boundary.
+    says "Notes.", and heads section notes "Section Note." / "Section Notes."
+    between a SECTION heading and that section's first chapter. Both headers are
+    matched explicitly, and a SECTION heading clears the chapter in hand so the
+    note is attributed to the section it introduces rather than to the previous
+    section's last chapter.
+
+    The Second Schedule's General Interpretative Rules are collected in the same
+    pass, since they sit on pages this loop already walks and a second
+    pdftotext run over 1,467 pages would buy nothing.
     """
     out = GazetteParse()
     chapter: int | None = None
@@ -414,6 +453,21 @@ def parse_gazette(pdf: Path) -> GazetteParse:
         title_parts = []
 
     for page, indent, text in pdf_lines(pdf):
+        # The Second Schedule holds the six rules. English only: unlike the rest
+        # of the gazette, only its heading is bilingual, so there is no Malay
+        # body to separate out here.
+        if PAGE_SECOND_SCHEDULE[0] <= page <= PAGE_SECOND_SCHEDULE[1]:
+            if RE_GRI_SKIP.match(text):
+                continue
+            m = RE_GRI_HDR.match(text)
+            if m:
+                close_note()
+                out.gri.append({"number": m.group(2), "page": page, "body": []})
+                out.stats["gri_rules"] += 1
+                continue
+            if out.gri:
+                out.gri[-1]["body"].append(text)
+            continue
         # The table header row marks the start of the tariff grid; notes and
         # titles only ever appear above it.
         if re.match(r"^\(1\)\s+\(2\)", text) or text.startswith("Kepala/"):
@@ -430,6 +484,26 @@ def parse_gazette(pdf: Path) -> GazetteParse:
             awaiting_title = True
             in_table = False
             out.stats["chapter_hdr"] += 1
+            continue
+        # Guarded to the First Schedule: the front matter lists the sections and
+        # their notes as contents entries, and resetting state there would
+        # attribute real notes to whatever the table of contents last named.
+        if page >= PAGE_FIRST_SCHEDULE and RE_SECTION_HDR.match(text):
+            flush_title()
+            close_note()
+            section = RE_SECTION_HDR.match(text).group(1).upper()
+            chapter = None
+            note_kind = ""
+            in_table = False
+            out.stats["section_hdr"] += 1
+            continue
+        if page >= PAGE_FIRST_SCHEDULE and RE_SECTION_NOTE_HDR.match(text):
+            flush_title()
+            close_note()
+            note_kind = "section_note"
+            note_col = None
+            in_table = False
+            out.stats["section_note_hdr"] += 1
             continue
         if RE_SUBHEADING_NOTE_HDR.match(text):
             flush_title()
@@ -554,9 +628,23 @@ def build_note_records(gazette: GazetteParse, source_sha: str) -> dict:
             label = f"Section {block.section}, Note {block.number}"
             scope, chapter = block.section or "", None
         elif block.kind == "subheading_note":
-            cite = f"SHN-{block.chapter}-{block.number}"
-            label = f"Chapter {block.chapter}, Subheading Note {block.number}"
-            scope, chapter = str(block.chapter), str(block.chapter)
+            # Section XI prints its OWN Subheading Notes, between the SECTION
+            # heading and chapter 50, so there is no chapter to hang them on.
+            # They used to take whatever chapter was last seen -- the previous
+            # section's last -- which filed the textile-blend rule that governs
+            # chapters 50-63 under a chapter that does not govern it, while the
+            # record's own `section` field said XI. Section scope is the honest
+            # answer, and it is what makes the note retrievable for every
+            # chapter it actually binds.
+            if block.chapter is None:
+                cite = f"SHN-{block.section}-{block.number}"
+                label = (f"Section {block.section}, "
+                         f"Subheading Note {block.number}")
+                scope, chapter = block.section or "", None
+            else:
+                cite = f"SHN-{block.chapter}-{block.number}"
+                label = f"Chapter {block.chapter}, Subheading Note {block.number}"
+                scope, chapter = str(block.chapter), str(block.chapter)
         elif block.kind == "national_note":
             cite = f"NN-{block.chapter}-{block.number}"
             label = f"Chapter {block.chapter}, National Note {block.number}"
@@ -565,6 +653,19 @@ def build_note_records(gazette: GazetteParse, source_sha: str) -> dict:
             cite = f"N-{block.chapter}-{block.number}"
             label = f"Chapter {block.chapter}, Note {block.number}"
             scope, chapter = str(block.chapter), str(block.chapter)
+        # A chapter-scoped kind with no chapter would stringify to the literal
+        # "None" -- a cite nothing can resolve and a manifest key that is not a
+        # number. Record it rather than writing it, so a new shape in a future
+        # edition is visible instead of silently malformed.
+        if chapter == "None":
+            gazette.anomalies.append({
+                "cite_id": cite, "pdf_page": block.page, "kind": block.kind,
+                "reason": "a chapter-scoped note appeared with no chapter in "
+                          "scope; attributed to its section instead",
+            })
+            gazette.stats["note_without_chapter"] += 1
+            cite = f"{cite.split('-')[0]}-{block.section}-{block.number}"
+            scope, chapter = block.section or "", None
         if cite in records:
             # Two blocks claim the same number. Both are real text — one is a
             # note continuing across a page break whose header repeats, the
@@ -600,6 +701,39 @@ def build_note_records(gazette: GazetteParse, source_sha: str) -> dict:
             "paragraph": None,
             "revision": REVISION,
             "section": block.section or None,
+            "source_sha256": source_sha,
+            "source_url": PDF_URL,
+            "tables": [],
+            **extract_refs(body),
+        }
+    # The Second Schedule's rules. Same record shape and the same GRI-<n> cite
+    # convention the US and Singapore corpora use, so the sidecar reader and
+    # pinecone_sync need no per-jurisdiction branch. There is no preamble to
+    # keep: the gazette goes straight from the schedule's heading into "Rule 1",
+    # where Singapore's book prints an introductory paragraph first.
+    for rule in gazette.gri:
+        body = norm(" ".join(rule["body"]))
+        if not body:
+            continue
+        number = rule["number"]
+        cite = f"GRI-{number}"
+        label = f"General Interpretative Rule {number}"
+        records[cite] = {
+            "_id": f"{JURISDICTION}|{REVISION}|gri|GRI|{number}",
+            "chapter": None,
+            "chunk_text": body,
+            "cite_id": cite,
+            "content_sha256": sha256_text(body),
+            "display_text": f"[{cite}] {label}: {body}",
+            "examples": [],
+            "jurisdiction": JURISDICTION,
+            "kind": "gri",
+            "note_number": number,
+            "page": rule["page"],
+            "printed_page": None,
+            "paragraph": None,
+            "revision": REVISION,
+            "section": None,
             "source_sha256": source_sha,
             "source_url": PDF_URL,
             "tables": [],
@@ -1201,7 +1335,8 @@ def write_notes(records: dict, out_dir: Path, gazette: GazetteParse,
     sidecar = out_dir / f"{stem}.notes.json"
     sidecar.write_text(json.dumps(records, ensure_ascii=False, indent=2,
                                   sort_keys=True) + "\n", encoding="utf-8")
-    families = {"section": ("section_note",),
+    families = {"gri": ("gri",),
+                "section": ("section_note",),
                 "chapter": ("chapter_note", "subheading_note", "national_note")}
     artifact_sha = {sidecar.name: sha256_file(sidecar)}
     for family, kinds in families.items():
@@ -1226,7 +1361,7 @@ def write_notes(records: dict, out_dir: Path, gazette: GazetteParse,
         "in_force": IN_FORCE,
         "jurisdiction": JURISDICTION,
         "parsed_chapters": sorted(gazette.chapters),
-        "parsed_gri": False,
+        "parsed_gri": any(r["kind"] == "gri" for r in records.values()),
         "portal_sha256": {"ezhs_pdk2025.html": html_sha},
         "pdf_sha256": {pdf.name: pdf_sha},
         "revision": REVISION,
@@ -1264,7 +1399,23 @@ EXPECTED = {
     # Two note blocks share a number; both are kept, the second under a
     # suffixed cite. Listed in the manifest's source_anomalies.
     "duplicate_cite": 2,
+    # All 21 HS sections are headed in the First Schedule; 9 of them carry
+    # section notes, and the Second Schedule holds the 6 interpretative rules.
+    "section_hdr": 21,
+    "section_note_hdr": 9,
+    "gri_rules": 6,
+    # A chapter-scoped note found with no chapter in scope. Section XI's
+    # subheading notes are handled as section-scoped and do not count here.
+    "note_without_chapter": 0,
 }
+
+# Matching a number cannot catch a family that produces NOTHING. EXPECTED had no
+# entry for section notes or the interpretative rules, so emitting zero of both
+# read as a clean pass -- the omission surfaced only when Singapore's 45 section
+# notes and 7 rules were set beside Malaysia's none. Presence has to be asserted
+# separately from agreement, or a gate pinned at zero would hide it again.
+REQUIRED_NOTE_KINDS = ("chapter_note", "subheading_note", "national_note",
+                       "section_note", "gri")
 
 
 def validate(gz: list, gz_stats: Counter, portal: list, portal_stats: Counter,
@@ -1285,10 +1436,20 @@ def validate(gz: list, gz_stats: Counter, portal: list, portal_stats: Counter,
         "indent_conflict": gz_stats["indent_conflict"],
         "heading_synthesised": gz_stats["heading_synthesised"],
         "duplicate_cite": gazette.stats["duplicate_cite"],
+        "section_hdr": gazette.stats["section_hdr"],
+        "section_note_hdr": gazette.stats["section_note_hdr"],
+        "gri_rules": gazette.stats["gri_rules"],
+        "note_without_chapter": gazette.stats["note_without_chapter"],
     }
     for key, want in EXPECTED.items():
         if got[key] != want:
             errors.append(f"{key}: got {got[key]}, expected {want}")
+
+    note_kinds = Counter(r["kind"] for r in notes.values())
+    for kind in REQUIRED_NOTE_KINDS:
+        if not note_kinds.get(kind):
+            errors.append(f"note family {kind!r} is empty - the gazette carries "
+                          f"it, so nothing should reduce it to zero")
 
     seen: dict = {}
     for ln in ten:

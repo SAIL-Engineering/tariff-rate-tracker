@@ -1,8 +1,9 @@
 {
   "artifact_sha256": {
-    "my_pdk2025.notes.chapter.jsonl": "7f64ae177621b54cb833ff2cc965d2d77872d9361e4b618c3ddc2e54f6b4888b",
-    "my_pdk2025.notes.json": "c8b154d15ead2983848c0446bc46101b202e960ec1ee8db03673a7726e39e076",
-    "my_pdk2025.notes.section.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "my_pdk2025.notes.chapter.jsonl": "1a55e1926397f7b2ef3ae8b9b434bed62b97043da5dfee147c35abf1cc8cefaa",
+    "my_pdk2025.notes.gri.jsonl": "03afec1703ae5d59e50662525ef7dc40ec56f5106185a13f1a800b3f1b8e1532",
+    "my_pdk2025.notes.json": "d711038759b3e57850304c3852f1ec4e7d59fd7869f24a5adacc42a4c1522524",
+    "my_pdk2025.notes.section.jsonl": "c3c5e8c430d640801075ce1bf8563a9741dbcc6e468b63013b9592122f165dae"
   },
   "counts": {
     "by_chapter": {
@@ -48,7 +49,7 @@
       "46": 3,
       "47": 1,
       "48": 19,
-      "49": 8,
+      "49": 6,
       "5": 4,
       "50": 1,
       "51": 2,
@@ -104,33 +105,35 @@
     },
     "by_kind": {
       "chapter_note": 347,
+      "gri": 6,
       "national_note": 44,
+      "section_note": 45,
       "subheading_note": 78
     },
     "by_section": {
-      "I": 18,
-      "II": 28,
+      "I": 20,
+      "II": 29,
       "III": 6,
-      "IV": 48,
+      "IV": 49,
       "IX": 16,
       "V": 20,
-      "VI": 63,
-      "VII": 16,
+      "VI": 67,
+      "VII": 18,
       "VIII": 12,
-      "X": 28,
-      "XI": 60,
+      "X": 26,
+      "XI": 77,
       "XII": 12,
       "XIII": 12,
       "XIV": 14,
       "XIX": 2,
-      "XV": 24,
-      "XVI": 35,
-      "XVII": 15,
+      "XV": 33,
+      "XVI": 41,
+      "XVII": 20,
       "XVIII": 13,
       "XX": 16,
       "XXI": 6
     },
-    "total": 469
+    "total": 520
   },
   "edition": "Customs Duties Order 2025 (P.U. (A) 384)",
   "in_force": "2025-11-01",
@@ -234,7 +237,7 @@
     97,
     98
   ],
-  "parsed_gri": false,
+  "parsed_gri": true,
   "pdf_sha256": {
     "PUA_384.pdf": "e51c740cf95290cb71cd473596adc21ef159d1aa4f2a0282c73b4b3815beea99"
   },

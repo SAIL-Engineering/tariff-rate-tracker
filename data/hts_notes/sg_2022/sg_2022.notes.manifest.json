@@ -1,8 +1,8 @@
 {
   "artifact_sha256": {
-    "sg_2022.notes.chapter.jsonl": "0ce370e5084b0d80cf53bca0efa2e2ef8c50c6bf03d213cce367c7705355cf28",
+    "sg_2022.notes.chapter.jsonl": "0ebd0eac97cde95d71ac157238f269a14db229868caaa2fa7e5ca3e61b1647a7",
     "sg_2022.notes.gri.jsonl": "388e1c60cef60f82c12e5df712bce64f326dc04d0b6a5ae3256d8b63e6ad9f40",
-    "sg_2022.notes.json": "967ce66fe80bd995c74ee8d2395c1474a1a689b2c6dd7fe42a1c59717d97973f",
+    "sg_2022.notes.json": "b9b1334fdb4242edf187584c9a39705a7471909d59f00a88ffd08d50aa17e504",
     "sg_2022.notes.section.jsonl": "8da36b35b63be2f2050b7d21738f6a60cb18808b8a3a3344be9f9def54f9a17c"
   },
   "counts": {
@@ -50,7 +50,7 @@
       "46": 3,
       "47": 1,
       "48": 19,
-      "49": 8,
+      "49": 6,
       "5": 4,
       "51": 1,
       "52": 1,

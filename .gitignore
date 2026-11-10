@@ -144,6 +144,9 @@ data/sg_tariff_source/*.xml
 # parsed out of them is tracked instead, with both sha256s in my_revisions.csv.
 data/my_tariff_source/.my_download/
 data/my_tariff_source/*.xml
+# Vietnam: the Apr 2026 workbook is a 32 MB xlsx retained upload.
+data/vn_tariff_source/.vn_download/
+data/vn_tariff_source/*.xlsx
 data/tw_tariff_source/.tw_download/
 
 # USITC legal-notes cache and generated sidecars. The source-PDF checksums and
