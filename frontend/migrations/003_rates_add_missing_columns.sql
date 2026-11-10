@@ -14,9 +14,22 @@
 -- 96 + 92 = 188, so every existing cloud column also exists locally:
 -- this migration only ADDS, and the push drops nothing.
 --
--- Each statement adds an empty (NULL) column -- metadata only, no row rewrite
--- and no existing value changed. IF NOT EXISTS makes the file re-runnable, so a
--- partial application can simply be run again.
+-- CORRECTION (2026-11-10, after a partial run): "metadata only" is TRUE in local
+-- DuckDB and FALSE on MotherDuck. Each ADD COLUMN there materialises the table,
+-- so on `rates` (~613M rows) each statement took ~8.5s and the 29th failed with
+--   Out of Memory Error: failed to offload data block (67.0 GiB/67.0 GiB used).
+--   Consider using a larger duckling size than Pulse
+-- having applied 28. Every added column makes the next one costlier, so the cost
+-- grows through the file. No value was changed and nothing was corrupted.
+--
+-- IF NOT EXISTS still makes the file re-runnable, and that is the recovery: a
+-- fresh process gets a fresh memory budget and skips the already-applied columns
+-- as no-ops. Expect to run it more than once. If a single statement cannot
+-- complete even in a fresh session, use the FULL REBUILD path instead
+-- (push-to-motherduck.mjs with no --revision/--only-revisions): seedTable()
+-- creates the table from the parquet union with LIMIT 0, which reads parquet
+-- metadata only, so it reaches the correct 188-column schema in ONE cheap
+-- statement and needs none of these ALTERs.
 --
 -- NOTE ON NUMBERING: the shipment-duty plan reserves "003" for renaming the live
 -- objects to main.aggregate_rates / aggregate_product_base_rates, to be applied
