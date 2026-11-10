@@ -99,6 +99,20 @@ process.env.motherduck_token = process.env.MOTHERDUCK_TOKEN;
 
 const instance = await DuckDBInstance.create(`md:${database}`);
 const conn = await instance.connect();
+// These three are not optional, and leaving them out is what made the earlier
+// attempts look like MotherDuck limits. The "67.0 GiB" ceiling in those errors
+// was max_temp_directory_size, which defaults to the AVAILABLE DISK on the drive
+// holding temp_directory -- this laptop is at 96% with ~39 GB free. So an
+// unconstrained local DuckDB buffers a whole-table operation straight into the
+// disk it has left and dies there, cloud compute never being the binding
+// constraint. push-to-motherduck.mjs sets all three for exactly this reason:
+//   memory_limit  - hard cap on local RAM (spills to disk when exceeded)
+//   threads       - fewer threads = less concurrent read buffer
+//   preserve_insertion_order=false - lets DuckDB stream instead of buffering
+await conn.run(`SET memory_limit = '${'4GB'}'`);
+await conn.run(`SET threads = ${2}`);
+await conn.run('SET preserve_insertion_order = false');
+
 let applied = 0;
 for (const [i, statement] of statements.entries()) {
   try {
