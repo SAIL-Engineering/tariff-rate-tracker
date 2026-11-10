@@ -95,6 +95,24 @@ node_modules/
 /us_*.jsonl
 /us_*.codes.json
 /us_*.manifest.json
+# SG, MY and VN had no patterns, so a `git add -A` after any corpus build staged
+# their artifacts. Coverage and the explorer dataset are listed too: the newer
+# builders write both at the root, which the us_/ca_ era patterns predate.
+/sg_*.jsonl
+/sg_*.codes.json
+/sg_*.manifest.json
+/sg_*.coverage.json
+/sg_*_revision_*.json
+/my_*.jsonl
+/my_*.codes.json
+/my_*.manifest.json
+/my_*.coverage.json
+/my_*_revision_*.json
+/vn_*.jsonl
+/vn_*.codes.json
+/vn_*.manifest.json
+/vn_*.coverage.json
+/vn_*_revision_*.json
 /ca_*.jsonl
 /ca_*.codes.json
 /ca_*.manifest.json

@@ -9,11 +9,22 @@
     "adapter": "manual",
     "manual_dir": "data/sg_tariff_source",
     "manual_prefix": "stcced",
+    "manual_revision": {
+      "rev_id": "2022",
+      "year": 2022,
+      "rev_num": 1,
+      "source": "sg_tariff_2022.csv",
+      "effective_date": "2022-01-01",
+      "effective_date_label": "STCCED 2022 edition",
+      "_comment": "Singapore publishes ONE STCCED edition, with no revision number. rev_num is 1 so (country, year, number) stays a usable key in hts_revisions; a later edition gets its own year."
+    },
     "options": {
       "source_url": "https://file.go.gov.sg/stcced2022.pdf",
       "landing_url": "https://www.customs.gov.sg/doing-business/business-resources/hs-classification-of-goods/understanding-hs-classification/",
       "parser": "scripts/hts_automation/parse_sg_stcced.py",
-      "system_requires": ["pdftotext"]
+      "system_requires": [
+        "pdftotext"
+      ]
     }
   },
   "source_format": "sg",

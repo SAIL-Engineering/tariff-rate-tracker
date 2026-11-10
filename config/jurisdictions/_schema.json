@@ -20,11 +20,25 @@
         "system_requires": {"type": "array", "items": {"type": "string"}},
         "python_requires": {"type": "array", "items": {"type": "string"}},
         "manual_dir": {"type": "string"},
-        "manual_prefix": {"type": "string"}
+        "manual_prefix": {"type": "string"},
+        "_comment_manual_revision": "For a source whose editions are NOT named <prefix>_<year>_rev_<n>. acquire/manual.py reads this. Without it, Singapore (one 2022 STCCED edition), Malaysia (pdk2025) and Vietnam (a dated workbook) all failed at '--revision must look like 2026_rev_2' and could not be published at all. revision_id_pattern, above, is documentation only - no script reads it in any jurisdiction - so it cannot carry this.",
+        "manual_revision": {
+          "type": "object",
+          "required": ["rev_id", "year", "rev_num", "source"],
+          "properties": {
+            "rev_id": {"type": "string"},
+            "year": {"type": "integer"},
+            "rev_num": {"type": ["integer", "string"]},
+            "source": {"type": "string",
+                       "description": "filename inside manual_dir, exactly as the jurisdiction parser writes it"},
+            "effective_date": {"type": "string"},
+            "effective_date_label": {"type": "string"}
+          }
+        }
       }
     },
     "source_format": {"enum": ["usitc", "cbsa", "taric", "dga", "ch", "uk",
-                               "kr", "tw", "sg", "my"]},
+                               "kr", "tw", "sg", "my", "vn"]},
     "chapters_file": {"type": "string"},
     "max_depth": {"type": "integer", "minimum": 4, "maximum": 12},
     "revision_id_pattern": {"type": "string"},
@@ -72,7 +86,7 @@
       "type": "object",
       "properties": {"source_key": {"type": "string"},
                      "source_format": {"enum": ["cbsa", "taric", "dga", "uk", "ch", "kr",
-                                                "tw", "sg", "my"]},
+                                                "tw", "sg", "my", "vn"]},
                      "geo_areas_key": {"type": "string"}}
     },
     "envvars": {"type": ["object", "null"]},

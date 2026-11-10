@@ -10,12 +10,23 @@
     "adapter": "manual",
     "manual_dir": "data/my_tariff_source",
     "manual_prefix": "my_tariff",
+    "manual_revision": {
+      "rev_id": "pdk2025",
+      "year": 2025,
+      "rev_num": 1,
+      "source": "my_tariff_pdk2025.csv",
+      "effective_date": "2025-11-01",
+      "effective_date_label": "Customs Duties Order 2025 (P.U. (A) 384)",
+      "_comment": "The Customs Duties Order is the edition; an amendment order would be rev_num 2 of the same year."
+    },
     "options": {
       "gazette_url": "https://www.customs.gov.my/images/06-prosedur/perintah-kastam/perintah/PUA_384.pdf",
       "portal_url": "https://ezhs.customs.gov.my/",
       "portal_scheme": "PDK 2025",
       "parser": "scripts/hts_automation/parse_my_pdk.py",
-      "system_requires": ["pdftotext"]
+      "system_requires": [
+        "pdftotext"
+      ]
     }
   },
   "source_format": "my",
