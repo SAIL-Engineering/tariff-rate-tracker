@@ -748,8 +748,16 @@ build_full_timeseries <- function(
 
     snap <- enforce_rate_schema(snap)
     interval <- rev_intervals[rev_intervals$revision==rev_name,]
-    snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until) %>%
-      arrange(valid_from,country,hts10)
+    snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until)
+    # The sort order goes to the writer as a permutation rather than being
+    # applied to snap here. arrange() returns a second full frame, so the loop
+    # held two copies of the revision at once -- 28.1 GB each on 2026_rev_22's
+    # four legal states, which is 56 GB on a 62 GB machine and is what
+    # OOM-killed this loop at [138/145]. The permutation is 78 MB and
+    # write_rate_parquet() applies it one row group at a time, writing the
+    # identical bytes. See write_rate_parquet() in src/helpers.R.
+    snap_order <- order(snap$valid_from, snap$country, snap$hts10,
+                        method = 'radix', na.last = TRUE)
 
     total_rows <- total_rows + nrow(snap)
     n_revisions_written <- n_revisions_written + 1
@@ -764,9 +772,10 @@ build_full_timeseries <- function(
     write_rate_parquet(snap %>% select(-revision),
                        file.path(rev_part_dir, 'data.parquet'),
                        compression = 'zstd',
-                       compression_level = 3L)
+                       compression_level = 3L,
+                       row_order = snap_order)
 
-    rm(snap); gc(verbose = FALSE)
+    rm(snap, snap_order); gc(verbose = FALSE)
   }
 
   message('Parquet dataset written: ', parquet_dir)

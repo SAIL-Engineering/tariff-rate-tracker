@@ -713,17 +713,46 @@ open_rate_timeseries <- function(parquet_path = here('data', 'timeseries', 'rate
 #' The failed write above left an empty partition directory; a partial file
 #' would have been worse, because open_dataset() reads whatever is there.
 #'
-#' @param df Data frame to write (already schema-enforced and ordered)
+#' Sort order is applied here, through row_order, rather than by sorting df
+#' first. arrange() returns a second full frame, so the caller held two copies
+#' of the revision at once: 19.4 GB plus 19.4 GB on 2025_rev_20, and 28.1 GB
+#' plus 28.1 GB on 2026_rev_22, which is 56 GB on a 62 GB machine and is what
+#' OOM-killed the combine at [138/145]. An integer permutation of 19.6M rows is
+#' 78 MB, and chunk slicing applies it a row group at a time, so peak stays at
+#' the frame plus one chunk. Verified to order identically to
+#' arrange(valid_from, country, hts10): base radix and dplyr both sort
+#' characters in the C locale, put NA last, and are stable, so ties keep the
+#' same relative order and the files stay byte-identical.
+#'
+#' @param df Data frame to write (already schema-enforced)
 #' @param path Destination .parquet file path
 #' @param rows_per_chunk Rows converted to Arrow at a time
 #' @param compression,compression_level Passed through to the writer properties
+#' @param row_order Optional integer permutation of seq_len(nrow(df)) giving the
+#'   order to write rows in. NULL writes df as it stands.
 #' @return The path, invisibly
 write_rate_parquet <- function(df, path, rows_per_chunk = 1e6,
-                               compression = 'zstd', compression_level = 3L) {
+                               compression = 'zstd', compression_level = 3L,
+                               row_order = NULL) {
   if (!requireNamespace('arrow', quietly = TRUE)) {
     stop('Package "arrow" is required. Install with: install.packages("arrow")')
   }
   n   <- nrow(df)
+
+  # A row_order that is not a permutation would silently drop or duplicate rows
+  # in the written partition, so check it rather than trusting the caller.
+  if (!is.null(row_order)) {
+    if (length(row_order) != n) {
+      stop('row_order has ', length(row_order), ' entries but df has ', n,
+           ' rows -- the written partition would not match the frame.',
+           call. = FALSE)
+    }
+    if (anyNA(row_order)) {
+      stop('row_order contains NA -- those rows would be written as all-NA.',
+           call. = FALSE)
+    }
+    row_order <- as.integer(row_order)
+  }
   tmp <- paste0(path, '.partial')
   unlink(tmp)
 
@@ -753,7 +782,8 @@ write_rate_parquet <- function(df, path, rows_per_chunk = 1e6,
   } else {
     for (start in seq.int(1L, n, by = rows_per_chunk)) {
       last  <- min(start + rows_per_chunk - 1L, n)
-      chunk <- arrow::Table$create(df[start:last, , drop = FALSE])
+      idx   <- if (is.null(row_order)) start:last else row_order[start:last]
+      chunk <- arrow::Table$create(df[idx, , drop = FALSE])
       writer$WriteTable(chunk, chunk_size = last - start + 1L)
       # rm() drops the R binding, but the Arrow table's buffers are held by C++
       # until the R object is finalised, so without a collection here the chunks

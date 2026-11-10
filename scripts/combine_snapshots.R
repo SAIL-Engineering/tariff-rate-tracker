@@ -12,6 +12,16 @@
 #
 # Usage:
 #   Rscript scripts/combine_snapshots.R
+#   Rscript scripts/combine_snapshots.R --resume   # keep up-to-date partitions
+#
+# --resume exists because this loop takes ~8 hours over 145 revisions, so losing
+# it at [138/145] to an OOM meant redoing 137 partitions that were already
+# correct. A partition is kept only when it is NEWER than the snapshot it came
+# from; a snapshot rewritten since (a re-run revision, a backfill) is newer than
+# its partition and is rebuilt. Without the flag the directory is wiped as
+# before, which is still the right default: a revision that has been REMOVED
+# from the corpus leaves a partition no snapshot accounts for, and only a wipe
+# clears it. --resume reports what it kept so a stale keep is visible.
 # =============================================================================
 
 library(arrow)
@@ -22,6 +32,9 @@ suppressPackageStartupMessages(library(yaml))
 
 source(here('src', 'helpers.R'))
 source(here('src','legal_intervals.R'))
+
+args   <- commandArgs(trailingOnly = TRUE)
+resume <- '--resume' %in% args
 
 output_dir <- here('data', 'timeseries')
 
@@ -61,15 +74,34 @@ message('\n', nrow(rev_intervals), ' revisions, horizon: ', horizon_end)
 
 # --- Write per-revision Parquet files ---
 parquet_dir <- file.path(output_dir, 'rate_timeseries_parquet')
-unlink(parquet_dir, recursive = TRUE)
+if (!resume) unlink(parquet_dir, recursive = TRUE)
 dir.create(parquet_dir, showWarnings = FALSE)
 
 total_rows <- 0
+n_written  <- 0L
+n_kept     <- 0L
+
+#' Is this revision's partition already written from the CURRENT snapshot?
+#' Row count is not checked because reading it means opening the file, and the
+#' writer renames into place only after closing cleanly -- a partition that
+#' exists at all was written whole. mtime is the test that matters: it is what
+#' distinguishes a finished partition from one predating its snapshot.
+partition_current <- function(rev_name, snapshot_path) {
+  f <- file.path(parquet_dir, paste0('revision=', rev_name), 'data.parquet')
+  file.exists(f) && file.mtime(f) > file.mtime(snapshot_path)
+}
 
 for (i in seq_along(snapshot_files)) {
   f <- snapshot_files[i]
   rev_name <- gsub('^snapshot_|\\.rds$', '', basename(f))
-  message('[', i, '/', length(snapshot_files), '] ', rev_name)
+  message('[', i, '/', length(snapshot_files), '] ', rev_name, appendLF = !resume)
+
+  if (resume && partition_current(rev_name, f)) {
+    message('  — kept (partition newer than snapshot)')
+    n_kept <- n_kept + 1L
+    next
+  }
+  if (resume) message('')
 
   snap <- readRDS(f)
 
@@ -87,8 +119,16 @@ for (i in seq_along(snapshot_files)) {
   snap <- enforce_rate_schema(snap)
   validate_hts_column(snap)
   interval <- rev_intervals[rev_intervals$revision==rev_name,]
-  snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until) %>%
-    arrange(valid_from,country,hts10)
+  snap <- validate_snapshot_intervals(snap,interval$valid_from,interval$valid_until)
+  # The sort order goes to the writer as a permutation rather than being
+  # applied to snap here. arrange() returns a second full frame, so the loop
+  # held two copies of the revision at once -- 28.1 GB each on 2026_rev_22's
+  # four legal states, which is 56 GB on a 62 GB machine and is what
+  # OOM-killed this loop at [138/145]. The permutation is 78 MB and
+  # write_rate_parquet() applies it one row group at a time, writing the
+  # identical bytes. See write_rate_parquet() in src/helpers.R.
+  snap_order <- order(snap$valid_from, snap$country, snap$hts10,
+                      method = 'radix', na.last = TRUE)
 
   total_rows <- total_rows + nrow(snap)
 
@@ -101,18 +141,32 @@ for (i in seq_along(snapshot_files)) {
   write_rate_parquet(snap %>% select(-revision),
                      file.path(rev_part_dir, 'data.parquet'),
                      compression = 'zstd',
-                     compression_level = 3L)
+                     compression_level = 3L,
+                     row_order = snap_order)
 
-  rm(snap); gc(verbose = FALSE)
+  n_written <- n_written + 1L
+  rm(snap, snap_order); gc(verbose = FALSE)
 }
 
 message('\nParquet dataset written: ', parquet_dir)
-message('  Total rows across all revisions: ', total_rows)
+message('  Revisions written this run: ', n_written,
+        if (resume) paste0(', kept: ', n_kept) else '')
+message('  Rows written this run: ', total_rows)
 
 # Verify dataset opens
 ds <- open_dataset(parquet_dir, partitioning = 'revision')
 ds_count <- ds %>% count() %>% collect() %>% pull(n)
 message('  Arrow dataset verified: ', ds_count, ' rows')
+
+# n_rows below is ds_count, not total_rows: under --resume total_rows counts only
+# the revisions this run rewrote, so using it would understate the dataset and
+# silently shrink metadata.rds -- which drives incremental build detection. When
+# every revision was written here the two must agree, so assert that rather than
+# letting a divergence pass unnoticed.
+if (!resume && total_rows != ds_count) {
+  stop('Wrote ', total_rows, ' rows but the dataset reports ', ds_count,
+       ' -- a partition is missing or was written twice.', call. = FALSE)
+}
 
 # Collect distinct counts for metadata
 n_distinct_products <- ds %>% distinct(hts10) %>%
@@ -127,7 +181,7 @@ metadata <- list(
   last_revision = rev_dates$revision[nrow(rev_dates)],
   last_build_time = Sys.time(),
   n_revisions = nrow(rev_intervals),
-  n_rows = total_rows,
+  n_rows = ds_count,
   n_products = n_distinct_products,
   n_countries = n_distinct_countries,
   hts_format = '10-digit, right-padded zeros',
