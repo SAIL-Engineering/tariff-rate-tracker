@@ -312,13 +312,34 @@ def validate_notes(
     if missing_sections:
         errors.append(f"sections with no records: {missing_sections}")
 
+    # The drift gates catch a schedule that changed more than expected. When
+    # the previous corpus came from an earlier builder (build_hts_notes
+    # BUILDER_VERSION), the difference is the builder's, so it is reported,
+    # not failed -- once; the next revision is gated against this one.
+    current_builder = manifest.get("builder_version", 1)
+    previous_builder = current_builder
+    if previous_manifest:
+        try:
+            previous_builder = load_json_object(
+                previous_manifest, "previous manifest").get("builder_version", 1)
+        except ValueError:
+            pass
+    rebuilt = previous_builder != current_builder
+
+    def gate(delta_errors: list[str]) -> None:
+        if rebuilt:
+            info.extend(f"not gated (builder {previous_builder} -> "
+                        f"{current_builder}): {e}" for e in delta_errors)
+        else:
+            errors.extend(delta_errors)
+
     if previous_sidecar:
         try:
             previous = load_json_object(previous_sidecar, "previous sidecar")
             delta_errors, summary = _delta_errors(
                 cite_ids, set(previous), max_removed_pct, max_added_pct,
             )
-            errors.extend(delta_errors)
+            gate(delta_errors)
             info.append(summary)
         except ValueError as exc:
             errors.append(str(exc))
@@ -329,7 +350,7 @@ def validate_notes(
             delta_errors, summary = _count_delta_errors(
                 len(records), previous_total, max_removed_pct, max_added_pct,
             )
-            errors.extend(delta_errors)
+            gate(delta_errors)
             info.append(summary)
         except (TypeError, ValueError) as exc:
             errors.append(f"cannot compare previous manifest: {exc}")
@@ -382,7 +403,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.manifest,
         args.sidecar,
         previous_sidecar=previous_sidecar,
-        previous_manifest=None if previous_sidecar else previous_manifest,
+        # always passed: its builder_version decides whether drift is gated
+        # (the exact sidecar comparison still wins when there is one)
+        previous_manifest=previous_manifest,
         max_removed_pct=args.max_removed_pct,
         max_added_pct=args.max_added_pct,
         no_notes_chapters=(

@@ -6,6 +6,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "hts_automation"))
 
@@ -187,3 +189,27 @@ def test_validator_blocks_exact_cite_id_drift_over_threshold(tmp_path):
 
     assert any("added 1/" in error for error in errors)
     assert any("exact delta" in message for message in info)
+
+
+def _with_builder(manifest_path: Path, version: int) -> None:
+    data = json.loads(manifest_path.read_text())
+    data["builder_version"] = version
+    manifest_path.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n")
+
+
+@pytest.mark.parametrize("previous_version, gated", [(1, False), (2, True)])
+def test_drift_is_gated_only_between_same_builder_versions(tmp_path, previous_version, gated):
+    previous_manifest, previous_sidecar = _write_corpus(
+        tmp_path / "2026_rev_17", "2026_rev_17", _complete_records("2026_rev_17"))
+    _with_builder(previous_manifest, previous_version)
+    current = _complete_records("2026_rev_18")
+    current["N-98-999"] = _record("N-98-999", "chapter_note", "2026_rev_18", chapter="98")
+    manifest, sidecar = _write_corpus(tmp_path / "2026_rev_18", "2026_rev_18", current)
+    _with_builder(manifest, 2)
+
+    errors, info = validate_notes(manifest, sidecar, previous_sidecar=previous_sidecar,
+                                  previous_manifest=previous_manifest,
+                                  max_added_pct=0, max_removed_pct=0)
+
+    assert bool([e for e in errors if "added 1/" in e]) is gated
+    assert any("not gated (builder 1 -> 2)" in m for m in info) is (not gated)

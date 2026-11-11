@@ -28,6 +28,11 @@ from usitc_native import REPO_ROOT, UA
 
 RESTSTOP_URL = "https://hts.usitc.gov/reststop/file"
 JURISDICTION = "US"
+# Which parse produced a corpus. validate_hts_notes gates record drift between
+# revisions; across a builder change the drift is the builder's, not the
+# schedule's. 2 (2026-11-11): notes run on across page breaks, a wrapped
+# heading number no longer opens a note, paragraphs are found in sequence.
+BUILDER_VERSION = 2
 RESERVED_CHAPTERS = frozenset({77})
 
 KIND_ORDER = {
@@ -63,7 +68,10 @@ PAGE_TAG_RE = re.compile(
 SECTION_RE = re.compile(r"^SECTION\s+([IVXLCDM]+)$", re.IGNORECASE)
 CHAPTER_RE = re.compile(r"^CHAPTER\s+(\d{1,2})$", re.IGNORECASE)
 SUBCHAPTER_RE = re.compile(r"^SUBCHAPTER\s+([IVXLCDM]+)$", re.IGNORECASE)
-NOTE_START_RE = re.compile(r"^(\d+)\.\s+(.*)$")
+# One to three digits: a wrapped line can begin with a heading number ("7403.
+# This provision applies ..."), which opened phantom notes SN-XV-7403 and
+# N-84-8479 and cut the real notes short.
+NOTE_START_RE = re.compile(r"^(\d{1,3})\.\s+(.*)$")
 SUBPARA_RE = re.compile(r"^\(([a-z]{1,4})\)\s*(.*)$")
 TABLE_START_RE = re.compile(r"^Heading/\s*Stat\.", re.IGNORECASE)
 
@@ -272,25 +280,57 @@ def make_record(
     }
 
 
+_ROMAN = ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi",
+          "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix", "xx")
+
+
+def _next_labels(label: str, roman: bool) -> set[str]:
+    if roman:
+        k = _ROMAN.index(label) if label in _ROMAN else -1
+        return {_ROMAN[k + 1]} if 0 <= k < len(_ROMAN) - 1 else set()
+    # The HS letters run (h), (ij), (k): "ij" stands in for "i" so it is not
+    # read as a roman numeral; some notes print a plain (i) instead.
+    if label == "h":
+        return {"ij", "i"}
+    if label == "ij":
+        return {"k"}
+    if label == "i":
+        return {"j", "k"}
+    return {chr(ord(label) + 1)} if len(label) == 1 and label < "z" else set()
+
+
 def _direct_paragraphs(lines: Sequence[SourceLine]) -> list[tuple[int, str]]:
-    candidates: list[tuple[int, int, str]] = []
+    """The note's own (a), (b), (c) ... -- or (i), (ii), (iii) when its list
+    starts there -- in sequence, skipping the nested items between them.
+
+    Indentation alone cannot tell them apart once a note runs over a page:
+    each page has its own margin (Additional U.S. Note 3 to chapter 2 sets (a)
+    and (b) at 5 and, over the page, (c) at 0), so a direct paragraph is the
+    next label in sequence that sits no deeper than the previous one on the
+    same page. A list that starts again at its first label is a second list
+    (Section XI Note 4's (A) and (B) parts each run (a), (b) ...): those
+    subdivisions have no unambiguous cite ID, so the complete numbered-note
+    record is kept instead of inventing a legal citation."""
+    candidates: list[tuple[int, int, int, str]] = []
     for index, line in enumerate(lines):
         match = SUBPARA_RE.match(line.text)
         if match:
-            candidates.append((index, line.indent, match.group(1).lower()))
-    if not candidates:
+            candidates.append((index, line.indent, line.page, match.group(1).lower()))
+    if not candidates or candidates[0][3] not in ("a", "i"):
         return []
-    direct_indent = min(indent for _, indent, _ in candidates)
-    direct = [
-        (index, label)
-        for index, indent, label in candidates
-        if indent <= direct_indent + 2
-    ]
-    # A few legal notes contain multiple separately introduced lists that reuse
-    # (a), (b), etc. Those subdivisions have no unambiguous cite ID, so retain
-    # the complete numbered-note record instead of inventing a legal citation.
-    labels = [label for _, label in direct]
-    return [] if len(labels) != len(set(labels)) else direct
+    roman = candidates[0][3] == "i"
+    direct = [candidates[0]]
+    expected = _next_labels(candidates[0][3], roman)
+    for candidate in candidates[1:]:
+        _, indent, page, label = candidate
+        _, prev_indent, prev_page, _ = direct[-1]
+        level = page != prev_page or indent <= prev_indent + 2
+        if label in expected and level:
+            direct.append(candidate)
+            expected = _next_labels(label, roman)
+        elif label == direct[0][3] and level:
+            return []
+    return [(index, label) for index, _, _, label in direct]
 
 
 def records_for_note(
@@ -518,9 +558,17 @@ def parse_chapter_text(
 
         block_kind, continuation = _block_heading(line.text)
         if block_kind:
-            flush()
             if continuation and current_kind:
+                # A page break repeats a heading ("Notes (con.)"): the block
+                # AND the note open before it go on -- Chapter 72 Note 1
+                # continues at "(f) Other alloy steel". The repeated heading
+                # does not always name the open block, so the open kind is
+                # kept. Closing the note here dropped every line up to the
+                # next numbered note: 84 page breaks in Revision 18, from
+                # Section XV Note 9's (b)-(e) to the Additional U.S. Notes'
+                # quota quantities.
                 continue
+            flush()
             if block_kind == "notes":
                 current_kind = (
                     "section_note" if current_chapter is None else "chapter_note"
@@ -769,6 +817,7 @@ def build_corpus(revision: str, release: str, out_dir: Path) -> dict[str, Any]:
     )
     manifest = {
         "schema_version": 1,
+        "builder_version": BUILDER_VERSION,
         "jurisdiction": JURISDICTION,
         "revision": revision,
         "release": release,

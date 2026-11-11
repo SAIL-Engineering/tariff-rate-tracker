@@ -164,3 +164,89 @@ def test_same_fixture_bytes_produce_identical_records():
     assert first == second
     digest = hashlib.sha256(repr(first).encode()).hexdigest()
     assert digest == hashlib.sha256(repr(second).encode()).hexdigest()
+
+
+# ── page breaks, wrapped heading numbers, paragraphs in sequence (2026-11-11) ─
+
+def _chapter(text: str, chapter: int = 72):
+    return by_cite(parse_chapter_text(text, expected_chapter=chapter,
+                                      revision=REVISION, url=URL, pdf_sha256=SHA))
+
+
+CH72 = """CHAPTER 72
+Notes
+1. In this chapter the following expressions have the meanings hereby assigned to them:
+     (a) Pig iron
+            Iron-carbon alloys not usefully malleable, containing more than 2 percent of carbon and
+            other elements within the limits specified below.
+     (b) Stainless steel
+            Alloy steels containing 1.2 percent or less of carbon and 10.5 percent or more of chromium.
+     (c) Flat-rolled products
+            Rolled products of solid rectangular cross section, of a width measuring at least ten times
+            the thickness, which are to be taken to be products of heading
+\f
+XV
+72-2
+Notes (con.)
+            7208. This provision applies mutatis mutandis to the products of chapter 81.
+       (d) Wire
+              Cold-formed products in coils, of any uniform solid cross section along their whole length.
+2. Iron and non-alloy steel clad with another ferrous metal are to be classified as products of
+   the ferrous metal predominating by weight.
+Heading/ Stat. Unit Rates of Duty
+"""
+
+
+def test_a_note_runs_on_across_a_page_break():
+    notes = _chapter(CH72)
+    n1 = notes["N-72-1"]["chunk_text"]
+    # Before: "Notes (con.)" closed the note, so (d) and the tail of (c) were lost.
+    assert "Cold-formed products in coils" in n1
+    assert n1.index("(c) Flat-rolled") < n1.index("(d) Wire")
+    assert "N-72-2" in notes
+
+
+def test_a_wrapped_heading_number_is_not_a_note():
+    notes = _chapter(CH72)
+    assert "N-72-7208" not in notes
+    assert "of heading 7208. This provision applies" in notes["N-72-1"]["chunk_text"]
+
+
+def test_paragraphs_in_sequence_across_pages_with_their_own_margins():
+    notes = _chapter(CH72)
+    assert {c for c in notes if c.startswith("N-72-1(")} == {
+        "N-72-1(a)", "N-72-1(b)", "N-72-1(c)", "N-72-1(d)"}
+    assert notes["N-72-1(d)"]["chunk_text"].startswith(
+        "In this chapter the following expressions have the meanings hereby assigned to them: (d) Wire")
+
+
+def test_units_in_parentheses_are_not_paragraphs():
+    notes = _chapter("""CHAPTER 4
+Additional U.S. Notes
+1. The aggregate quantity entered in any calendar year shall not exceed the following:
+     (a) Butter substitutes                                          1,000,000
+                                                                     (kg)
+     (b) Dairy mixtures                                              2,000,000
+     (c) Other dairy products not specified elsewhere in this note and entered under the
+         provisions of this subchapter in any calendar year, in the aggregate quantities listed above.
+Heading/ Stat. Unit Rates of Duty
+""", chapter=4)
+    assert "AUSN-4-1(kg)" not in notes
+    assert {c for c in notes if c.startswith("AUSN-4-1(")} == {
+        "AUSN-4-1(a)", "AUSN-4-1(b)", "AUSN-4-1(c)"}
+
+
+def test_a_note_with_two_lists_is_kept_whole():
+    notes = _chapter("""CHAPTER 50
+Notes
+1. For the purposes of this section, put up for retail sale means:
+     (A) Yarn put up:
+       (a) On cards of a weight not exceeding 85 g;
+       (b) In balls of a weight not exceeding 125 g;
+     (B) Exceptions:
+       (a) Single yarn of any textile material, except as provided in the following;
+       (b) Multiple or cabled yarn, unbleached, put up in hanks or skeins of any weight.
+Heading/ Stat. Unit Rates of Duty
+""", chapter=50)
+    assert "N-50-1" in notes
+    assert not [c for c in notes if c.startswith("N-50-1(")]
