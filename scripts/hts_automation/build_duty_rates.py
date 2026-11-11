@@ -2198,9 +2198,12 @@ SG_COVERAGE = {
         "beer and samsu).",
         "Goods and Services Tax on imports (levied under the GST Act, not "
         "printed in the STCCED).",
-        "Nil customs duty is read from a BLANK column-5 cell: the STCCED "
-        "front matter does not define a blank, so a line's nil rate is an "
-        "inference from the book's structure, not a printed 'Free'.",
+        "Nil customs duty is read from a BLANK column-5 cell. The STCCED does "
+        "not define a blank; the basis is Singapore Customs, which names four "
+        "dutiable categories (intoxicating liquors, tobacco products, motor "
+        "vehicles, petroleum products and biodiesel blends) and states: 'Goods "
+        "not subject to customs or excise duty are non-dutiable, although GST "
+        "may still apply unless exempted.' Source: Singapore Customs, 'Duties and Dutiable Goods Overview' (customs.gov.sg/businesses/valuation-duties-taxes-and-fees/duties-and-dutiable-goods/, last updated 9 March 2026).",
         "Duty or excise text the build could not read is carried verbatim "
         "and flagged for review, never shown as a rate.",
     ],
@@ -2225,8 +2228,8 @@ def build_sg(csv_path: Path, jur: str, revision: str):
 
     BLANK = NIL. Every leaf with a blank DUTY_FULL is emitted as an explicit
     'Free' MFN row (rate_basis 'blank_nil'); otherwise 11,415 of 11,423 lines
-    would show "no rate". The textual basis is WEAK and that is recorded
-    here rather than smoothed over: the STCCED 2022 front matter (PDF pages
+    would show "no rate". The STCCED itself does not state this, and that is
+    recorded here rather than smoothed over: the STCCED 2022 front matter (PDF pages
     5-18 — Preface, General Interpretative Rules, Abbreviations and Symbols,
     Units of Quantity, the section/chapter list) contains NO statement that a
     blank duty cell means nil, and no legend for the columns at all (the
@@ -2242,10 +2245,23 @@ def build_sg(csv_path: Path, jur: str, revision: str):
     'blank_nil'). Because a parse regression that blanked the column would
     masquerade as nil, an all-blank column fails the build.
 
+    THE BASIS IS SINGAPORE CUSTOMS, not the book: its 'Duties and Dutiable
+    Goods Overview' names four dutiable categories (intoxicating liquors,
+    tobacco products, motor vehicles, petroleum products and biodiesel blends)
+    and states "Goods not subject to customs or excise duty are non-dutiable,
+    although GST may still apply unless exempted." Of those, only liquor
+    carries CUSTOMS duty in column (5); tobacco, vehicles and petroleum are
+    excise (column 7), emitted here as informational tax. See SOURCES.md.
+
     PREF: the book never says which origins or arrangement column (6)
-    'PREF' serves (no legend, no front-matter text). It is emitted as a
-    conditional treatment with NO origins and transcription_pending, so it
-    can never apply to a chosen origin until that list is verified."""
+    'PREF' serves. Singapore Customs does: preferential tariffs under its free
+    trade agreements "allow importers to pay lower or zero customs duty on
+    certain dutiable goods" -- stout or porter, beer including ale, medicated
+    samsu and other samsu -- for originating goods with proof of origin
+    (E-ATIGA Form D, ACFTA Form E, CSFTA, RCEP among others). No source
+    enumerates every partner, so the treatment carries NO origins and
+    transcription_pending: it never applies to a chosen origin until that list
+    is transcribed."""
     rows = _read_canonical(csv_path, SG_REQUIRED, "SG")
     leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
     if not leaves:
@@ -2302,17 +2318,24 @@ def build_sg(csv_path: Path, jur: str, revision: str):
                         "dutiable goods are those within the Customs Duties "
                         "Order (STCCED heading 98.92)",
          "note": "Lines with no printed full rate are shown as nil (Free). "
-                 "The book does not define a blank cell; nil is inferred "
-                 "from its structure (only beer and samsu carry a rate)."},
+                 "The STCCED does not define a blank cell; Singapore Customs "
+                 "states that goods outside its four dutiable categories "
+                 "(intoxicating liquors, tobacco products, motor vehicles, "
+                 "petroleum products and biodiesel blends) are non-dutiable, "
+                 "and of those only liquor carries customs duty in this column.",
+         "source": "Singapore Customs, 'Duties and Dutiable Goods Overview' (customs.gov.sg/businesses/valuation-duties-taxes-and-fees/duties-and-dutiable-goods/, last updated 9 March 2026)"},
         {"treatment": "PREF",
-         "name": "Customs duty — preferential rate (STCCED 'Pref' column; "
-                 "origins not stated in the source)",
+         "name": "Customs duty — FTA preferential rate (originating goods)",
          "origin_countries": [], "applies": None, "conditional": True,
          "transcription_pending": True,
          "legal_basis": "STCCED 2022, column (6) 'Customs Duty — Pref'",
-         "note": "The STCCED does not say which origins or arrangement this "
-                 "column serves, so it never applies to a chosen origin "
-                 "until that is verified against the Customs Duties Order."},
+         "note": "Singapore's free trade agreements allow lower or zero customs "
+                 "duty on stout or porter, beer including ale, medicated samsu "
+                 "and other samsu that originate in an FTA partner, with proof "
+                 "of origin (e.g. E-ATIGA Form D, ACFTA Form E, CSFTA, RCEP). "
+                 "The partner list is not transcribed, so this treatment never "
+                 "applies to a chosen origin automatically.",
+         "source": "Singapore Customs, 'Claiming Preferential Tariff Treatment for Dutiable Imports' (customs.gov.sg/businesses/certificates-of-origin/claiming-preferential-tariff-treatment-for-dutiable-imports/, last updated 18 February 2026)"},
         {"treatment": "EXCISE", "name": "Excise duty",
          "origin_countries": [], "applies": "all_origins",
          "conditional": False, "category": "tax",

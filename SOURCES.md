@@ -144,12 +144,36 @@ Three official KCS datasets on data.go.kr (provided 2026-09-02):
 - Parsed from `pdftotext -bbox-layout` coordinates by `parse_sg_stcced.py`. The
   PDF is not committed (gitignored `.sg_download/`); its sha256 is in the registry.
 - The PDF states no commencement date; the effective date used is the HS 2022 edition date.
-- **Open: the basis for "Free".** The customs-duty column is blank on all but 8
-  lines, and the duty-rate builder reads a blank as no duty (about 11,400 lines
-  shown as "Free"). The STCCED never says so: its only reference to the governing
-  instrument is page 655, "goods falling within the Customs Duties Order". The
-  rule must be cited here from Singapore Customs' own publication before
-  Singapore's rates ship.
+- **The basis for "Free".** The customs-duty column is blank on all but 8 lines,
+  and the duty-rate builder reads a blank as no customs duty (about 11,400 lines
+  shown as "Free"). The STCCED never says so (its only reference to the governing
+  instrument is page 655, "goods falling within the Customs Duties Order"). The
+  basis is Singapore Customs, *Duties and Dutiable Goods Overview*
+  (<https://customs.gov.sg/businesses/valuation-duties-taxes-and-fees/duties-and-dutiable-goods/>,
+  "Last updated on 9 March 2026", read 2026-11-11):
+  > "In Singapore, certain goods are subject to customs duty and/or excise duty
+  > when imported or manufactured." "There are four categories:" intoxicating
+  > liquors, tobacco products, motor vehicles, petroleum products and biodiesel
+  > blends. "Goods not subject to customs or excise duty are non-dutiable,
+  > although GST may still apply unless exempted."
+
+  Of the four, only liquor carries customs duty in column (5); tobacco, vehicles
+  and petroleum are excise (column 7). The governing instrument is the Customs
+  (Duties) Order (<https://sso.agc.gov.sg/SL/CA1960-OR4>), which levies duty "at
+  the rates set out in column (5), (6) or (7)" of its Schedule. That wording is
+  as quoted by a search index: Singapore Statutes Online refuses automated
+  requests, so it should be confirmed in a browser.
+- **What "PREF" means.** Singapore Customs, *Claiming Preferential Tariff
+  Treatment for Dutiable Imports*
+  (<https://www.customs.gov.sg/businesses/certificates-of-origin/claiming-preferential-tariff-treatment-for-dutiable-imports/>,
+  "Last updated on 18 February 2026"): preferential tariffs under Singapore's
+  free trade agreements "allow importers to pay lower or zero customs duty on
+  certain dutiable goods" (stout or porter, beer including ale, medicated samsu,
+  other samsu) for originating goods with proof of origin (E-ATIGA Form D, ACFTA
+  Form E, CSFTA, RCEP). No source lists every partner, so the PREF treatment
+  carries no origins and never applies to a shipment automatically.
+- **Automated access.** customs.gov.sg answers WebFetch, but blocks the headless
+  browser (CloudFront 403). sso.agc.gov.sg blocks both.
 - Registry: `config/jurisdictions/sg_revisions.csv`; detail: `data/sg_tariff_source/README.md`
 
 ## Malaysia (MY)
