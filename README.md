@@ -16,6 +16,7 @@ The repository's core product is an interval-encoded tariff panel for the U.S. t
 
 ## Start here
 
+- **Where every jurisdiction's tariff schedule comes from**: [SOURCES.md](SOURCES.md)
 - Build and setup: [docs/build.md](docs/build.md)
 - Data pipeline, end to end: [docs/data-pipeline-README.md](docs/data-pipeline-README.md)
 - Pipeline operations (run, rebuild, integrate a revision): [docs/pipeline-operations.md](docs/pipeline-operations.md)

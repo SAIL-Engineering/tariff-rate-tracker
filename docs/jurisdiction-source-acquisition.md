@@ -1,5 +1,8 @@
 # Acquiring SG, MY and VN revisions — what automation would take
 
+The sources themselves, for every jurisdiction, are listed in
+[SOURCES.md](../SOURCES.md). This page is about automating the three below.
+
 Singapore, Malaysia and Vietnam were all acquired by hand. None has a GitHub
 Action, and the reason is the same in all three cases and worth writing down:
 **none of them publishes a stable URL for "the current edition."** Every one
