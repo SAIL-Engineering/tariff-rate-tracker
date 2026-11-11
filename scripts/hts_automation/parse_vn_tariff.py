@@ -54,7 +54,11 @@ except ImportError:  # pragma: no cover
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 JURISDICTION = "VN"
-REVISION = "2026_0405"
+# The standard {year}_rev_{number} id every jurisdiction uses. Dated editions
+# take MMDD of the effective date as the number (CH 901, KR 101, TW 729): the
+# workbook as at 5 April 2026 is 2026_rev_405.
+REVISION = "2026_rev_405"
+EFFECTIVE_DATE = "2026-04-05"
 EDITION_LABEL = "Import-Export Tariff workbook as at 5 April 2026"
 SHEET = "BT2026"
 SOURCE_URL = ("https://docs.google.com/spreadsheets/d/"
@@ -273,6 +277,9 @@ class Parse:
     notes: list = field(default_factory=list)
     chapters: dict = field(default_factory=dict)
     sections: dict = field(default_factory=dict)
+    # The workbook prints every section and chapter title in both languages;
+    # the Vietnamese ones feed chapters_vn.vi.json for the Tariff Schedule toggle.
+    sections_vi: dict = field(default_factory=dict)
     stats: Counter = field(default_factory=Counter)
     anomalies: list = field(default_factory=list)
 
@@ -330,6 +337,7 @@ def parse_workbook(path: Path) -> Parse:
             if chapter is not None:
                 out.chapters.setdefault(chapter, {"section": section_of(chapter) or section})
                 out.chapters[chapter]["title"] = en or vi
+                out.chapters[chapter]["title_vi"] = vi or en
             continue
         if rtype == T_SECTION_TITLE:
             # The section's own title, printed on the row after its header. The
@@ -337,6 +345,7 @@ def parse_workbook(path: Path) -> Parse:
             # chapters_sg.json and chapters_my.json use.
             if section:
                 out.sections.setdefault(section, en or vi)
+                out.sections_vi.setdefault(section, vi or en)
             continue
         if rtype in (T_SUBCHAPTER, T_SUBCHAPTER_TITLE):
             continue
@@ -602,20 +611,27 @@ CH98_ENTRY = {
     "section": "",
     "sectionTitle": "",
 }
+# The Vietnamese heading as printed on sheet row 19052, set in the same sentence
+# case as every other chapter title.
+CH98_ENTRY_VI = dict(CH98_ENTRY, description=(
+    "Quy định mã hàng và mức thuế suất thuế nhập khẩu ưu đãi riêng "
+    "đối với một số nhóm mặt hàng, mặt hàng"))
 
 
-def write_chapters(parse: Parse, path: Path) -> None:
+def write_chapters(parse: Parse, path: Path, lang: str = "en") -> None:
     """A LIST of {chapter, description, section, sectionTitle}, chapter numbers
     zero-padded -- the shape build_hts_corpus.load_chapters() reads and the
     shape chapters_sg.json and chapters_my.json already have. A dict keyed by an
     unpadded number, which this wrote first, makes load_chapters() raise on
     `c["chapter"]` before the corpus build starts."""
+    vi = lang == "vi"
+    sections = parse.sections_vi if vi else parse.sections
     payload = [{"chapter": f"{k:02d}",
-                "description": v.get("title", ""),
+                "description": v.get("title_vi" if vi else "title", ""),
                 "section": v.get("section", ""),
-                "sectionTitle": parse.sections.get(v.get("section", ""), "")}
+                "sectionTitle": sections.get(v.get("section", ""), "")}
                for k, v in sorted(parse.chapters.items())]
-    payload.append(dict(CH98_ENTRY))
+    payload.append(dict(CH98_ENTRY_VI if vi else CH98_ENTRY))
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
                     encoding="utf-8")
 
@@ -747,14 +763,22 @@ def ahtn_crosscheck() -> str:
     """Set the 8-digit codes against the SG-MY verified AHTN core when both are
     built. Two independently parsed PDFs agreeing is a stronger witness than
     anything internal to this workbook."""
-    paths = {"SG": REPO_ROOT / "output/sg_2022/sg_2022.codes.json",
-             "MY": REPO_ROOT / "output/my_pdk2025/my_pdk2025.codes.json"}
-    if not all(p.exists() for p in paths.values()):
-        return "  AHTN cross-check: skipped (SG/MY corpora not built)"
+    # The tracked canonical CSVs, not build outputs: those live under output/
+    # by revision id and are absent on a fresh checkout, which silently skipped
+    # this check.
+    paths = {}
+    for cc in ("sg", "my"):
+        found = sorted((REPO_ROOT / "data" / f"{cc}_tariff_source").glob(f"{cc}_tariff_*_rev_*.csv"))
+        found = [p for p in found if p.name.count(".") == 1]   # not the .vi/.ms variants
+        if found:
+            paths[cc.upper()] = found[-1]
+    if len(paths) < 2:
+        return "  AHTN cross-check: skipped (SG/MY canonical CSVs not found)"
     sets = {}
     for cc, p in paths.items():
-        nodes = json.loads(p.read_text(encoding="utf-8"))["nodes"]
-        sets[cc] = {c[:8] for c in nodes if len(c) >= 8}
+        with p.open(newline="", encoding="utf-8") as fh:
+            codes = {re.sub(r"\D", "", r["GOODS_CODE"] or "") for r in csv.DictReader(fh)}
+        sets[cc] = {c[:8] for c in codes if len(c) >= 8}
     core = sets["SG"] & sets["MY"]
     return core
 
@@ -873,7 +897,16 @@ def main() -> int:
     n_en = write_csv(parse, args.out_dir / f"{stem}.csv", "en")
     n_vi = write_csv(parse, args.out_dir / f"{stem}.vi.csv", "vi")
     write_chapters(parse, args.chapters_out)
+    write_chapters(parse, args.chapters_out.with_suffix(".vi.json"), "vi")
     write_notes(records, args.notes_dir, parse, source_sha)
+    # The manual acquisition adapter reads the effective date from this sidecar,
+    # exactly as it does for the Dominican Republic's transcription.
+    (args.out_dir / f"{stem}.csv.meta.json").write_text(json.dumps({
+        "effective_date": EFFECTIVE_DATE,
+        "effective_date_label": EDITION_LABEL,
+        "source": SOURCE_URL,
+        "source_sha256": source_sha,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     core = ahtn_crosscheck()
     if isinstance(core, str):

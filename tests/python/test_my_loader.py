@@ -16,7 +16,7 @@ MY_CHAPTERS = AUTOMATION / "chapters_my.json"
 
 def _build(fixture):
     return build(FIXTURES / fixture, MY_CHAPTERS,
-                 source_format="my", jurisdiction="MY", revision="pdk2025")
+                 source_format="my", jurisdiction="MY", revision="2025_rev_1101")
 
 
 def test_display_dotting_matches_the_gazette():

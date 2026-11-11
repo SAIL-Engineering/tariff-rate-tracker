@@ -22,26 +22,27 @@ That writes, and the gates must pass before it writes anything:
 
 | Path | Tracked | What it is |
 |---|---|---|
-| `sg_tariff_2022.csv` | yes | canonical rows for `build_hts_corpus.load_rows_sg()` |
-| `sg_2022.reference.json` | yes | abbreviations, symbols, the 14 units of quantity |
-| `sg_2022.toc.json` | yes | contents-page section/chapter titles + printed start pages |
-| `../hts_notes/sg_2022/sg_2022.notes.json` | no (gitignored) | cite_id → note record sidecar |
-| `../hts_notes/sg_2022/sg_2022.notes.{gri,section,chapter}.jsonl` | no | Pinecone note families |
-| `../hts_notes/sg_2022/sg_2022.notes.manifest.json` | yes | counts + hashes |
+| `sg_tariff_2022_rev_101.csv` | yes | canonical rows for `build_hts_corpus.load_rows_sg()` |
+| `sg_tariff_2022_rev_101.csv.meta.json` | yes | effective date and source, read by `acquire/manual.py` |
+| `sg_2022_rev_101.reference.json` | yes | abbreviations, symbols, the 14 units of quantity |
+| `sg_2022_rev_101.toc.json` | yes | contents-page section/chapter titles + printed start pages |
+| `../hts_notes/sg_2022_rev_101/sg_2022_rev_101.notes.json` | no (gitignored) | cite_id → note record sidecar |
+| `../hts_notes/sg_2022_rev_101/sg_2022_rev_101.notes.{gri,section,chapter}.jsonl` | no | Pinecone note families |
+| `../hts_notes/sg_2022_rev_101/sg_2022_rev_101.notes.manifest.json` | yes | counts + hashes |
 | `scripts/hts_automation/chapters_sg.json` | yes | chapter/section index, read from the book |
 
 Then the explorer dataset and the retrieval corpus, from that CSV:
 
 ```bash
 python3 scripts/hts_automation/build_explorer_dataset.py \
-    data/sg_tariff_source/sg_tariff_2022.csv \
+    data/sg_tariff_source/sg_tariff_2022_rev_101.csv \
     --source-format sg --jurisdiction SG \
-    --out output/sg_2022/sg_2022_revision_0.json
+    --out output/sg_2022_rev_101/sg_2022_revision_101.json
 
 python3 scripts/hts_automation/build_hts_corpus.py \
-    data/sg_tariff_source/sg_tariff_2022.csv \
+    data/sg_tariff_source/sg_tariff_2022_rev_101.csv \
     scripts/hts_automation/chapters_sg.json \
-    output/sg_2022/sg_2022 \
+    output/sg_2022_rev_101/sg_2022_rev_101 \
     --jurisdiction SG --revision 2022 --source-format sg --max-depth 8
 ```
 

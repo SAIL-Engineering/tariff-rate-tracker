@@ -46,10 +46,11 @@ rate on a coded row is never emitted as a rate: it carries
 
 | Path | Tracked | What |
 |---|---|---|
-| `my_tariff_pdk2025.csv` | yes | canonical rows for `build_hts_corpus.load_rows_my()` |
-| `../hts_notes/my_pdk2025/my_pdk2025.notes.json` | no (gitignored) | cite_id → note record sidecar |
-| `../hts_notes/my_pdk2025/my_pdk2025.notes.{section,chapter}.jsonl` | no | Pinecone note families |
-| `../hts_notes/my_pdk2025/my_pdk2025.notes.manifest.json` | yes | counts, hashes, source anomalies |
+| `my_tariff_2025_rev_1101.csv` | yes | canonical rows for `build_hts_corpus.load_rows_my()` |
+| `my_tariff_2025_rev_1101.csv.meta.json` | yes | effective date and source, read by `acquire/manual.py` |
+| `../hts_notes/my_2025_rev_1101/my_2025_rev_1101.notes.json` | no (gitignored) | cite_id → note record sidecar |
+| `../hts_notes/my_2025_rev_1101/my_2025_rev_1101.notes.{section,chapter}.jsonl` | no | Pinecone note families |
+| `../hts_notes/my_2025_rev_1101/my_2025_rev_1101.notes.manifest.json` | yes | counts, hashes, source anomalies |
 | `scripts/hts_automation/chapters_my.json` | yes | chapter/section index, from the gazette |
 
 ## What the 2025 order contains

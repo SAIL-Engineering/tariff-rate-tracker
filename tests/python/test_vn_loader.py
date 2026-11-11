@@ -41,7 +41,7 @@ def _build(fixture, lang="en"):
     bhc.CORPUS_LANG = lang
     try:
         return build(FIXTURES / fixture, VN_CHAPTERS,
-                     source_format="vn", jurisdiction="VN", revision="2026_0405")
+                     source_format="vn", jurisdiction="VN", revision="2026_rev_405")
     finally:
         bhc.CORPUS_LANG = previous
 

@@ -1,6 +1,7 @@
 {
-  "_comment": "Singapore — Trade Classification, Customs and Excise Duties (STCCED), 2022 edition, the current one. Singapore publishes NO machine-readable schedule: the only source is a 655-page PDF (https://file.go.gov.sg/stcced2022.pdf) linked from customs.gov.sg. So there is no acquire adapter and no scheduled refresh — the PDF is fetched by hand into data/sg_tariff_source/ and scripts/hts_automation/parse_sg_stcced.py converts it, emitting both the tariff CSV this spec consumes and the legal-notes corpus under data/hts_notes/sg_2022/. The edition is annual at most and has no revision numbering, so revision_id_pattern is the bare year. Codes are 8-digit; hierarchy is the dash depth the book prints.",
-  "_comment_verify": "No verify thresholds: those compare a new revision against its predecessor, and there is only one edition. Add them when a second edition lands.",
+  "_comment": "Singapore — Trade Classification, Customs and Excise Duties (STCCED), 2022 edition, the current one. Singapore publishes NO machine-readable schedule: the only source is a 655-page PDF (https://file.go.gov.sg/stcced2022.pdf) linked from customs.gov.sg. So acquisition is manual, like the Dominican Republic's: the PDF is fetched by hand into data/sg_tariff_source/.sg_download/ and scripts/hts_automation/parse_sg_stcced.py converts it, writing sg_tariff_<year>_rev_<n>.csv (+ its .meta.json effective date) for the manual adapter, and the legal-notes corpus under data/hts_notes/. Codes are 8-digit; hierarchy is the dash depth the book prints. Sources: SOURCES.md.",
+  "_comment_revision": "Revision ids follow the {year}_rev_{number} convention every jurisdiction uses. A dated edition takes MMDD of its effective date as the number, as CH (901), KR (101) and TW (729) do: the 2022 edition, effective 1 January 2022 (the HS 2022 date; the PDF states none of its own), is 2022_rev_101.",
+  "_comment_verify": "Copied from DO. The first edition has no predecessor, so verify passes with a warning (diff_revisions.py writes {\"skipped\": \"no_previous\"}); the thresholds guard the next edition.",
   "code": "SG",
   "name": "Singapore",
   "tariff_schedule_name": "Singapore Trade Classification, Customs and Excise Duties (STCCED)",
@@ -8,16 +9,7 @@
   "acquire": {
     "adapter": "manual",
     "manual_dir": "data/sg_tariff_source",
-    "manual_prefix": "stcced",
-    "manual_revision": {
-      "rev_id": "2022",
-      "year": 2022,
-      "rev_num": 1,
-      "source": "sg_tariff_2022.csv",
-      "effective_date": "2022-01-01",
-      "effective_date_label": "STCCED 2022 edition",
-      "_comment": "Singapore publishes ONE STCCED edition, with no revision number. rev_num is 1 so (country, year, number) stays a usable key in hts_revisions; a later edition gets its own year."
-    },
+    "manual_prefix": "sg_tariff",
     "options": {
       "source_url": "https://file.go.gov.sg/stcced2022.pdf",
       "landing_url": "https://www.customs.gov.sg/doing-business/business-resources/hs-classification-of-goods/understanding-hs-classification/",
@@ -30,17 +22,26 @@
   "source_format": "sg",
   "chapters_file": "scripts/hts_automation/chapters_sg.json",
   "max_depth": 8,
-  "revision_id_pattern": "{year}",
-  "namespace_pattern": "sg__{year}",
-  "stem_pattern": "sg_{year}",
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "sg__{year}_rev_{number}",
+  "stem_pattern": "sg_{year}_rev_{number}",
   "registry": "config/jurisdictions/sg_revisions.csv",
   "steps": [
+    "acquire",
     "build",
+    "verify",
     "publish",
-    "register"
+    "register",
+    "ship"
   ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
   "publish": {
-    "keep": 2,
+    "keep": 3,
     "golden_queries": "config/jurisdictions/sg_golden_queries.json"
   },
   "register": {
@@ -53,15 +54,30 @@
     "also": [
       {
         "from": "codes_json",
-        "to": "server/data/hts/sg_{year}.codes.json"
+        "to": "server/data/hts/sg_{year}_rev_{number}.codes.json"
       },
       {
         "from": "explorer_json",
-        "to": "server/data/hts/sg_{year}_revision_0.json"
+        "to": "server/data/hts/sg_{year}_revision_{number}.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
       }
     ],
-    "prune_keep": 2,
-    "tag_name": "sg-stcced-{year}",
-    "commit_message": "chore: Singapore STCCED {year} dataset node index"
+    "prune_keep": 3,
+    "tag_name": "sg-stcced-{year}-rev{number}",
+    "commit_message": "chore: Singapore STCCED {year} rev {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "source_csv"
   }
 }

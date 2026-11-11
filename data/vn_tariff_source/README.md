@@ -103,29 +103,30 @@ The gates must pass before it writes anything. That produces:
 
 | Path | Tracked | What it is |
 |---|---|---|
-| `vn_tariff_2026_0405.csv` | yes | canonical rows for `build_hts_corpus.load_rows_vn()`, English descriptions |
-| `vn_tariff_2026_0405.vi.csv` | yes | the same codes and indents in the same order, Vietnamese descriptions |
-| `../hts_notes/vn_2026_0405/vn_2026_0405.notes.json` | no (gitignored) | cite_id → note record sidecar |
-| `../hts_notes/vn_2026_0405/vn_2026_0405.notes.{section,chapter}.jsonl` | no | Pinecone note families |
-| `../hts_notes/vn_2026_0405/vn_2026_0405.notes.manifest.json` | yes | counts, hashes, source anomalies |
+| `vn_tariff_2026_rev_405.csv` | yes | canonical rows for `build_hts_corpus.load_rows_vn()`, English descriptions |
+| `vn_tariff_2026_rev_405.csv.meta.json` | yes | effective date and source, read by `acquire/manual.py` |
+| `vn_tariff_2026_rev_405.vi.csv` | yes | the same codes and indents in the same order, Vietnamese descriptions |
+| `../hts_notes/vn_2026_rev_405/vn_2026_rev_405.notes.json` | no (gitignored) | cite_id → note record sidecar |
+| `../hts_notes/vn_2026_rev_405/vn_2026_rev_405.notes.{section,chapter}.jsonl` | no | Pinecone note families |
+| `../hts_notes/vn_2026_rev_405/vn_2026_rev_405.notes.manifest.json` | yes | counts, hashes, source anomalies |
 | `scripts/hts_automation/chapters_vn.json` | yes | chapter/section index, 98 entries, from the workbook |
 
 Then the Explorer dataset and the retrieval corpus, from that CSV. The output
 directory is not created for you:
 
 ```bash
-mkdir -p output/vn_2026_0405
+mkdir -p output/vn_2026_rev_405
 
 python3 scripts/hts_automation/build_explorer_dataset.py \
-    data/vn_tariff_source/vn_tariff_2026_0405.csv \
+    data/vn_tariff_source/vn_tariff_2026_rev_405.csv \
     --source-format vn --jurisdiction VN \
-    --out output/vn_2026_0405/vn_2026_0405_revision_0.json
+    --out output/vn_2026_rev_405/vn_2026_revision_405.json
 
 python3 scripts/hts_automation/build_hts_corpus.py \
-    data/vn_tariff_source/vn_tariff_2026_0405.csv \
+    data/vn_tariff_source/vn_tariff_2026_rev_405.csv \
     scripts/hts_automation/chapters_vn.json \
-    output/vn_2026_0405/vn_2026_0405 \
-    --jurisdiction VN --revision 2026_0405 --source-format vn --max-depth 8
+    output/vn_2026_rev_405/vn_2026_rev_405 \
+    --jurisdiction VN --revision 2026_rev_405 --source-format vn --max-depth 8
 ```
 
 `--max-depth 8` because Vietnamese codes are 4, 6 and 8 digits — it is **not**
@@ -135,14 +136,14 @@ CSV with `--lang vi`, which selects the `Loại khác` basket pattern and the
 
 ```bash
 python3 scripts/hts_automation/build_hts_corpus.py \
-    data/vn_tariff_source/vn_tariff_2026_0405.vi.csv \
+    data/vn_tariff_source/vn_tariff_2026_rev_405.vi.csv \
     scripts/hts_automation/chapters_vn.json \
-    output/vn_2026_0405/vn_2026_0405.vi \
-    --jurisdiction VN --revision 2026_0405 --source-format vn \
+    output/vn_2026_rev_405/vn_2026_rev_405.vi \
+    --jurisdiction VN --revision 2026_rev_405 --source-format vn \
     --max-depth 8 --lang vi
 ```
 
-## What the 2026_0405 edition contains
+## What the 2026_rev_405 edition contains
 
 17,441 CSV rows: **14,984 coded** (1,080 headings, 2,033 six-digit, 11,871
 eight-digit) and **2,457 grouping rows**. 11,873 leaves — 11,414 in chapters

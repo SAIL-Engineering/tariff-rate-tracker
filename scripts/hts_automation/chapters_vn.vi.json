@@ -1,0 +1,590 @@
+[
+  {
+    "chapter": "01",
+    "description": "Động vật sống",
+    "section": "I",
+    "sectionTitle": "ĐỘNG VẬT SỐNG; CÁC SẢN PHẨM TỪ ĐỘNG VẬT"
+  },
+  {
+    "chapter": "02",
+    "description": "Thịt và phụ phẩm dạng thịt ăn được sau giết mổ",
+    "section": "I",
+    "sectionTitle": "ĐỘNG VẬT SỐNG; CÁC SẢN PHẨM TỪ ĐỘNG VẬT"
+  },
+  {
+    "chapter": "03",
+    "description": "Cá và động vật giáp xác, động vật thân mềm và động vật thủy sinh không xương sống khác",
+    "section": "I",
+    "sectionTitle": "ĐỘNG VẬT SỐNG; CÁC SẢN PHẨM TỪ ĐỘNG VẬT"
+  },
+  {
+    "chapter": "04",
+    "description": "Sản phẩm bơ sữa; trứng chim và trứng gia cầm; mật ong tự nhiên; sản phẩm ăn được gốc động vật, chưa được chi tiết hoặc ghi ở nơi khác",
+    "section": "I",
+    "sectionTitle": "ĐỘNG VẬT SỐNG; CÁC SẢN PHẨM TỪ ĐỘNG VẬT"
+  },
+  {
+    "chapter": "05",
+    "description": "Sản phẩm gốc động vật, chưa được chi tiết hoặc ghi ở các nơi khác",
+    "section": "I",
+    "sectionTitle": "ĐỘNG VẬT SỐNG; CÁC SẢN PHẨM TỪ ĐỘNG VẬT"
+  },
+  {
+    "chapter": "06",
+    "description": "Cây sống và các loại cây trồng khác; củ, rễ và loại tương tự; cành hoa và cành lá trang trí",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "07",
+    "description": "Rau và một số loại củ, thân củ và rễ ăn được",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "08",
+    "description": "Quả và quả hạch (nuts) ăn được; vỏ quả thuộc họ cam quýt hoặc các loại dưa",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "09",
+    "description": "Cà phê, chè, chè Paragoay và các loại gia vị",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "10",
+    "description": "Ngũ cốc",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "11",
+    "description": "Các sản phẩm xay xát; malt; tinh bột; inulin; gluten lúa mì",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "12",
+    "description": "Hạt dầu và quả có dầu; các loại hạt, hạt giống và quả khác; cây công nghiệp hoặc cây dược liệu; rơm, rạ và cỏ khô",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "13",
+    "description": "Nhựa cánh kiến đỏ; gôm, nhựa cây, các chất nhựa và các chất chiết xuất từ thực vật khác",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "14",
+    "description": "Vật liệu thực vật dùng để tết bện; các sản phẩm thực vật chưa được chi tiết hoặc ghi ở nơi khác",
+    "section": "II",
+    "sectionTitle": "CÁC SẢN PHẨM THỰC VẬT"
+  },
+  {
+    "chapter": "15",
+    "description": "Chất béo và dầu có nguồn gốc từ động vật, thực vật hoặc vi sinh vật và các sản phẩm tách từ chúng; chất béo ăn được đã chế biến; các loại sáp động vật hoặc thực vật",
+    "section": "III",
+    "sectionTitle": "CHẤT BÉO VÀ DẦU CÓ NGUỒN GỐC TỪ ĐỘNG VẬT, THỰC VẬT HOẶC VI SINH VẬT VÀ CÁC SẢN PHẨM TÁCH TỪ CHÚNG; CHẤT BÉO ĂN ĐƯỢC ĐÃ CHẾ BIẾN; CÁC LOẠI SÁP ĐỘNG VẬT HOẶC THỰC VẬT"
+  },
+  {
+    "chapter": "16",
+    "description": "Các chế phẩm từ thịt, cá, động vật giáp xác, động vật thân mềm hoặc động vật thủy sinh không xương sống khác, hoặc từ côn trùng",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "17",
+    "description": "Đường và các loại kẹo đường",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "18",
+    "description": "Ca cao và các chế phẩm từ ca cao",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "19",
+    "description": "Chế phẩm từ ngũ cốc, bột, tinh bột hoặc sữa; các loại bánh",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "20",
+    "description": "Các chế phẩm từ rau, quả, quả hạch (nuts) hoặc các phần khác của cây",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "21",
+    "description": "Các chế phẩm ăn được khác",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "22",
+    "description": "Đồ uống, rượu và giấm",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "23",
+    "description": "Phế liệu và phế thải từ ngành công nghiệp thực phẩm; thức ăn gia súc đã chế biến",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "24",
+    "description": "Thuốc lá và nguyên liệu thay thế lá thuốc lá đã chế biến; các sản phẩm, chứa hoặc không chứa nicotin, dùng để hút mà không cần đốt cháy; các sản phẩm chứa nicotin khác dùng để nạp nicotin vào cơ thể con người",
+    "section": "IV",
+    "sectionTitle": "THỰC PHẨM ĐÃ CHẾ BIẾN; ĐỒ UỐNG, RƯỢU MẠNH VÀ GIẤM; THUỐC LÁ VÀ NGUYÊN LIỆU THAY THẾ LÁ THUỐC LÁ ĐÃ CHẾ BIẾN; CÁC SẢN PHẨM CHỨA HOẶC KHÔNG CHỨA NICOTIN, DÙNG ĐỂ HÚT MÀ KHÔNG CẦN ĐỐT CHÁY; CÁC SẢN PHẨM CHỨA NICOTIN KHÁC DÙNG ĐỂ NẠP NICOTIN VÀO CƠ THỂ CON NGƯỜI"
+  },
+  {
+    "chapter": "25",
+    "description": "Muối; lưu huỳnh; đất và đá; thạch cao, vôi và xi măng",
+    "section": "V",
+    "sectionTitle": "KHOÁNG SẢN"
+  },
+  {
+    "chapter": "26",
+    "description": "Quặng, xỉ và tro",
+    "section": "V",
+    "sectionTitle": "KHOÁNG SẢN"
+  },
+  {
+    "chapter": "27",
+    "description": "Nhiên liệu khoáng, dầu khoáng và các sản phẩm chưng cất từ chúng; các chất chứa bi-tum; các loại sáp khoáng chất",
+    "section": "V",
+    "sectionTitle": "KHOÁNG SẢN"
+  },
+  {
+    "chapter": "28",
+    "description": "Hóa chất vô cơ; các hợp chất vô cơ hoặc hữu cơ của kim loại quý, kim loại đất hiếm, các nguyên tố phóng xạ hoặc các chất đồng vị",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "29",
+    "description": "Hóa chất hữu cơ",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "30",
+    "description": "Dược Phẩm",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "31",
+    "description": "Phân bón",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "32",
+    "description": "Các chất chiết xuất làm thuốc nhuộm hoặc thuộc da; ta nanh và các chất dẫn xuất của chúng; thuốc nhuộm, thuốc màu và các chất màu khác; sơn và véc ni; chất gắn và các loại ma tít khác; các loại mực",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "33",
+    "description": "Tinh dầu và các chất tựa nhựa; nước hoa, mỹ phẩm hoặc các chế phẩm dùng cho vệ sinh",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "34",
+    "description": "Xà phòng, các chất hữu cơ hoạt động bề mặt, các chế phẩm dùng để giặt, rửa, các chế phẩm bôi trơn, các loại sáp nhân tạo, sáp đã được chế biến, các chế phẩm dùng để đánh bóng hoặc tẩy sạch, nến và các sản phẩm tương tự, bột nhão dùng làm hình mẫu, \"sáp dùng trong nha khoa\" và các chế phẩm dùng trong nha khoa có thành phần cơ bản là thạch cao",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "35",
+    "description": "Các chất chứa albumin; các dạng tinh bột biến tính; keo hồ; enzym",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "36",
+    "description": "Chất nổ; các sản phẩm pháo; diêm; các hợp kim tự cháy; các chế phẩm dễ cháy khác",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "37",
+    "description": "Vật liệu ảnh hoặc điện ảnh",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "38",
+    "description": "Các sản phẩm hóa chất khác",
+    "section": "VI",
+    "sectionTitle": "SẢN PHẨM CỦA NGÀNH CÔNG NGHIỆP HÓA CHẤT HOẶC CÁC NGÀNH CÔNG NGHIỆP LIÊN QUAN"
+  },
+  {
+    "chapter": "39",
+    "description": "Plastic và các sản phẩm bằng plastic",
+    "section": "VII",
+    "sectionTitle": "PLASTIC VÀ CÁC SẢN PHẨM BẰNG PLASTIC; CAO SU VÀ CÁC SẢN PHẨM BẰNG CAO SU"
+  },
+  {
+    "chapter": "40",
+    "description": "Cao su và các sản phẩm bằng cao su",
+    "section": "VII",
+    "sectionTitle": "PLASTIC VÀ CÁC SẢN PHẨM BẰNG PLASTIC; CAO SU VÀ CÁC SẢN PHẨM BẰNG CAO SU"
+  },
+  {
+    "chapter": "41",
+    "description": "Da sống (trừ da lông) và da thuộc",
+    "section": "VIII",
+    "sectionTitle": "DA SỐNG, DA THUỘC, DA LÔNG VÀ CÁC SẢN PHẨM TỪ DA; YÊN CƯƠNG VÀ BỘ ĐỒ YÊN CƯƠNG; HÀNG DU LỊCH, TÚI XÁCH TAY VÀ CÁC LOẠI ĐỒ CHỨA TƯƠNG TỰ; CÁC MẶT HÀNG TỪ RUỘT ĐỘNG VẬT (TRỪ RUỘT CON TẰM)"
+  },
+  {
+    "chapter": "42",
+    "description": "Các sản phẩm bằng da thuộc; yên cương và bộ yên cương; các mặt hàng du lịch, túi xách và các loại đồ chứa tương tự; các sản phẩm làm từ ruột động vật (trừ ruột con tằm)",
+    "section": "VIII",
+    "sectionTitle": "DA SỐNG, DA THUỘC, DA LÔNG VÀ CÁC SẢN PHẨM TỪ DA; YÊN CƯƠNG VÀ BỘ ĐỒ YÊN CƯƠNG; HÀNG DU LỊCH, TÚI XÁCH TAY VÀ CÁC LOẠI ĐỒ CHỨA TƯƠNG TỰ; CÁC MẶT HÀNG TỪ RUỘT ĐỘNG VẬT (TRỪ RUỘT CON TẰM)"
+  },
+  {
+    "chapter": "43",
+    "description": "Da lông và da lông nhân tạo; các sản phẩm làm từ da lông và da lông nhân tạo",
+    "section": "VIII",
+    "sectionTitle": "DA SỐNG, DA THUỘC, DA LÔNG VÀ CÁC SẢN PHẨM TỪ DA; YÊN CƯƠNG VÀ BỘ ĐỒ YÊN CƯƠNG; HÀNG DU LỊCH, TÚI XÁCH TAY VÀ CÁC LOẠI ĐỒ CHỨA TƯƠNG TỰ; CÁC MẶT HÀNG TỪ RUỘT ĐỘNG VẬT (TRỪ RUỘT CON TẰM)"
+  },
+  {
+    "chapter": "44",
+    "description": "Gỗ và các mặt hàng bằng gỗ; than từ gỗ",
+    "section": "IX",
+    "sectionTitle": "GỖ VÀ CÁC MẶT HÀNG BẰNG GỖ; THAN TỪ GỖ; LIE VÀ CÁC SẢN PHẨM BẰNG LIE; CÁC SẢN PHẨM TỪ RƠM, CỎ GIẤY HOẶC CÁC VẬT LIỆU TẾT BỆN KHÁC; CÁC SẢN PHẨM BẰNG LIỄU GAI VÀ SONG MÂY"
+  },
+  {
+    "chapter": "45",
+    "description": "Lie và các sản phẩm bằng lie",
+    "section": "IX",
+    "sectionTitle": "GỖ VÀ CÁC MẶT HÀNG BẰNG GỖ; THAN TỪ GỖ; LIE VÀ CÁC SẢN PHẨM BẰNG LIE; CÁC SẢN PHẨM TỪ RƠM, CỎ GIẤY HOẶC CÁC VẬT LIỆU TẾT BỆN KHÁC; CÁC SẢN PHẨM BẰNG LIỄU GAI VÀ SONG MÂY"
+  },
+  {
+    "chapter": "46",
+    "description": "Sản phẩm làm từ rơm, cỏ giấy hoặc từ các loại vật liệu tết bện khác; các sản phẩm bằng liễu gai và song mây",
+    "section": "IX",
+    "sectionTitle": "GỖ VÀ CÁC MẶT HÀNG BẰNG GỖ; THAN TỪ GỖ; LIE VÀ CÁC SẢN PHẨM BẰNG LIE; CÁC SẢN PHẨM TỪ RƠM, CỎ GIẤY HOẶC CÁC VẬT LIỆU TẾT BỆN KHÁC; CÁC SẢN PHẨM BẰNG LIỄU GAI VÀ SONG MÂY"
+  },
+  {
+    "chapter": "47",
+    "description": "Bột giấy từ gỗ hoặc từ nguyên liệu xơ xenlulo khác; giấy loại hoặc bìa loại thu hồi (phế liệu và vụn thừa)",
+    "section": "X",
+    "sectionTitle": "BỘT GIẤY TỪ GỖ HOẶC TỪ NGUYÊN LIỆU XƠ SỢI XENLULO KHÁC; GIẤY LOẠI HOẶC BÌA LOẠI THU HỒI (PHẾ LIỆU VÀ VỤN THỪA); GIẤY VÀ BÌA VÀ CÁC SẢN PHẨM CỦA CHÚNG"
+  },
+  {
+    "chapter": "48",
+    "description": "Giấy và bìa; các sản phẩm làm bằng bột giấy, bằng giấy hoặc bằng bìa",
+    "section": "X",
+    "sectionTitle": "BỘT GIẤY TỪ GỖ HOẶC TỪ NGUYÊN LIỆU XƠ SỢI XENLULO KHÁC; GIẤY LOẠI HOẶC BÌA LOẠI THU HỒI (PHẾ LIỆU VÀ VỤN THỪA); GIẤY VÀ BÌA VÀ CÁC SẢN PHẨM CỦA CHÚNG"
+  },
+  {
+    "chapter": "49",
+    "description": "Sách, báo, tranh ảnh và các sản phẩm khác của công nghiệp in; các loại bản thảo viết bằng tay, đánh máy và sơ đồ",
+    "section": "X",
+    "sectionTitle": "BỘT GIẤY TỪ GỖ HOẶC TỪ NGUYÊN LIỆU XƠ SỢI XENLULO KHÁC; GIẤY LOẠI HOẶC BÌA LOẠI THU HỒI (PHẾ LIỆU VÀ VỤN THỪA); GIẤY VÀ BÌA VÀ CÁC SẢN PHẨM CỦA CHÚNG"
+  },
+  {
+    "chapter": "50",
+    "description": "Tơ tằm",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "51",
+    "description": "Lông cừu, lông động vật loại mịn hoặc loại thô;",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "52",
+    "description": "Bông",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "53",
+    "description": "Xơ dệt gốc thực vật khác; sợi giấy và vải dệt thoi từ sợi giấy",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "54",
+    "description": "Sợi filament nhân tạo; dải và các dạng tương tự từ nguyên liệu dệt nhân tạo",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "55",
+    "description": "Xơ sợi staple nhân tạo",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "56",
+    "description": "Mền xơ, phớt và các sản phẩm không dệt; các loại sợi đặc biệt; sợi xe, chão bện (cordage), thừng và cáp và các sản phẩm của chúng",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "57",
+    "description": "Thảm và các loại hàng dệt trải sàn khác",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "58",
+    "description": "Các loại vải dệt thoi đặc biệt; các loại vải dệt tạo búi; hàng ren; thảm trang trí; hàng trang trí; hàng thêu",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "59",
+    "description": "Các loại vải dệt đã được ngâm tẩm, tráng, phủ hoặc ép lớp; các mặt hàng dệt thích hợp dùng trong công nghiệp",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "60",
+    "description": "Các loại hàng dệt kim hoặc móc",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "61",
+    "description": "Quần áo và hàng may mặc phụ trợ, dệt kim hoặc móc",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "62",
+    "description": "Quần áo và các hàng may mặc phụ trợ, không dệt kim hoặc móc",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "63",
+    "description": "Các mặt hàng dệt đã hoàn thiện khác; bộ vải; quần áo dệt và các loại hàng dệt đã qua sử dụng khác; vải vụn",
+    "section": "XI",
+    "sectionTitle": "NGUYÊN LIỆU DỆT VÀ CÁC SẢN PHẨM DỆT"
+  },
+  {
+    "chapter": "64",
+    "description": "Giày, dép, ghệt và các sản phẩm tương tự; các bộ phận của các sản phẩm trên",
+    "section": "XII",
+    "sectionTitle": "GIÀY, DÉP, MŨ VÀ CÁC VẬT ĐỘI ĐẦU KHÁC, Ô, DÙ, BA TOONG, GẬY TAY CẦM CÓ THỂ CHUYỂN THÀNH GHẾ, ROI, GẬY ĐIỀU KHIỂN, ROI ĐIỀU KHIỂN SÚC VẬT THỒ KÉO VÀ CÁC BỘ PHẬN CỦA CÁC LOẠI HÀNG TRÊN; LÔNG VŨ CHẾ BIẾN VÀ CÁC SẢN PHẨM LÀM TỪ LÔNG VŨ CHẾ BIẾN; HOA NHÂN TẠO; CÁC SẢN PHẨM LÀM TỪ TÓC NGƯỜI"
+  },
+  {
+    "chapter": "65",
+    "description": "Mũ và các vật đội đầu khác và các bộ phận của chúng",
+    "section": "XII",
+    "sectionTitle": "GIÀY, DÉP, MŨ VÀ CÁC VẬT ĐỘI ĐẦU KHÁC, Ô, DÙ, BA TOONG, GẬY TAY CẦM CÓ THỂ CHUYỂN THÀNH GHẾ, ROI, GẬY ĐIỀU KHIỂN, ROI ĐIỀU KHIỂN SÚC VẬT THỒ KÉO VÀ CÁC BỘ PHẬN CỦA CÁC LOẠI HÀNG TRÊN; LÔNG VŨ CHẾ BIẾN VÀ CÁC SẢN PHẨM LÀM TỪ LÔNG VŨ CHẾ BIẾN; HOA NHÂN TẠO; CÁC SẢN PHẨM LÀM TỪ TÓC NGƯỜI"
+  },
+  {
+    "chapter": "66",
+    "description": "Ô, dù che, ba toong, gậy tay cầm có thể chuyển thành ghế, roi, gậy điều khiển, roi điều khiển súc vật thồ kéo và các bộ phận của các sản phẩm trên",
+    "section": "XII",
+    "sectionTitle": "GIÀY, DÉP, MŨ VÀ CÁC VẬT ĐỘI ĐẦU KHÁC, Ô, DÙ, BA TOONG, GẬY TAY CẦM CÓ THỂ CHUYỂN THÀNH GHẾ, ROI, GẬY ĐIỀU KHIỂN, ROI ĐIỀU KHIỂN SÚC VẬT THỒ KÉO VÀ CÁC BỘ PHẬN CỦA CÁC LOẠI HÀNG TRÊN; LÔNG VŨ CHẾ BIẾN VÀ CÁC SẢN PHẨM LÀM TỪ LÔNG VŨ CHẾ BIẾN; HOA NHÂN TẠO; CÁC SẢN PHẨM LÀM TỪ TÓC NGƯỜI"
+  },
+  {
+    "chapter": "67",
+    "description": "Lông vũ và lông tơ chế biến, các sản phẩm bằng lông vũ hoặc lông tơ; hoa nhân tạo; các sản phẩm làm từ tóc người",
+    "section": "XII",
+    "sectionTitle": "GIÀY, DÉP, MŨ VÀ CÁC VẬT ĐỘI ĐẦU KHÁC, Ô, DÙ, BA TOONG, GẬY TAY CẦM CÓ THỂ CHUYỂN THÀNH GHẾ, ROI, GẬY ĐIỀU KHIỂN, ROI ĐIỀU KHIỂN SÚC VẬT THỒ KÉO VÀ CÁC BỘ PHẬN CỦA CÁC LOẠI HÀNG TRÊN; LÔNG VŨ CHẾ BIẾN VÀ CÁC SẢN PHẨM LÀM TỪ LÔNG VŨ CHẾ BIẾN; HOA NHÂN TẠO; CÁC SẢN PHẨM LÀM TỪ TÓC NGƯỜI"
+  },
+  {
+    "chapter": "68",
+    "description": "Sản phẩm làm bằng đá, thạch cao, xi măng, amiăng, mica hoặc các vật liệu tương tự",
+    "section": "XIII",
+    "sectionTitle": "SẢN PHẨM BẰNG ĐÁ, THẠCH CAO, XI MĂNG, AMIĂNG, MICA HOẶC CÁC VẬT LIỆU TƯƠNG TỰ; ĐỒ GỐM, SỨ (CERAMIC); THỦY TINH VÀ CÁC SẢN PHẨM BẰNG THỦY TINH"
+  },
+  {
+    "chapter": "69",
+    "description": "Đồ gốm, sứ",
+    "section": "XIII",
+    "sectionTitle": "SẢN PHẨM BẰNG ĐÁ, THẠCH CAO, XI MĂNG, AMIĂNG, MICA HOẶC CÁC VẬT LIỆU TƯƠNG TỰ; ĐỒ GỐM, SỨ (CERAMIC); THỦY TINH VÀ CÁC SẢN PHẨM BẰNG THỦY TINH"
+  },
+  {
+    "chapter": "70",
+    "description": "Thủy tinh và các sản phẩm bằng thủy tinh",
+    "section": "XIII",
+    "sectionTitle": "SẢN PHẨM BẰNG ĐÁ, THẠCH CAO, XI MĂNG, AMIĂNG, MICA HOẶC CÁC VẬT LIỆU TƯƠNG TỰ; ĐỒ GỐM, SỨ (CERAMIC); THỦY TINH VÀ CÁC SẢN PHẨM BẰNG THỦY TINH"
+  },
+  {
+    "chapter": "71",
+    "description": "Ngọc trai tự nhiên hoặc nuôi cấy, đá quý hoặc đá bán quý, kim loại quý, kim loại được dát phủ kim loại quý, và các sản phẩm của chúng; đồ trang sức làm bằng chất liệu khác; tiền kim loại",
+    "section": "XIV",
+    "sectionTitle": "NGỌC TRAI TỰ NHIÊN HOẶC NUÔI CẤY, ĐÁ QUÝ HOẶC ĐÁ BÁN QUÝ, KIM LOẠI QUÝ, KIM LOẠI ĐƯỢC DÁT PHỦ KIM LOẠI QUÝ, VÀ CÁC SẢN PHẨM CỦA CHÚNG; ĐỒ TRANG SỨC LÀM BẰNG CHẤT LIỆU KHÁC; TIỀN KIM LOẠI"
+  },
+  {
+    "chapter": "72",
+    "description": "Sắt và thép",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "73",
+    "description": "Các sản phẩm bằng sắt hoặc thép",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "74",
+    "description": "Đồng và các sản phẩm bằng đồng",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "75",
+    "description": "Niken và các sản phẩm bằng niken",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "76",
+    "description": "Nhôm và các sản phẩm bằng nhôm",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "77",
+    "description": "(Dự phòng cho việc phân loại tiếp theo trong tương lai của Hệ thống hài hòa)",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "78",
+    "description": "Chì và các sản phẩm bằng chì",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "79",
+    "description": "Kẽm và các sản phẩm bằng kẽm",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "80",
+    "description": "Thiếc và các sản phẩm bằng thiếc",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "81",
+    "description": "Kim loại cơ bản khác; gốm kim loại; các sản phẩm của chúng",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "82",
+    "description": "Dụng cụ, đồ nghề, dao, kéo, bộ đồ ăn làm từ kim loại cơ bản; các bộ phận của chúng làm từ kim loại cơ bản",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "83",
+    "description": "Hàng tạp hóa làm từ kim loại cơ bản",
+    "section": "XV",
+    "sectionTitle": "KIM LOẠI CƠ BẢN VÀ CÁC SẢN PHẨM BẰNG KIM LOẠI CƠ BẢN"
+  },
+  {
+    "chapter": "84",
+    "description": "Lò phản ứng hạt nhân, nồi hơi, máy và thiết bị cơ khí; các bộ phận của chúng",
+    "section": "XVI",
+    "sectionTitle": "MÁY VÀ CÁC TRANG THIẾT BỊ CƠ KHÍ; THIẾT BỊ ĐIỆN; CÁC BỘ PHẬN CỦA CHÚNG; THIẾT BỊ GHI VÀ TÁI TẠO ÂM THANH, THIẾT BỊ GHI VÀ TÁI TẠO HÌNH ẢNH, ÂM THANH TRUYỀN HÌNH VÀ CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CÁC THIẾT BỊ TRÊN"
+  },
+  {
+    "chapter": "85",
+    "description": "Máy điện và thiết bị điện và các bộ phận của chúng; máy ghi và tái tạo âm thanh, máy ghi và tái tạo hình ảnh và âm thanh truyền hình, bộ phận và phụ kiện của các loại máy trên",
+    "section": "XVI",
+    "sectionTitle": "MÁY VÀ CÁC TRANG THIẾT BỊ CƠ KHÍ; THIẾT BỊ ĐIỆN; CÁC BỘ PHẬN CỦA CHÚNG; THIẾT BỊ GHI VÀ TÁI TẠO ÂM THANH, THIẾT BỊ GHI VÀ TÁI TẠO HÌNH ẢNH, ÂM THANH TRUYỀN HÌNH VÀ CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CÁC THIẾT BỊ TRÊN"
+  },
+  {
+    "chapter": "86",
+    "description": "Đầu máy, các phương tiện di chuyển trên đường sắt hoặc đường tàu điện và các bộ phận của chúng; các bộ phận cố định và ghép nối đường ray đường sắt hoặc tàu điện và bộ phận của chúng; thiết bị tín hiệu giao thông bằng cơ khí (kể cả cơ điện) các loại",
+    "section": "XVII",
+    "sectionTitle": "XE CỘ, PHƯƠNG TIỆN BAY, TÀU THUYỀN VÀ CÁC THIẾT BỊ VẬN TẢI LIÊN HỢP"
+  },
+  {
+    "chapter": "87",
+    "description": "Xe trừ phương tiện chạy trên đường sắt hoặc đường tàu điện, và các bộ phận và phụ kiện của chúng",
+    "section": "XVII",
+    "sectionTitle": "XE CỘ, PHƯƠNG TIỆN BAY, TÀU THUYỀN VÀ CÁC THIẾT BỊ VẬN TẢI LIÊN HỢP"
+  },
+  {
+    "chapter": "88",
+    "description": "Phương tiện bay, tàu vũ trụ, và các bộ phận của chúng",
+    "section": "XVII",
+    "sectionTitle": "XE CỘ, PHƯƠNG TIỆN BAY, TÀU THUYỀN VÀ CÁC THIẾT BỊ VẬN TẢI LIÊN HỢP"
+  },
+  {
+    "chapter": "89",
+    "description": "Tàu thủy, thuyền và các kết cấu nổi",
+    "section": "XVII",
+    "sectionTitle": "XE CỘ, PHƯƠNG TIỆN BAY, TÀU THUYỀN VÀ CÁC THIẾT BỊ VẬN TẢI LIÊN HỢP"
+  },
+  {
+    "chapter": "90",
+    "description": "Dụng cụ và thiết bị quang học, nhiếp ảnh, điện ảnh, đo lường, kiểm tra, chính xác, y tế hoặc phẫu thuật; các bộ phận và phụ kiện của chúng",
+    "section": "XVIII",
+    "sectionTitle": "DỤNG CỤ VÀ THIẾT BỊ QUANG HỌC, NHIẾP ẢNH, ĐIỆN ẢNH, ĐO LƯỜNG, KIỂM TRA, CHÍNH XÁC, Y TẾ HOẶC PHẪU THUẬT; ĐỒNG HỒ THỜI GIAN VÀ ĐỒNG HỒ CÁ NHÂN; NHẠC CỤ; CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CHÚNG"
+  },
+  {
+    "chapter": "91",
+    "description": "Đồng hồ thời gian, đồng hồ cá nhân và các bộ phận của chúng",
+    "section": "XVIII",
+    "sectionTitle": "DỤNG CỤ VÀ THIẾT BỊ QUANG HỌC, NHIẾP ẢNH, ĐIỆN ẢNH, ĐO LƯỜNG, KIỂM TRA, CHÍNH XÁC, Y TẾ HOẶC PHẪU THUẬT; ĐỒNG HỒ THỜI GIAN VÀ ĐỒNG HỒ CÁ NHÂN; NHẠC CỤ; CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CHÚNG"
+  },
+  {
+    "chapter": "92",
+    "description": "Nhạc cụ; các bộ phận và phụ kiện của chúng",
+    "section": "XVIII",
+    "sectionTitle": "DỤNG CỤ VÀ THIẾT BỊ QUANG HỌC, NHIẾP ẢNH, ĐIỆN ẢNH, ĐO LƯỜNG, KIỂM TRA, CHÍNH XÁC, Y TẾ HOẶC PHẪU THUẬT; ĐỒNG HỒ THỜI GIAN VÀ ĐỒNG HỒ CÁ NHÂN; NHẠC CỤ; CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CHÚNG"
+  },
+  {
+    "chapter": "93",
+    "description": "Vũ khí và đạn; các bộ phận và phụ kiện của chúng",
+    "section": "XIX",
+    "sectionTitle": "VŨ KHÍ VÀ ĐẠN; CÁC BỘ PHẬN VÀ PHỤ KIỆN CỦA CHÚNG"
+  },
+  {
+    "chapter": "94",
+    "description": "Đồ nội thất; bộ đồ giường, đệm, khung đệm, nệm và các đồ dùng nhồi tương tự; đèn (luminaires) và bộ đèn, chưa được chi tiết hoặc ghi ở nơi khác; biển hiệu được chiếu sáng, biển đề tên được chiếu sáng và các loại tương tự; nhà lắp ghép",
+    "section": "XX",
+    "sectionTitle": "CÁC MẶT HÀNG KHÁC"
+  },
+  {
+    "chapter": "95",
+    "description": "Đồ chơi, thiết bị trò chơi và dụng cụ, thiết bị thể thao; các bộ phận và phụ kiện của chúng",
+    "section": "XX",
+    "sectionTitle": "CÁC MẶT HÀNG KHÁC"
+  },
+  {
+    "chapter": "96",
+    "description": "Các mặt hàng khác",
+    "section": "XX",
+    "sectionTitle": "CÁC MẶT HÀNG KHÁC"
+  },
+  {
+    "chapter": "97",
+    "description": "Các tác phẩm nghệ thuật, đồ sưu tầm và đồ cổ",
+    "section": "XXI",
+    "sectionTitle": "CÁC TÁC PHẨM NGHỆ THUẬT, ĐỒ SƯU TẦM VÀ ĐỒ CỔ"
+  },
+  {
+    "chapter": "98",
+    "description": "Quy định mã hàng và mức thuế suất thuế nhập khẩu ưu đãi riêng đối với một số nhóm mặt hàng, mặt hàng",
+    "section": "",
+    "sectionTitle": ""
+  }
+]

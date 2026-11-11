@@ -87,10 +87,16 @@ from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import pdf_text  # noqa: E402  (shared repairs; see its docstring)
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 JURISDICTION = "MY"
-REVISION = "pdk2025"
+# The standard {year}_rev_{number} id every jurisdiction uses. Dated editions
+# take MMDD of the effective date as the number (CH 901, KR 101, TW 729): the
+# Order in force from 1 November 2025 is 2025_rev_1101.
+REVISION = "2025_rev_1101"
 EDITION_LABEL = "Customs Duties Order 2025 (P.U. (A) 384)"
 IN_FORCE = "2025-11-01"
 PORTAL_HOME = "https://ezhs.customs.gov.my/"
@@ -106,14 +112,17 @@ EXPECTED_COLUMNS = ["HEADER", "SUB", "ITEM", "UNIT", "DESCRIPTION",
 TRQ_BASIS = "trq_appendix_b"
 
 RE_CHAPTER_HDR = re.compile(r"^CHAPTER\s+(\d{1,2})$", re.IGNORECASE)
-RE_NOTE_HDR = re.compile(r"^(?:CHAPTER\s+)?NOTES?\.$", re.IGNORECASE)
-RE_SUBHEADING_NOTE_HDR = re.compile(r"^SUB-?HEADING\s+NOTES?\.$", re.IGNORECASE)
+# The terminator is "." everywhere but once: Chapter 40 is headed "Chapter Notes:",
+# which matched nothing, so its nine notes were read as the chapter TITLE (a
+# 4,940-character title in chapters_my.json) and chapter 40 had no notes at all.
+RE_NOTE_HDR = re.compile(r"^(?:CHAPTER\s+)?NOTES?[.:]$", re.IGNORECASE)
+RE_SUBHEADING_NOTE_HDR = re.compile(r"^SUB-?HEADING\s+NOTES?[.:]$", re.IGNORECASE)
 # Malaysia prints a third category after the HS notes: its own National Notes,
 # which define terms the schedule relies on ("airtight container", "Fish ball")
 # and are operative. They are the analogue of the US Additional U.S. Notes.
 # Until this was matched, a National Note's "1." was read as a second note 1 of
 # whichever block preceded it and 30 blocks were dropped as duplicate cites.
-RE_NATIONAL_NOTE_HDR = re.compile(r"^NATIONAL\s+NOTES?\.$", re.IGNORECASE)
+RE_NATIONAL_NOTE_HDR = re.compile(r"^NATIONAL\s+NOTES?[.:]$", re.IGNORECASE)
 RE_NOTE_NUM = re.compile(r"^(\d{1,2})\.$")
 # The gazette heads section notes "Section Note." / "Section Notes.", which
 # RE_NOTE_HDR cannot match: it allows only an optional CHAPTER prefix. Those
@@ -121,7 +130,7 @@ RE_NOTE_NUM = re.compile(r"^(\d{1,2})\.$")
 # note in the order was skipped -- notes.section.jsonl came out empty. The
 # chapter counts were never inflated, because the text was dropped rather than
 # misfiled.
-RE_SECTION_NOTE_HDR = re.compile(r"^SECTION\s+NOTES?\.$", re.IGNORECASE)
+RE_SECTION_NOTE_HDR = re.compile(r"^SECTION\s+NOTES?[.:]$", re.IGNORECASE)
 # Section headings matter for attribution, not just for titles: a section note
 # is printed between its SECTION heading and that section's first chapter, so
 # the chapter in hand still belongs to the PREVIOUS section. Without resetting
@@ -168,20 +177,13 @@ def norm(text: str) -> str:
                 .replace("‘", "'").replace("“", '"')
                 .replace("”", '"').replace("–", "-")
                 .replace("—", "-"))
-    return " ".join(text.split())
+    return pdf_text.tidy_hyphens(" ".join(text.split()))
 
 
 def join_text(head: str, tail: str) -> str:
-    """Append a wrapped fragment, repairing a hyphenated word break."""
-    head = (head or "").rstrip()
-    tail = norm(tail)
-    if not head:
-        return tail
-    if not tail:
-        return head
-    if head.endswith("-") and tail[:1].islower():
-        return head[:-1] + tail
-    return norm(head + " " + tail)
+    """Append a wrapped fragment. A line-break hyphen survives or not on the
+    gazette's own evidence; see pdf_text.join_wrapped()."""
+    return pdf_text.join_wrapped(head, tail, norm)
 
 
 # ── ezHS portal ──────────────────────────────────────────────────────────────
@@ -770,11 +772,17 @@ PAGE_APPENDIX_B = (1371, 1376)   # goods subject to tariff rate quota
 # of Singapore's STCCED, so the body cannot be found by cutting at the marker
 # row: the names sit between it and the first data row. The cut is made below
 # the lowest line that is nothing but header vocabulary.
+# The fourth header line, "quantity  import duty  export duty", needs the bare
+# "import" and "duty": with only "import/" and "duti" here it was never consumed
+# as header, sat in the body of every page, and was discarded as orphan text --
+# most of the 542 the old gate pinned. Once rows correctly carry across page
+# breaks it attached to the previous page's last row instead ("0%" became
+# "0% import duty"), which is how it surfaced.
 HEADER_WORDS = frozenset("""
 kepala/ heading subkepala/ subheading perihalan/ description unit kuantiti/
 quantity of kadar duti import/ eksport/ rate export tarif kuota/ tariff quota
 agensi yang menetapkan kuota agency determined the in-quota out-quota dalam
-luar
+luar import duty
 """.split())
 
 # (col1, col2, col3, col4, col5) upper bounds; col6 takes the rest.
@@ -792,6 +800,8 @@ class Word:
     x: float
     y: float
     text: str
+    x1: float = 0.0
+    y1: float = 0.0
 
 
 def load_bbox_pages(pdf: Path, workdir: Path) -> list:
@@ -803,18 +813,23 @@ def load_bbox_pages(pdf: Path, workdir: Path) -> list:
         subprocess.run(["pdftotext", "-bbox-layout", str(pdf), str(xml)], check=True)
     from xml.etree import ElementTree as ET
     ns = "{http://www.w3.org/1999/xhtml}"
-    pages: list[list[Word]] = []
-    current: list[Word] | None = None
+    raw: list[list[tuple]] = []
+    current: list | None = None
     for event, el in ET.iterparse(str(xml), events=("start", "end")):
         tag = el.tag.replace(ns, "")
         if event == "start" and tag == "page":
             current = []
-            pages.append(current)
+            raw.append(current)
         elif event == "end" and tag == "word":
             if current is not None and (el.text or "").strip():
-                current.append(Word(float(el.get("xMin")), float(el.get("yMin")),
-                                    el.text))
+                current.append((float(el.get("xMin")), float(el.get("yMin")),
+                                float(el.get("xMax")), float(el.get("yMax")), el.text))
             el.clear()
+    # Glue sub/superscripts to their words first ("H BO 3 3" -> "H3BO3"), then
+    # learn the gazette's vocabulary for line-break hyphens. Both in pdf_text.
+    pages = [[Word(x0, y0, t, x1, y1) for x0, y0, x1, y1, t in pdf_text.merge_scripts(ws)]
+             for ws in raw]
+    pdf_text.set_vocabulary(pdf_text.Vocabulary(w.text for ws in pages for w in ws))
     return pages
 
 
@@ -868,6 +883,7 @@ def page_grid(words: list, expect: int = 6):
 
 def page_rows(words: list, edges: tuple, cut: float) -> list:
     """Visual lines below `cut`, each binned into the section's columns."""
+    bottom = max((w.y for w in words), default=0.0)
     buckets: dict = defaultdict(list)
     for w in words:
         if w.y > cut:
@@ -896,8 +912,12 @@ def page_rows(words: list, edges: tuple, cut: float) -> list:
             cols[column_of(w.x)].append(w)
         joined = {i: norm(" ".join(w.text for w in v)) for i, v in cols.items()}
         text = norm(" ".join(w.text for w in ws))
-        # The printed folio, alone on its line.
-        if re.fullmatch(r"\d{1,4}", text) and len(cols) == 1:
+        # The printed folio: a number alone on the page's LOWEST line. Any lone
+        # number was dropped before, which cut the last line of wrapped
+        # descriptions that end in one -- 2009.12.00 00 "... a Brix value not
+        # exceeding" lost its "20", 8501.33.10 00 "... vehicles in Chapter"
+        # its "87".
+        if re.fullmatch(r"\d{1,4}", text) and len(cols) == 1 and min(cluster) >= bottom - 1.0:
             continue
         if text == "P.U. (A) 384":
             continue
@@ -947,12 +967,23 @@ def _gz_code(col1: str) -> tuple[str, str]:
     return raw.replace(" ", ""), digits
 
 
+# Every fragment the table walk discards, as (pdf_page, text). Counting them
+# hid data loss: the gate pinned 542 discards as "expected" while 100 of them
+# were the wrapped ends of real descriptions. validate() now checks WHAT was
+# discarded, not just how much.
+GZ_ORPHANS: list = []
+RE_HEADER_LINE = re.compile(r"quantity import duty export duty", re.IGNORECASE)
+
+
 def parse_gazette_table(pages: list, lo: int, hi: int) -> tuple[list, Counter, list]:
     """The First Schedule's main table: structure, descriptions, duty rates."""
     stats = Counter()
+    GZ_ORPHANS.clear()
     lines: list[GzLine] = []
     current: GzLine | None = None
     heading = ""
+    in_subchapter_title = False
+    last_chapter: int | None = None
 
     def close() -> None:
         nonlocal current
@@ -962,8 +993,13 @@ def parse_gazette_table(pages: list, lo: int, hi: int) -> tuple[list, Counter, l
 
     for pno in range(lo, min(hi, len(pages)) + 1):
         words = pages[pno - 1]
+        chapter_opened_here = False
         cut = page_grid(words, expect=6)
         if cut is None:
+            # A page of notes or a schedule boundary: nothing on it continues
+            # the last tariff line.
+            close()
+            in_subchapter_title = False
             stats["page_without_table"] += 1
             continue
         stats["page_with_table"] += 1
@@ -974,18 +1010,49 @@ def parse_gazette_table(pages: list, lo: int, hi: int) -> tuple[list, Counter, l
                 continue
             # Structural headers sit in the description column; the notes and
             # chapter titles are read separately, from the text layer.
-            if RE_CHAPTER_HDR.match(whole) or RE_NOTE_HDR.match(whole) \
-                    or RE_SUBHEADING_NOTE_HDR.match(whole) \
-                    or re.match(r"^(Chapter|Bab)\b", whole) and not c0 and not c1:
+            #
+            # A CHAPTER HEADER IS "Chapter N" OPENING THE NEXT CHAPTER, NOT ANY
+            # LINE THAT BEGINS WITH THE WORD. The earlier test, any line starting
+            # "Chapter" or "Bab", fired on 40 lines of which 11 were headers. The
+            # other 29 were wrapped descriptions -- "Chapter:", "Chapter, other
+            # than edible fats and oils or", even "Chapter 87:" and a bare
+            # "Chapter 94" inside 44.xx -- and each closed its row and was
+            # discarded, cutting the description short. Chapter 77 is reserved
+            # in the HS, so after 76 the next header is 77 (if the book prints the
+            # reserved chapter, as Singapore's does) or 78.
+            m_chapter = (re.fullmatch(r"(?:CHAPTER|Chapter|Bab)\s+(\d{1,2})", whole)
+                         if not c0 and not c1 else None)
+            if m_chapter and last_chapter is not None:
+                allowed = {last_chapter + 1} | ({78} if last_chapter == 76 else set())
+                if int(m_chapter.group(1)) not in allowed:
+                    m_chapter = None
+                    stats["chapter_word_in_text"] += 1
+            if m_chapter or RE_NOTE_HDR.match(whole) or RE_SUBHEADING_NOTE_HDR.match(whole):
                 close()
+                chapter_opened_here = chapter_opened_here or bool(m_chapter)
                 stats["structural_line"] += 1
                 continue
+            # SUB-CHAPTER HEADINGS (chapters 28, 29, 69). "SUB-CHAPTER II" and
+            # its capitalised title sit between tariff lines; read as
+            # continuation they were glued onto the line above ("Mercury
+            # SUB-CHAPTER II INORGANIC ACIDS ..."). They describe no tariff line.
+            if not c0 and not c1 and pdf_text.RE_SUBCHAPTER.match(whole):
+                close()
+                in_subchapter_title = True
+                stats["subchapter_hdr"] += 1
+                continue
+            if in_subchapter_title and not c0 and not c1 \
+                    and pdf_text.is_caps_title(whole):
+                stats["subchapter_title_line"] += 1
+                continue
+            in_subchapter_title = False
             head_m = RE_GZ_HEADING.match(c0) if c0 else None
             code, digits = _gz_code(c1)
             if head_m:
                 heading = c0
             if head_m or digits:
                 close()
+                last_chapter = int((digits or head_m.group(1))[:2])
                 depth, text = _dash_depth(c2)
                 if head_m and not digits:
                     depth = 0
@@ -1019,10 +1086,27 @@ def parse_gazette_table(pages: list, lo: int, hi: int) -> tuple[list, Counter, l
                 current.add(cols)
                 stats["continuation"] += 1
             else:
+                # What may legitimately be discarded: the header line that some
+                # pages repeat below the column markers, and -- on a page where a
+                # chapter opens mid-page -- that chapter's title and notes, which
+                # parse_gazette() reads from the text layer. Anything else is
+                # text that belongs to a tariff line, and validate() fails on it.
+                if RE_HEADER_LINE.fullmatch(whole):
+                    why = "page_header"
+                elif chapter_opened_here:
+                    why = "chapter_title_or_note"
+                else:
+                    why = "unexplained"
                 stats["orphan_text"] += 1
-        # A row never continues across a page break in this gazette: every page
-        # restarts with its own header block.
-        close()
+                stats[f"orphan_{why}"] += 1
+                GZ_ORPHANS.append((pno, why, whole))
+        # A ROW DOES CONTINUE ACROSS A PAGE BREAK. Every page restarts with its
+        # own header block, and the previous version took that to mean every row
+        # ended with its page. 103 rows wrap onto the next page, and closing here
+        # orphaned the wrapped text: 0305.31.00 00 stopped at "Catla catla,"
+        # while page 52 carried "Labeo spp., Osteochilus hasselti, ...". The row
+        # stays open; the next page's first coded or dash line closes it, as on
+        # any other line. Pages with no table (above) still close it.
     close()
     for ln in lines:
         if not ln.digits:
@@ -1193,22 +1277,67 @@ def fill_missing_headings(gz: list, portal: list) -> tuple[list, list]:
     inserted: list = []
     out: list = []
     pending = {v: k for k, v in first_at.items()}
+    current_heading = ""
     for i, ln in enumerate(gz):
         head = pending.get(i)
         if head:
             src = by_heading.get(f"{head}00") or by_heading.get(head)
             desc = src.description if src else ""
-            out.append(GzLine(page=ln.page, heading=_display(head), code=_display(head),
-                              digits=head, description=desc, indent=0,
-                              import_rate_basis="not_printed"))
-            inserted.append({
+            dotted = f"{head[:2]}.{head[2:]}"
+            record = {
                 "code": _display(head), "pdf_page": ln.page,
                 "description_from": "ezHS portal" if desc else None,
                 "reason": "the gazette prints no heading row for this heading, "
                           "so its subheadings had no ancestor at depth zero",
-            })
+            }
+            # The heading goes above its whole group, not just above its first
+            # coded line. Under 38.27 the gazette prints a one-dash grouping row
+            # ("- Containing chlorofluorocarbons (CFCs), ...; containing carbon
+            # tetrachloride; containing 1,1,1-trichloroethane ...:") before
+            # 3827.11; inserting the heading after it left that group under 38.26.
+            moved: list = []
+            while out and not out[-1].digits and out[-1].indent > 0:
+                moved.insert(0, out.pop())
+            # Heading 38.27's TEXT is printed, at the foot of page 418, but with
+            # no code beside it, so the table walk read it as the wrapped end of
+            # the line above: 3826.00.90 00 became "Other Mixtures containing
+            # halogenated derivatives of methane, ...". Where the line above ends
+            # in exactly the heading's text, that text is the heading's, not the
+            # line's, and is moved back.
+            if desc and out:
+                trimmed = _strip_trailing_text(out[-1].description, desc)
+                if trimmed is not None:
+                    record["text_removed_from"] = out[-1].code
+                    out[-1].description = trimmed
+            out.append(GzLine(page=ln.page, heading=dotted, code=_display(head),
+                              digits=head, description=desc, indent=0,
+                              import_rate_basis="not_printed"))
+            for group in moved:
+                group.heading = dotted
+            out.extend(moved)
+            record["grouping_rows_moved_under"] = len(moved)
+            inserted.append(record)
+            current_heading = dotted
+        elif ln.digits and len(ln.digits) == 4:
+            current_heading = ""
+        # The lines beneath a synthesised heading name it, not the printed
+        # heading before it (3804.00.10 00 read "38.03").
+        if current_heading and ln.digits[:4] == current_heading.replace(".", ""):
+            ln.heading = current_heading
         out.append(ln)
     return out, inserted
+
+
+def _strip_trailing_text(text: str, tail: str) -> str | None:
+    """`text` without a trailing `tail`, compared on letters and digits only;
+    None when `text` does not end with it or consists of nothing else."""
+    key = lambda t: re.sub(r"[^a-z0-9]", "", t.lower())
+    want = key(tail)
+    words = text.split()
+    for k in range(len(words) - 1, 0, -1):
+        if key(" ".join(words[k:])) == want:
+            return " ".join(words[:k])
+    return None
 
 
 def parse_appendix_b(pages: list) -> tuple[dict, Counter]:
@@ -1387,7 +1516,14 @@ EXPECTED = {
     "portal_bad_cells": 0,
     "gazette_lines": 16765,
     "gazette_ten_digit": 11441,
-    "gazette_orphan_text": 542,
+    # Discarded table text: the 71 lines of chapter title and notes on the 11
+    # pages where a chapter opens mid-page, which parse_gazette() reads from the
+    # text layer (classified in parse_gazette_table). This was 542 until
+    # 2026-11-11: most were a header line the header vocabulary missed, and 100
+    # were the wrapped ends of real descriptions, cut at page breaks and at lines
+    # beginning "Chapter". The unexplained count is the real gate.
+    "gazette_orphan_text": 71,
+    "gazette_orphan_unexplained": 0,
     "eight_digit_node": 11,
     "trq_referenced": 27,
     "trq_appendix_entries": 27,
@@ -1429,6 +1565,7 @@ def validate(gz: list, gz_stats: Counter, portal: list, portal_stats: Counter,
         "gazette_lines": gz_stats["lines"],
         "gazette_ten_digit": len(ten),
         "gazette_orphan_text": gz_stats["orphan_text"],
+        "gazette_orphan_unexplained": gz_stats["orphan_unexplained"],
         "eight_digit_node": gz_stats["eight_digit_node"],
         "trq_referenced": gz_stats["trq_referenced"],
         "trq_appendix_entries": len(trq),
@@ -1553,7 +1690,7 @@ def main() -> int:
                     help="re-download the portal page, resolving its current token")
     ap.add_argument("--out-dir", type=Path, default=base)
     ap.add_argument("--notes-dir", type=Path,
-                    default=REPO_ROOT / "data" / "hts_notes" / "my_pdk2025")
+                    default=REPO_ROOT / "data" / "hts_notes" / f"my_{REVISION}")
     ap.add_argument("--chapters-out", type=Path,
                     default=Path(__file__).resolve().parent / "chapters_my.json")
     ap.add_argument("--workdir", type=Path, default=None,
@@ -1618,6 +1755,15 @@ def main() -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     csv_path = args.out_dir / f"my_tariff_{REVISION}.csv"
     n = write_csv(gz, portal_by_code, trq, csv_path)
+    # The manual acquisition adapter reads the effective date from this
+    # sidecar, exactly as it does for the Dominican Republic's transcription.
+    csv_path.with_name(csv_path.name + ".meta.json").write_text(json.dumps({
+        "effective_date": IN_FORCE,
+        "effective_date_label": EDITION_LABEL,
+        "source": PDF_URL,
+        "source_sha256": pdf_sha,
+        "portal_sha256": html_sha,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     write_chapters(gazette, args.chapters_out)
     manifest = write_notes(records, args.notes_dir, gazette, args.pdf, pdf_sha, html_sha)
     print(f"\nWrote {n:,} rows -> {csv_path}")

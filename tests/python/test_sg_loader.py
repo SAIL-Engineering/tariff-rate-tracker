@@ -17,7 +17,7 @@ SG_CHAPTERS = AUTOMATION / "chapters_sg.json"
 
 def _build_sg(fixture="sg_0301_slice.csv"):
     return build(FIXTURES / fixture, SG_CHAPTERS,
-                 source_format="sg", jurisdiction="SG", revision="2022")
+                 source_format="sg", jurisdiction="SG", revision="2022_rev_101")
 
 
 def test_display_dotting_matches_the_printed_book():

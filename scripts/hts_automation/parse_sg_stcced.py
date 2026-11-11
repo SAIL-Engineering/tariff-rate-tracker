@@ -60,15 +60,16 @@ CURATION (three things a mechanical read gets wrong, each handled explicitly)
      promoted to c1; the count of promotions is asserted in validate().
 
 OUTPUTS (under --out-dir, default data/sg_tariff_source)
-  sg_tariff_2022.csv            canonical rows for load_rows_sg()
-  sg_2022.reference.json        abbreviations, symbols, units of quantity
-  sg_2022.toc.json             section/chapter titles with printed start pages
-and under --notes-dir (default data/hts_notes/sg_2022)
-  sg_2022.notes.json            cite_id -> record sidecar
-  sg_2022.notes.gri.jsonl       GRI family, for Pinecone
-  sg_2022.notes.section.jsonl   section-note family
-  sg_2022.notes.chapter.jsonl   chapter + subheading note family
-  sg_2022.notes.manifest.json   counts, hashes, poppler version
+  sg_tariff_2022_rev_101.csv            canonical rows for load_rows_sg()
+  sg_tariff_2022_rev_101.csv.meta.json  effective date, read by acquire/manual.py
+  sg_2022_rev_101.reference.json        abbreviations, symbols, units of quantity
+  sg_2022_rev_101.toc.json              section/chapter titles with printed start pages
+and under --notes-dir (default data/hts_notes/sg_2022_rev_101)
+  sg_2022_rev_101.notes.json            cite_id -> record sidecar
+  sg_2022_rev_101.notes.gri.jsonl       GRI family, for Pinecone
+  sg_2022_rev_101.notes.section.jsonl   section-note family
+  sg_2022_rev_101.notes.chapter.jsonl   chapter + subheading note family
+  sg_2022_rev_101.notes.manifest.json   counts, hashes, poppler version
 and
   scripts/hts_automation/chapters_sg.json   chapter/section index (from the book)
 
@@ -91,10 +92,18 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import pdf_text  # noqa: E402  (shared repairs; see its docstring)
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 JURISDICTION = "SG"
-REVISION = "2022"
+# The standard {year}_rev_{number} id every jurisdiction uses. Dated editions
+# take MMDD of the effective date as the number (CH 901, KR 101, TW 729): the
+# 2022 edition, effective 1 January 2022, is 2022_rev_101.
+REVISION = "2022_rev_101"
+# The PDF states no commencement date of its own; this is the HS 2022 edition date.
+EFFECTIVE_DATE = "2022-01-01"
 EDITION_LABEL = "STCCED 2022"
 PDF_URL = "https://file.go.gov.sg/stcced2022.pdf"
 LANDING_URL = ("https://www.customs.gov.sg/doing-business/business-resources/"
@@ -114,9 +123,17 @@ PRINTED_OFFSET = FIRST_BOOK_PAGE - 1
 # Column 3 is wide running text (word starts observed from x=86 to x=400); the
 # unit/duty columns are narrow and right-aligned, so their edges sit between the
 # observed clusters rather than midway between the markers.
+#
+# The PREF/EXCISE edge is 486, not the 500 first chosen. Every genuine
+# preferential cell in the book is "Free", starting at x=480.7; a long excise
+# cell starts as far left as x=489 (the cigarette rate "58.9 cents for every
+# gram or part thereof of each stick of cigarette" at 498.6-499.8, the diesel
+# and LPG conditions at 489-497), and nothing at all starts between 481 and
+# 489. At 500 those words were read as preferential duty: 2402.20.20 got a
+# preferential rate of "every part" and its excise lost its words.
 COL_EDGES = ((0.0, 35.0, "c1"), (35.0, 86.0, "c2"), (86.0, 400.0, "c3"),
-             (400.0, 436.0, "c4"), (436.0, 466.0, "c5"), (466.0, 500.0, "c6"),
-             (500.0, 1000.0, "c7"))
+             (400.0, 436.0, "c4"), (436.0, 466.0, "c5"), (466.0, 486.0, "c6"),
+             (486.0, 1000.0, "c7"))
 
 # The units of quantity are a closed vocabulary, printed in full on page XIII
 # (PDF 11) and parsed into the reference file; validate() asserts this set
@@ -178,29 +195,16 @@ def poppler_version() -> str:
 
 
 def join_text(head: str, tail: str) -> str:
-    """Append a wrapped fragment, repairing a word the typesetter hyphenated.
+    """Append a wrapped fragment.
 
-    A line that ENDS in a hyphen and continues with a lowercase letter is a
-    broken word ("chemi-" + "cal" -> "chemical"), so the hyphen and the space
-    both go. A hyphen used as a compound's dangling element is not at risk,
-    because it is not at the line end: the Chapter 48 note that reads
-    "... or paper- or" / "paperboard-backed ..." ends its line on "or", so the
-    test never fires there. Chemical names in Chapter 29 that genuinely break
-    after a hyphen ("N,N-dimethyl-" + "aniline") want exactly this join too.
+    This used to drop the hyphen whenever a line ended in one and the next began
+    in lowercase, on the theory that it was a typesetter's word break. It mostly
+    is not: Harmonized System text is full of real hyphens, and the rule fused
+    "1,2-dichloroethane" into "1,2dichloroethane" and "pre-cooked" into
+    "precooked" on about 145 lines. Whether a line-break hyphen survives is now
+    decided by the book's own vocabulary; see pdf_text.join_wrapped().
     """
-    head = (head or "").rstrip()
-    tail = norm(tail)
-    if not head:
-        return tail
-    if not tail:
-        return head
-    if head.endswith("-") and tail[:1].islower():
-        HYPHEN_JOINS.append((head[-24:], tail[:24]))
-        return head[:-1] + tail
-    return norm(head + " " + tail)
-
-
-HYPHEN_JOINS: list = []
+    return pdf_text.join_wrapped(head, tail, norm)
 
 
 def norm(text: str) -> str:
@@ -210,7 +214,7 @@ def norm(text: str) -> str:
                 .replace("‘", "'").replace("“", '"')
                 .replace("”", '"').replace("–", "-")
                 .replace("—", "-"))
-    return " ".join(text.split())
+    return pdf_text.tidy_hyphens(" ".join(text.split()))
 
 
 @dataclass(frozen=True)
@@ -218,6 +222,8 @@ class Word:
     x: float
     y: float
     text: str
+    x1: float = 0.0
+    y1: float = 0.0
 
 
 @dataclass
@@ -244,18 +250,23 @@ def load_pages(pdf: Path, workdir: Path) -> list[list[Word]]:
     xml = workdir / "stcced_bbox.xml"
     subprocess.run(["pdftotext", "-bbox-layout", str(pdf), str(xml)], check=True)
     ns = "{http://www.w3.org/1999/xhtml}"
-    pages: list[list[Word]] = []
-    current: list[Word] | None = None
+    raw: list[list[tuple]] = []
+    current: list | None = None
     for event, el in ET.iterparse(str(xml), events=("start", "end")):
         tag = el.tag.replace(ns, "")
         if event == "start" and tag == "page":
             current = []
-            pages.append(current)
+            raw.append(current)
         elif event == "end" and tag == "word":
             if current is not None and (el.text or "").strip():
-                current.append(Word(float(el.get("xMin")), float(el.get("yMin")),
-                                    el.text))
+                current.append((float(el.get("xMin")), float(el.get("yMin")),
+                                float(el.get("xMax")), float(el.get("yMax")), el.text))
             el.clear()
+    # Glue sub/superscripts to their words first ("H BO 3 3" -> "H3BO3"), then
+    # learn the book's vocabulary for line-break hyphens. Both in pdf_text.
+    pages = [[Word(x0, y0, t, x1, y1) for x0, y0, x1, y1, t in pdf_text.merge_scripts(ws)]
+             for ws in raw]
+    pdf_text.set_vocabulary(pdf_text.Vocabulary(w.text for ws in pages for w in ws))
     return pages
 
 
@@ -281,9 +292,23 @@ def page_lines(words: list[Word], *, table: bool) -> list[Line]:
         tops = [w.y for w in words if RE_MARKER.match(w.text or "") and w.y < 75.0]
         cut = (max(tops) if tops else 65.0) + 2.0
         words = [w for w in words if w.y > cut]
+    # A word set in a TALLER face than the body is placed by its bottom edge,
+    # which is where the baseline is. Its top sits higher than its neighbours':
+    # the "58.9" of the cigarette excise is 12.1pt in an 8.1pt body, its top
+    # 3.2pt above its code line, so by top edge it formed a line of its own above
+    # 2402.90.20 and was read as the previous row's preferential duty. Only 26
+    # words in the book's tables are taller; everything else is unaffected.
+    heights = sorted(w.y1 - w.y for w in words if w.y1 > w.y)
+    body = heights[len(heights) // 2] if heights else 0.0
+
+    def line_key(w: Word) -> float:
+        if body and w.y1 - w.y > 1.2 * body:
+            return w.y1 - body
+        return w.y
+
     buckets: dict[float, list[Word]] = defaultdict(list)
     for w in words:
-        buckets[round(w.y, 1)].append(w)
+        buckets[round(line_key(w), 1)].append(w)
     ys = sorted(buckets)
     clusters: list[list[float]] = []
     for y in ys:
@@ -756,6 +781,7 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
     current_note: NoteBlock | None = None
     current_row: TariffRow | None = None
     title_buf: list[str] = []
+    in_subchapter_title = False
 
     def close_note() -> None:
         nonlocal current_note
@@ -784,6 +810,7 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
         words = pages[pno - 1]
         printed = pno - PRINTED_OFFSET
         lines = page_lines(words, table=True)
+        page_bottom = max((ln.y for ln in lines), default=0.0)
         out.stats["stitched_rows"] += stitch_split_rows(lines)
         for ln in lines:
             ln.page = pno
@@ -816,7 +843,10 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
             whole = ln.all_text
 
             # Printed folio: a bare number alone near the foot of the page.
-            if whole and RE_FOLIO.fullmatch(whole) and ln.y > 640.0 and len(ln.cols) == 1:
+            # Only the page's LOWEST line can be the folio: a wrapped description
+            # may end in a lone number ("... in Chapter" / "87").
+            if whole and RE_FOLIO.fullmatch(whole) and ln.y >= page_bottom - 1.0 \
+                    and len(ln.cols) == 1:
                 out.stats["folio"] += 1
                 continue
             if not whole:
@@ -891,6 +921,7 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
                 close_note()
                 close_row()
                 region = "tariff"
+                in_subchapter_title = False
                 depth, desc = _dash_depth(c3)
                 indent = 0 if heading_code and not sub_code else depth
                 if heading_code and sub_code:
@@ -912,6 +943,20 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
                 continue
 
             if region == "tariff":
+                # SUB-CHAPTER HEADINGS (chapters 28, 29, 69): "SUB-CHAPTER II"
+                # and its capitalised title, printed between tariff lines. Read
+                # as continuation they were glued onto the line above: 26 rows
+                # such as 2805.40.00 "Mercury SUB-CHAPTER II INORGANIC ACIDS ...".
+                if not c1 and not c2 and pdf_text.RE_SUBCHAPTER.match(whole):
+                    close_row()
+                    in_subchapter_title = True
+                    out.stats["subchapter_hdr"] += 1
+                    continue
+                if in_subchapter_title and not c1 and not c2 \
+                        and pdf_text.is_caps_title(whole):
+                    out.stats["subchapter_title_line"] += 1
+                    continue
+                in_subchapter_title = False
                 depth, desc = _dash_depth(c3)
                 if c3 and depth > 0:
                     # Uncoded dash row: a CONDITION row ("- Horses :"). It gets
@@ -1454,7 +1499,7 @@ def main() -> int:
     ap.add_argument("--out-dir", type=Path,
                     default=REPO_ROOT / "data" / "sg_tariff_source")
     ap.add_argument("--notes-dir", type=Path,
-                    default=REPO_ROOT / "data" / "hts_notes" / "sg_2022")
+                    default=REPO_ROOT / "data" / "hts_notes" / f"sg_{REVISION}")
     ap.add_argument("--chapters-out", type=Path,
                     default=Path(__file__).resolve().parent / "chapters_sg.json")
     ap.add_argument("--workdir", type=Path, default=None,
@@ -1511,6 +1556,14 @@ def main() -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     csv_path = args.out_dir / f"sg_tariff_{REVISION}.csv"
     n = write_csv(book, csv_path)
+    # The manual acquisition adapter reads the effective date from this
+    # sidecar, exactly as it does for the Dominican Republic's transcription.
+    csv_path.with_name(csv_path.name + ".meta.json").write_text(json.dumps({
+        "effective_date": EFFECTIVE_DATE,
+        "effective_date_label": f"{EDITION_LABEL} edition",
+        "source": PDF_URL,
+        "source_sha256": source_sha,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (args.out_dir / f"sg_{REVISION}.reference.json").write_text(
         json.dumps(reference, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (args.out_dir / f"sg_{REVISION}.toc.json").write_text(

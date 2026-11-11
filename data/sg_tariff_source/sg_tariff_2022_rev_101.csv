@@ -2163,7 +2163,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 19023090,1902.30.90,Other,2,KGM,,,,1,IV,19,101,82
 19024000,1902.40.00,Couscous,1,KGM,,,,1,IV,19,101,82
 19030000,1903.00.00,"Tapioca and substitutes therefor prepared from starch, in the form of flakes, grains, pearls, siftings or in similar forms.",0,KGM,,,,1,IV,19,101,82
-1904,19.04,"Prepared foods obtained by the swelling or roasting of cereals or cereal products (for example, corn flakes); cereals (other than maize (corn)), in grain form or in the form of flakes or other worked grains (except flour, groats and meal), precooked or otherwise prepared, not elsewhere specified or included.",0,,,,,,IV,19,102,83
+1904,19.04,"Prepared foods obtained by the swelling or roasting of cereals or cereal products (for example, corn flakes); cereals (other than maize (corn)), in grain form or in the form of flakes or other worked grains (except flour, groats and meal), pre-cooked or otherwise prepared, not elsewhere specified or included.",0,,,,,,IV,19,102,83
 190410,1904.10,Prepared foods obtained by the swelling or roasting of cereals or cereal products :,1,,,,,,IV,19,102,83
 19041010,1904.10.10,Containing cocoa,2,KGM,,,,1,IV,19,102,83
 19041090,1904.10.90,Other,2,KGM,,,,1,IV,19,102,83
@@ -2554,7 +2554,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 23024010,2302.40.10,Of rice,2,TNE,,,,1,IV,23,118,99
 23024090,2302.40.90,Other,2,TNE,,,,1,IV,23,118,99
 23025000,2302.50.00,Of leguminous plants,1,TNE,,,,1,IV,23,118,99
-2303,23.03,"Residues of starch manufacture and similar residues, beet- pulp, bagasse and other waste of sugar manufacture, brewing or distilling dregs and waste, whether or not in the form of pellets.",0,,,,,,IV,23,118,99
+2303,23.03,"Residues of starch manufacture and similar residues, beet-pulp, bagasse and other waste of sugar manufacture, brewing or distilling dregs and waste, whether or not in the form of pellets.",0,,,,,,IV,23,118,99
 230310,2303.10,Residues of starch manufacture and similar residues :,1,,,,,,IV,23,118,99
 23031010,2303.10.10,Of manioc (cassava) or sago,2,TNE,,,,1,IV,23,118,99
 23031090,2303.10.90,Other,2,TNE,,,,1,IV,23,118,99
@@ -2620,12 +2620,12 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 2402,24.02,"Cigars, cheroots, cigarillos and cigarettes, of tobacco or of tobacco substitutes.",0,,,,,,IV,24,122,103
 24021000,2402.10.00,"Cigars, cheroots and cigarillos, containing tobacco",1,KGM,,,$589.00 per kgm,1,IV,24,122,103
 240220,2402.20,Cigarettes containing tobacco :,1,,,,,,IV,24,122,103
-24022010,2402.20.10,Beedies,2,KGM,,58.9,$454.00 per kgm,1,IV,24,122,103
-24022020,2402.20.20,Clove cigarettes,2,KGM,,every part,cents for gram or thereof of each stick of cigarette 58.9,1,IV,24,122,103
-24022090,2402.20.90,Other,2,KGM,,every part,cents for gram or thereof of each stick of cigarette,1,IV,24,122,103
+24022010,2402.20.10,Beedies,2,KGM,,,$454.00 per kgm,1,IV,24,122,103
+24022020,2402.20.20,Clove cigarettes,2,KGM,,,58.9 cents for every gram or part thereof of each stick of cigarette,1,IV,24,122,103
+24022090,2402.20.90,Other,2,KGM,,,58.9 cents for every gram or part thereof of each stick of cigarette,1,IV,24,122,103
 240290,2402.90,Other :,1,,,,,,IV,24,122,103
-24029010,2402.90.10,"Cigars, cheroots and cigarillos of tobacco substitutes",2,KGM,,58.9,$589.00 per kgm,1,IV,24,122,103
-24029020,2402.90.20,Cigarettes of tobacco substitutes,2,KGM,,every part each,cents for gram or thereof of stick of c igarette,1,IV,24,122,103
+24029010,2402.90.10,"Cigars, cheroots and cigarillos of tobacco substitutes",2,KGM,,,$589.00 per kgm,1,IV,24,122,103
+24029020,2402.90.20,Cigarettes of tobacco substitutes,2,KGM,,,58.9 cents for every gram or part thereof of each stick of cigarette,1,IV,24,122,103
 2403,24.03,"Other manufactured tobacco and manufactured tobacco substitutes; ""homogenised"" or ""reconstituted"" tobacco; tobacco extracts and essences.",0,,,,,,IV,24,122,103
 ,,"Smoking tobacco, whether or not containing tobacco substitutes in any proportion :",1,,,,,,IV,24,122,103
 240311,2403.11,Water pipe tobacco specified in Subheading Note 1 to this Chapter :,2,,,,,,IV,24,122,103
@@ -2776,7 +2776,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 252620,2526.20,Crushed or powdered :,1,,,,,,V,25,129,110
 25262010,2526.20.10,Talc powder,2,TNE,,,,1,V,25,129,110
 25262090,2526.20.90,Other,2,TNE,,,,1,V,25,129,110
-25280000,2528.00.00,"Natural borates and concentrates thereof (whether or not calcined), but not including borates separated from natural brine; natural boric acid containing not more than 85 % of H BO calculated on the dry weight. 3 3",0,TNE,,,,1,V,25,129,110
+25280000,2528.00.00,"Natural borates and concentrates thereof (whether or not calcined), but not including borates separated from natural brine; natural boric acid containing not more than 85 % of H3BO3 calculated on the dry weight.",0,TNE,,,,1,V,25,129,110
 2529,25.29,Feldspar; leucite; nepheline and nepheline syenite; fluorspar.,0,,,,,,V,25,129,110
 252910,2529.10,Feldspar :,1,,,,,,V,25,129,110
 25291010,2529.10.10,Potash feldspar; soda feldspar,2,TNE,,,,1,V,25,129,110
@@ -2872,7 +2872,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 27040030,2704.00.30,Retort carbon,1,TNE,,,,1,V,27,134,115
 27050000,2705.00.00,"Coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons.",0,TNE,,,,1,V,27,134,115
 27060000,2706.00.00,"Tar distilled from coal, from lignite or from peat, and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars.",0,TNE,,,,1,V,27,134,115
-2707,27.07,Oils and other products of the distillation of high temperature coal tar; similar products in which the weight of the aromatic constituents exceeds that of the nonaromatic constituents.,0,,,,,,V,27,134,115
+2707,27.07,Oils and other products of the distillation of high temperature coal tar; similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents.,0,,,,,,V,27,134,115
 27071000,2707.10.00,Benzol (benzene),1,TNE,,,,1,V,27,134,115
 27072000,2707.20.00,Toluol (toluene),1,TNE,,,,1,V,27,134,115
 27073000,2707.30.00,Xylol (xylenes),1,TNE,,,,1,V,27,134,115
@@ -2920,7 +2920,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 27101280,2710.12.80,"Naphtha, reformates and other preparations of a kind used for blending into motor spirits",3,TNE,,,,1,V,27,136,117
 ,,Other :,3,,,,,,V,27,136,117
 27101291,2710.12.91,Alpha olefins,4,TNE,,,,1,V,27,136,117
-27101292,2710.12.92,"Other, petroleum spirit, having a flashpoint of less than 23 o C",4,TNE,,,,1,V,27,136,117
+27101292,2710.12.92,"Other, petroleum spirit, having a flashpoint of less than 23 °C",4,TNE,,,,1,V,27,136,117
 27101299,2710.12.99,Other,4,TNE,,,,1,V,27,136,117
 271019,2710.19,Other :,2,,,,,,V,27,136,117
 27101920,2710.19.20,Topped crudes,3,TNE,,,,1,V,27,136,117
@@ -2934,11 +2934,11 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 27101950,2710.19.50,Hydraulic brake fluid,3,TNE,,,,1,V,27,136,117
 27101960,2710.19.60,Transformer and circuit breakers oils,3,TNE,,,,1,V,27,136,117
 ,,Diesel fuel; fuel oils :,3,,,,,,V,27,136,117
-27101971,2710.19.71,Automotive diesel fuel,4,TNE,,fuel Environmental Protection Management,"$2.00 per dal of diesel fuel conforming to the standard for sulphur for such diesel specified in Part I of the Eighth Schedule to the and (Vehicular Emissions) Regulations (Cap. 94A, Rg 6)",1,V,27,136,117
-27101972,2710.19.72,Other diesel fuels,4,TNE,,automotive fuel Environmental Protection Management Regulations if,$2.00 per dal of diesel fuel conforming to the standard for sulphur for diesel specified in Part I of the Eighth Schedule to the and (Vehicular Emissions) (as such diesel fuel were automotive diesel fuel),1,V,27,137,118
+27101971,2710.19.71,Automotive diesel fuel,4,TNE,,,"$2.00 per dal of diesel fuel conforming to the standard for sulphur for such diesel fuel specified in Part I of the Eighth Schedule to the Environmental Protection and Management (Vehicular Emissions) Regulations (Cap. 94A, Rg 6)",1,V,27,136,117
+27101972,2710.19.72,Other diesel fuels,4,TNE,,,$2.00 per dal of diesel fuel conforming to the standard for sulphur for automotive diesel fuel specified in Part I of the Eighth Schedule to the Environmental Protection and Management (Vehicular Emissions) Regulations (as if such diesel fuel were automotive diesel fuel),1,V,27,137,118
 27101979,2710.19.79,Fuel oils,4,TNE,,,,1,V,27,137,118
-27101981,2710.19.81,Aviation turbine fuel (jet fuel) having a flash point of 23 o C or more,3,TNE,,,,1,V,27,137,118
-27101982,2710.19.82,Aviation turbine fuel (jet fuel) having a flash point of less than 23 o C,3,TNE,,,,1,V,27,137,118
+27101981,2710.19.81,Aviation turbine fuel (jet fuel) having a flash point of 23 °C or more,3,TNE,,,,1,V,27,137,118
+27101982,2710.19.82,Aviation turbine fuel (jet fuel) having a flash point of less than 23 °C,3,TNE,,,,1,V,27,137,118
 27101983,2710.19.83,Other kerosene,3,TNE,,,,1,V,27,137,118
 27101989,2710.19.89,Other medium oils and preparations,3,TNE,,,,1,V,27,137,118
 27101990,2710.19.90,Other,3,TNE,,,,1,V,27,137,118
@@ -2957,7 +2957,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 27111900,2711.19.00,Other,2,TNE,,,,1,V,27,137,118
 ,,In gaseous state :,1,,,,,,V,27,137,118
 271121,2711.21,Natural gas :,2,,,,,,V,27,137,118
-27112110,2711.21.10,Of a kind used as a motor fuel,3,TNE,,20,cents per kgm,1,V,27,137,118
+27112110,2711.21.10,Of a kind used as a motor fuel,3,TNE,,,20 cents per kgm,1,V,27,137,118
 27112190,2711.21.90,Other,3,TNE,,,,1,V,27,138,119
 27112900,2711.29.00,Other,2,TNE,,,,1,V,27,138,119
 2712,27.12,"Petroleum jelly; paraffin wax, microcrystalline petroleum wax, slack wax, ozokerite, lignite wax, peat wax, other mineral waxes, and similar products obtained by synthesis or by other processes, whether or not coloured.",0,,,,,,V,27,138,119
@@ -3010,12 +3010,12 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 28051200,2805.12.00,Calcium,2,KGM,,,,1,VI,28,142,123
 28051900,2805.19.00,Other,2,KGM,,,,1,VI,28,142,123
 28053000,2805.30.00,"Rare-earth metals, scandium and yttrium whether or not intermixed or interalloyed",1,KGM,,,,1,VI,28,142,123
-28054000,2805.40.00,Mercury SUB-CHAPTER II INORGANIC ACIDS AND INORGANIC OXYGEN COMPOUNDS OF NON-METALS,1,KGM,,,,1,VI,28,142,123
+28054000,2805.40.00,Mercury,1,KGM,,,,1,VI,28,142,123
 2806,28.06,Hydrogen chloride (hydrochloric acid); chlorosulphuric acid.,0,,,,,,VI,28,142,123
 28061000,2806.10.00,Hydrogen chloride (hydrochloric acid),1,KGM,,,,1,VI,28,142,123
 28062000,2806.20.00,Chlorosulphuric acid,1,KGM,,,,1,VI,28,142,123
 2807,28.07,Sulphuric acid; oleum.,0,,,,,,VI,28,142,123
-28070010,2807.00.10,Sulphuric acid containing by weight more than 80 % of H SO 2 4,1,KGM,,,,1,VI,28,142,123
+28070010,2807.00.10,Sulphuric acid containing by weight more than 80 % of H2SO4,1,KGM,,,,1,VI,28,142,123
 28070090,2807.00.90,Other,1,KGM,,,,1,VI,28,142,123
 28080000,2808.00.00,Nitric acid; sulphonitric acids.,0,KGM,,,,1,VI,28,142,123
 2809,28.09,"Diphosphorous pentaoxide; phosphoric acid; polyphosphoric acids, whether or not chemically defined.",0,,,,,,VI,28,142,123
@@ -3048,7 +3048,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 281129,2811.29,Other :,2,,,,,,VI,28,143,124
 28112910,2811.29.10,Diarsenic pentaoxide,3,KGM,,,,1,VI,28,143,124
 28112920,2811.29.20,Sulphur dioxide,3,KGM,,,,1,VI,28,143,124
-28112990,2811.29.90,Other SUB-CHAPTER III HALOGEN OR SULPHUR COMPOUNDS OF NON-METAL,3,KGM,,,,1,VI,28,143,124
+28112990,2811.29.90,Other,3,KGM,,,,1,VI,28,143,124
 2812,28.12,Halides and halide oxides of non-metals.,0,,,,,,VI,28,143,124
 ,,Chlorides and chloride oxides :,1,,,,,,VI,28,143,124
 28121100,2812.11.00,Carbonyl dichloride (phosgene),2,KGM,,,,1,VI,28,143,124
@@ -3062,7 +3062,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 28129000,2812.90.00,Other,1,KGM,,,,1,VI,28,144,125
 2813,28.13,Sulphides of non-metals; commercial phosphorus trisulphide.,0,,,,,,VI,28,144,125
 28131000,2813.10.00,Carbon disulphide,1,KGM,,,,1,VI,28,144,125
-28139000,2813.90.00,"Other SUB-CHAPTER IV INORGANIC BASES AND OXIDES, HYDROXIDES AND PEROXIDES OF METALS",1,KGM,,,,1,VI,28,144,125
+28139000,2813.90.00,Other,1,KGM,,,,1,VI,28,144,125
 2814,28.14,"Ammonia, anhydrous or in aqueous solution.",0,,,,,,VI,28,144,125
 28141000,2814.10.00,Anhydrous ammonia,1,KGM,,,,1,VI,28,144,125
 28142000,2814.20.00,Ammonia in aqueous solution,1,KGM,,,,1,VI,28,144,125
@@ -3088,7 +3088,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 2820,28.20,Manganese oxides.,0,,,,,,VI,28,145,126
 28201000,2820.10.00,Manganese dioxide,1,KGM,,,,1,VI,28,145,126
 28209000,2820.90.00,Other,1,KGM,,,,1,VI,28,145,126
-2821,28.21,Iron oxides and hydroxides; earth colours containing 70 % or more by weight of combined iron evaluated as Fe O 3. 2,0,,,,,,VI,28,145,126
+2821,28.21,Iron oxides and hydroxides; earth colours containing 70 % or more by weight of combined iron evaluated as Fe2O3.,0,,,,,,VI,28,145,126
 28211000,2821.10.00,Iron oxides and hydroxides,1,KGM,,,,1,VI,28,145,126
 28212000,2821.20.00,Earth colours,1,KGM,,,,1,VI,28,145,126
 28220000,2822.00.00,Cobalt oxides and hydroxides; commercial cobalt oxides.,0,KGM,,,,1,VI,28,145,126
@@ -3105,7 +3105,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 28256000,2825.60.00,Germanium oxides and zirconium dioxide,1,KGM,,,,1,VI,28,145,126
 28257000,2825.70.00,Molybdenum oxides and hydroxides,1,KGM,,,,1,VI,28,145,126
 28258000,2825.80.00,Antimony oxides,1,KGM,,,,1,VI,28,145,126
-28259000,2825.90.00,"Other SUB-CHAPTER V SALTS AND PEROXYSALTS, OF ORGANIC ACIDS AND METALS",1,KGM,,,,1,VI,28,145,126
+28259000,2825.90.00,Other,1,KGM,,,,1,VI,28,145,126
 2826,28.26,"Fluorides; fluorosilicates, fluoroaluminates and other complex fluorine salts.",0,,,,,,VI,28,145,126
 ,,Fluorides :,1,,,,,,VI,28,145,126
 28261200,2826.12.00,Of aluminium,2,KGM,,,,1,VI,28,145,126
@@ -3250,7 +3250,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 28429010,2842.90.10,Sodium arsenite,2,KGM,,,,1,VI,28,149,130
 28429020,2842.90.20,Copper or chromium salts,2,KGM,,,,1,VI,28,149,130
 28429030,2842.90.30,"Other fulminates, cyanates and thiocyanates",2,KGM,,,,1,VI,28,149,130
-28429090,2842.90.90,Other SUB-CHAPTER VI MISCELLANEOUS,2,KGM,,,,1,VI,28,149,130
+28429090,2842.90.90,Other,2,KGM,,,,1,VI,28,149,130
 2843,28.43,"Colloidal precious metals; inorganic or organic compounds of precious metals, whether or not chemically defined; amalgams of precious metals.",0,,,,,,VI,28,150,131
 28431000,2843.10.00,Colloidal precious metals,1,KGM,,,,1,VI,28,150,131
 ,,Silver compounds :,1,,,,,,VI,28,150,131
@@ -3270,7 +3270,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 28443090,2844.30.90,Other,2,KGM,,,,1,VI,28,150,131
 ,,"Radioactive elements and isotopes and compounds other than those of subheading 2844.10, 2844.20 or 2844.30; alloys, dispersions (including cermets), ceramic products and mixtures containing these elements, isotopes or compounds; radioactive residues :",1,,,,,,VI,28,150,131
 28444100,2844.41.00,"Tritium and its compounds; alloys, dispersions (including cermets), ceramic products and mixtures containing tritium or its compounds",2,KGM,,,,1,VI,28,150,131
-28444200,2844.42.00,"Actinium-225, actinium-227, californium-253, curium-240, curium-241, curium- 242, curium-243, curium-244, einsteinium-253, einsteinium-254, gadolinium-148, polonium-208, polonium-209, polonium-210, radium-223, uranium-230 or uranium- 232, and their compounds; alloys, dispersions (including cermets), ceramic products and mixtures containing these elements or compounds",2,KGM,,,,1,VI,28,150,131
+28444200,2844.42.00,"Actinium-225, actinium-227, californium-253, curium-240, curium-241, curium-242, curium-243, curium-244, einsteinium-253, einsteinium-254, gadolinium-148, polonium-208, polonium-209, polonium-210, radium-223, uranium-230 or uranium-232, and their compounds; alloys, dispersions (including cermets), ceramic products and mixtures containing these elements or compounds",2,KGM,,,,1,VI,28,150,131
 28444300,2844.43.00,"Other radioactive elements and isotopes and compounds; other alloys, dispersions (including cermets), ceramic products and mixtures containing these elements, isotopes or compounds",2,KGM,,,,1,VI,28,150,131
 28444400,2844.44.00,Radioactive residues,2,KGM,,,,1,VI,28,150,131
 28445000,2844.50.00,Spent (irradiated) fuel elements (cartridges) of nuclear reactors,1,KGM,,,,1,VI,28,150,131
@@ -3355,14 +3355,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29034100,2903.41.00,Trifluoromethane (HFC-23),2,KGM,,,,1,VI,29,156,137
 29034200,2903.42.00,Difluoromethane (HFC-32),2,KGM,,,,1,VI,29,156,137
 29034300,2903.43.00,"Fluoromethane (HFC-41), 1,2-difluoroethane (HFC-152) and 1,1-difluoroethane (HFC-152a)",2,KGM,,,,1,VI,29,156,137
-29034400,2903.44.00,"Pentafluoroethane (HFC-125), 1,1,1-trifluoroethane (HFC-143a) and 1,1,2trifluoroethane (HFC-143)",2,KGM,,,,1,VI,29,156,137
+29034400,2903.44.00,"Pentafluoroethane (HFC-125), 1,1,1-trifluoroethane (HFC-143a) and 1,1,2-trifluoroethane (HFC-143)",2,KGM,,,,1,VI,29,156,137
 29034500,2903.45.00,"1,1,1,2-Tetrafluoroethane (HFC-134a) and 1,1,2,2-tetrafluoroethane (HFC-134)",2,KGM,,,,1,VI,29,156,137
-29034600,2903.46.00,"1,1,1,2,3,3,3-Heptafluoropropane (HFC-227ea), 1,1,1,2,2,3-hexafluoropropane (HFC-236cb), 1,1,1,2,3,3-hexafluoropropane (HFC-236ea) and 1,1,1,3,3,3hexafluoropropane (HFC-236fa)",2,KGM,,,,1,VI,29,156,137
+29034600,2903.46.00,"1,1,1,2,3,3,3-Heptafluoropropane (HFC-227ea), 1,1,1,2,2,3-hexafluoropropane (HFC-236cb), 1,1,1,2,3,3-hexafluoropropane (HFC-236ea) and 1,1,1,3,3,3-hexafluoropropane (HFC-236fa)",2,KGM,,,,1,VI,29,156,137
 29034700,2903.47.00,"1,1,1,3,3-Pentafluoropropane (HFC-245fa) and 1,1,2,2,3-pentafluoropropane (HFC-245ca)",2,KGM,,,,1,VI,29,156,137
-29034800,2903.48.00,"1,1,1,3,3-Pentafluorobutane (HFC-365mfc) and 1,1,1,2,2,3,4,5,5,5decafluoropentane (HFC-43-10mee)",2,KGM,,,,1,VI,29,156,137
+29034800,2903.48.00,"1,1,1,3,3-Pentafluorobutane (HFC-365mfc) and 1,1,1,2,2,3,4,5,5,5-decafluoropentane (HFC-43-10mee)",2,KGM,,,,1,VI,29,156,137
 29034900,2903.49.00,Other,2,KGM,,,,1,VI,29,156,137
 ,,Unsaturated fluorinated derivatives of acyclic hydrocarbons :,1,,,,,,VI,29,156,137
-29035100,2903.51.00,"2,3,3,3-Tetrafluoropropene (HFO-1234yf), 1,3,3,3-tetrafluoropropene (HFO- 1234ze) and (Z)-1,1,1,4,4,4-hexafluoro-2-butene (HFO-1336mzz)",2,KGM,,,,1,VI,29,156,137
+29035100,2903.51.00,"2,3,3,3-Tetrafluoropropene (HFO-1234yf), 1,3,3,3-tetrafluoropropene (HFO-1234ze) and (Z)-1,1,1,4,4,4-hexafluoro-2-butene (HFO-1336mzz)",2,KGM,,,,1,VI,29,156,137
 29035900,2903.59.00,Other,2,KGM,,,,1,VI,29,157,138
 ,,Brominated or iodinated derivatives of acyclic hydrocarbons :,1,,,,,,VI,29,157,138
 29036100,2903.61.00,Methyl bromide (bromomethane),2,KGM,,,,1,VI,29,157,138
@@ -3385,7 +3385,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29038900,2903.89.00,Other,2,KGM,,,,1,VI,29,157,138
 ,,Halogenated derivatives of aromatic hydrocarbons :,1,,,,,,VI,29,157,138
 29039100,2903.91.00,"Chlorobenzene, o-dichlorobenzene and p-dichlorobenzene",2,KGM,,,,1,VI,29,157,138
-29039200,2903.92.00,"Hexachlorobenzene (ISO) and DDT (ISO) (clofenotane (INN),1,1,1-trichloro-2,2bis(p-chlorophenyl)ethane)",2,KGM,,,,1,VI,29,157,138
+29039200,2903.92.00,"Hexachlorobenzene (ISO) and DDT (ISO) (clofenotane (INN),1,1,1-trichloro-2,2-bis(p-chlorophenyl)ethane)",2,KGM,,,,1,VI,29,157,138
 29039300,2903.93.00,Pentachlorobenzene (ISO),2,KGM,,,,1,VI,29,157,138
 29039400,2903.94.00,Hexabromobiphenyls,2,KGM,,,,1,VI,29,157,138
 29039900,2903.99.00,Other,2,KGM,,,,1,VI,29,157,138
@@ -3403,7 +3403,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29043600,2904.36.00,Perfluorooctane sulphonyl fluoride,2,KGM,,,,1,VI,29,157,138
 ,,Other :,1,,,,,,VI,29,158,139
 29049100,2904.91.00,Trichloronitromethane (chloropicrin),2,KGM,,,,1,VI,29,158,139
-29049900,2904.99.00,"Other SUB-CHAPTER II ALCOHOLS AND THEIR HALOGENATED, SULPHONATED, NITRATED OR NITROSATED DERIVATIVES",2,KGM,,,,1,VI,29,158,139
+29049900,2904.99.00,Other,2,KGM,,,,1,VI,29,158,139
 2905,29.05,"Acyclic alcohols and their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,,,,,,VI,29,158,139
 ,,Saturated monohydric alcohols :,1,,,,,,VI,29,158,139
 29051100,2905.11.00,Methanol (methyl alcohol),2,KGM,,,,1,VI,29,158,139
@@ -3438,7 +3438,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29061900,2906.19.00,Other,2,KGM,,,,1,VI,29,159,140
 ,,Aromatic :,1,,,,,,VI,29,159,140
 29062100,2906.21.00,Benzyl alcohol,2,KGM,,,,1,VI,29,159,140
-29062900,2906.29.00,"Other SUB-CHAPTER III PHENOLS, PHENOL-ALCOHOLS, AND THEIR HALOGENATED, SULPHONATED, NITRATED OR NITROSATED DERIVATIVES",2,KGM,,,,1,VI,29,159,140
+29062900,2906.29.00,Other,2,KGM,,,,1,VI,29,159,140
 2907,29.07,Phenols; phenol-alcohols.,0,,,,,,VI,29,159,140
 ,,Monophenols :,1,,,,,,VI,29,159,140
 29071100,2907.11.00,Phenol (hydroxybenzene) and its salts,2,KGM,,,,1,VI,29,159,140
@@ -3453,14 +3453,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 290729,2907.29,Other :,2,,,,,,VI,29,159,140
 29072910,2907.29.10,Phenol-alcohols,3,KGM,,,,1,VI,29,159,140
 29072990,2907.29.90,Other,3,KGM,,,,1,VI,29,159,140
-2908,29.08,"Halogenated, sulphonated, nitrated or nitrosated derivatives of phenols or phenolalcohols.",0,,,,,,VI,29,159,140
+2908,29.08,"Halogenated, sulphonated, nitrated or nitrosated derivatives of phenols or phenol-alcohols.",0,,,,,,VI,29,159,140
 ,,Derivatives containing only halogen substituents and their salts :,1,,,,,,VI,29,159,140
 29081100,2908.11.00,Pentachlorophenol (ISO),2,KGM,,,,1,VI,29,159,140
 29081900,2908.19.00,Other,2,KGM,,,,1,VI,29,159,140
 ,,Other :,1,,,,,,VI,29,159,140
 29089100,2908.91.00,Dinoseb (ISO) and its salts,2,KGM,,,,1,VI,29,159,140
 29089200,2908.92.00,"4,6-Dinitro-o-cresol (DNOC (ISO)) and its salts",2,KGM,,,,1,VI,29,159,140
-29089900,2908.99.00,"Other SUB-CHAPTER IV ETHERS, ALCOHOL PEROXIDES, ETHER PEROXIDES, ACETAL AND HEMIACETAL PEROXIDES, KETONE PEROXIDES, EPOXIDES WITH A THREE-MEMBERED RING, ACETALS AND HEMIACETALS, AND THEIR HALOGENATED, SULPHONATED, NITRATED OR NITROSATED DERIVATIVES",2,KGM,,,,1,VI,29,159,140
+29089900,2908.99.00,Other,2,KGM,,,,1,VI,29,159,140
 2909,29.09,"Ethers, ether-alcohols, ether-phenols, ether-alcohol-phenols, alcohol peroxides, ether peroxides, acetal and hemiacetal peroxides, ketone peroxides (whether or not chemically defined), and their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,,,,,,VI,29,160,141
 ,,"Acyclic ethers and their halogenated, sulphonated, nitrated or nitrosated derivatives :",1,,,,,,VI,29,160,141
 29091100,2909.11.00,Diethyl ether,2,TNE,,,,1,VI,29,160,141
@@ -3481,7 +3481,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29104000,2910.40.00,"Dieldrin (ISO, INN)",1,KGM,,,,1,VI,29,160,141
 29105000,2910.50.00,Endrin (ISO),1,KGM,,,,1,VI,29,160,141
 29109000,2910.90.00,Other,1,KGM,,,,1,VI,29,160,141
-29110000,2911.00.00,"Acetals and hemiacetals, whether or not with other oxygen function, and their halogenated, sulphonated, nitrated or nitrosated derivatives. SUB-CHAPTER V ALDEHYDE-FUNCTION COMPOUNDS",0,KGM,,,,1,VI,29,160,141
+29110000,2911.00.00,"Acetals and hemiacetals, whether or not with other oxygen function, and their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,KGM,,,,1,VI,29,160,141
 2912,29.12,"Aldehydes, whether or not with other oxygen function; cyclic polymers of aldehydes; paraformaldehyde.",0,,,,,,VI,29,161,142
 ,,Acyclic aldehydes without other oxygen function :,1,,,,,,VI,29,161,142
 29121100,2912.11.00,Methanal (formaldehyde),2,KGM,,,,1,VI,29,161,142
@@ -3498,7 +3498,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29124990,2912.49.90,Other,3,KGM,,,,1,VI,29,161,142
 29125000,2912.50.00,Cyclic polymers of aldehydes,1,KGM,,,,1,VI,29,161,142
 29126000,2912.60.00,Paraformaldehyde,1,KGM,,,,1,VI,29,161,142
-29130000,2913.00.00,"Halogenated, sulphonated, nitrated or nitrosated derivatives of products of heading 29.12. SUB-CHAPTER VI KETONE-FUNCTION COMPOUNDS AND QUINONE-FUNCTION COMPOUNDS",0,KGM,,,,1,VI,29,161,142
+29130000,2913.00.00,"Halogenated, sulphonated, nitrated or nitrosated derivatives of products of heading 29.12.",0,KGM,,,,1,VI,29,161,142
 2914,29.14,"Ketones and quinones, whether or not with other oxygen function, and their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,,,,,,VI,29,161,142
 ,,Acyclic ketones without other oxygen function :,1,,,,,,VI,29,161,142
 29141100,2914.11.00,Acetone,2,KGM,,,,1,VI,29,161,142
@@ -3522,7 +3522,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29146900,2914.69.00,Other,2,KGM,,,,1,VI,29,162,143
 ,,"Halogenated, sulphonated, nitrated or nitrosated derivatives :",1,,,,,,VI,29,162,143
 29147100,2914.71.00,Chlordecone (ISO),2,KGM,,,,1,VI,29,162,143
-29147900,2914.79.00,"Other SUB-CHAPTER VII CARBOXYLIC ACIDS AND THEIR ANHYDRIDES, HALIDES, PEROXIDES AND PEROXYACIDS AND THEIR HALOGENATED, SULPHONATED, NITRATED OR NITROSATED DERIVATIVES",2,KGM,,,,1,VI,29,162,143
+29147900,2914.79.00,Other,2,KGM,,,,1,VI,29,162,143
 2915,29.15,"Saturated acyclic monocarboxylic acids and their anhydrides, halides, peroxides and peroxyacids; their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,,,,,,VI,29,162,143
 ,,"Formic acid, its salts and esters :",1,,,,,,VI,29,162,143
 29151100,2915.11.00,Formic acid,2,KGM,,,,1,VI,29,162,143
@@ -3623,7 +3623,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29183000,2918.30.00,"Carboxylic acids with aldehyde or ketone function but without other oxygen function, their anhydrides, halides, peroxides, peroxyacids and their derivatives",1,KGM,,,,1,VI,29,165,146
 ,,Other :,1,,,,,,VI,29,165,146
 29189100,2918.91.00,"2,4,5-T (ISO) (2,4,5-trichlorophenoxyacetic acid), its salts and esters",2,KGM,,,,1,VI,29,165,146
-29189900,2918.99.00,"Other SUB-CHAPTER VIII ESTERS OF INORGANIC ACIDS OF NON-METALS AND THEIR SALTS, AND THEIR HALOGENATED, SULPHONATED, NITRATED OR NITROSATED DERIVATIVES",2,KGM,,,,1,VI,29,165,146
+29189900,2918.99.00,Other,2,KGM,,,,1,VI,29,165,146
 2919,29.19,"Phosphoric esters and their salts, including lactophosphates; their halogenated, sulphonated, nitrated or nitrosated derivatives.",0,,,,,,VI,29,165,146
 29191000,2919.10.00,"Tris(2,3-dibromopropyl) phosphate",1,KGM,,,,1,VI,29,165,146
 29199000,2919.90.00,Other,1,KGM,,,,1,VI,29,165,146
@@ -3638,7 +3638,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29202400,2920.24.00,Triethyl phosphite,2,KGM,,,,1,VI,29,165,146
 29202900,2920.29.00,Other,2,KGM,,,,1,VI,29,165,146
 29203000,2920.30.00,Endosulfan (ISO),1,KGM,,,,1,VI,29,165,146
-29209000,2920.90.00,Other SUB-CHAPTER IX NITROGEN-FUNCTION COMPOUNDS,1,KGM,,,,1,VI,29,165,146
+29209000,2920.90.00,Other,1,KGM,,,,1,VI,29,165,146
 2921,29.21,Amine-function compounds.,0,,,,,,VI,29,166,147
 ,,Acyclic monoamines and their derivatives; salts thereof :,1,,,,,,VI,29,166,147
 29211100,2921.11.00,"Methylamine, di- or trimethylamine and their salts",2,KGM,,,,1,VI,29,166,147
@@ -3690,7 +3690,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29224300,2922.43.00,Anthranilic acid and its salts,2,KGM,,,,1,VI,29,167,148
 29224400,2922.44.00,Tilidine (INN) and its salts,2,KGM,,,,1,VI,29,167,148
 29224900,2922.49.00,Other,2,KGM,,,,1,VI,29,167,148
-292250,2922.50,"Amino-alcohol-phenols, amino-acid-phenols and other amino- compounds with oxygen function :",1,,,,,,VI,29,167,148
+292250,2922.50,"Amino-alcohol-phenols, amino-acid-phenols and other amino-compounds with oxygen function :",1,,,,,,VI,29,167,148
 29225010,2922.50.10,"p-Aminosalicylic acid and its salts, esters and other derivatives",2,KGM,,,,1,VI,29,167,148
 29225090,2922.50.90,Other,2,KGM,,,,1,VI,29,167,148
 2923,29.23,"Quaternary ammonium salts and hydroxides; lecithins and other phosphoaminolipids, whether or not chemically defined.",0,,,,,,VI,29,167,148
@@ -3725,7 +3725,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29242920,2924.29.20,Butylphenylmethyl carbamate; methyl isopropyl phenyl carbamate,3,KGM,,,,1,VI,29,168,149
 29242930,2924.29.30,Acetaminophen (paracetamol); salicylamide; ethoxybenzamide,3,KGM,,,,1,VI,29,168,149
 29242990,2924.29.90,Other,3,KGM,,,,1,VI,29,168,149
-2925,29.25,Carboxyimide-function compounds (including saccharin and its salts) and iminefunction compounds.,0,,,,,,VI,29,168,149
+2925,29.25,Carboxyimide-function compounds (including saccharin and its salts) and imine-function compounds.,0,,,,,,VI,29,168,149
 ,,Imides and their derivatives; salts thereof :,1,,,,,,VI,29,168,149
 29251100,2925.11.00,Saccharin and its salts,2,KGM,,,,1,VI,29,168,149
 29251200,2925.12.00,Glutethimide (INN),2,KGM,,,,1,VI,29,168,149
@@ -3736,7 +3736,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 2926,29.26,Nitrile-function compounds.,0,,,,,,VI,29,168,149
 29261000,2926.10.00,Acrylonitrile,1,KGM,,,,1,VI,29,168,149
 29262000,2926.20.00,1-Cyanoguanidine (dicyandiamide),1,KGM,,,,1,VI,29,168,149
-29263000,2926.30.00,"Fenproporex (INN) and its salts; methadone (INN) intermediate (4-cyano-2dimethylamino-4,4-diphenylbutane)",1,KGM,,,,1,VI,29,168,149
+29263000,2926.30.00,"Fenproporex (INN) and its salts; methadone (INN) intermediate (4-cyano-2-dimethylamino-4,4-diphenylbutane)",1,KGM,,,,1,VI,29,168,149
 29264000,2926.40.00,alpha-Phenylacetoacetonitrile,1,KGM,,,,1,VI,29,168,149
 29269000,2926.90.00,Other,1,KGM,,,,1,VI,29,168,149
 2927,29.27,"Diazo-, azo- or azoxy-compounds.",0,,,,,,VI,29,168,149
@@ -3753,7 +3753,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 292990,2929.90,Other :,1,,,,,,VI,29,169,150
 29299010,2929.90.10,Sodium cyclamate,2,KGM,,,,1,VI,29,169,150
 29299020,2929.90.20,Other cyclamates,2,KGM,,,,1,VI,29,169,150
-29299090,2929.90.90,"Other SUB-CHAPTER X ORGANO-INORGANIC COMPOUNDS, HETEROCYCLIC COMPOUNDS, NUCLEIC ACIDS AND THEIR SALTS, AND SULPHONAMIDES",2,KGM,,,,1,VI,29,169,150
+29299090,2929.90.90,Other,2,KGM,,,,1,VI,29,169,150
 2930,29.30,Organo-sulphur compounds.,0,,,,,,VI,29,169,150
 29301000,2930.10.00,"2-(N,N-Dimethylamino)ethanethiol",1,KGM,,,,1,VI,29,169,150
 29302000,2930.20.00,Thiocarbamates and dithiocarbamates,1,KGM,,,,1,VI,29,169,150
@@ -3880,15 +3880,15 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29353000,2935.30.00,N-Ethyl-N-(2-hydroxyethyl) perfluorooctane sulphonamide,1,KGM,,,,1,VI,29,172,153
 29354000,2935.40.00,N-(2-Hydroxyethyl)-N-methylperfluorooctane sulphonamide,1,KGM,,,,1,VI,29,172,153
 29355000,2935.50.00,Other perfluorooctane sulphonamides,1,KGM,,,,1,VI,29,173,154
-29359000,2935.90.00,"Other SUB-CHAPTER XI PROVITAMINS, VITAMINS AND HORMONES",1,KGM,,,,1,VI,29,173,154
+29359000,2935.90.00,Other,1,KGM,,,,1,VI,29,173,154
 2936,29.36,"Provitamins and vitamins, natural or reproduced by synthesis (including natural concentrates), derivatives thereof used primarily as vitamins, and intermixtures of the foregoing, whether or not in any solvent.",0,,,,,,VI,29,173,154
 ,,"Vitamins and their derivatives, unmixed :",1,,,,,,VI,29,173,154
 29362100,2936.21.00,Vitamin A and their derivatives,2,KGM,,,,1,VI,29,173,154
-29362200,2936.22.00,Vitamin B and its derivatives 1,2,KGM,,,,1,VI,29,173,154
-29362300,2936.23.00,Vitamin B and its derivatives 2,2,KGM,,,,1,VI,29,173,154
-29362400,2936.24.00,D- or DL-Pantothenic acid (Vitamin B ) and its derivatives 5,2,KGM,,,,1,VI,29,173,154
-29362500,2936.25.00,Vitamin B and its derivatives 6,2,KGM,,,,1,VI,29,173,154
-29362600,2936.26.00,Vitamin B and its derivatives 12,2,KGM,,,,1,VI,29,173,154
+29362200,2936.22.00,Vitamin B1 and its derivatives,2,KGM,,,,1,VI,29,173,154
+29362300,2936.23.00,Vitamin B2 and its derivatives,2,KGM,,,,1,VI,29,173,154
+29362400,2936.24.00,D- or DL-Pantothenic acid (Vitamin B5) and its derivatives,2,KGM,,,,1,VI,29,173,154
+29362500,2936.25.00,Vitamin B6 and its derivatives,2,KGM,,,,1,VI,29,173,154
+29362600,2936.26.00,Vitamin B12 and its derivatives,2,KGM,,,,1,VI,29,173,154
 29362700,2936.27.00,Vitamin C and its derivatives,2,KGM,,,,1,VI,29,173,154
 29362800,2936.28.00,Vitamin E and its derivatives,2,KGM,,,,1,VI,29,173,154
 29362900,2936.29.00,Other vitamins and their derivatives,2,KGM,,,,1,VI,29,173,154
@@ -3907,7 +3907,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 293790,2937.90,Other :,1,,,,,,VI,29,173,154
 29379010,2937.90.10,Of oxygen-function amino-compounds,2,KGM,,,,1,VI,29,173,154
 29379020,2937.90.20,Epinephrine; amino-acid derivatives,2,KGM,,,,1,VI,29,173,154
-29379090,2937.90.90,"Other SUB-CHAPTER XII GLYCOSIDES AND ALKALOIDS, NATURAL OR REPRODUCED BY SYNTHESIS, AND THEIR SALTS, ETHERS, ESTERS AND OTHER DERIVATIVES",2,KGM,,,,1,VI,29,173,154
+29379090,2937.90.90,Other,2,KGM,,,,1,VI,29,173,154
 2938,29.38,"Glycosides, natural or reproduced by synthesis, and their salts, ethers, esters and other derivatives.",0,,,,,,VI,29,174,155
 29381000,2938.10.00,Rutoside (rutin) and its derivatives,1,KGM,,,,1,VI,29,174,155
 29389000,2938.90.00,Other,1,KGM,,,,1,VI,29,174,155
@@ -3939,7 +3939,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,"Other, of vegetal origin :",1,,,,,,VI,29,174,155
 29397200,2939.72.00,"Cocaine, ecgonine; salts, esters and other derivatives thereof",2,KGM,,,,1,VI,29,174,155
 29397900,2939.79.00,Other,2,KGM,,,,1,VI,29,174,155
-29398000,2939.80.00,Other SUB-CHAPTER XII OTHER ORGANIC COMPOUNDS,1,KGM,,,,1,VI,29,174,155
+29398000,2939.80.00,Other,1,KGM,,,,1,VI,29,174,155
 29400000,2940.00.00,"Sugars, chemically pure, other than sucrose, lactose, maltose, glucose and fructose; sugar ethers, sugar acetals and sugar esters, and their salts, other than products of heading 29.37, 29.38 or 29.39.",0,KGM,,,,1,VI,29,175,156
 2941,29.41,Antibiotics.,0,,,,,,VI,29,175,156
 294110,2941.10,Penicillins and their derivatives with a penicillanic acid structure; salts thereof :,1,,,,,,VI,29,175,156
@@ -3954,7 +3954,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 29415000,2941.50.00,Erythromycin and its derivatives; salts thereof,1,KGM,,,,1,VI,29,175,156
 29419000,2941.90.00,Other,1,KGM,,,,1,VI,29,175,156
 29420000,2942.00.00,Other organic compounds.,0,KGM,,,,1,VI,29,175,156
-3001,30.01,"Glands and other organs for organo-therapeutic uses, dried, whether or not powdered; extracts of glands or other organs or of their secretions for organotherapeutic uses; heparin and its salts; other human or animal substances prepared for therapeutic or prophylactic uses, not elsewhere specified or included.",0,,,,,,VI,30,178,159
+3001,30.01,"Glands and other organs for organo-therapeutic uses, dried, whether or not powdered; extracts of glands or other organs or of their secretions for organo-therapeutic uses; heparin and its salts; other human or animal substances prepared for therapeutic or prophylactic uses, not elsewhere specified or included.",0,,,,,,VI,30,178,159
 30012000,3001.20.00,Extracts of glands or other organs or of their secretions,1,KGM,,,,1,VI,30,178,159
 30019000,3001.90.00,Other,1,KGM,,,,1,VI,30,178,159
 3002,30.02,"Human blood; animal blood prepared for therapeutic, prophylactic or diagnostic uses; antisera, other blood fractions and immunological products, whether or not modified or obtained by means of biotechnological processes; vaccines, toxins, cultures of micro-organisms (excluding yeasts) and similar products; cell cultures, whether or not modified.",0,,,,,,VI,30,178,159
@@ -4123,14 +4123,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 31022100,3102.21.00,Ammonium sulphate,2,TNE,,,,1,VI,31,184,165
 31022900,3102.29.00,Other,2,TNE,,,,1,VI,31,184,165
 31023000,3102.30.00,"Ammonium nitrate, whether or not in aqueous solution",1,TNE,,,,1,VI,31,184,165
-31024000,3102.40.00,Mixtures of ammonium nitrate with calcium carbonate or other inorganic nonfertilising substances,1,TNE,,,,1,VI,31,184,165
+31024000,3102.40.00,Mixtures of ammonium nitrate with calcium carbonate or other inorganic non-fertilising substances,1,TNE,,,,1,VI,31,184,165
 31025000,3102.50.00,Sodium nitrate,1,TNE,,,,1,VI,31,184,165
 31026000,3102.60.00,Double salts and mixtures of calcium nitrate and ammonium nitrate,1,TNE,,,,1,VI,31,184,165
 31028000,3102.80.00,Mixtures of urea and ammonium nitrate in aqueous or ammoniacal solution,1,TNE,,,,1,VI,31,184,165
 31029000,3102.90.00,"Other, including mixtures not specified in the foregoing subheadings",1,TNE,,,,1,VI,31,184,165
 3103,31.03,"Mineral or chemical fertilisers, phosphatic.",0,,,,,,VI,31,185,166
 ,,Superphosphates :,1,,,,,,VI,31,185,166
-310311,3103.11,Containing by weight 35 % or more of diphosphorus pentaoxide (P O ) : 2 5,2,,,,,,VI,31,185,166
+310311,3103.11,Containing by weight 35 % or more of diphosphorus pentaoxide (P2O5) :,2,,,,,,VI,31,185,166
 31031110,3103.11.10,Feed grade,3,TNE,,,,1,VI,31,185,166
 31031190,3103.11.90,Other,3,TNE,,,,1,VI,31,185,166
 310319,3103.19,Other :,2,,,,,,VI,31,185,166
@@ -4160,7 +4160,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 32011000,3201.10.00,Quebracho extract,1,KGM,,,,1,VI,32,186,167
 32012000,3201.20.00,Wattle extract,1,KGM,,,,1,VI,32,186,167
 32019000,3201.90.00,Other,1,KGM,,,,1,VI,32,186,167
-3202,32.02,"Synthetic organic tanning substances; inorganic tanning substances; tanning preparations, whether or not containing natural tanning substances; enzymatic preparations for pre- tanning.",0,,,,,,VI,32,186,167
+3202,32.02,"Synthetic organic tanning substances; inorganic tanning substances; tanning preparations, whether or not containing natural tanning substances; enzymatic preparations for pre-tanning.",0,,,,,,VI,32,186,167
 32021000,3202.10.00,Synthetic organic tanning substances,1,KGM,,,,1,VI,32,186,167
 32029000,3202.90.00,Other,1,KGM,,,,1,VI,32,186,167
 3203,32.03,"Colouring matter of vegetable or animal origin (including dyeing extracts but excluding animal black), whether or not chemically defined; preparations as specified in Note 3 to this Chapter based on colouring matter of vegetable or animal origin.",0,,,,,,VI,32,187,168
@@ -4231,10 +4231,10 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 32082070,3208.20.70,"Varnishes (including lacquers), of a kind used in dentistry",2,LTR,,,,1,VI,32,189,170
 32082090,3208.20.90,Other,2,LTR,,,,1,VI,32,189,170
 320890,3208.90,Other :,1,,,,,,VI,32,189,170
-,,"Varnishes (including lacquers), exceeding 100 o C heat resistance :",2,,,,,,VI,32,189,170
+,,"Varnishes (including lacquers), exceeding 100 °C heat resistance :",2,,,,,,VI,32,189,170
 32089011,3208.90.11,Of a kind used in dentistry,3,LTR,,,,1,VI,32,189,170
 32089019,3208.90.19,Other,3,LTR,,,,1,VI,32,189,170
-,,"Varnishes (including lacquers), not exceeding 100 o C heat resistance :",2,,,,,,VI,32,189,170
+,,"Varnishes (including lacquers), not exceeding 100 °C heat resistance :",2,,,,,,VI,32,189,170
 32089021,3208.90.21,Of a kind used in dentistry,3,LTR,,,,1,VI,32,189,170
 32089029,3208.90.29,Other,3,LTR,,,,1,VI,32,189,170
 32089030,3208.90.30,Anti-fouling and/or anti-corrosive paints for ships' hulls,2,LTR,,,,1,VI,32,189,170
@@ -4485,7 +4485,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 35061000,3506.10.00,"Products suitable for use as glues or adhesives, put up for retail sale as glues or adhesives, not exceeding a net weight of 1 kg",1,KGM,,,,1,VI,35,200,181
 ,,Other :,1,,,,,,VI,35,200,181
 350691,3506.91,Adhesives based on polymers of headings 39.01 to 39.13 or on rubber :,2,,,,,,VI,35,200,181
-35069110,3506.91.10,Optically clear free-film adhesives and optically clear curable liquid adhesives of a kind used solely or principally for the manufacture of flat panel displays or touchsensitive screen panels,3,KGM,,,,1,VI,35,200,181
+35069110,3506.91.10,Optically clear free-film adhesives and optically clear curable liquid adhesives of a kind used solely or principally for the manufacture of flat panel displays or touch-sensitive screen panels,3,KGM,,,,1,VI,35,200,181
 35069190,3506.91.90,Other,3,KGM,,,,1,VI,35,200,181
 35069900,3506.99.00,Other,2,KGM,,,,1,VI,35,200,181
 3507,35.07,Enzymes; prepared enzymes not elsewhere specified or included.,0,,,,,,VI,35,200,181
@@ -4509,7 +4509,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 36049090,3604.90.90,Other,2,KGM,,,,1,VI,36,201,182
 36050000,3605.00.00,"Matches, other than pyrotechnic articles of heading 36.04.",0,KGM,,,,1,VI,36,201,182
 3606,36.06,Ferro-cerium and other pyrophoric alloys in all forms; articles of combustible materials as specified in Note 2 to this Chapter.,0,,,,,,VI,36,202,183
-36061000,3606.10.00,Liquid or liquefied-gas fuels in containers of a kind used for filling or refilling cigarette or similar lighters and of a capacity not exceeding 300 cm 3,1,KGM,,,,1,VI,36,202,183
+36061000,3606.10.00,Liquid or liquefied-gas fuels in containers of a kind used for filling or refilling cigarette or similar lighters and of a capacity not exceeding 300 cm3,1,KGM,,,,1,VI,36,202,183
 360690,3606.90,Other :,1,,,,,,VI,36,202,183
 36069010,3606.90.10,"Solid or semi-solid fuels, solidified alcohol and similar prepared fuels",2,KGM,,,,1,VI,36,202,183
 36069020,3606.90.20,Lighter flints,2,KGM,,,,1,VI,36,202,183
@@ -4595,7 +4595,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 370790,3707.90,Other :,1,,,,,,VI,37,205,186
 37079010,3707.90.10,Flashlight materials,2,KGM,,,,1,VI,37,205,186
 37079090,3707.90.90,Other,2,KGM,,,,1,VI,37,205,186
-3801,38.01,"Artificial graphite; colloidal or semi-colloidal graphite; preparations based on graphite or other carbon in the form of pastes, blocks, plates or other semimanufactures.",0,,,,,,VI,38,208,189
+3801,38.01,"Artificial graphite; colloidal or semi-colloidal graphite; preparations based on graphite or other carbon in the form of pastes, blocks, plates or other semi-manufactures.",0,,,,,,VI,38,208,189
 38011000,3801.10.00,Artificial graphite,1,KGM,,,,1,VI,38,208,189
 38012000,3801.20.00,Colloidal or semi-colloidal graphite,1,KGM,,,,1,VI,38,208,189
 38013000,3801.30.00,Carbonaceous pastes for electrodes and similar pastes for furnace linings,1,KGM,,,,1,VI,38,208,189
@@ -4611,7 +4611,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 38030000,3803.00.00,"Tall oil, whether or not refined.",0,KGM,,,,1,VI,38,208,189
 3804,38.04,"Residual lyes from the manufacture of wood pulp, whether or not concentrated, desugared or chemically treated, including lignin sulphonates, but excluding tall oil of heading 38.03.",0,,,,,,VI,38,208,189
 38040010,3804.00.10,Concentrated sulphite lye,1,KGM,,,,1,VI,38,208,189
-38040020,3804.00.20,Calcium lignin sulphonates (Ca LS) binder used for fire-brick production,1,KGM,,,,1,VI,38,208,189
+38040020,3804.00.20,Calcium lignin sulphonates (Ca2LS) binder used for fire-brick production,1,KGM,,,,1,VI,38,208,189
 38040090,3804.00.90,Other,1,KGM,,,,1,VI,38,208,189
 3805,38.05,"Gum, wood or sulphate turpentine and other terpenic oils produced by the distillation or other treatment of coniferous woods; crude dipentene; sulphite turpentine and other crude para-cymene; pine oil containing alpha-terpineol as the main constituent.",0,,,,,,VI,38,209,190
 38051000,3805.10.00,"Gum, wood or sulphate turpentine oils",1,KGM,,,,1,VI,38,209,190
@@ -4626,7 +4626,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 38069010,3806.90.10,Run gums in blocks,2,KGM,,,,1,VI,38,209,190
 38069090,3806.90.90,Other,2,KGM,,,,1,VI,38,209,190
 38070000,3807.00.00,"Wood tar; wood tar oils; wood creosote; wood naphtha; vegetable pitch; brewers' pitch and similar preparations based on rosin, resin acids or on vegetable pitch.",0,KGM,,,,1,VI,38,209,190
-3808,38.08,"Insecticides, rodenticides, fungicides, herbicides, anti-sprouting products and plant-growth regulators, disinfectants and similar products, put up in forms or packings for retail sale or as preparations or articles (for example, sulphurtreated bands, wicks and candles, and fly-papers).",0,,,,,,VI,38,209,190
+3808,38.08,"Insecticides, rodenticides, fungicides, herbicides, anti-sprouting products and plant-growth regulators, disinfectants and similar products, put up in forms or packings for retail sale or as preparations or articles (for example, sulphur-treated bands, wicks and candles, and fly-papers).",0,,,,,,VI,38,209,190
 ,,Goods specified in Subheading Note 1 to this Chapter :,1,,,,,,VI,38,209,190
 380852,3808.52,"DDT (ISO) (clofenotane (INN)), in packings of a net weight content not exceeding 300 g :",2,,,,,,VI,38,209,190
 38085210,3808.52.10,"Wood preservatives, being preparations other than surface coatings, containing insecticides or fungicides",3,KGM,,,,1,VI,38,209,190
@@ -4717,7 +4717,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 381190,3811.90,Other :,1,,,,,,VI,38,211,192
 38119010,3811.90.10,Rust preventatives or corrosion inhibitors,2,KGM,,,,1,VI,38,211,192
 38119090,3811.90.90,Other,2,KGM,,,,1,VI,38,211,192
-3812,38.12,"Prepared rubber accelerators; compound plasticisers for rubber or plastics, not elsewhere specified or included; anti- oxidising preparations and other compound stabilisers for rubber or plastics.",0,,,,,,VI,38,212,193
+3812,38.12,"Prepared rubber accelerators; compound plasticisers for rubber or plastics, not elsewhere specified or included; anti-oxidising preparations and other compound stabilisers for rubber or plastics.",0,,,,,,VI,38,212,193
 38121000,3812.10.00,Prepared rubber accelerators,1,KGM,,,,1,VI,38,212,193
 38122000,3812.20.00,Compound plasticisers for rubber or plastics,1,KGM,,,,1,VI,38,212,193
 ,,Anti-oxidising preparations and other compound stabilizers for rubber or plastics :,1,,,,,,VI,38,212,193
@@ -4776,14 +4776,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 38248100,3824.81.00,Containing oxirane (ethylene oxide),2,KGM,,,,1,VI,38,213,194
 38248200,3824.82.00,"Containing polychlorinated biphenyls (PCBs), polychlorinated terphenyls (PCTs) or polybrominated biphenyls (PBBs)",2,KGM,,,,1,VI,38,213,194
 38248300,3824.83.00,"Containing tris(2,3-dibromopropyl) phosphate",2,KGM,,,,1,VI,38,213,194
-38248400,3824.84.00,"Containing aldrin (ISO), camphechlor (ISO) (toxaphene), chlordane (ISO), chlordecone (ISO), DDT (ISO) (clofenotane (INN), 1,1,1-trichloro-2,2-bis(pchlorophenyl)ethane), dieldrin (ISO, INN), endosulfan (ISO), endrin (ISO), heptachlor (ISO) or mirex (ISO)",2,KGM,,,,1,VI,38,214,195
+38248400,3824.84.00,"Containing aldrin (ISO), camphechlor (ISO) (toxaphene), chlordane (ISO), chlordecone (ISO), DDT (ISO) (clofenotane (INN), 1,1,1-trichloro-2,2-bis(p-chlorophenyl)ethane), dieldrin (ISO, INN), endosulfan (ISO), endrin (ISO), heptachlor (ISO) or mirex (ISO)",2,KGM,,,,1,VI,38,214,195
 38248500,3824.85.00,"Containing 1,2,3,4,5,6-hexachlorocyclohexane (HCH (ISO)), including lindane (ISO, INN)",2,KGM,,,,1,VI,38,214,195
 38248600,3824.86.00,Containing pentachlorobenzene (ISO) or hexachlorobenzene (ISO),2,KGM,,,,1,VI,38,214,195
 38248700,3824.87.00,"Containing perfluorooctane sulphonic acid, its salts, perfluorooctane sulphonamides, or perfluorooctane sulphonyl fluoride",2,KGM,,,,1,VI,38,214,195
 38248800,3824.88.00,"Containing tetra-, penta-, hexa-, hepta- or octabromodiphenyl ethers",2,KGM,,,,1,VI,38,214,195
 38248900,3824.89.00,Containing short-chain chlorinated paraffins,2,KGM,,,,1,VI,38,214,195
 ,,Other :,1,,,,,,VI,38,214,195
-38249100,3824.91.00,"Mixtures and preparations consisting mainly of (5-ethyl-2-methyl-2-oxido-1,3,2dioxaphosphinan-5-yl)methyl methyl methylphosphonate and bis[(5-ethyl-2-methyl-2oxido-1,3,2-dioxaphosphinan-5-yl)methyl] methylphosphonate",2,KGM,,,,1,VI,38,214,195
+38249100,3824.91.00,"Mixtures and preparations consisting mainly of (5-ethyl-2-methyl-2-oxido-1,3,2-dioxaphosphinan-5-yl)methyl methyl methylphosphonate and bis[(5-ethyl-2-methyl-2-oxido-1,3,2-dioxaphosphinan-5-yl)methyl] methylphosphonate",2,KGM,,,,1,VI,38,214,195
 38249200,3824.92.00,Polyglycol esters of methylphosphonic acid,2,KGM,,,,1,VI,38,214,195
 382499,3824.99,Other :,2,,,,,,VI,38,214,195
 38249910,3824.99.10,"Ink removers, stencil correctors, other correcting fluids and correction tapes (other than those of heading 96.12), put up in packings for retail sale",3,KGM,,,,1,VI,38,214,195
@@ -4898,7 +4898,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 390390,3903.90,Other :,1,,,,,,VII,39,221,202
 39039030,3903.90.30,In dispersion,2,TNE,,,,1,VII,39,221,202
 ,,Other :,2,,,,,,VII,39,221,202
-39039091,3903.90.91,"Impact resistant polymers of styrene, having notched izod impact at 23 o C less than 80 J/m",3,TNE,,,,1,VII,39,221,202
+39039091,3903.90.91,"Impact resistant polymers of styrene, having notched izod impact at 23 °C less than 80 J/m",3,TNE,,,,1,VII,39,221,202
 39039099,3903.90.99,Other,3,TNE,,,,1,VII,39,221,202
 3904,39.04,"Polymers of vinyl chloride or of other halogenated olefins, in primary forms.",0,,,,,,VII,39,221,202
 390410,3904.10,"Poly(vinyl chloride), not mixed with any other substances :",1,,,,,,VII,39,221,202
@@ -5060,7 +5060,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 39139020,3913.90.20,Chemical derivatives of natural rubber,2,TNE,,,,1,VII,39,226,207
 39139030,3913.90.30,Starch-based polymers,2,TNE,,,,1,VII,39,226,207
 39139090,3913.90.90,Other,2,TNE,,,,1,VII,39,226,207
-39140000,3914.00.00,"Ion-exchangers based on polymers of headings 39.01 to 39.13, in primary forms. SUB-CHAPTER II WASTE, PAIRINGS AND SCRAP; SEMI-MANUFACTURERS; ARTICLES",0,TNE,,,,1,VII,39,226,207
+39140000,3914.00.00,"Ion-exchangers based on polymers of headings 39.01 to 39.13, in primary forms.",0,TNE,,,,1,VII,39,226,207
 3915,39.15,"Waste, parings and scrap, of plastics.",0,,,,,,VII,39,226,207
 391510,3915.10,Of polymers of ethylene :,1,,,,,,VII,39,226,207
 39151010,3915.10.10,Of non-rigid cellular products,2,TNE,,,,1,VII,39,226,207
@@ -5586,9 +5586,9 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 40101900,4010.19.00,Other,2,MTR,,,,1,VII,40,242,223
 ,,Transmission belts or belting :,1,,,,,,VII,40,242,223
 40103100,4010.31.00,"Endless transmission belts of trapezoidal cross-section (V-belts), V-ribbed, of an outside circumference exceeding 60 cm but not exceeding 180 cm",2,NMB,,,,1,VII,40,242,223
-40103200,4010.32.00,"Endless transmission belts of trapezoidal cross-section (V-belts), other than Vribbed, of an outside circumference exceeding 60 cm but not exceeding 180 cm",2,NMB,,,,1,VII,40,242,223
+40103200,4010.32.00,"Endless transmission belts of trapezoidal cross-section (V-belts), other than V-ribbed, of an outside circumference exceeding 60 cm but not exceeding 180 cm",2,NMB,,,,1,VII,40,242,223
 40103300,4010.33.00,"Endless transmission belts of trapezoidal cross-section (V-belts), V-ribbed, of an outside circumference exceeding 180 cm but not exceeding 240 cm",2,NMB,,,,1,VII,40,242,223
-40103400,4010.34.00,"Endless transmission belts of trapezoidal cross-section (V-belts), other than Vribbed, of an outside circumference exceeding 180 cm but not exceeding 240 cm",2,NMB,,,,1,VII,40,242,223
+40103400,4010.34.00,"Endless transmission belts of trapezoidal cross-section (V-belts), other than V-ribbed, of an outside circumference exceeding 180 cm but not exceeding 240 cm",2,NMB,,,,1,VII,40,242,223
 40103500,4010.35.00,"Endless synchronous belts, of an outside circumference exceeding 60 cm but not exceeding 150 cm",2,NMB,,,,1,VII,40,242,223
 40103600,4010.36.00,"Endless synchronous belts, of an outside circumference exceeding 150 cm but not exceeding 198 cm",2,NMB,,,,1,VII,40,242,223
 40103900,4010.39.00,Other,2,NMB,,,,1,VII,40,242,223
@@ -5753,12 +5753,12 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 410190,4101.90,"Other, including butts, bends and bellies :",1,,,,,,VIII,41,248,229
 41019010,4101.90.10,Pre-tanned,2,KGM,,,,1,VIII,41,248,229
 41019090,4101.90.90,Other,2,KGM,,,,1,VIII,41,248,229
-4102,41.02,"Raw skins of sheep or lambs (fresh, or salted, dried, limed, pickled or otherwise preserved, but not tanned, parchment- dressed or further prepared), whether or not with wool on or split, other than those excluded by Note 1(c) to this Chapter.",0,,,,,,VIII,41,248,229
+4102,41.02,"Raw skins of sheep or lambs (fresh, or salted, dried, limed, pickled or otherwise preserved, but not tanned, parchment-dressed or further prepared), whether or not with wool on or split, other than those excluded by Note 1(c) to this Chapter.",0,,,,,,VIII,41,248,229
 41021000,4102.10.00,With wool on,1,KGM,,,,1,VIII,41,248,229
 ,,Without wool on :,1,,,,,,VIII,41,248,229
 41022100,4102.21.00,Pickled,2,KGM,,,,1,VIII,41,248,229
 41022900,4102.29.00,Other,2,KGM,,,,1,VIII,41,248,229
-4103,41.03,"Other raw hides and skins (fresh, or salted, dried, limed, pickled or otherwise preserved, but not tanned, parchment- dressed or further prepared), whether or not dehaired or split, other than those excluded by Note 1(b) or 1(c) to this Chapter.",0,,,,,,VIII,41,249,230
+4103,41.03,"Other raw hides and skins (fresh, or salted, dried, limed, pickled or otherwise preserved, but not tanned, parchment-dressed or further prepared), whether or not dehaired or split, other than those excluded by Note 1(b) or 1(c) to this Chapter.",0,,,,,,VIII,41,249,230
 41032000,4103.20.00,Of reptiles,1,KGM,,,,1,VIII,41,249,230
 41033000,4103.30.00,Of swine,1,KGM,,,,1,VIII,41,249,230
 41039000,4103.90.00,Other,1,KGM,,,,1,VIII,41,249,230
@@ -6053,7 +6053,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 44072983,4407.29.83,"Planed, sanded or end-jointed",4,MTQ,,,,1,IX,44,261,242
 44072989,4407.29.89,Other,4,MTQ,,,,1,IX,44,262,243
 ,,Other :,3,,,,,,IX,44,262,243
-44072991,4407.29.91,"Jongkong (Dactylocladus spp.) and Merbau (Intsia spp.), planed, sanded or endjointed",4,MTQ,,,,1,IX,44,262,243
+44072991,4407.29.91,"Jongkong (Dactylocladus spp.) and Merbau (Intsia spp.), planed, sanded or end-jointed",4,MTQ,,,,1,IX,44,262,243
 44072992,4407.29.92,"Jongkong (Dactylocladus spp.) and Merbau (Intsia spp.), other",4,MTQ,,,,1,IX,44,262,243
 44072994,4407.29.94,"Albizia (Paraserianthes falcataria), planed, sanded or end-jointed",4,MTQ,,,,1,IX,44,262,243
 44072995,4407.29.95,"Albizia (Paraserianthes falcataria), other",4,MTQ,,,,1,IX,44,262,243
@@ -6314,12 +6314,12 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 47073000,4707.30.00,"Paper or paperboard made mainly of mechanical pulp (for example, newspapers, journals and similar printed matter)",1,TNE,,,,1,X,47,272,253
 47079000,4707.90.00,"Other, including unsorted waste and scrap",1,TNE,,,,1,X,47,272,253
 4801,48.01,"Newsprint, in rolls or sheets.",0,,,,,,X,48,276,257
-,,Weighing not more than 55 g/m 2 :,1,,,,,,X,48,276,257
+,,Weighing not more than 55 g/m2 :,1,,,,,,X,48,276,257
 48010011,4801.00.11,"In rolls, of a width exceeding 28 cm but not exceeding 36 cm",2,TNE,,,,1,X,48,276,257
 48010012,4801.00.12,"In rolls, other",2,TNE,,,,1,X,48,276,257
 48010013,4801.00.13,"In sheets, square or rectangular, one side of which exceeds 28 cm but not exceeding 36 cm, and the other side exceeding 15 cm in the unfolded state",2,TNE,,,,1,X,48,276,257
 48010014,4801.00.14,"In sheets, square or rectangular, one side of which exceeds 36 cm, and the other side exceeding 15 cm in the unfolded state",2,TNE,,,,1,X,48,276,257
-,,Weighing more than 55 g/m 2 :,1,,,,,,X,48,276,257
+,,Weighing more than 55 g/m2 :,1,,,,,,X,48,276,257
 48010021,4801.00.21,"In rolls, of a width exceeding 28 cm but not exceeding 36 cm",2,TNE,,,,1,X,48,276,257
 48010022,4801.00.22,"In rolls, other",2,TNE,,,,1,X,48,276,257
 48010023,4801.00.23,"In sheets, square or rectangular, one side of which exceeds 28 cm but not exceeding 36 cm, and the other side exceeding 15 cm in the unfolded state",2,TNE,,,,1,X,48,276,257
@@ -6332,9 +6332,9 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 480240,4802.40,Wallpaper base :,1,,,,,,X,48,277,258
 48024010,4802.40.10,In rolls of not more than 15 cm in width or in rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,2,TNE,,,,1,X,48,277,258
 48024090,4802.40.90,Other,2,TNE,,,,1,X,48,277,258
-,,"Other paper and paperboard, not containing fibres obtained by a mechanical or chemimechanical process or of which not more than 10 % by weight of the total fibre content consists of such fibres :",1,,,,,,X,48,277,258
-480254,4802.54,Weighing less than 40 g/m 2 :,2,,,,,,X,48,277,258
-,,"Carbonising base paper, weighing less than 20 g/m 2 :",3,,,,,,X,48,277,258
+,,"Other paper and paperboard, not containing fibres obtained by a mechanical or chemi-mechanical process or of which not more than 10 % by weight of the total fibre content consists of such fibres :",1,,,,,,X,48,277,258
+480254,4802.54,Weighing less than 40 g/m2 :,2,,,,,,X,48,277,258
+,,"Carbonising base paper, weighing less than 20 g/m2 :",3,,,,,,X,48,277,258
 48025411,4802.54.11,In rolls of not more than 15 cm in width or in rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,277,258
 48025419,4802.54.19,Other,4,TNE,,,,1,X,48,277,258
 ,,Other carbonising base paper :,3,,,,,,X,48,277,258
@@ -6344,7 +6344,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48025440,4802.54.40,"Of a kind used for writing, printing and other graphic purposes, in rolls of not more than 15 cm in width or in rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state",3,TNE,,,,1,X,48,277,258
 48025450,4802.54.50,Multi-ply paper and paperboard,3,TNE,,,,1,X,48,277,258
 48025490,4802.54.90,Other,3,TNE,,,,1,X,48,277,258
-480255,4802.55,"Weighing 40 g/m 2 or more but not more than 150 g/m 2 , in rolls :",2,,,,,,X,48,277,258
+480255,4802.55,"Weighing 40 g/m2 or more but not more than 150 g/m2, in rolls :",2,,,,,,X,48,277,258
 ,,Fancy paper and paperboard :,3,,,,,,X,48,277,258
 48025521,4802.55.21,Of a width not exceeding 15 cm,4,TNE,,,,1,X,48,277,258
 48025529,4802.55.29,Other,4,TNE,,,,1,X,48,277,258
@@ -6355,7 +6355,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48025569,4802.55.69,Other,4,TNE,,,,1,X,48,277,258
 48025570,4802.55.70,Multi-ply paper,3,TNE,,,,1,X,48,277,258
 48025590,4802.55.90,Other,3,TNE,,,,1,X,48,277,258
-480256,4802.56,"Weighing 40 g/m 2 or more but not more than 150 g/m 2 , in sheets with one side not exceeding 435 mm and the other side not exceeding 297 mm in the unfolded state :",2,,,,,,X,48,277,258
+480256,4802.56,"Weighing 40 g/m2 or more but not more than 150 g/m2, in sheets with one side not exceeding 435 mm and the other side not exceeding 297 mm in the unfolded state :",2,,,,,,X,48,277,258
 ,,Fancy paper and paperboard :,3,,,,,,X,48,277,258
 48025621,4802.56.21,In rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,277,258
 48025629,4802.56.29,Other,4,TNE,,,,1,X,48,277,258
@@ -6364,13 +6364,13 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48025649,4802.56.49,Other,4,TNE,,,,1,X,48,277,258
 48025650,4802.56.50,Multi-ply paper,3,TNE,,,,1,X,48,277,258
 48025690,4802.56.90,Other,3,TNE,,,,1,X,48,277,258
-480257,4802.57,"Other, weighing 40 g/m 2 or more but not more than 150 g/m 2 :",2,,,,,,X,48,278,259
+480257,4802.57,"Other, weighing 40 g/m2 or more but not more than 150 g/m2 :",2,,,,,,X,48,278,259
 ,,"Of a kind used for writing, printing and other graphic purposes :",3,,,,,,X,48,278,259
 48025721,4802.57.21,With no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,278,259
 48025729,4802.57.29,Other,4,TNE,,,,1,X,48,278,259
 48025730,4802.57.30,Multi-ply paper,3,TNE,,,,1,X,48,278,259
 48025790,4802.57.90,Other,3,TNE,,,,1,X,48,278,259
-480258,4802.58,Weighing more than 150 g/m 2 :,2,,,,,,X,48,278,259
+480258,4802.58,Weighing more than 150 g/m2 :,2,,,,,,X,48,278,259
 ,,Fancy paper and paperboard :,3,,,,,,X,48,278,259
 48025821,4802.58.21,In rolls of a width of 15 cm or less or in rectangular (including square) sheets with one side 36 cm or less and the other side 15 cm or less in the unfolded state,4,TNE,,,,1,X,48,278,259
 48025829,4802.58.29,Other,4,TNE,,,,1,X,48,278,259
@@ -6378,7 +6378,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48025831,4802.58.31,In rolls of not more than 15 cm in width or in rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,278,259
 48025839,4802.58.39,Other,4,TNE,,,,1,X,48,278,259
 ,,Other :,3,,,,,,X,48,278,259
-48025891,4802.58.91,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,278,259
+48025891,4802.58.91,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,278,259
 48025899,4802.58.99,Other,4,TNE,,,,1,X,48,278,259
 ,,"Other paper and paperboard, of which more than 10 % by weight of the total fibre content consists of fibres obtained by a mechanical or chemi-mechanical process :",1,,,,,,X,48,278,259
 480261,4802.61,In rolls :,2,,,,,,X,48,278,259
@@ -6393,29 +6393,29 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48026159,4802.61.59,Other,4,TNE,,,,1,X,48,278,259
 48026160,4802.61.60,Multi-ply paper,3,TNE,,,,1,X,48,278,259
 ,,Other :,3,,,,,,X,48,278,259
-48026191,4802.61.91,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,278,259
+48026191,4802.61.91,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,278,259
 48026199,4802.61.99,Other,4,TNE,,,,1,X,48,278,259
 480262,4802.62,In sheets with one side not exceeding 435 mm and the other side not exceeding 297 mm in the unfolded state :,2,,,,,,X,48,278,259
 ,,"Fancy paper and paperboard, in rectangular (including square) sheets with one side 36 cm or less and the other side 15 cm or less in the unfolded state :",3,,,,,,X,48,278,259
-48026211,4802.62.11,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,278,259
+48026211,4802.62.11,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,278,259
 48026219,4802.62.19,Other,4,TNE,,,,1,X,48,278,259
 ,,Other fancy paper and paperboard :,3,,,,,,X,48,278,259
-48026221,4802.62.21,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,278,259
+48026221,4802.62.21,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,278,259
 48026229,4802.62.29,Other,4,TNE,,,,1,X,48,278,259
 ,,"Of a kind used for writing, printing and other graphic purposes :",3,,,,,,X,48,279,260
 48026231,4802.62.31,In rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,279,260
 48026239,4802.62.39,Other,4,TNE,,,,1,X,48,279,260
 ,,Other :,3,,,,,,X,48,279,260
-48026291,4802.62.91,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,279,260
+48026291,4802.62.91,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,279,260
 48026299,4802.62.99,Other,4,TNE,,,,1,X,48,279,260
 480269,4802.69,Other :,2,,,,,,X,48,279,260
 ,,"Of a kind used for writing, printing and other graphic purposes :",3,,,,,,X,48,279,260
 48026911,4802.69.11,In rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state,4,TNE,,,,1,X,48,279,260
 48026919,4802.69.19,Other,4,TNE,,,,1,X,48,279,260
 ,,Other :,3,,,,,,X,48,279,260
-48026991,4802.69.91,Weighing more than 150 g/m 2 but less than 225 g/m 2,4,TNE,,,,1,X,48,279,260
+48026991,4802.69.91,Weighing more than 150 g/m2 but less than 225 g/m2,4,TNE,,,,1,X,48,279,260
 48026999,4802.69.99,Other,4,TNE,,,,1,X,48,279,260
-4803,48.03,"Toilet or facial tissue stock, towel or napkin stock and similar paper of a kind used for household or sanitary purposes, cellulose wadding and webs of cellulose fibres, whether or not creped, crinkled, embossed, perforated, surface-coloured, surfacedecorated or printed, in rolls or sheets.",0,,,,,,X,48,279,260
+4803,48.03,"Toilet or facial tissue stock, towel or napkin stock and similar paper of a kind used for household or sanitary purposes, cellulose wadding and webs of cellulose fibres, whether or not creped, crinkled, embossed, perforated, surface-coloured, surface-decorated or printed, in rolls or sheets.",0,,,,,,X,48,279,260
 48030030,4803.00.30,Cellulose wadding or webs of cellulose fibres,1,TNE,,,,1,X,48,279,260
 48030090,4803.00.90,Other,1,TNE,,,,1,X,48,279,260
 4804,48.04,"Uncoated kraft paper and paperboard, in rolls or sheets, other than that of heading 48.02 or 48.03.",0,,,,,,X,48,279,260
@@ -6429,7 +6429,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Other :,2,,,,,,X,48,279,260
 48042910,4804.29.10,Of a kind used for making cement bags,3,TNE,,,,1,X,48,279,260
 48042990,4804.29.90,Other,3,TNE,,,,1,X,48,279,260
-,,Other kraft paper and paperboard weighing 150 g/m 2 or less :,1,,,,,,X,48,279,260
+,,Other kraft paper and paperboard weighing 150 g/m2 or less :,1,,,,,,X,48,279,260
 480431,4804.31,Unbleached :,2,,,,,,X,48,279,260
 48043110,4804.31.10,Electrical grade insulating kraft paper,3,TNE,,,,1,X,48,279,260
 48043130,4804.31.30,"Of a wet strength of 40 g to 60 g, of a kind used in the manufacture of plywood adhesive tape",3,TNE,,,,1,X,48,279,260
@@ -6440,7 +6440,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48043910,4804.39.10,"Of a wet strength of 40 g to 60 g, of a kind used in the manufacture of plywood adhesive tape",3,TNE,,,,1,X,48,280,261
 48043920,4804.39.20,Paper and paperboard of a kind used for making food packaging,3,TNE,,,,1,X,48,280,261
 48043990,4804.39.90,Other,3,TNE,,,,1,X,48,280,261
-,,Other kraft paper and paperboard weighing more than 150 g/m 2 but less than 225 g/m 2 :,1,,,,,,X,48,280,261
+,,Other kraft paper and paperboard weighing more than 150 g/m2 but less than 225 g/m2 :,1,,,,,,X,48,280,261
 480441,4804.41,Unbleached :,2,,,,,,X,48,280,261
 48044110,4804.41.10,Electrical grade insulating kraft paper,3,TNE,,,,1,X,48,280,261
 48044190,4804.41.90,Other,3,TNE,,,,1,X,48,280,261
@@ -6450,10 +6450,10 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 480449,4804.49,Other :,2,,,,,,X,48,280,261
 48044910,4804.49.10,Paper and paperboard of a kind used for making food packaging,3,TNE,,,,1,X,48,280,261
 48044990,4804.49.90,Other,3,TNE,,,,1,X,48,280,261
-,,Other kraft paper and paperboard weighing 225 g/m 2 or more :,1,,,,,,X,48,280,261
+,,Other kraft paper and paperboard weighing 225 g/m2 or more :,1,,,,,,X,48,280,261
 480451,4804.51,Unbleached :,2,,,,,,X,48,280,261
 48045110,4804.51.10,Electrical grade insulating kraft paper,3,TNE,,,,1,X,48,280,261
-48045120,4804.51.20,Pressboard weighing 600 g/m 2 or more,3,TNE,,,,1,X,48,280,261
+48045120,4804.51.20,Pressboard weighing 600 g/m2 or more,3,TNE,,,,1,X,48,280,261
 48045130,4804.51.30,"Of a wet strength of 40 g to 60 g, of a kind used in the manufacture of plywood adhesive tape",3,TNE,,,,1,X,48,280,261
 48045190,4804.51.90,Other,3,TNE,,,,1,X,48,280,261
 480452,4804.52,Bleached uniformly throughout the mass and of which more than 95 % by weight of the total fibre content consists of wood fibres obtained by a chemical process :,2,,,,,,X,48,280,261
@@ -6467,12 +6467,12 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48051100,4805.11.00,Semi-chemical fluting paper,2,TNE,,,,1,X,48,280,261
 48051200,4805.12.00,Straw fluting paper,2,TNE,,,,1,X,48,280,261
 480519,4805.19,Other :,2,,,,,,X,48,280,261
-48051910,4805.19.10,Weighing more than 150 g/m 2 but less than 225 g/m 2,3,TNE,,,,1,X,48,280,261
+48051910,4805.19.10,Weighing more than 150 g/m2 but less than 225 g/m2,3,TNE,,,,1,X,48,280,261
 48051990,4805.19.90,Other,3,TNE,,,,1,X,48,280,261
 ,,Testliner (recycled liner board) :,1,,,,,,X,48,280,261
-48052400,4805.24.00,Weighing 150 g/m 2 or less,2,TNE,,,,1,X,48,280,261
-480525,4805.25,Weighing more than 150 g/m 2 :,2,,,,,,X,48,280,261
-48052510,4805.25.10,Weighing less than 225 g/m 2,3,TNE,,,,1,X,48,280,261
+48052400,4805.24.00,Weighing 150 g/m2 or less,2,TNE,,,,1,X,48,280,261
+480525,4805.25,Weighing more than 150 g/m2 :,2,,,,,,X,48,280,261
+48052510,4805.25.10,Weighing less than 225 g/m2,3,TNE,,,,1,X,48,280,261
 48052590,4805.25.90,Other,3,TNE,,,,1,X,48,281,262
 480530,4805.30,Sulphite wrapping paper :,1,,,,,,X,48,281,262
 48053010,4805.30.10,Coloured paper of a kind used for wrapping wooden match boxes,2,TNE,,,,1,X,48,281,262
@@ -6480,14 +6480,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48054000,4805.40.00,Filter paper and paperboard,1,TNE,,,,1,X,48,281,262
 48055000,4805.50.00,Felt paper and paperboard,1,TNE,,,,1,X,48,281,262
 ,,Other :,1,,,,,,X,48,281,262
-480591,4805.91,Weighing 150 g/m 2 or less :,2,,,,,,X,48,281,262
+480591,4805.91,Weighing 150 g/m2 or less :,2,,,,,,X,48,281,262
 48059110,4805.91.10,"Paper of a kind used as interleaf material for the packing of flat glass products, with a resin content by weight of not more than 0.6 %",3,TNE,,,,1,X,48,281,262
 48059120,4805.91.20,Of a kind used to manufacture joss paper,3,TNE,,,,1,X,48,281,262
 48059190,4805.91.90,Other,3,TNE,,,,1,X,48,281,262
-480592,4805.92,Weighing more than 150 g/m 2 but less than 225 g/m 2 :,2,,,,,,X,48,281,262
+480592,4805.92,Weighing more than 150 g/m2 but less than 225 g/m2 :,2,,,,,,X,48,281,262
 48059210,4805.92.10,Multi-ply paper and paperboard,3,TNE,,,,1,X,48,281,262
 48059290,4805.92.90,Other,3,TNE,,,,1,X,48,281,262
-480593,4805.93,Weighing 225 g/m 2 or more :,2,,,,,,X,48,281,262
+480593,4805.93,Weighing 225 g/m2 or more :,2,,,,,,X,48,281,262
 48059310,4805.93.10,Multi-ply paper and paperboard,3,TNE,,,,1,X,48,281,262
 48059320,4805.93.20,Blotting paper,3,TNE,,,,1,X,48,281,262
 48059390,4805.93.90,Other,3,TNE,,,,1,X,48,281,262
@@ -6534,10 +6534,10 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48102991,4810.29.91,"In rolls of a width of 150 mm or less, or in sheets of which no side exceeds 360 mm in the unfolded state",4,TNE,,,,1,X,48,282,263
 48102999,4810.29.99,Other,4,TNE,,,,1,X,48,282,263
 ,,"Kraft paper and paperboard, other than that of a kind used for writing, printing or other graphic purposes :",1,,,,,,X,48,283,264
-481031,4810.31,"Bleached uniformly throughout the mass and of which more than 95% by weight of the total fibre content consists of wood fibres obtained by a chemical process, and weighing 150 g/m 2 or less :",2,,,,,,X,48,283,264
+481031,4810.31,"Bleached uniformly throughout the mass and of which more than 95% by weight of the total fibre content consists of wood fibres obtained by a chemical process, and weighing 150 g/m2 or less :",2,,,,,,X,48,283,264
 48103130,4810.31.30,In rolls of not more than 150 mm in width or sheets of which no side exceeds 360 mm in the unfolded state,3,TNE,,,,1,X,48,283,264
 48103190,4810.31.90,Other,3,TNE,,,,1,X,48,283,264
-481032,4810.32,"Bleached uniformly throughout the mass and of which more than 95 % by weight of the total fibre content consists of wood fibres obtained by a chemical process, and weighing more than 150 g/m 2 :",2,,,,,,X,48,283,264
+481032,4810.32,"Bleached uniformly throughout the mass and of which more than 95 % by weight of the total fibre content consists of wood fibres obtained by a chemical process, and weighing more than 150 g/m2 :",2,,,,,,X,48,283,264
 48103230,4810.32.30,In rolls of not more than 150 mm in width or sheets of which no side exceeds 360 mm in the unfolded state,3,TNE,,,,1,X,48,283,264
 48103290,4810.32.90,Other,3,TNE,,,,1,X,48,283,264
 481039,4810.39,Other :,2,,,,,,X,48,283,264
@@ -6560,7 +6560,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48114190,4811.41.90,Other,3,TNE,,,,1,X,48,283,264
 48114900,4811.49.00,Other,2,TNE,,,,1,X,48,283,264
 ,,"Paper and paperboard coated, impregnated or covered with plastics (excluding adhesives) :",1,,,,,,X,48,283,264
-481151,4811.51,"Bleached, weighing more than 150 g/m 2 :",2,,,,,,X,48,283,264
+481151,4811.51,"Bleached, weighing more than 150 g/m2 :",2,,,,,,X,48,283,264
 ,,In rolls of not more than 15 cm in width or in rectangular (including square) sheets of which no side exceeds 36 cm in the unfolded state :,3,,,,,,X,48,283,264
 48115131,4811.51.31,Floor coverings,4,TNE,,,,1,X,48,283,264
 48115139,4811.51.39,Other,4,TNE,,,,1,X,48,284,265
@@ -6597,7 +6597,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48132010,4813.20.10,Cigarette tipping paper,2,TNE,,,,1,X,48,284,265
 ,,"Other, uncoated :",2,,,,,,X,48,284,265
 48132021,4813.20.21,Tobacco wrapping paper,3,TNE,,,,1,X,48,284,265
-48132022,4813.20.22,Plug wrap paper having a porosity of more than 12 cm 3 (min -1 .cm -2 ) in CORESTA Air Permeability unit,3,TNE,,,,1,X,48,284,265
+48132022,4813.20.22,Plug wrap paper having a porosity of more than 12 cm3 (min-1.cm-2) in CORESTA Air Permeability unit,3,TNE,,,,1,X,48,284,265
 48132023,4813.20.23,Other plug wrap paper,3,TNE,,,,1,X,48,284,265
 48132029,4813.20.29,Other,3,TNE,,,,1,X,48,285,266
 ,,"Other, coated :",2,,,,,,X,48,285,266
@@ -6689,7 +6689,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 48239030,4823.90.30,Die-cut polyethylene coated paperboard of a kind used for the manufacture of paper cups,2,TNE,,,,1,X,48,287,268
 48239040,4823.90.40,Paper tube sets of a kind used for the manufacture of fireworks,2,TNE,,,,1,X,48,287,268
 ,,"Kraft paper, in rolls of a width of 209 mm, of a kind used as wrapper for dynamite sticks :",2,,,,,,X,48,287,268
-48239051,4823.90.51,Weighing 150 g/m 2 or less,3,TNE,,,,1,X,48,287,268
+48239051,4823.90.51,Weighing 150 g/m2 or less,3,TNE,,,,1,X,48,287,268
 48239059,4823.90.59,Other,3,TNE,,,,1,X,48,288,269
 48239060,4823.90.60,Punched jacquard cards,2,TNE,,,,1,X,48,288,269
 48239070,4823.90.70,Fans and handscreens,2,TNE,,,,1,X,48,288,269
@@ -6811,14 +6811,14 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 51100000,5110.00.00,"Yarn of coarse animal hair or of horsehair (including gimped horsehair yarn), whether or not put up for retail sale.",0,KGM,,,,1,XI,51,300,281
 5111,51.11,Woven fabrics of carded wool or of carded fine animal hair.,0,,,,,,XI,51,300,281
 ,,Containing 85 % or more by weight of wool or of fine animal hair :,1,,,,,,XI,51,300,281
-51111100,5111.11.00,Of a weight not exceeding 300 g/m 2,2,MTK,,,,1,XI,51,300,281
+51111100,5111.11.00,Of a weight not exceeding 300 g/m2,2,MTK,,,,1,XI,51,300,281
 51111900,5111.19.00,Other,2,MTK,,,,1,XI,51,300,281
 51112000,5111.20.00,"Other, mixed mainly or solely with man-made filaments",1,MTK,,,,1,XI,51,300,281
 51113000,5111.30.00,"Other, mixed mainly or solely with man-made staple fibres",1,MTK,,,,1,XI,51,300,281
 51119000,5111.90.00,Other,1,MTK,,,,1,XI,51,300,281
 5112,51.12,Woven fabrics of combed wool or of combed fine animal hair.,0,,,,,,XI,51,300,281
 ,,Containing 85 % or more by weight of wool or of fine animal hair :,1,,,,,,XI,51,300,281
-511211,5112.11,Of a weight not exceeding 200 g/m 2 :,2,,,,,,XI,51,300,281
+511211,5112.11,Of a weight not exceeding 200 g/m2 :,2,,,,,,XI,51,300,281
 51121110,5112.11.10,Printed by the traditional batik process,3,MTK,,,,1,XI,51,300,281
 51121190,5112.11.90,Other,3,MTK,,,,1,XI,51,300,281
 511219,5112.19,Other :,2,,,,,,XI,51,300,281
@@ -6899,45 +6899,45 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 5207,52.07,Cotton yarn (other than sewing thread) put up for retail sale.,0,,,,,,XI,52,304,285
 52071000,5207.10.00,Containing 85 % or more by weight of cotton,1,KGM,,,,1,XI,52,304,285
 52079000,5207.90.00,Other,1,KGM,,,,1,XI,52,304,285
-5208,52.08,"Woven fabrics of cotton, containing 85 % or more by weight of cotton, weighing not more than 200 g/m 2 .",0,,,,,,XI,52,304,285
+5208,52.08,"Woven fabrics of cotton, containing 85 % or more by weight of cotton, weighing not more than 200 g/m2.",0,,,,,,XI,52,304,285
 ,,Unbleached :,1,,,,,,XI,52,304,285
-52081100,5208.11.00,"Plain weave, weighing not more than 100 g/m 2",2,MTK,,,,1,XI,52,304,285
-52081200,5208.12.00,"Plain weave, weighing more than 100 g/m 2",2,MTK,,,,1,XI,52,304,285
+52081100,5208.11.00,"Plain weave, weighing not more than 100 g/m2",2,MTK,,,,1,XI,52,304,285
+52081200,5208.12.00,"Plain weave, weighing more than 100 g/m2",2,MTK,,,,1,XI,52,304,285
 52081300,5208.13.00,"3-thread or 4-thread twill, including cross twill",2,MTK,,,,1,XI,52,304,285
 52081900,5208.19.00,Other fabrics,2,MTK,,,,1,XI,52,304,285
 ,,Bleached :,1,,,,,,XI,52,304,285
-52082100,5208.21.00,"Plain weave, weighing not more than 100 g/m 2",2,MTK,,,,1,XI,52,304,285
-52082200,5208.22.00,"Plain weave, weighing more than 100 g/m 2",2,MTK,,,,1,XI,52,304,285
+52082100,5208.21.00,"Plain weave, weighing not more than 100 g/m2",2,MTK,,,,1,XI,52,304,285
+52082200,5208.22.00,"Plain weave, weighing more than 100 g/m2",2,MTK,,,,1,XI,52,304,285
 52082300,5208.23.00,"3-thread or 4-thread twill, including cross twill",2,MTK,,,,1,XI,52,304,285
 52082900,5208.29.00,Other fabrics,2,MTK,,,,1,XI,52,304,285
 ,,Dyed :,1,,,,,,XI,52,304,285
-520831,5208.31,"Plain weave, weighing not more than 100 g/m 2 :",2,,,,,,XI,52,304,285
+520831,5208.31,"Plain weave, weighing not more than 100 g/m2 :",2,,,,,,XI,52,304,285
 52083110,5208.31.10,Voile,3,MTK,,,,1,XI,52,304,285
 52083190,5208.31.90,Other,3,MTK,,,,1,XI,52,304,285
-52083200,5208.32.00,"Plain weave, weighing more than 100 g/m 2",2,MTK,,,,1,XI,52,304,285
+52083200,5208.32.00,"Plain weave, weighing more than 100 g/m2",2,MTK,,,,1,XI,52,304,285
 52083300,5208.33.00,"3-thread or 4-thread twill, including cross twill",2,MTK,,,,1,XI,52,305,286
 52083900,5208.39.00,Other fabrics,2,MTK,,,,1,XI,52,305,286
 ,,Of yarns of different colours :,1,,,,,,XI,52,305,286
-520841,5208.41,"Plain weave, weighing not more than 100 g/m 2 :",2,,,,,,XI,52,305,286
+520841,5208.41,"Plain weave, weighing not more than 100 g/m2 :",2,,,,,,XI,52,305,286
 52084110,5208.41.10,Ikat fabric,3,MTK,,,,1,XI,52,305,286
 52084190,5208.41.90,Other,3,MTK,,,,1,XI,52,305,286
-520842,5208.42,"Plain weave, weighing more than 100 g/m 2 :",2,,,,,,XI,52,305,286
+520842,5208.42,"Plain weave, weighing more than 100 g/m2 :",2,,,,,,XI,52,305,286
 52084210,5208.42.10,Ikat fabric,3,MTK,,,,1,XI,52,305,286
 52084290,5208.42.90,Other,3,MTK,,,,1,XI,52,305,286
 52084300,5208.43.00,"3-thread or 4-thread twill, including cross twill",2,MTK,,,,1,XI,52,305,286
 52084900,5208.49.00,Other fabrics,2,MTK,,,,1,XI,52,305,286
 ,,Printed :,1,,,,,,XI,52,305,286
-520851,5208.51,"Plain weave, weighing not more than 100 g/m 2 :",2,,,,,,XI,52,305,286
+520851,5208.51,"Plain weave, weighing not more than 100 g/m2 :",2,,,,,,XI,52,305,286
 52085110,5208.51.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,305,286
 52085190,5208.51.90,Other,3,MTK,,,,1,XI,52,305,286
-520852,5208.52,"Plain weave, weighing more than 100 g/m 2 :",2,,,,,,XI,52,305,286
+520852,5208.52,"Plain weave, weighing more than 100 g/m2 :",2,,,,,,XI,52,305,286
 52085210,5208.52.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,305,286
 52085290,5208.52.90,Other,3,MTK,,,,1,XI,52,305,286
 520859,5208.59,Other fabrics :,2,,,,,,XI,52,305,286
 52085910,5208.59.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,305,286
 52085920,5208.59.20,"Other, 3-thread or 4-thread twill, including cross twill",3,MTK,,,,1,XI,52,305,286
 52085990,5208.59.90,Other,3,MTK,,,,1,XI,52,305,286
-5209,52.09,"Woven fabrics of cotton, containing 85 % or more by weight of cotton, weighing more than 200 g/m 2 .",0,,,,,,XI,52,305,286
+5209,52.09,"Woven fabrics of cotton, containing 85 % or more by weight of cotton, weighing more than 200 g/m2.",0,,,,,,XI,52,305,286
 ,,Unbleached :,1,,,,,,XI,52,305,286
 520911,5209.11,Plain weave :,2,,,,,,XI,52,305,286
 52091110,5209.11.10,Duck and canvas,3,MTK,,,,1,XI,52,305,286
@@ -6967,7 +6967,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 520959,5209.59,Other fabrics :,2,,,,,,XI,52,306,287
 52095910,5209.59.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,306,287
 52095990,5209.59.90,Other,3,MTK,,,,1,XI,52,306,287
-5210,52.10,"Woven fabrics of cotton, containing less than 85 % by weight of cotton, mixed mainly or solely with man-made fibres, weighing not more than 200 g/m 2 .",0,,,,,,XI,52,306,287
+5210,52.10,"Woven fabrics of cotton, containing less than 85 % by weight of cotton, mixed mainly or solely with man-made fibres, weighing not more than 200 g/m2.",0,,,,,,XI,52,306,287
 ,,Unbleached :,1,,,,,,XI,52,306,287
 52101100,5210.11.00,Plain weave,2,MTK,,,,1,XI,52,306,287
 52101900,5210.19.00,Other fabrics,2,MTK,,,,1,XI,52,306,287
@@ -6990,7 +6990,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 521059,5210.59,Other fabrics :,2,,,,,,XI,52,306,287
 52105910,5210.59.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,306,287
 52105990,5210.59.90,Other,3,MTK,,,,1,XI,52,306,287
-5211,52.11,"Woven fabrics of cotton, containing less than 85 % by weight of cotton, mixed mainly or solely with man-made fibres, weighing more than 200 g/m 2 .",0,,,,,,XI,52,307,288
+5211,52.11,"Woven fabrics of cotton, containing less than 85 % by weight of cotton, mixed mainly or solely with man-made fibres, weighing more than 200 g/m2.",0,,,,,,XI,52,307,288
 ,,Unbleached :,1,,,,,,XI,52,307,288
 52111100,5211.11.00,Plain weave,2,MTK,,,,1,XI,52,307,288
 52111200,5211.12.00,"3-thread or 4-thread twill, including cross twill",2,MTK,,,,1,XI,52,307,288
@@ -7018,7 +7018,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 52115910,5211.59.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,307,288
 52115990,5211.59.90,Other,3,MTK,,,,1,XI,52,307,288
 5212,52.12,Other woven fabrics of cotton.,0,,,,,,XI,52,307,288
-,,Weighing not more than 200 g/m 2 :,1,,,,,,XI,52,307,288
+,,Weighing not more than 200 g/m2 :,1,,,,,,XI,52,307,288
 52121100,5212.11.00,Unbleached,2,MTK,,,,1,XI,52,307,288
 52121200,5212.12.00,Bleached,2,MTK,,,,1,XI,52,307,288
 52121300,5212.13.00,Dyed,2,MTK,,,,1,XI,52,307,288
@@ -7026,7 +7026,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 521215,5212.15,Printed :,2,,,,,,XI,52,307,288
 52121510,5212.15.10,Printed by the traditional batik process,3,MTK,,,,1,XI,52,307,288
 52121590,5212.15.90,Other,3,MTK,,,,1,XI,52,307,288
-,,Weighing more than 200 g/m 2 :,1,,,,,,XI,52,307,288
+,,Weighing more than 200 g/m2 :,1,,,,,,XI,52,307,288
 52122100,5212.21.00,Unbleached,2,MTK,,,,1,XI,52,307,288
 52122200,5212.22.00,Bleached,2,MTK,,,,1,XI,52,307,288
 52122300,5212.23.00,Dyed,2,MTK,,,,1,XI,52,308,289
@@ -7306,7 +7306,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Other :,1,,,,,,XI,55,317,298
 55129100,5512.91.00,Unbleached or bleached,2,MTK,,,,1,XI,55,317,298
 55129900,5512.99.00,Other,2,MTK,,,,1,XI,55,317,298
-5513,55.13,"Woven fabrics of synthetic staple fibres, containing less than 85 % by weight of such fibres, mixed mainly or solely with cotton, of a weight not exceeding 170 g/m 2 .",0,,,,,,XI,55,318,299
+5513,55.13,"Woven fabrics of synthetic staple fibres, containing less than 85 % by weight of such fibres, mixed mainly or solely with cotton, of a weight not exceeding 170 g/m2.",0,,,,,,XI,55,318,299
 ,,Unbleached or bleached :,1,,,,,,XI,55,318,299
 55131100,5513.11.00,"Of polyester staple fibres, plain weave",2,MTK,,,,1,XI,55,318,299
 55131200,5513.12.00,"3-thread or 4-thread twill, including cross twill, of polyester staple fibres",2,MTK,,,,1,XI,55,318,299
@@ -7322,7 +7322,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Printed :,1,,,,,,XI,55,318,299
 55134100,5513.41.00,"Of polyester staple fibres, plain weave",2,MTK,,,,1,XI,55,318,299
 55134900,5513.49.00,Other woven fabrics,2,MTK,,,,1,XI,55,318,299
-5514,55.14,"Woven fabrics of synthetic staple fibres, containing less than 85 % by weight of such fibres, mixed mainly or solely with cotton, of a weight exceeding 170 g/m 2 .",0,,,,,,XI,55,318,299
+5514,55.14,"Woven fabrics of synthetic staple fibres, containing less than 85 % by weight of such fibres, mixed mainly or solely with cotton, of a weight exceeding 170 g/m2.",0,,,,,,XI,55,318,299
 ,,Unbleached or bleached :,1,,,,,,XI,55,318,299
 55141100,5514.11.00,"Of polyester staple fibres, plain weave",2,MTK,,,,1,XI,55,318,299
 55141200,5514.12.00,"3-thread or 4-thread twill, including cross twill, of polyester staple fibres",2,MTK,,,,1,XI,55,318,299
@@ -7398,15 +7398,15 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 56029000,5602.90.00,Other,1,KGM,,,,1,XI,56,321,302
 5603,56.03,"Nonwovens, whether or not impregnated, coated, covered or laminated.",0,,,,,,XI,56,321,302
 ,,Of man-made filaments :,1,,,,,,XI,56,321,302
-56031100,5603.11.00,Weighing not more than 25 g/m 2,2,KGM,,,,1,XI,56,321,302
-56031200,5603.12.00,Weighing more than 25 g/m 2 but not more than 70 g/m 2,2,KGM,,,,1,XI,56,321,302
-56031300,5603.13.00,Weighing more than 70 g/m 2 but not more than 150 g/m 2,2,KGM,,,,1,XI,56,321,302
-56031400,5603.14.00,Weighing more than 150 g/m 2,2,KGM,,,,1,XI,56,321,302
+56031100,5603.11.00,Weighing not more than 25 g/m2,2,KGM,,,,1,XI,56,321,302
+56031200,5603.12.00,Weighing more than 25 g/m2 but not more than 70 g/m2,2,KGM,,,,1,XI,56,321,302
+56031300,5603.13.00,Weighing more than 70 g/m2 but not more than 150 g/m2,2,KGM,,,,1,XI,56,321,302
+56031400,5603.14.00,Weighing more than 150 g/m2,2,KGM,,,,1,XI,56,321,302
 ,,Other :,1,,,,,,XI,56,321,302
-56039100,5603.91.00,Weighing not more than 25 g/m 2,2,KGM,,,,1,XI,56,321,302
-56039200,5603.92.00,Weighing more than 25 g/m 2 but not more than 70 g/m 2,2,KGM,,,,1,XI,56,321,302
-56039300,5603.93.00,Weighing more than 70 g/m 2 but not more than 150 g/m 2,2,KGM,,,,1,XI,56,321,302
-56039400,5603.94.00,Weighing more than 150 g/m 2,2,KGM,,,,1,XI,56,321,302
+56039100,5603.91.00,Weighing not more than 25 g/m2,2,KGM,,,,1,XI,56,321,302
+56039200,5603.92.00,Weighing more than 25 g/m2 but not more than 70 g/m2,2,KGM,,,,1,XI,56,321,302
+56039300,5603.93.00,Weighing more than 70 g/m2 but not more than 150 g/m2,2,KGM,,,,1,XI,56,321,302
+56039400,5603.94.00,Weighing more than 150 g/m2,2,KGM,,,,1,XI,56,321,302
 5604,56.04,"Rubber thread and cord, textile covered; textile yarn, and strip and the like of heading 54.04 or 54.05, impregnated, coated, covered or sheathed with rubber or plastics.",0,,,,,,XI,56,321,302
 56041000,5604.10.00,"Rubber thread and cord, textile covered",1,KGM,,,,1,XI,56,321,302
 560490,5604.90,Other :,1,,,,,,XI,56,321,302
@@ -7455,7 +7455,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Other :,2,,,,,,XI,57,323,304
 57019091,5701.90.91,Prayer rugs,3,MTK,,,,1,XI,57,323,304
 57019099,5701.90.99,Other,3,MTK,,,,1,XI,57,323,304
-5702,57.02,"Carpets and other textile floor coverings, woven, not tufted or flocked, whether or not made up, including ""Kelem"", ""Schumacks"", ""Karamanie"" and similar handwoven rugs.",0,,,,,,XI,57,323,304
+5702,57.02,"Carpets and other textile floor coverings, woven, not tufted or flocked, whether or not made up, including ""Kelem"", ""Schumacks"", ""Karamanie"" and similar hand-woven rugs.",0,,,,,,XI,57,323,304
 57021000,5702.10.00,"""Kelem"", ""Schumacks"", ""Karamanie"" and similar hand-woven rugs",1,MTK,,,,1,XI,57,323,304
 57022000,5702.20.00,Floor coverings of coconut fibres (coir),1,MTK,,,,1,XI,57,323,304
 ,,"Other, of pile construction, not made up :",1,,,,,,XI,57,323,304
@@ -7529,8 +7529,8 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 57039093,5703.90.93,"Flooring carpets of a kind used for motor vehicles of headings 87.02, 87.03 or 87.04",3,MTK,,,,1,XI,57,325,306
 57039099,5703.90.99,Other,3,MTK,,,,1,XI,57,325,306
 5704,57.04,"Carpets and other textile floor coverings, of felt, not tufted or flocked, whether or not made up.",0,,,,,,XI,57,325,306
-57041000,5704.10.00,"Tiles, having a maximum surface area of 0.3 m 2",1,MTK,,,,1,XI,57,325,306
-57042000,5704.20.00,"Tiles, having a maximum surface area exceeding 0.3 m 2 but not exceeding 1 m 2",1,MTK,,,,1,XI,57,325,306
+57041000,5704.10.00,"Tiles, having a maximum surface area of 0.3 m2",1,MTK,,,,1,XI,57,325,306
+57042000,5704.20.00,"Tiles, having a maximum surface area exceeding 0.3 m2 but not exceeding 1 m2",1,MTK,,,,1,XI,57,325,306
 57049000,5704.90.00,Other,1,MTK,,,,1,XI,57,325,306
 5705,57.05,"Other carpets and other textile floor coverings, whether or not made up.",0,,,,,,XI,57,325,306
 ,,Of cotton :,1,,,,,,XI,57,325,306
@@ -7736,9 +7736,9 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 5911,59.11,"Textile products and articles, for technical uses, specified in Note 8 to this Chapter.",0,,,,,,XI,59,335,316
 59111000,5911.10.00,"Textile fabrics, felt and felt-lined woven fabrics, coated, covered or laminated with rubber, leather or other material, of a kind used for card clothing, and similar fabrics of a kind used for other technical purposes, including narrow fabrics made of velvet impregnated with rubber, for covering weaving spindles (weaving beams)",1,KGM,,,,1,XI,59,335,316
 59112000,5911.20.00,"Bolting cloth, whether or not made up",1,KGM,,,,1,XI,59,335,316
-,,"Textile fabrics and felts, endless or fitted with linking devices, of a kind used in papermaking or similar machines (for example, for pulp or asbestos-cement) :",1,,,,,,XI,59,335,316
-59113100,5911.31.00,Weighing less than 650 g/m 2,2,KGM,,,,1,XI,59,335,316
-59113200,5911.32.00,Weighing 650 g/m 2 or more,2,KGM,,,,1,XI,59,335,316
+,,"Textile fabrics and felts, endless or fitted with linking devices, of a kind used in paper-making or similar machines (for example, for pulp or asbestos-cement) :",1,,,,,,XI,59,335,316
+59113100,5911.31.00,Weighing less than 650 g/m2,2,KGM,,,,1,XI,59,335,316
+59113200,5911.32.00,Weighing 650 g/m2 or more,2,KGM,,,,1,XI,59,335,316
 59114000,5911.40.00,"Filtering or straining cloth of a kind used in oil presses or the like, including that of human hair",1,KGM,,,,1,XI,59,335,316
 591190,5911.90,Other :,1,,,,,,XI,59,335,316
 59119010,5911.90.10,Gaskets and seals,2,KGM,,,,1,XI,59,335,316
@@ -7838,7 +7838,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 61012000,6101.20.00,Of cotton,1,TEN,,,,1,XI,61,341,322
 61013000,6101.30.00,Of man-made fibres,1,TEN,,,,1,XI,61,341,322
 61019000,6101.90.00,Of other textile materials,1,TEN,,,,1,XI,61,341,322
-6102,61.02,"Women's or girls' overcoats, car-coats, capes, cloaks, anoraks (including skijackets), wind-cheaters, wind-jackets and similar articles, knitted or crocheted, other than those of heading 61.04.",0,,,,,,XI,61,341,322
+6102,61.02,"Women's or girls' overcoats, car-coats, capes, cloaks, anoraks (including ski-jackets), wind-cheaters, wind-jackets and similar articles, knitted or crocheted, other than those of heading 61.04.",0,,,,,,XI,61,341,322
 61021000,6102.10.00,Of wool or fine animal hair,1,TEN,,,,1,XI,61,341,322
 61022000,6102.20.00,Of cotton,1,TEN,,,,1,XI,61,341,322
 61023000,6102.30.00,Of man-made fibres,1,TEN,,,,1,XI,61,341,322
@@ -8041,7 +8041,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 62019021,6201.90.21,"Overcoats, raincoats, car-coats, cloaks, capes, ponchos, three-quarter coats, greatcoats, hooded capes, duffel coats, trench coats, gabardines and padded waistcoats",3,TEN,,,,1,XI,62,349,330
 62019029,6201.90.29,Other,3,TEN,,,,1,XI,62,349,330
 62019090,6201.90.90,Other,2,TEN,,,,1,XI,62,349,330
-6202,62.02,"Women's or girls' overcoats, car-coats, capes, cloaks, anoraks (including skijackets), wind-cheaters, wind-jackets and similar articles, other than those of heading 62.04.",0,,,,,,XI,62,349,330
+6202,62.02,"Women's or girls' overcoats, car-coats, capes, cloaks, anoraks (including ski-jackets), wind-cheaters, wind-jackets and similar articles, other than those of heading 62.04.",0,,,,,,XI,62,349,330
 620220,6202.20,Of wool or fine animal hair :,1,,,,,,XI,62,349,330
 62022010,6202.20.10,"Overcoats, raincoats, car-coats, cloaks, capes, ponchos, three-quarter coats, greatcoats, hooded capes, duffel coats, trench coats, gabardines and padded waistcoats",2,TEN,,,,1,XI,62,349,330
 62022090,6202.20.90,Other,2,TEN,,,,1,XI,62,349,330
@@ -8488,8 +8488,8 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 63079069,6307.90.69,Other,3,KGM,,,,1,XI,63,362,343
 63079070,6307.90.70,Fans and handscreens,2,KGM,,,,1,XI,63,362,343
 63079080,6307.90.80,"Laces for shoes, boots, corsets and the like",2,KGM,,,,1,XI,63,362,343
-63079090,6307.90.90,Other SUB-CHAPTER II SETS,2,KGM,,,,1,XI,63,362,343
-63080000,6308.00.00,"Sets consisting of woven fabric and yarn, whether or not with accessories, for making up into rugs, tapestries, embroidered table cloths or serviettes, or similar textile articles, put up in packings for retail sale. SUB-CHAPTER III WORN CLOTHING AND WORN TEXTILE ARTICLES; RAGS",0,KGM,,,,1,XI,63,363,344
+63079090,6307.90.90,Other,2,KGM,,,,1,XI,63,362,343
+63080000,6308.00.00,"Sets consisting of woven fabric and yarn, whether or not with accessories, for making up into rugs, tapestries, embroidered table cloths or serviettes, or similar textile articles, put up in packings for retail sale.",0,KGM,,,,1,XI,63,363,344
 63090000,6309.00.00,Worn clothing and other worn articles.,0,TNE,,,,1,XI,63,363,344
 6310,63.10,"Used or new rags, scrap twine, cordage, rope and cables and worn out articles of twine, cordage, rope or cables, of textile materials.",0,,,,,,XI,63,363,344
 631010,6310.10,Sorted :,1,,,,,,XI,63,363,344
@@ -8767,13 +8767,13 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 68159900,6815.99.00,Other,2,KGM,,,,1,XIII,68,376,357
 69010000,6901.00.00,"Bricks, blocks, tiles and other ceramic goods of siliceous fossil meals (for example, kieselguhr, tripolite or diatomite) or of similar siliceous earths.",0,TNE,,,,1,XIII,69,377,358
 6902,69.02,"Refractory bricks, blocks, tiles and similar refractory ceramic constructional goods, other than those of siliceous fossil meals or similar siliceous earths.",0,,,,,,XIII,69,377,358
-69021000,6902.10.00,"Containing by weight, singly or together, more than 50 % of the elements Mg, Ca or Cr, expressed as MgO, CaO or Cr O 2 3",1,TNE,,,,1,XIII,69,377,358
-69022000,6902.20.00,"Containing by weight more than 50 % of alumina (AI O ), of silica (SiO ) or of a 2 3 2 mixture or compound of these products",1,TNE,,,,1,XIII,69,377,358
+69021000,6902.10.00,"Containing by weight, singly or together, more than 50 % of the elements Mg, Ca or Cr, expressed as MgO, CaO or Cr2O3",1,TNE,,,,1,XIII,69,377,358
+69022000,6902.20.00,"Containing by weight more than 50 % of alumina (AI2O3), of silica (SiO2) or of a mixture or compound of these products",1,TNE,,,,1,XIII,69,377,358
 69029000,6902.90.00,Other,1,TNE,,,,1,XIII,69,378,359
 6903,69.03,"Other refractory ceramic goods (for example, retorts, crucibles, muffles, nozzles, plugs, supports, cupels, tubes, pipes, sheaths, rods and slide gates), other than those of siliceous fossil meals or of similar siliceous earths.",0,,,,,,XIII,69,378,359
 69031000,6903.10.00,Containing by weight more than 50 % of free carbon,1,TNE,,,,1,XIII,69,378,359
-69032000,6903.20.00,Containing by weight more than 50 % of alumina (AI O ) or of a mixture or compound 2 3 of alumina and of silica (SiO ) 2,1,TNE,,,,1,XIII,69,378,359
-69039000,6903.90.00,Other SUB-CHAPTER II OTHER CERAMIC PRODUCTS,1,TNE,,,,1,XIII,69,378,359
+69032000,6903.20.00,Containing by weight more than 50 % of alumina (AI2O3) or of a mixture or compound of alumina and of silica (SiO2),1,TNE,,,,1,XIII,69,378,359
+69039000,6903.90.00,Other,1,TNE,,,,1,XIII,69,378,359
 6904,69.04,"Ceramic building bricks, flooring blocks, support or filler tiles and the like.",0,,,,,,XIII,69,378,359
 69041000,6904.10.00,Building bricks,1,MIL,,,,1,XIII,69,378,359
 69049000,6904.90.00,Other,1,TNE,,,,1,XIII,69,378,359
@@ -8826,7 +8826,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 69073099,6907.30.99,Other,3,TNE,,,,1,XIII,69,379,360
 690740,6907.40,Finishing ceramics :,1,,,,,,XIII,69,379,360
 69074010,6907.40.10,"Of a kind used for lining grinding mills, unglazed",2,TNE,,,,1,XIII,69,379,360
-,,"Other articles, having a largest face visible after mounting not exceeding 49 cm 2 :",2,,,,,,XIII,69,379,360
+,,"Other articles, having a largest face visible after mounting not exceeding 49 cm2 :",2,,,,,,XIII,69,379,360
 69074021,6907.40.21,Unglazed,3,TNE,,,,1,XIII,69,379,360
 69074022,6907.40.22,Glazed,3,TNE,,,,1,XIII,69,379,360
 ,,Other :,2,,,,,,XIII,69,379,360
@@ -8863,7 +8863,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 700231,7002.31,Of fused quartz or other fused silica :,2,,,,,,XIII,70,382,363
 70023110,7002.31.10,Of a kind used to manufacture vacuum tubes,3,TNE,,,,1,XIII,70,382,363
 70023190,7002.31.90,Other,3,TNE,,,,1,XIII,70,382,363
-700232,7002.32,Of other glass having a linear coefficient of expansion not exceeding 5 x 10 -6 per Kelvin within a temperature range of 0 o C to 300 o C :,2,,,,,,XIII,70,382,363
+700232,7002.32,Of other glass having a linear coefficient of expansion not exceeding 5 x 10-6 per Kelvin within a temperature range of 0 °C to 300 °C :,2,,,,,,XIII,70,382,363
 70023210,7002.32.10,Of a kind used to manufacture vacuum tubes,3,TNE,,,,1,XIII,70,382,363
 70023230,7002.32.30,Borosilicate glass tubes of a kind used to manufacture phial/ampoules,3,TNE,,,,1,XIII,70,382,363
 70023240,7002.32.40,"Other, of clear neutral borosilicate glass, with a diameter of 3 mm or more but not more than 22 mm",3,TNE,,,,1,XIII,70,382,363
@@ -8897,8 +8897,8 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 70049010,7004.90.10,"Optical glass, not optically worked",2,MTK,,,,1,XIII,70,383,364
 70049020,7004.90.20,"Other, in squares or rectangular shape, whether or not one or more corners have been cut",2,MTK,,,,1,XIII,70,383,364
 70049090,7004.90.90,Other,2,MTK,,,,1,XIII,70,383,364
-7005,70.05,"Float glass and surface ground or polished glass, in sheets, whether or not having an absorbent, reflecting or non- reflecting layer, but not otherwise worked.",0,,,,,,XIII,70,383,364
-700510,7005.10,"Non-wired glass, having an absorbent, reflecting or non- reflecting layer :",1,,,,,,XIII,70,383,364
+7005,70.05,"Float glass and surface ground or polished glass, in sheets, whether or not having an absorbent, reflecting or non-reflecting layer, but not otherwise worked.",0,,,,,,XIII,70,383,364
+700510,7005.10,"Non-wired glass, having an absorbent, reflecting or non-reflecting layer :",1,,,,,,XIII,70,383,364
 70051010,7005.10.10,"Optical glass, not optically worked",2,MTK,,,,1,XIII,70,383,364
 70051090,7005.10.90,Other,2,MTK,,,,1,XIII,70,383,364
 ,,Other non-wired glass :,1,,,,,,XIII,70,383,364
@@ -8964,7 +8964,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 70133700,7013.37.00,Other,2,TNE,,,,1,XIII,70,385,366
 ,,"Glassware of a kind used for table (other than drinking glasses) or kitchen purposes, other than of glass-ceramics :",1,,,,,,XIII,70,385,366
 70134100,7013.41.00,Of lead crystal,2,TNE,,,,1,XIII,70,385,366
-70134200,7013.42.00,Of glass having a linear coefficient of expansion not exceeding 5 x 10 -6 per Kelvin within a temperature range of 0 o C to 300 o C,2,TNE,,,,1,XIII,70,385,366
+70134200,7013.42.00,Of glass having a linear coefficient of expansion not exceeding 5 x 10-6 per Kelvin within a temperature range of 0 °C to 300 °C,2,TNE,,,,1,XIII,70,385,366
 70134900,7013.49.00,Other,2,TNE,,,,1,XIII,70,385,366
 ,,Other glassware :,1,,,,,,XIII,70,385,366
 70139100,7013.91.00,Of lead crystal,2,TNE,,,,1,XIII,70,385,366
@@ -8972,7 +8972,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 7014,70.14,"Signalling glassware and optical elements of glass (other than those of heading 70.15), not optically worked.",0,,,,,,XIII,70,385,366
 70140010,7014.00.10,Of a kind suitable for use in motor vehicles,1,TNE,,,,1,XIII,70,385,366
 70140090,7014.00.90,Other,1,TNE,,,,1,XIII,70,385,366
-7015,70.15,"Clock or watch glasses and similar glasses, glasses for non- corrective or corrective spectacles, curved, bent, hollowed or the like, not optically worked; hollow glass spheres and their segments, for the manufacture of such glasses.",0,,,,,,XIII,70,385,366
+7015,70.15,"Clock or watch glasses and similar glasses, glasses for non-corrective or corrective spectacles, curved, bent, hollowed or the like, not optically worked; hollow glass spheres and their segments, for the manufacture of such glasses.",0,,,,,,XIII,70,385,366
 70151000,7015.10.00,Glasses for corrective spectacles,1,TNE,,,,1,XIII,70,385,366
 701590,7015.90,Other :,1,,,,,,XIII,70,385,366
 70159010,7015.90.10,Clock or watch glasses,2,TNE,,,,1,XIII,70,385,366
@@ -8984,10 +8984,10 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 701710,7017.10,Of fused quartz or other fused silica :,1,,,,,,XIII,70,385,366
 70171010,7017.10.10,Quartz reactor tubes and holders designed for insertion into diffusion and oxidation furnaces for production of semiconductor wafers,2,TNE,,,,1,XIII,70,385,366
 70171090,7017.10.90,Other,2,TNE,,,,1,XIII,70,385,366
-70172000,7017.20.00,Of other glass having a linear coefficient of expansion not exceeding 5 x 10 -6 per Kelvin within a temperature range of 0 o C to 300 o C,1,TNE,,,,1,XIII,70,386,367
+70172000,7017.20.00,Of other glass having a linear coefficient of expansion not exceeding 5 x 10-6 per Kelvin within a temperature range of 0 °C to 300 °C,1,TNE,,,,1,XIII,70,386,367
 70179000,7017.90.00,Other,1,TNE,,,,1,XIII,70,386,367
-7018,70.18,"Glass beads, imitation pearls, imitation precious or semi- precious stones and similar glass smallwares, and articles thereof other than imitation jewellery; glass eyes other than prosthetic articles; statuettes and other ornaments of lampworked glass, other than imitation jewellery; glass microspheres not exceeding 1 mm in diameter.",0,,,,,,XIII,70,386,367
-701810,7018.10,"Glass beads, imitation pearls, imitation precious or semi- precious stones and similar glass smallwares :",1,,,,,,XIII,70,386,367
+7018,70.18,"Glass beads, imitation pearls, imitation precious or semi-precious stones and similar glass smallwares, and articles thereof other than imitation jewellery; glass eyes other than prosthetic articles; statuettes and other ornaments of lamp-worked glass, other than imitation jewellery; glass microspheres not exceeding 1 mm in diameter.",0,,,,,,XIII,70,386,367
+701810,7018.10,"Glass beads, imitation pearls, imitation precious or semi-precious stones and similar glass smallwares :",1,,,,,,XIII,70,386,367
 70181010,7018.10.10,Glass beads,2,KGM,,,,1,XIII,70,386,367
 70181090,7018.10.90,Other,2,KGM,,,,1,XIII,70,386,367
 70182000,7018.20.00,Glass microspheres not exceeding 1 mm in diameter,1,KGM,,,,1,XIII,70,386,367
@@ -9066,8 +9066,8 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 71049900,7104.99.00,Other,2,KGM,,,,1,XIV,71,391,372
 7105,71.05,Dust and powder of natural or synthetic precious or semi-precious stones.,0,,,,,,XIV,71,391,372
 71051000,7105.10.00,Of diamonds,1,CTM,,,,1,XIV,71,391,372
-71059000,7105.90.00,Other SUB-CHAPTER II PRECIOUS METALS AND METALS CLAD WITH PRECIOUS METAL,1,KGM,,,,1,XIV,71,391,372
-7106,71.06,"Silver (including silver plated with gold or platinum), unwrought or in semimanufactured forms, or in powder form.",0,,,,,,XIV,71,391,372
+71059000,7105.90.00,Other,1,KGM,,,,1,XIV,71,391,372
+7106,71.06,"Silver (including silver plated with gold or platinum), unwrought or in semi-manufactured forms, or in powder form.",0,,,,,,XIV,71,391,372
 71061000,7106.10.00,Powder,1,KGM,,,,1,XIV,71,391,372
 ,,Other :,1,,,,,,XIV,71,391,372
 71069100,7106.91.00,Unwrought,2,KGM,,,,1,XIV,71,391,372
@@ -9103,7 +9103,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 71104110,7110.41.10,"In lumps, ingots, cast bars or in powder form",3,KGM,,,,1,XIV,71,392,373
 71104190,7110.41.90,Other,3,KGM,,,,1,XIV,71,392,373
 71104900,7110.49.00,Other,2,KGM,,,,1,XIV,71,392,373
-7111,71.11,"Base metals, silver or gold, clad with platinum, not further worked than semimanufactured.",0,,,,,,XIV,71,392,373
+7111,71.11,"Base metals, silver or gold, clad with platinum, not further worked than semi-manufactured.",0,,,,,,XIV,71,392,373
 71110010,7111.00.10,"Silver or gold, clad with platinum",1,KGM,,,,1,XIV,71,392,373
 71110090,7111.00.90,Other,1,KGM,,,,1,XIV,71,392,373
 7112,71.12,"Waste and scrap of precious metal or of metal clad with precious metal; other waste and scrap containing precious metal or precious metal compounds, of a kind used principally for the recovery of precious metal other than goods of heading 85.49.",0,,,,,,XIV,71,392,373
@@ -9113,7 +9113,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 71129200,7112.92.00,"Of platinum, including metal clad with platinum but excluding sweepings containing other precious metals",2,KGM,,,,1,XIV,71,392,373
 711299,7112.99,Other :,2,,,,,,XIV,71,392,373
 71129910,7112.99.10,"Of silver, including metal clad with silver but excluding sweepings containing other precious metals",3,KGM,,,,1,XIV,71,392,373
-71129990,7112.99.90,"Other SUB-CHAPTER III JEWELLERY, GOLDSMITHS' AND SILVERSMITHS' WARES AND OTHER ARTICLES",3,KGM,,,,1,XIV,71,392,373
+71129990,7112.99.90,Other,3,KGM,,,,1,XIV,71,392,373
 7113,71.13,"Articles of jewellery and parts thereof, of precious metal or of metal clad with precious metal.",0,,,,,,XIV,71,393,374
 ,,Of precious metal whether or not plated or clad with precious metal :,1,,,,,,XIV,71,393,374
 711311,7113.11,"Of silver, whether or not plated or clad with other precious metal :",2,,,,,,XIV,71,393,374
@@ -9136,7 +9136,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 71159010,7115.90.10,Of gold or silver,2,KGM,,,,1,XIV,71,393,374
 71159020,7115.90.20,Of metal clad with gold or silver,2,KGM,,,,1,XIV,71,393,374
 71159090,7115.90.90,Other,2,KGM,,,,1,XIV,71,393,374
-7116,71.16,"Articles of natural or cultured pearls, precious or semi- precious stones (natural, synthetic or reconstructed).",0,,,,,,XIV,71,393,374
+7116,71.16,"Articles of natural or cultured pearls, precious or semi-precious stones (natural, synthetic or reconstructed).",0,,,,,,XIV,71,393,374
 71161000,7116.10.00,Of natural or cultured pearls,1,KGM,,,,1,XIV,71,393,374
 71162000,7116.20.00,"Of precious or semi-precious stones (natural, synthetic or reconstructed)",1,KGM,,,,1,XIV,71,393,374
 7117,71.17,Imitation jewellery.,0,,,,,,XIV,71,393,374
@@ -9203,7 +9203,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 72051000,7205.10.00,Granules,1,TNE,,,,1,XV,72,402,383
 ,,Powders :,1,,,,,,XV,72,402,383
 72052100,7205.21.00,Of alloy steel,2,TNE,,,,1,XV,72,402,383
-72052900,7205.29.00,Other SUB-CHAPTER II IRON AND NON-ALLOY STEEL,2,TNE,,,,1,XV,72,402,383
+72052900,7205.29.00,Other,2,TNE,,,,1,XV,72,402,383
 7206,72.06,Iron and non-alloy steel in ingots or other primary forms (excluding iron of heading 72.03).,0,,,,,,XV,72,402,383
 720610,7206.10,Ingots :,1,,,,,,XV,72,402,383
 72061010,7206.10.10,Containing by weight more than 0.6 % of carbon,2,TNE,,,,1,XV,72,402,383
@@ -9227,7 +9227,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Other :,3,,,,,,XV,72,403,384
 72072092,7207.20.92,Blocks roughly shaped by forging; sheet bars,4,TNE,,,,1,XV,72,403,384
 72072099,7207.20.99,Other,4,TNE,,,,1,XV,72,403,384
-7208,72.08,"Flat-rolled products of iron or non-alloy steel, of a width of 600 mm or more, hotrolled, not clad, plated or coated.",0,,,,,,XV,72,403,384
+7208,72.08,"Flat-rolled products of iron or non-alloy steel, of a width of 600 mm or more, hot-rolled, not clad, plated or coated.",0,,,,,,XV,72,403,384
 72081000,7208.10.00,"In coils, not further worked than hot-rolled, with patterns in relief",1,TNE,,,,1,XV,72,403,384
 ,,"Other, in coils, not further worked than hot-rolled, pickled :",1,,,,,,XV,72,403,384
 72082500,7208.25.00,Of a thickness of 4.75 mm or more,2,TNE,,,,1,XV,72,403,384
@@ -9261,7 +9261,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 72089010,7208.90.10,Corrugated,2,TNE,,,,1,XV,72,404,385
 72089020,7208.90.20,"Other, containing by weight less than 0.6 % of carbon and of a thickness of 0.17 mm or less",2,TNE,,,,1,XV,72,404,385
 72089090,7208.90.90,Other,2,TNE,,,,1,XV,72,404,385
-7209,72.09,"Flat-rolled products of iron or non-alloy steel, of a width of 600 mm or more, coldrolled (cold-reduced), not clad, plated or coated.",0,,,,,,XV,72,404,385
+7209,72.09,"Flat-rolled products of iron or non-alloy steel, of a width of 600 mm or more, cold-rolled (cold-reduced), not clad, plated or coated.",0,,,,,,XV,72,404,385
 ,,"In coils, not further worked than cold-rolled (cold-reduced) :",1,,,,,,XV,72,404,385
 72091500,7209.15.00,Of a thickness of 3 mm or more,2,TNE,,,,1,XV,72,404,385
 720916,7209.16,Of a thickness exceeding 1 mm but less than 3 mm :,2,,,,,,XV,72,404,385
@@ -9576,7 +9576,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 721710,7217.10,"Not plated or coated, whether or not polished :",1,,,,,,XV,72,412,393
 72171010,7217.10.10,Containing by weight less than 0.25 % of carbon,2,TNE,,,,1,XV,72,412,393
 ,,Containing by weight 0.25 % or more but less than 0.6 % of carbon :,2,,,,,,XV,72,412,393
-72171022,7217.10.22,Reed wire; wire of a kind used for making strands for prestressing concrete; freecutting steel wire,3,TNE,,,,1,XV,72,412,393
+72171022,7217.10.22,Reed wire; wire of a kind used for making strands for prestressing concrete; free-cutting steel wire,3,TNE,,,,1,XV,72,412,393
 72171029,7217.10.29,Other,3,TNE,,,,1,XV,72,412,393
 ,,Containing by weight 0.6 % or more of carbon :,2,,,,,,XV,72,412,393
 72171032,7217.10.32,Spokes wire; reed wire; free-cutting steel wire,3,TNE,,,,1,XV,72,412,393
@@ -9600,7 +9600,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 72173039,7217.30.39,Other,3,TNE,,,,1,XV,72,413,394
 721790,7217.90,Other :,1,,,,,,XV,72,413,394
 72179010,7217.90.10,Containing by weight less than 0.25 % of carbon,2,TNE,,,,1,XV,72,413,394
-72179090,7217.90.90,Other SUB-CHAPTER III STAINLESS STEEL,2,TNE,,,,1,XV,72,413,394
+72179090,7217.90.90,Other,2,TNE,,,,1,XV,72,413,394
 7218,72.18,Stainless steel in ingots or other primary forms; semi-finished products of stainless steel.,0,,,,,,XV,72,413,394
 72181000,7218.10.00,Ingots and other primary forms,1,TNE,,,,1,XV,72,413,394
 ,,Other :,1,,,,,,XV,72,413,394
@@ -9654,7 +9654,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 72224090,7222.40.90,Other,2,TNE,,,,1,XV,72,414,395
 7223,72.23,Wire of stainless steel.,0,,,,,,XV,72,414,395
 72230010,7223.00.10,Of cross-section exceeding 13 mm,1,TNE,,,,1,XV,72,414,395
-72230090,7223.00.90,"Other SUB-CHAPTER IV OTHER ALLOY STEEL; HOLLOW DRILL BARS AND RODS, OF ALLOY OR NON-ALLOY STEEL",1,TNE,,,,1,XV,72,414,395
+72230090,7223.00.90,Other,1,TNE,,,,1,XV,72,414,395
 7224,72.24,Other alloy steel in ingots or other primary forms; semi-finished products of other alloy steel.,0,,,,,,XV,72,414,395
 72241000,7224.10.00,Ingots and other primary forms,1,TNE,,,,1,XV,72,414,395
 72249000,7224.90.00,Other,1,TNE,,,,1,XV,72,414,395
@@ -10010,7 +10010,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 731419,7314.19,Other :,2,,,,,,XV,73,425,406
 73141910,7314.19.10,Endless bands for machinery other than of stainless steel,3,TNE,,,,1,XV,73,425,406
 73141990,7314.19.90,Other,3,TNE,,,,1,XV,73,425,406
-73142000,7314.20.00,"Grill, netting and fencing, welded at the intersection, of wire with a maximum crosssectional dimension of 3 mm or more and having a mesh size of 100 cm 2 or more",1,TNE,,,,1,XV,73,425,406
+73142000,7314.20.00,"Grill, netting and fencing, welded at the intersection, of wire with a maximum cross-sectional dimension of 3 mm or more and having a mesh size of 100 cm2 or more",1,TNE,,,,1,XV,73,425,406
 ,,"Other grill, netting and fencing, welded at the intersection :",1,,,,,,XV,73,425,406
 73143100,7314.31.00,Plated or coated with zinc,2,TNE,,,,1,XV,73,425,406
 73143900,7314.39.00,Other,2,TNE,,,,1,XV,73,425,406
@@ -10117,7 +10117,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 73219021,7321.90.21,Burner; components made by stamping or pressing processes,3,KGM,,,,1,XV,73,428,409
 73219029,7321.90.29,Other,3,KGM,,,,1,XV,73,428,409
 73219090,7321.90.90,Other,2,KGM,,,,1,XV,73,428,409
-7322,73.22,"Radiators for central heating, not electrically heated, and parts thereof, of iron or steel; air heaters and hot air distributors (including distributors which can also distribute fresh or conditioned air), not electrically heated, incorporating a motordriven fan or blower, and parts thereof, of iron or steel.",0,,,,,,XV,73,428,409
+7322,73.22,"Radiators for central heating, not electrically heated, and parts thereof, of iron or steel; air heaters and hot air distributors (including distributors which can also distribute fresh or conditioned air), not electrically heated, incorporating a motor-driven fan or blower, and parts thereof, of iron or steel.",0,,,,,,XV,73,428,409
 ,,Radiators and parts thereof :,1,,,,,,XV,73,428,409
 73221100,7322.11.00,Of cast iron,2,KGM,,,,1,XV,73,428,409
 73221900,7322.19.00,Other,2,KGM,,,,1,XV,73,428,409
@@ -10408,7 +10408,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 76109091,7610.90.91,Bridges and bridge-sections; towers or lattice masts,3,TNE,,,,1,XV,76,441,422
 76109099,7610.90.99,Other,3,TNE,,,,1,XV,76,441,422
 76110000,7611.00.00,"Aluminium reservoirs, tanks, vats and similar containers, for any material (other than compressed or liquefied gas), of a capacity exceeding 300 l, whether or not lined or heat-insulated, but not fitted with mechanical or thermal equipment.",0,TNE,,,,1,XV,76,441,422
-7612,76.12,"Aluminium casks, drums, cans, boxes and similar containers (including rigid or collapsible tubular containers), for any material (other than compressed or liquefied gas), of a capacity not exceeding 300 l, whether or not lined or heatinsulated, but not fitted with mechanical or thermal equipment.",0,,,,,,XV,76,442,423
+7612,76.12,"Aluminium casks, drums, cans, boxes and similar containers (including rigid or collapsible tubular containers), for any material (other than compressed or liquefied gas), of a capacity not exceeding 300 l, whether or not lined or heat-insulated, but not fitted with mechanical or thermal equipment.",0,,,,,,XV,76,442,423
 76121000,7612.10.00,Collapsible tubular containers,1,KGM,,,,1,XV,76,442,423
 761290,7612.90,Other :,1,,,,,,XV,76,442,423
 76129010,7612.90.10,Seamless containers of a kind suitable for fresh milk,2,KGM,,,,1,XV,76,442,423
@@ -10734,7 +10734,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 83025000,8302.50.00,"Hat-racks, hat-pegs, brackets and similar fixtures",1,KGM,,,,1,XV,83,457,438
 83026000,8302.60.00,Automatic door closers,1,KGM,,,,1,XV,83,457,438
 83030000,8303.00.00,"Armoured or reinforced safes, strong-boxes and doors and safe deposit lockers for strong-rooms, cash or deed boxes and the like, of base metal.",0,KGM,,,,1,XV,83,457,438
-8304,83.04,"Filing cabinets, card-index cabinets, paper trays, paper rests, pen trays, officestamp stands and similar office or desk equipment, of base metal, other than office furniture of heading 94.03.",0,,,,,,XV,83,457,438
+8304,83.04,"Filing cabinets, card-index cabinets, paper trays, paper rests, pen trays, office-stamp stands and similar office or desk equipment, of base metal, other than office furniture of heading 94.03.",0,,,,,,XV,83,457,438
 83040010,8304.00.10,Filing cabinets and card-index cabinets,1,KGM,,,,1,XV,83,457,438
 ,,Other :,1,,,,,,XV,83,457,438
 83040091,8304.00.91,Of aluminium,2,KGM,,,,1,XV,83,457,438
@@ -11121,13 +11121,13 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,"Water pumps, with a flow rate not exceeding 8,000 m3/h :",2,,,,,,XVI,84,473,454
 84135031,8413.50.31,Electrically operated,3,NMB,,,,1,XVI,84,473,454
 84135032,8413.50.32,Not electrically operated,3,NMB,,,,1,XVI,84,473,454
-84135040,8413.50.40,"Water pumps, with a flow rate exceeding 8,000 m 3 /h but not exceeding 13,000 m 3 /h",2,NMB,,,,1,XVI,84,473,454
+84135040,8413.50.40,"Water pumps, with a flow rate exceeding 8,000 m3/h but not exceeding 13,000 m3/h",2,NMB,,,,1,XVI,84,473,454
 84135090,8413.50.90,Other,2,NMB,,,,1,XVI,84,474,455
 841360,8413.60,Other rotary positive displacement pumps :,1,,,,,,XVI,84,474,455
-,,"Water pumps, with a flow rate not exceeding 8,000 m 3 /h :",2,,,,,,XVI,84,474,455
+,,"Water pumps, with a flow rate not exceeding 8,000 m3/h :",2,,,,,,XVI,84,474,455
 84136031,8413.60.31,Electrically operated,3,NMB,,,,1,XVI,84,474,455
 84136032,8413.60.32,Not electrically operated,3,NMB,,,,1,XVI,84,474,455
-84136040,8413.60.40,"Water pumps, with a flow rate exceeding 8,000 m 3 /h but not exceeding 13,000 m 3 /h",2,NMB,,,,1,XVI,84,474,455
+84136040,8413.60.40,"Water pumps, with a flow rate exceeding 8,000 m3/h but not exceeding 13,000 m3/h",2,NMB,,,,1,XVI,84,474,455
 84136090,8413.60.90,Other,2,NMB,,,,1,XVI,84,474,455
 841370,8413.70,Other centrifugal pumps :,1,,,,,,XVI,84,474,455
 ,,"Single stage, single suction horizontal shaft water pumps suitable for belt drive or direct coupling, other than pumps with shafts common with the prime mover :",2,,,,,,XVI,84,474,455
@@ -11136,11 +11136,11 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 ,,Submersible water pumps :,2,,,,,,XVI,84,474,455
 84137031,8413.70.31,With an inlet diameter not exceeding 200 mm,3,NMB,,,,1,XVI,84,474,455
 84137039,8413.70.39,Other,3,NMB,,,,1,XVI,84,474,455
-,,"Other water pumps, with a flow rate not exceeding 8,000 m 3 /h :",2,,,,,,XVI,84,474,455
+,,"Other water pumps, with a flow rate not exceeding 8,000 m3/h :",2,,,,,,XVI,84,474,455
 84137042,8413.70.42,"With inlet diameter not exceeding 200 mm, electrically operated",3,NMB,,,,1,XVI,84,474,455
 84137043,8413.70.43,"With inlet diameter not exceeding 200 mm, not electrically operated",3,NMB,,,,1,XVI,84,474,455
 84137049,8413.70.49,Other,3,NMB,,,,1,XVI,84,474,455
-,,"Other water pumps, with a flow rate exceeding 8,000 m 3 /h but not exceeding 13,000 m 3 /h :",2,,,,,,XVI,84,474,455
+,,"Other water pumps, with a flow rate exceeding 8,000 m3/h but not exceeding 13,000 m3/h :",2,,,,,,XVI,84,474,455
 84137051,8413.70.51,With an inlet diameter not exceeding 200 mm,3,NMB,,,,1,XVI,84,474,455
 84137059,8413.70.59,Other,3,NMB,,,,1,XVI,84,474,455
 ,,Other :,2,,,,,,XVI,84,474,455
@@ -11148,9 +11148,9 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84137099,8413.70.99,Other,3,NMB,,,,1,XVI,84,474,455
 ,,Other pumps; liquid elevators :,1,,,,,,XVI,84,474,455
 841381,8413.81,Pumps :,2,,,,,,XVI,84,474,455
-84138113,8413.81.13,"Water pumps with a flow rate not exceeding 8,000 m 3 /h, electrically operated",3,NMB,,,,1,XVI,84,474,455
-84138114,8413.81.14,"Water pumps with a flow rate not exceeding 8,000 m 3 /h, not electrically operated",3,NMB,,,,1,XVI,84,474,455
-84138115,8413.81.15,"Water pumps, with a flow rate exceeding 8,000 m 3 /h but not exceeding 13,000 m 3 /h",3,NMB,,,,1,XVI,84,474,455
+84138113,8413.81.13,"Water pumps with a flow rate not exceeding 8,000 m3/h, electrically operated",3,NMB,,,,1,XVI,84,474,455
+84138114,8413.81.14,"Water pumps with a flow rate not exceeding 8,000 m3/h, not electrically operated",3,NMB,,,,1,XVI,84,474,455
+84138115,8413.81.15,"Water pumps, with a flow rate exceeding 8,000 m3/h but not exceeding 13,000 m3/h",3,NMB,,,,1,XVI,84,474,455
 84138119,8413.81.19,Other,3,NMB,,,,1,XVI,84,474,455
 841382,8413.82,Liquid elevators :,2,,,,,,XVI,84,474,455
 84138210,8413.82.10,Electrically operated,3,NMB,,,,1,XVI,84,474,455
@@ -11250,7 +11250,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 841581,8415.81,Incorporating a refrigerating unit and a valve for reversal of the cooling/heat cycle (reversible heat pumps) :,2,,,,,,XVI,84,477,458
 ,,Of a kind used in aircraft :,3,,,,,,XVI,84,477,458
 84158111,8415.81.11,Of a cooling capacity not exceeding 21.10 kW,4,NMB,,,,1,XVI,84,477,458
-84158112,8415.81.12,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m 3 /min,4,NMB,,,,1,XVI,84,477,458
+84158112,8415.81.12,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m3/min,4,NMB,,,,1,XVI,84,477,458
 84158119,8415.81.19,Other,4,NMB,,,,1,XVI,84,477,458
 ,,Of a kind used in railway rolling stock :,3,,,,,,XVI,84,477,458
 84158121,8415.81.21,Of a cooling capacity not exceeding 26.38 kW,4,NMB,,,,1,XVI,84,477,458
@@ -11259,15 +11259,15 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84158131,8415.81.31,Of a cooling capacity not exceeding 26.38 kW,4,NMB,,,,1,XVI,84,477,458
 84158139,8415.81.39,Other,4,NMB,,,,1,XVI,84,477,458
 ,,Other :,3,,,,,,XVI,84,477,458
-84158195,8415.81.95,Of a cooling capacity exceeding 21.10 kW but not exceeding 26.38 kW and with an air flow rate of each evaporator unit exceeding 67.96 m 3 /min,4,NMB,,,,1,XVI,84,477,458
-84158196,8415.81.96,Of a cooling capacity exceeding 26.38 kW and with an air flow rate of each evaporator unit exceeding 67.96 m 3 /min,4,NMB,,,,1,XVI,84,477,458
+84158195,8415.81.95,Of a cooling capacity exceeding 21.10 kW but not exceeding 26.38 kW and with an air flow rate of each evaporator unit exceeding 67.96 m3/min,4,NMB,,,,1,XVI,84,477,458
+84158196,8415.81.96,Of a cooling capacity exceeding 26.38 kW and with an air flow rate of each evaporator unit exceeding 67.96 m3/min,4,NMB,,,,1,XVI,84,477,458
 ,,Other :,4,,,,,,XVI,84,477,458
 84158197,8415.81.97,Of a cooling capacity not exceeding 21.10 kW,5,NMB,,,,1,XVI,84,477,458
 84158198,8415.81.98,Of a cooling capacity exceeding 21.10 kW but not exceeding 26.38 kW,5,NMB,,,,1,XVI,84,477,458
 84158199,8415.81.99,Other,5,NMB,,,,1,XVI,84,477,458
 841582,8415.82,"Other, incorporating a refrigerating unit :",2,,,,,,XVI,84,477,458
 ,,Of a kind used in aircraft :,3,,,,,,XVI,84,477,458
-84158211,8415.82.11,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m 3 /min,4,NMB,,,,1,XVI,84,477,458
+84158211,8415.82.11,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m3/min,4,NMB,,,,1,XVI,84,477,458
 84158219,8415.82.19,Other,4,NMB,,,,1,XVI,84,477,458
 ,,Of a kind used in railway rolling stock :,3,,,,,,XVI,84,477,458
 84158221,8415.82.21,Of a cooling capacity not exceeding 26.38 kW,4,NMB,,,,1,XVI,84,477,458
@@ -11280,7 +11280,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84158299,8415.82.99,Other,4,NMB,,,,1,XVI,84,478,459
 841583,8415.83,Not incorporating a refrigerating unit :,2,,,,,,XVI,84,478,459
 ,,Of a kind used in aircraft :,3,,,,,,XVI,84,478,459
-84158311,8415.83.11,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m 3 /min,4,NMB,,,,1,XVI,84,478,459
+84158311,8415.83.11,Of a cooling capacity exceeding 21.10 kW and with an air flow rate of each evaporator unit exceeding 67.96 m3/min,4,NMB,,,,1,XVI,84,478,459
 84158319,8415.83.19,Other,4,NMB,,,,1,XVI,84,478,459
 ,,Of a kind used in railway rolling stock :,3,,,,,,XVI,84,478,459
 84158321,8415.83.21,Of a cooling capacity not exceeding 26.38 kW,4,NMB,,,,1,XVI,84,478,459
@@ -11298,21 +11298,21 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84159015,8415.90.15,"Chassis, welded and painted, other than of subheading 8415.90.13",3,KGM,,,,1,XVI,84,478,459
 84159019,8415.90.19,Other,3,KGM,,,,1,XVI,84,478,459
 ,,Of machines with a cooling capacity exceeding 21.10 kW but not exceeding 26.38 kW :,2,,,,,,XVI,84,478,459
-,,With an air flow rate of each evaporator unit exceeding 67.96 m 3 /min :,3,,,,,,XVI,84,478,459
+,,With an air flow rate of each evaporator unit exceeding 67.96 m3/min :,3,,,,,,XVI,84,478,459
 84159024,8415.90.24,Of a kind used in aircraft or railway rolling stock,4,KGM,,,,1,XVI,84,478,459
 84159025,8415.90.25,Other,4,KGM,,,,1,XVI,84,478,459
 ,,Other :,3,,,,,,XVI,84,478,459
 84159026,8415.90.26,Of a kind used in aircraft or railway rolling stock,4,KGM,,,,1,XVI,84,478,459
 84159029,8415.90.29,Other,4,KGM,,,,1,XVI,84,478,459
 ,,Of machines with a cooling capacity exceeding 26.38 kW but not exceeding 52.75 kW :,2,,,,,,XVI,84,478,459
-,,With an air flow rate of each evaporator unit exceeding 67.96 m 3 /min :,3,,,,,,XVI,84,478,459
+,,With an air flow rate of each evaporator unit exceeding 67.96 m3/min :,3,,,,,,XVI,84,478,459
 84159034,8415.90.34,Of a kind used in aircraft or railway rolling stock,4,KGM,,,,1,XVI,84,478,459
 84159035,8415.90.35,Other,4,KGM,,,,1,XVI,84,478,459
 ,,Other :,3,,,,,,XVI,84,478,459
 84159036,8415.90.36,Of a kind used in aircraft or railway rolling stock,4,KGM,,,,1,XVI,84,478,459
 84159039,8415.90.39,Other,4,KGM,,,,1,XVI,84,478,459
 ,,Of machines with a cooling capacity exceeding 52.75 kW :,2,,,,,,XVI,84,478,459
-,,With an air flow rate of each evaporator unit exceeding 67.96 m 3 /min :,3,,,,,,XVI,84,479,460
+,,With an air flow rate of each evaporator unit exceeding 67.96 m3/min :,3,,,,,,XVI,84,479,460
 84159044,8415.90.44,Of a kind used in aircraft or railway rolling stock,4,KGM,,,,1,XVI,84,479,460
 84159045,8415.90.45,Other,4,KGM,,,,1,XVI,84,479,460
 ,,Other :,3,,,,,,XVI,84,479,460
@@ -11665,9 +11665,9 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84294090,8429.40.90,Other,2,NMB,,,,1,XVI,84,488,469
 ,,"Mechanical shovels, excavators and shovel loaders :",1,,,,,,XVI,84,488,469
 84295100,8429.51.00,Front-end shovel loaders,2,NMB,,,,1,XVI,84,488,469
-84295200,8429.52.00,Machinery with a 360 o revolving superstructure,2,NMB,,,,1,XVI,84,488,469
+84295200,8429.52.00,Machinery with a 360° revolving superstructure,2,NMB,,,,1,XVI,84,488,469
 84295900,8429.59.00,Other,2,NMB,,,,1,XVI,84,488,469
-8430,84.30,"Other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; pile-drivers and pileextractors; snow-ploughs and snow-blowers.",0,,,,,,XVI,84,489,470
+8430,84.30,"Other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; pile-drivers and pile-extractors; snow-ploughs and snow-blowers.",0,,,,,,XVI,84,489,470
 84301000,8430.10.00,Pile-drivers and pile-extractors,1,NMB,,,,1,XVI,84,489,470
 84302000,8430.20.00,Snow-ploughs and snow-blowers,1,NMB,,,,1,XVI,84,489,470
 ,,Coal or rock cutters and tunnelling machinery :,1,,,,,,XVI,84,489,470
@@ -11931,7 +11931,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 8444,84.44,"Machines for extruding, drawing, texturing or cutting man-made textile materials.",0,,,,,,XVI,84,496,477
 84440010,8444.00.10,Electrically operated,1,NMB,,,,1,XVI,84,496,477
 84440020,8444.00.20,Not electrically operated,1,NMB,,,,1,XVI,84,496,477
-8445,84.45,"Machines for preparing textile fibres; spinning, doubling or twisting machines and other machinery for producing textile yarns; textile reeling or winding (including weft- winding) machines and machines for preparing textile yarns for use on the machines of heading 84.46 or 84.47.",0,,,,,,XVI,84,496,477
+8445,84.45,"Machines for preparing textile fibres; spinning, doubling or twisting machines and other machinery for producing textile yarns; textile reeling or winding (including weft-winding) machines and machines for preparing textile yarns for use on the machines of heading 84.46 or 84.47.",0,,,,,,XVI,84,496,477
 ,,Machines for preparing textile fibres :,1,,,,,,XVI,84,496,477
 844511,8445.11,Carding machines :,2,,,,,,XVI,84,496,477
 84451110,8445.11.10,Electrically operated,3,NMB,,,,1,XVI,84,496,477
@@ -12346,7 +12346,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 84719030,8471.90.30,Electronic fingerprint identification systems,2,NMB,,,,1,XVI,84,509,490
 84719040,8471.90.40,Other optical character readers,2,NMB,,,,1,XVI,84,509,490
 84719090,8471.90.90,Other,2,NMB,,,,1,XVI,84,509,490
-8472,84.72,"Other office machines (for example, hectograph or stencil duplicating machines, addressing machines, automatic banknote dispensers, coin-sorting machines, coincounting or wrapping machines, pencil-sharpening machines, perforating or stapling machines).",0,,,,,,XVI,84,509,490
+8472,84.72,"Other office machines (for example, hectograph or stencil duplicating machines, addressing machines, automatic banknote dispensers, coin-sorting machines, coin-counting or wrapping machines, pencil-sharpening machines, perforating or stapling machines).",0,,,,,,XVI,84,509,490
 84721000,8472.10.00,Duplicating machines,1,NMB,,,,1,XVI,84,509,490
 84723000,8472.30.00,"Machines for sorting or folding mail or for inserting mail in envelopes or bands, machines for opening, closing or sealing mail and machines for affixing or cancelling postage stamps",1,NMB,,,,1,XVI,84,509,490
 847290,8472.90,Other :,1,,,,,,XVI,84,509,490
@@ -13002,7 +13002,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 85059090,8505.90.90,Other,2,KGM,,,,1,XVI,85,534,515
 8506,85.06,Primary cells and primary batteries.,0,,,,,,XVI,85,534,515
 850610,8506.10,Manganese dioxide :,1,,,,,,XVI,85,534,515
-,,Having an external volume not exceeding 300 cm 3 :,2,,,,,,XVI,85,534,515
+,,Having an external volume not exceeding 300 cm3 :,2,,,,,,XVI,85,534,515
 85061011,8506.10.11,Zinc-carbon,3,KGM,,,,1,XVI,85,534,515
 85061012,8506.10.12,Alkaline,3,KGM,,,,1,XVI,85,534,515
 85061019,8506.10.19,Other,3,KGM,,,,1,XVI,85,534,515
@@ -13013,10 +13013,10 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 85064000,8506.40.00,Silver oxide,1,KGM,,,,1,XVI,85,534,515
 85065000,8506.50.00,Lithium,1,KGM,,,,1,XVI,85,534,515
 850660,8506.60,Air-zinc :,1,,,,,,XVI,85,534,515
-85066010,8506.60.10,Having an external volume not exceeding 300 cm 3,2,KGM,,,,1,XVI,85,534,515
+85066010,8506.60.10,Having an external volume not exceeding 300 cm3,2,KGM,,,,1,XVI,85,534,515
 85066090,8506.60.90,Other,2,KGM,,,,1,XVI,85,534,515
 850680,8506.80,Other primary cells and primary batteries :,1,,,,,,XVI,85,534,515
-85068030,8506.80.30,Having an external volume not exceeding 300 cm 3,2,KGM,,,,1,XVI,85,534,515
+85068030,8506.80.30,Having an external volume not exceeding 300 cm3,2,KGM,,,,1,XVI,85,534,515
 85068090,8506.80.90,Other,2,KGM,,,,1,XVI,85,534,515
 85069000,8506.90.00,Parts,1,KGM,,,,1,XVI,85,534,515
 8507,85.07,"Electric accumulators, including separators therefor, whether or not rectangular (including square).",0,,,,,,XVI,85,534,515
@@ -13830,7 +13830,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 85389013,8538.90.13,Parts of goods of subheading 8537.10.20,3,KGM,,,,1,XVI,85,557,538
 85389019,8538.90.19,Other,3,KGM,,,,1,XVI,85,557,538
 85389020,8538.90.20,"For a voltage exceeding 1,000 V",2,KGM,,,,1,XVI,85,557,538
-8539,85.39,"Electric filament or discharge lamps, including sealed beam lamp units and ultraviolet or infra-red lamps; arc-lamps; light-emitting diode (LED) light sources.",0,,,,,,XVI,85,557,538
+8539,85.39,"Electric filament or discharge lamps, including sealed beam lamp units and ultra-violet or infra-red lamps; arc-lamps; light-emitting diode (LED) light sources.",0,,,,,,XVI,85,557,538
 853910,8539.10,Sealed beam lamp units :,1,,,,,,XVI,85,557,538
 85391010,8539.10.10,For motor vehicles of Chapter 87,2,NMB,,,,1,XVI,85,557,538
 85391090,8539.10.90,Other,2,NMB,,,,1,XVI,85,557,538
@@ -14113,7 +14113,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 8603,86.03,"Self-propelled railway or tramway coaches, vans and trucks, other than those of heading 86.04.",0,,,,,,XVII,86,568,549
 86031000,8603.10.00,Powered from an external source of electricity,1,NMB,,,,1,XVII,86,568,549
 86039000,8603.90.00,Other,1,NMB,,,,1,XVII,86,568,549
-86040000,8604.00.00,"Railway or tramway maintenance or service vehicles, whether or not selfpropelled (for example, workshops, cranes, ballast tampers, trackliners, testing coaches and track inspection vehicles).",0,NMB,,,,1,XVII,86,568,549
+86040000,8604.00.00,"Railway or tramway maintenance or service vehicles, whether or not self-propelled (for example, workshops, cranes, ballast tampers, trackliners, testing coaches and track inspection vehicles).",0,NMB,,,,1,XVII,86,568,549
 86050000,8605.00.00,"Railway or tramway passenger coaches, not self-propelled; luggage vans, post office coaches and other special purpose railway or tramway coaches, not self-propelled (excluding those of heading 86.04).",0,NMB,,,,1,XVII,86,568,549
 8606,86.06,"Railway or tramway goods vans and wagons, not self-propelled.",0,,,,,,XVII,86,568,549
 86061000,8606.10.00,Tank wagons and the like,1,NMB,,,,1,XVII,86,568,549
@@ -15551,7 +15551,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 871492,8714.92,Wheel rims and spokes :,2,,,,,,XVII,87,606,587
 87149210,8714.92.10,For bicycles of subheading 8712.00.20,3,KGM,,,,1,XVII,87,606,587
 87149290,8714.92.90,Other,3,KGM,,,,1,XVII,87,606,587
-871493,8714.93,"Hubs, other than coaster braking hubs and hub brakes, and free-wheel sprocketwheels :",2,,,,,,XVII,87,606,587
+871493,8714.93,"Hubs, other than coaster braking hubs and hub brakes, and free-wheel sprocket-wheels :",2,,,,,,XVII,87,606,587
 87149310,8714.93.10,For bicycles of subheading 8712.00.20,3,KGM,,,,1,XVII,87,606,587
 87149390,8714.93.90,Other,3,KGM,,,,1,XVII,87,606,587
 871494,8714.94,"Brakes, including coaster braking hubs and hub brakes, and parts thereof :",2,,,,,,XVII,87,606,587
@@ -16215,7 +16215,7 @@ GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SE
 93039010,9303.90.10,Very pistols and other devices designed to project only signal flares with a calibre of 20 mm or more but excluding 23 mm and 26.5 mm,2,NMB,,,,1,XIX,93,633,614
 93039090,9303.90.90,Other,2,NMB,,,,1,XIX,93,633,614
 9304,93.04,"Other arms (for example, spring, air or gas guns and pistols, truncheons), excluding those of heading 93.07.",0,,,,,,XIX,93,634,615
-93040010,9304.00.10,"Air guns, operating at a pressure of less than 7 kgf/cm 2",1,NMB,,,,1,XIX,93,634,615
+93040010,9304.00.10,"Air guns, operating at a pressure of less than 7 kgf/cm2",1,NMB,,,,1,XIX,93,634,615
 93040090,9304.00.90,Other,1,NMB,,,,1,XIX,93,634,615
 9305,93.05,Parts and accessories of articles of headings 93.01 to 93.04.,0,,,,,,XIX,93,634,615
 93051000,9305.10.00,Of revolvers or pistols,1,KGM,,,,1,XIX,93,634,615

@@ -1,9 +1,9 @@
 {
   "artifact_sha256": {
-    "sg_2022.notes.chapter.jsonl": "0ebd0eac97cde95d71ac157238f269a14db229868caaa2fa7e5ca3e61b1647a7",
-    "sg_2022.notes.gri.jsonl": "388e1c60cef60f82c12e5df712bce64f326dc04d0b6a5ae3256d8b63e6ad9f40",
-    "sg_2022.notes.json": "b9b1334fdb4242edf187584c9a39705a7471909d59f00a88ffd08d50aa17e504",
-    "sg_2022.notes.section.jsonl": "8da36b35b63be2f2050b7d21738f6a60cb18808b8a3a3344be9f9def54f9a17c"
+    "sg_2022_rev_101.notes.chapter.jsonl": "d74c6dc3eb42fdb41d639f0f24ef203f848d001ac85f9768ed9c3e806b8bda7b",
+    "sg_2022_rev_101.notes.gri.jsonl": "a96f5368027324a2329427d878454af01a46e27abdb92af402d8d46ec5cef128",
+    "sg_2022_rev_101.notes.json": "796303be50ce895497b85627f1cd5b33d8e1f2cb4d4baf6cf8c45d42c38fbed4",
+    "sg_2022_rev_101.notes.section.jsonl": "c7beb3017db3b0926cdbfeea00abcb922ba4f43244df40c3bda871e4c4ae041b"
   },
   "counts": {
     "by_chapter": {
@@ -244,7 +244,7 @@
   "reserved_chapters": [
     77
   ],
-  "revision": "2022",
+  "revision": "2022_rev_101",
   "schema_version": 1,
   "source_urls": {
     "stcced2022.pdf": "https://file.go.gov.sg/stcced2022.pdf"

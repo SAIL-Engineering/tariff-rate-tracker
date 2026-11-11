@@ -1,27 +1,21 @@
 {
-  "_comment": "Vietnam — the Import-Export Tariff (Biểu thuế xuất khẩu, nhập khẩu) as compiled at 5 April 2026. Vietnam publishes no machine-readable schedule of its own: the source is one 32 MB bilingual xlsx workbook, compiled by the Quang Ninh Customs Sub-Department and redistributed through a third-party law library, so there is no acquire adapter and no scheduled refresh. The workbook is fetched by hand into data/vn_tariff_source/.vn_download/ and scripts/hts_automation/parse_vn_tariff.py converts it, emitting the tariff CSV this spec consumes in BOTH languages (vn_tariff_<rev>.csv and .vi.csv, same codes and indents in the same order) plus the legal-notes corpus under data/hts_notes/vn_2026_0405/. Codes are 4/6/8 digits and the schedule never goes to 10, so max_depth is 8 — not 10 like Malaysia. Hierarchy is STATED by the source (the row's type cell encodes its depth) rather than inferred from printed dashes.",
-  "_comment_authority": "The workbook is NOT the issuing instrument. Vietnam enacts its schedule by Government / Ministry of Finance Decree, and the Decree is the citable authority; each rate cell in the source names its own Decree and effective date (MFN_DECREE, MFN_EFFECTIVE in the CSV) so a published rate can be cited. Anything built from this file should say so.",
+  "_comment": "Vietnam — the Import-Export Tariff (Biểu thuế xuất khẩu, nhập khẩu) as compiled at 5 April 2026. Vietnam publishes no machine-readable schedule of its own: the source is one 32 MB bilingual xlsx workbook, compiled by the Quang Ninh Customs Sub-Department and redistributed through a third-party law library, so acquisition is manual, like the Dominican Republic's, with no scheduled refresh. The workbook is fetched by hand into data/vn_tariff_source/.vn_download/ and scripts/hts_automation/parse_vn_tariff.py converts it, emitting the tariff CSV this spec consumes in BOTH languages (vn_tariff_<year>_rev_<n>.csv and .vi.csv, same codes and indents in the same order, + the .meta.json effective date the manual adapter reads) plus the legal-notes corpus under data/hts_notes/. Codes are 4/6/8 digits and the schedule never goes to 10, so max_depth is 8 — not 10 like Malaysia. Hierarchy is STATED by the source (the row's type cell encodes its depth) rather than inferred from printed dashes.",
+  "_comment_authority": "The workbook is NOT the issuing instrument. Vietnam enacts its schedule by Government / Ministry of Finance Decree, and the Decree is the citable authority; each rate cell in the source names its own Decree and effective date (MFN_DECREE, MFN_EFFECTIVE in the CSV) so a published rate can be cited. Anything built from this file should say so. The decrees the workbook cites are listed in SOURCES.md; its rates must be spot-checked against them before VN is activated.",
   "_comment_ch98": "Chapter 98 is Vietnam's own special-preference chapter — alternative duty lines for specified goods otherwise classified in chapters 1-97 — and it behaves differently from the AHTN schedule in three ways the loader has to know about: its rows carry no type marker (depth comes from the printed dash prefix), its UNIT column is empty because the source overloads it with the chapter 1-97 code each line maps to (moved to CORRESPONDING_CODES), and so its leaf flag comes from IS_LEAF rather than from a unit of quantity. See load_rows_vn() in build_hts_corpus.py.",
-  "_comment_lang": "lang is en because the workbook is bilingual for chapters 1-97 (100% English there) and the English CSV is the default build. It is NOT bilingual for chapter 98: the source prints no English for any of its 531 lines, so a Vietnamese corpus built from the .vi.csv with --lang vi is the only one in which chapter 98 carries retrievable prose. The vi basket pattern and exclusion template are registered in build_hts_corpus.py for exactly that build.",
-  "_comment_revision": "The revision id is the workbook's compilation date, 5 April 2026 -> 2026_0405, because the source has no edition or revision numbering of its own. The short link in circulation encodes the same date, so a later edition is expected to appear under a NEW link rather than at this URL. No resolver consumes revision_id_pattern today; it records the shape.",
-  "_comment_verify": "No verify thresholds: those compare a revision against its predecessor and this is the first edition captured.",
+  "_comment_lang": "lang is en: the English CSV is the default build. languages [vi] adds the Vietnamese corpus ({namespace}_vi), Explorer dataset (.vi.json) and chapters (chapters_vn.vi.json), as TW does with zh and KR with ko. The workbook prints English for every chapter 1-97 line; chapter 98 has English on 447 of its 531 lines only because the parser composes it from the corresponding chapter 1-97 codes, so the Vietnamese corpus is the only one in which all of chapter 98 carries the source's own words.",
+  "_comment_revision": "Revision ids follow the {year}_rev_{number} convention every jurisdiction uses. A dated edition takes MMDD of its effective date as the number, as CH (901), KR (101) and TW (729) do: the workbook compiled as at 5 April 2026 is 2026_rev_405.",
+  "_comment_verify": "Copied from DO. The first edition has no predecessor, so verify passes with a warning; the thresholds guard the next edition.",
   "code": "VN",
   "name": "Vietnam",
   "tariff_schedule_name": "Vietnam Import-Export Tariff",
   "lang": "en",
+  "languages": [
+    "vi"
+  ],
   "acquire": {
     "adapter": "manual",
     "manual_dir": "data/vn_tariff_source",
     "manual_prefix": "vn_tariff",
-    "manual_revision": {
-      "rev_id": "2026_0405",
-      "year": 2026,
-      "rev_num": 405,
-      "source": "vn_tariff_2026_0405.csv",
-      "effective_date": "2026-04-05",
-      "effective_date_label": "Import-Export Tariff workbook as at 5 April 2026",
-      "_comment": "The workbook is versioned by compilation DATE, not number, so rev_num is mmdd: it orders correctly and keeps two 2026 editions distinct under hts_revisions' (country, year, number) key."
-    },
     "options": {
       "source_url": "https://docs.google.com/spreadsheets/d/1Tv3kzX5M-HOA0GoFjaGydTrHWD8piDh5/export?format=xlsx",
       "landing_url": "https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/ho-tro-phap-luat/chinh-sach-moi/109354/",
@@ -35,21 +29,30 @@
   "source_format": "vn",
   "chapters_file": "scripts/hts_automation/chapters_vn.json",
   "max_depth": 8,
-  "revision_id_pattern": "{year}_{mmdd}",
-  "namespace_pattern": "vn__{revision}",
-  "stem_pattern": "vn_{revision}",
+  "revision_id_pattern": "{year}_rev_{number}",
+  "namespace_pattern": "vn__{year}_rev_{number}",
+  "stem_pattern": "vn_{year}_rev_{number}",
   "registry": "config/jurisdictions/vn_revisions.csv",
   "steps": [
+    "acquire",
     "build",
+    "verify",
     "publish",
-    "register"
+    "register",
+    "ship"
   ],
+  "verify": {
+    "max_removed_pct": 2.0,
+    "max_added_pct": 5.0,
+    "max_leaf_to_internal_pct": 0.5,
+    "max_redescribed_pct": 15.0
+  },
   "publish": {
-    "keep": 2,
+    "keep": 3,
     "golden_queries": "config/jurisdictions/vn_golden_queries.json"
   },
   "register": {
-    "ragie_partition_id_template": "vn_tariff_{revision}",
+    "ragie_partition_id_template": "vn_tariff_{year}",
     "promote_country_pointer": true
   },
   "ship": {
@@ -58,15 +61,34 @@
     "also": [
       {
         "from": "codes_json",
-        "to": "server/data/hts/vn_{revision}.codes.json"
+        "to": "server/data/hts/vn_{year}_rev_{number}.codes.json"
       },
       {
         "from": "explorer_json",
-        "to": "server/data/hts/vn_{revision}_revision_0.json"
+        "to": "server/data/hts/vn_{year}_revision_{number}.json"
+      },
+      {
+        "from": "explorer_json_vi",
+        "to": "server/data/hts/vn_{year}_revision_{number}.vi.json"
+      },
+      {
+        "from": "rates_dir",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates"
+      },
+      {
+        "from": "rates_index",
+        "to": "server/data/duty-rates/{jur_lower}_{revision}.rates.index.json"
+      },
+      {
+        "from": "treatments_json",
+        "to": "server/data/duty-rates/{jur_lower}.treatments.json"
       }
     ],
-    "prune_keep": 2,
-    "tag_name": "vn-tariff-{revision}",
-    "commit_message": "chore: Vietnam Import-Export Tariff {revision} dataset node index"
+    "prune_keep": 3,
+    "tag_name": "vn-tariff-{year}-rev{number}",
+    "commit_message": "chore: Vietnam Import-Export Tariff {year} rev {number} node index ({effective_date_label})"
+  },
+  "duty_rates": {
+    "source_key": "source_csv"
   }
 }

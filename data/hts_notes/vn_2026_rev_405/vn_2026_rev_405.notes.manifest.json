@@ -1,7 +1,7 @@
 {
   "artifact_sha256": {
-    "vn_2026_0405.notes.chapter.jsonl": "34f38a4e3663d603ac9a701ba3d796e1687ddd7b1d857926ca808eb03dd7a30f",
-    "vn_2026_0405.notes.section.jsonl": "5aa1c24913f4d1801def3ef3589ee7c7215c2c5d284905892731b514be051f84"
+    "vn_2026_rev_405.notes.chapter.jsonl": "99bf86a317c701143f7807f36b50385e11ee71417879687ae2a76a41750fc28d",
+    "vn_2026_rev_405.notes.section.jsonl": "05356a120d61bfcfb3aa477a97c5b44e877d81af067f88ef7f31e4379786e69f"
   },
   "counts": {
     "by_chapter": {
@@ -232,7 +232,7 @@
   ],
   "parsed_gri": false,
   "gri_absent_reason": "the workbook carries no General Interpretative Rules; Vietnam enacts them in the Decree",
-  "revision": "2026_0405",
+  "revision": "2026_rev_405",
   "schema_version": 1,
   "source_anomalies": [
     {
