@@ -144,6 +144,12 @@ Three official KCS datasets on data.go.kr (provided 2026-09-02):
 - Parsed from `pdftotext -bbox-layout` coordinates by `parse_sg_stcced.py`. The
   PDF is not committed (gitignored `.sg_download/`); its sha256 is in the registry.
 - The PDF states no commencement date; the effective date used is the HS 2022 edition date.
+- **Open: the basis for "Free".** The customs-duty column is blank on all but 8
+  lines, and the duty-rate builder reads a blank as no duty (about 11,400 lines
+  shown as "Free"). The STCCED never says so: its only reference to the governing
+  instrument is page 655, "goods falling within the Customs Duties Order". The
+  rule must be cited here from Singapore Customs' own publication before
+  Singapore's rates ship.
 - Registry: `config/jurisdictions/sg_revisions.csv`; detail: `data/sg_tariff_source/README.md`
 
 ## Malaysia (MY)
