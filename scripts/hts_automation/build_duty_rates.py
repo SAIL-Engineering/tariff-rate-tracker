@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""build_duty_rates.py — derived duty rates for CA / EU / DO.
+"""build_duty_rates.py — derived duty rates for CA / EU / DO (and GB, CH, KR,
+TW, SG, MY, VN).
 
 Deliberately SEPARATE from the US tariff-rates module (Avalara / §232 / Ch.99
 / MotherDuck): for these jurisdictions the statutory rate is derivable from
@@ -44,6 +45,14 @@ Sources (ship what each source actually contains — user decision 2026-08-27):
   dga    Grav. (MFN) per 8-digit line; ITBIS / Selectivo carried as tax
          records. NO preferential data exists in the book — DR-CAFTA/EPA
          schedules are separate treaty annexes, deliberately absent.
+
+  sg / my / vn   Hand-acquired static editions, one canonical CSV each, like
+         dga. SG: STCCED 2022 Full (blank = nil, see build_sg) / Pref /
+         excise. MY: Customs Duties Order 2025 import duty, Appendix B quota
+         rates, ezHS SST/excise/cess. VN: MFN + ordinary rate + VAT, each MFN
+         rate citing its Decree. Specific/compound duties keep amount,
+         currency and unit; cells that are not a representable rate are
+         carried verbatim and flagged (category 'unknown', needs_review).
 
 Never an origin determination: the consumer lists every applicable treatment
 and marks the lowest; entitlement (rules of origin, direct shipment) is the
@@ -1927,11 +1936,907 @@ def build_do(csv_path: Path, jur: str, revision: str):
     return records, tout, coverage
 
 
+# ── Shared helpers: hand-acquired static editions (SG / MY / VN) ─────────────
+#
+# These three books print their duties as text cells on one canonical CSV,
+# like DO. What the cells say is carried; what they do not say is never
+# supplied. Three record shapes come out of them:
+#
+#   * representable rate  -> an ordinary record. Specific and compound duties
+#     keep amount, currency and unit in rate_text verbatim and in a structured
+#     `components` list; they are never turned into an ad-valorem figure. A
+#     compound "N% and <amount>" follows classify_rate's existing compound
+#     convention (rate_kind 'compound', ad_valorem = the percentage component
+#     only, so the UI labels it partial).
+#   * text that is not a representable rate (a cross-reference, a multiple of
+#     another rate, a specific amount with no unit, an unrecognised pattern,
+#     a blank where the book must print something) -> the KR unknown-class
+#     mechanism: treatment `unknown_<column treatment>`, informational,
+#     category "unknown", conditional, rate_text verbatim, plus
+#     `needs_review` (the reason) and `source_column`. It is never an MFN row,
+#     never `best`, never 0.
+#   * a NOTE line per reason at build time, like build_kr's unknown-class
+#     tripwire, so a new pattern is seen rather than absorbed.
+
+# A leaf's MFN must be representable on at least this share of leaves, after
+# taking out leaves whose MFN cell is a KNOWN non-rate (VN's Chapter 98
+# cross-references). On the current editions the figure is 100% (SG, MY) and
+# 99.98% (VN: two malformed Chapter 98 parents with blank cells), so a drop
+# below the floor means parsing regressed, not that the book changed tone.
+STATIC_MFN_FLOOR_PCT = 99.0
+
+_PCT_TERM = re.compile(r"(\d+(?:\.\d+)?)\s*%")
+_NIL_WORDS = ("free", "nil")
+
+
+def _read_canonical(csv_path: Path, required: tuple, tag: str) -> list[dict]:
+    """Canonical CSV -> list of whitespace-trimmed, NFC-normalized rows. A
+    missing column is a schema change and must be reviewed, not ingested as
+    blanks (a blank SG duty column would otherwise read as nil everywhere)."""
+    import unicodedata
+    with csv_path.open(newline="", encoding="utf-8-sig") as fh:
+        reader = csv.DictReader(fh)
+        missing = [c for c in required if c not in (reader.fieldnames or [])]
+        if missing:
+            raise SystemExit(f"ERROR: {tag} CSV {csv_path} lacks column(s) "
+                             f"{missing} — the header changed; review it "
+                             f"before ingesting")
+        return [{k: unicodedata.normalize("NFC", (v or "").strip())
+                 for k, v in r.items() if k} for r in reader]
+
+
+def _unrepresentable(jur, revision, code, digits, base_treatment, text,
+                     reason, column, note=""):
+    """Carry a cell that is not a representable rate, verbatim and flagged
+    (build_kr's unknown-class mechanism). Never an ad-valorem figure."""
+    rec = _record(jur, revision, code, digits, f"unknown_{base_treatment}",
+                  text, informational=True, category="unknown",
+                  conditional=True)
+    rec["rate_kind"] = "other" if (text or "").strip() else "none"
+    rec.pop("ad_valorem", None)
+    rec["needs_review"] = reason
+    rec["source_column"] = column
+    if note:
+        rec["note"] = note
+    return rec
+
+
+def _parse_duty_expr(text: str, currency_re: str, currency: str,
+                     unit_of_quantity: str = "",
+                     allow_alternatives: bool = False) -> dict:
+    """Parse a printed duty/tax cell into components without converting
+    anything. Grammar (whole cell must match, else 'unrecognised'):
+
+        term   := N%  |  (<currency> AMOUNT | N cents)
+                          [per <unit> | for every <unit> | each]
+        expr   := term ( and term )*            -> combine 'sum'
+               |  term or term w.i.t.h[.]       -> combine 'greater_of'
+        cell   := expr ( / expr )*              -> combine 'alternatives'
+                                                   (only if allow_alternatives)
+
+    A money term without its own 'per'/'each' takes `unit_of_quantity` —
+    pass it ONLY where the legal text says the amount is per the schedule's
+    unit of quantity (MY customs duty, Customs Duties Order 2025 para 3(b));
+    otherwise the result is 'unit_not_stated'.
+
+    -> {"components": [...], "combine": None|'sum'|'greater_of'|
+        'alternatives', "text": rendered rate_text} or {"error": reason}."""
+    t = " ".join((text or "").split())
+    if allow_alternatives and "/" in t:
+        alts = [a.strip() for a in t.split("/")]
+        out_c, out_t = [], []
+        for a in alts:
+            sub = _parse_duty_expr(a, currency_re, currency, unit_of_quantity)
+            if "error" in sub:
+                return sub
+            out_c.extend(sub["components"])
+            out_t.append(sub["text"])
+        return {"components": out_c, "combine": "alternatives",
+                "text": " / ".join(out_t)}
+    greater = False
+    m = re.fullmatch(r"(.*?)\s+w\.i\.t\.h\.?", t)
+    if m:
+        t, greater = m.group(1), True
+    # Split on and/or ONLY where a new rate term starts: a unit clause may
+    # itself contain the words ("…Environmental Protection and Management
+    # (Vehicular Emissions) Regulations", "every gram or part thereof").
+    term_start = (r"(?=\d+(?:\.\d+)?\s*%|" + currency_re + r"\s?\d"
+                  r"|\d+(?:\.\d+)?\s+cents\b)")
+    parts = re.split(r"\s+(and|or)\s+" + term_start, t)
+    terms, ops = parts[0::2], set(parts[1::2])
+    if len(ops) > 1 or (ops == {"or"}) != greater:
+        return {"error": "unrecognised"}
+    comps, rendered = [], []
+    for term in terms:
+        pm = _PCT_TERM.fullmatch(term)
+        if pm:
+            comps.append({"type": "ad_valorem", "percent": float(pm.group(1))})
+            rendered.append(term)
+            continue
+        # "<currency> 16.00" or "58.9 cents"; unit clause "per …",
+        # "for every …" or "each".
+        mm = re.fullmatch(r"(?:" + currency_re + r"\s?(\d[\d,]*(?:\.\d+)?)"
+                          r"|(\d+(?:\.\d+)?)\s+cents)"
+                          r"(?:\s+(per\s+.+|for every\s+.+|each))?", term)
+        if not mm:
+            return {"error": "unrecognised"}
+        per = mm.group(3) or ""
+        if per:
+            # "per X" -> "X"; "for every X" -> "every X"
+            unit = "each" if per == "each" else per[4:].strip()
+            source = "stated"
+            rendered.append(term)
+        elif unit_of_quantity:
+            unit, source = unit_of_quantity, "unit_of_quantity"
+            rendered.append(f"{term} per {unit_of_quantity}")
+        else:
+            return {"error": "unit_not_stated"}
+        comp = {"type": "specific", "currency": currency, "per": unit,
+                "unit_source": source}
+        if mm.group(1) is not None:
+            comp["amount"] = float(mm.group(1).replace(",", ""))
+        else:
+            # amount in the currency's major unit (100 cents = 1), exact
+            # decimal shift; the printed figure stays alongside
+            comp["amount"] = round(float(mm.group(2)) / 100, 6)
+            comp["as_printed"] = f"{mm.group(2)} cents"
+        comps.append(comp)
+    if greater:
+        text_out = " or ".join(rendered) + ", whichever is the higher"
+        combine = "greater_of"
+    else:
+        text_out = " and ".join(rendered)
+        combine = "sum" if len(comps) > 1 else None
+    return {"components": comps, "combine": combine, "text": text_out}
+
+
+def _expr_record(jur, revision, code, digits, treatment, cell, parsed, *,
+                 informational=False, category="duty", conditional=False):
+    """Record for a parsed duty expression. rate_kind/ad_valorem follow
+    classify_rate's contract; a 'sum' with exactly one percentage becomes
+    'compound' (ad_valorem = that component only); 'greater_of' and
+    'alternatives' never carry an ad_valorem."""
+    rec = _record(jur, revision, code, digits, treatment, parsed["text"],
+                  informational=informational, category=category,
+                  conditional=conditional)
+    comps, combine = parsed["components"], parsed["combine"]
+    if not comps and parsed["text"].lower() in _NIL_WORDS:
+        rec["rate_kind"], rec["ad_valorem"] = "free", 0.0    # "NIL" / "Free"
+    if any(c["type"] == "specific" for c in comps) or combine:
+        rec["components"] = comps
+        if combine:
+            rec["combine"] = combine
+        pcts = [c for c in comps if c["type"] == "ad_valorem"]
+        if combine == "sum" and len(pcts) == 1:
+            rec["rate_kind"] = "compound"
+            rec["ad_valorem"] = round(pcts[0]["percent"] / 100, 6)
+        else:
+            rec["rate_kind"] = "other"
+            rec.pop("ad_valorem", None)
+    if parsed["text"] != " ".join(cell.split()):
+        rec["source_text"] = cell
+    return rec
+
+
+def _static_mfn_gate(tag: str, leaves: list[str], records: list[dict],
+                     known_non_rate: set[str]) -> None:
+    """Every leaf must be ACCOUNTED for (an MFN row or a flagged MFN row), and
+    representable MFN coverage — excluding known non-rate cells — must clear
+    STATIC_MFN_FLOOR_PCT."""
+    have = {r["digits"] for r in records if r["treatment"] == "MFN"}
+    flagged = {r["digits"] for r in records if r["treatment"] == "unknown_MFN"}
+    unaccounted = [d for d in leaves if d not in have and d not in flagged]
+    if unaccounted:
+        raise SystemExit(f"ERROR: {len(unaccounted)} {tag} leaves have neither "
+                         f"an MFN record nor a flagged one (first: "
+                         f"{unaccounted[:5]}) — a leaf was silently dropped")
+    denom = len(leaves) - len(known_non_rate & set(leaves))
+    covered = sum(1 for d in leaves if d in have)
+    pct = 100.0 * covered / denom if denom else 0.0
+    print(f"[{tag.lower()}] MFN coverage: {covered:,}/{len(leaves):,} leaves "
+          f"({pct:.2f}% of {denom:,} after {len(leaves) - denom:,} known "
+          f"non-rate cells); {len(flagged):,} leaves carry a flagged MFN cell")
+    if pct < STATIC_MFN_FLOOR_PCT:
+        raise SystemExit(f"ERROR: {tag} representable MFN coverage {pct:.2f}% "
+                         f"below the {STATIC_MFN_FLOOR_PCT}% floor — parsing "
+                         f"regressed")
+
+
+def _flag_report(tag: str, records: list[dict]) -> None:
+    by_reason: dict[tuple, int] = {}
+    for r in records:
+        if r.get("needs_review"):
+            k = (r["source_column"], r["needs_review"])
+            by_reason[k] = by_reason.get(k, 0) + 1
+    for (col, reason), n in sorted(by_reason.items()):
+        print(f"[{tag}] NOTE: {n:,} {col} cell(s) not representable "
+              f"({reason}) — carried verbatim as informational "
+              f"category 'unknown'")
+
+
+def _unknown_treatments(records: list[dict], names: dict[str, str]) -> list[dict]:
+    seen = sorted({r["treatment"] for r in records
+                   if r.get("category") == "unknown"})
+    return [{"treatment": t,
+             "name": names.get(t, f"{t[len('unknown_'):]} cell as printed — "
+                               f"not a representable rate"),
+             "origin_countries": [], "applies": None, "conditional": True,
+             "category": "unknown",
+             "note": "Carried verbatim for review; never used as a rate."}
+            for t in seen]
+
+
+def _nonleaf_rate_note(tag: str, rows: list[dict], cols: tuple) -> None:
+    odd = [r["GOODS_CODE"] for r in rows
+           if r.get("GOODS_CODE") and r.get("IS_LEAF") != "1"
+           and any(r.get(c) for c in cols)]
+    if odd:
+        print(f"[{tag}] WARNING: {len(odd)} non-leaf coded row(s) carry a "
+              f"rate and were not emitted (first: {odd[:5]}) — the book "
+              f"prints rates on leaves only, so check the parser",
+              file=sys.stderr)
+
+
+# ── Singapore ────────────────────────────────────────────────────────────────
+
+SG_COVERAGE = {
+    "provides": [
+        "Customs duty (STCCED column 5, 'Full') for every 8-digit line of the "
+        "STCCED 2022: nil on every line except beer (2203) and samsu "
+        "(2208.90), whose specific duties — S$ per litre of alcohol — are "
+        "shown verbatim, never converted to percentages.",
+        "The 'Pref' column (STCCED column 6) where the book prints one. The "
+        "book does not say which origins or arrangement it covers, so it is "
+        "shown as an unverified preference that never applies to a chosen "
+        "origin.",
+        "Excise duty (STCCED column 7) as an informational tax line, ad "
+        "valorem or specific, verbatim.",
+    ],
+    "excludes": [
+        "Free-trade-agreement schedules (separate publications; Singapore "
+        "levies customs duty on almost nothing, so they matter only for "
+        "beer and samsu).",
+        "Goods and Services Tax on imports (levied under the GST Act, not "
+        "printed in the STCCED).",
+        "Nil customs duty is read from a BLANK column-5 cell: the STCCED "
+        "front matter does not define a blank, so a line's nil rate is an "
+        "inference from the book's structure, not a printed 'Free'.",
+        "Duty or excise text the build could not read is carried verbatim "
+        "and flagged for review, never shown as a rate.",
+    ],
+    "source": "Singapore Customs — Singapore Trade Classification, Customs "
+              "and Excise Duties (STCCED) 2022 (PDF)",
+}
+SG_REQUIRED = ("GOODS_CODE", "DISPLAY", "IS_LEAF", "DUTY_FULL", "DUTY_PREF",
+               "EXCISE")
+
+
+def _sg_parse(cell: str) -> dict:
+    if cell.lower() in _NIL_WORDS:
+        return {"components": [], "combine": None, "text": cell}
+    # "$" is the book's only currency; its sole currency reference is the
+    # VAL unit of quantity, "Unit of Value of One Singapore Dollar".
+    return _parse_duty_expr(cell, r"\$", "SGD")
+
+
+def build_sg(csv_path: Path, jur: str, revision: str):
+    """SG: STCCED 2022 — FULL (MFN), PREF and EXCISE columns per 8-digit
+    leaf.
+
+    BLANK = NIL. Every leaf with a blank DUTY_FULL is emitted as an explicit
+    'Free' MFN row (rate_basis 'blank_nil'); otherwise 11,415 of 11,423 lines
+    would show "no rate". The textual basis is WEAK and that is recorded
+    here rather than smoothed over: the STCCED 2022 front matter (PDF pages
+    5-18 — Preface, General Interpretative Rules, Abbreviations and Symbols,
+    Units of Quantity, the section/chapter list) contains NO statement that a
+    blank duty cell means nil, and no legend for the columns at all (the
+    whole 655-page text was searched for 'nil', 'blank', 'preferen*',
+    'Commonwealth' and 'PREF' outside the column header: nothing). The
+    reading rests on the book's structure, not on a definition: column (5)
+    'CUSTOMS DUTY — FULL' is printed on only 8 of 11,423 lines (beer and
+    samsu), and the only place the book speaks of dutiability it defers to
+    another instrument (heading 98.92: "other than dutiable goods falling
+    within the Customs Duties Order"). The book does use the word 'Free' —
+    but only in the Pref column of those same 8 lines — so a blank Full cell
+    is NOT a printed 'Free', and each such record says so (rate_basis
+    'blank_nil'). Because a parse regression that blanked the column would
+    masquerade as nil, an all-blank column fails the build.
+
+    PREF: the book never says which origins or arrangement column (6)
+    'PREF' serves (no legend, no front-matter text). It is emitted as a
+    conditional treatment with NO origins and transcription_pending, so it
+    can never apply to a chosen origin until that list is verified."""
+    rows = _read_canonical(csv_path, SG_REQUIRED, "SG")
+    leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
+    if not leaves:
+        raise SystemExit(f"ERROR: no IS_LEAF rows in {csv_path}")
+    if not any(r["DUTY_FULL"] for r in leaves):
+        raise SystemExit("ERROR: DUTY_FULL is blank on every SG leaf — the "
+                         "book prints beer/samsu duties, so an all-blank "
+                         "column means the parser lost it; blank=nil would "
+                         "publish every line as duty-free")
+    _nonleaf_rate_note("sg", rows, ("DUTY_FULL", "DUTY_PREF", "EXCISE"))
+
+    records: list[dict] = []
+    for r in leaves:
+        digits = bhc._digits_only(r["GOODS_CODE"])
+        code = r["DISPLAY"] or digits
+        full = r["DUTY_FULL"]
+        if not full:
+            rec = _record(jur, revision, code, digits, "MFN", "Free")
+            rec["rate_basis"] = "blank_nil"
+            records.append(rec)
+        else:
+            p = _sg_parse(full)
+            records.append(
+                _unrepresentable(jur, revision, code, digits, "MFN", full,
+                                 p["error"], "DUTY_FULL") if "error" in p
+                else _expr_record(jur, revision, code, digits, "MFN", full, p))
+        pref = r["DUTY_PREF"]
+        if pref:
+            p = _sg_parse(pref)
+            records.append(
+                _unrepresentable(jur, revision, code, digits, "PREF", pref,
+                                 p["error"], "DUTY_PREF") if "error" in p
+                else _expr_record(jur, revision, code, digits, "PREF", pref,
+                                  p, conditional=True))
+        exc = r["EXCISE"]
+        if exc:
+            p = _sg_parse(exc)
+            records.append(
+                _unrepresentable(jur, revision, code, digits, "EXCISE", exc,
+                                 p["error"], "EXCISE") if "error" in p
+                else _expr_record(jur, revision, code, digits, "EXCISE", exc,
+                                  p, informational=True, category="tax"))
+
+    _flag_report("sg", records)
+    _static_mfn_gate("SG", [bhc._digits_only(r["GOODS_CODE"]) for r in leaves],
+                     records, set())
+
+    tout = [
+        {"treatment": "MFN",
+         "name": "Customs duty — full rate (all origins)",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False,
+         "legal_basis": "STCCED 2022, column (5) 'Customs Duty — Full'; "
+                        "dutiable goods are those within the Customs Duties "
+                        "Order (STCCED heading 98.92)",
+         "note": "Lines with no printed full rate are shown as nil (Free). "
+                 "The book does not define a blank cell; nil is inferred "
+                 "from its structure (only beer and samsu carry a rate)."},
+        {"treatment": "PREF",
+         "name": "Customs duty — preferential rate (STCCED 'Pref' column; "
+                 "origins not stated in the source)",
+         "origin_countries": [], "applies": None, "conditional": True,
+         "transcription_pending": True,
+         "legal_basis": "STCCED 2022, column (6) 'Customs Duty — Pref'",
+         "note": "The STCCED does not say which origins or arrangement this "
+                 "column serves, so it never applies to a chosen origin "
+                 "until that is verified against the Customs Duties Order."},
+        {"treatment": "EXCISE", "name": "Excise duty",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False, "category": "tax",
+         "legal_basis": "STCCED 2022, column (7) 'Excise Duty'"},
+    ]
+    tout += _unknown_treatments(records, {
+        "unknown_PREF": "Pref cell as printed — not a representable rate",
+        "unknown_EXCISE": "Excise cell as printed — not a representable rate",
+    })
+    coverage = dict(SG_COVERAGE)
+    coverage["as_of"] = f"{revision} · STCCED 2022 edition ({csv_path.name})"
+    overlay = load_overlay("sg")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
+# ── Malaysia ─────────────────────────────────────────────────────────────────
+
+MY_COVERAGE = {
+    "provides": [
+        "Import duty (column 5 of the First Schedule) of the Customs Duties "
+        "Order 2025, P.U. (A) 384, for every 10-digit line: ad valorem, "
+        "specific and compound duties verbatim. A specific amount printed "
+        "without a unit is per the line's unit of quantity (column 4), as "
+        "paragraph 3(b) of the Order provides; amounts are never converted "
+        "to percentages.",
+        "Tariff-rate-quota lines (Appendix B): the out-of-quota rate as the "
+        "applied rate, flagged conditional, and the in-quota rate as an "
+        "informational quota row naming the agency that allocates the quota.",
+        "Sales tax (SST), excise and cess 1–3 from the ezHS portal as "
+        "informational tax lines.",
+    ],
+    "excludes": [
+        "Preferential (FTA) schedules — ATIGA, ACFTA, RCEP, CPTPP and the "
+        "other schemes the ezHS portal serves are not in this build.",
+        "Export duty (column 6): this duty-rates surface covers imports.",
+        "The flat 10% rate on dutiable goods carried by travellers for "
+        "non-commercial use (paragraph 2(2) of the Order).",
+        "Quota allocation and availability (operational, set by the agency "
+        "named on each quota line).",
+        "Excise or cess amounts printed without a unit, and other cells the "
+        "build could not read, are carried verbatim and flagged — never "
+        "given an assumed unit.",
+    ],
+    "source": "Royal Malaysian Customs — Customs Duties Order 2025, "
+              "P.U. (A) 384 (gazette) + ezHS portal (SST, excise, cess)",
+}
+MY_REQUIRED = ("GOODS_CODE", "DISPLAY", "IS_LEAF", "UNIT", "IMPORT_RATE",
+               "IMPORT_RATE_BASIS", "TRQ_IN_QUOTA", "TRQ_OUT_QUOTA",
+               "TRQ_AGENCY", "SST", "EXCISE", "CESS_1", "CESS_2", "CESS_3")
+MY_TAX_COLUMNS = (("SST", "SST", "Sales tax (SST)"),
+                  ("EXCISE", "EXCISE", "Excise duty"),
+                  ("CESS_1", "CESS_1", "Cess 1"),
+                  ("CESS_2", "CESS_2", "Cess 2"),
+                  ("CESS_3", "CESS_3", "Cess 3"))
+
+
+def _my_parse(cell: str, unit_of_quantity: str = "",
+              allow_alternatives: bool = False) -> dict:
+    if cell.lower() in _NIL_WORDS:
+        return {"components": [], "combine": None, "text": cell}
+    if cell.upper() in ("NA", "N/A"):
+        return {"error": "not_a_rate"}
+    return _parse_duty_expr(cell, r"RM", "MYR", unit_of_quantity,
+                            allow_alternatives=allow_alternatives)
+
+
+def build_my(csv_path: Path, jur: str, revision: str):
+    """MY: Customs Duties Order 2025 import duty per 10-digit leaf (the 11
+    eight-digit codes are internal nodes and carry nothing), quota lines
+    from Appendix B, and the ezHS portal's SST/excise/cess as taxes.
+
+    UNIT OF A SPECIFIC DUTY: "where the rate of customs duties is specified
+    as a sum of money, the customs duties shall be calculated according to
+    the sum of money upon every unit specified in column (4) of the First
+    Schedule" (P.U. (A) 384, para 3(b)) — so "RM 7.00" on a line whose unit
+    is 'l' is RM 7.00 per l, and "5% and RM0.65" on 0807.11 (unit kg, printed
+    page 104) is 5% plus RM0.65 per kg. That rule is the Customs Duties
+    Order's; it does not reach the portal's excise and cess columns, so a
+    unit-less amount there is flagged, not completed.
+
+    QUOTA: "In the case of goods which are subject to tariff rate quota ...
+    import duty shall be levied ... at the rate of duty as specified in
+    column (5) of Appendix B" (para 2(4)). As in build_gb/build_ch, the
+    out-of-quota rate is the applied MFN row (conditional, quota_note) and
+    the in-quota rate an informational 'quota' row; the in-quota rate is
+    never auto-selected.
+
+    EXPORT_RATE is not emitted: no builder here models export duties."""
+    rows = _read_canonical(csv_path, MY_REQUIRED, "MY")
+    leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
+    if not leaves:
+        raise SystemExit(f"ERROR: no IS_LEAF rows in {csv_path}")
+    _nonleaf_rate_note("my", rows, ("IMPORT_RATE", "TRQ_IN_QUOTA",
+                                    "TRQ_OUT_QUOTA"))
+
+    records: list[dict] = []
+    bases: dict[str, int] = {}
+    for r in leaves:
+        digits = bhc._digits_only(r["GOODS_CODE"])
+        code = r["DISPLAY"] or digits
+        unit = r["UNIT"]
+        basis = r["IMPORT_RATE_BASIS"]
+        cell = r["IMPORT_RATE"]
+        bases[basis] = bases.get(basis, 0) + 1
+        if basis == "schedule":
+            if not cell:
+                records.append(_unrepresentable(
+                    jur, revision, code, digits, "MFN", cell,
+                    "no_rate_in_source", "IMPORT_RATE"))
+            else:
+                p = _my_parse(cell, unit)
+                records.append(
+                    _unrepresentable(jur, revision, code, digits, "MFN", cell,
+                                     p["error"], "IMPORT_RATE")
+                    if "error" in p
+                    else _expr_record(jur, revision, code, digits, "MFN",
+                                      cell, p))
+        elif basis == "trq_appendix_b":
+            in_q, out_q, agency = (r["TRQ_IN_QUOTA"], r["TRQ_OUT_QUOTA"],
+                                   r["TRQ_AGENCY"])
+            p_out = _my_parse(out_q, unit) if out_q else {"error":
+                                                          "no_rate_in_source"}
+            if "error" in p_out:
+                records.append(_unrepresentable(
+                    jur, revision, code, digits, "MFN", out_q,
+                    f"trq_out_quota_{p_out['error']}", "TRQ_OUT_QUOTA"))
+            else:
+                rec = _expr_record(jur, revision, code, digits, "MFN", out_q,
+                                   p_out, conditional=True)
+                rec["rate_basis"] = "trq_appendix_b"
+                rec["quota_note"] = (
+                    "Tariff-rate quota line (Appendix B): out-of-quota rate "
+                    f"shown; in-quota rate {in_q or 'not printed'}"
+                    + (f", quota set by {agency}" if agency else ""))
+                records.append(rec)
+            if in_q:
+                p_in = _my_parse(in_q, unit)
+                if "error" in p_in:
+                    records.append(_unrepresentable(
+                        jur, revision, code, digits, "quota_in", in_q,
+                        p_in["error"], "TRQ_IN_QUOTA"))
+                else:
+                    rec = _expr_record(jur, revision, code, digits,
+                                       "quota_in", in_q, p_in,
+                                       informational=True, category="quota",
+                                       conditional=True)
+                    if agency:
+                        rec["conditions"] = [f"Quota set by {agency}"]
+                    records.append(rec)
+        elif basis == "unresolved":
+            records.append(_unrepresentable(
+                jur, revision, code, digits, "MFN", cell, "unresolved",
+                "IMPORT_RATE",
+                note="The parser could not resolve this line's import duty "
+                     "from the gazette; no rate is asserted."))
+        else:
+            records.append(_unrepresentable(
+                jur, revision, code, digits, "MFN", cell,
+                f"unknown_basis:{basis or 'blank'}", "IMPORT_RATE_BASIS"))
+
+        for col, treatment, _name in MY_TAX_COLUMNS:
+            val = r[col]
+            if not val:
+                continue
+            p = _my_parse(val, allow_alternatives=True)
+            if "error" in p:
+                records.append(_unrepresentable(
+                    jur, revision, code, digits, treatment, val, p["error"],
+                    col))
+            else:
+                records.append(_expr_record(
+                    jur, revision, code, digits, treatment, val, p,
+                    informational=True, category="tax",
+                    conditional=p["combine"] == "alternatives"))
+
+    print(f"[my] {len(leaves):,} leaves by import-rate basis: {bases}")
+    _flag_report("my", records)
+    _static_mfn_gate("MY", [bhc._digits_only(r["GOODS_CODE"]) for r in leaves],
+                     records, set())
+
+    tout = [
+        {"treatment": "MFN",
+         "name": "Import duty (Customs Duties Order 2025, First Schedule "
+                 "column 5)",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False,
+         "legal_basis": "Customs Duties Order 2025, P.U. (A) 384, paras 2(1) "
+                        "and 3; quota lines para 2(4) and Appendix B"},
+        {"treatment": "quota_in",
+         "name": "Tariff-rate quota — in-quota rate (Appendix B)",
+         "origin_countries": [], "applies": None, "conditional": True,
+         "category": "quota",
+         "legal_basis": "Customs Duties Order 2025, para 2(4); First "
+                        "Schedule, Appendix B column (5)",
+         "note": "Applies only to imports within the quota allocated by the "
+                 "agency named on the line; never auto-selected."},
+    ]
+    for col, treatment, name in MY_TAX_COLUMNS:
+        tout.append({
+            "treatment": treatment,
+            "name": name + (" (ezHS portal column; the portal does not name "
+                            "the cess)" if col.startswith("CESS") else ""),
+            "origin_countries": [], "applies": "all_origins",
+            "conditional": False, "category": "tax",
+            "legal_basis": "Royal Malaysian Customs ezHS portal, PDK 2025 "
+                           f"'{col.replace('_', ' ')}' column",
+            **({"note": "Rates separated by '/' are alternatives as printed; "
+                        "which applies depends on the goods' conditions."}
+               if col == "SST" else {})})
+    tout += _unknown_treatments(records, {})
+    coverage = dict(MY_COVERAGE)
+    coverage["as_of"] = (f"{revision} · Customs Duties Order 2025, in force "
+                         f"2025-11-01 ({csv_path.name})")
+    overlay = load_overlay("my")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
+# ── Vietnam ──────────────────────────────────────────────────────────────────
+
+VN_COVERAGE = {
+    "provides": [
+        "MFN import duty (thuế nhập khẩu ưu đãi) for every 8-digit line, "
+        "including Vietnam's national Chapter 98, each with the Decree that "
+        "enacts it and that Decree's effective date.",
+        "The ordinary rate (thuế nhập khẩu thông thường), which applies "
+        "absent MFN or FTA eligibility, as an informational general rate.",
+        "Tariff-rate-quota lines: the out-of-quota rate (ngoài hạn ngạch) as "
+        "the applied rate, flagged conditional, and the in-quota rate as an "
+        "informational quota row.",
+        "VAT band(s) as an informational tax line.",
+    ],
+    "excludes": [
+        "FTA preferential schedules (ATIGA, ACFTA, CPTPP, RCEP, EVFTA, "
+        "UKVFTA and the rest sit in other sheets of the same workbook and "
+        "are not in this build).",
+        "Chapter 87 lines whose MFN cell refers to the guidance in Chapter "
+        "98 instead of stating a rate, and the ordinary rates stated as "
+        "'150% of the MFN duty' on those lines: carried verbatim and "
+        "flagged, never shown as a rate.",
+        "Temporary rate windows that have ended (e.g. 0% from 9 March to "
+        "30 April 2026 under Decree 72): the base rate is served and the "
+        "window is recorded on the line.",
+        "Export duty, environmental protection tax and special consumption "
+        "tax.",
+        "Provenance: the workbook is a compilation by the Quang Ninh Customs "
+        "Sub-Department redistributed by a third-party law library, not the "
+        "issuing instrument; the citable authority is the Decree named on "
+        "each rate.",
+    ],
+    "source": "Vietnam Import-Export Tariff workbook (BT2026 sheet), "
+              "compiled by the Quang Ninh Customs Sub-Department",
+}
+VN_REQUIRED = ("GOODS_CODE", "DISPLAY", "IS_LEAF", "MFN_RATE",
+               "ORDINARY_RATE", "VAT", "MFN_DECREE", "MFN_EFFECTIVE")
+
+_VN_NUM = r"(\d+(?:\.\d+)?)"
+_VN_PCT = re.compile(_VN_NUM)
+# "30 (NHN: 80)": 30% in quota, 80% outside it (NHN = ngoài hạn ngạch).
+_VN_TRQ = re.compile(_VN_NUM + r"\s*\(\s*NHN\s*:\s*" + _VN_NUM + r"\s*\)")
+# "7 (0% từ 09/3-30/4 theo NĐ72)": 7%, with 0% from 9/3 to 30/4 under
+# Decree 72. The window prints no year.
+_VN_WINDOW = re.compile(_VN_NUM + r"\s*\(\s*" + _VN_NUM + r"\s*%\s*từ\s*"
+                        r"(\d{1,2})/(\d{1,2})\s*-\s*(\d{1,2})/(\d{1,2})\s*"
+                        r"theo\s+([^)]+?)\s*\)")
+# "Theo hướng dẫn tại khoản 1.1 Chương 98" — "as guided in clause 1.1 of
+# Chapter 98": a pointer to Chapter 98's provisions, not a rate.
+_VN_XREF = re.compile(r"Theo hướng dẫn tại\s+(.+?)\s+Chương\s+98")
+# "150% thuế MFN": 150% OF the MFN duty — a multiple, not a rate.
+_VN_RELATIVE = re.compile(_VN_NUM + r"\s*%\s*thuế\s+MFN")
+_VN_GLOSS = {"khoản": "clause", "điểm": "point", "và": "and"}
+
+
+def _vn_date(ddmmyyyy: str) -> str:
+    try:
+        return _dt.datetime.strptime(ddmmyyyy, "%d/%m/%Y").date().isoformat()
+    except ValueError:
+        return ""
+
+
+def _vn_pct_text(num: str) -> str:
+    return f"{num}%"
+
+
+def build_vn(csv_path: Path, jur: str, revision: str,
+             snapshot_date: _dt.date | None = None):
+    """VN: MFN_RATE (the MFN duty, bare numbers meaning percent) per 8-digit
+    leaf, ORDINARY_RATE as TW's general column (informational), VAT as a tax.
+    Chapter 98 lines are ordinary leaves.
+
+    Patterns in the two rate columns, each handled explicitly:
+      N                         -> N%
+      N (NHN: M)                -> TRQ: MFN row = M% out-of-quota
+                                   (conditional), quota row = N% in-quota
+      N (T% từ d/m-d/m theo X)  -> temporary window: the BASE N% is served;
+                                   the window (year taken from the
+                                   revision's leading year — the workbook
+                                   prints none) is recorded on the record,
+                                   and only while it is open or upcoming at
+                                   `snapshot_date` (default today) is it
+                                   also an informational temporary_rate row
+      Theo hướng dẫn tại … Chương 98  -> cross-reference, flagged
+      N% thuế MFN               -> a multiple of the MFN duty, flagged
+      blank on a leaf           -> flagged (no_rate_in_source)
+      anything else             -> flagged (unrecognised)"""
+    rows = _read_canonical(csv_path, VN_REQUIRED, "VN")
+    leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
+    if not leaves:
+        raise SystemExit(f"ERROR: no IS_LEAF rows in {csv_path}")
+    _nonleaf_rate_note("vn", rows, ("MFN_RATE", "ORDINARY_RATE", "VAT"))
+    snapshot = snapshot_date or _dt.date.today()
+    ym = re.match(r"(\d{4})", revision)
+    window_year = int(ym.group(1)) if ym else None
+
+    records: list[dict] = []
+    known_non_rate: set[str] = set()
+    windows = {"expired": 0, "open": 0, "upcoming": 0, "undated": 0}
+
+    def provenance(rec, r):
+        if r["MFN_DECREE"]:
+            rec["regulation_id"] = r["MFN_DECREE"]
+        eff = _vn_date(r["MFN_EFFECTIVE"])
+        if eff:
+            rec["regulation_effective"] = eff
+        return rec
+
+    def emit(r, code, digits, column, cell):
+        """One rate cell -> records. MFN rows are duties; ordinary rows are
+        informational general_rate rows like TW's Column III."""
+        is_mfn = column == "MFN_RATE"
+        base = "MFN" if is_mfn else "general_non_mfn"
+        kw = ({} if is_mfn else
+              {"informational": True, "category": "general_rate"})
+        out: list[dict] = []
+
+        def rate(treatment, text, **extra):
+            rec = _record(jur, revision, code, digits, treatment, text,
+                          **{**kw, **extra})
+            return provenance(rec, r) if is_mfn else rec
+
+        if not cell:
+            out.append(_unrepresentable(jur, revision, code, digits, base,
+                                        cell, "no_rate_in_source", column))
+        elif _VN_PCT.fullmatch(cell):
+            out.append(rate(base, _vn_pct_text(cell)))
+        elif (m := _VN_TRQ.fullmatch(cell)):
+            in_q, out_q = m.group(1), m.group(2)
+            rec = rate(base, _vn_pct_text(out_q), conditional=True)
+            rec["quota_note"] = (f"Tariff-rate quota line: out-of-quota "
+                                 f"(ngoài hạn ngạch) rate shown; in-quota "
+                                 f"rate {in_q}%")
+            rec["source_text"] = cell
+            out.append(rec)
+            q = _record(jur, revision, code, digits,
+                        "quota_in" if is_mfn else f"quota_in_{base}",
+                        _vn_pct_text(in_q), informational=True,
+                        category="quota", conditional=True)
+            q["source_text"] = cell
+            out.append(provenance(q, r) if is_mfn else q)
+        elif (m := _VN_WINDOW.fullmatch(cell)):
+            base_rate, temp, d1, m1, d2, m2, decree = m.groups()
+            rec = rate(base, _vn_pct_text(base_rate))
+            rec["source_text"] = cell
+            start = end = None
+            if window_year:
+                try:
+                    start = _dt.date(window_year, int(m1), int(d1))
+                    end = _dt.date(window_year, int(m2), int(d2))
+                except ValueError:
+                    start = end = None
+            if start is None or end < start:
+                status = "undated"
+                span = f"{d1}/{m1}–{d2}/{m2} (year not determinable)"
+            else:
+                status = ("expired" if end < snapshot else
+                          "open" if start <= snapshot else "upcoming")
+                span = f"{start.isoformat()} to {end.isoformat()}"
+            windows[status] += 1
+            rec["note"] = (f"Temporary {temp}% from {span} under {decree} "
+                           f"(as printed: \"{cell}\"); window {status} at "
+                           f"{snapshot.isoformat()} — base rate {base_rate}% "
+                           f"served")
+            out.append(rec)
+            if status in ("open", "upcoming", "undated"):
+                t = _record(jur, revision, code, digits,
+                            f"temporary_rate_{base}" if not is_mfn
+                            else "temporary_rate", _vn_pct_text(temp),
+                            informational=True, category="temporary_rate",
+                            conditional=True)
+                t["source_text"] = cell
+                t["note"] = rec["note"]
+                if end and status != "undated":
+                    t["valid_until"] = end.isoformat()
+                out.append(provenance(t, r) if is_mfn else t)
+        elif (m := _VN_XREF.fullmatch(cell)):
+            if is_mfn:
+                known_non_rate.add(digits)
+            out.append(_unrepresentable(
+                jur, revision, code, digits, base, cell, "cross_reference",
+                column, note=("Not a rate: 'as guided in "
+                              + " ".join(_VN_GLOSS.get(w, w)
+                                         for w in m.group(1).split())
+                              + " of Chapter 98' — the duty is set by "
+                                "Chapter 98's provisions")))
+        elif (m := _VN_RELATIVE.fullmatch(cell)):
+            out.append(_unrepresentable(
+                jur, revision, code, digits, base, cell, "relative_to_mfn",
+                column, note=f"Not a rate: {m.group(1)}% OF the MFN duty "
+                             f"(thuế MFN)"))
+        else:
+            out.append(_unrepresentable(jur, revision, code, digits, base,
+                                        cell, "unrecognised", column))
+        if is_mfn:
+            for rec in out:
+                if rec.get("category") == "unknown":
+                    provenance(rec, r)
+        return out
+
+    for r in leaves:
+        digits = bhc._digits_only(r["GOODS_CODE"])
+        code = r["DISPLAY"] or digits
+        records.extend(emit(r, code, digits, "MFN_RATE", r["MFN_RATE"]))
+        records.extend(emit(r, code, digits, "ORDINARY_RATE",
+                            r["ORDINARY_RATE"]))
+        vat = r["VAT"]
+        if vat:
+            bands = [b.strip() for b in vat.split("/")]
+            if all(b == "*" or _VN_PCT.fullmatch(b) for b in bands):
+                text = "/".join(b if b == "*" else f"{b}%" for b in bands)
+                rec = _record(jur, revision, code, digits, "VAT", text,
+                              informational=True, category="tax",
+                              conditional=len(bands) > 1)
+                if text != vat:
+                    rec["source_text"] = vat
+                records.append(rec)
+            else:
+                records.append(_unrepresentable(
+                    jur, revision, code, digits, "VAT", vat, "unrecognised",
+                    "VAT"))
+
+    print(f"[vn] temporary windows: {windows} (snapshot "
+          f"{snapshot.isoformat()}; window year "
+          f"{window_year or 'unknown'} from revision {revision!r})")
+    _flag_report("vn", records)
+    _static_mfn_gate("VN", [bhc._digits_only(r["GOODS_CODE"]) for r in leaves],
+                     records, known_non_rate)
+
+    def _decree_key(d: str):
+        parts = re.findall(r"\d+", d)          # "26/2023/NĐ-CP" -> year, number
+        return (int(parts[1]), int(parts[0])) if len(parts) >= 2 else (0, 0)
+
+    decrees = sorted({r["MFN_DECREE"] for r in leaves if r["MFN_DECREE"]},
+                     key=_decree_key)
+    tout = [
+        {"treatment": "MFN",
+         "name": "MFN import duty (thuế nhập khẩu ưu đãi)",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False,
+         "legal_basis": "Decree(s) " + ", ".join(decrees)
+                        + " — each rate carries its own Decree "
+                          "(regulation_id) and effective date"},
+        {"treatment": "general_non_mfn",
+         "name": "Ordinary rate (thuế nhập khẩu thông thường) — applies "
+                 "absent MFN or FTA eligibility",
+         "origin_countries": [], "applies": None, "conditional": True,
+         "legal_basis": "Vietnam Import-Export Tariff, ordinary-rate column"},
+        {"treatment": "quota_in",
+         "name": "Tariff-rate quota — in-quota MFN rate",
+         "origin_countries": [], "applies": None, "conditional": True,
+         "category": "quota",
+         "legal_basis": "Vietnam Import-Export Tariff, MFN column (in-quota "
+                        "figure; 'NHN' = out-of-quota)",
+         "note": "Applies only to imports within an allocated quota; never "
+                 "auto-selected."},
+        {"treatment": "quota_in_general_non_mfn",
+         "name": "Tariff-rate quota — in-quota ordinary rate",
+         "origin_countries": [], "applies": None, "conditional": True,
+         "category": "quota",
+         "legal_basis": "Vietnam Import-Export Tariff, ordinary-rate column"},
+        {"treatment": "VAT", "name": "VAT on import (thuế GTGT)",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False, "category": "tax",
+         "legal_basis": "Vietnam Import-Export Tariff, VAT column",
+         "note": "Bands separated by '/' are alternatives as printed; "
+                 "which applies depends on the goods. '*' is carried as "
+                 "printed (read elsewhere in this repo as 'not subject to "
+                 "VAT'; not re-verified against the workbook legend)."},
+    ]
+    emitted = {r["treatment"] for r in records}
+    for t in ("temporary_rate", "temporary_rate_general_non_mfn"):
+        if t in emitted:
+            tout.append({"treatment": t,
+                         "name": "Temporary reduced rate (open window)",
+                         "origin_countries": [], "applies": None,
+                         "conditional": True, "category": "temporary_rate",
+                         "legal_basis": "Decree cited in the cell"})
+    tout = [t for t in tout if t["treatment"] in emitted
+            or t["treatment"] in ("MFN", "general_non_mfn", "VAT")]
+    tout += _unknown_treatments(records, {
+        "unknown_MFN": "MFN cell as printed — not a representable rate "
+                       "(e.g. a Chapter 98 cross-reference)",
+        "unknown_general_non_mfn": "Ordinary-rate cell as printed — not a "
+                                   "representable rate (e.g. '150% of the "
+                                   "MFN duty')",
+    })
+    coverage = dict(VN_COVERAGE)
+    coverage["as_of"] = f"{revision} · {csv_path.name}"
+    overlay = load_overlay("vn")
+    if overlay.get("flat_taxes"):
+        coverage["flat_taxes"] = overlay["flat_taxes"]
+    return records, tout, coverage
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("source", type=Path,
-                   help="canonical CSV (cbsa/dga) or Duties Import xlsx (taric)")
-    p.add_argument("--source-format", choices=("cbsa", "taric", "dga", "uk", "ch", "kr", "tw"), required=True)
+                   help="canonical CSV (cbsa/dga/sg/my/vn) or Duties Import "
+                        "xlsx (taric)")
+    p.add_argument("--source-format",
+                   choices=("cbsa", "taric", "dga", "uk", "ch", "kr", "tw",
+                            "sg", "my", "vn"), required=True)
     p.add_argument("--jurisdiction", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--nomenclature", type=Path,
@@ -1960,7 +2865,9 @@ def main() -> int:
                         "universe + reconciliation samples)")
     p.add_argument("--snapshot-date", default=None,
                    help="taric: the extract's snapshot date (YYYY-MM-DD); "
-                        "measures whose end date is before this are dropped")
+                        "measures whose end date is before this are dropped. "
+                        "vn (optional, default today): the date temporary "
+                        "rate windows are judged open/expired against")
     p.add_argument("--out-dir", type=Path, default=Path("."))
     args = p.parse_args()
 
@@ -2018,6 +2925,15 @@ def main() -> int:
             nomenclature_csv=args.nomenclature,
             snapshot_date=_dt.date.fromisoformat(args.snapshot_date),
             classes_json=args.classes, rates_date=args.rates_date)
+    elif args.source_format == "sg":
+        records, treatments, coverage = build_sg(args.source, jur, args.revision)
+    elif args.source_format == "my":
+        records, treatments, coverage = build_my(args.source, jur, args.revision)
+    elif args.source_format == "vn":
+        records, treatments, coverage = build_vn(
+            args.source, jur, args.revision,
+            snapshot_date=(_dt.date.fromisoformat(args.snapshot_date)
+                           if args.snapshot_date else None))
     else:
         records, treatments, coverage = build_do(args.source, jur, args.revision)
 

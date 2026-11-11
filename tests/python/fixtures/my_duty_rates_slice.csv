@@ -1,0 +1,19 @@
+GOODS_CODE,DISPLAY,HEADING,DESCRIPTION,INDENT,UNIT,IMPORT_RATE,IMPORT_RATE_BASIS,EXPORT_RATE,TRQ_IN_QUOTA,TRQ_OUT_QUOTA,TRQ_AGENCY,SST,EXCISE,CESS_1,CESS_2,CESS_3,IS_LEAF,SECTION,CHAPTER,PDF_PAGE
+0103,0103,01.03,Live swine.,0,,,,,,,,,,,,,,I,01,17
+0103100000,0103.10.00 00,01.03,Pure-bred breeding animals,1,u,0%,schedule,0%,,,,0%,,,,,1,I,01,17
+,,01.03,Other,1,,,,,,,,,,,,,,,,17
+0103910000,0103.91.00 00,01.03,Weighing less than 50kg,2,u,,trq_appendix_b,0%,15%,20%,Department of Veterinary Services,0%,,,,,1,I,01,17
+0704901000,0704.90.10 00,07.04,Round (drumhead) cabbages,2,kg,,trq_appendix_b,0%,0%,90%,Federal Agriculture Marketing Authority,0%,,,,,1,II,07,91
+0807110000,0807.11.00 00,08.07,Watermelons,2,kg,5% and RM0.65,schedule,0%,,,,5%,,,,,1,II,08,104
+2204211100,2204.21.11 00,22.04,Of an alcoholic strength by volume not exceeding 15% vol.,4,l,RM 7.00,schedule,0%,,,,10%,RM165.00 per 100% vol. per litre,,,,1,IV,22,206
+2207201100,2207.20.11 00,22.07,Ethyl alcohol of an alcoholic strength by volume of exceeding 99% vol.,3,l,RM 1.00,schedule,0%,,,,10%,RM1.21 and 15%,,,,1,IV,22,210
+2208901000,2208.90.10 00,22.08,Medicated samsu of an alcoholic strength by volume not exceeding 40% vol.,2,l,RM 26.50 per 100% vol. per litre,schedule,0%,,,,10%,RM66.00 per 100% vol. per litre,,,,1,IV,22,211
+2402100000,2402.10.00 00,24.02,"Cigars, cheroots and cigarillos, containing tobacco",1,kg,RM200.00,schedule,0%,,,,10%,RM440.00,,,,1,IV,24,220
+2402202000,2402.20.20 00,24.02,Clove cigarettes,2,kg,RM0.20 per stk,schedule,0%,,,,10%,RM0.42 per stick,,,,1,IV,24,220
+2403919000,2403.91.90 00,24.03,Other,3,kg,5% and RM50.00,schedule,0%,,,,10%,NA,,,,1,IV,24,222
+2710121100,2710.12.11 00,27.10,Of RON 97 and above,4,kg,0%,schedule,0%,,,,RM0.60 per litre,,,,,1,V,27,248
+29034300,2903.43.00 ,29.03,"Fluoromethane (HFC-41), 1,2difluoroethane (HFC-152) and 1,1difluoroethane (HFC-152a)",2,,,,,,,,,,,,,,VI,29,287
+3307419000,3307.41.90 00,33.07,Other,3,kg,0%,schedule,0%,,,,10%/0%,,,,,1,VI,33,371
+4001101100,4001.10.11 00,40.01,Centrifuged concentrate rubber latex,3,kg,0%,schedule,0%,,,,5%,,RM0.10,RM.0.04,0%,1,VII,40,468
+4808902000,4808.90.20 00,48.08,Creped or crinkled paper,2,kg,25% or RM0.15 w.i.t.h,schedule,0%,,,,10%,,,,,1,X,48,556
+8414804200,8414.80.42 00,84.14,Of a kind used for automotive air conditioners,3,u,30% or RM60.00 each w.i.t.h,schedule,0%,,,,10%,,,,,1,XVI,84,956

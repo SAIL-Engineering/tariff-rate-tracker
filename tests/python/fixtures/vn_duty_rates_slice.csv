@@ -1,0 +1,11 @@
+GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODES,MFN_RATE,ORDINARY_RATE,VAT,MFN_DECREE,MFN_EFFECTIVE,IS_LEAF,SECTION,CHAPTER,SHEET_ROW
+0101,01.01,"Live horses, asses, mules and hinnies",source,0,,,,,,,,0,I,1,20
+01012100,0101.21.00,- - Pure-bred breeding animals,source,2,kg/unit,,0,5,*/8/10,26/2023/NĐ-CP,15/07/2023,1,I,1,22
+04072100,0407.21.00,- - Of fowls of the species Gallus domesticus,source,2,unit/kg,,40 (NHN: 80),60 (NHN: 120),*/5/8/10,26/2023/NĐ-CP,15/07/2023,1,I,4,901
+17011200,1701.12.00,- - Beet sugar,source,2,kg,,25 (NHN: 80),37.5 (NHN: 120),5/8/10,26/2023/NĐ-CP,15/07/2023,1,IV,17,2284
+27101971,2710.19.71,- - - - Automotive diesel fuel,source,4,kg/liter,,7 (0% từ 09/3-30/4 theo NĐ72),10.5,8/10,26/2023/NĐ-CP,15/07/2023,1,V,27,3326
+29029090,2902.90.90,- - Other,source,2,kg/liter,,2 (0% từ 09/3-30/4 theo NĐ72),3,8/10,26/2023/NĐ-CP,15/07/2023,1,VI,29,3841
+39011092,3901.10.92,- - - Polyethylene containing 5% or less alpha-olefin monomers,source,3,kg,,2,5,8/10,199/2025/NĐ-CP,08/07/2025,1,VII,39,5673
+87021010,8702.10.10,"- - - Motor cars (including stretch limousines but not including coaches, buses, minibuses or vans)",source,3,unit,,Theo hướng dẫn tại khoản 1.1 Chương 98,150% thuế MFN,10/8,26/2023/NĐ-CP,15/07/2023,1,XVII,87,16315
+87032113,8703.21.13,- - - - Ambulances,source,4,unit,,Theo hướng dẫn tại điểm b.5.3 và b.5.4 khoản 2.2 Chương 98,150% thuế MFN,10/8,73/2025/NĐ-CP,31/03/2025,1,XVII,87,16440
+98041500,9804.15.00,Goods of 0306.15.00 (Norway lobsters (Nephrops norvegicus)),composed_from_corresponding,2,,03061500,27,40.5,,26/2023/NĐ-CP,15/07/2023,1,,98,19056

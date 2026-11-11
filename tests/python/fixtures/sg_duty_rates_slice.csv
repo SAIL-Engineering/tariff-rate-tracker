@@ -1,0 +1,16 @@
+GOODS_CODE,DISPLAY,DESCRIPTION,INDENT,UNIT,DUTY_FULL,DUTY_PREF,EXCISE,IS_LEAF,SECTION,CHAPTER,PDF_PAGE,PRINTED_PAGE
+0101,01.01,"Live horses, asses, mules and hinnies.",0,,,,,,I,01,20,1
+01012100,0101.21.00,Pure-bred breeding animals,2,NMB,,,,1,I,01,20,1
+01012900,0101.29.00,Other,2,NMB,,,,1,I,01,20,1
+2203,22.03,Beer made from malt.,0,,,,,,IV,22,113,94
+,,Stout or porter :,1,,,,,,IV,22,113,94
+22030011,2203.00.11,Of an alcoholic strength by volume not exceeding 5.8 % vol.,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94
+22030019,2203.00.19,Other,2,LTR,$16.00 per litre of alcohol,Free,$60.00 per litre of alcohol,1,IV,22,113,94
+22041000,2204.10.00,Sparkling wine,1,LTR,,,$88.00 per litre of alcohol,1,IV,22,113,94
+22089010,2208.90.10,Medicated samsu of an alcoholic strength by volume not exceeding 40 % vol.,2,LTR,$8.00 per litre of alcohol,Free,$88.00 per litre of alcohol,1,IV,22,116,97
+24011010,2401.10.10,"Virginia type, flue-cured",2,KGM,,,$535.00 per kgm,1,IV,24,121,102
+24022020,2402.20.20,Clove cigarettes,2,KGM,,,58.9 cents for every gram or part thereof of each stick of cigarette,1,IV,24,122,103
+27101221,2710.12.21,Unblended,5,TNE,,,$7.90 per dal,1,V,27,135,116
+27101971,2710.19.71,Automotive diesel fuel,4,TNE,,,"$2.00 per dal of diesel fuel conforming to the standard for sulphur for such diesel fuel specified in Part I of the Eighth Schedule to the Environmental Protection and Management (Vehicular Emissions) Regulations (Cap. 94A, Rg 6)",1,V,27,136,117
+27112110,2711.21.10,Of a kind used as a motor fuel,3,TNE,,,20 cents per kgm,1,V,27,137,118
+87021010,8702.10.10,"Motor cars (including stretch limousines but not including coaches, buses, minibuses or vans)",3,NMB,,,20%,1,XVII,87,570,551
