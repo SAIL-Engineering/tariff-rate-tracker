@@ -234,6 +234,9 @@ def preflight_artifacts(spec: dict, scheduled: list[str], ctx: RunCtx,
 
 # ─── Env file ────────────────────────────────────────────────────────
 
+DEFAULT_NOTES_INDEX = "sail-hts-notes-dense"
+
+
 def load_env_file() -> None:
     env_file = HERE / ".env.hts_automation"
     if not env_file.exists():
@@ -434,7 +437,8 @@ def do_publish(spec: dict, ctx: RunCtx, args) -> None:
 
 
 def do_publish_notes(spec: dict, ctx: RunCtx, args) -> None:
-    """Publish three separately searchable legal-note families."""
+    """Publish the separately searchable legal-note families: gri, section and
+    chapter, or the subset the spec declares (Vietnam's source has no GRIs)."""
     notes = spec.get("notes") or {}
     index = os.environ["PINECONE_NOTES_INDEX"]
     keep = str(args.keep if args.keep is not None else notes.get("keep", 3))
@@ -442,7 +446,7 @@ def do_publish_notes(spec: dict, ctx: RunCtx, args) -> None:
     if not goldens:
         sys.exit("ERROR: notes.golden_queries is required for publish_notes")
 
-    for family in ("gri", "section", "chapter"):
+    for family in notes.get("families", ("gri", "section", "chapter")):
         cmd = [
             sys.executable,
             str(HERE / "pinecone_sync.py"),
@@ -757,6 +761,9 @@ def main() -> int:
                  + python_module_hint(missing_mods))
 
     load_env_file()
+    # sail-gtx reads notes from this index unless told otherwise
+    # (server/src/config.ts pineconeNotesIndexName), so default to the same.
+    os.environ.setdefault("PINECONE_NOTES_INDEX", DEFAULT_NOTES_INDEX)
     need = required_env(spec, scheduled)
     missing = [v for v in need if not os.environ.get(v)]
 

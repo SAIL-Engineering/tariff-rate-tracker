@@ -226,6 +226,18 @@ def wait_for_count(host: str, namespace: str, expected: int) -> None:
     )
 
 
+# The note kinds each family's JSONL holds, for the manifest record count.
+# national_note: Malaysia's own chapter-level notes (NN-16-1 defines "airtight
+# container" for headings 16.01-16.05), its counterpart of an Additional U.S.
+# Note.
+FAMILY_KINDS = {
+    "gri": ("gri", "add_us_rule", "compiler_note"),
+    "section": ("section_note",),
+    "chapter": ("chapter_note", "subheading_note", "add_us_note",
+                "statistical_note", "national_note"),
+}
+
+
 def load_golden_queries(path: str | None, family: str | None = None):
     """Per-jurisdiction golden queries from JSON: [["query text", "heading"], ...]
     or dictionaries with ``expect_heading`` / ``expect_cite_id``. An optional
@@ -313,11 +325,8 @@ def cmd_upsert(args) -> None:
         family = getattr(args, "family", None)
         if expected is None and family:
             by_kind = (manifest.get("counts") or {}).get("by_kind") or {}
-            expected = sum(int(by_kind.get(kind, 0)) for kind in {
-                "gri": ("gri", "add_us_rule", "compiler_note"),
-                "section": ("section_note",),
-                "chapter": ("chapter_note", "subheading_note", "add_us_note", "statistical_note"),
-            }[family])
+            expected = sum(int(by_kind.get(kind, 0))
+                           for kind in FAMILY_KINDS[family])
         if expected is not None:
             if family:
                 print(

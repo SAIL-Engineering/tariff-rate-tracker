@@ -23,7 +23,12 @@ VALID_STEPS = ("acquire", "build", "notes", "verify", "publish",
 MUST_PRECEDE = [("ship", "envvars"), ("build", "publish"), ("publish", "register"),
                 ("build", "verify"), ("verify", "publish"), ("acquire", "build"),
                 ("build", "notes"), ("notes", "publish_notes"),
-                ("publish", "publish_notes"), ("publish_notes", "ship")]
+                ("publish", "publish_notes"), ("publish_notes", "register"),
+                ("publish_notes", "ship")]
+
+# The three separately searchable legal-note families. A jurisdiction whose
+# source has no interpretative rules (Vietnam's workbook) lists only the others.
+NOTE_FAMILIES = ("gri", "section", "chapter")
 
 REQUIRED_KEYS = ("code", "name", "tariff_schedule_name", "acquire",
                  "source_format", "chapters_file", "max_depth",
@@ -80,14 +85,23 @@ def validate_spec(spec: dict, path: Path | None = None) -> None:
         ship = spec.get("ship") or {}
         if not ship.get("dest_path") and not ship.get("also"):
             raise SpecError(f"ship step declared but ships nothing{where}")
+    if "notes" in steps and code != "US":
+        # `notes` BUILDS the sidecar from the USITC schedule. Other
+        # jurisdictions' parsers write theirs (data/hts_notes/<cc>_<revision>/)
+        # and only publish it.
+        raise SpecError(f"the notes build step is US-only; other jurisdictions "
+                        f"publish the notes their parser wrote{where}")
     if "notes" in steps or "publish_notes" in steps:
-        if code != "US":
-            raise SpecError(f"legal-notes steps are currently US-only{where}")
         notes = spec.get("notes") or {}
         if not notes.get("out_dir"):
             raise SpecError(f"notes.out_dir is required{where}")
         if "publish_notes" in steps and not notes.get("golden_queries"):
             raise SpecError(f"notes.golden_queries is required{where}")
+        families = notes.get("families", list(NOTE_FAMILIES))
+        if (not families or len(set(families)) != len(families)
+                or any(f not in NOTE_FAMILIES for f in families)):
+            raise SpecError(f"notes.families must be distinct values from "
+                            f"{list(NOTE_FAMILIES)}, got {families!r}{where}")
 
     chapters = Path(spec["chapters_file"])
     if not chapters.exists():

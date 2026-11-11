@@ -96,6 +96,10 @@ def step_consumes(spec: dict, name: str, rates_only: bool = False) -> tuple:
         its `also` list the same way), so the preflight must not demand the
         corpus/Explorer artifacts the reduced run never rebuilds."""
     base = REGISTRY[name].consumes
+    if name == "publish_notes":
+        families = (spec.get("notes") or {}).get("families",
+                                                 ("gri", "section", "chapter"))
+        return ("notes_manifest",) + tuple(f"notes_{f}_jsonl" for f in families)
     if name == "ship":
         ship = spec.get("ship") or {}
         also = ship.get("also", [])

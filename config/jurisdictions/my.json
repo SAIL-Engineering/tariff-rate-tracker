@@ -33,6 +33,7 @@
     "build",
     "verify",
     "publish",
+    "publish_notes",
     "register",
     "ship"
   ],
@@ -45,6 +46,12 @@
   "publish": {
     "keep": 3,
     "golden_queries": "config/jurisdictions/my_golden_queries.json"
+  },
+  "notes": {
+    "_comment": "Legal notes written by the parser to data/hts_notes/my_<revision>/, published to the notes index (sail-hts-notes-dense) as <namespace>__<family>, the names sail-gtx searches.",
+    "out_dir": "data/hts_notes/{jur_lower}_{revision}",
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/my_notes_golden_queries.json"
   },
   "register": {
     "ragie_partition_id_template": "my_pdk_{year}",

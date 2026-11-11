@@ -1,7 +1,52 @@
 [
-  {"family": "chapter", "query": "this chapter does not cover live animals of chapter 1", "expect_cite_id": "N-2-1"},
-  {"family": "chapter", "query": "pellets means products agglomerated by compression or with a binder", "expect_cite_id": "N-3-2"},
-  {"family": "chapter", "query": "airtight container for the purposes of relevant subheadings", "expect_cite_id": "NN-16-1"},
-  {"family": "chapter", "query": "light oils means oils of which 90 percent distils at 210 degrees celsius", "expect_cite_id": "NN-27-1"},
-  {"family": "chapter", "query": "homogenised preparations of meat for retail sale as infant food", "expect_cite_id": "SHN-16-1"}
+  {
+    "family": "chapter",
+    "query": "this chapter does not cover live animals of chapter 1",
+    "expect_cite_id": "N-2-1"
+  },
+  {
+    "family": "chapter",
+    "query": "pellets means products agglomerated by compression or with a binder",
+    "expect_cite_id": "N-3-2"
+  },
+  {
+    "family": "chapter",
+    "query": "airtight container for the purposes of relevant subheadings",
+    "expect_cite_id": "NN-16-1"
+  },
+  {
+    "family": "chapter",
+    "query": "light oils means oils of which 90 percent distils at 210 degrees celsius",
+    "expect_cite_id": "NN-27-1"
+  },
+  {
+    "family": "chapter",
+    "query": "homogenised preparations of meat for retail sale as infant food",
+    "expect_cite_id": "SHN-16-1"
+  },
+  {
+    "family": "gri",
+    "query": "incomplete or unfinished article presented unassembled with the essential character of the finished article",
+    "expect_cite_id": "GRI-2"
+  },
+  {
+    "family": "gri",
+    "query": "goods classifiable under two or more headings choose the most specific description",
+    "expect_cite_id": "GRI-3"
+  },
+  {
+    "family": "section",
+    "query": "radioactive ores goods answering to a description in heading 28.44 or 28.45",
+    "expect_cite_id": "SN-VI-1"
+  },
+  {
+    "family": "section",
+    "query": "parts and accessories do not apply to joints washers or similar of any material",
+    "expect_cite_id": "SN-XVII-2"
+  },
+  {
+    "family": "chapter",
+    "query": "airtight container hermetically sealed for retail sale of preserved fish and meat",
+    "expect_cite_id": "NN-16-1"
+  }
 ]

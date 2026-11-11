@@ -38,6 +38,7 @@
     "build",
     "verify",
     "publish",
+    "publish_notes",
     "register",
     "ship"
   ],
@@ -50,6 +51,16 @@
   "publish": {
     "keep": 3,
     "golden_queries": "config/jurisdictions/vn_golden_queries.json"
+  },
+  "notes": {
+    "_comment": "Legal notes written by the parser to data/hts_notes/vn_<revision>/, published to the notes index (sail-hts-notes-dense) as <namespace>__<family>, the names sail-gtx searches. No gri family: the workbook carries no General Interpretative Rules (Vietnam enacts them in the Decree).",
+    "out_dir": "data/hts_notes/{jur_lower}_{revision}",
+    "keep": 3,
+    "golden_queries": "config/jurisdictions/vn_notes_golden_queries.json",
+    "families": [
+      "section",
+      "chapter"
+    ]
   },
   "register": {
     "ragie_partition_id_template": "vn_tariff_{year}",
