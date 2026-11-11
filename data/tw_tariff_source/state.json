@@ -1,8 +1,8 @@
 {
-  "corpus_revision": "2026_rev_1106",
-  "effective_date": "2026-11-06",
-  "effective_date_label": "CCC amendment of 2026-11-06",
-  "last_modify_date": "2026-11-06",
+  "corpus_revision": "2026_rev_1110",
+  "effective_date": "2026-11-10",
+  "effective_date_label": "CCC amendment of 2026-11-10",
+  "last_modify_date": "2026-11-10",
   "main_xls": "data/tw_tariff_source/.tw_download/tw_main.xls",
-  "main_xls_sha256": "ac49c2d2321c8507968c8312a8a6d61c141122b56202300e7bda1f23db9d306f"
+  "main_xls_sha256": "fa4e8f981cfa097d2f262749b26fffe35203be3246158ef8ed2d665864404d2d"
 }
