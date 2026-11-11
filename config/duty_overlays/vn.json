@@ -1,0 +1,92 @@
+{
+  "_comment": "Vietnam MFN rate amendments enacted AFTER the source workbook's date (5 April 2026), applied by build_duty_rates.py build_vn on every build. Each entry names the lines it changes, the base rate the workbook must still show for each (a mismatch stops the build: the workbook has moved on and this overlay needs review), the window, and every instrument in the chain with its signed PDF on datafiles.chinhphu.vn. While the window is open at the build's snapshot date the amended rate IS the MFN rate served, with valid_until; outside it the workbook's base rate is served. Verified 2026-11-11 by reading each signed PDF; see docs/audits/2026-11-11-vn-decree-check/.",
+  "checked_through": "2026-11-11",
+  "rate_amendments": [
+    {
+      "id": "nd72_2026_fuels",
+      "summary": "Temporary 0% MFN on petrol, diesel, jet fuel, fuel oil and petrochemical feedstocks",
+      "rate_pct": 0,
+      "valid_from": "2026-03-09",
+      "valid_until": "2026-12-31",
+      "regulation_id": "72/2026/NĐ-CP",
+      "base_rate_pct": {
+        "27073000": 3,
+        "27090020": 3,
+        "27101221": 10,
+        "27101222": 10,
+        "27101224": 10,
+        "27101225": 10,
+        "27101280": 10,
+        "27101971": 7,
+        "27101972": 7,
+        "27101979": 7,
+        "27101981": 7,
+        "27101982": 7,
+        "27101983": 7,
+        "29024300": 3,
+        "29029090": 2
+      },
+      "after_expiry": "The Decree 26/2023/NĐ-CP rate applies again (Decree 72/2026/NĐ-CP Art. 2(1)) unless the window is extended again (Resolution 43/2026/NQ-CP Art. 3(3) allows shortening or extension).",
+      "instruments": [
+        {
+          "number": "72/2026/NĐ-CP",
+          "signed": "2026-03-09",
+          "effect": "Sets 0% on the 15 lines (bold in the Phụ lục, PDF pp. 3-6) from signing to 30 April 2026 (Art. 2(1)).",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/3/72-ndcp.signed.pdf"
+        },
+        {
+          "number": "25/2026/NQ-CP",
+          "signed": "2026-04-30",
+          "effect": "Art. 1 extends Decree 72/2026 to 30 June 2026.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/4/25-nqcp.signed.pdf"
+        },
+        {
+          "number": "34/2026/NQ-CP",
+          "signed": "2026-06-30",
+          "effect": "Art. 1 extends Resolution 25/2026 and Decree 72/2026 to 30 September 2026.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/7/34-nqcp.signed.pdf"
+        },
+        {
+          "number": "43/2026/NQ-CP",
+          "signed": "2026-09-30",
+          "effect": "Art. 1 extends Resolution 25/2026 and Decree 72/2026 to 31 December 2026.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/9/43_2026_nq-cp_30092026_1-signed.signed.pdf"
+        }
+      ]
+    },
+    {
+      "id": "nq25_2026_art2_feedstocks",
+      "summary": "Temporary 0% MFN on topped crudes, other medium oils and other liquefied petroleum gases",
+      "rate_pct": 0,
+      "valid_from": "2026-05-01",
+      "valid_until": "2026-12-31",
+      "regulation_id": "25/2026/NQ-CP",
+      "base_rate_pct": {
+        "27101920": 5,
+        "27101989": 5,
+        "27111900": 5
+      },
+      "after_expiry": "The rate under Decree 26/2023/NĐ-CP applies again (Resolution 25/2026/NQ-CP Art. 3(1)) — for 2711.19.00 that is the 5% set by Decree 73/2025/NĐ-CP, which amends it — unless the window is extended again (Resolution 43/2026/NQ-CP Art. 3(3)).",
+      "instruments": [
+        {
+          "number": "25/2026/NQ-CP",
+          "signed": "2026-04-30",
+          "effect": "Art. 2 sets 0% on 2710.19.20, 2710.19.89 and 2711.19.00; Art. 3(1): in force 1 May to 30 June 2026; Art. 3(2): where it differs from Decree 26/2023/NĐ-CP and its amendments, the Resolution prevails.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/4/25-nqcp.signed.pdf"
+        },
+        {
+          "number": "34/2026/NQ-CP",
+          "signed": "2026-06-30",
+          "effect": "Art. 1 extends Resolution 25/2026 to 30 September 2026.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/7/34-nqcp.signed.pdf"
+        },
+        {
+          "number": "43/2026/NQ-CP",
+          "signed": "2026-09-30",
+          "effect": "Art. 1 extends Resolution 25/2026 to 31 December 2026.",
+          "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/9/43_2026_nq-cp_30092026_1-signed.signed.pdf"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 """build_vn: MFN vs ordinary columns, TRQ (NHN) split, expired temporary
 windows serve the base rate, Chapter 98 cross-references and '150% thuế MFN'
-flagged, Decree provenance, VAT bands, artifact shape."""
+flagged, Decree provenance, VAT bands, artifact shape -- and the overlay of
+amendments enacted after the workbook (config/duty_overlays/vn.json), which
+serves the amended rate while it is in force."""
 from __future__ import annotations
 
 import csv
@@ -17,12 +19,27 @@ sys.path.insert(0, str(HERE))
 import build_duty_rates as bdr                          # noqa: E402
 
 FIXTURE = Path(__file__).parent / "fixtures" / "vn_duty_rates_slice.csv"
+OVERLAY = Path(__file__).resolve().parents[2] / "config" / "duty_overlays" / "vn.json"
 REV = "2026_rev_405"
 AFTER_WINDOW = dt.date(2026, 11, 11)
 
 
-def _build(path=FIXTURE, snapshot=AFTER_WINDOW):
-    return bdr.build_vn(path, "VN", REV, snapshot_date=snapshot)
+def _build(path=FIXTURE, snapshot=AFTER_WINDOW, overlay=None):
+    """No overlay unless given: these tests pin what the WORKBOOK says."""
+    return bdr.build_vn(path, "VN", REV, snapshot_date=snapshot,
+                        overlay=overlay if overlay is not None else {})
+
+
+def _real_overlay(keep):
+    """The shipped overlay, cut down to the amended codes in `keep` so the
+    fixture (a slice) still satisfies the every-code-is-a-leaf check."""
+    data = json.loads(OVERLAY.read_text(encoding="utf-8"))
+    out = []
+    for a in data["rate_amendments"]:
+        base = {d: v for d, v in a["base_rate_pct"].items() if d in keep}
+        if base:
+            out.append({**a, "base_rate_pct": base})
+    return {"checked_through": data["checked_through"], "rate_amendments": out}
 
 
 def _by(records, digits):
@@ -160,6 +177,8 @@ def test_mfn_coverage_floor_trips(tmp_path):
 
 
 def test_cli_writes_the_three_artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(bdr, "load_overlay", lambda jur: _real_overlay(
+        {"27101971", "29029090"}) if jur == "vn" else {})
     out = tmp_path / "out"
     monkeypatch.setattr(sys, "argv", [
         "build_duty_rates.py", str(FIXTURE), "--source-format", "vn",
@@ -176,3 +195,98 @@ def test_cli_writes_the_three_artifacts(tmp_path, monkeypatch):
             "unknown_MFN"} <= keys
     assert "temporary_rate" not in keys
     assert tdoc["coverage"]["provides"] and tdoc["coverage"]["excludes"]
+
+
+# ── amendments after the workbook (config/duty_overlays/vn.json) ─────────────
+
+def test_shipped_overlay_is_cited_and_complete():
+    data = json.loads(OVERLAY.read_text(encoding="utf-8"))
+    by_id = {a["id"]: a for a in data["rate_amendments"]}
+    assert set(by_id["nd72_2026_fuels"]["base_rate_pct"]) == {
+        "27073000", "27090020", "27101221", "27101222", "27101224",
+        "27101225", "27101280", "27101971", "27101972", "27101979",
+        "27101981", "27101982", "27101983", "29024300", "29029090"}
+    assert set(by_id["nq25_2026_art2_feedstocks"]["base_rate_pct"]) == {
+        "27101920", "27101989", "27111900"}
+    for a in by_id.values():
+        assert a["rate_pct"] == 0 and a["valid_until"] == "2026-12-31"
+        assert a["instruments"][-1]["number"] == "43/2026/NQ-CP"
+        assert all(i["url"].startswith("https://datafiles.chinhphu.vn/")
+                   for i in a["instruments"])
+    assert bdr._vn_amendments(data)               # well-formed, no overlaps
+
+
+def test_amendment_in_force_is_the_mfn_rate():
+    records, treatments, coverage = _build(
+        overlay=_real_overlay({"27101971", "29029090"}))
+    by = _by(records, "27101971")
+    mfn = by["MFN"]
+    assert mfn["rate_text"] == "0%" and mfn["ad_valorem"] == 0
+    assert not mfn.get("informational")
+    assert (mfn["valid_from"], mfn["valid_until"]) == ("2026-03-09", "2026-12-31")
+    assert mfn["regulation_id"] == "72/2026/NĐ-CP"
+    assert mfn["temporary_basis"] == \
+        "72/2026/NĐ-CP, extended to 2026-12-31 by 43/2026/NQ-CP"
+    assert mfn["source_text"] == "7 (0% từ 09/3-30/4 theo NĐ72)"
+    nxt = by["MFN_scheduled"]
+    assert nxt["rate_text"] == "7%" and nxt["informational"] is True
+    assert nxt["category"] == "scheduled_rate"
+    assert nxt["valid_from"] == "2027-01-01"
+    assert nxt["regulation_id"] == "26/2023/NĐ-CP"
+    # the printed (stale) window no longer produces a row of its own
+    assert "temporary_rate" not in by
+    # the ordinary rate is left as printed
+    assert by["general_non_mfn"]["rate_text"] == "10.5%"
+    t = {t["treatment"]: t for t in treatments}
+    assert t["MFN_scheduled"]["category"] == "scheduled_rate"
+    assert "43/2026/NQ-CP" in t["MFN"]["legal_basis"]
+    assert "checked through 2026-11-11" in coverage["as_of"]
+    assert "rates in force on 2026-11-11" in coverage["as_of"]
+
+
+def test_amendment_ended_serves_the_base_rate():
+    records, treatments, _ = _build(
+        snapshot=dt.date(2027, 1, 1),
+        overlay=_real_overlay({"27101971", "29029090"}))
+    by = _by(records, "27101971")
+    assert by["MFN"]["rate_text"] == "7%"
+    assert by["MFN"]["regulation_id"] == "26/2023/NĐ-CP"
+    assert "ended" in by["MFN"]["note"] and "valid_until" not in by["MFN"]
+    assert "MFN_scheduled" not in by
+    assert all(t["treatment"] != "MFN_scheduled" for t in treatments)
+
+
+def test_amendment_not_yet_in_force_serves_the_base_rate(tmp_path):
+    p = _mutated(tmp_path, {}, extra_rows=[{
+        "GOODS_CODE": "27111900", "DISPLAY": "2711.19.00", "IS_LEAF": "1",
+        "CHAPTER": "27", "MFN_RATE": "5", "ORDINARY_RATE": "7.5",
+        "MFN_DECREE": "73/2025/NĐ-CP", "MFN_EFFECTIVE": "31/03/2025"}])
+    records, _, _ = _build(p, snapshot=dt.date(2026, 4, 15),
+                           overlay=_real_overlay({"27111900"}))
+    mfn = _by(records, "27111900")["MFN"]
+    assert mfn["rate_text"] == "5%" and "not yet in force" in mfn["note"]
+    records, _, _ = _build(p, snapshot=dt.date(2026, 5, 1),
+                           overlay=_real_overlay({"27111900"}))
+    by = _by(records, "27111900")
+    assert by["MFN"]["rate_text"] == "0%"
+    assert by["MFN"]["regulation_id"] == "25/2026/NQ-CP"
+    assert by["MFN_scheduled"]["regulation_id"] == "73/2025/NĐ-CP"
+
+
+def test_workbook_base_rate_must_match_the_overlay(tmp_path):
+    p = _mutated(tmp_path, {"27101971": {"MFN_RATE": "0"}})
+    with pytest.raises(SystemExit, match="expects a base MFN rate of 7%"):
+        _build(p, overlay=_real_overlay({"27101971"}))
+
+
+def test_overlay_code_must_be_a_leaf():
+    with pytest.raises(SystemExit, match="not leaves"):
+        _build(overlay=_real_overlay({"27101971", "27111900"}) | {
+            "rate_amendments": [{**_real_overlay({"27101971"})[
+                "rate_amendments"][0], "base_rate_pct": {"27111900": 5}}]})
+
+
+def test_overlapping_amendments_stop_the_build():
+    one = _real_overlay({"27101971"})["rate_amendments"][0]
+    with pytest.raises(SystemExit, match="amended by both"):
+        bdr._vn_amendments({"rate_amendments": [one, {**one, "id": "dup"}]})

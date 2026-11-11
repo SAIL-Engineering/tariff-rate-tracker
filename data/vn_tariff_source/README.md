@@ -29,7 +29,7 @@ used; the sha256 above is the identity to mirror against.
 
 `BT2026` is the MFN spine: 19,901 rows x 109 columns, of which 15,119 carry a
 code in `Mã hàng` (1,081 four-digit, 2,034 six-digit, 12,000 eight-digit, and
-4 malformed seven-digit cells — see defects). Descriptions come in BOTH
+4 malformed seven-digit cells, repaired — see defects). Descriptions come in BOTH
 languages, `Mô tả hàng hoá - Tiếng Việt` and `- Tiếng Anh`, with English on
 14,453 of the coded rows (95.6%), and the section and chapter notes are
 bilingual too. So Vietnam needs no separate English source: the ITPC per-chapter
@@ -45,7 +45,7 @@ deferred for Malaysia is already in this one file.
 
 Vietnam contains **every one** of the 11,413 eight-digit codes that Singapore's
 STCCED and Malaysia's Customs Duties Order independently agree on — zero
-missing. The 458 codes it has beyond that core sit in Chapter 98 (239 under
+missing. The 462 codes it has beyond that core sit in Chapter 98 (243 under
 heading 9849 alone), spread over 42 headings: the signature of national
 provisions, not parse noise. It also carries 9024.90, which Singapore has and
 Malaysia's gazette omits — the third independent confirmation of that gazette
@@ -55,14 +55,15 @@ defect.
 
 | Defect | Count | Detail |
 |---|---|---|
-| Coded rows with no English description | 666 | fill from the ITPC per-chapter PDFs where they exist; otherwise keep Vietnamese and flag |
-| Malformed codes | 4 | `'9849170 '` x3 and `'9849190 '` — seven digits plus a trailing non-breaking space, no English. All Chapter 98. |
+| Coded rows with no English description | 666 | All in Chapter 98. The parser composes English for 451 of them from the Chapter 1-97 line each maps to; the rest are group headers. |
+| Malformed codes | 4 | `9849170` x3 and `9849190`, each with a trailing non-breaking space and no English. All Chapter 98. Each is the real code with its **seventh digit dropped**: Decree 26/2023/NĐ-CP Annex II, printed pp. 846-847, gives 9849.17.10 (sheet row 19499), 9849.17.20 (19501), 9849.17.90 (19502) and 9849.19.10 (19512). `CODE_REPAIRS` restores them only when the cell and its corresponding code are exactly these; each repair is recorded in the notes manifest's `source_anomalies` and re-checked by `audit_conversion.py`. |
+| Wrong effective date | 63 | Lines citing Decree 144/2024/NĐ-CP give 01/11/2024, its signing date. Its Art. 2(1) makes it effective 16/12/2024; `DATE_REPAIRS` corrects it. |
 | Uncoded grouping rows marked as coded rows | 2,455 | A row like `- Horses:` or `- Loại khác:` carries an empty code cell with a *coded* type marker (18+depth), so only the empty code distinguishes it from a tariff line. 182 are in Chapter 98, which marks nothing, and take their depth from the dash prefix. They are not optional — see "Why the grouping rows matter". |
 | Note bullets marked as coded rows | 72 | Bullet lines *inside* note blocks carry a coded type marker instead of a note-paragraph one: Chapter 28's note 1 (`- individual nuclides, excluding, however, ...`) and Chapter 61's subheading note 3(a) defining a suit. What tells them apart from a grouping row is that a note block is still open. They stay out of the tree; they are **also not recovered into the note body**, so that operative text is still missing from the notes corpus. |
 | Chapter 98 code repeated one dash deeper | 2 | `9808` (sheet row 19086) and `9849.43` (19889) are printed again as the header of a nested group. Kept as codes they are duplicates; dropped they orphan the lines beneath them onto their own siblings. Emitted as grouping rows, the way the Dominican Arancel's three repeated 6-digit codes are. |
 | Chapter 98 heading has no type marker | 1 | `Chương 98` and its title carry none, so no chapter header is parsed for it and `chapters_vn.json` would omit chapter 98 entirely. The entry is stated in `parse_vn_tariff.CH98_ENTRY`. |
 | Unit column residue in Chapter 98 | 10 | The chapter overloads the unit cell with the corresponding Chapter 1-97 code. Eight rows (9819, 9820, 9822.x) hold the classification instruction the schedule prints there instead, and `9811.00.10`/`.90` hold `7224`/`7229` — four-digit *headings*, too short for the parser's 6-to-10-digit corresponding-code rule, so they stay in `UNIT`. `load_rows_vn()` drops the unit column for the whole chapter rather than publish an HS heading as a unit of quantity. Routing those two into `CORRESPONDING_CODES` is a parser change still to make. |
-| Grouping row that qualifies nothing | 1 | `- - Loại khác:` at sheet row 19500 heads the four malformed `9849.17`/`9849.19` codes, which are excluded, so its children are gone with them. Pinned in `EXPECTED` so a second one fails the build. |
+| Grouping row that qualifies nothing | 0 | `- - Loại khác:` at sheet row 19500 was stranded while the codes beneath it were malformed; with them repaired it governs 9849.17.20 and 9849.17.90 again. Pinned at zero in `EXPECTED`. |
 
 Gate these counts rather than repairing them silently, so a later edition that
 differs fails the build instead of absorbing the change. Every count above is
@@ -88,7 +89,7 @@ reportable line becomes an internal node. Across the schedule that mis-parented
 **2,734 lines and turned 504 unit-bearing codes into internal nodes** — exactly
 what `build_hts_corpus.py`'s official-leaf cross-check (exit 7) exists to catch.
 With the grouping rows present, the tree rebuilt from the source's own indents
-and the source's own leaf markers agree at **11,873 leaves, exactly**.
+and the source's own leaf markers agree at **11,875 leaves, exactly**.
 
 ## Build
 
@@ -145,12 +146,18 @@ python3 scripts/hts_automation/build_hts_corpus.py \
 
 ## What the 2026_rev_405 edition contains
 
-17,441 CSV rows: **14,984 coded** (1,080 headings, 2,033 six-digit, 11,871
-eight-digit) and **2,457 grouping rows**. 11,873 leaves — 11,414 in chapters
+17,445 CSV rows: **14,988 coded** (1,080 headings, 2,033 six-digit, 11,875
+eight-digit) and **2,457 grouping rows**. 11,875 leaves — 11,414 in chapters
 1-97, every one of them carrying a unit of quantity and no non-leaf carrying
-one, and 459 in chapter 98. 97 chapters plus Vietnam's own chapter 98 (531
-codes, 447 of them naming the Chapter 1-97 codes they map to). The English
+one, and 461 in chapter 98. 97 chapters plus Vietnam's own chapter 98 (535
+codes, 451 of them naming the Chapter 1-97 codes they map to). The English
 corpus resolves 3,017 basket provisions, the Vietnamese one 3,050.
+
+Rates enacted after the workbook's date are not in it. The duty-rate build
+applies them from `config/duty_overlays/vn.json`: in 2026, 0% on 18 fuel and
+feedstock lines under Decree 72/2026/NĐ-CP and Resolution 25/2026/NQ-CP,
+extended to 31 December 2026 by Resolution 43/2026/NQ-CP. See `SOURCES.md` and
+`docs/audits/2026-11-11-vn-decree-check/`.
 
 Duty is real and comes in **two columns that must never be swapped**: the MFN
 (preferential) rate, and the ordinary rate that applies absent MFN or FTA
@@ -167,26 +174,20 @@ section notes, and **no General Interpretative Rules**: Vietnam enacts those in
 the Decree, not in this compilation, so `REQUIRED_NOTE_KINDS` asserts only the
 two families the source actually has.
 
-## Known gap: Chapter 98 has no English
+## Chapter 98 has no English of its own
 
-The workbook prints no English for any of chapter 98's 531 lines, and that
-propagates:
-
-- the **English corpus** emits all 459 chapter-98 leaf records with the chapter
-  title as their only prose, so none of them is retrievable on description;
-- the **Explorer** shows those rows with a blank description — their codes,
-  rates and `Applies to goods of ...` mapping are all present.
-
-The Vietnamese build has the full text, so `--lang vi` is the usable corpus for
-that chapter today. Closing the gap properly means either the ITPC per-chapter
-PDFs or a declared Vietnamese fallback in `parse_vn_tariff.write_csv()` — a data
-policy decision rather than a parse fix, and deliberately not taken here.
+The workbook prints no English for any of chapter 98's 535 lines. The parser
+composes it from the Chapter 1-97 line each entry maps to ("Goods of 0306.15.00
+(Norway lobsters ...)"), which covers 451 of them; the other 84 are group headers
+with no corresponding code and stay without an English description
+(`DESCRIPTION_SOURCE` says which is which). The Vietnamese build has the full
+text.
 
 ## Not yet automated
 
-There is no acquire adapter: the source is a retained upload on a third party's
-Drive behind a rotating short link, so there is nothing to poll. See
-`docs/jurisdiction-source-acquisition.md` for what automating it would take.
-`config/jurisdictions/vn.json` therefore runs `build`, `publish`, `register`
-only — no `acquire`, and no `verify` because there is no predecessor revision to
-diff against yet.
+The source is a retained upload on a third party's Drive behind a rotating
+short link, so there is nothing to poll. `config/jurisdictions/vn.json` uses the
+`manual` acquire adapter, which picks up the parsed CSV here and its
+`.meta.json` effective date; a new edition means fetching the workbook by hand
+and re-running the parser. See `docs/jurisdiction-source-acquisition.md` for
+what automating it would take.

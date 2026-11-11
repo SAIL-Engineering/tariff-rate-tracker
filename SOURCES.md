@@ -207,21 +207,44 @@ redistributed via thuvienphapluat.vn.
   <https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/ho-tro-phap-luat/chinh-sach-moi/109354/cap-nhat-link-tai-file-bieu-thue-xuat-nhap-khau-05-4-2026-moi-nhat>
 - HCMC Investment and Trade Promotion Centre, English tariff page (provided 2026-11-10):
   <https://itpc.hochiminhcity.gov.vn/web/en/-/vietnam-s-customs-tariff-schedule>
-- Bilingual: Vietnamese and English per row. The English is missing on part of
-  the national Chapter 98.
+- Bilingual: Vietnamese and English per row. The workbook prints no English for
+  the national Chapter 98; the parser composes it from the Chapter 1-97 line each
+  entry maps to (451 of 535 coded rows).
 - **The official instruments.** The workbook attributes each MFN rate to a decree.
   These, not the workbook, are what the rates must be checked against:
 
   | Decree | Effective | Lines citing it |
   |---|---|---|
-  | 26/2023/NĐ-CP (base export/import tariff) | 15 Jul 2023 | 11,157 |
+  | 26/2023/NĐ-CP (base export/import tariff) | 15 Jul 2023 | 11,161 |
   | 73/2025/NĐ-CP | 31 Mar 2025 | 617 |
-  | 144/2024/NĐ-CP | 1 Nov 2024 | 63 |
+  | 144/2024/NĐ-CP | 16 Dec 2024 (Art. 2(1); the workbook prints its 1 Nov 2024 signing date, corrected in the parser) | 63 |
   | 199/2025/NĐ-CP | 8 Jul 2025 | 34 |
 
-  The newest is from July 2025, so the workbook shows nothing issued after that.
-  Some rates also carry a temporary 0% window "theo NĐ72" (9 Mar – 30 Apr), which
-  has already expired.
+  Signed PDFs: <https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf>
+  (Annex II, the part holding Chapter 98) and
+  <https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/11/144-cp.signed.pdf>.
+- **Amendments after the workbook (5 April 2026).** Applied by
+  `build_duty_rates.py` from `config/duty_overlays/vn.json`, each line checked
+  against the signed PDF. While a temporary rate is in force on the build date it
+  is the MFN rate served, with its end date; the base rate returns after it.
+
+  | Instrument | Signed | What it does |
+  |---|---|---|
+  | [72/2026/NĐ-CP](https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/3/72-ndcp.signed.pdf) | 9 Mar 2026 | 0% on 15 petrol, diesel, jet-fuel, fuel-oil and feedstock lines, to 30 Apr 2026 (Art. 2(1)) |
+  | [25/2026/NQ-CP](https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/4/25-nqcp.signed.pdf) | 30 Apr 2026 | Extends Decree 72 to 30 Jun 2026 (Art. 1); 0% on 2710.19.20, 2710.19.89 and 2711.19.00 from 1 May 2026 (Art. 2) |
+  | [34/2026/NQ-CP](https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/7/34-nqcp.signed.pdf) | 30 Jun 2026 | Extends both to 30 Sep 2026 (Art. 1) |
+  | [43/2026/NQ-CP](https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/9/43_2026_nq-cp_30092026_1-signed.signed.pdf) | 30 Sep 2026 | Extends both to **31 Dec 2026** (Art. 1); may be shortened or extended again (Art. 3(3)) |
+
+  Checked through 11 Nov 2026 against the Government portal's full document
+  listings; method, the 978-row comparison and the gaps in the portal listing are
+  in [`docs/audits/2026-11-11-vn-decree-check/`](docs/audits/2026-11-11-vn-decree-check/).
+  **After 31 Dec 2026, rebuild and ship VN** so the base rates return (or update
+  the overlay if the window is extended again).
+- **Four Chapter 98 codes repaired.** The workbook prints `9849170` (x3) and
+  `9849190`, each the real code with its seventh digit dropped. Decree 26/2023
+  Annex II, printed pp. 846-847, gives 9849.17.10, 9849.17.20, 9849.17.90 and
+  9849.19.10; `parse_vn_tariff.CODE_REPAIRS` restores them only for those exact
+  cells, and `audit_conversion.py` re-checks each repair against the workbook.
 - Registry: `config/jurisdictions/vn_revisions.csv`; detail: `data/vn_tariff_source/README.md`
 
 ## Thailand (TH) — deferred

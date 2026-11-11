@@ -1,0 +1,104 @@
+{
+  "retrieved": "2026-11-11",
+  "host": "datafiles.chinhphu.vn (Government portal file store)",
+  "files": [
+    {
+      "file": "108-cp.signed.pdf",
+      "url": null,
+      "bytes": 191357,
+      "sha256": "177d1e1aa17a069f4b71b87d78abeadc90860295c54171e9c9b0fff544bdb3d6",
+      "note": "downloaded during the check; its URL was not recorded"
+    },
+    {
+      "file": "144-cp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/11/144-cp.signed.pdf",
+      "bytes": 358337,
+      "sha256": "38a5e4b53035e5f5ae701ceb9022d1ad2d41797f8a5aabc12d22d6a4dfb7995a"
+    },
+    {
+      "file": "199-ndcp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2025/7/199-ndcp.signed.pdf",
+      "bytes": 307018,
+      "sha256": "0f35182faf44ca0d23bb5748e2329aba7265c6337f822e80a0261afbacf837b4"
+    },
+    {
+      "file": "201-ndcp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/6/201-ndcp.signed.pdf",
+      "bytes": 245543,
+      "sha256": "8a2997d439f7a923b617d7781d0a3148cff229c0ac9656db03c367daaa25d666"
+    },
+    {
+      "file": "21-cp.signed.pdf",
+      "url": null,
+      "bytes": 196187,
+      "sha256": "1097f1a473dbe7d1e461a06b47706762024f0857cdbdbc1a2d7f034d14b43ec4",
+      "note": "downloaded during the check; its URL was not recorded"
+    },
+    {
+      "file": "260nd.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2025/10/260nd.signed.pdf",
+      "bytes": 214464,
+      "sha256": "1b99847cd0fdad1ecc34778327e70d11c3e23331e6634bacb9bbdd664ae1c621"
+    },
+    {
+      "file": "26-nd.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd.signed.pdf",
+      "bytes": 18961427,
+      "sha256": "fcf6b1709f90c5b6f28b7d0318560e39fde894b0f32e6e8d8e36068610c10043"
+    },
+    {
+      "file": "26-nd-2.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf",
+      "bytes": 15454691,
+      "sha256": "5973990290425fcc1fecc86be0e548377f2c50660a8cd29cc88350233c6e9804"
+    },
+    {
+      "file": "72-ndcp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/3/72-ndcp.signed.pdf",
+      "bytes": 299093,
+      "sha256": "80c5bc642c47a827c85c0218980e0346a6eb6faba316d2f0de4b19db45a519c4"
+    },
+    {
+      "file": "73-cp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2025/3/73-cp.signed.pdf",
+      "bytes": 1336628,
+      "sha256": "fd9ebe9d81c6fd689d95751e48c28f737bd7cf4caf49c2dffd1f4832fc88c3dc"
+    },
+    {
+      "file": "25-nqcp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/4/25-nqcp.signed.pdf",
+      "bytes": 195574,
+      "sha256": "536f2d39164178ab24a1d47994a77d8cabf371fd30f1139f2f30d44a38c6eacf"
+    },
+    {
+      "file": "34-nqcp.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/7/34-nqcp.signed.pdf",
+      "bytes": 172116,
+      "sha256": "9aa46b8b24edc450958298a4971f21aa5457d42fcb7679af51a922b1109ffcfb"
+    },
+    {
+      "file": "43_2026_nq-cp_30092026_1-signed.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/9/43_2026_nq-cp_30092026_1-signed.signed.pdf",
+      "bytes": 287464,
+      "sha256": "fca1c577f7a55b63750b920113be567c2b716d5c41bf7a8914a1705971d165a7"
+    },
+    {
+      "file": "tcbc-t9-2026.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/10/tcbc-t9-2026.signed.pdf",
+      "bytes": 3365274,
+      "sha256": "8339b1f54790039a1ea721101a0b14d7c2bf5d9a0f373aaf544e51259dcaf8c7"
+    },
+    {
+      "file": "tcbcvbqpplthang07.2026-bh.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/8/tcbcvbqpplthang07.2026-bh.signed.pdf",
+      "bytes": 4148329,
+      "sha256": "c21d990355728e07b9a82a9e80ceed3aa2926867e429a8ba1a85c4ab1e560833"
+    },
+    {
+      "file": "tcbcvbqpplthang8.2026.bantrinh.signed.pdf",
+      "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/9/tcbcvbqpplthang8.2026.bantrinh.signed.pdf",
+      "bytes": 2168267,
+      "sha256": "161cffcde292f934f18d17993c20283a7dfb990a0675aea39f60cec2cb8591f0"
+    }
+  ]
+}

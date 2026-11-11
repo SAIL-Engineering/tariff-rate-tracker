@@ -46,6 +46,8 @@ build_duty_rates.py is the richer surface):
       only when the cell is purely numeric: 49 of them carry a qualifier the
       source states in words ("40 (NHN: 80)" = 40% in quota, 80% out; "150%
       thuế MFN" = 150% OF the MFN duty), and those pass through verbatim.
+      Lines amended after the workbook (config/duty_overlays/vn.json) state the
+      rate in force on the build date instead of the stale printed text.
 
       The VAT band ("8/10", "*/5/8/10") is a tax, not a tariff, so it is named
       in `special` rather than put in a duty column; "*" means not subject to
@@ -58,6 +60,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -65,6 +68,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build_hts_corpus as bhc  # noqa: E402
+import build_duty_rates as bdr  # noqa: E402
 
 # CA preferential columns worth naming in the compact summary (full set lives
 # in build_duty_rates.py).
@@ -79,6 +83,26 @@ def _ca_rates(csv_path: Path) -> dict[str, dict[str, str]]:
             if digits and digits not in out:
                 out[digits] = r
     return out
+
+
+def _vn_general(row: dict, amendments: dict, snapshot: dt.date) -> str:
+    """The Explorer's general column for a VN line: the MFN rate as printed,
+    except on a line an amendment after the workbook changes
+    (config/duty_overlays/vn.json, the same overlay build_duty_rates.py
+    applies). There the workbook's own text is stale -- it prints the Decree
+    72/2026 window as ending 30 April -- so the column states the rate in force
+    on the build date, dated, and the base rate that follows; outside the
+    window it states the base rate."""
+    cell = (row.get("MFN_RATE") or "").strip()
+    a = amendments.get((row.get("GOODS_CODE") or "").strip())
+    m = a and (bdr._VN_WINDOW.fullmatch(cell) or bdr._VN_PCT.fullmatch(cell))
+    if not m:
+        return _vn_pct(cell)
+    base = m.group(1)
+    if a["_start"] <= snapshot <= a["_end"]:
+        return (f"{a['rate_pct']:g}% until {a['valid_until']} "
+                f"({bdr._vn_extension_text(a)}); then {base}%")
+    return f"{base}%"
 
 
 def _vn_pct(value: str | None) -> str:
@@ -129,6 +153,9 @@ def main() -> int:
     rows, stats = loaders[args.source_format](args.csv_path)
 
     rates: dict[str, dict[str, str]] = {}
+    today = dt.date.today()
+    vn_amendments = (bdr._vn_amendments(bdr.load_overlay("vn"))
+                     if args.source_format == "vn" else {})
     if args.source_format in ("sg", "my", "vn"):
         # The duty columns are already on the parsed row, keyed by code.
         with args.csv_path.open(newline="", encoding="utf-8-sig") as fh:
@@ -183,7 +210,7 @@ def main() -> int:
             other = "; ".join(parts)
         elif args.source_format == "vn" and digits in rates:
             r = rates[digits]
-            general = _vn_pct(r.get("MFN_RATE"))
+            general = _vn_general(r, vn_amendments, today)
             ordinary = _vn_pct(r.get("ORDINARY_RATE"))
             other = f"Ordinary rate: {ordinary}" if ordinary else ""
             parts = []

@@ -1961,7 +1961,7 @@ def build_do(csv_path: Path, jur: str, revision: str):
 # A leaf's MFN must be representable on at least this share of leaves, after
 # taking out leaves whose MFN cell is a KNOWN non-rate (VN's Chapter 98
 # cross-references). On the current editions the figure is 100% (SG, MY) and
-# 99.98% (VN: two malformed Chapter 98 parents with blank cells), so a drop
+# 100% (VN, once its four malformed Chapter 98 codes are repaired), so a drop
 # below the floor means parsing regressed, not that the book changed tone.
 STATIC_MFN_FLOOR_PCT = 99.0
 
@@ -2570,6 +2570,15 @@ VN_COVERAGE = {
         "the applied rate, flagged conditional, and the in-quota rate as an "
         "informational quota row.",
         "VAT band(s) as an informational tax line.",
+        "MFN amendments enacted after the workbook's date, from the signed "
+        "Decrees and Resolutions (config/duty_overlays/vn.json): while a "
+        "temporary rate is in force on the build date it is the MFN rate "
+        "served, dated (valid_from / valid_until), and the base rate that "
+        "returns after it follows as an informational scheduled rate. In "
+        "2026 that is 0% on 18 petrol, diesel, jet-fuel, LPG and "
+        "petrochemical-feedstock lines under Decree 72/2026/NĐ-CP and "
+        "Resolution 25/2026/NQ-CP, extended to 31 December 2026 by "
+        "Resolution 43/2026/NQ-CP.",
     ],
     "excludes": [
         "FTA preferential schedules (ATIGA, ACFTA, CPTPP, RCEP, EVFTA, "
@@ -2579,9 +2588,13 @@ VN_COVERAGE = {
         "98 instead of stating a rate, and the ordinary rates stated as "
         "'150% of the MFN duty' on those lines: carried verbatim and "
         "flagged, never shown as a rate.",
-        "Temporary rate windows that have ended (e.g. 0% from 9 March to "
-        "30 April 2026 under Decree 72): the base rate is served and the "
-        "window is recorded on the line.",
+        "Temporary rates outside their window on the build date: the base "
+        "rate is served and the window is recorded on the line. Rates "
+        "follow the build date, so a temporary rate stays served until the "
+        "next build after it ends.",
+        "The ordinary rate is shown as printed in the workbook; the "
+        "temporary MFN reductions are not applied to it.",
+        "Amendments enacted after the overlay's checked-through date.",
         "Export duty, environmental protection tax and special consumption "
         "tax.",
         "Provenance: the workbook is a compilation by the Quang Ninh Customs "
@@ -2623,8 +2636,47 @@ def _vn_pct_text(num: str) -> str:
     return f"{num}%"
 
 
+def _vn_amendments(overlay: dict) -> dict[str, dict]:
+    """config/duty_overlays/vn.json `rate_amendments` -> {digits: amendment}.
+    Malformed or overlapping entries stop the build: a rate that changes law
+    must not be half-applied."""
+    by_digits: dict[str, dict] = {}
+    for a in overlay.get("rate_amendments", []):
+        for key in ("id", "rate_pct", "valid_from", "valid_until",
+                    "regulation_id", "base_rate_pct", "instruments"):
+            if key not in a:
+                raise SystemExit(f"ERROR: vn overlay amendment "
+                                 f"{a.get('id', '?')!r} lacks {key!r}")
+        start = _dt.date.fromisoformat(a["valid_from"])
+        end = _dt.date.fromisoformat(a["valid_until"])
+        if end < start:
+            raise SystemExit(f"ERROR: vn overlay amendment {a['id']!r} ends "
+                             f"before it starts")
+        if not a["instruments"]:
+            raise SystemExit(f"ERROR: vn overlay amendment {a['id']!r} cites "
+                             f"no instrument")
+        for digits in a["base_rate_pct"]:
+            if digits in by_digits:
+                raise SystemExit(f"ERROR: {digits} is amended by both "
+                                 f"{by_digits[digits]['id']!r} and "
+                                 f"{a['id']!r} in the vn overlay")
+            by_digits[digits] = {**a, "_start": start, "_end": end}
+    return by_digits
+
+
+def _vn_extension_text(a: dict) -> str:
+    """'72/2026/NĐ-CP, extended to 2026-12-31 by 43/2026/NQ-CP' — the
+    enacting instrument and the one that set the current end date."""
+    last = a["instruments"][-1]["number"]
+    if last == a["regulation_id"]:
+        return a["regulation_id"]
+    return (f"{a['regulation_id']}, extended to {a['valid_until']} by "
+            f"{last}")
+
+
 def build_vn(csv_path: Path, jur: str, revision: str,
-             snapshot_date: _dt.date | None = None):
+             snapshot_date: _dt.date | None = None,
+             overlay: dict | None = None):
     """VN: MFN_RATE (the MFN duty, bare numbers meaning percent) per 8-digit
     leaf, ORDINARY_RATE as TW's general column (informational), VAT as a tax.
     Chapter 98 lines are ordinary leaves.
@@ -2643,7 +2695,19 @@ def build_vn(csv_path: Path, jur: str, revision: str,
       Theo hướng dẫn tại … Chương 98  -> cross-reference, flagged
       N% thuế MFN               -> a multiple of the MFN duty, flagged
       blank on a leaf           -> flagged (no_rate_in_source)
-      anything else             -> flagged (unrecognised)"""
+      anything else             -> flagged (unrecognised)
+
+    Amendments enacted after the workbook's date come from the overlay
+    (config/duty_overlays/vn.json `rate_amendments`) and supersede whatever
+    the MFN cell prints, printed window included. Unlike a printed window --
+    which states no year -- each is dated and cited, so while it is in force
+    at `snapshot_date` its rate IS the MFN rate served (valid_from /
+    valid_until on the row), and the base rate it displaces follows as an
+    informational `MFN_scheduled` row dated from the day after it ends.
+    Outside its window the base rate is served. The workbook must still
+    print the base rate the overlay expects for every amended line, or the
+    build stops: either the workbook has caught up or the overlay is wrong,
+    and either way it needs reading, not guessing."""
     rows = _read_canonical(csv_path, VN_REQUIRED, "VN")
     leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
     if not leaves:
@@ -2652,10 +2716,67 @@ def build_vn(csv_path: Path, jur: str, revision: str,
     snapshot = snapshot_date or _dt.date.today()
     ym = re.match(r"(\d{4})", revision)
     window_year = int(ym.group(1)) if ym else None
+    if overlay is None:
+        overlay = load_overlay("vn")
+    amendments = _vn_amendments(overlay)
+    leaf_digits = {bhc._digits_only(r["GOODS_CODE"]) for r in leaves}
+    missing = sorted(set(amendments) - leaf_digits)
+    if missing:
+        raise SystemExit(f"ERROR: the vn overlay amends {missing}, which are "
+                         f"not leaves of {csv_path.name} -- review "
+                         f"config/duty_overlays/vn.json")
 
     records: list[dict] = []
     known_non_rate: set[str] = set()
     windows = {"expired": 0, "open": 0, "upcoming": 0, "undated": 0}
+    amended = {"in_force": 0, "ended": 0, "not_yet": 0}
+
+    def amend(r, code, digits, cell) -> list[dict]:
+        """An MFN cell the overlay amends -> its records (see docstring)."""
+        a = amendments[digits]
+        m = _VN_WINDOW.fullmatch(cell) or _VN_PCT.fullmatch(cell)
+        base_rate = m.group(1) if m else None
+        if base_rate is None or float(base_rate) != float(
+                a["base_rate_pct"][digits]):
+            raise SystemExit(
+                f"ERROR: {code}: the vn overlay amendment {a['id']!r} expects "
+                f"a base MFN rate of {a['base_rate_pct'][digits]}%, but the "
+                f"workbook prints {cell!r} -- review "
+                f"config/duty_overlays/vn.json")
+        basis = _vn_extension_text(a)
+        rate_text = _vn_pct_text(f"{a['rate_pct']:g}")
+        if a["_start"] <= snapshot <= a["_end"]:
+            amended["in_force"] += 1
+            rec = _record(jur, revision, code, digits, "MFN", rate_text)
+            rec.update({
+                "valid_from": a["valid_from"], "valid_until": a["valid_until"],
+                "regulation_id": a["regulation_id"],
+                "regulation_effective": a["valid_from"],
+                "temporary_basis": basis, "amendment_id": a["id"],
+                "source_text": cell,
+                "note": (f"Temporary {rate_text} under {basis} (in force "
+                         f"{a['valid_from']} to {a['valid_until']}); base rate "
+                         f"{base_rate}% ({r['MFN_DECREE'] or 'Decree as printed'}) "
+                         f"after that. {a.get('after_expiry', '')}").strip()})
+            nxt = _record(jur, revision, code, digits, "MFN_scheduled",
+                          _vn_pct_text(base_rate), informational=True,
+                          category="scheduled_rate")
+            nxt["valid_from"] = (a["_end"] + _dt.timedelta(days=1)).isoformat()
+            nxt["note"] = (f"The base MFN rate, which applies again when the "
+                           f"temporary rate under {basis} ends")
+            return [rec, provenance(nxt, r)]
+        status = "ended" if snapshot > a["_end"] else "not_yet"
+        amended[status] += 1
+        rec = provenance(_record(jur, revision, code, digits, "MFN",
+                                 _vn_pct_text(base_rate)), r)
+        rec["source_text"] = cell
+        rec["amendment_id"] = a["id"]
+        rec["note"] = (f"Temporary {rate_text} under {basis} "
+                       f"({a['valid_from']} to {a['valid_until']}) "
+                       f"{'ended' if status == 'ended' else 'not yet in force'}"
+                       f" at {snapshot.isoformat()} -- base rate "
+                       f"{base_rate}% served")
+        return [rec]
 
     def provenance(rec, r):
         if r["MFN_DECREE"]:
@@ -2669,6 +2790,8 @@ def build_vn(csv_path: Path, jur: str, revision: str,
         """One rate cell -> records. MFN rows are duties; ordinary rows are
         informational general_rate rows like TW's Column III."""
         is_mfn = column == "MFN_RATE"
+        if is_mfn and digits in amendments:
+            return amend(r, code, digits, cell)
         base = "MFN" if is_mfn else "general_non_mfn"
         kw = ({} if is_mfn else
               {"informational": True, "category": "general_rate"})
@@ -2782,6 +2905,8 @@ def build_vn(csv_path: Path, jur: str, revision: str,
     print(f"[vn] temporary windows: {windows} (snapshot "
           f"{snapshot.isoformat()}; window year "
           f"{window_year or 'unknown'} from revision {revision!r})")
+    print(f"[vn] overlay amendments: {amended} on {len(amendments)} lines "
+          f"(checked through {overlay.get('checked_through', '?')})")
     _flag_report("vn", records)
     _static_mfn_gate("VN", [bhc._digits_only(r["GOODS_CODE"]) for r in leaves],
                      records, known_non_rate)
@@ -2792,6 +2917,8 @@ def build_vn(csv_path: Path, jur: str, revision: str,
 
     decrees = sorted({r["MFN_DECREE"] for r in leaves if r["MFN_DECREE"]},
                      key=_decree_key)
+    in_force = {a["id"]: a for a in amendments.values()
+                if a["_start"] <= snapshot <= a["_end"]}
     tout = [
         {"treatment": "MFN",
          "name": "MFN import duty (thuế nhập khẩu ưu đãi)",
@@ -2799,7 +2926,19 @@ def build_vn(csv_path: Path, jur: str, revision: str,
          "conditional": False,
          "legal_basis": "Decree(s) " + ", ".join(decrees)
                         + " — each rate carries its own Decree "
-                          "(regulation_id) and effective date"},
+                          "(regulation_id) and effective date"
+                        + "".join(f"; temporarily {a['rate_pct']:g}% on "
+                                  f"{len(a['base_rate_pct'])} lines under "
+                                  f"{_vn_extension_text(a)}"
+                                  for a in in_force.values())},
+        {"treatment": "MFN_scheduled",
+         "name": "MFN rate that applies again when a temporary rate ends",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False, "category": "scheduled_rate",
+         "legal_basis": "The Decree named on the line (regulation_id)",
+         "note": "Informational: the base rate a temporary MFN rate "
+                 "displaces, dated from the day after the temporary rate "
+                 "ends. Never the rate in force."},
         {"treatment": "general_non_mfn",
          "name": "Ordinary rate (thuế nhập khẩu thông thường) — applies "
                  "absent MFN or FTA eligibility",
@@ -2845,8 +2984,15 @@ def build_vn(csv_path: Path, jur: str, revision: str,
                                    "MFN duty')",
     })
     coverage = dict(VN_COVERAGE)
-    coverage["as_of"] = f"{revision} · {csv_path.name}"
-    overlay = load_overlay("vn")
+    meta_path = csv_path.with_name(csv_path.name + ".meta.json")
+    edition = (json.loads(meta_path.read_text(encoding="utf-8"))
+               .get("effective_date_label") if meta_path.is_file() else None)
+    coverage["as_of"] = (
+        f"{revision} · rates in force on {snapshot.isoformat()}: "
+        f"{edition or 'the workbook'} with the official MFN amendments "
+        f"checked through "
+        f"{overlay.get('checked_through', 'an unrecorded date')} applied "
+        f"({csv_path.name})")
     if overlay.get("flat_taxes"):
         coverage["flat_taxes"] = overlay["flat_taxes"]
     return records, tout, coverage
