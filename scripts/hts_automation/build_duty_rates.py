@@ -2985,8 +2985,9 @@ def build_vn(csv_path: Path, jur: str, revision: str,
     })
     coverage = dict(VN_COVERAGE)
     meta_path = csv_path.with_name(csv_path.name + ".meta.json")
-    edition = (json.loads(meta_path.read_text(encoding="utf-8"))
-               .get("effective_date_label") if meta_path.is_file() else None)
+    meta = (json.loads(meta_path.read_text(encoding="utf-8"))
+            if meta_path.is_file() else {})
+    edition = meta.get("edition_label") or meta.get("effective_date_label")
     coverage["as_of"] = (
         f"{revision} · rates in force on {snapshot.isoformat()}: "
         f"{edition or 'the workbook'} with the official MFN amendments "

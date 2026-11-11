@@ -1,6 +1,7 @@
 {
   "effective_date": "2022-01-01",
-  "effective_date_label": "STCCED 2022 edition",
+  "effective_date_label": "January 1, 2022",
+  "edition_label": "STCCED 2022 edition",
   "source": "https://file.go.gov.sg/stcced2022.pdf",
   "source_sha256": "1df940ad26e07a4cdeaa76a166225e928bd2651d35e9506df0c417fd1a8769e0"
 }

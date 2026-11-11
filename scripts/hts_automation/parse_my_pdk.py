@@ -1805,7 +1805,12 @@ def main() -> int:
     # sidecar, exactly as it does for the Dominican Republic's transcription.
     csv_path.with_name(csv_path.name + ".meta.json").write_text(json.dumps({
         "effective_date": IN_FORCE,
-        "effective_date_label": EDITION_LABEL,
+        # A date, as every schedule's label is meant to be (it prints as "effective
+        # <label>" and beside the History revision pill); the edition is
+        # edition_label.
+        "effective_date_label": "{d:%B} {d.day}, {d.year}".format(
+            d=__import__("datetime").date.fromisoformat(IN_FORCE)),
+        "edition_label": EDITION_LABEL,
         "source": PDF_URL,
         "source_sha256": pdf_sha,
         "portal_sha256": html_sha,
