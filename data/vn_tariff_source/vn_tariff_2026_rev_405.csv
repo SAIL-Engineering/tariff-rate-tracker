@@ -2651,21 +2651,21 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 24039990,2403.99.90,- - - Other,source,3,kg,,50,75,10/8,26/2023/NĐ-CP,15/07/2023,1,IV,24,2979
 2404,24.04,"Products containing tobacco, reconstituted tobacco, nicotine, or tobacco or nicotine substitutes, intended for inhalation without combustion; other nicotine containing products intended for the intake of nicotine into the human body",source,0,,,,,,,,0,IV,24,2980
 ,,- Products intended for inhalation without combustion:,source,1,,,,,,,,0,IV,24,2981
-24041100,2404.11.00,- - Containing tobacco or reconstituted tobacco,source,2,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2982
+24041100,2404.11.00,- - Containing tobacco or reconstituted tobacco,source,2,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2982
 240412,2404.12,"- - Other, containing nicotine:",source,2,,,,,,,,0,IV,24,2983
-24041210,2404.12.10,- - - E-cigarette liquid or gel,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2984
-24041290,2404.12.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2985
+24041210,2404.12.10,- - - E-cigarette liquid or gel,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2984
+24041290,2404.12.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2985
 240419,2404.19,- - Other:,source,2,,,,,,,,0,IV,24,2986
-24041910,2404.19.10,- - - Containing tobacco substitutes,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2987
-24041920,2404.19.20,- - - Containing nicotine substitutes,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2988
+24041910,2404.19.10,- - - Containing tobacco substitutes,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2987
+24041920,2404.19.20,- - - Containing nicotine substitutes,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2988
 ,,- Other:,source,1,,,,,,,,0,IV,24,2989
 240491,2404.91,- - For oral application:,source,2,,,,,,,,0,IV,24,2990
-24049110,2404.91.10,- - - Nicotine chewing gum,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2991
-24049190,2404.91.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2992
+24049110,2404.91.10,- - - Nicotine chewing gum,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2991
+24049190,2404.91.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2992
 240492,2404.92,- - For transdermal application:,source,2,,,,,,,,0,IV,24,2993
-24049210,2404.92.10,- - - Nicotine patch,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2994
-24049290,2404.92.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2995
-24049900,2404.99.00,- - Other,source,2,kg,,50,75,10/8,144/2024/NĐ-CP,01/11/2024,1,IV,24,2996
+24049210,2404.92.10,- - - Nicotine patch,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2994
+24049290,2404.92.90,- - - Other,source,3,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2995
+24049900,2404.99.00,- - Other,source,2,kg,,50,75,10/8,144/2024/NĐ-CP,16/12/2024,1,IV,24,2996
 2501,25.01,"Salt (including table salt and denatured salt) and pure sodium chloride, whether or not in aqueous solution or containing added anti-caking or free-flowing agents; sea water",source,0,,,,,,,,0,V,25,3018
 25010010,2501.00.10,- Table salt,source,1,kg,,30 (NHN: 60),45 (NHN: 90),10/8,26/2023/NĐ-CP,15/07/2023,1,V,25,3019
 25010020,2501.00.20,- Unprocessed rock salt,source,1,kg,,30 (NHN: 60),45 (NHN: 90),10/8,26/2023/NĐ-CP,15/07/2023,1,V,25,3020
@@ -13928,30 +13928,30 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 85423900,8542.39.00,- - Other,source,2,unit,,0,5,8/10,26/2023/NĐ-CP,15/07/2023,1,XVI,85,15995
 85429000,8542.90.00,- Parts,source,1,kg/unit,,0,5,8/10,26/2023/NĐ-CP,15/07/2023,1,XVI,85,15996
 8543,85.43,"Electrical machines and apparatus, having individual functions, not specified or included elsewhere in this Chapter",source,0,,,,,,,,0,XVI,85,15997
-85431000,8543.10.00,- Particle accelerators,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,15998
-85432000,8543.20.00,- Signal generators,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,15999
+85431000,8543.10.00,- Particle accelerators,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,15998
+85432000,8543.20.00,- Signal generators,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,15999
 854330,8543.30,"- Machines and apparatus for electroplating, electrolysis or electrophoresis:",source,1,,,,,,,,0,XVI,85,16000
-85433020,8543.30.20,"- - Wet processing equipment for the application by immersion of chemical or electrochemical solutions, whether or not for the purpose of removing material on printed circuit board/printed wiring board substrates",source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16001
+85433020,8543.30.20,"- - Wet processing equipment for the application by immersion of chemical or electrochemical solutions, whether or not for the purpose of removing material on printed circuit board/printed wiring board substrates",source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16001
 ,,- - Other:,source,2,,,,,,,,0,XVI,85,16002
-85433091,8543.30.91,- - - Electroplating and electrolysis machines of a kind use solely or principally for the manufacture of printed circuits,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16003
-85433099,8543.30.99,- - - Other,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16004
-85434000,8543.40.00,- Electronic cigarettes and similar personal electric vaporising devices,source,1,unit,,50,75,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16005
+85433091,8543.30.91,- - - Electroplating and electrolysis machines of a kind use solely or principally for the manufacture of printed circuits,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16003
+85433099,8543.30.99,- - - Other,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16004
+85434000,8543.40.00,- Electronic cigarettes and similar personal electric vaporising devices,source,1,unit,,50,75,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16005
 854370,8543.70,- Other machines and apparatus:,source,1,,,,,,,,0,XVI,85,16006
-85437010,8543.70.10,- - Electric fence energisers,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16007
+85437010,8543.70.10,- - Electric fence energisers,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16007
 ,,"- - Remote control apparatus, other than radio remote control apparatus:",source,2,,,,,,,,0,XVI,85,16008
-85437021,8543.70.21,"- - - Cordless infrared remote control devices for video game consoles, other than game controllers of heading 95.04",source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16009
-85437029,8543.70.29,- - - Other,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16010
-85437030,8543.70.30,- - Electrical machines and apparatus with translation or dictionary functions,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16011
-85437040,8543.70.40,- - Equipment for the removal of dust particles or the elimination of electrostatic charge during the manufacture of printed circuit boards/printed wiring boards or printed circuit assemblies; machines for curing material by ultra-violet light for the manufacture of printed circuit boards/printed wiring boards or printed circuit assemblies,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16012
-85437050,8543.70.50,"- - Microwave amplifiers; digital flight-data recorders; portable battery operated electronic reader for recording and reproducing text, still image or audio file",source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16013
-85437060,8543.70.60,- - Digital signal processing apparatus capable of connecting to a wired or wireless network for the mixing of sound; articles specifically designed for connection to telegraphic or telephonic apparatus or instruments or to telegraphic or telephonic networks,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16014
-85437090,8543.70.90,- - Other,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16015
+85437021,8543.70.21,"- - - Cordless infrared remote control devices for video game consoles, other than game controllers of heading 95.04",source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16009
+85437029,8543.70.29,- - - Other,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16010
+85437030,8543.70.30,- - Electrical machines and apparatus with translation or dictionary functions,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16011
+85437040,8543.70.40,- - Equipment for the removal of dust particles or the elimination of electrostatic charge during the manufacture of printed circuit boards/printed wiring boards or printed circuit assemblies; machines for curing material by ultra-violet light for the manufacture of printed circuit boards/printed wiring boards or printed circuit assemblies,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16012
+85437050,8543.70.50,"- - Microwave amplifiers; digital flight-data recorders; portable battery operated electronic reader for recording and reproducing text, still image or audio file",source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16013
+85437060,8543.70.60,- - Digital signal processing apparatus capable of connecting to a wired or wireless network for the mixing of sound; articles specifically designed for connection to telegraphic or telephonic apparatus or instruments or to telegraphic or telephonic networks,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16014
+85437090,8543.70.90,- - Other,source,2,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16015
 854390,8543.90,- Parts:,source,1,,,,,,,,0,XVI,85,16016
-85439010,8543.90.10,- - Of goods of subheading 8543.10 or 8543.20,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16017
-85439020,8543.90.20,- - Of goods of subheading 8543.30.20,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16018
-85439030,8543.90.30,- - Of goods of subheading 8543.70.30,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16019
-85439040,8543.90.40,- - Of goods of subheading 8543.70.40,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16020
-85439090,8543.90.90,- - Other,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVI,85,16021
+85439010,8543.90.10,- - Of goods of subheading 8543.10 or 8543.20,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16017
+85439020,8543.90.20,- - Of goods of subheading 8543.30.20,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16018
+85439030,8543.90.30,- - Of goods of subheading 8543.70.30,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16019
+85439040,8543.90.40,- - Of goods of subheading 8543.70.40,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16020
+85439090,8543.90.90,- - Other,source,2,kg/unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVI,85,16021
 8544,85.44,"Insulated (including enamelled or anodised) wire, cable (including co-axial cable) and other insulated electric conductors, whether or not fitted with connectors; optical fibre cables, made up of individually sheathed fibres, whether or not assembled with electric conductors or fitted with connectors",source,0,,,,,,,,0,XVI,85,16022
 ,,- Winding wire:,source,1,,,,,,,,0,XVI,85,16023
 854411,8544.11,- - Of copper:,source,2,,,,,,,,0,XVI,85,16024
@@ -14143,44 +14143,44 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 8701,87.01,Tractors (other than tractors of heading 87.09),source,0,,,,,,,,0,XVII,87,16271
 870110,8701.10,- Single axle tractors:,source,1,,,,,,,,0,XVII,87,16272
 ,,"- - Of a power not exceeding 22.5 kW, whether or not electrically operated:",source,2,,,,,,,,0,XVII,87,16273
-87011011,8701.10.11,- - - For agricultural use,source,3,unit,,20,30,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16274
-87011019,8701.10.19,- - - Other,source,3,unit,,30,45,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16275
+87011011,8701.10.11,- - - For agricultural use,source,3,unit,,20,30,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16274
+87011019,8701.10.19,- - - Other,source,3,unit,,30,45,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16275
 ,,- - Other:,source,2,,,,,,,,0,XVII,87,16276
-87011091,8701.10.91,- - - For agricultural use,source,3,unit,,10,15,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16277
-87011099,8701.10.99,- - - Other,source,3,unit,,10,15,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16278
+87011091,8701.10.91,- - - For agricultural use,source,3,unit,,10,15,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16277
+87011099,8701.10.99,- - - Other,source,3,unit,,10,15,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16278
 ,,- Road tractors for semi-trailers:,source,1,,,,,,,,0,XVII,87,16279
 870121,8701.21,- - With only compression-ignition internal combustion piston engine (diesel or semi-diesel):,source,2,,,,,,,,0,XVII,87,16280
-87012110,8701.21.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16281
-87012190,8701.21.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16282
+87012110,8701.21.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16281
+87012190,8701.21.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16282
 870122,8701.22,- - With both compression-ignition internal combustion piston engine (diesel or semi-diesel) and electric motor as motors for propulsion:,source,2,,,,,,,,0,XVII,87,16283
-87012210,8701.22.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16284
-87012290,8701.22.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16285
+87012210,8701.22.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16284
+87012290,8701.22.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16285
 870123,8701.23,- - With both spark-ignition internal combustion piston engine and electric motor as motors for propulsion:,source,2,,,,,,,,0,XVII,87,16286
-87012310,8701.23.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16287
-87012390,8701.23.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16288
+87012310,8701.23.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16287
+87012390,8701.23.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16288
 870124,8701.24,- - With only electric motor for propulsion:,source,2,,,,,,,,0,XVII,87,16289
-87012410,8701.24.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16290
-87012490,8701.24.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16291
+87012410,8701.24.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16290
+87012490,8701.24.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16291
 870129,8701.29,- - Other:,source,2,,,,,,,,0,XVII,87,16292
-87012910,8701.29.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16293
-87012990,8701.29.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16294
-87013000,8701.30.00,- Track-laying tractors,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16295
+87012910,8701.29.10,- - - Completely Knocked Down,source,3,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16293
+87012990,8701.29.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16294
+87013000,8701.30.00,- Track-laying tractors,source,1,unit,,0,5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16295
 ,,"- Other, of an engine power:",source,1,,,,,,,,0,XVII,87,16296
 870191,8701.91,- - Not exceeding 18 kW:,source,2,,,,,,,,0,XVII,87,16297
-87019110,8701.91.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16298
-87019190,8701.91.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16299
+87019110,8701.91.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16298
+87019190,8701.91.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16299
 870192,8701.92,- - Exceeding 18 kW but not exceeding 37 kW:,source,2,,,,,,,,0,XVII,87,16300
-87019210,8701.92.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16301
-87019290,8701.92.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16302
+87019210,8701.92.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16301
+87019290,8701.92.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16302
 870193,8701.93,- - Exceeding 37 kW but not exceeding 75 kW:,source,2,,,,,,,,0,XVII,87,16303
-87019310,8701.93.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16304
-87019390,8701.93.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16305
+87019310,8701.93.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16304
+87019390,8701.93.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16305
 870194,8701.94,- - Exceeding 75 kW but not exceeding 130 kW:,source,2,,,,,,,,0,XVII,87,16306
-87019410,8701.94.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16307
-87019490,8701.94.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16308
+87019410,8701.94.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16307
+87019490,8701.94.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16308
 870195,8701.95,- - Exceeding 130 kW:,source,2,,,,,,,,0,XVII,87,16309
-87019510,8701.95.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16310
-87019590,8701.95.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,01/11/2024,1,XVII,87,16311
+87019510,8701.95.10,- - - Agricultural tractors,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16310
+87019590,8701.95.90,- - - Other,source,3,unit,,5,7.5,8/10,144/2024/NĐ-CP,16/12/2024,1,XVII,87,16311
 8702,87.02,"Motor vehicles for the transport of ten or more persons, including the driver",source,0,,,,,,,,0,XVII,87,16312
 870210,8702.10,- With only compression-ignition internal combustion piston engine (diesel or semi-diesel):,source,1,,,,,,,,0,XVII,87,16313
 ,,- - Completely Knocked Down:,source,2,,,,,,,,0,XVII,87,16314
@@ -16995,16 +16995,16 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 98442039,9844.20.39,Goods of 8716.39.99 (Other),composed_from_corresponding,5,,87163999,0,5,,26/2023/NĐ-CP,15/07/2023,1,,98,19435
 98442090,9844.20.90,Goods of 8716.40.00 (Other trailers and semi-trailers),composed_from_corresponding,2,,87164000,0,5,,26/2023/NĐ-CP,15/07/2023,1,,98,19436
 9845,98.45,,absent,0,,,,,,,,0,,98,19437
-98452000,9845.20.00,Goods of 7007.21.10 (Suitable for vehicles of Chapter 87),composed_from_corresponding,1,,70072110,25,37.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19438
-98453000,9845.30.00,Goods of 8409.99.44 (Other cylinder liners),composed_from_corresponding,1,,84099944,15,22.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19439
-98454000,9845.40.00,Goods of 8483.30.30 (For engines of vehicles of Chapter 87),composed_from_corresponding,1,,84833030,15,22.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19440
-98455000,9845.50.00,Goods of 8483.40.40 (For engines of vehicles of Chapter 87),composed_from_corresponding,1,,84834040,15,22.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19441
-98456000,9845.60.00,Goods of 8708.30.29 (Other),composed_from_corresponding,1,,87083029,22,33,,144/2024/NĐ-CP,01/11/2024,1,,98,19442
-98458000,9845.80.00,Goods of 8708.40.29 (Other),composed_from_corresponding,1,,87084029,20,30,,144/2024/NĐ-CP,01/11/2024,1,,98,19443
+98452000,9845.20.00,Goods of 7007.21.10 (Suitable for vehicles of Chapter 87),composed_from_corresponding,1,,70072110,25,37.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19438
+98453000,9845.30.00,Goods of 8409.99.44 (Other cylinder liners),composed_from_corresponding,1,,84099944,15,22.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19439
+98454000,9845.40.00,Goods of 8483.30.30 (For engines of vehicles of Chapter 87),composed_from_corresponding,1,,84833030,15,22.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19440
+98455000,9845.50.00,Goods of 8483.40.40 (For engines of vehicles of Chapter 87),composed_from_corresponding,1,,84834040,15,22.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19441
+98456000,9845.60.00,Goods of 8708.30.29 (Other),composed_from_corresponding,1,,87083029,22,33,,144/2024/NĐ-CP,16/12/2024,1,,98,19442
+98458000,9845.80.00,Goods of 8708.40.29 (Other),composed_from_corresponding,1,,87084029,20,30,,144/2024/NĐ-CP,16/12/2024,1,,98,19443
 ,,,absent,1,,,,,,,,0,,98,19444
-98459010,9845.90.10,Goods of 8708.40.92 (For vehicles of heading 87.03),composed_from_corresponding,2,,87084092,20,30,,144/2024/NĐ-CP,01/11/2024,1,,98,19445
-98459020,9845.90.20,Goods of 8708.70.32 (For vehicles of heading 87.03),composed_from_corresponding,2,,87087032,25,37.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19446
-98459090,9845.90.90,Goods of 8708.92.20 (For vehicles of heading 87.03),composed_from_corresponding,2,,87089220,25,37.5,,144/2024/NĐ-CP,01/11/2024,1,,98,19447
+98459010,9845.90.10,Goods of 8708.40.92 (For vehicles of heading 87.03),composed_from_corresponding,2,,87084092,20,30,,144/2024/NĐ-CP,16/12/2024,1,,98,19445
+98459020,9845.90.20,Goods of 8708.70.32 (For vehicles of heading 87.03),composed_from_corresponding,2,,87087032,25,37.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19446
+98459090,9845.90.90,Goods of 8708.92.20 (For vehicles of heading 87.03),composed_from_corresponding,2,,87089220,25,37.5,,144/2024/NĐ-CP,16/12/2024,1,,98,19447
 9846,98.46,,absent,0,,,,,,,,0,,98,19448
 98460010,9846.00.10,Goods of 8528.71.91 (Mains operated),composed_from_corresponding,1,,85287191,0,5,,26/2023/NĐ-CP,15/07/2023,1,,98,19449
 98460090,9846.00.90,Goods of 8528.71.99 (Other),composed_from_corresponding,1,,85287199,0,5,,26/2023/NĐ-CP,15/07/2023,1,,98,19450
@@ -17051,8 +17051,11 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 ,,,absent,2,,,,,,,,0,,98,19495
 ,,,absent,3,,,,,,,,0,,98,19496
 98491690,9849.16.90,Goods of 7007.21.10 (Suitable for vehicles of Chapter 87),composed_from_corresponding,4,,70072110,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19497
-984917,9849.17,,absent,1,,,,,,,,1,,98,19498
+984917,9849.17,,absent,1,,,,,,,,0,,98,19498
+98491710,9849.17.10,Goods of 7009.10.00 (Rear-view mirrors for vehicles),composed_from_corresponding,2,,70091000,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19499
 ,,,absent,2,,,,,,,,0,,98,19500
+98491720,9849.17.20,Goods of 7009.91.00 (Unframed),composed_from_corresponding,3,,70099100,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19501
+98491790,9849.17.90,Goods of 7009.92.00 (Framed),composed_from_corresponding,3,,70099200,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19502
 984918,9849.18,,absent,1,,,,,,,,0,,98,19503
 ,,,absent,2,,,,,,,,0,,98,19504
 98491810,9849.18.10,"Goods of 7320.10.11 (Suitable for use on motor vehicles of heading 87.02, 87.03 or 87.04)",composed_from_corresponding,3,,73201011,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19505
@@ -17061,7 +17064,8 @@ GOODS_CODE,DISPLAY,DESCRIPTION,DESCRIPTION_SOURCE,INDENT,UNIT,CORRESPONDING_CODE
 98491830,9849.18.30,Goods of 7320.20.11 (For motor vehicles),composed_from_corresponding,3,,73202011,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19508
 ,,,absent,2,,,,,,,,0,,98,19509
 98491890,9849.18.90,Goods of 7320.90.10 (Suitable for use on motor vehicles),composed_from_corresponding,3,,73209010,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19510
-984919,9849.19,,absent,1,,,,,,,,1,,98,19511
+984919,9849.19,,absent,1,,,,,,,,0,,98,19511
+98491910,9849.19.10,Goods of 8301.20.00 (Locks of a kind used for motor vehicles),composed_from_corresponding,2,,83012000,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19512
 984920,9849.20,,absent,1,,,,,,,,0,,98,19513
 ,,,absent,2,,,,,,,,0,,98,19514
 98492011,9849.20.11,Goods of 8407.31.00 (Of a cylinder capacity not exceeding 50 cc),composed_from_corresponding,3,,84073100,0,0,,26/2023/NĐ-CP,15/07/2023,1,,98,19515

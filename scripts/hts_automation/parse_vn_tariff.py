@@ -21,9 +21,16 @@ Three things the source does NOT give, each handled explicitly:
     provisions). Chapters 1-97 - the substantive schedule - are 100% bilingual,
     so the English corpus needs no external source.
   * Four malformed codes. '9849170\xa0' x3 and '9849190\xa0' carry seven digits
-    and a trailing non-breaking space, with no English. They are recorded as
-    anomalies and excluded from the tree rather than repaired into a code the
-    source does not contain.
+    and a trailing non-breaking space, with no English: each is the code with
+    its seventh digit dropped (9849.17.20 -> '9849170'). The issuing instrument
+    prints them in full -- Decree 26/2023/NĐ-CP Annex II, printed pp. 846-847:
+    9849.17.10, 9849.17.20, 9849.17.90 and 9849.19.10 -- so CODE_REPAIRS
+    restores them, but only when the cell and its corresponding code are
+    exactly what was checked against that page. Each repair is recorded in
+    the notes manifest's source_anomalies.
+  * One wrong effective date. The workbook gives Decree 144/2024/NĐ-CP's
+    signing date (01/11/2024) as the effective date of its 63 lines; the
+    Decree's Art. 2(1) makes it effective 16/12/2024. DATE_REPAIRS corrects it.
 
 Two rate columns are easy to confuse and must not be: `NK TT` (col 10) is the
 ORDINARY rate, which applies absent MFN or FTA eligibility, while `NK uu dai`
@@ -111,18 +118,23 @@ def dash_depth(text: str) -> int:
     return len(re.findall(r"-", m.group(1))) if m else 0
 
 EXPECTED = {
-    "coded_rows": 15115,
+    "coded_rows": 15119,
     "four_digit": 1081,
     "six_digit": 2034,
-    "eight_digit": 12000,
-    "malformed_code": 4,
+    "eight_digit": 12004,
+    # The four seven-digit Chapter 98 cells, restored by CODE_REPAIRS; none
+    # is left malformed.
+    "code_repaired": 4,
+    "malformed_code": 0,
+    # Decree 144/2024/NĐ-CP's lines, re-dated by DATE_REPAIRS.
+    "effective_date_repaired": 63,
     "rows_with_unit": 11428,
     "section_hdr": 21,
     "chapter_hdr": 97,
     # English stops at chapter 98 and nowhere else; the second gate is the one
     # that matters, because a drop anywhere in chapters 1-97 would be a parse
     # failure rather than a property of the source.
-    "no_english": 662,
+    "no_english": 666,
     "no_english_outside_ch98": 0,
     # Chapter 98's rows carry no type marker, so their indent comes from the
     # dash prefix instead of column 1.
@@ -137,15 +149,15 @@ EXPECTED = {
     # 1-97 code, and the sheet lists one row per corresponding code. So the code
     # repeats by design, and these count the pairing rather than pretending the
     # overloaded column is a unit.
-    "ch98_corresponding_pair": 569,
-    "ch98_distinct_codes": 531,
-    "ch98_rows": 662,
+    "ch98_corresponding_pair": 573,
+    "ch98_distinct_codes": 535,
+    "ch98_rows": 666,
     # Chapter 98's English, composed from the Chapter 1-97 rows each line points
-    # at: 447 of the 531 English-less CODED rows resolve. The 268 left without a
+    # at: 451 of the 535 English-less CODED rows resolve. The 268 left without a
     # description are the ones that should not have one -- 84 chapter 98 group
     # headers plus the 184 uncoded grouping rows in that chapter, which carry
     # structure rather than goods.
-    "desc_en_composed_from_corresponding": 447,
+    "desc_en_composed_from_corresponding": 451,
     "desc_en_absent": 268,
     # UNCODED GROUPING ROWS. Every one of these qualifies the lines nested under
     # it ("- Horses:", "- Loại khác:") and so has to reach build_tree() as a
@@ -166,17 +178,41 @@ EXPECTED = {
     # into condition rows -- the same treatment the Dominican Arancel needs for
     # its three repeated 6-digit codes. Hence 2,455 + 2 in the emitted CSV.
     "condition_rows_collapsed": 2457,
-    # ONE grouping row legitimately qualifies nothing: "- - Loại khác:" at sheet
-    # row 19500 heads the four malformed 9849.17/9849.19 codes, which are
-    # excluded from the tree as anomalies, so its children are gone with them.
-    # Pinned rather than tolerated: a second one would mean a depth read wrong.
-    "stranded_grouping_rows": 1,
+    # No grouping row may qualify nothing. "- - Loại khác:" at sheet row 19500
+    # did while the 9849.17 codes beneath it were malformed; with them repaired
+    # it governs 9849.17.20 and 9849.17.90 again. A stranded row means a depth
+    # read wrong.
+    "stranded_grouping_rows": 0,
 }
 # The source carries section and chapter notes and NO interpretative rules, so
 # only these two families may be asserted. A count that merely matches cannot
 # catch a family that produces nothing (the Malaysian order shipped for months
 # with none), and a gate pinned at zero would enshrine the absence.
 REQUIRED_NOTE_KINDS = ("section_note", "chapter_note", "subheading_note")
+
+
+# Source defects repaired against the issuing instrument. A repair fires only
+# on the exact cell that was checked; anything else is left to the gates, which
+# then fail, because a changed workbook needs re-checking, not re-guessing.
+DECREE_26_2023_CH98 = (
+    "Decree 26/2023/NĐ-CP Annex II (Phụ lục II), Chapter 98 list, printed "
+    "pp. 846-847 (PDF pp. 406-407 of "
+    "https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf)")
+# sheet row -> (raw code cell, corresponding Chapter 1-97 code, repaired code)
+CODE_REPAIRS = {
+    19499: ("9849170\xa0", "70091000", "98491710"),   # rear-view mirrors for vehicles
+    19501: ("9849170\xa0", "70099100", "98491720"),   # other mirrors, unframed
+    19502: ("9849170\xa0", "70099200", "98491790"),   # other mirrors, framed
+    19512: ("9849190\xa0", "83012000", "98491910"),   # locks for motor vehicles
+}
+# MFN Decree -> (effective date as printed, corrected date, authority)
+DATE_REPAIRS = {
+    "144/2024/NĐ-CP": (
+        "01/11/2024", "16/12/2024",
+        "Decree 144/2024/NĐ-CP Art. 2(1): 'Nghị định này có hiệu lực từ ngày "
+        "16 tháng 12 năm 2024'; 01/11/2024 is its signing date "
+        "(https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/11/144-cp.signed.pdf)"),
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -419,6 +455,18 @@ def parse_workbook(path: Path) -> Parse:
                 continue
             if rtype not in T_CODE:
                 out.stats["row_without_type_marker"] += 1
+            raw_unit = norm(raw[C_UNIT_EN]) or norm(raw[C_UNIT_VI])
+            fix = CODE_REPAIRS.get(i)
+            if fix and raw[C_CODE] == fix[0] and raw_unit == fix[1]:
+                out.anomalies.append({
+                    "sheet_row": i, "raw_code": repr(raw[C_CODE]), "digits": d,
+                    "reason": "seven digits and a trailing non-breaking space: "
+                              "the code with its seventh digit missing",
+                    "repaired_to": fix[2], "corresponding_code": fix[1],
+                    "authority": DECREE_26_2023_CH98,
+                })
+                d = fix[2]
+                out.stats["code_repaired"] += 1
             if len(d) not in (4, 6, 8):
                 out.anomalies.append({
                     "sheet_row": i, "raw_code": repr(raw[C_CODE]), "digits": d,
@@ -434,19 +482,23 @@ def parse_workbook(path: Path) -> Parse:
             # row each, which is why the code repeats. Reading those as units
             # would record an HS code as a unit of quantity and break the
             # leaf cross-check, which is how this was found.
-            raw_unit = norm(raw[C_UNIT_EN]) or norm(raw[C_UNIT_VI])
             is_ch98 = d[:2] == "98"
             corresponding = ""
             unit = raw_unit
             if is_ch98 and re.fullmatch(r"\d{6,10}", raw_unit or ""):
                 corresponding, unit = raw_unit, ""
                 out.stats["ch98_corresponding_pair"] += 1
+            mfn_doc, mfn_date = norm(raw[C_MFN_DOC]), norm(raw[C_MFN_DATE])
+            redate = DATE_REPAIRS.get(mfn_doc)
+            if redate and mfn_date == redate[0]:
+                mfn_date = redate[1]
+                out.stats["effective_date_repaired"] += 1
             out.rows.append(Row(
                 code=d, display=display_of(d), indent=indent,
                 desc_en=en, desc_vi=vi, unit=unit, corresponding=corresponding,
                 mfn=norm(raw[C_MFN]), ordinary=norm(raw[C_ORDINARY]),
-                vat=norm(raw[C_VAT]), mfn_doc=norm(raw[C_MFN_DOC]),
-                mfn_date=norm(raw[C_MFN_DATE]),
+                vat=norm(raw[C_VAT]), mfn_doc=mfn_doc,
+                mfn_date=mfn_date,
                 # Chapter 98 sits outside the HS section scheme, so it takes no
                 # section rather than inheriting XXI from the chapter that
                 # happened to precede it.
@@ -490,7 +542,7 @@ def compose_ch98_english(row, english_by_code, display_by_code):
     """English for a chapter 98 line, composed from the rows it points at.
 
     Chapter 98 is Vietnam's special-preference chapter and the workbook prints it
-    in Vietnamese ONLY -- 531 coded rows carry no English. The chapter is not
+    in Vietnamese ONLY -- 535 coded rows carry no English. The chapter is not
     separate goods, though: each line gives an alternative rate for goods
     classified elsewhere, and names those Chapter 1-97 codes in the column this
     parser reads as CORRESPONDING_CODES. Those rows DO have English, in this same
@@ -499,8 +551,8 @@ def compose_ch98_english(row, english_by_code, display_by_code):
     So the English is composed from source text rather than translated or left
     blank: "Goods of 0306.15.00 (Norway lobsters (Nephrops norvegicus))" for
     9804.15.00. Nothing is invented -- the description is another row's own
-    English and the mapping is the one the schedule prints. It resolves 447 of
-    the 531 (84.2%); the remaining 84 are group headers with no corresponding
+    English and the mapping is the one the schedule prints. It resolves 451 of
+    the 535 (84.3%); the remaining 84 are group headers with no corresponding
     code, which legitimately have no description.
 
     The leading dashes are stripped from the borrowed text: that depth describes
@@ -793,6 +845,8 @@ def validate(parse: Parse, records: dict) -> list[str]:
         "six_digit": parse.stats["digits_6"],
         "eight_digit": parse.stats["digits_8"],
         "malformed_code": parse.stats["malformed_code"],
+        "code_repaired": parse.stats["code_repaired"],
+        "effective_date_repaired": parse.stats["effective_date_repaired"],
         "rows_with_unit": parse.stats["rows_with_unit"],
         "section_hdr": parse.stats["section_hdr"],
         "chapter_hdr": parse.stats["chapter_hdr"],
@@ -819,9 +873,9 @@ def validate(parse: Parse, records: dict) -> list[str]:
                 if not r.code and (i + 1 >= len(collapsed)
                                    or collapsed[i + 1].indent <= r.indent)]
     got["stranded_grouping_rows"] = len(stranded)
-    if stranded != [19500]:
+    if stranded:
         errors.append(f"grouping rows qualifying no line: {stranded[:10]} "
-                      f"(only sheet row 19500 is expected -- see EXPECTED)")
+                      f"(none is expected -- see EXPECTED)")
     # The strong cross-check, scoped to the AHTN schedule: two independent
     # witnesses in the same file -- the indent column and the unit column -- must
     # name the same leaf set. Chapter 98 is excluded because its unit column is
@@ -888,6 +942,8 @@ def main() -> int:
           f"({parse.stats['no_english_outside_ch98']} outside chapter 98)")
     if parse.stats["malformed_code"]:
         print(f"  malformed codes: {parse.stats['malformed_code']} (recorded, excluded)")
+    print(f"  repaired against the issuing Decree: {parse.stats['code_repaired']} "
+          f"codes, {parse.stats['effective_date_repaired']} effective dates")
 
     records = build_note_records(parse, source_sha)
     print(f"  notes: {len(records)} records "

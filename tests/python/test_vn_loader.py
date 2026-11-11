@@ -203,9 +203,9 @@ def test_duplicate_code_fails_loudly(tmp_path):
 
 
 def test_malformed_code_fails_loudly(tmp_path):
-    # The source has four of these ('9849170\xa0' and friends); the parser
-    # records them as anomalies and keeps them out of the CSV, so one reaching
-    # the loader means that changed.
+    # The source has four of these ('9849170\xa0' and friends). The parser
+    # repairs them against Decree 26/2023 (CODE_REPAIRS) and would exclude any
+    # other, so a seven-digit code reaching the loader means that broke.
     bad = tmp_path / "bad.csv"
     bad.write_text(
         HEADER + "9849170,9849.17.0,- - Nonsense,2,,,0,5,,1,,98,19499\n",
@@ -231,3 +231,18 @@ def test_indent_agrees_with_code_prefix_parentage_in_chapters_1_to_97():
                         f'{fixture}: {row["_code"]} at indent {row["_indent"]} '
                         f'under {coded[-1]["_code"]}')
             stack.append(row)
+
+
+def test_code_repairs_restore_only_a_dropped_seventh_digit():
+    # Each repaired cell must be the repaired code with exactly its seventh
+    # digit missing, under the right subheading -- a repair, not a new code.
+    pytest.importorskip("openpyxl")
+    import parse_vn_tariff as pvt
+    assert len(pvt.CODE_REPAIRS) == 4
+    for row, (raw, corresponding, fixed) in pvt.CODE_REPAIRS.items():
+        cut = raw.replace("\xa0", "")
+        assert len(fixed) == 8 and cut == fixed[:6] + fixed[7:], row
+        assert fixed[:2] == "98" and len(corresponding) == 8
+    assert "846-847" in pvt.DECREE_26_2023_CH98
+    printed, fixed, why = pvt.DATE_REPAIRS["144/2024/NĐ-CP"]
+    assert (printed, fixed) == ("01/11/2024", "16/12/2024") and "Art. 2(1)" in why

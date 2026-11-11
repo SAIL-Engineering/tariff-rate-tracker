@@ -451,7 +451,7 @@ def check_sg_duties(rows: list[dict], pdf: Path) -> list[dict]:
 
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
       "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
-VN_COLS = {5: "code", 6: "vi", 7: "en", 10: "ordinary", 13: "mfn"}   # F G H K N of BT2026
+VN_COLS = {5: "code", 6: "vi", 7: "en", 8: "unit_vi", 10: "ordinary", 13: "mfn"}   # F G H I K N of BT2026
 
 
 def read_workbook(path: Path, sheet: str = "BT2026") -> list[dict]:
@@ -475,7 +475,7 @@ def read_workbook(path: Path, sheet: str = "BT2026") -> list[dict]:
         for _ev, el in ET.iterparse(fh):
             if el.tag != f"{{{NS['m']}}}row":
                 continue
-            rec = {}
+            rec = {"row": int(el.get("r") or 0)}
             for c in el.findall("m:c", NS):
                 i = col(c.get("r"))
                 if i in VN_COLS:
@@ -491,7 +491,15 @@ def read_workbook(path: Path, sheet: str = "BT2026") -> list[dict]:
     return out
 
 
-def check_vn_workbook(rows_en: list[dict], rows_vi: list[dict], path: Path) -> list[dict]:
+def check_vn_workbook(rows_en: list[dict], rows_vi: list[dict], path: Path,
+                      repairs: list[dict] = ()) -> list[dict]:
+    """The parsed CSV against the workbook, cell by cell. `repairs` are the code
+    repairs the parser recorded in its notes manifest (source_anomalies with a
+    `repaired_to`). Each is re-checked here rather than trusted: the workbook
+    cell at that sheet row must be the repaired code with exactly its seventh
+    digit missing (what the four BT2026 defects are: '9849170' for 9849.17.20,
+    the subheading kept, one digit dropped), its corresponding code must match,
+    and the parsed row must otherwise agree with the workbook like any other."""
     ws = lambda s: re.sub(r"\s+", " ", (s or "").replace(" ", " ")).strip()
 
     def num(s: str) -> str:
@@ -502,11 +510,28 @@ def check_vn_workbook(rows_en: list[dict], rows_vi: list[dict], path: Path) -> l
         except ValueError:
             return s
 
+    book = read_workbook(path)
+    by_row = {rec["row"]: rec for rec in book}
     src: dict = {}
-    for rec in read_workbook(path):
+    for rec in book:
         d = digits(rec.get("code", ""))
         if len(d) >= 4:
             src.setdefault(d, rec)
+    bad_repairs, truncated = [], set()
+    for fix in repairs:
+        rec, to = by_row.get(fix.get("sheet_row"), {}), fix.get("repaired_to", "")
+        cut = digits(rec.get("code", ""))
+        problem = ("no such workbook row" if not rec else
+                   "workbook cell is not the repaired code less its seventh digit"
+                   if not (len(to) == 8 and cut == to[:6] + to[7:]) else
+                   "corresponding code differs"
+                   if ws(rec.get("unit_vi")) != fix.get("corresponding_code") else
+                   "no authority cited" if not fix.get("authority") else None)
+        if problem:
+            bad_repairs.append({"repair": fix, "problem": problem})
+            continue
+        truncated.add(cut)
+        src[to] = rec
     en = {digits(r["GOODS_CODE"]): r for r in rows_en if digits(r["GOODS_CODE"])}
     vi = {digits(r["GOODS_CODE"]): r for r in rows_vi if digits(r["GOODS_CODE"])}
     diffs = []
@@ -520,10 +545,14 @@ def check_vn_workbook(rows_en: list[dict], rows_vi: list[dict], path: Path) -> l
             if num(s.get(field)) != num(e[column]):
                 diffs.append({"code": d, "field": field, "workbook": s.get(field), "parsed": e[column]})
     missing = sorted(set(en) - set(src))
-    return [result("workbook", not diffs and not missing,
+    unparsed = set(src) - set(en) - truncated
+    return [result("workbook", not diffs and not missing and not unparsed and not bad_repairs,
                    {"codes_compared": len(set(src) & set(en)), "differences": len(diffs),
                     "codes_not_in_workbook": len(missing),
-                    "workbook_codes_not_parsed": len(set(src) - set(en))}, diffs + missing)]
+                    "workbook_codes_not_parsed": len(unparsed),
+                    "repairs_confirmed": len(repairs) - len(bad_repairs),
+                    "repairs_rejected": len(bad_repairs)},
+                   diffs + missing + sorted(unparsed) + bad_repairs)]
 
 
 # ── driver ───────────────────────────────────────────────────────────────────
@@ -563,7 +592,12 @@ def main() -> int:
                 [result("portal", None, {"reason": f"{page} not found"})]
         if cc == "VN":
             book, vi = src["VN"]["xlsx"], canonical_csv("VN", "vi")
-            checks += check_vn_workbook(rows["VN"], read_rows(vi) if vi else [], book) \
+            stem = canonical_csv("VN").name.removeprefix("vn_tariff_").removesuffix(".csv")
+            manifest = REPO / "data" / "hts_notes" / f"vn_{stem}" / f"vn_{stem}.notes.manifest.json"
+            repairs = [a for a in json.loads(manifest.read_text(encoding="utf-8"))
+                       .get("source_anomalies", []) if a.get("repaired_to")] \
+                if manifest.is_file() else []
+            checks += check_vn_workbook(rows["VN"], read_rows(vi) if vi else [], book, repairs) \
                 if book.is_file() else [result("workbook", None, {"reason": f"{book} not found"})]
     report["ALL"] = {"checks": check_cross_source(
         rows, {cc: src[cc]["pdf"] for cc in ("SG", "MY") if src[cc]["pdf"].is_file()})}

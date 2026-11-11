@@ -239,25 +239,37 @@
       "sheet_row": 19499,
       "raw_code": "'9849170\\xa0'",
       "digits": "9849170",
-      "reason": "code is not 4, 6 or 8 digits; excluded from the tree"
+      "reason": "seven digits and a trailing non-breaking space: the code with its seventh digit missing",
+      "repaired_to": "98491710",
+      "corresponding_code": "70091000",
+      "authority": "Decree 26/2023/NĐ-CP Annex II (Phụ lục II), Chapter 98 list, printed pp. 846-847 (PDF pp. 406-407 of https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf)"
     },
     {
       "sheet_row": 19501,
       "raw_code": "'9849170\\xa0'",
       "digits": "9849170",
-      "reason": "code is not 4, 6 or 8 digits; excluded from the tree"
+      "reason": "seven digits and a trailing non-breaking space: the code with its seventh digit missing",
+      "repaired_to": "98491720",
+      "corresponding_code": "70099100",
+      "authority": "Decree 26/2023/NĐ-CP Annex II (Phụ lục II), Chapter 98 list, printed pp. 846-847 (PDF pp. 406-407 of https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf)"
     },
     {
       "sheet_row": 19502,
       "raw_code": "'9849170\\xa0'",
       "digits": "9849170",
-      "reason": "code is not 4, 6 or 8 digits; excluded from the tree"
+      "reason": "seven digits and a trailing non-breaking space: the code with its seventh digit missing",
+      "repaired_to": "98491790",
+      "corresponding_code": "70099200",
+      "authority": "Decree 26/2023/NĐ-CP Annex II (Phụ lục II), Chapter 98 list, printed pp. 846-847 (PDF pp. 406-407 of https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf)"
     },
     {
       "sheet_row": 19512,
       "raw_code": "'9849190\\xa0'",
       "digits": "9849190",
-      "reason": "code is not 4, 6 or 8 digits; excluded from the tree"
+      "reason": "seven digits and a trailing non-breaking space: the code with its seventh digit missing",
+      "repaired_to": "98491910",
+      "corresponding_code": "83012000",
+      "authority": "Decree 26/2023/NĐ-CP Annex II (Phụ lục II), Chapter 98 list, printed pp. 846-847 (PDF pp. 406-407 of https://datafiles.chinhphu.vn/cpp/files/vbpq/2023/6/26-nd-2.pdf)"
     },
     {
       "cite_id": "N-48-1",
