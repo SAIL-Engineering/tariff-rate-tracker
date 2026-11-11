@@ -25,6 +25,9 @@ import argparse
 import json
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import supabase_auth  # noqa: E402
 import time
 
 import requests
@@ -91,7 +94,7 @@ def assert_supabase_row(year: int, rev_num: int, country: str) -> str:
     key = _env("SUPABASE_SERVICE_ROLE_KEY")
     r = requests.get(
         f"{base}/rest/v1/hts_revisions",
-        headers={"apikey": key, "authorization": f"Bearer {key}"},
+        headers=supabase_auth.headers(key),
         params={
             "select": "country_code,revision_year,revision_number,effective_date,pinecone_namespace",
             "country_code": f"eq.{country.upper()}",

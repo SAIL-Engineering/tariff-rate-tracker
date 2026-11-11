@@ -31,6 +31,9 @@ import json
 import os
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import supabase_auth  # noqa: E402
+
 import requests
 
 
@@ -104,12 +107,9 @@ def main() -> None:
     # which is exactly what happens when the corpus is rebuilt for a
     # revision that was inserted before Pinecone landed.
     url = f"{base}/rest/v1/hts_revisions"
-    headers = {
-        "apikey": key,
-        "authorization": f"Bearer {key}",
-        "content-type": "application/json",
-        "prefer": "resolution=merge-duplicates,return=representation",
-    }
+    headers = supabase_auth.headers(
+        key, **{"content-type": "application/json",
+                "prefer": "resolution=merge-duplicates,return=representation"})
     params = {"on_conflict": "country_code,revision_year,revision_number"}
 
     r = requests.post(url, headers=headers, params=params,

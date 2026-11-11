@@ -21,6 +21,9 @@ import csv
 import json
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import supabase_auth  # noqa: E402
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
@@ -67,7 +70,7 @@ def supabase_latest(country: str) -> tuple[int, int] | None:
     })
     req = urllib.request.Request(
         f"{base}/rest/v1/hts_revisions?{qs}",
-        headers={"apikey": key, "authorization": f"Bearer {key}"})
+        headers=supabase_auth.headers(key))
     with urllib.request.urlopen(req, timeout=30) as resp:
         rows = json.loads(resp.read().decode("utf-8"))
     if not rows:
