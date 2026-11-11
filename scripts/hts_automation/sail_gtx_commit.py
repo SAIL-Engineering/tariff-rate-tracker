@@ -99,6 +99,10 @@ def _sha256_of_file(path: str) -> str:
 # another's — the exact bug the unprefixed regex had once CA started shipping.
 _REV_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_revision_(\d+)\.json$")
 _LEGACY_REV_FILE_RE = re.compile(r"^hts_(\d{4})_revision_(\d+)\.json$")  # => "us"
+# Language variants of a dataset (ch_2026_revision_901.de.json,
+# vn_2026_revision_405.vi.json). Each language is its own series, so a variant
+# leaves with the revision it belongs to instead of outliving it.
+_REV_LANG_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_revision_(\d+)\.([a-z]{2})\.json$")
 # Node index emitted by build_hts_corpus.py, e.g. us_2026_rev_13.codes.json.
 _CODES_FILE_RE = re.compile(r"^([a-z]{2})_(\d{4})_rev_(\d+)\.codes\.json$")
 # Derived duty rates: the per-revision index file plus its chapter directory.
@@ -129,6 +133,11 @@ def _prune_old_revisions(workdir: str, dest_paths: list[str], keep: int) -> list
             if m:
                 datasets.setdefault(m.group(1), []).append(
                     ((int(m.group(2)), int(m.group(3))), name))
+                continue
+            vm = _REV_LANG_FILE_RE.match(name)
+            if vm:
+                datasets.setdefault(f"{vm.group(1)}:{vm.group(4)}", []).append(
+                    ((int(vm.group(2)), int(vm.group(3))), name))
                 continue
             lm = _LEGACY_REV_FILE_RE.match(name)
             if lm:

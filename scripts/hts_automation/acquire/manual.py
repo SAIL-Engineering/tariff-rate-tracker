@@ -42,15 +42,22 @@ def resolve(spec: dict, args) -> AcquireResult:
                          or (spec.get("acquire") or {}).get("manual_dir")
                          or ".")
         prefix = opts.get("prefix") or (spec.get("acquire") or {}).get("manual_prefix") or ""
-        candidates = sorted(directory.glob(f"{prefix}_*_rev_*.*"),
-                            key=lambda p: p.stat().st_mtime, reverse=True)
         # Only canonical stems qualify: language-variant CSVs
         # (…_rev_901.de.csv) and sidecars sit beside the base file and must
         # never be picked as "the" source.
         stem_re = re.compile(rf"^{re.escape(prefix)}_\d{{4}}_rev_\d+$")
-        candidates = [c for c in candidates
+        candidates = [c for c in directory.glob(f"{prefix}_*_rev_*.*")
                       if not c.name.endswith(".meta.json")
                       and stem_re.match(c.stem)]
+        # The newest EDITION, by (year, revision number) -- the order the
+        # --if-new gate, Pinecone pruning and ship pruning all use. Not by
+        # modification time: a clone, pull or checkout rewrites mtimes, so
+        # with two editions on disk the older one could be published as new.
+        # mtime only breaks a tie between files of the same revision.
+        def _edition(p: Path) -> tuple:
+            m = _NAME_RE.match(p.stem)
+            return (int(m.group("year")), int(m.group("num")), p.stat().st_mtime)
+        candidates.sort(key=_edition, reverse=True)
         if not candidates:
             raise SystemExit(
                 f"ERROR: no source found in {directory}/ named {prefix}_<year>_rev_<n>.*\n"
