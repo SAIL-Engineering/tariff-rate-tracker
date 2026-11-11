@@ -94,6 +94,7 @@ from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pdf_text  # noqa: E402  (shared repairs; see its docstring)
+import notes_contract  # noqa: E402  (the US notes record shape)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -1004,6 +1005,16 @@ def parse_book(pages: list[list[Word]], toc: dict) -> BookParse:
                 # (470 lines) and a nested item sits 15.4-58.8pt in (19 lines).
                 # Nothing falls between, so 8pt separates them with no
                 # judgement call.
+                # The header is not always flush with its notes: on Chapter 4's
+                # page (PDF p.45) "Notes." sits at x=92.4 and every note number
+                # at 110.4, so all six notes (and both subheading notes) read
+                # as items nested in the first. A nested item needs a note to
+                # nest in, so the first "1." of a block, with no note open yet,
+                # sets the block's note column wherever it is.
+                if (m_num and current_note is None and m_num.group(1) == "1"
+                        and abs(ln.x0 - note_col_x) > 8.0):
+                    note_col_x = ln.x0
+                    out.stats["note_column_from_first_note"] += 1
                 if m_num and abs(ln.x0 - note_col_x) > 8.0:
                     if current_note is not None:
                         kind_, label, text = current_note.parts[-1]
@@ -1242,7 +1253,11 @@ def build_note_records(book: BookParse, gri: list[dict], source_sha: str) -> dic
 EXPECTED = {"sections": 21, "chapters": 98, "note_hdr": 96,
             "subheading_note_hdr": 38, "promoted_headings": 1,
             "stitched_rows": 3, "note_misnumbered": 1, "note_tables": 1,
-            "note_table_unattached": 0}
+            "note_table_unattached": 0,
+            # Blocks whose notes sit further in than their header (Chapter 4's
+            # notes and subheading notes, and one more): the first "1." sets
+            # the column. Before this, Chapter 4's six notes read as one.
+            "note_column_from_first_note": 3, "note_nested_item": 10}
 
 # Matching a number cannot catch a family that produces NOTHING, and a count
 # pinned at zero would enshrine the absence. The Malaysian order shipped for
@@ -1268,6 +1283,8 @@ def validate(book: BookParse, notes: dict, toc: dict,
         "promoted_headings": len(book.promoted_headings),
         "stitched_rows": book.stats["stitched_rows"],
         "note_misnumbered": book.stats["note_misnumbered"],
+        "note_column_from_first_note": book.stats["note_column_from_first_note"],
+        "note_nested_item": book.stats["note_nested_item"],
         "note_tables": book.stats["note_tables"],
         "note_table_unattached": book.stats["note_table_unattached"],
     }
@@ -1443,6 +1460,10 @@ def write_notes(records: dict, out_dir: Path, source_sha: str,
                 pdf_path: Path, book: BookParse) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = f"sg_{REVISION}"
+    # The US record shape (notes_contract): section chapters, cross-references
+    # and a record per lettered paragraph, before anything is written or
+    # counted, so the sidecar, the JSONL and the manifest all agree.
+    records = notes_contract.finalize(records, refs=extract_refs)
     sidecar = out_dir / f"{stem}.notes.json"
     sidecar.write_text(json.dumps(records, ensure_ascii=False, indent=2,
                                   sort_keys=True) + "\n", encoding="utf-8")
@@ -1458,7 +1479,11 @@ def write_notes(records: dict, out_dir: Path, source_sha: str,
         fp = out_dir / f"{stem}.notes.{family}.jsonl"
         with fp.open("w", encoding="utf-8") as fh:
             for rec in rows:
-                fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
+                # The US record as the notes index holds it: its fields only,
+                # no nulls (Pinecone rejects an explicit null). The sidecar
+                # keeps the full shape.
+                fh.write(json.dumps(notes_contract.pinecone_record(rec),
+                                    ensure_ascii=False, sort_keys=True) + "\n")
         artifact_sha[fp.name] = sha256_file(fp)
     artifact_sha[sidecar.name] = sha256_file(sidecar)
 

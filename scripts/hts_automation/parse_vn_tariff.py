@@ -54,6 +54,9 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import notes_contract  # noqa: E402  (the US notes record shape)
+
 try:
     import openpyxl
 except ImportError:  # pragma: no cover
@@ -97,6 +100,13 @@ T_SUBCHAPTER, T_SUBCHAPTER_TITLE = "5", "6"
 T_NOTES_HDRS = {"7", "8"}
 MARKER_SUBHEADING_NOTE = "Chú giải PN"
 T_NOTE_PARA = {"9", "10", "11", "12"}     # "1.", "(a)", "(1)", "(iii)"
+# Type 14 ("BT", body text) is a note's unlabelled paragraph: the definition
+# under "(a) Bars and rods" in Section XV Note 9, the closing paragraph of
+# Chapter 9 Note 1. 160 rows; dropping them cut whole definitions out of the
+# notes. Types 15 ("XEM BẢNG 1", a pointer to a table in another sheet), 16
+# (Vietnamese "(*)" remarks) and 17 ("(SEN)" pointers to the AHTN Supplementary
+# Explanatory Notes) are not note text and stay out.
+T_NOTE_BODY = "14"
 T_CODE_BASE = 18
 T_CODE = {str(T_CODE_BASE + d): d for d in range(7)}
 
@@ -171,6 +181,18 @@ EXPECTED = {
     # code; uncoded and dash-prefixed, so indistinguishable from a group header
     # except by the open note block. See parse_workbook().
     "note_bullet_as_code_row": 72,
+    # ...and every one of them goes back into the note it sits in.
+    "note_bullet_recovered": 72,
+    # Note text the parser used to drop: unlabelled body paragraphs (type 14),
+    # one of the 160 sits outside any note.
+    "note_body_rows": 159,
+    # Section XVI Note 6, typed 11; and the nine nested "1."/"2." items typed
+    # as note starts in Chapter 48 Note 5 and Chapter 85's notes.
+    "note_start_mistyped": 1,
+    "note_number_nested": 9,
+    # One record per note, cross-checked against Singapore, Malaysia and the US
+    # by tests/python/test_notes_publish_asean.py.
+    "note_records": 479,
     # Two chapter-98 rows REPEAT a code that already appeared at a shallower
     # dash depth, as the header of a nested group: 9808 (row 19086) and 9849.43
     # (row 19889, "- - Loại khác (trừ loại thuộc phân nhóm 8506.10 ...)"). They
@@ -396,11 +418,36 @@ def parse_workbook(path: Path) -> Parse:
                 note_kind = "section_note"
             out.stats[f"{note_kind}_hdr"] += 1
             continue
-        if rtype in T_NOTE_PARA:
+        if rtype in T_NOTE_PARA or rtype == T_NOTE_BODY:
             if not note_kind:
                 continue
             m = RE_NOTE_NUM.match(en) or RE_NOTE_NUM.match(vi)
-            if m and rtype == "9":
+            # A note starts at a type-9 row -- or at a row that opens with the
+            # NEXT note's number whatever its type: Section XVI Note 6 ("6. (A)
+            # Throughout the Nomenclature ...", sheet row 12733) is typed 11
+            # and was read as part of Note 5. Inside an HS note nested items
+            # are lettered or bracketed, never "6.".
+            #
+            # The reverse also happens: Chapter 48 Note 5's nested items "1.
+            # weighing not more than 80 g/m2" are typed 9, and each opened a new
+            # "Note 1" that collided with the real N-48-1. Note numbers only go
+            # up within a block, so a typed-9 row whose number does not is part
+            # of the note already open; a row of another type starts a note only
+            # when it carries exactly the next number.
+            starts = False
+            if m:
+                n = int(m.group(1))
+                rising = (current is None or not current.number.isdigit()
+                          or n > int(current.number))
+                next_one = (current is not None and current.number.isdigit()
+                            and n == int(current.number) + 1)
+                if (rtype == "9" and rising) or (rtype != "9" and next_one):
+                    starts = True
+                    if rtype != "9":
+                        out.stats["note_start_mistyped"] += 1
+                elif rtype == "9":
+                    out.stats["note_number_nested"] += 1
+            if starts:
                 close_note()
                 current = NoteBlock(kind=note_kind, section=section,
                                     chapter=None if note_kind == "section_note" else chapter,
@@ -433,9 +480,15 @@ def parse_workbook(path: Path) -> Parse:
                 # header; what tells them apart is that a note block is still
                 # open, and a real group header can never be the first thing
                 # after a chapter's notes (its heading row has to come first).
-                # They stay out of the tree. They are also not recovered into
-                # the note body -- a separate, pre-existing gap in this parser.
+                # They stay out of the tree, and go into the open note's body,
+                # where they belong.
                 out.stats["note_bullet_as_code_row"] += 1
+                if current is not None:
+                    if en:
+                        current.parts_en.append(en)
+                    if vi:
+                        current.parts_vi.append(vi)
+                    out.stats["note_bullet_recovered"] += 1
                 continue
             close_note()
             note_kind = ""
@@ -691,10 +744,14 @@ def write_chapters(parse: Parse, path: Path, lang: str = "en") -> None:
 def build_note_records(parse: Parse, source_sha: str) -> dict:
     records: dict[str, dict] = {}
     for block in parse.notes:
-        body = norm(" ".join(block.parts_en)) or norm(" ".join(block.parts_vi))
+        # The row prints the note's number ("1. This Chapter covers ..."); the
+        # cite id and label carry it, and the US text does not repeat it.
+        number = re.compile(rf"^{re.escape(block.number)}\.\s*")
+        body = (number.sub("", norm(" ".join(block.parts_en)))
+                or number.sub("", norm(" ".join(block.parts_vi))))
         if not body:
             continue
-        body_vi = norm(" ".join(block.parts_vi))
+        body_vi = number.sub("", norm(" ".join(block.parts_vi)))
         if block.kind == "section_note":
             cite = f"SN-{block.section}-{block.number}"
             label = f"Section {block.section}, Note {block.number}"
@@ -767,6 +824,10 @@ def build_note_records(parse: Parse, source_sha: str) -> dict:
 def write_notes(records: dict, out_dir: Path, parse: Parse, source_sha: str) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = f"{JURISDICTION.lower()}_{REVISION}"
+    # The US record shape (notes_contract): section chapters, cross-references
+    # and a record per lettered paragraph, before anything is written or
+    # counted, so the sidecar, the JSONL and the manifest all agree.
+    records = notes_contract.finalize(records)
     (out_dir / f"{stem}.notes.json").write_text(
         json.dumps(records, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
         encoding="utf-8")
@@ -781,7 +842,11 @@ def write_notes(records: dict, out_dir: Path, parse: Parse, source_sha: str) -> 
         fp = out_dir / f"{stem}.notes.{family}.jsonl"
         with fp.open("w", encoding="utf-8") as fh:
             for rec in rows:
-                fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
+                # The US record as the notes index holds it: its fields only,
+                # no nulls (Pinecone rejects an explicit null). The sidecar
+                # keeps the full shape.
+                fh.write(json.dumps(notes_contract.pinecone_record(rec),
+                                    ensure_ascii=False, sort_keys=True) + "\n")
         artifact_sha[fp.name] = sha256_file(fp)
     by_kind = Counter(r["kind"] for r in records.values())
     by_chapter = Counter(r["chapter"] for r in records.values() if r["chapter"])
@@ -854,6 +919,11 @@ def validate(parse: Parse, records: dict) -> list[str]:
         "no_english_outside_ch98": parse.stats["no_english_outside_ch98"],
         "condition_rows": parse.stats["condition_rows"],
         "note_bullet_as_code_row": parse.stats["note_bullet_as_code_row"],
+        "note_bullet_recovered": parse.stats["note_bullet_recovered"],
+        "note_body_rows": parse.stats[f"note_para_{T_NOTE_BODY}"],
+        "note_start_mistyped": parse.stats["note_start_mistyped"],
+        "note_number_nested": parse.stats["note_number_nested"],
+        "note_records": len(records),
         "condition_rows_collapsed": sum(1 for r in collapsed if not r.code),
     }
     core = [r for r in collapsed if r.code and r.code[:2] != "98"]

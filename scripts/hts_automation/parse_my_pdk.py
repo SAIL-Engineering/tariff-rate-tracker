@@ -89,6 +89,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pdf_text  # noqa: E402  (shared repairs; see its docstring)
+import notes_contract  # noqa: E402  (the US notes record shape)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -560,6 +561,18 @@ def parse_gazette(pdf: Path) -> GazetteParse:
                     current.parts[-1] = (kind_, label, join_text(body, text))
                     out.stats["note_nested_item"] += 1
                     continue
+            # Inner levels can also sit AT the note column: Chapter 85 Note
+            # 12's MCO definitions ("1. 'Components' may be discrete ... 2.
+            # 'Silicon based' means ...") and national note 1 to Chapter 27's
+            # definitions each opened a "note 1" that collided with the real
+            # one. Note numbers only go up within a block (a skipped number is
+            # still a new note), so one that does not is part of the note open.
+            if (current is not None and current.number.isdigit()
+                    and int(m_num.group(1)) <= int(current.number)):
+                kind_, label, body = current.parts[-1]
+                current.parts[-1] = (kind_, label, join_text(body, text))
+                out.stats["note_number_not_rising"] += 1
+                continue
             close_note()
             body = text[len(first):].strip()
             current = NoteBlock(kind=note_kind, section=section,
@@ -617,6 +630,17 @@ def extract_refs(text: str) -> dict:
             "refs_sections": sorted(sections)}
 
 
+# Note text the PDF's layout scrambles, repaired only on the exact text read.
+# Chapter 71 Note 3 (PDF p.777): the label "(p)" is printed level with the
+# second line of its paragraph, so it was read into the middle of it ("... an
+# age exceeding one (p) hundred years") and paragraph (p) ran on as part of
+# (o). Singapore's STCCED and the HS print "(p) Original sculptures ...".
+NOTE_TEXT_REPAIRS = {
+    "N-71-3": (("; or Original sculptures", "; or (p) Original sculptures"),
+               (" exceeding one (p) hundred years", " exceeding one hundred years")),
+}
+
+
 def build_note_records(gazette: GazetteParse, source_sha: str) -> dict:
     records: dict[str, dict] = {}
     for block in gazette.notes:
@@ -668,6 +692,13 @@ def build_note_records(gazette: GazetteParse, source_sha: str) -> dict:
             gazette.stats["note_without_chapter"] += 1
             cite = f"{cite.split('-')[0]}-{block.section}-{block.number}"
             scope, chapter = block.section or "", None
+        for old, new in NOTE_TEXT_REPAIRS.get(cite, ()):
+            if body.count(old) != 1:
+                raise SystemExit(f"ERROR: {cite}: expected the scrambled text "
+                                 f"{old!r} once; the source changed, review "
+                                 f"NOTE_TEXT_REPAIRS")
+            body = body.replace(old, new)
+            gazette.stats["note_text_repaired"] += 1
         if cite in records:
             # Two blocks claim the same number. Both are real text — one is a
             # note continuing across a page break whose header repeats, the
@@ -1461,6 +1492,10 @@ def write_notes(records: dict, out_dir: Path, gazette: GazetteParse,
                 pdf: Path, pdf_sha: str, html_sha: str) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = f"my_{REVISION}"
+    # The US record shape (notes_contract): section chapters, cross-references
+    # and a record per lettered paragraph, before anything is written or
+    # counted, so the sidecar, the JSONL and the manifest all agree.
+    records = notes_contract.finalize(records, refs=extract_refs)
     sidecar = out_dir / f"{stem}.notes.json"
     sidecar.write_text(json.dumps(records, ensure_ascii=False, indent=2,
                                   sort_keys=True) + "\n", encoding="utf-8")
@@ -1473,7 +1508,11 @@ def write_notes(records: dict, out_dir: Path, gazette: GazetteParse,
         fp = out_dir / f"{stem}.notes.{family}.jsonl"
         with fp.open("w", encoding="utf-8") as fh:
             for rec in rows:
-                fh.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
+                # The US record as the notes index holds it: its fields only,
+                # no nulls (Pinecone rejects an explicit null). The sidecar
+                # keeps the full shape.
+                fh.write(json.dumps(notes_contract.pinecone_record(rec),
+                                    ensure_ascii=False, sort_keys=True) + "\n")
         artifact_sha[fp.name] = sha256_file(fp)
     by_kind = Counter(r["kind"] for r in records.values())
     by_chapter = Counter(r["chapter"] for r in records.values() if r["chapter"])
@@ -1532,9 +1571,14 @@ EXPECTED = {
     # listed in the notes manifest's source_anomalies with its page.
     "indent_conflict": 1,
     "heading_synthesised": 2,
-    # Two note blocks share a number; both are kept, the second under a
-    # suffixed cite. Listed in the manifest's source_anomalies.
-    "duplicate_cite": 2,
+    # No two note blocks share a number. The two that once did were nested
+    # items printed at the note column (Chapter 85 Note 12's MCO definitions,
+    # Chapter 27 national note 1's); they are folded back into their note,
+    # and a duplicate now means a new layout problem.
+    "duplicate_cite": 0,
+    "note_number_not_rising": 2,
+    # NOTE_TEXT_REPAIRS: Chapter 71 Note 3's displaced "(p)", two replacements.
+    "note_text_repaired": 2,
     # All 21 HS sections are headed in the First Schedule; 9 of them carry
     # section notes, and the Second Schedule holds the 6 interpretative rules.
     "section_hdr": 21,
@@ -1573,6 +1617,8 @@ def validate(gz: list, gz_stats: Counter, portal: list, portal_stats: Counter,
         "indent_conflict": gz_stats["indent_conflict"],
         "heading_synthesised": gz_stats["heading_synthesised"],
         "duplicate_cite": gazette.stats["duplicate_cite"],
+        "note_number_not_rising": gazette.stats["note_number_not_rising"],
+        "note_text_repaired": gazette.stats["note_text_repaired"],
         "section_hdr": gazette.stats["section_hdr"],
         "section_note_hdr": gazette.stats["section_note_hdr"],
         "gri_rules": gazette.stats["gri_rules"],
