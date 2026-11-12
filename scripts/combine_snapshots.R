@@ -18,10 +18,17 @@
 # it at [138/145] to an OOM meant redoing 137 partitions that were already
 # correct. A partition is kept only when it is NEWER than the snapshot it came
 # from; a snapshot rewritten since (a re-run revision, a backfill) is newer than
-# its partition and is rebuilt. Without the flag the directory is wiped as
-# before, which is still the right default: a revision that has been REMOVED
-# from the corpus leaves a partition no snapshot accounts for, and only a wipe
-# clears it. --resume reports what it kept so a stale keep is visible.
+# its partition and is rebuilt. Without the flag every partition is written
+# afresh, which is still the right default: a revision that has been REMOVED
+# from the corpus leaves a partition no snapshot accounts for, and only a fresh
+# write drops it. --resume reports what it kept so a stale keep is visible.
+#
+# A fresh run writes into rate_timeseries_parquet.partial and swaps it in only
+# after the dataset verifies (swap_in_dir in src/helpers.R), so an interrupted
+# run leaves the previous parquet in place. It needs room for two copies while
+# it runs. --resume continues that .partial directory when one is left over,
+# and otherwise updates the live directory in place, one partition at a time
+# (each partition is itself written aside and renamed).
 # =============================================================================
 
 library(arrow)
@@ -74,8 +81,13 @@ message('\n', nrow(rev_intervals), ' revisions, horizon: ', horizon_end)
 
 # --- Write per-revision Parquet files ---
 parquet_dir <- file.path(output_dir, 'rate_timeseries_parquet')
-if (!resume) unlink(parquet_dir, recursive = TRUE)
-dir.create(parquet_dir, showWarnings = FALSE)
+staging_dir <- paste0(parquet_dir, '.partial')
+in_place <- resume && !dir.exists(staging_dir)
+target_dir <- if (in_place) parquet_dir else staging_dir
+if (!resume) unlink(staging_dir, recursive = TRUE)
+dir.create(target_dir, showWarnings = FALSE)
+message('Writing partitions to ', target_dir,
+        if (in_place) ' (in place)' else ' (swapped in once verified)')
 
 total_rows <- 0
 n_written  <- 0L
@@ -87,7 +99,7 @@ n_kept     <- 0L
 #' exists at all was written whole. mtime is the test that matters: it is what
 #' distinguishes a finished partition from one predating its snapshot.
 partition_current <- function(rev_name, snapshot_path) {
-  f <- file.path(parquet_dir, paste0('revision=', rev_name), 'data.parquet')
+  f <- file.path(target_dir, paste0('revision=', rev_name), 'data.parquet')
   file.exists(f) && file.mtime(f) > file.mtime(snapshot_path)
 }
 
@@ -133,7 +145,7 @@ for (i in seq_along(snapshot_files)) {
   total_rows <- total_rows + nrow(snap)
 
   # Write Parquet partitioned by revision
-  rev_part_dir <- file.path(parquet_dir, paste0('revision=', snap$revision[1]))
+  rev_part_dir <- file.path(target_dir, paste0('revision=', snap$revision[1]))
   dir.create(rev_part_dir, showWarnings = FALSE)
   # Row groups, not one Arrow table over the whole revision -- see
   # write_rate_parquet() in src/helpers.R. This script and the combine inside
@@ -148,13 +160,13 @@ for (i in seq_along(snapshot_files)) {
   rm(snap, snap_order); gc(verbose = FALSE)
 }
 
-message('\nParquet dataset written: ', parquet_dir)
+message('\nParquet dataset written: ', target_dir)
 message('  Revisions written this run: ', n_written,
         if (resume) paste0(', kept: ', n_kept) else '')
 message('  Rows written this run: ', total_rows)
 
 # Verify dataset opens
-ds <- open_dataset(parquet_dir, partitioning = 'revision')
+ds <- open_dataset(target_dir, partitioning = 'revision')
 ds_count <- ds %>% count() %>% collect() %>% pull(n)
 message('  Arrow dataset verified: ', ds_count, ' rows')
 
@@ -165,7 +177,8 @@ message('  Arrow dataset verified: ', ds_count, ' rows')
 # letting a divergence pass unnoticed.
 if (!resume && total_rows != ds_count) {
   stop('Wrote ', total_rows, ' rows but the dataset reports ', ds_count,
-       ' -- a partition is missing or was written twice.', call. = FALSE)
+       ' -- a partition is missing or was written twice. The previous parquet ',
+       'was left in place; the new one is in ', target_dir, '.', call. = FALSE)
 }
 
 # Collect distinct counts for metadata
@@ -176,9 +189,18 @@ n_distinct_countries <- ds %>% distinct(country) %>%
 message('  Distinct products: ', n_distinct_products,
         ', Distinct countries: ', n_distinct_countries)
 
+if (!in_place) {
+  swap_in_dir(staging_dir, parquet_dir)
+  message('Swapped the new parquet into ', parquet_dir)
+}
+
 # --- Save metadata ---
+# last_revision is the newest revision that HAS a snapshot, not the calendar's
+# last row: a revision added to revision_dates.csv but not yet built (or whose
+# build failed) is absent here, and naming it would make the next incremental
+# build treat it as done and skip it.
 metadata <- list(
-  last_revision = rev_dates$revision[nrow(rev_dates)],
+  last_revision = rev_intervals$revision[nrow(rev_intervals)],
   last_build_time = Sys.time(),
   n_revisions = nrow(rev_intervals),
   n_rows = ds_count,

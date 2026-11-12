@@ -806,6 +806,33 @@ write_rate_parquet <- function(df, path, rows_per_chunk = 1e6,
   invisible(path)
 }
 
+#' Swap a fully written directory into place.
+#'
+#' The parquet combine rewrites every partition, and it used to begin by
+#' deleting the live directory -- so any stop between that delete and the last
+#' partition (an OOM at [138/145], Ctrl-C, a failed revision on 2026-11-12) left
+#' no parquet at all. Writers build `staging` beside `final` instead and call
+#' this once it is complete: the previous dataset survives every failure before
+#' it, and both moves are renames on one filesystem. Needs room for two copies
+#' while the combine runs.
+#'
+#' @param staging Directory holding the complete new dataset
+#' @param final   Directory readers use
+swap_in_dir <- function(staging, final) {
+  if (!dir.exists(staging)) stop('Nothing to swap in: ', staging, ' does not exist', call. = FALSE)
+  old <- paste0(final, '.old')
+  unlink(old, recursive = TRUE)
+  if (dir.exists(final) && !file.rename(final, old)) {
+    stop('Could not move ', final, ' aside to ', old, call. = FALSE)
+  }
+  if (!file.rename(staging, final)) {
+    if (dir.exists(old)) file.rename(old, final)  # put the previous dataset back
+    stop('Could not move ', staging, ' into place at ', final, call. = FALSE)
+  }
+  unlink(old, recursive = TRUE)
+  invisible(final)
+}
+
 #' Query the rate timeseries with optional filters
 #'
 #' Returns a lazy Arrow query (call collect() to materialize).

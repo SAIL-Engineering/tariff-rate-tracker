@@ -661,6 +661,16 @@ build_full_timeseries <- function(
   # directly. --no-combine skips it, leaving the existing parquet untouched and
   # therefore STALE for the rebuilt revisions — run without the flag (or run
   # scripts/combine_snapshots.R) before anything reads the parquet.
+  # Nothing was rebuilt (every revision in this run failed), so the snapshots
+  # are exactly what the current parquet was combined from. Recombining could
+  # only rewrite the same partitions, and on 2026-11-12 a failed 2026_rev_23 run
+  # went on to clear all 145 of them. Leave the parquet and metadata.rds as they are.
+  if (length(setdiff(revisions_to_process, failed_revisions)) == 0) {
+    message('\n', strrep('=', 60))
+    message('No revision was rebuilt in this run; skipping the Parquet combine.')
+    message('  The existing parquet and metadata.rds are unchanged.')
+    return(invisible(NULL))
+  }
   if (isTRUE(skip_combine)) {
     message('\n', strrep('=', 60))
     message('Skipping Parquet combine (--no-combine).')
@@ -716,10 +726,13 @@ build_full_timeseries <- function(
     mutate(valid_until = if_else(is.na(valid_until), horizon_end, valid_until)) %>%
     select(revision, valid_from, valid_until)
 
-  # Write each snapshot as a Parquet partition
+  # Write each snapshot as a Parquet partition, into a staging directory that
+  # replaces the live one only once every partition is written (swap_in_dir in
+  # src/helpers.R). A stop anywhere in this loop leaves the previous parquet.
   parquet_dir <- file.path(output_dir, 'rate_timeseries_parquet')
-  unlink(parquet_dir, recursive = TRUE)
-  dir.create(parquet_dir, showWarnings = FALSE)
+  staging_dir <- paste0(parquet_dir, '.partial')
+  unlink(staging_dir, recursive = TRUE)
+  dir.create(staging_dir, showWarnings = FALSE)
 
   total_rows <- 0
   n_revisions_written <- 0
@@ -762,7 +775,7 @@ build_full_timeseries <- function(
     total_rows <- total_rows + nrow(snap)
     n_revisions_written <- n_revisions_written + 1
 
-    rev_part_dir <- file.path(parquet_dir, paste0('revision=', snap$revision[1]))
+    rev_part_dir <- file.path(staging_dir, paste0('revision=', snap$revision[1]))
     dir.create(rev_part_dir, showWarnings = FALSE)
     # Row groups, not one Arrow table over the whole revision -- see
     # write_rate_parquet() in src/helpers.R for the measurement. A multi-state
@@ -778,13 +791,15 @@ build_full_timeseries <- function(
     rm(snap, snap_order); gc(verbose = FALSE)
   }
 
+  if (total_rows == 0) {
+    unlink(staging_dir, recursive = TRUE)
+    stop('Every snapshot was empty or unreadable; the existing parquet was left in place.',
+         call. = FALSE)
+  }
+  swap_in_dir(staging_dir, parquet_dir)
   message('Parquet dataset written: ', parquet_dir)
   message('  Total rows: ', total_rows,
           '  Revisions: ', n_revisions_written)
-
-  if (total_rows == 0) {
-    warning('Timeseries is empty — all revisions may have failed')
-  }
 
   # ts_path points to the Parquet directory (not a monolithic RDS)
   ts_path <- parquet_dir
