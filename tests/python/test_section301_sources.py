@@ -209,12 +209,24 @@ class SourceTests(unittest.TestCase):
 
     def test_exclusion_extensions_keep_primary_time_discrepancies(self):
         x=self.new[2]['exclusions']['windows']
-        self.assertEqual(len(x['9903.88.69']),4)
-        initial,summer,autumn,last=x['9903.88.69']
+        self.assertEqual(len(x['9903.88.69']),5)
+        initial,summer,autumn,year,revision23=x['9903.88.69']
         self.assertEqual(initial['valid_until'],'2025-05-31T23:59:00-04:00')
         self.assertEqual(summer['valid_from'],'2025-06-01T00:01:00-05:00')
         self.assertEqual(summer['possible_from'],'2025-06-01T00:00:00-04:00')
-        self.assertEqual(last['possible_until'],'2026-11-10T00:00:00-05:00')
+        self.assertEqual(year['possible_until'],'2026-11-10T00:00:00-05:00')
+
+    def test_revision_23_extension_prints_eastern_time_without_an_offset(self):
+        # FR 2026-22925 writes "eastern time", not standard/daylight: the printed
+        # and calendar instants agree, and the window continues the last one.
+        for code in ('9903.88.69','9903.88.70'):
+            last=self.new[2]['exclusions']['windows'][code][-1]
+            self.assertEqual(last['source_id'],'FR-2026-22925')
+            self.assertEqual(last['valid_from'],'2026-11-10T00:01:00-05:00')
+            self.assertEqual(last['valid_until'],'2027-01-09T23:59:00-05:00')
+            self.assertEqual(last['possible_from'],'2026-11-10T00:00:00-05:00')
+            self.assertEqual(last['possible_until'],'2027-01-10T00:00:00-05:00')
+            self.assertEqual(last['printed_from'],last['valid_from'])
 
 
 if __name__=='__main__':

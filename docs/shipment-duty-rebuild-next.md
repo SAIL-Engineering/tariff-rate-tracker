@@ -16,8 +16,8 @@ and periodic activity. It does not replace canonical outputs or contact MotherDu
 
 ## All affected historical revisions, if a larger local validation is wanted
 
-The corrections target **2025 and 2026**. There are 56 configured revisions through
-November 2: 33 in 2025 and 23 in 2026, ending at `2026_rev_22`. The following
+The corrections target **2025 and 2026**. There are 57 configured revisions through
+November 11: 33 in 2025 and 24 in 2026, ending at `2026_rev_23`. The following
 rebuilds every one, preserving older-year history in the combined output. It
 replaces canonical local outputs, so keep the checkout and inputs fixed while
 it runs and save existing outputs first if a before/after comparison is needed.
@@ -62,9 +62,32 @@ in the rebuild inventory, and the commands above build it.
 Two things to carry forward. The aggregate `rates` table is daily, so it cannot
 represent the 12:01 a.m. boundary: an October 30 entry before that instant is
 priced as if after it. Only the rule-bundle path, whose intervals are
-`TIMESTAMPTZ`, carries the instant. And the heading 9903.01.63 suspension runs
-to 2026-11-10T00:01:00-05:00, seven days past the horizon, so any further
-horizon extension must reconcile the next continuation instrument first.
+`TIMESTAMPTZ`, carries the instant. The heading 9903.01.63 forward requirement
+was settled when the horizon moved for Revision 23 (below).
+
+## Revision 23: two Section 301 notices, inside the executable horizon
+
+Revision 23 (released 2026-11-10) changes seven Chapter 99 rows, all by USTR
+notice, and nothing else: the 178 exclusions under 9903.88.69 and 9903.88.70 are
+extended through 11:59 p.m. ET 2027-01-09 (FR 2026-22925), and the maritime
+action's headings 9903.91.12-9903.91.16 now begin 2027-01-10 instead of
+2026-11-10 (FR 2026-22867). Both notices are retained in `resources/legal_evidence`,
+the exclusion extension is a fifth window in `section301_sources.py`, and
+`audit_until` reaches `2026-11-12T00:00:00-05:00`, with the Section 232
+automobile review carried to the same instant. No instrument continuing the
+9903.01.63 suspension past 2026-11-10T00:01:00-05:00 was published; the lapse
+does not resume collection, which ended 2026-02-24. See
+[the source receipt](audits/2026-11-12-revision-23/README.md).
+
+Revision 22 must be rebuilt with Revision 23. Revision 22 was built as the last
+revision, so its legal states run to the series horizon (2026-12-31); with
+Revision 23 registered it ends on 2026-11-09, and the combine refuses a snapshot
+whose states do not tile that interval. The incremental form is:
+
+```bash
+Rscript src/00_build_timeseries.R --start-from 2026_rev_21 --motherduck-only
+node frontend/scripts/push-to-motherduck.mjs --only-revisions 2026_rev_22,2026_rev_23
+```
 
 ## Frontend and MotherDuck
 

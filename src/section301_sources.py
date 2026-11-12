@@ -218,14 +218,18 @@ def exclusion_grant_window(text: str) -> dict:
     silently resolved. The uncertain margins cannot price a claimed exclusion.
     """
     flat = re.sub(r'(?<=\d)\s*:\s*(?=\d)', ':', ' '.join(text.split()))
-    start = re.search(r'on or after (\d{1,2}:\d{2}) (a\.m\.|p\.m\.) eastern (standard|daylight) time on '+DATE_WORDS, flat, re.I)
-    end = re.search(r'before (\d{1,2}:\d{2}) (a\.m\.|p\.m\.) eastern (standard|daylight) time on '+DATE_WORDS, flat, re.I)
+    # Earlier notices print "eastern standard/daylight time"; FR 2026-22925 prints
+    # plain "eastern time", which names the prevailing zone rather than an offset.
+    start = re.search(r'on or after (\d{1,2}:\d{2}) (a\.m\.|p\.m\.) eastern (?:(standard|daylight) )?time on '+DATE_WORDS, flat, re.I)
+    end = re.search(r'before (\d{1,2}:\d{2}) (a\.m\.|p\.m\.) eastern (?:(standard|daylight) )?time on '+DATE_WORDS, flat, re.I)
     if not start:
         raise ValueError('Missing exclusion grant start instant')
     def instants(m):
         dt = datetime.strptime(m[4]+' '+m[1]+' '+m[2].replace('.','').upper(),'%B %d, %Y %I:%M %p')
-        written = datetime.fromisoformat(dt.isoformat()+('-05:00' if m[3].lower()=='standard' else '-04:00'))
         calendar = dt.replace(tzinfo=ZoneInfo('America/New_York'))
+        if not m[3]:
+            return calendar,calendar  # no printed offset to disagree with the calendar
+        written = datetime.fromisoformat(dt.isoformat()+('-05:00' if m[3].lower()=='standard' else '-04:00'))
         return written,calendar
     starts = instants(start)
     if end:
@@ -323,7 +327,8 @@ def extract_exclusions(note20: str, headings: dict, note31: str = '') -> dict:
     match=re.search(r'8\. Effective with respect to products of China.*?inserting the following new heading 9903\.88\.70',flat)
     if not match: raise ValueError('Missing original .70 exclusion grant')
     windows['9903.88.70'].append(dict(**exclusion_grant_window(match[0]),source_id=source['id']))
-    for doc in ('2025-10203','2025-16733','2025-21671'):
+    # 2026-22925 (HTS 2026 Revision 23) extends both annexes through January 9, 2027.
+    for doc in ('2025-10203','2025-16733','2025-21671','2026-22925'):
         text,source=exclusion_evidence(doc);evidence.append(source)
         annexes=re.split(r'(?m)^Annex [AB]\s*$',text)[1:]
         if len(annexes)!=2: raise ValueError('Missing exclusion-extension annex: '+doc)

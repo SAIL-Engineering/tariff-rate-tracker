@@ -1,5 +1,5 @@
 {
-  "cutoff_until": "2026-11-03T00:00:00-05:00",
+  "cutoff_until": "2026-11-12T00:00:00-05:00",
   "sources": [
     {
       "id": "FR-2025-12060-auto-original-text",
@@ -272,6 +272,134 @@
       ],
       "term_search_assessment": "Every match across all terms is Department of Transportation, NHTSA, EPA, FMCSA or PHMSA rulemaking, a Foreign-Trade Zone Board production-activity notification, an antidumping or countervailing proceeding, an agency information-collection notice, or one of the three presidential documents separately assessed below. Of note and expressly considered: 2026-22231 (Foreign-Trade Zone 38, production activity, ElringKlinger, an automobile-parts manufacturer) matched 'section 232'. FTZ production-activity notifications recite the section 232 status of inputs as a procedural matter; they are not section 232 instruments and alter no scope, rate or reporting requirement. The search for '9903.94' returned no document, so no Federal Register document published in the window references the automobile Chapter 99 headings.",
       "evidence_not_relied_on": "Proclamation 11076's annex is reproduced in the Federal Register as graphics: the retained body text (FR-2026-22292-body.txt, pages 68861-68871) ends in '[GRAPHIC] [TIFF OMITTED]' markers, so the annex tables are absent from it. A text search of that body is therefore NOT dispositive as to the annex contents and is not relied on here. The original graphic annex remains unretained and unreconciled, which is an open item for the section 338 work that Proclamation 11076 actually amends; it does not affect this cutoff, which rests on the HTS change record and row diff above."
+    },
+    {
+      "from": "2026-11-03T00:00:00-05:00",
+      "to": "2026-11-12T00:00:00-05:00",
+      "basis": "no_new_instrument",
+      "reviewed_window": {
+        "from": "2026-11-04",
+        "to": "2026-11-12"
+      },
+      "method": "federalregister.gov API v1 only, as for the previous window; document HTML was not scraped. Two passes: (1) enumerated every presidential document published in the window (conditions[type]=PRESDOCU), returning 7, all listed below; (2) the same full-text term searches across every document type, listed under federal_register_term_searches.",
+      "presidential_documents_enumerated": [
+        {
+          "document_number": "2026-22685",
+          "publication_date": "2026-11-05",
+          "title": "Continuation of the National Emergency With Respect to Iran",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22686",
+          "publication_date": "2026-11-05",
+          "title": "Continuation of the National Emergency With Respect to the Proliferation of Weapons of Mass Destruction",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22687",
+          "publication_date": "2026-11-05",
+          "title": "Continuation of the National Emergency With Respect to the Situation in Nicaragua",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22688",
+          "publication_date": "2026-11-05",
+          "title": "Continuation of the National Emergency With Respect to the Threat From Securities Investments That Finance Certain Companies",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22787",
+          "publication_date": "2026-11-06",
+          "title": "Anti-Communism Week, 2026",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-22789",
+          "publication_date": "2026-11-06",
+          "title": "The American Declaration of Freedom in Space",
+          "section_232_automobiles": false
+        },
+        {
+          "document_number": "2026-23113",
+          "publication_date": "2026-11-12",
+          "title": "Establishment of the Oval Office National Monument",
+          "section_232_automobiles": false
+        }
+      ],
+      "automobile_term_matches": [
+        {
+          "document_number": "2026-22629",
+          "publication_date": "2026-11-05",
+          "type": "Notice",
+          "title": "Initiation of Antidumping and Countervailing Duty Administrative Reviews",
+          "section_232_automobiles": false,
+          "note": "Antidumping and countervailing proceeding, not a section 232 instrument."
+        },
+        {
+          "document_number": "2026-22811",
+          "publication_date": "2026-11-09",
+          "type": "Notice",
+          "title": "Policy Statement on Jurisdiction and Preemption Under the ICC Termination Act",
+          "section_232_automobiles": false,
+          "note": "Surface Transportation Board rail jurisdiction; unrelated."
+        },
+        {
+          "document_number": "2026-22588",
+          "publication_date": "2026-11-05",
+          "type": "Proposed Rule",
+          "title": "Air Quality Implementation Plans; California; San Joaquin Valley; 2015 8-Hour Ozone Nonattainment Area Requirements",
+          "section_232_automobiles": false,
+          "note": "Unrelated; the term appears in ambient air-quality discussion."
+        }
+      ],
+      "hts_corroboration": "The HTS 2026 Revision 23 change record (November 10, 2026) lists seven modifications, all in chapter 99 and all by USTR notice: 9903.88.69 and 9903.88.70 (Section 301 China exclusion extensions, effective November 10, 2026, FR 2026-22925) and 9903.91.12-9903.91.16 (Section 301 maritime action further suspended, effective November 9, 2026, FR 2026-22867). The Rev 22 to Rev 23 JSON row diff is exactly those seven rows; no 9903.94 entry changed.",
+      "conclusion": "No Section 232 automobile or automobile-parts instrument issued between 2026-11-04 and 2026-11-12. The reviewed source set is unchanged and the executable horizon is extended without adding or altering any source.",
+      "observed_unmodelled_authorities": "None new. Proclamations 2026-22049 (wind turbines) and 2026-22385 (robotics and industrial machinery), noted in the previous window, were read in full on 2026-11-12: both direct negotiations under section 232(c)(3)(A)(i) and impose no duty, and 2026-22049 paragraph (4) states that nothing in it modifies existing section 232 tariffs.",
+      "reviewed_on": "2026-11-12",
+      "limitation": "This attestation covers Section 232 automobile and automobile-parts instruments only. It rests on Federal Register coverage and on the HTS Revision 23 change record; it does not cover CBP CSMS guidance, which is published outside the Federal Register.",
+      "federal_register_term_searches": [
+        {
+          "term": "automobile",
+          "documents_matched": 3,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "automobile parts",
+          "documents_matched": 3,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "motor vehicle",
+          "documents_matched": 19,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "passenger vehicle",
+          "documents_matched": 8,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "light truck",
+          "documents_matched": 9,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "section 232",
+          "documents_matched": 10,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "9903.94",
+          "documents_matched": 0,
+          "section_232_automobiles_found": false
+        },
+        {
+          "term": "automobile knock-down",
+          "documents_matched": 0,
+          "section_232_automobiles_found": false
+        }
+      ],
+      "term_search_assessment": "Every match is Department of Transportation, FMCSA, FAA, PHMSA, EPA or Surface Transportation Board rulemaking, an antidumping or countervailing proceeding, two Industry and Security Bureau information-collection notices (2026-22725, 2026-22726), a Foreign-Trade Zone production-activity notification (2026-22620), unrelated HHS, FDIC, FinCEN, HUD or Labor documents, or one of the presidential documents listed above. None alters a section 232 automobile scope, rate or reporting requirement. The search for '9903.94' returned no document."
     }
   ]
 }

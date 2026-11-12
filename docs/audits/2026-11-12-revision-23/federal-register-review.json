@@ -1,0 +1,290 @@
+{
+  "contract_version": "sail.horizon-review/v1",
+  "reviewed_on": "2026-11-12",
+  "horizon_from": "2026-11-03T00:00:00-05:00",
+  "horizon_to": "2026-11-12T00:00:00-05:00",
+  "method": "federalregister.gov API v1 only (document HTML is not served to automated access); proclamation and notice bodies read from govinfo text.",
+  "ustr_documents_since_2026_10_20": [
+    {
+      "document_number": "2026-22925",
+      "publication_date": "2026-11-10",
+      "assessment": "Section 301 exclusion extension; implemented as a fifth exclusion window."
+    },
+    {
+      "document_number": "2026-22868",
+      "publication_date": "2026-11-10",
+      "assessment": "Extends the Section 301 investigation of Vietnam IP practices; no action, no duty."
+    },
+    {
+      "document_number": "2026-22867",
+      "publication_date": "2026-11-10",
+      "assessment": "Maritime action further suspended; headings move to 2027-01-10, beyond the horizon."
+    },
+    {
+      "document_number": "2026-22251",
+      "publication_date": "2026-11-02",
+      "assessment": "Performance Review Board membership; administrative."
+    },
+    {
+      "document_number": "2026-21755",
+      "publication_date": "2026-10-26",
+      "assessment": "Request for comments on the further maritime suspension; proposal only."
+    }
+  ],
+  "presidential_documents": [
+    {
+      "document_number": "2026-22685",
+      "publication_date": "2026-11-05",
+      "title": "Continuation of the National Emergency With Respect to Iran",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-22686",
+      "publication_date": "2026-11-05",
+      "title": "Continuation of the National Emergency With Respect to the Proliferation of Weapons of Mass Destruction",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-22687",
+      "publication_date": "2026-11-05",
+      "title": "Continuation of the National Emergency With Respect to the Situation in Nicaragua",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-22688",
+      "publication_date": "2026-11-05",
+      "title": "Continuation of the National Emergency With Respect to the Threat From Securities Investments That Finance Certain Companies",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-22787",
+      "publication_date": "2026-11-06",
+      "title": "Anti-Communism Week, 2026",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-22789",
+      "publication_date": "2026-11-06",
+      "title": "The American Declaration of Freedom in Space",
+      "trade_action": false
+    },
+    {
+      "document_number": "2026-23113",
+      "publication_date": "2026-11-12",
+      "title": "Establishment of the Oval Office National Monument",
+      "trade_action": false
+    }
+  ],
+  "section_232_proclamations_read": [
+    {
+      "document_number": "2026-22049",
+      "citation": "91 FR 68001",
+      "signed": "2026-10-22",
+      "finding": "Directs negotiations under section 232(c)(3)(A)(i); imposes no duty; paragraph (4): nothing in it modifies existing section 232 tariffs."
+    },
+    {
+      "document_number": "2026-22385",
+      "citation": "91 FR 69199",
+      "signed": "2026-10-28",
+      "finding": "Directs negotiations under section 232(c)(3)(A)(i); imposes no duty."
+    }
+  ],
+  "term_searches_2026_11_03_to_12": [
+    {
+      "term": "\"Section 232\"",
+      "documents_matched": 3,
+      "documents": [
+        "2026-22725",
+        "2026-22620",
+        "2026-22726"
+      ]
+    },
+    {
+      "term": "automobile",
+      "documents_matched": 3,
+      "documents": [
+        "2026-22629",
+        "2026-22811",
+        "2026-22588"
+      ]
+    },
+    {
+      "term": "\"motor vehicle\"",
+      "documents_matched": 17,
+      "documents": [
+        "2026-22829",
+        "2026-22508",
+        "2026-22510",
+        "2026-22507",
+        "2026-22592",
+        "2026-22779",
+        "2026-22777",
+        "2026-22588",
+        "2026-22647",
+        "2026-22728",
+        "2026-22778",
+        "2026-23067",
+        "2026-23054",
+        "2026-22366",
+        "2026-22671",
+        "2026-22356",
+        "2026-22887"
+      ]
+    },
+    {
+      "term": "\"Harmonized Tariff Schedule\"",
+      "documents_matched": 22,
+      "documents": [
+        "2026-22565",
+        "2026-22939",
+        "2026-22925",
+        "2026-22867",
+        "2026-22764",
+        "2026-22836",
+        "2026-22710",
+        "2026-22938",
+        "2026-22942",
+        "2026-22624",
+        "2026-22940",
+        "2026-22937",
+        "2026-22941",
+        "2026-22658",
+        "2026-22531",
+        "2026-22534",
+        "2026-22532",
+        "2026-22528",
+        "2026-22735",
+        "2026-22763",
+        "2026-22835",
+        "2026-22750"
+      ]
+    },
+    {
+      "term": "\"Section 301\"",
+      "documents_matched": 4,
+      "documents": [
+        "2026-22867",
+        "2026-22868",
+        "2026-22925",
+        "2026-23020"
+      ]
+    },
+    {
+      "term": "safeguard",
+      "documents_matched": 41,
+      "documents": [
+        "2026-22395",
+        "2026-23013",
+        "2026-23010",
+        "2026-22421",
+        "2026-22837",
+        "2026-22540",
+        "2026-22606",
+        "2026-22787",
+        "2026-22816",
+        "2026-22493",
+        "2026-22771",
+        "2026-22357",
+        "2026-22377",
+        "2026-22740",
+        "2026-22436",
+        "2026-22356",
+        "2026-22680",
+        "2026-22962",
+        "2026-22832",
+        "2026-22772",
+        "2026-22850",
+        "2026-22851",
+        "2026-22601",
+        "2026-22711",
+        "2026-22593",
+        "2026-22750",
+        "2026-23003",
+        "2026-22453",
+        "2026-22882",
+        "2026-22989",
+        "2026-22743",
+        "2026-22381",
+        "2026-22483",
+        "2026-22443",
+        "2026-23048",
+        "2026-23040",
+        "2026-22617",
+        "2026-22792",
+        "2026-22735",
+        "2026-22812",
+        "2026-22739"
+      ]
+    },
+    {
+      "term": "\"Section 338\"",
+      "documents_matched": 0,
+      "documents": []
+    },
+    {
+      "term": "\"International Emergency Economic Powers Act\"",
+      "documents_matched": 3,
+      "documents": [
+        "2026-22685",
+        "2026-22687",
+        "2026-22688"
+      ]
+    },
+    {
+      "term": "\"Section 122\"",
+      "documents_matched": 1,
+      "documents": [
+        "2026-22739"
+      ]
+    },
+    {
+      "term": "reciprocal",
+      "documents_matched": 2,
+      "documents": [
+        "2026-22679",
+        "2026-22743"
+      ]
+    },
+    {
+      "term": "\"9903\"",
+      "documents_matched": 0,
+      "documents": []
+    }
+  ],
+  "automobile_term_searches_2026_11_04_to_12": [
+    {
+      "term": "automobile",
+      "documents_matched": 3
+    },
+    {
+      "term": "automobile parts",
+      "documents_matched": 3
+    },
+    {
+      "term": "motor vehicle",
+      "documents_matched": 19
+    },
+    {
+      "term": "passenger vehicle",
+      "documents_matched": 8
+    },
+    {
+      "term": "light truck",
+      "documents_matched": 9
+    },
+    {
+      "term": "section 232",
+      "documents_matched": 10
+    },
+    {
+      "term": "9903.94",
+      "documents_matched": 0
+    },
+    {
+      "term": "automobile knock-down",
+      "documents_matched": 0
+    }
+  ],
+  "conclusion": "The only duty-bearing legal events published 2026-11-03 through 2026-11-12 are FR 2026-22925 and FR 2026-22867, which Revision 23 codifies. No Section 338, Section 122, Section 201, Section 232 or IEEPA duty instrument was published. AD/CVD notices remain the declared unresolved_source slot.",
+  "limitation": "Federal Register coverage only; CBP CSMS guidance is not indexed here."
+}

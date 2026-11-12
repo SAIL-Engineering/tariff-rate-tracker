@@ -3065,6 +3065,28 @@
       ],
       "commentary": "Identified from the USITC Change Record for 2026 Revision 22 (PP 11076, U.S. note 51(b)(3) modified October 30) and from the original proclamation. The USITC archive listing returned Access Denied earlier on 2026-11-03 and was reachable later the same day; the title, citation and Federal Register link above are the archive's own, and they agree with the citation read independently from the proclamation. effective_date is the USITC releaseStartDate (10/30/2026); policy_effective_date is the proclamation's own 12:01 a.m. ET instant on the same day. The annex is graphic only, so its 22 deleted and 100 inserted subheadings were reconciled three ways, one of them an OCR-free diff of codified note 51(b)(3) between revisions 21 and 22, in docs/audits/2026-11-03-revision-22/annex-reconciliation.json.",
       "needs_review": false
+    },
+    "2026_rev_23": {
+      "effective_date": "2026-11-10",
+      "policy_effective_date": "2026-11-10",
+      "policy_family": "section_301_china_or_dst",
+      "usitc_archive_url": "https://www.usitc.gov/harmonized_tariff_information/hts/archive/list",
+      "sources": [
+        {
+          "title": "Notice of Modification of Section 301 Action: China's Targeting of the Maritime, Logistics, and Shipbuilding Sectors for Dominance",
+          "citation": "91 Fed. Reg. 72608",
+          "url": "https://www.federalregister.gov/documents/2026/11/10/2026-22867/notice-of-modification-of-section-301-action-chinas-targeting-of-the-maritime-logistics-and",
+          "url_type": "fr_document"
+        },
+        {
+          "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+          "citation": "91 Fed. Reg. 72610",
+          "url": "https://www.federalregister.gov/documents/2026/11/10/2026-22925/notice-of-product-exclusion-extensions-chinas-acts-policies-and-practices-related-to-technology",
+          "url_type": "fr_document"
+        }
+      ],
+      "commentary": "Identified from the USITC Change Record for 2026 Revision 23 (dated November 10, 2026: seven chapter 99 items, all 'Notice'; 9903.88.69-.70 effective November 10, 9903.91.12-.16 effective November 9) and from both original notices, retained under resources/legal_evidence/2026-22925 and 2026-22867. The Rev 22 to Rev 23 JSON row diff is exactly those seven rows. The USITC archive's own titles, citations and Federal Register links agree with the notices. policy_effective_date is 2026-11-10: the maritime deferral takes effect the day before the date it defers, so the law in force on 2026-11-09 is the same under Revisions 22 and 23. No instrument continuing the heading 9903.01.63 suspension past 2026-11-10T00:01:00-05:00 was published through 2026-11-12; that lapse does not resume collection, which ended 2026-02-24. Audit: docs/audits/2026-11-12-revision-23.",
+      "needs_review": false
     }
   }
 }

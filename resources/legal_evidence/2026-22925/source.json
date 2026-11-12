@@ -1,0 +1,10 @@
+{
+  "source_id": "FR-2026-22925",
+  "url": "https://www.govinfo.gov/content/pkg/FR-2026-11-10/html/2026-22925.htm",
+  "publication_date": "2026-11-10",
+  "citation": "91 FR 72610-72611; all 178 exclusions under headings 9903.88.69 and 9903.88.70 extended from 12:01 a.m. eastern time November 10, 2026 to before 11:59 p.m. eastern time January 9, 2027",
+  "artifact": "notice.txt",
+  "sha256": "2a03b2398102b6f1cd08b2e66d4ecd7378b25ec01a4ca617d152cc72cb74091b",
+  "artifact_kind": "browser_extracted_primary_source_text",
+  "status": "verified_primary_source_pending_rule_validation"
+}

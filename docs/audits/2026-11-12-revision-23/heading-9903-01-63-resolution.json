@@ -1,0 +1,10 @@
+{
+  "contract_version": "sail.forward-requirement-resolution/v1",
+  "resolved_on": "2026-11-12",
+  "heading": "9903.01.63",
+  "requirement": "docs/audits/2026-11-03-revision-22/heading-9903-01-63-resolution.json forward_requirement: a horizon extension past 2026-11-10 must reconcile the next continuation instrument.",
+  "finding": "No executive order or other instrument continuing the suspension past 2026-11-10T00:01:00-05:00 was published in the Federal Register through 2026-11-12 (presidential documents enumerated in federal-register-review.json; the only IEEPA matches are unrelated national-emergency continuations). Revision 23 leaves the heading text unchanged from Revision 22.",
+  "resolution": "The suspension chain ends at 2026-11-10T00:01:00-05:00 and is recorded as lapsed, not continued. No continuation document is added to the configured suspension documents because none exists.",
+  "effect": "None on consumption entries: IEEPA reciprocal collection for EO 14257 and all amendments ended 2026-02-24T00:00:00-05:00 (FR-2026-03832, CBP CSMS 67834313), and compile_reciprocal emits no_applicable_rules for every interval after that instant. The guard in src/ieepa_reciprocal_rules.py (suspension end >= collection ending) still holds.",
+  "forward_requirement": "If a later instrument brings EO 14257 entries back into collection, this lapse becomes operative and must be revisited."
+}

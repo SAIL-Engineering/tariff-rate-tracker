@@ -1,0 +1,108 @@
+{
+  "contract_version": "sail.pending-revision-sources/v1",
+  "revision": "2026_rev_23",
+  "release_name": "2026HTSRev23",
+  "publication_date": "2026-11-10",
+  "downloaded_on": "2026-11-12",
+  "requested_by": "WJR",
+  "acquisition": "curl of official USITC reststop endpoints and govinfo text via gstack browse; release list checked (2026HTSRev23 current, releaseStartDate 11/10/2026)",
+  "release_list_snapshot": "docs/audits/2026-11-12-revision-23/release-list.json.gz",
+  "files": [
+    {
+      "url": "https://hts.usitc.gov/reststop/exportList?from=0100&to=9999&format=JSON&styles=false",
+      "status": 200,
+      "file": "hts_2026_rev_23.json",
+      "size": 12642109,
+      "sha256": "532e0c00ff4300e1e0844b7e4e46d38769f5e66575ad552964d73a12ceabd709",
+      "local_path": "data/hts_archives/hts_2026_rev_23.json",
+      "note": "Placed by the 2026-11-11 nightly (77b22b05); re-exported from the official current release on 2026-11-12 and byte-identical."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev23&filename=Chapter+99",
+      "status": 200,
+      "file": "chapter99_2026_rev_23.pdf",
+      "size": 14004755,
+      "sha256": "294e4a2d5957271a6b40f06f555839c804023d3702d82b9a6c59bb244e33d60b",
+      "local_path": "data/us_notes/chapter99_2026_rev_23.pdf",
+      "note": "Revision-bound download; header \"Harmonized Tariff Schedule of the United States Revision 23 (2026)\". Identical to the currentRelease copy at data/us_notes/chapter99.pdf."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev23&filename=General+Note+3",
+      "file": "GN3_2026HTSRev23.pdf",
+      "size": 45463,
+      "sha256": "1ddfe3a9d63049b30b06c82908ed50e03b2673f0c8a3b5eb87302bc7ec75f09e",
+      "local_path": "data/cache/general_notes/GN3_2026HTSRev23.pdf",
+      "note": "Fetched by the build; program symbols and Column 2 countries identical to Rev 22."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev23&filename=General+Note+4",
+      "file": "GN4_2026HTSRev23.pdf",
+      "size": 45405,
+      "sha256": "b80b096beb0e87fb15baa6b8876dcfefa8915349934da79691ec9f1b617d51e3",
+      "local_path": "data/cache/general_notes/GN4_2026HTSRev23.pdf",
+      "note": "Fetched by the build; beneficiary countries identical to Rev 22."
+    },
+    {
+      "url": "https://hts.usitc.gov/reststop/file?release=2026HTSRev23&filename=Change+Record",
+      "status": 200,
+      "file": "change_record_2026_rev_23.pdf",
+      "size": 96913,
+      "sha256": "bc9e9ce82ee4c49647c970aefba644a4bafd01ab62ea69db73c81e311ddd23a3",
+      "local_path": "docs/audits/2026-11-12-revision-23/change_record_2026_rev_23.pdf"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-11-10/html/2026-22925.htm",
+      "file": "notice.txt",
+      "sha256": "2a03b2398102b6f1cd08b2e66d4ecd7378b25ec01a4ca617d152cc72cb74091b",
+      "local_path": "resources/legal_evidence/2026-22925/notice.txt",
+      "retained_for": "Section 301 exclusion extension, wired into section301_sources.py"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-11-10/html/2026-22867.htm",
+      "file": "notice.txt",
+      "sha256": "7af5d0cfd40318001260fc690a19c3b43a8bf0286a1a0657d997b7f7ce2c2bfa",
+      "local_path": "resources/legal_evidence/2026-22867/notice.txt",
+      "retained_for": "Section 301 maritime further suspension; no code change required"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-28/html/2026-22049.htm",
+      "file": "FR-2026-22049-wind-turbines-proclamation.txt",
+      "sha256": "38829d1e5685482e2a05415abd03767009e95e23695c03490779b241e5269555",
+      "local_path": "docs/audits/2026-11-12-revision-23/FR-2026-22049-wind-turbines-proclamation.txt",
+      "retained_for": "Shows the section 232 proclamation imposes no duty"
+    },
+    {
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22385.htm",
+      "file": "FR-2026-22385-robotics-proclamation.txt",
+      "sha256": "eb958a20322eec2b0df11a256997fd85539ead24b9bfbec919f4f68de3570f71",
+      "local_path": "docs/audits/2026-11-12-revision-23/FR-2026-22385-robotics-proclamation.txt",
+      "retained_for": "Shows the section 232 proclamation imposes no duty"
+    }
+  ],
+  "original_instruments": [
+    {
+      "id": "2026-22925",
+      "citation": "91 FR 72610-72611",
+      "title": "Notice of Product Exclusion Extensions: China's Acts, Policies, and Practices Related to Technology Transfer, Intellectual Property, and Innovation",
+      "effect": "Annexes A and B: exclusions under 9903.88.69 and 9903.88.70 from 12:01 a.m. eastern time 2026-11-10 to before 11:59 p.m. eastern time 2027-01-09"
+    },
+    {
+      "id": "2026-22867",
+      "citation": "91 FR 72608-72609",
+      "title": "Notice of Modification of Section 301 Action: China's Targeting of the Maritime, Logistics, and Shipbuilding Sectors for Dominance",
+      "effect": "Effective 2026-11-09: action further suspended until 2027-01-10; headings 9903.91.12-9903.91.16 amended from November 10, 2026 to January 10, 2027"
+    }
+  ],
+  "usitc_change_record": {
+    "file": "docs/audits/2026-11-12-revision-23/change_record_2026_rev_23.pdf",
+    "items": [
+      "9903.88.69 Modified 2026-11-10 Notice",
+      "9903.88.70 Modified 2026-11-10 Notice",
+      "9903.91.12 Modified 2026-11-09 Notice",
+      "9903.91.13 Modified 2026-11-09 Notice",
+      "9903.91.14 Modified 2026-11-09 Notice",
+      "9903.91.15 Modified 2026-11-09 Notice",
+      "9903.91.16 Modified 2026-11-09 Notice"
+    ]
+  }
+}

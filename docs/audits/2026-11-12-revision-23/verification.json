@@ -1,0 +1,21 @@
+{
+  "contract_version": "sail.revision-verification/v1",
+  "revision": "2026_rev_23",
+  "verified_on": "2026-11-12",
+  "checks": [
+    {"check": "USITC release list: 2026HTSRev23 current, releaseStartDate 11/10/2026", "result": "pass"},
+    {"check": "Re-exported current JSON is byte-identical to data/hts_archives/hts_2026_rev_23.json (sha256 532e0c00...)", "result": "pass"},
+    {"check": "Revision-bound Chapter 99 PDF header reads Revision 23 (2026)", "result": "pass"},
+    {"check": "Rev 22 to Rev 23 JSON row diff equals the seven change-record items", "result": "pass"},
+    {"check": "General Note 3/4 rows for 2026_rev_23 identical to 2026_rev_22 apart from source_url and source_hash", "result": "pass"},
+    {"check": "scripts/extract_note_rules.R --revisions 2026_rev_23: 31 staged, 57 status rows, identical to 2026_rev_22; additive only", "result": "pass"},
+    {"check": "load_ieepa_emergency_source('2026_rev_23') (the step the 2026-11-12 build failed on)", "result": "pass"},
+    {"check": "Shipment source preflight for 2026_rev_22 and 2026_rev_23: 19,926 products each, 0 missing, identical apart from hashes", "result": "pass", "artifact": "source-preflight.json"},
+    {"check": "section301_sources.py extraction of 2026_rev_23: fifth exclusion window FR-2026-22925 on 9903.88.69 and .70; maritime 9903.91.12/.14 future_beyond_audit_cutoff", "result": "pass"},
+    {"check": "Python tests (tests/python)", "result": "634 passed"},
+    {"check": "R: test_section301_revision (fixture section301-reconstruction.json.gz regenerated; every asserted case outcome unchanged)", "result": "pass"},
+    {"check": "R: test_reciprocal_calendar, test_s338_rules (45), test_s338_pipeline, test_s301_labor_interactions (50), test_s232_semiconductors (29)", "result": "pass"},
+    {"check": "Frontend node tests", "result": "1210 passed"}
+  ],
+  "not_run": "No timeseries build, MotherDuck write or deployment was performed. The Rev 22 + Rev 23 build is the operator's to run."
+}
