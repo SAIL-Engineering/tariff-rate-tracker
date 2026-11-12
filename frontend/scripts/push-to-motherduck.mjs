@@ -9,6 +9,7 @@
 //   node scripts/push-to-motherduck.mjs --revision 2025_rev_25
 //   node scripts/push-to-motherduck.mjs --only-revisions 2019,2020,2021   # push a set/range (year prefixes or exact rev_ids); one product_base_rates rebuild at the end
 //   node scripts/push-to-motherduck.mjs --post-only          # recluster + rebuild product_base_rates on the existing rates table
+//   node scripts/push-to-motherduck.mjs --post-only --resume # finish a recluster that died part-way: keeps rates_new, copies only the revisions it lacks
 //   node scripts/push-to-motherduck.mjs --dry-run
 //   node scripts/push-to-motherduck.mjs --limit 3            # first 3 partitions only (testing)
 //   node scripts/push-to-motherduck.mjs --confirm-drop       # required when `rates` already has data
@@ -30,6 +31,7 @@ import { parseArgs } from 'node:util';
 import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
 import { getMotherDuckDatabase } from '../server/config.js';
 import { preflightPartitionIntervals } from '../server/revision-intervals.js';
+import { reclusterRatesByPartition } from '../server/rates-recluster.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -289,57 +291,13 @@ async function fullRebuildBatched(conn, opts) {
 // revision at a time bounds the sort state to ~4.7M rows, which MD
 // handles fine and still gives good zonemap pruning on the final table
 // because row groups within each partition are contiguous and sorted.
-async function postProcess(conn) {
-  await reclusterRatesByPartition(conn);
+//
+// If the recluster itself dies part-way (e.g. a dropped MotherDuck
+// connection), `rates` is untouched and still complete; --post-only --resume
+// keeps the partial rates_new and copies only the revisions it lacks.
+async function postProcess(conn, { resume = false } = {}) {
+  await reclusterRatesByPartition(conn, { resume, log });
   await rebuildProductBaseRatesBatched(conn);
-}
-
-async function reclusterRatesByPartition(conn) {
-  log('exec.rates.cluster.start');
-
-  // Enumerate revisions from the current rates table (avoids re-reading the
-  // parquet directory, so --post-only works even if the R pipeline has
-  // regenerated local files since the upload).
-  const revReader = await conn.runAndReadAll(
-    'SELECT DISTINCT revision FROM rates ORDER BY revision',
-  );
-  const revisions = revReader.getRowObjects().map((r) => String(r.revision));
-  log('exec.rates.cluster.partitions', { count: revisions.length });
-
-  // Build a new, sorted table revision-by-revision. CREATE TABLE AS with
-  // LIMIT 0 produces an empty table with the same schema. We then append
-  // one revision at a time with ORDER BY hts10, country — each pass sorts
-  // ~4.7M rows on the MotherDuck side, well within its compute budget.
-  await conn.run('DROP TABLE IF EXISTS rates_new');
-  await conn.run(`
-    CREATE TABLE rates_new AS
-    SELECT * FROM rates LIMIT 0
-  `);
-
-  for (let i = 0; i < revisions.length; i++) {
-    const rev = revisions[i];
-    const t0 = Date.now();
-    await conn.run(`
-      INSERT INTO rates_new
-      SELECT * FROM rates
-      WHERE revision = '${rev}'
-      ORDER BY hts10, country
-    `);
-    log('exec.rates.cluster.partition.done', {
-      revision: rev,
-      index: i + 1,
-      of: revisions.length,
-      elapsed_ms: Date.now() - t0,
-    });
-  }
-
-  // Swap: drop the unsorted table and rename the sorted one in its place.
-  // MotherDuck does not wrap DDL in a single transaction, but the window
-  // between DROP and RENAME is short and only affects live /api/rates
-  // queries during that sub-second gap.
-  await conn.run('DROP TABLE rates');
-  await conn.run('ALTER TABLE rates_new RENAME TO rates');
-  log('exec.rates.cluster.done');
 }
 
 async function incrementalReplace(conn, revision, { dryRun }) {
@@ -488,6 +446,7 @@ async function main() {
       'dry-run': { type: 'boolean' },
       'confirm-drop': { type: 'boolean' },
       'post-only': { type: 'boolean' },
+      resume: { type: 'boolean' },
       database: { type: 'string' },
       limit: { type: 'string' },
       'memory-limit': { type: 'string' },
@@ -503,12 +462,16 @@ async function main() {
   const dryRun = !!values['dry-run'];
   const confirmDrop = !!values['confirm-drop'];
   const postOnly = !!values['post-only'];
+  const resume = !!values.resume;
   const limit = values.limit ? parseInt(values.limit, 10) : null;
   const memoryLimit = values['memory-limit'] || '4GB';
   const threads = values.threads ? parseInt(values.threads, 10) : 2;
 
   if (postOnly && (values.revision || values['only-revisions'])) {
     fail('--post-only cannot be combined with --revision / --only-revisions');
+  }
+  if (resume && !postOnly) {
+    fail('--resume only applies to --post-only (finishing an interrupted recluster)');
   }
   if (values.revision && values['only-revisions']) {
     fail('use either --revision (one) or --only-revisions (a set), not both');
@@ -528,6 +491,7 @@ async function main() {
     dry_run: dryRun,
     confirm_drop: confirmDrop,
     post_only: postOnly,
+    resume,
     limit,
     memory_limit: memoryLimit,
     threads,
@@ -559,12 +523,18 @@ async function main() {
   if (postOnly) {
     const exists = await tableExists(conn, 'rates');
     if (!exists) {
+      if (await tableExists(conn, 'rates_new')) {
+        fail(
+          'rates is missing but rates_new exists: a recluster died between DROP and RENAME. ' +
+            'Check rates_new, then run ALTER TABLE rates_new RENAME TO rates; and --post-only again.',
+        );
+      }
       fail('--post-only requires an existing rates table; none found.');
     }
     if (dryRun) {
-      log('dry_run.skip', { op: 'post_only' });
+      log('dry_run.skip', { op: 'post_only', resume });
     } else {
-      await postProcess(conn);
+      await postProcess(conn, { resume });
     }
   } else if (values.revision) {
     await incrementalReplace(conn, values.revision, { dryRun });
