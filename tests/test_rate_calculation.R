@@ -727,10 +727,8 @@ run_test('fails loud on NA total_rate / total_additional (never coalesces)', {
 })
 
 run_test('an unknown ad valorem total over a non-representable base is not a failure', {
-  # 0102.29.40 is 1c/kg, so the parser leaves base_rate NA and an ad valorem
-  # total over it is unknown. The row survives with the total still NA; deriving
-  # one from the base filled afterwards would publish 7.5% for a §301 row that
-  # owes 7.5% plus 1c/kg.
+  # A base the parser could not read at all leaves the percentage total
+  # unknown. The row survives with the total NA rather than stopping the build.
   df <- tibble(hts10 = '0102294024', country = '5700',
                base_rate = NA_real_, rate_301 = 0.075,
                total_additional = 0.075, total_rate = NA_real_)
@@ -742,6 +740,40 @@ run_test('an unknown ad valorem total over a non-representable base is not a fai
   err <- tryCatch({ enforce_rate_schema(bad); NULL },
                   error = function(e) conditionMessage(e))
   stopifnot(!is.null(err), grepl('total_rate', err, fixed = TRUE))
+})
+
+run_test('total_rate is the percentage total, whichever step made the row', {
+  # WJR 2026-11-13: a per-unit part never enters total_rate; it is carried in
+  # specific_amount and named by calc_status. Blank only when even the
+  # percentage part of the base is unknown.
+  df <- tibble(
+    hts10   = c('0102294024', '0102294024', '0102294024', '2921460000', '9801001000',
+                '8544300000', '2921460000', '6101301500'),
+    country = c('5700',       '5700',       '2390',       '2390',       '5700',
+                '5700',       '2390',       '5700'),
+    calc_status = c('base_ad_valorem_only',   # 1¢/kg, base NA reached the sum (IEEPA path)
+                    'base_ad_valorem_only',   # 1¢/kg, base already 0 (fill / footnote path)
+                    'needs_manual_review',    # Cuba, Column 2 5.5¢/kg applied
+                    'needs_manual_review',    # Cuba, Column 2 compound applied
+                    'base_not_representable', # Chapter 98 formula, total computed on base 0
+                    'needs_manual_review',    # General unparsed
+                    'needs_manual_review',    # Column 2 owed, not derivable
+                    'base_ad_valorem_only'),  # compound 10% + 38.6¢/kg
+    base_rate_source = c('own', 'own', 'column2:specific_only', 'column2:compound', 'own',
+                         'unresolved', 'column2_blocked:cross_reference', 'own'),
+    base_rate = c(NA, 0, 0, 1.495, 0, 0, 0, 0.10),
+    total_additional = c(0.075, 0.075, 0, 0, 0.25, 0, 0, 0.075),
+    total_rate = c(NA, 0.075, 0, 1.495, 0.25, 0, 0, 0.175),
+    statutory_total_rate = c(NA, 0.075, 0, 1.495, 0.25, 0, 0, 0.175)
+  )
+  out <- suppressMessages(enforce_rate_schema(df))
+  stopifnot(isTRUE(all.equal(out$total_rate,
+                             c(0.075, 0.075, 0, 1.495, NA, NA, NA, 0.175))))
+  stopifnot(identical(is.na(out$statutory_total_rate),
+                      c(TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE)))
+  # The combine applies enforce_rate_schema() to every saved snapshot again.
+  again <- suppressMessages(enforce_rate_schema(out))
+  stopifnot(identical(again$total_rate, out$total_rate))
 })
 
 run_test('a computed (non-NA) total passes the guard untouched', {

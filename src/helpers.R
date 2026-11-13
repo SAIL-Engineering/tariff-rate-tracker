@@ -2324,6 +2324,58 @@ RATE_SCHEMA <- c(
   'valid_from', 'valid_until'
 )
 
+#' total_rate is the PERCENTAGE total (decided by WJR, 2026-11-13)
+#'
+#' A per-unit part of the base never enters total_rate. It is carried in
+#' specific_amount / specific_rate_unit / duty_basis_unit and
+#' duty_expression_raw, and calc_status says it is excluded. So:
+#'
+#'   * a base whose percentage part is known counts it: a per-unit-only General
+#'     rate ("1¢/kg") counts 0%, a compound one its percent, a Column 2 base the
+#'     percent it was re-based to;
+#'   * a base whose percentage part is NOT known leaves the total unknown (NA):
+#'     a General rate that is apportioned, cross-referenced, conditional or
+#'     unparsed (calc_status base_not_representable / needs_manual_review), or a
+#'     Column 2 rate that is owed but not derivable (column2_blocked). A Column 2
+#'     row that applied is never in this group: its needs_manual_review flags a
+#'     per-unit half, and its percentage part is the re-based base_rate.
+#'
+#' Before this the outcome depended on which step made the row. The IEEPA
+#' reciprocal seeding kept the parse's NA base, so 2025 to early-2026 revisions
+#' carried ~650k NA totals per revision (2025_rev_17). Every other path
+#' coalesced the base to 0 first, so from 2026_rev_10 on there were none, and
+#' an unparsed base published as if its percentage were 0.
+#'
+#' Applied inside enforce_rate_schema(), which runs on every build and again on
+#' every snapshot the Parquet combine writes, so it must stay idempotent.
+#' statutory_total_rate follows the same rule where it is present.
+#'
+#' @return df with total_rate (and statutory_total_rate) set by the rule
+apply_percentage_total_rule <- function(df) {
+  if (!all(c('total_rate', 'total_additional', 'calc_status') %in% names(df)) || nrow(df) == 0) {
+    return(df)
+  }
+  src <- if ('base_rate_source' %in% names(df)) df$base_rate_source else rep(NA_character_, nrow(df))
+  src <- ifelse(is.na(src), '', src)
+  unknown_pct <- (df$calc_status %in% c('base_not_representable', 'needs_manual_review') &
+                    !startsWith(src, 'column2:')) |
+                 startsWith(src, 'column2_blocked:')
+  # Percentage part known to be the base (0 for a per-unit-only rate): a NA
+  # total here only means the parse's NA base reached the sum. A NA
+  # total_additional is an authority bug; leave it for the guard.
+  known <- is.na(df$total_rate) & !unknown_pct & !is.na(df$total_additional) &
+    df$calc_status %in% c('base_ad_valorem_only', 'missing_duty_basis_unit')
+  if (any(known)) {
+    base <- df$base_rate[known]
+    df$total_rate[known] <- ifelse(is.na(base), 0, base) + df$total_additional[known]
+  }
+  df$total_rate[unknown_pct] <- NA_real_
+  if ('statutory_total_rate' %in% names(df)) {
+    df$statutory_total_rate[unknown_pct] <- NA_real_
+  }
+  df
+}
+
 #' Ensure a rates data frame conforms to the canonical schema
 #'
 #' Adds missing columns with sensible defaults, reorders to canonical order.
@@ -2413,6 +2465,8 @@ enforce_rate_schema <- function(df) {
     }
   }
 
+  df <- apply_percentage_total_rule(df)
+
   # Fail loud on a NA effective total (port of upstream c0ff82a8).
   # total_additional/total_rate are computed by apply_stacking_rules() FROM the
   # (already-filled) per-authority rate columns, so a NA here means a rate column
@@ -2476,8 +2530,8 @@ enforce_rate_schema <- function(df) {
             'needs_manual_review')
       if (any(unpriced)) {
         message('  Non-representable base duty: ', sum(unpriced),
-                ' row(s) keep an unknown ad valorem total (specific or ',
-                'compound base; the per-unit duty is not an AVE)')
+                ' row(s) keep an unknown ad valorem total (the base has no ',
+                'readable percentage part; see apply_percentage_total_rule)')
         na_idx <- na_idx[!unpriced]
       }
     }
