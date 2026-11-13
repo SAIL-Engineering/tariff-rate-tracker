@@ -320,7 +320,7 @@ parse_products <- function(json_path) {
     } else {
       general
     }
-    general_parsed <- parse_rate_extended(general_for_type)
+    general_parsed <- parse_rate_extended(general_for_type, qualified_units = TRUE)
     rate_basis <- general_parsed$type
 
     # Same disagreement as in calc_status below: where parse_rate_extended()

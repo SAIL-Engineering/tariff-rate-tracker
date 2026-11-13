@@ -74,7 +74,12 @@ export type RoundingRule =
   | '19cfr159.3_compound_gt1'
   | 'unknown';
 
-export type CalcStatus = 'ok' | 'needs_manual_review' | 'missing_duty_basis_unit';
+export type CalcStatus =
+  | 'ok'
+  | 'base_ad_valorem_only'
+  | 'base_not_representable'
+  | 'needs_manual_review'
+  | 'missing_duty_basis_unit';
 
 export interface SpecialProgramEntry {
   rate: number | null;
@@ -168,6 +173,12 @@ export interface ProductRate {
   special_programs_json: string | null;
   rate_column2: number | null;
   rate_column2_raw: string | null;
+  /**
+   * General (Column 1) rate text in effect for the line, own or inherited from
+   * the nearest ancestor that states a rate. Absent on data emitted before the
+   * column was served.
+   */
+  duty_expression_raw?: string | null;
   // Rate basis and duty math fields.
   // In U.S. HTSUS, quantity affects duty only when the legal rate is specific
   // or compound. The "Unit of Quantity" on a 10-digit statistical reporting
@@ -187,7 +198,12 @@ export interface ProductRate {
   quantity_source: string | null;
   /** 19 CFR 159.3 rounding rule code */
   rounding_rule: RoundingRule;
-  /** Calculation readiness: 'ok', 'needs_manual_review', 'missing_duty_basis_unit' */
+  /**
+   * Calculation readiness. base_ad_valorem_only: the base has a per-unit part
+   * (in specific_amount when it could be read); base_not_representable: no
+   * article-level rate exists; needs_manual_review / missing_duty_basis_unit:
+   * unparsed, or a Column 2 rate only partly read.
+   */
   calc_status: CalcStatus;
   // Metadata
   revision: string;

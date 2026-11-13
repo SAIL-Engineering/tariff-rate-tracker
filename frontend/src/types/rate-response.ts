@@ -108,6 +108,19 @@ const STRING_FIELDS = [
   'valid_until',
 ] as const;
 
+/**
+ * Optional AND nullable text: a string when known, `null` when the source has
+ * none, `undefined` on data emitted before the column existed.
+ *
+ *   duty_expression_raw   General (Column 1) rate text in effect for the line,
+ *                         own or inherited ("8.6¢/kg on drained weight"). The
+ *                         only record of a per-unit or conditional base on a
+ *                         row whose total_rate is null.
+ */
+const OPTIONAL_NULLABLE_STRING_FIELDS = [
+  'duty_expression_raw',
+] as const;
+
 const NULLABLE_STRING_FIELDS = [
   'deriv_type',
   's232_annex',
@@ -168,6 +181,12 @@ export function validateProductRate(value: unknown): ProductRateValidationResult
   }
   for (const field of NULLABLE_CH99_FIELDS) {
     // ch99 fields are optional on the type — undefined is allowed
+    const v = obj[field];
+    if (v !== undefined && !isNullableString(v)) {
+      errors.push({ path: field, expected: 'string | null | undefined', got: v });
+    }
+  }
+  for (const field of OPTIONAL_NULLABLE_STRING_FIELDS) {
     const v = obj[field];
     if (v !== undefined && !isNullableString(v)) {
       errors.push({ path: field, expected: 'string | null | undefined', got: v });

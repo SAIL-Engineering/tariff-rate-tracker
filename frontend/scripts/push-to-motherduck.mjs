@@ -8,6 +8,7 @@
 //   node scripts/push-to-motherduck.mjs                      # full rebuild (all revisions)
 //   node scripts/push-to-motherduck.mjs --revision 2025_rev_25
 //   node scripts/push-to-motherduck.mjs --only-revisions 2019,2020,2021   # push a set/range (year prefixes or exact rev_ids); one product_base_rates rebuild at the end
+//   node scripts/push-to-motherduck.mjs --only-revisions 2025,2026 --add-columns   # same, first adding columns the build now emits that the cloud table lacks (nullable; never drops or retypes)
 //   node scripts/push-to-motherduck.mjs --post-only          # recluster + rebuild product_base_rates on the existing rates table
 //   node scripts/push-to-motherduck.mjs --post-only --resume # finish a recluster that died part-way: keeps rates_new, copies only the revisions it lacks
 //   node scripts/push-to-motherduck.mjs --dry-run
@@ -28,10 +29,11 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
-import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
+import { PARQUET_PATH, productBaseRatesBody, ratesColumnSet } from '../server/db.js';
 import { getMotherDuckDatabase } from '../server/config.js';
 import { preflightPartitionIntervals } from '../server/revision-intervals.js';
 import { reclusterRatesByPartition } from '../server/rates-recluster.js';
+import { ensureRatesColumns } from '../server/rates-columns.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
@@ -97,6 +99,7 @@ async function dropProductBaseRatesIfPresent(conn) {
 // reclusterRatesByPartition).
 async function rebuildProductBaseRatesBatched(conn) {
   log('exec.product_base_rates.start');
+  const available = await ratesColumnSet(conn);
 
   const revReader = await conn.runAndReadAll(
     'SELECT DISTINCT revision FROM rates ORDER BY revision',
@@ -118,7 +121,7 @@ async function rebuildProductBaseRatesBatched(conn) {
     // ORDER BY hts10 so the synthesis-path lookups (`SELECT * FROM
     // product_base_rates WHERE hts10 = X`) hit a contiguous, prunable range
     // instead of scanning the whole table. ~19K rows/revision — trivial sort.
-    const body = productBaseRatesBody(`WHERE revision = '${rev}'`);
+    const body = productBaseRatesBody(`WHERE revision = '${rev}'`, available);
     if (i === 0) {
       await conn.run(`CREATE TABLE product_base_rates_new AS ${body} ORDER BY hts10`);
     } else {
@@ -300,7 +303,7 @@ async function postProcess(conn, { resume = false } = {}) {
   await rebuildProductBaseRatesBatched(conn);
 }
 
-async function incrementalReplace(conn, revision, { dryRun }) {
+async function incrementalReplace(conn, revision, { dryRun, addColumns }) {
   if (!/^[a-zA-Z0-9_]+$/.test(revision)) {
     fail(`invalid --revision value "${revision}" (must match [a-zA-Z0-9_]+)`);
   }
@@ -317,6 +320,7 @@ async function incrementalReplace(conn, revision, { dryRun }) {
   log('plan.incremental', { revision, rows_before: before });
 
   await preflightPartitionIntervals(conn, [revision], revisionGlob);
+  await ensureRatesColumns(conn, [revisionGlob(revision)], { addColumns, dryRun, log });
 
   if (dryRun) {
     log('dry_run.skip', { op: 'incremental', revision });
@@ -369,7 +373,7 @@ function matchRevisions(allRevisions, tokens) {
 // whole materialized table (batched per-revision for memory safety), so calling
 // it after every revision — as the single-revision path does — would repeat the
 // full rebuild N times. We load all partitions first, then rebuild once.
-async function incrementalReplaceMany(conn, revisions, { dryRun }) {
+async function incrementalReplaceMany(conn, revisions, { dryRun, addColumns }) {
   if (revisions.length === 0) {
     fail('--only-revisions matched no local partitions under ' + PARQUET_PATH);
   }
@@ -385,6 +389,9 @@ async function incrementalReplaceMany(conn, revisions, { dryRun }) {
   });
 
   await preflightPartitionIntervals(conn, revisions, revisionGlob);
+  // Before any revision is replaced: INSERT BY NAME fails on a column the
+  // cloud table lacks, which would roll back revision one and stop.
+  await ensureRatesColumns(conn, revisions.map(revisionGlob), { addColumns, dryRun, log });
 
   if (dryRun) {
     log('dry_run.skip', { op: 'incremental_many', would_replace: revisions });
@@ -447,6 +454,7 @@ async function main() {
       'confirm-drop': { type: 'boolean' },
       'post-only': { type: 'boolean' },
       resume: { type: 'boolean' },
+      'add-columns': { type: 'boolean' },
       database: { type: 'string' },
       limit: { type: 'string' },
       'memory-limit': { type: 'string' },
@@ -463,6 +471,7 @@ async function main() {
   const confirmDrop = !!values['confirm-drop'];
   const postOnly = !!values['post-only'];
   const resume = !!values.resume;
+  const addColumns = !!values['add-columns'];
   const limit = values.limit ? parseInt(values.limit, 10) : null;
   const memoryLimit = values['memory-limit'] || '4GB';
   const threads = values.threads ? parseInt(values.threads, 10) : 2;
@@ -475,6 +484,9 @@ async function main() {
   }
   if (values.revision && values['only-revisions']) {
     fail('use either --revision (one) or --only-revisions (a set), not both');
+  }
+  if (addColumns && !(values.revision || values['only-revisions'])) {
+    fail('--add-columns applies to --revision / --only-revisions; a full rebuild recreates rates with every column');
   }
 
   log('start', {
@@ -492,6 +504,7 @@ async function main() {
     confirm_drop: confirmDrop,
     post_only: postOnly,
     resume,
+    add_columns: addColumns,
     limit,
     memory_limit: memoryLimit,
     threads,
@@ -537,14 +550,14 @@ async function main() {
       await postProcess(conn, { resume });
     }
   } else if (values.revision) {
-    await incrementalReplace(conn, values.revision, { dryRun });
+    await incrementalReplace(conn, values.revision, { dryRun, addColumns });
   } else if (values['only-revisions']) {
     const tokens = values['only-revisions']
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
     const matched = matchRevisions(listRevisions(), tokens);
-    await incrementalReplaceMany(conn, matched, { dryRun });
+    await incrementalReplaceMany(conn, matched, { dryRun, addColumns });
   } else {
     await fullRebuildBatched(conn, { dryRun, confirmDrop, limit });
   }

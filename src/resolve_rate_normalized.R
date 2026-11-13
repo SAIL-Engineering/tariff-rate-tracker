@@ -542,6 +542,9 @@ resolve_rate_from_normalized <- function(normalized_dir, hts10, country, revisio
       rate_special             = base_row$rate_special,
       rate_special_raw         = base_row$rate_special_raw,
       special_programs_json    = base_row$special_programs_json,
+      # Absent from products_base trees emitted before the column was served.
+      duty_expression_raw      = if ('duty_expression_raw' %in% names(base_row))
+                                   base_row$duty_expression_raw else NA_character_,
       rate_basis               = base_row$rate_basis,
       specific_amount          = base_row$specific_amount,
       specific_rate_unit       = base_row$specific_rate_unit,

@@ -220,7 +220,7 @@ parse_special_programs <- function(special_string) {
 #'
 #' @param rate_string Character string containing rate
 #' @return List with: type, ad_valorem_pct, specific_amount, specific_rate_unit, raw
-parse_rate_extended <- function(rate_string) {
+parse_rate_extended <- function(rate_string, qualified_units = FALSE) {
   empty_result <- list(
     type = 'unknown', ad_valorem_pct = NA_real_,
     specific_amount = NA_real_, specific_rate_unit = NA_character_, raw = ''
@@ -284,9 +284,103 @@ parse_rate_extended <- function(rate_string) {
     ))
   }
 
+  # Per-unit duties the two patterns above cannot read: "0.9¢ each",
+  # "8.6¢/kg on drained weight", "18.7¢/clean kg", "16.9¢/kg of total sugars
+  # + 5.1%". Only the General column asks for this (04_parse_products.R); the
+  # Column 2 and special-program callers keep their existing parse, so their
+  # emitted values do not move.
+  if (isTRUE(qualified_units)) {
+    qualified <- parse_qualified_rate(clean)
+    if (!is.null(qualified)) {
+      qualified$raw <- raw
+      return(qualified)
+    }
+  }
+
   # Unrecognized format
   empty_result$raw <- raw
   return(empty_result)
+}
+
+
+#' Legal duty units read by parse_qualified_rate()
+#'
+#' The same vocabulary as parse_shipment_duty_expression()
+#' (src/shipment_duty_expression.R), so a rate row's duty_basis_unit and the
+#' shipment path's quantity fact name the same unit.
+#' tests/test_qualified_duty_units.R fails if the two parsers disagree.
+#'
+#' The qualifier is part of the unit. "1.7¢/kg on lead content" is charged on
+#' the kilograms of lead in the article and "8.6¢/kg on drained weight" on the
+#' weight without the liquid, so reducing either to "kg" would invite the
+#' article's own weight and overstate the duty.
+QUALIFIED_DUTY_UNIT_PATTERN <- paste0(
+  '(clean kg|kg|g|t|lb|liter|liters|l|pf\\. ?liters?|bbl|doz\\.?|dozen|gross|head|each|article|pair|pairs|pr\\.|jewel|m|m2|m3|cm2|cm3|1000|1,000 pins|thousand|1000 pieces)',
+  '((?: on (?:drained weight|contents and container|entire contents of container|ethyl alcohol content|lead content|tungsten content|molybdenum content|copper content|magnesium content)| of total sugars)?)'
+)
+
+#' Read one per-unit term ("0.9¢ each", "$1.44 each", "8.6¢/kg on drained weight")
+#'
+#' @return list(amount = USD per unit, unit = legal unit with its qualifier), or
+#'   NULL when the term is not a single per-unit amount
+parse_qualified_specific_term <- function(term) {
+  # "/ ?" also reads "4.5¢/ liter", a spacing slip in the schedule.
+  m <- regmatches(term, regexec(
+    paste0('^(\\$?)([0-9]+(?:\\.[0-9]+)?)(¢?)(?:/ ?| per | )',
+           QUALIFIED_DUTY_UNIT_PATTERN, '$'),
+    term, perl = TRUE))[[1]]
+  if (length(m) == 0) return(NULL)
+  # A bare number has no currency, and "$...¢" is not a currency.
+  if ((m[2] == '' && m[4] == '') || (m[2] == '$' && m[4] == '¢')) return(NULL)
+  amount <- as.numeric(m[3])
+  if (m[4] == '¢') amount <- amount / 100
+  # "pf. liter" and "pf.liter" are one legal unit; "clean kg" and
+  # "1,000 pins" keep their spaces.
+  list(amount = amount, unit = paste0(gsub('\\.[[:space:]]+', '.', m[5]), m[6]))
+}
+
+#' Read a rate with at most one per-unit term and at most one percent
+#'
+#' Anything needing two quantities ("36¢ each + 5.6% + 2¢/jewel", "0.7¢/kg on
+#' copper content + 0.7¢/kg on lead content"), a sliding scale ("...less
+#' 0.020668¢/kg for each degree under 100 degrees"), a cap, or a percent of
+#' something other than customs value returns NULL. One specific_amount and one
+#' unit cannot price those, so they stay unread and calc_status keeps saying so.
+#'
+#' @return parse_rate_extended()-shaped list without `raw`, or NULL
+parse_qualified_rate <- function(clean) {
+  # The schedule's presentation markup ("$1.13/m<sup>3</sup>",
+  # "6.5¢/gross<il></il>"), decoded as normalize_shipment_duty_text() does so
+  # both parsers read the same text.
+  entities <- c('&nbsp;' = ' ', '&#160;' = ' ', '&#xA0;' = ' ', '&cent;' = '¢',
+                '&#162;' = '¢', '&#xA2;' = '¢', '&dollar;' = '$', '&#36;' = '$',
+                '&#x24;' = '$', '&amp;' = '&')
+  for (key in names(entities)) clean <- gsub(key, entities[[key]], clean, fixed = TRUE)
+  clean <- gsub('</?(?:i|il|b|u|sup|sub|strong|em)\\s*>', '', clean, perl = TRUE, ignore.case = TRUE)
+  clean <- gsub('<br\\s*/?>', ' ', clean, perl = TRUE, ignore.case = TRUE)
+  clean <- trimws(gsub('[[:space:] ]+', ' ', clean, perl = TRUE))
+  terms <- trimws(strsplit(clean, '\\s*\\+\\s*', perl = TRUE)[[1]])
+  if (length(terms) == 0 || length(terms) > 2 || any(!nzchar(terms))) return(NULL)
+  pct <- NULL
+  spec <- NULL
+  for (term in terms) {
+    p <- regmatches(term, regexec('^([0-9]+(?:\\.[0-9]+)?)%$', term, perl = TRUE))[[1]]
+    if (length(p) > 0) {
+      if (!is.null(pct)) return(NULL)
+      pct <- as.numeric(p[2]) / 100
+      next
+    }
+    s <- parse_qualified_specific_term(term)
+    if (is.null(s) || !is.null(spec)) return(NULL)
+    spec <- s
+  }
+  if (is.null(spec)) return(NULL)
+  list(
+    type = if (is.null(pct)) 'specific' else 'compound',
+    ad_valorem_pct = if (is.null(pct)) NA_real_ else pct,
+    specific_amount = spec$amount,
+    specific_rate_unit = spec$unit
+  )
 }
 
 
@@ -2197,6 +2291,10 @@ RATE_SCHEMA <- c(
   'rate_column2', 'rate_column2_raw', 'column2_status', 's232_suppressed_json',
   'pending_activation_json',
   's301_scope_requires_inputs', 'modeled_s301_scope_share', 'modeled_s301_maritime_scope_share',
+  # General (Column 1) rate text in effect for the line, own or inherited from
+  # the nearest ancestor that states a rate. A per-unit or conditional base has
+  # no ad valorem form, so this text is the only place it survives to a reader.
+  'duty_expression_raw',
   'rate_basis', 'specific_amount', 'specific_rate_unit',
   'reported_unit_1', 'reported_unit_2',
   'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
@@ -2238,6 +2336,7 @@ enforce_rate_schema <- function(df) {
     pending_activation_json = NA_character_,
     s301_scope_requires_inputs = FALSE, modeled_s301_scope_share = NA_real_,
     modeled_s301_maritime_scope_share = NA_real_,
+    duty_expression_raw = NA_character_,
     rate_basis = 'ad_valorem',
     specific_amount = NA_real_, specific_rate_unit = NA_character_,
     reported_unit_1 = NA_character_, reported_unit_2 = NA_character_,

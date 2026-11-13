@@ -105,6 +105,10 @@ export const RATES_COLUMNS = [
   'special_programs_json',
   'rate_column2',
   'rate_column2_raw',
+  // General (Column 1) rate text in effect for the line, own or inherited. The
+  // only record of a per-unit or conditional base ("8.6¢/kg on drained
+  // weight") on rows whose total rate is NULL. Omitted until a rebuild emits it.
+  'duty_expression_raw',
   'rate_basis',
   'specific_amount',
   'specific_rate_unit',
@@ -136,10 +140,7 @@ export const RATES_COLUMNS = [
 export let RATES_PROJECTION = RATES_COLUMNS.join(', ');
 
 async function resolveRatesProjection(connection) {
-  const reader = await connection.runAndReadAll('DESCRIBE rates');
-  const available = new Set(
-    reader.getRowObjects().map((r) => String(r.column_name)),
-  );
+  const available = await ratesColumnSet(connection);
   const present = RATES_COLUMNS.filter((c) => available.has(c));
   const missing = RATES_COLUMNS.filter((c) => !available.has(c));
   if (missing.length > 0) {
@@ -156,10 +157,26 @@ async function resolveRatesProjection(connection) {
 // that revision's groups. The push script exploits that to rebuild the
 // materialized cloud table revision-by-revision, bounding peak duckling
 // memory to one partition.
-export function productBaseRatesBody(whereClause = '') {
+//
+// `available` is the set of columns on `rates` (see ratesColumnSet). Columns in
+// PRODUCT_BASE_OPTIONAL_COLUMNS are aggregated only when present: an ANY_VALUE
+// over a column an older rates table lacks fails the whole statement.
+export const PRODUCT_BASE_OPTIONAL_COLUMNS = ['duty_expression_raw'];
+
+export async function ratesColumnSet(connection, table = 'rates') {
+  const reader = await connection.runAndReadAll(`DESCRIBE ${table}`);
+  return new Set(reader.getRowObjects().map((r) => String(r.column_name)));
+}
+
+export function productBaseRatesBody(whereClause = '', available = new Set()) {
+  const optional = PRODUCT_BASE_OPTIONAL_COLUMNS
+    .filter((c) => available.has(c))
+    .map((c) => `ANY_VALUE(${c}) AS ${c},`)
+    .join('\n      ');
   return `
     SELECT
       hts10, revision,
+      ${optional}
       ANY_VALUE(base_rate)             AS base_rate,
       ANY_VALUE(statutory_base_rate)   AS statutory_base_rate,
       ANY_VALUE(rate_column2)          AS rate_column2,
@@ -188,10 +205,12 @@ export function productBaseRatesBody(whereClause = '') {
 
 // Local DuckDB: a VIEW is cheap because parquet reads are columnar and the
 // local query planner prunes files aggressively. The GROUP BY compiles once.
-export const PRODUCT_BASE_RATES_VIEW_SQL = `
+export function productBaseRatesViewSql(available) {
+  return `
   CREATE OR REPLACE VIEW product_base_rates AS
-  ${productBaseRatesBody()}
+  ${productBaseRatesBody('', available)}
 `;
+}
 
 const STATS_SQL = `
   SELECT
@@ -226,7 +245,7 @@ async function createLocalMember() {
     SELECT * FROM read_parquet('${PARQUET_PATH}/*/*.parquet', hive_partitioning = true)
     WHERE revision LIKE '20%'
   `);
-  await connection.run(PRODUCT_BASE_RATES_VIEW_SQL);
+  await connection.run(productBaseRatesViewSql(await ratesColumnSet(connection)));
   return { instance, connection };
 }
 

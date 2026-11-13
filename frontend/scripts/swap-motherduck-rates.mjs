@@ -39,7 +39,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { DuckDBInstance } from '@duckdb/node-api';
 import { parseArgs } from 'node:util';
-import { PARQUET_PATH, productBaseRatesBody } from '../server/db.js';
+import { PARQUET_PATH, productBaseRatesBody, ratesColumnSet } from '../server/db.js';
 import { getMotherDuckDatabase } from '../server/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -261,9 +261,10 @@ log('swap.done', { previous_table: prev, note: `rollback: DROP TABLE rates; ALTE
 
 // ── product_base_rates, per revision (a single-shot GROUP BY OOMs Pulse) ──
 log('product_base_rates.start');
+const available = await ratesColumnSet(conn);
 await conn.run('DROP TABLE IF EXISTS product_base_rates_new');
 for (const [i, rev] of ordered.entries()) {
-  const body = productBaseRatesBody(`WHERE revision = '${rev}'`);
+  const body = productBaseRatesBody(`WHERE revision = '${rev}'`, available);
   await conn.run(i === 0
     ? `CREATE TABLE product_base_rates_new AS ${body} ORDER BY hts10`
     : `INSERT INTO product_base_rates_new ${body} ORDER BY hts10`);

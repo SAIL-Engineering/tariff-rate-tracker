@@ -14,7 +14,7 @@ for(row in raw) {
 }
 subset <- tempfile(fileext='.json');jsonlite::write_json(kept,subset,auto_unbox=TRUE,null='null')
 products <- parse_products(subset) %>% filter(hts10 %in% selected);unlink(subset)
-stopifnot(nrow(products)==2L,all(lengths(products$ch99_refs)==0L))
+stopifnot(nrow(products)==2L,all(lengths(products$ch99_refs)==0L),'duty_expression_raw' %in% names(products))
 eligibility <- extract_usmca_eligibility(raw)
 stopifnot(all(products$hts10 %in% eligibility$hts10),any(eligibility$usmca_eligible[match(products$hts10,eligibility$hts10)]))
 ch99 <- parse_chapter99(path,revision_id=revision)
@@ -32,7 +32,7 @@ stopifnot(nrow(rates)==6L,identical(rates$usmca_eligible,expected),
   !any(grepl('^usmca_eligible\\.',names(rates))),!anyNA(rates$usmca_eligible),
   all(rates$shipment_status=='unresolved_source'),all(is.na(rates$statutory_total_rate)))
 stopifnot(!any(grepl('\\.(x|y)$',names(rates))))
-for(field in c('rate_special','rate_special_raw','rate_column2','rate_column2_raw',
+for(field in c('rate_special','rate_special_raw','rate_column2','rate_column2_raw','duty_expression_raw',
   'rate_basis','specific_amount','specific_rate_unit','reported_unit_1','reported_unit_2',
   'duty_basis_unit','is_qty_duty_relevant','quantity_source','rounding_rule')) {
   if(field %in% names(products))stopifnot(identical(rates[[field]],products[[field]][match(rates$hts10,products$hts10)]))

@@ -3432,6 +3432,7 @@ calculate_rates_for_revision <- function(
   # column listed below; when a column is absent it is simply not joined.
   tier_col_names <- c('rate_special', 'rate_special_raw', 'special_programs',
                       'rate_column2', 'rate_column2_raw',
+                      'duty_expression_raw',
                       'rate_basis', 'specific_amount', 'specific_rate_unit',
                       'reported_unit_1', 'reported_unit_2',
                       'duty_basis_unit', 'is_qty_duty_relevant', 'quantity_source',
