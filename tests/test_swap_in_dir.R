@@ -65,5 +65,45 @@ run_test('a stale .old from an earlier crash does not block the swap', {
             !dir.exists(paste0(d$final, '.old')))
 })
 
+message('\nparquet_dataset_rows')
+
+# A real two-partition dataset, written the way the combine writes it.
+real_dataset <- function() {
+  root <- tempfile('rows-'); dir.create(root)
+  for (rev in c('r1', 'r2')) {
+    dir.create(file.path(root, paste0('revision=', rev)))
+    n <- if (rev == 'r1') 3L else 5L
+    arrow::write_parquet(tibble(hts10 = sprintf('%010d', seq_len(n)), country = '5700'),
+                         file.path(root, paste0('revision=', rev), 'data.parquet'))
+  }
+  root
+}
+
+run_test('counts every row from the footers, matching a full scan', {
+  root <- real_dataset()
+  scanned <- arrow::open_dataset(root, partitioning = 'revision') %>% count() %>% collect() %>% pull(n)
+  stopifnot(parquet_dataset_rows(root) == 8, scanned == 8)
+})
+
+run_test("a writer's unfinished .parquet.partial file is not counted", {
+  root <- real_dataset()
+  file.copy(file.path(root, 'revision=r2', 'data.parquet'),
+            file.path(root, 'revision=r2', 'data.parquet.partial'))
+  stopifnot(parquet_dataset_rows(root) == 8)
+})
+
+run_test('a file that is not parquet fails the count', {
+  root <- real_dataset()
+  put(root, 'revision=r3', 'not a parquet file')
+  failed <- tryCatch({ parquet_dataset_rows(root); FALSE }, error = function(e) TRUE)
+  stopifnot(failed)
+})
+
+run_test('an empty dataset fails rather than counting zero', {
+  root <- tempfile('rows-'); dir.create(root)
+  failed <- tryCatch({ parquet_dataset_rows(root); FALSE }, error = function(e) TRUE)
+  stopifnot(failed)
+})
+
 message('\n', pass_count, ' passed, ', fail_count, ' failed')
 if (fail_count > 0) quit(status = 1)

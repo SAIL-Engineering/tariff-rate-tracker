@@ -927,6 +927,26 @@ swap_in_dir <- function(staging, final) {
   invisible(final)
 }
 
+#' Rows in a parquet dataset, read from each file's footer.
+#'
+#' `open_dataset(dir) %>% count()` scans every row. On the 2019-2026 rate
+#' dataset (787,498,800 rows, 146 files) it took 95 s and ~21 GB in a fresh
+#' process. Run at the end of a combine whose R heap still held the largest
+#' revisions, it pushed the process past its 40 GB cap on 2026-11-13, after
+#' every partition was written and before the swap. The footers give the same
+#' count in under a second, and a file that does not open fails here just as it
+#' would in the scan. Writers' temporary files end in `.parquet.partial`, so
+#' they are never counted.
+#'
+#' @param dir Dataset root (hive partitions below it)
+#' @return Total row count (numeric)
+parquet_dataset_rows <- function(dir) {
+  files <- list.files(dir, pattern = '\\.parquet$', recursive = TRUE, full.names = TRUE)
+  if (length(files) == 0) stop('No parquet files under ', dir, call. = FALSE)
+  sum(vapply(files, function(f) as.numeric(arrow::ParquetFileReader$create(f)$num_rows),
+             numeric(1)))
+}
+
 #' Query the rate timeseries with optional filters
 #'
 #' Returns a lazy Arrow query (call collect() to materialize).

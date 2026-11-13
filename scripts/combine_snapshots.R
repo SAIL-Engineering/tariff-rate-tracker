@@ -165,9 +165,12 @@ message('  Revisions written this run: ', n_written,
         if (resume) paste0(', kept: ', n_kept) else '')
 message('  Rows written this run: ', total_rows)
 
-# Verify dataset opens
+# Verify the dataset opens and count its rows from the file footers. A
+# count() over the dataset scans every row (~21 GB on 787M rows) and is what
+# killed this script after its last partition on 2026-11-13; see
+# parquet_dataset_rows() in src/helpers.R.
 ds <- open_dataset(target_dir, partitioning = 'revision')
-ds_count <- ds %>% count() %>% collect() %>% pull(n)
+ds_count <- parquet_dataset_rows(target_dir)
 message('  Arrow dataset verified: ', ds_count, ' rows')
 
 # n_rows below is ds_count, not total_rows: under --resume total_rows counts only
