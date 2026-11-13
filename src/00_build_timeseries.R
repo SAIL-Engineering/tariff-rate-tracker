@@ -327,11 +327,18 @@ build_full_timeseries <- function(
       usmca <- extract_usmca_eligibility(hts_raw)
 
       # f. Re-evaluate every legal state without changing the HTS identity.
+      #    A multi-state revision streams its snapshot to snapshot_file and
+      #    returns only the columns used below (see calculate_revision_legal_states):
+      #    holding the assembled panel is what the kernel OOM-killed on
+      #    2025_rev_4 on 2026-11-13.
+      snapshot_file <- file.path(output_dir, paste0('snapshot_', rev_id, '.rds'))
       rates <- calculate_revision_legal_states(products,ch99_data,hts_raw,usmca,
-        countries,rev_id,rev_dates,country_lookup,pp_build,stacking_method,ch99_other)
+        countries,rev_id,rev_dates,country_lookup,pp_build,stacking_method,ch99_other,
+        snapshot_file = snapshot_file)
+      streamed <- !is.null(attr(rates, 'snapshot_file'))
 
       # g. Save snapshot + parse caches
-      saveRDS(rates, file.path(output_dir, paste0('snapshot_', rev_id, '.rds')))
+      if (!streamed) saveRDS(rates, snapshot_file)
       saveRDS(ch99_data, file.path(output_dir, paste0('ch99_', rev_id, '.rds')))
       saveRDS(ch99_other, file.path(output_dir, paste0('ch99_other_', rev_id, '.rds')))
       saveRDS(products, file.path(output_dir, paste0('products_', rev_id, '.rds')))
@@ -339,8 +346,11 @@ build_full_timeseries <- function(
       # h. TPC validation if this revision has a tpc_date
       if (!is.na(tpc_date) && file.exists(tpc_path)) {
         tryCatch({
+          # A streamed revision returned only a few columns; TPC needs them all.
+          # tpc_date is NA on every 2025/2026 revision, so this read is rare.
           validation <- validate_revision_against_tpc(
-            revision_rates = rates %>% filter(valid_from <= as.Date(tpc_date), valid_until >= as.Date(tpc_date)),
+            revision_rates = (if (streamed) readRDS(snapshot_file) else rates) %>%
+              filter(valid_from <= as.Date(tpc_date), valid_until >= as.Date(tpc_date)),
             tpc_path      = tpc_path,
             tpc_date      = tpc_date,
             census_codes  = census_codes
@@ -1293,8 +1303,13 @@ if (sys.nframe() == 0) {
   # end of this block).
   motherduck_only <- '--motherduck-only' %in% args
   if (motherduck_only) {
+    # --no-combine is allowed: the combine then runs as its own process
+    # (scripts/combine_snapshots.R --resume). Run inline, it starts after the
+    # revision loop in a process already holding ~10 GB, and reading one
+    # four-state snapshot adds ~28 GB on top.
     if (skip_combine) {
-      stop('--motherduck-only needs the combined parquet; drop --no-combine.', call. = FALSE)
+      message('--motherduck-only --no-combine: snapshots only. Run ',
+              'Rscript scripts/combine_snapshots.R --resume before pushing.')
     }
     build_only <- TRUE
     Sys.setenv(SAIL_EMIT_NORMALIZED = '0')

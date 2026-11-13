@@ -206,8 +206,9 @@ merge_normalized_segments <- function(segment_roots,revision,destination,segment
 # resident, so the peak was twice the revision's whole panel: one state is
 # 4,901,280 rows x 95 columns = 3.42 GB, and 2026_rev_22's four states reached
 # a 51.5 GB peak on a 62 GB machine. Here each state is spilled as it is
-# computed and read back once into preallocated columns, so the peak is the
-# combined frame plus one state (~17 GB for four) rather than twice the set.
+# computed (see spill_legal_state) and either read back column by column into
+# preallocated columns, or streamed straight into the snapshot file without the
+# panel ever being held (write_legal_states_rds, used by the build).
 # The result must be identical to what bind_rows produced: this is the duty
 # panel, so a coerced type or a reordered row is a changed legal answer.
 .legal_state_rss <- function() {
@@ -249,46 +250,196 @@ check_legal_state_schema <- function(state,template,i) {
   invisible(TRUE)
 }
 
-assemble_legal_states <- function(paths,counts,template) {
+# A spilled legal state is a directory holding one file per column plus a
+# manifest of its column names and row count. The column is the unit both
+# assemblers read back, so the in-memory assembler holds the panel plus one
+# column (not plus one whole state), and the streaming writer below never holds
+# the panel at all.
+#
+# Why that matters: the panel grew from 95 to 171-185 columns between
+# 2026-11-06 and 2026-11-13 (shipment, aggregate_* and modeled_legacy_*
+# columns), so one 4.85M-row state is 6.0 GB in memory. Assembling 2025_rev_4's
+# three states took ~10 GB of process + 18 GB of panel + 6 GB for the state
+# being read, and was killed by the kernel's global OOM on 2026-11-13 with the
+# desktop holding ~30 GB. A four-state revision would have needed ~45 GB.
+#
+# gzip level 1: the states are mostly repeated JSON text, so the uncompressed
+# spill was 8.9 GB per state -- 36 GB of scratch disk for a four-state revision
+# on a drive that had 14 GB free -- and level 1 costs seconds per state.
+spill_legal_state <- function(state,dir) {
+  dir.create(dir,recursive=TRUE,showWarnings=FALSE)
+  cols <- names(state)
+  for(j in seq_along(cols)) {
+    con <- gzfile(file.path(dir,sprintf('col-%04d.rds',j)),'wb',compression=1L)
+    tryCatch(saveRDS(state[[j]],con),finally=close(con))
+  }
+  saveRDS(list(columns=cols,rows=nrow(state)),file.path(dir,'manifest.rds'))
+  invisible(dir)
+}
+
+.spill_bytes <- function(dir) sum(file.size(list.files(dir,full.names=TRUE)))
+
+# Read-time half of check_legal_state_schema(): the column set from the
+# manifest, then each column's type, factor levels and length as it is read.
+check_spilled_state <- function(dir,template,i,count) {
+  m <- readRDS(file.path(dir,'manifest.rds'));cols <- names(template)
+  if(!identical(m$columns,cols))
+    stop('Legal state ',i,' does not carry the same column set: ',
+         paste(c(setdiff(m$columns,cols),setdiff(cols,m$columns)),collapse=', '),
+         call.=FALSE)
+  if(!identical(as.integer(m$rows),as.integer(count)))
+    stop('Legal state ',i,' changed length while spilled')
+  invisible(TRUE)
+}
+
+read_spilled_column <- function(dir,j,template,i,count) {
+  col <- names(template)[j];t <- template[[col]]
+  v <- readRDS(file.path(dir,sprintf('col-%04d.rds',j)))
+  if(!identical(class(v),class(t)))
+    stop('Legal state ',i,' disagrees on the type of ',col,': ',
+         paste(class(v),collapse='/'),' vs ',paste(class(t),collapse='/'),call.=FALSE)
+  if(is.factor(t) && !identical(levels(v),levels(t)))
+    stop('Legal state ',i,' disagrees on the levels of ',col,call.=FALSE)
+  if(length(v)!=count) stop('Legal state ',i,' changed length while spilled')
+  v
+}
+
+assemble_legal_states <- function(paths,counts,template,columns=names(template)) {
   if(length(paths)!=length(counts)) stop('Legal state spill is not accounted for')
-  total <- sum(counts);cols <- names(template)
+  for(i in seq_along(paths)) check_spilled_state(paths[i],template,i,counts[i])
+  total <- sum(counts);starts <- c(0L,cumsum(counts))
   # Indexing a zero-row column with NA yields a typed, attribute-preserving
   # vector: Date stays Date, a factor keeps its levels, integer stays integer.
   nas <- rep(NA_integer_,total)
-  out <- lapply(template,function(x) x[nas])
-  nas <- NULL
-  at <- 1L
-  for(i in seq_along(paths)) {
-    state <- readRDS(paths[i])
-    check_legal_state_schema(state,template,i)
-    if(nrow(state)!=counts[i]) stop('Legal state ',i,' changed length while spilled')
-    idx <- seq.int(at,length.out=counts[i])
-    for(col in cols) {
-      # Drop the list's reference before widening the column, so the
-      # subassignment is in place. `out[[col]][idx] <- v` leaves the vector
-      # referenced twice and copies the whole column instead.
-      v <- out[[col]];out[[col]] <- logical(0)
-      v[idx] <- state[[col]]
-      out[[col]] <- v;v <- NULL
-    }
-    at <- at+counts[i]
-    state <- NULL;unlink(paths[i]);gc(FALSE)
+  out <- vector('list',length(columns))
+  for(k in seq_along(columns)) {
+    j <- match(columns[k],names(template))
+    v <- template[[j]][nas]
+    for(i in seq_along(paths)) if(counts[i]>0L)
+      v[seq.int(starts[i]+1L,length.out=counts[i])] <- read_spilled_column(paths[i],j,template,i,counts[i])
+    out[[k]] <- v;v <- NULL
   }
-  if(at-1L!=total) stop('Assembled legal states do not fill the revision')
-  attrs <- attributes(template);attrs$row.names <- .set_row_names(total)
+  nas <- NULL
+  attrs <- attributes(template[columns]);attrs$row.names <- .set_row_names(total)
   attributes(out) <- attrs
   m <- .legal_state_rss()
   message('  Assembled ',length(paths),' legal states into ',
-          format(total,big.mark=','),' rows; RSS ',round(m[['rss']],2),
-          ' GB, peak ',round(m[['peak']],2),' GB')
+          format(total,big.mark=','),' rows x ',length(columns),' columns; RSS ',
+          round(m[['rss']],2),' GB, peak ',round(m[['peak']],2),' GB')
   out
+}
+
+# ---- Streaming the snapshot RDS without materialising the panel ----
+#
+# saveRDS() of a data frame writes, after the stream header: the list's flags
+# and length, each column as flags | length | elements | attributes, then the
+# frame's own attributes (R Internals, "Serialization Formats"). Every piece of
+# that can be produced from one column at a time, so the snapshot is written
+# column by column, each column state by state. readRDS() of the result is
+# identical() to readRDS() of saveRDS() of the assembled frame; the test pins
+# that, and byte equality of the uncompressed stream where no symbol repeats.
+#
+# The pieces are cut from serialize() of small objects, never hand-encoded:
+#   * the header from serialize(NULL), which is header | NILVALUE_SXP;
+#   * the frame's flags and attributes from a list of k NULLs carrying the
+#     frame's attributes (each NULL is the 4-byte NILVALUE_SXP);
+#   * each column's flags and attributes from a fresh zero-length vector
+#     carrying that column's attributes;
+#   * each column's elements from serialize() of a plain slice of it.
+# A slice is copied into a freshly allocated vector first. Slicing an ALTREP
+# vector (a deferred string from as.character(), say) can return another ALTREP
+# that serializes as ALTREP_SXP instead of its elements; the copy cannot, and
+# every slice's type code is still checked before its bytes are written.
+#
+# No piece carries a back-reference: a column's attributes are atomic with
+# unique tags, so serialize() writes no REFSXP inside any piece and the pieces
+# can be concatenated. Symbols that saveRDS() would write once and then refer
+# back to are simply written in full each time, which unserialize() accepts.
+.RDS_TYPE_CODE <- c(logical=10L,integer=13L,double=14L,character=16L)
+.rds_int <- function(v) writeBin(as.integer(v),raw(),size=4L,endian='big')
+
+.rds_header <- function() {
+  h <- serialize(NULL,NULL);n <- length(h)
+  if(!identical(h[(n-3L):n],.rds_int(254L))) stop('Unexpected serialization header layout')
+  h[seq_len(n-4L)]
+}
+
+# Every column a plain logical/integer/double/character vector whose only
+# attributes are class/levels/tzone/units with atomic, attribute-free values
+# (so Date, POSIXct and factor qualify; a list column or a named vector does
+# not). Anything else is assembled in memory and saved with saveRDS() instead.
+legal_states_streamable <- function(template) {
+  ok_attr <- c('class','levels','tzone','units')
+  all(vapply(template,function(x) {
+    a <- attributes(x)
+    typeof(x) %in% names(.RDS_TYPE_CODE) && all(names(a) %in% ok_attr) &&
+      all(vapply(a,function(v) is.atomic(v) && is.null(attributes(v)),logical(1)))
+  },logical(1)))
+}
+
+write_legal_states_rds <- function(paths,counts,template,file,chunk_rows=131072L) {
+  if(length(paths)!=length(counts)) stop('Legal state spill is not accounted for')
+  if(!legal_states_streamable(template)) stop('Legal state columns cannot be streamed to RDS')
+  for(i in seq_along(paths)) check_spilled_state(paths[i],template,i,counts[i])
+  total <- sum(counts);k <- length(template)
+  if(total>.Machine$integer.max) stop('Revision exceeds the short-vector row limit')
+  hdr <- .rds_header();h <- length(hdr)
+  attrs <- attributes(template);attrs$row.names <- .set_row_names(total)
+  sk <- vector('list',k);attributes(sk) <- attrs
+  sb <- serialize(sk,NULL);sk <- NULL
+  if(!identical(sb[seq_len(h)],hdr) || !identical(sb[(h+5L):(h+8L)],.rds_int(k)) ||
+     !identical(sb[seq.int(h+9L,length.out=4L*k)],rep(.rds_int(254L),k)))
+    stop('Unexpected data frame serialization layout')
+  frame_attr <- sb[seq.int(h+9L+4L*k,length(sb))]
+  unlink(Sys.glob(paste0(file,'.partial-*')))
+  tmp <- paste0(file,'.partial-',Sys.getpid())
+  con <- gzfile(tmp,'wb');done <- FALSE
+  on.exit({if(!is.null(con)) close(con);if(!done) unlink(tmp)},add=TRUE)
+  writeBin(c(hdr,sb[(h+1L):(h+8L)]),con);sb <- NULL
+  for(j in seq_len(k)) {
+    t <- template[[j]];code <- .rds_int(.RDS_TYPE_CODE[[typeof(t)]])
+    z <- vector(typeof(t),0L);attributes(z) <- attributes(t)
+    zb <- serialize(z,NULL);z <- NULL
+    writeBin(c(zb[(h+1L):(h+4L)],.rds_int(total)),con)
+    for(i in seq_along(paths)) {
+      if(counts[i]==0L) next
+      x <- read_spilled_column(paths[i],j,template,i,counts[i])
+      for(a in seq.int(1L,counts[i],by=chunk_rows)) {
+        b <- min(a+chunk_rows-1L,counts[i])
+        y <- vector(typeof(t),b-a+1L);y[] <- .subset(x,a:b)
+        s <- serialize(y,NULL);y <- NULL
+        if(!identical(s[seq_len(h)],hdr) || !identical(s[(h+1L):(h+4L)],code) ||
+           !identical(s[(h+5L):(h+8L)],.rds_int(b-a+1L)))
+          stop('Column ',names(template)[j],' did not serialize as a plain vector')
+        writeBin(s[(h+9L):length(s)],con);s <- NULL
+      }
+      x <- NULL
+    }
+    if(length(zb)>h+8L) writeBin(zb[(h+9L):length(zb)],con)
+    zb <- NULL
+  }
+  writeBin(frame_attr,con);close(con);con <- NULL
+  if(!file.rename(tmp,file)) stop('Could not move the streamed snapshot into place: ',file)
+  done <- TRUE
+  m <- .legal_state_rss()
+  message('  Streamed ',length(paths),' legal states (',format(total,big.mark=','),
+          ' rows x ',k,' columns) into ',basename(file),'; RSS ',round(m[['rss']],2),
+          ' GB, peak ',round(m[['peak']],2),' GB')
+  invisible(file)
 }
 
 # Shared by the full build and normalized re-emission. Individual point
 # calculations remain available for fixtures and deliberately date-scoped audits.
 calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,countries,
     revision_id,revision_dates,country_lookup,policy_params,stacking_method='mutual_exclusion',ch99_other=NULL,
-    normalized_root=here::here('output','normalized'),emit_normalized=NULL) {
+    normalized_root=here::here('output','normalized'),emit_normalized=NULL,snapshot_file=NULL) {
+  # snapshot_file: when given and the revision has more than one legal state,
+  # the snapshot is streamed to this path from the spilled states and the
+  # return value is a NARROW frame (hts10, country, valid_from, valid_until,
+  # rate_ieepa_recip) carrying attr 'snapshot_file'. The full panel is never
+  # held, so the peak is one state's calculation regardless of how many states
+  # the revision has. With one state, the full frame is returned unchanged and
+  # writing the snapshot stays with the caller.
   first <- revision_dates$effective_date[match(revision_id,revision_dates$revision)]
   fentanyl <- extract_ieepa_fentanyl_rates(hts_raw,country_lookup,first,revision_id)
   source_events <- list(country_amendments=load_ieepa_country_amendments(),
@@ -352,23 +503,35 @@ calculate_revision_legal_states <- function(products,ch99_data,hts_raw,usmca,cou
     if(n==1L) {combined <- state;next}
     if(is.null(template)) template <- state[0,,drop=FALSE] else
       check_legal_state_schema(state,template,i)
-    paths[i] <- file.path(spill,sprintf('state-%03d.rds',i))
-    # Uncompressed: this is scratch read back once, and compressing 3.42 GB
-    # costs more wall clock than the write it saves.
-    saveRDS(state,paths[i],compress=FALSE)
+    paths[i] <- file.path(spill,sprintf('state-%03d',i))
+    spill_legal_state(state,paths[i])
     state <- NULL;gc(FALSE)
     m <- .legal_state_rss()
     message('  Legal state ',i,' of ',n,' (',format(counts[i],big.mark=','),
-            ' rows) spilled to ',round(file.size(paths[i])/2^30,2),' GB on disk; RSS ',
+            ' rows) spilled to ',round(.spill_bytes(paths[i])/2^30,2),' GB on disk; RSS ',
             round(m[['rss']],2),' GB, peak ',round(m[['peak']],2),' GB')
   }
-  if(n>1L) combined <- assemble_legal_states(paths,counts,template)
-  template <- NULL
+  streamed <- n>1L && !is.null(snapshot_file) && legal_states_streamable(template)
+  if(n>1L && !is.null(snapshot_file) && !streamed)
+    message('  Legal states carry a column that cannot be streamed; assembling in memory')
+  if(streamed) {
+    # Only the columns the interval check and the build's summary read.
+    narrow <- intersect(c('hts10','country','valid_from','valid_until','rate_ieepa_recip'),
+                        names(template))
+    combined <- assemble_legal_states(paths,counts,template,columns=narrow)
+  } else if(n>1L) combined <- assemble_legal_states(paths,counts,template)
   rates <- validate_snapshot_intervals(combined,min(segments$valid_from),max(segments$valid_until))
   combined <- NULL
   if(emit) {
     dir.create(normalized_root,recursive=TRUE,showWarnings=FALSE)
     merge_normalized_segments(roots,revision_id,normalized_root,segments)
   }
+  # Last, as the caller's saveRDS was: a revision that fails validation or the
+  # normalized merge leaves its previous snapshot in place.
+  if(streamed) {
+    write_legal_states_rds(paths,counts,template,snapshot_file)
+    attr(rates,'snapshot_file') <- snapshot_file
+  }
+  template <- NULL
   rates
 }

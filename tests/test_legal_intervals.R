@@ -88,6 +88,35 @@ local({
 })
 cat('Shared builder recalculates each legal state and assembles normalized intervals\n')
 
+# Given snapshot_file, a multi-state revision streams its snapshot instead of
+# returning the assembled panel (the build's path since 2025_rev_4 was OOM-killed
+# assembling three states on 2026-11-13). The file must hold exactly the frame
+# the in-memory path returns, and the return value is only the narrow columns.
+local({
+  env <- new.env(parent=environment(calculate_revision_legal_states))
+  runner <- calculate_revision_legal_states;environment(runner)<-env
+  env$extract_ieepa_fentanyl_rates <- function(...) tibble()
+  env$load_ieepa_country_amendments <- function() list(change=list(effective_from='2025-11-14T00:01:00-05:00'))
+  env$load_stacking_rules <- function() list()
+  env$extract_ieepa_rates <- function(...) tibble()
+  env$extract_section232_rates <- function(...) list()
+  env$calculate_rates_for_revision <- function(products,ch99,ieepa,usmca,countries,revision,day,...) x[x$valid_from==day,]
+  pp <- list(SERIES_HORIZON_END=as.Date('2025-12-31'))
+  whole <- runner(NULL,NULL,NULL,NULL,'5800','r1',rd,NULL,pp,emit_normalized=FALSE)
+  snap <- tempfile(fileext='.rds');saveRDS('previous',snap)
+  narrow <- runner(NULL,NULL,NULL,NULL,'5800','r1',rd,NULL,pp,emit_normalized=FALSE,snapshot_file=snap)
+  stopifnot(identical(attr(narrow,'snapshot_file'),snap),
+    identical(readRDS(snap),whole),nrow(narrow)==nrow(whole),
+    identical(names(narrow),intersect(c('hts10','country','valid_from','valid_until','rate_ieepa_recip'),names(whole))),
+    identical(narrow$rate_ieepa_recip,whole$rate_ieepa_recip))
+  # One state: nothing streamed, the full frame comes back for the caller to save.
+  env$load_ieepa_country_amendments <- function() list()
+  one <- runner(NULL,NULL,NULL,NULL,'5800','r1',rd,NULL,pp,emit_normalized=FALSE,snapshot_file=snap)
+  stopifnot(nrow(one)==1L,is.null(attr(one,'snapshot_file')),identical(readRDS(snap),whole))
+  unlink(snap)
+})
+cat('A multi-state revision streams its snapshot and returns only the narrow columns\n')
+
 # Original policy windows reach the ordinary builder even when product-scope
 # history and country-rate amendments contain no event for that revision.
 local({
