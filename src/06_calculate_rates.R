@@ -637,6 +637,94 @@ apply_232_derivatives <- function(rates, products, ch99_data, s232_rates, countr
 #' @param s232_rates Section 232 rates from extract_section232_rates() (or NULL)
 #' @param fentanyl_rates Fentanyl rates from extract_ieepa_fentanyl_rates() (or NULL)
 #' @return Tibble with rate columns + revision, effective_date, usmca_eligible
+#' Re-base non-NTR origins on Column 2 (HTSUS General Note 3(b))
+#'
+#' Column 2 REPLACES Column 1 for an origin without normal trade relations; it
+#' is never additional. Rows are added at many steps (footnotes, IEEPA, §232,
+#' the annex enumeration, §301, the MFN-only grid expansion, the full-grid
+#' fill), each taking the GENERAL base from the products table. This used to
+#' run once, at step 1a, on the footnote-seeded rows only, so every row a later
+#' step added kept a rate its origin does not pay: on 2026_rev_23 most Cuba,
+#' North Korea, Russia and Belarus rows.
+#'
+#' It now runs wherever a base-dependent computation follows new rows: step 1a,
+#' before the §232 Annex III floor (max(floor - base, 0) applies to every origin),
+#' before the statutory base is copied at step 6c, and on the full-grid fill.
+#' Rows already re-based (base_rate_source column2:* / column2_blocked:*) are
+#' skipped, so the message counts only new rows and a re-based base is never
+#' re-derived. Rows Column 2 does not touch keep base_rate_source and calc_status.
+#'
+#' @param label Names the call site in the summary message
+apply_column2_base_tier <- function(rates, products, non_ntr, label = '') {
+  if (length(non_ntr) == 0 || nrow(rates) == 0 ||
+      !all(c('rate_column2', 'rate_column2_raw') %in% names(products))) {
+    return(rates)
+  }
+  todo <- rates$country %in% non_ntr
+  if ('base_rate_source' %in% names(rates)) {
+    done <- grepl('^column2(_blocked)?:', ifelse(is.na(rates$base_rate_source), '',
+                                                 rates$base_rate_source))
+    todo <- todo & !done
+  }
+  if (!any(todo)) return(rates)
+  rates <- rates %>%
+    left_join(products %>% select(hts10, .c2 = rate_column2, .c2raw = rate_column2_raw),
+              by = 'hts10', relationship = 'many-to-one')
+  tier <- resolve_base_rate_tier(
+    base_rate        = rates$base_rate,
+    rate_column2     = rates$.c2,
+    rate_column2_raw = rates$.c2raw,
+    is_non_ntr       = todo
+  )
+  # These columns are merged into below, so they must EXIST first. On the
+  # seeded rows calc_status is not on the frame yet — it arrives with the
+  # product tier join at step 9b — and ifelse(cond, NULL, x) fails with
+  # "replacement has length zero", which is what broke the build here.
+  if (!'base_rate_source' %in% names(rates)) rates$base_rate_source <- NA_character_
+  if (!'calc_status'      %in% names(rates)) rates$calc_status      <- NA_character_
+
+  rates$base_rate        <- tier$base_rate
+  rates$column2_status   <- tier$column2_status
+  # Preserve any existing provenance on rows Column 2 does not touch.
+  rates$base_rate_source <- ifelse(is.na(tier$base_rate_source),
+                                   rates$base_rate_source, tier$base_rate_source)
+  rates$calc_status      <- ifelse(is.na(tier$calc_status),
+                                   rates$calc_status, tier$calc_status)
+  rates <- rates %>% select(-.c2, -.c2raw)
+
+  n_rep <- sum(tier$replaced, na.rm = TRUE)
+  n_exp <- sum(tier$exposed,  na.rm = TRUE)
+  message('  Column 2 (GN 3(b))', if (nzchar(label)) paste0(', ', label) else '', ': ',
+          n_rep, ' rows re-based across ', length(non_ntr), ' non-NTR origin(s); ',
+          n_exp, ' flagged for review (partial or non-derivable)')
+  if (n_exp > 0) {
+    brk <- sort(table(tier$column2_status[tier$exposed]), decreasing = TRUE)
+    message('    exposure by reason: ',
+            paste(names(brk), brk, sep = '=', collapse = ', '))
+  }
+  rates
+}
+
+#' calc_status for a row whose base came from Column 2, or NA
+#'
+#' The product tier join at step 9b replaces calc_status with the product's,
+#' which describes the GENERAL rate. A non-NTR origin does not pay that rate,
+#' so the status must describe its Column 2 base instead: partly read or not
+#' derivable -> needs_manual_review; read whole -> ok (a General "1¢/kg" is no
+#' reason to flag a Cuba row whose Column 2 is "35%"). Before this, a Cuba row
+#' on a per-unit Column 2 ("5.5¢/kg") reported 'ok'.
+#'
+#' @param base_rate_source Provenance from apply_column2_base_tier()
+column2_calc_status <- function(base_rate_source) {
+  src <- ifelse(is.na(base_rate_source), '', base_rate_source)
+  dplyr::case_when(
+    startsWith(src, 'column2_blocked:') ~ 'needs_manual_review',
+    src %in% c('column2:compound', 'column2:specific_only') ~ 'needs_manual_review',
+    startsWith(src, 'column2:') ~ 'ok',
+    TRUE ~ NA_character_
+  )
+}
+
 calculate_rates_for_revision <- function(
   products, ch99_data, ieepa_rates, usmca,
   countries, revision_id, effective_date,
@@ -770,44 +858,7 @@ calculate_rates_for_revision <- function(
     load_non_ntr_countries(revision_id, effective_date, strict = FALSE),
     error = function(e) { warning('Column 2 origins unavailable: ', conditionMessage(e)); character(0) })
 
-  if (length(non_ntr) > 0 && nrow(rates) > 0 &&
-      all(c('rate_column2', 'rate_column2_raw') %in% names(products))) {
-    rates <- rates %>%
-      left_join(products %>% select(hts10, .c2 = rate_column2, .c2raw = rate_column2_raw),
-                by = 'hts10', relationship = 'many-to-one')
-    tier <- resolve_base_rate_tier(
-      base_rate        = rates$base_rate,
-      rate_column2     = rates$.c2,
-      rate_column2_raw = rates$.c2raw,
-      is_non_ntr       = rates$country %in% non_ntr
-    )
-    # These columns are merged into below, so they must EXIST first.
-    # calc_status is not on the frame at this point — it arrives with the
-    # product tier join at step 9b — and ifelse(cond, NULL, x) fails with
-    # "replacement has length zero", which is what broke the build here.
-    if (!'base_rate_source' %in% names(rates)) rates$base_rate_source <- NA_character_
-    if (!'calc_status'      %in% names(rates)) rates$calc_status      <- NA_character_
-
-    rates$base_rate        <- tier$base_rate
-    rates$column2_status   <- tier$column2_status
-    # Preserve any existing provenance on rows Column 2 does not touch.
-    rates$base_rate_source <- ifelse(is.na(tier$base_rate_source),
-                                     rates$base_rate_source, tier$base_rate_source)
-    rates$calc_status      <- ifelse(is.na(tier$calc_status),
-                                     rates$calc_status, tier$calc_status)
-    rates <- rates %>% select(-.c2, -.c2raw)
-
-    n_rep <- sum(tier$replaced, na.rm = TRUE)
-    n_exp <- sum(tier$exposed,  na.rm = TRUE)
-    message('  Column 2 (GN 3(b)): ', n_rep, ' rows re-based across ',
-            length(non_ntr), ' non-NTR origin(s); ', n_exp,
-            ' flagged for review (partial or non-derivable)')
-    if (n_exp > 0) {
-      brk <- sort(table(tier$column2_status[tier$exposed]), decreasing = TRUE)
-      message('    exposure by reason: ',
-              paste(names(brk), brk, sep = '=', collapse = ', '))
-    }
-  }
+  rates <- apply_column2_base_tier(rates, products, non_ntr)
 
   # 1b. At-entry collection follows CBP CSMS 67834313, not the earlier
   # ruling date. Preserve source actions even after collection ceases.
@@ -2143,6 +2194,9 @@ calculate_rates_for_revision <- function(
         anti_join(rates %>% select(hts10,country),by=c('hts10','country')) %>%
         zero_fill_authority_rates()
       if(nrow(missing)) rates <- bind_rows(rates,missing)
+      # The Annex III floor below is max(floor - base, 0) for every origin, so
+      # rows §232 and this enumeration added need their Column 2 base first.
+      rates <- apply_column2_base_tier(rates, products, non_ntr, label = 'before the §232 annex floor')
       .ki <- match(rates$hts10,annex_map$hts10)
       rates$s232_annex <- annex_map$s232_annex[.ki]
       rates$s232_metal <- annex_map$s232_metal[.ki]
@@ -2864,6 +2918,10 @@ calculate_rates_for_revision <- function(
   # Reduces statutory base_rate using HS2 x country exemption shares from Census
   # calculated duty data. Preserves statutory_base_rate for reference.
   # CA/MX excluded when USMCA product shares handle them at HTS10 level (step 7).
+  # Every row is seeded by now. Rows steps 2-6b added for a non-NTR origin
+  # still carry the General base; re-base them before it becomes the
+  # statutory base and before any later floor reads it.
+  rates <- apply_column2_base_tier(rates, products, non_ntr, label = 'rows added after step 1a')
   rates <- rates %>%
     mutate(statutory_base_rate = base_rate)
 
@@ -3445,6 +3503,12 @@ calculate_rates_for_revision <- function(
     # the parsed duty expressions when the canonical schema is enforced.
     select(-any_of(setdiff(names(product_tier_cols), 'hts10'))) %>%
     left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
+  # That join just replaced the Column 2 status set at step 1a with the
+  # General rate's. Put it back for rows whose base is Column 2.
+  if (all(c('base_rate_source', 'calc_status') %in% names(rates))) {
+    rates$calc_status <- dplyr::coalesce(column2_calc_status(rates$base_rate_source),
+                                         rates$calc_status)
+  }
 
   # Serialize special_programs list-column to JSON string for Parquet compatibility
   if ('special_programs' %in% names(rates)) {
@@ -3493,13 +3557,27 @@ calculate_rates_for_revision <- function(
     # authorities to stack).
     # Look up product base rates once (products doesn't have statutory_base_rate,
     # so we create it as a copy of base_rate).
+    # base_rate_source rides along so a filled row carries the same rate-line
+    # provenance as a seeded one (any_of: fixtures may lack it).
     product_base <- products %>%
-      transmute(hts10, product_base_rate = base_rate)
+      select(hts10, product_base_rate = base_rate, any_of('base_rate_source'))
 
     fill_rows <- missing_pairs %>%
       left_join(product_base, by = 'hts10') %>%
+      mutate(base_rate = coalesce(product_base_rate, 0)) %>%
+      select(-product_base_rate) %>%
+      # Join product tier columns (rate_special, rate_column2, etc.)
+      left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
+    # A non-NTR origin with no additional duty still owes Column 2, not the
+    # General rate these rows were just filled from. Re-base BEFORE the
+    # statutory base and total are copied from base_rate below.
+    fill_rows <- apply_column2_base_tier(fill_rows, products, non_ntr, label = 'full-grid fill')
+    if (all(c('base_rate_source', 'calc_status') %in% names(fill_rows))) {
+      fill_rows$calc_status <- dplyr::coalesce(column2_calc_status(fill_rows$base_rate_source),
+                                               fill_rows$calc_status)
+    }
+    fill_rows <- fill_rows %>%
       mutate(
-        base_rate = coalesce(product_base_rate, 0),
         statutory_base_rate = base_rate,
         rate_232 = 0, rate_301 = 0, rate_ieepa_recip = 0,
         rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0, rate_other = 0,
@@ -3507,10 +3585,7 @@ calculate_rates_for_revision <- function(
         total_rate = base_rate,
         usmca_eligible = FALSE,
         revision = revision_id, effective_date = as.Date(effective_date)
-      ) %>%
-      select(-product_base_rate) %>%
-      # Join product tier columns (rate_special, rate_column2, etc.)
-      left_join(product_tier_cols, by = 'hts10', relationship = 'many-to-one')
+      )
 
     # Serialize special_programs for the fill rows (same as step 9b)
     if ('special_programs' %in% names(fill_rows)) {

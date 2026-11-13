@@ -109,6 +109,12 @@ export const RATES_COLUMNS = [
   // only record of a per-unit or conditional base ("8.6¢/kg on drained
   // weight") on rows whose total rate is NULL. Omitted until a rebuild emits it.
   'duty_expression_raw',
+  // Where the base came from: 'own', 'inherited:<parent>', or for an origin
+  // without normal trade relations 'column2:<status>' (Column 2 applied) /
+  // 'column2_blocked:<status>' (owed but not derivable). The only per-row,
+  // date-aware signal that a row is on Column 2: rate_column2 is null when the
+  // Column 2 rate is per-unit, and Russia/Belarus held PNTR until 2022-04-09.
+  'base_rate_source',
   'rate_basis',
   'specific_amount',
   'specific_rate_unit',

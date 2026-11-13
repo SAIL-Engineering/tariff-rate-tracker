@@ -1489,6 +1489,47 @@ run_test('pipeline wiring: re-bases non-NTR rows without clobbering provenance',
   stopifnot(identical(out$calc_status[3], 'ok'))
 })
 
+run_test('apply_column2_base_tier is the step-1a block, applied to any frame', {
+  rates <- tibble(
+    hts10   = c('2921460000', '2921460000', '0102294024', '8544300000'),
+    country = c('4621',       '5700',       '2390',       '2390'),
+    base_rate = c(0, 0, 0, 0.025),
+    base_rate_source = c('own', 'inherited:29214600', 'own', 'own'),
+    calc_status = c('ok', 'ok', 'base_ad_valorem_only', 'ok')
+  )
+  products <- tibble(
+    hts10 = c('2921460000', '0102294024', '8544300000'),
+    rate_column2 = c(1.495, NA_real_, 0.35),
+    rate_column2_raw = c('15.4¢/kg + 149.5%', '5.5¢/kg', '35%')
+  )
+  out <- suppressMessages(apply_column2_base_tier(rates, products, c('2390', '4621', '4622', '5790')))
+  stopifnot(identical(out$base_rate_source,
+                      c('column2:compound', 'inherited:29214600', 'column2:specific_only', 'column2:ad_valorem')))
+  stopifnot(isTRUE(all.equal(out$base_rate, c(1.495, 0, 0, 0.35))))
+  stopifnot(!any(c('.c2', '.c2raw') %in% names(out)))
+  # It runs at several steps; a row already re-based is skipped, not re-derived.
+  stopifnot(identical(suppressMessages(apply_column2_base_tier(out, products, c('2390', '4621'))), out))
+  # No non-NTR origin, or no Column 2 text on the products: the frame is untouched.
+  stopifnot(identical(apply_column2_base_tier(rates, products, character(0)), rates))
+  stopifnot(identical(apply_column2_base_tier(rates, products %>% select(hts10), c('2390')), rates))
+})
+
+run_test('a Column 2 row reports the status of its Column 2 base, not the General rate', {
+  # The product tier join (step 9b) replaces calc_status with the product's,
+  # which describes the General rate this origin does not pay.
+  stopifnot(identical(
+    column2_calc_status(c('column2:specific_only', 'column2:compound', 'column2_blocked:cross_reference',
+                          'column2:ad_valorem', 'column2:free', 'own', 'inherited:01022940', NA)),
+    c('needs_manual_review', 'needs_manual_review', 'needs_manual_review',
+      'ok', 'ok', NA, NA, NA)))
+  # Applied the way step 9b applies it: a General "1¢/kg" status does not
+  # survive on a Cuba row whose Column 2 is "35%", and NTR rows keep theirs.
+  general <- c('base_ad_valorem_only', 'base_ad_valorem_only', 'ok')
+  src <- c('column2:ad_valorem', 'own', 'column2:specific_only')
+  stopifnot(identical(dplyr::coalesce(column2_calc_status(src), general),
+                      c('ok', 'base_ad_valorem_only', 'needs_manual_review')))
+})
+
 run_test('Column 2 runs BEFORE floors, so a floor stays consistent with its base', {
   # §232 annex floors and §301 forced-labor caps are max(target - base, 0).
   # Re-basing after they are computed would leave them derived from the wrong

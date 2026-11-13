@@ -179,6 +179,13 @@ export interface ProductRate {
    * column was served.
    */
   duty_expression_raw?: string | null;
+  /**
+   * Base provenance. 'column2:<status>' when Column 2 replaced the General rate
+   * for an origin without normal trade relations, 'column2_blocked:<status>'
+   * when Column 2 is owed but not derivable; 'own' / 'inherited:<parent>'
+   * otherwise. Absent on older data.
+   */
+  base_rate_source?: string | null;
   // Rate basis and duty math fields.
   // In U.S. HTSUS, quantity affects duty only when the legal rate is specific
   // or compound. The "Unit of Quantity" on a 10-digit statistical reporting

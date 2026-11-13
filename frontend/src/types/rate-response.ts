@@ -116,9 +116,13 @@ const STRING_FIELDS = [
  *                         own or inherited ("8.6¢/kg on drained weight"). The
  *                         only record of a per-unit or conditional base on a
  *                         row whose total_rate is null.
+ *   base_rate_source      'column2:<status>' / 'column2_blocked:<status>' on a
+ *                         row whose origin owes Column 2; 'own' / 'inherited:…'
+ *                         otherwise.
  */
 const OPTIONAL_NULLABLE_STRING_FIELDS = [
   'duty_expression_raw',
+  'base_rate_source',
 ] as const;
 
 const NULLABLE_STRING_FIELDS = [
