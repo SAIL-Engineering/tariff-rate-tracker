@@ -59,6 +59,27 @@ test('product_base_rates still builds over a rates table that predates the colum
   });
 });
 
+test('a Column 2 row never supplies the product\'s General base', async () => {
+  const instance = await DuckDBInstance.create();
+  const conn = await instance.connect();
+  try {
+    // China (General, Free) and Cuba (re-based on Column 2, 149.5%).
+    await conn.run(`CREATE TABLE rates AS
+      SELECT *, 'own' AS base_rate_source FROM (${BASE})
+      UNION ALL BY NAME
+      SELECT * REPLACE ('2390' AS country, 1.495::DOUBLE AS statutory_base_rate, 1.495::DOUBLE AS base_rate),
+             'column2:compound' AS base_rate_source FROM (${BASE})`);
+    await conn.run(productBaseRatesViewSql(await ratesColumnSet(conn)));
+    const rows = (await conn.runAndReadAll('SELECT * FROM product_base_rates')).getRowObjects();
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].statutory_base_rate, 0);
+    assert.equal(rows[0].base_rate, 0);
+  } finally {
+    conn.closeSync?.();
+    instance.closeSync?.();
+  }
+});
+
 test('without a column set the body names only the columns every rates table has', () => {
   assert.ok(!productBaseRatesBody("WHERE revision = 'x'").includes('duty_expression_raw'));
 });

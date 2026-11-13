@@ -174,11 +174,20 @@ export async function ratesColumnSet(connection, table = 'rates') {
   return new Set(reader.getRowObjects().map((r) => String(r.column_name)));
 }
 
+//
+// Rows re-based on Column 2 (base_rate_source 'column2:*' / 'column2_blocked:*',
+// the four origins without normal trade relations) are left out: this table is
+// each product's GENERAL base, and ANY_VALUE over a Cuba row would hand its
+// Column 2 rate ("15.4¢/kg + 149.5%" -> 1.495) to every synthesized row. Every
+// product has rows for NTR origins in the full grid, so none is dropped.
 export function productBaseRatesBody(whereClause = '', available = new Set()) {
   const optional = PRODUCT_BASE_OPTIONAL_COLUMNS
     .filter((c) => available.has(c))
     .map((c) => `ANY_VALUE(${c}) AS ${c},`)
     .join('\n      ');
+  const source = available.has('base_rate_source')
+    ? `(SELECT * FROM rates WHERE base_rate_source IS NULL OR base_rate_source NOT LIKE 'column2%') rates`
+    : 'rates';
   return `
     SELECT
       hts10, revision,
@@ -203,7 +212,7 @@ export function productBaseRatesBody(whereClause = '', available = new Set()) {
       ANY_VALUE(effective_date)        AS effective_date,
       MIN(valid_from)                  AS valid_from,
       MAX(valid_until)                 AS valid_until
-    FROM rates
+    FROM ${source}
     ${whereClause}
     GROUP BY hts10, revision
   `;
