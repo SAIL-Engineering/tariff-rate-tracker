@@ -20,7 +20,6 @@ import { encodeRateRows } from './server/rate-arrow.js';
 
 import path from 'path';
 import fs from 'fs';
-import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -33,6 +32,7 @@ import {
 } from './server/db.js';
 import { getConfig } from './server/config.js';
 import { registerShipmentRoutes } from './server/shipment-routes.js';
+import { createRequireSupabaseAuth, createSupabaseVerifier } from './server/supabase-auth.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load .env from repo root (one level up from frontend/). No-op in Railway
@@ -408,66 +408,35 @@ const app = express();
 
 app.use(express.json({ limit: '8mb' }));
 
-// --- Supabase JWT auth (bulk endpoint) -------------------------------------
-// POST /api/rates/batch serves the rate corpus in bulk, so it requires a
-// valid Supabase access token (HS256, legacy JWT secret) when
-// SUPABASE_JWT_SECRET is configured. Verification is dependency-free
-// (node:crypto HMAC + timing-safe compare) and checks signature + expiry.
+// --- Supabase JWT auth (bulk endpoints) ------------------------------------
+// POST /api/rates/batch and /api/shipments/resolve serve the rate corpus in
+// bulk, so they require a valid Supabase access token once verification is
+// configured. Two schemes, each enabled by its own variable:
+//
+//   SUPABASE_JWT_SECRET  HS256 tokens signed with the project's legacy secret
+//                        (SAIL's server signs its own calls this way).
+//   SUPABASE_URL         ES256 / RS256 tokens signed with the project's
+//                        asymmetric key, checked against its JWKS
+//                        (<SUPABASE_URL>/auth/v1/.well-known/jwks.json). Once a
+//                        project rotates to an asymmetric signing key, every
+//                        signed-in user's token is ES256.
 //
 // Enforcement is env-gated on purpose: standalone deployments of this repo
-// (this frontend has no Supabase) simply leave SUPABASE_JWT_SECRET unset.
-// The SAIL deployment sets it, and the SAIL client attaches its session
-// token. Single-key GET endpoints stay open — bulk extraction is the
-// exposure being closed here.
-const SUPABASE_JWT_SECRET = process.env.SUPABASE_JWT_SECRET || '';
-
-function b64urlDecode(segment) {
-  return Buffer.from(segment.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+// (this frontend has no Supabase) leave both unset. Single-key GET endpoints
+// stay open; bulk extraction is the exposure being closed here.
+const supabaseVerifier = createSupabaseVerifier({
+  secret: process.env.SUPABASE_JWT_SECRET || '',
+  supabaseUrl: process.env.SUPABASE_URL || '',
+  onRefreshError: (error) => console.warn(`[auth] ${error.message}`),
+});
+if (supabaseVerifier.asymmetric) {
+  supabaseVerifier.refresh();
+  setInterval(() => supabaseVerifier.refresh(), 10 * 60 * 1000).unref();
+} else if (supabaseVerifier.enforced) {
+  console.warn('[auth] SUPABASE_URL is unset: only HS256 tokens are accepted, so ES256 user tokens are refused.');
 }
 
-function verifySupabaseJwt(token, secret) {
-  const parts = token.split('.');
-  if (parts.length !== 3) return { ok: false, error: 'malformed token' };
-  let header;
-  let payload;
-  try {
-    header = JSON.parse(b64urlDecode(parts[0]).toString('utf8'));
-    payload = JSON.parse(b64urlDecode(parts[1]).toString('utf8'));
-  } catch {
-    return { ok: false, error: 'malformed token' };
-  }
-  if (header.alg !== 'HS256') return { ok: false, error: 'unsupported algorithm' };
-  const expected = crypto
-    .createHmac('sha256', secret)
-    .update(`${parts[0]}.${parts[1]}`)
-    .digest();
-  const actual = b64urlDecode(parts[2]);
-  if (expected.length !== actual.length || !crypto.timingSafeEqual(expected, actual)) {
-    return { ok: false, error: 'invalid signature' };
-  }
-  if (typeof payload.exp === 'number' && payload.exp * 1000 < Date.now()) {
-    return { ok: false, error: 'token expired' };
-  }
-  return { ok: true, userId: payload.sub ?? null };
-}
-
-function requireSupabaseAuth(req, res, next) {
-  if (!SUPABASE_JWT_SECRET) return next(); // enforcement not configured
-  const auth = req.headers.authorization || '';
-  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
-  if (!token) {
-    return res.status(401).json({
-      error:
-        'Authentication required: send a Supabase access token as Authorization: Bearer <token>.',
-    });
-  }
-  const result = verifySupabaseJwt(token, SUPABASE_JWT_SECRET);
-  if (!result.ok) {
-    return res.status(401).json({ error: `Authentication failed: ${result.error}.` });
-  }
-  req.userId = result.userId;
-  return next();
-}
+const requireSupabaseAuth = createRequireSupabaseAuth(supabaseVerifier);
 
 registerShipmentRoutes(app, { connection: pickConn, requireAuth: requireSupabaseAuth });
 
