@@ -1,4 +1,7 @@
 {
+  "_comment": "Provisional (機動) duty cuts under Customs Act Art. 71, applied by build_duty_rates.py build_tw on every build. Each entry is one Ministry of Finance notice. A line names the printed scope: an 8-digit code covers every 11-digit leaf under it; a printed CCC code ('ccc') covers that one leaf only, never its siblings. column_1 / column_2 give [schedule rate, provisional rate] as the schedule xls words them; the xls must still print the schedule rate on every covered leaf, or the build stops. Column II is keyed by the origin group the xls prints; a group not listed keeps its rate. While a notice is in force at the build's snapshot date its rate IS the rate served (valid_from/valid_until), with the schedule rate as a scheduled row from the day after it ends; outside it the schedule rate is served. Every notice ends early if the tariff schedule is amended during the period (自動終止), which the base-rate check catches only for the lines listed.",
+  "_unresolved": "2304.00.90.10-8 (feed soybean-oil residues), Notice 台財關字第1151027003號: provisional rate 免稅. The annex footnotes the schedule rate as 3% under Chapter 23 Additional Note 1, while the xls prints 0%. Not listed here until that note has been read: a scheduled return to the xls 0% would assert an unverified rate.",
+  "_coverage": "Not an inventory: only the notices listed here have been read (2026-11-19). Read from the Executive Yuan Gazette and the customs annexes; the portal's 機動稅率清表.xls is not acquired.",
   "flat_taxes": [
     {
       "name": "Business tax (營業稅, VAT)",
@@ -11,6 +14,243 @@
       "rate_text": "0.04%",
       "basis": "CIF (dutiable value)",
       "note": "Collected on imports; de minimis amounts exempt."
+    }
+  ],
+  "rate_amendments": [
+    {
+      "id": "mof_1151026272_22_items",
+      "regulation_id": "台財關字第1151026272號",
+      "title": "機動調降牛肉、烘焙用奶粉、奶油、無水奶油及小麥等二十二項貨品關稅稅率",
+      "title_en": "Provisional duty cuts on 22 goods: beef, baking milk powder, butter, anhydrous milk fat and wheat",
+      "legal_basis": "關稅法第七十一條; 行政院115年9月24日院臺財字第1151026114號函",
+      "valid_from": "2026-10-01",
+      "valid_until": "2027-03-31",
+      "ends_early": "實施期間如遇稅則修正，機動稅率自動終止實施，改依修正後稅率課徵。",
+      "lines": [
+        {
+          "scope": "0201.10.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.10.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.20.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.20.20",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.20.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.30.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.30.20",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0201.30.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.10.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.10.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.20.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.20.20",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.20.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.30.10",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.30.20",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0202.30.90",
+          "column_1": [
+            "NT$10/KGM",
+            "NT$5/KGM"
+          ]
+        },
+        {
+          "scope": "0402.10.00",
+          "ccc": "04021000903",
+          "column_1": [
+            "10%",
+            "5%"
+          ],
+          "column_2": {
+            "PA,GT,SV": [
+              "10%",
+              "5%"
+            ]
+          }
+        },
+        {
+          "scope": "0402.21.00",
+          "ccc": "04022100900",
+          "column_1": [
+            "10%",
+            "5%"
+          ],
+          "column_2": {
+            "PA,GT,SV": [
+              "10%",
+              "5%"
+            ]
+          }
+        },
+        {
+          "scope": "0405.10.00",
+          "column_1": [
+            "5%",
+            "2.5%"
+          ]
+        },
+        {
+          "scope": "0405.90.10",
+          "column_1": [
+            "8%",
+            "4%"
+          ]
+        },
+        {
+          "scope": "1001.19.00",
+          "column_1": [
+            "6.5%",
+            "0%"
+          ],
+          "column_2": {
+            "PA,GT,NI,SV,HN": [
+              "6.5%",
+              "0%"
+            ]
+          }
+        },
+        {
+          "scope": "1001.99.00",
+          "column_1": [
+            "6.5%",
+            "0%"
+          ],
+          "column_2": {
+            "PA,GT,NI,SV,HN": [
+              "6.5%",
+              "0%"
+            ]
+          }
+        }
+      ],
+      "instruments": [
+        {
+          "number": "台財關字第1151026272號",
+          "issued": "2026-10-01",
+          "issuer": "財政部 (Ministry of Finance)",
+          "gazette": "行政院公報 第032卷第182期",
+          "url": "https://gazette.nat.gov.tw/EG_FileManager/eguploadpub/eg032182/ch04/type1/gov30/num5/Eg.pdf",
+          "sha256": "1ae1da4c7769aa225fdb6705254070aac6976facc53268e9c48ab03c5783eccf",
+          "annex_url": "https://web.customs.gov.tw/download/a5ce2992e27341ddbf4f623f15d144f2",
+          "annex_sha256": "0c9e22a540df30c6c318d245478afc1db9030312cc25e05657c121463ecfe919"
+        }
+      ]
+    },
+    {
+      "id": "mof_1151027003_2_items",
+      "regulation_id": "台財關字第1151027003號",
+      "title": "機動調降大豆沙拉油及飼料用豆粉（粕）等二項貨品關稅稅率",
+      "title_en": "Provisional duty cuts on 2 goods: soybean salad oil and feed soybean meal",
+      "legal_basis": "關稅法第七十一條; 行政院115年9月30日院臺財字第1151026684號函",
+      "valid_from": "2026-10-01",
+      "valid_until": "2027-03-31",
+      "ends_early": "實施期間如遇稅則修正，機動稅率自動終止實施，改依修正後稅率課徵。",
+      "lines": [
+        {
+          "scope": "1507.90.00",
+          "column_1": [
+            "5%",
+            "0%"
+          ]
+        }
+      ],
+      "instruments": [
+        {
+          "number": "台財關字第1151027003號",
+          "issued": "2026-10-08",
+          "issuer": "財政部 (Ministry of Finance)",
+          "gazette": "行政院公報 第032卷第187期",
+          "url": "https://gazette.nat.gov.tw/EG_FileManager/eguploadpub/eg032187/ch04/type1/gov30/num6/Eg.pdf",
+          "sha256": "b3d199b7fd58a33014b3b8f16b2efa68cf1640bac8e26eaf2db2f112101ba33c",
+          "annex_url": "https://web.customs.gov.tw/download/6e1fb65faf0c45c3b4ad01d8c7ecda91",
+          "annex_sha256": "4fd16af216334c1cab8dd74213aae5dca6eb17213843217410145371a9dba37d"
+        }
+      ]
     }
   ]
 }

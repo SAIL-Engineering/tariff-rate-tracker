@@ -1674,14 +1674,20 @@ TW_COVERAGE = {
         "higher'), never converted to percentages.",
         "Traditional Chinese and English nomenclature at every level, and "
         "the schedule's levy-rule markers (稽徵規定).",
+        "Provisional 機動 duty cuts (Customs Act Art. 71) from the Ministry "
+        "of Finance notices listed in config/duty_overlays/tw.json: while "
+        "one is in force its rate is the rate served, dated, with the "
+        "schedule rate scheduled to return when it ends.",
     ],
     "excludes": [
         "FTA origin-rule verification: Column II rows are candidates — "
         "proof of origin and agreement conditions are required.",
         "Tariff-rate-quota entitlement and operational status (levy marker "
         "R flags TRQ lines; in-quota administration is not modeled).",
-        "Anti-dumping/countervailing case rates and provisional 機動 "
-        "adjustments outside the published schedule.",
+        "Anti-dumping/countervailing case rates.",
+        "Provisional 機動 cuts other than the notices listed in "
+        "config/duty_overlays/tw.json (the portal's 機動稅率清表 is not "
+        "acquired; notices are read from the Executive Yuan Gazette).",
         "Internal taxes beyond the flat lines (commodity tax, tobacco and "
         "alcohol taxes on specific goods).",
     ],
@@ -1710,13 +1716,96 @@ def _tw_pref_treatment(origins: list[str]) -> str:
     return "pref_" + "-".join(o.lower().replace("*", "") for o in sorted(origins))
 
 
+def _tw_amendments(overlay: dict, leaves: list[str],
+                   cells: dict[str, dict]) -> dict[str, dict]:
+    """config/duty_overlays/tw.json `rate_amendments` -> {leaf: {"notice",
+    "col1": (base, rate), "col2": {treatment: (base, rate)}}}. An 8-digit
+    scope covers every leaf under it, a printed CCC code exactly one; the
+    schedule must still print each base rate on each covered leaf. Anything
+    else stops the build: a rate that changes law must not be half-applied."""
+    by_leaf: dict[str, dict] = {}
+    for a in overlay.get("rate_amendments", []):
+        for key in ("id", "regulation_id", "legal_basis", "valid_from",
+                    "valid_until", "lines", "instruments"):
+            if key not in a:
+                raise SystemExit(f"ERROR: tw overlay amendment "
+                                 f"{a.get('id', '?')!r} lacks {key!r}")
+        start = _dt.date.fromisoformat(a["valid_from"])
+        end = _dt.date.fromisoformat(a["valid_until"])
+        if end < start:
+            raise SystemExit(f"ERROR: tw overlay amendment {a['id']!r} ends "
+                             f"before it starts")
+        if not a["instruments"] or not all(
+                i.get("number") and i.get("url") for i in a["instruments"]):
+            raise SystemExit(f"ERROR: tw overlay amendment {a['id']!r} must "
+                             f"cite each instrument's number and url")
+        notice = {**a, "_start": start, "_end": end}
+        for line in a["lines"]:
+            scope = bhc._digits_only(line.get("scope", ""))
+            ccc = line.get("ccc")
+            if ccc:
+                covered = [ccc] if ccc in cells else []
+            elif len(scope) == 8:
+                covered = [lf for lf in leaves if lf.startswith(scope)]
+            else:
+                raise SystemExit(f"ERROR: tw overlay {a['id']!r}: scope "
+                                 f"{line.get('scope')!r} is not 8 digits and "
+                                 f"names no ccc leaf")
+            if not covered:
+                raise SystemExit(f"ERROR: tw overlay {a['id']!r}: "
+                                 f"{line.get('scope')} {ccc or ''} covers no "
+                                 f"leaf of this schedule -- review "
+                                 f"config/duty_overlays/tw.json")
+            base1, rate1 = line["column_1"]
+            col2 = {}
+            for group, (b2, r2) in (line.get("column_2") or {}).items():
+                col2[_tw_pref_treatment([o.strip() for o in group.split(",")])] = (b2, r2)
+            for lf in covered:
+                cell = cells[lf]
+                if cell["col1"] != base1:
+                    raise SystemExit(
+                        f"ERROR: {lf}: tw overlay {a['id']!r} expects Column "
+                        f"I {base1!r}, the schedule prints {cell['col1']!r} "
+                        f"-- review config/duty_overlays/tw.json")
+                for t, (b2, _r2) in col2.items():
+                    if cell["col2"].get(t) != b2:
+                        raise SystemExit(
+                            f"ERROR: {lf}: tw overlay {a['id']!r} expects "
+                            f"{t} {b2!r}, the schedule prints "
+                            f"{cell['col2'].get(t)!r} -- review "
+                            f"config/duty_overlays/tw.json")
+                if lf in by_leaf:
+                    raise SystemExit(f"ERROR: {lf} is cut by both "
+                                     f"{by_leaf[lf]['notice']['id']!r} and "
+                                     f"{a['id']!r} in the tw overlay")
+                by_leaf[lf] = {"notice": notice, "scope": line["scope"],
+                               "col1": (base1, rate1), "col2": col2}
+    return by_leaf
+
+
+def _tw_basis(a: dict) -> str:
+    """'台財關字第1151026272號 (Customs Act Art. 71), until 2027-03-31'."""
+    return (f"{a['regulation_id']} (Customs Act Art. 71), until "
+            f"{a['valid_until']}")
+
+
 def build_tw(main_xls: Path, jur: str, revision: str,
-             nomenclature_csv: Path):
+             nomenclature_csv: Path, snapshot_date: _dt.date | None = None,
+             overlay: dict | None = None):
     """TW: one row per 11-digit CCC code in the MAIN portal xls, carrying
     all three duty columns. erga_omnes = Column I (the applied rate for WTO
     members — practically all origins); Column II preferential groups become
     conditional treatments keyed by their origin set; Column III rides as an
-    informational general rate. Blank components stay NULL, never 0."""
+    informational general rate. Blank components stay NULL, never 0.
+
+    PROVISIONAL CUTS (機動, Customs Act Art. 71) come from the overlay
+    (config/duty_overlays/tw.json `rate_amendments`, see _tw_amendments): the
+    schedule xls carries no column for them. While a notice is in force at
+    `snapshot_date` (default today) its rate IS the Column I / Column II rate
+    served, with valid_from/valid_until, and the schedule rate follows as an
+    informational `<treatment>_scheduled` row from the day after it ends, so
+    /api/duty-rates reverts on its own. Outside the window the schedule rate
+    is served."""
     from acquire.tw_customs import parse_main_xls
 
     leaves = []
@@ -1731,6 +1820,62 @@ def build_tw(main_xls: Path, jur: str, revision: str,
     records: list[dict] = []
     treatments_seen: dict[str, dict] = {}
     col1_missing = 0
+    snapshot = snapshot_date or _dt.date.today()
+    if overlay is None:
+        overlay = load_overlay("tw")
+    cells = {}
+    for row in rows:
+        c2 = {}
+        for rate, origins_raw in _TW_COL2_GROUP.findall(row["col2"] or ""):
+            c2[_tw_pref_treatment([o.strip() for o in origins_raw.split(",")
+                                   if o.strip()])] = rate.strip()
+        cells[row["code"]] = {"col1": row["col1"], "col2": c2}
+    cuts = _tw_amendments(overlay, leaves, cells)
+    in_force: dict[str, dict] = {}
+    scheduled_names: dict[str, str] = {}
+
+    def duty(disp, code, treatment, rate_text, **kw) -> list[dict]:
+        """A Column I / II row, with the provisional cut applied when one
+        covers this leaf and treatment and is in force at `snapshot`."""
+        cut = cuts.get(code)
+        pair = None
+        if cut:
+            pair = (cut["col1"] if treatment == "erga_omnes"
+                    else cut["col2"].get(treatment))
+        if not pair:
+            return [_record(jur, revision, disp, code, treatment, rate_text,
+                            **kw)]
+        a = cut["notice"]
+        base, rate = pair
+        if not (a["_start"] <= snapshot <= a["_end"]):
+            rec = _record(jur, revision, disp, code, treatment, rate_text, **kw)
+            rec["amendment_id"] = a["id"]
+            rec["note"] = (f"Provisional {rate} under {_tw_basis(a)} "
+                           f"({a['valid_from']} to {a['valid_until']}) "
+                           f"{'ended' if snapshot > a['_end'] else 'not yet in force'}"
+                           f" at {snapshot.isoformat()} -- schedule rate "
+                           f"{base} served")
+            return [rec]
+        in_force[a["id"]] = a
+        rec = _record(jur, revision, disp, code, treatment, rate, **kw)
+        rec.update({
+            "valid_from": a["valid_from"], "valid_until": a["valid_until"],
+            "regulation_id": a["regulation_id"],
+            "regulation_effective": a["valid_from"],
+            "temporary_basis": _tw_basis(a), "amendment_id": a["id"],
+            "source_text": rate_text,
+            "note": (f"Provisional {rate} under {a['regulation_id']} "
+                     f"({a['legal_basis']}), {a['valid_from']} to "
+                     f"{a['valid_until']}, printed scope {cut['scope']}; "
+                     f"schedule rate {base} after that, or earlier if the "
+                     f"tariff schedule is amended (自動終止)")})
+        nxt = _record(jur, revision, disp, code, f"{treatment}_scheduled",
+                      base, informational=True, category="scheduled_rate")
+        nxt["valid_from"] = (a["_end"] + _dt.timedelta(days=1)).isoformat()
+        nxt["note"] = (f"The schedule rate, which applies again when the "
+                       f"provisional rate under {a['regulation_id']} ends")
+        scheduled_names[f"{treatment}_scheduled"] = treatment
+        return [rec, nxt]
 
     def display(digits: str) -> str:
         return (f"{digits[:4]}.{digits[4:6]}.{digits[6:8]}."
@@ -1740,8 +1885,7 @@ def build_tw(main_xls: Path, jur: str, revision: str,
         code = row["code"]
         disp = display(code)
         if row["col1"]:
-            records.append(_record(jur, revision, disp, code, "erga_omnes",
-                                   row["col1"]))
+            records.extend(duty(disp, code, "erga_omnes", row["col1"]))
         else:
             col1_missing += 1
         # Column II: 1..3 "rate (origins)" groups per cell.
@@ -1755,8 +1899,8 @@ def build_tw(main_xls: Path, jur: str, revision: str,
             for rate, origins_raw in groups:
                 origins = [o.strip() for o in origins_raw.split(",") if o.strip()]
                 treatment = _tw_pref_treatment(origins)
-                records.append(_record(jur, revision, disp, code, treatment,
-                                       rate.strip(), conditional=True))
+                records.extend(duty(disp, code, treatment, rate.strip(),
+                                    conditional=True))
                 treatments_seen.setdefault(treatment, {
                     "treatment": treatment,
                     "name": "Preferential (Column II) — " + ", ".join(sorted(origins)),
@@ -1813,9 +1957,32 @@ def build_tw(main_xls: Path, jur: str, revision: str,
              "origin_countries": [], "applies": None, "conditional": True,
              "legal_basis": "Customs Import Tariff, collection provisions"}]
     tout += [treatments_seen[k] for k in sorted(treatments_seen)]
+    for name in sorted(scheduled_names):
+        base_t = scheduled_names[name]
+        meta = next((t for t in tout if t["treatment"] == base_t), {})
+        tout.append({
+            "treatment": name,
+            "name": f"{meta.get('name', base_t)} — schedule rate that applies "
+                    f"again when a provisional (機動) rate ends",
+            "origin_countries": meta.get("origin_countries", []),
+            "applies": meta.get("applies"), "conditional": meta.get(
+                "conditional", False), "category": "scheduled_rate",
+            "legal_basis": "Customs Import Tariff; the notice named on the "
+                           "line (regulation_id)",
+            "note": "Informational: the schedule rate a provisional rate "
+                    "displaces, dated from the day after it ends. Never the "
+                    "rate in force."})
     coverage = dict(TW_COVERAGE)
-    coverage["as_of"] = f"{revision} · CCC schedule ({main_xls.name})"
-    overlay = load_overlay("tw")
+    coverage["as_of"] = (f"{revision} · CCC schedule ({main_xls.name})"
+                         + "".join(f"; provisional rates under "
+                                   f"{a['regulation_id']} to "
+                                   f"{a['valid_until']}"
+                                   for a in in_force.values()))
+    if in_force:
+        print(f"[tw] provisional cuts in force at {snapshot}: "
+              + ", ".join(f"{a['regulation_id']} "
+                          f"({sum(1 for c in cuts.values() if c['notice']['id'] == a['id'])} leaves)"
+                          for a in in_force.values()))
     if overlay.get("flat_taxes"):
         coverage["flat_taxes"] = overlay["flat_taxes"]
     return records, tout, coverage
@@ -3205,7 +3372,9 @@ def main() -> int:
             sys.exit("ERROR: --nomenclature is required for tw")
         records, treatments, coverage = build_tw(
             args.source, jur, args.revision,
-            nomenclature_csv=args.nomenclature)
+            nomenclature_csv=args.nomenclature,
+            snapshot_date=(_dt.date.fromisoformat(args.snapshot_date)
+                           if args.snapshot_date else None))
     elif args.source_format == "kr":
         for flag, val in (("--nomenclature", args.nomenclature),
                           ("--snapshot-date", args.snapshot_date),
