@@ -45,6 +45,27 @@ stopifnot(is.na(una$statutory_base_rate),is.na(una$statutory_rate_232),
           identical(una$shipment_status,'unresolved_source'),
           identical(una$shipment_contract_version,'unsupported_or_incomplete_contract'))
 
+# A conditional-scope §232 row (auto-parts use): the scope marker blanked the
+# statutory rate and kept the posted heading rate. The aggregate writer serves
+# the posted 25% as the statutory rate (applied, confirm the use); it never
+# serves rate_232's modelled 23.76%. The contract path keeps it blank.
+cond <- rates; cond$statutory_rate_232 <- NA_real_; cond$published_rate_232 <- 0.25
+cond$rate_232 <- 0.237625
+agg_c <- mark_aggregate_only_scope(cond,'aggregate_only_build_no_shipment_contract_requested')
+una_c <- mark_shipment_contract_unavailable(cond,'ordinary_build_missing_verified_shipment_projection')
+stopifnot(identical(agg_c$statutory_rate_232,0.25),
+          is.na(agg_c$modeled_legacy_statutory_rate_232),
+          is.na(una_c$statutory_rate_232),
+          identical(sort(names(agg_c)),sort(names(una_c))))
+# A row no marker reached has no published rate and is left as computed.
+plain <- rates; plain$published_rate_232 <- NA_real_
+stopifnot(identical(mark_aggregate_only_scope(plain,'x')$statutory_rate_232,0.25))
+
+# A scope shown as potentially applicable (general-purpose provision, note 39)
+# serves 0 until its condition is established; the rules carry the 25%.
+pot <- cond; pot$s232_scope_default <- 'potential'
+stopifnot(identical(mark_aggregate_only_scope(pot,'x')$statutory_rate_232,0))
+
 # Neither path may invent a shipment identity it does not have.
 for(x in list(agg,una))
   stopifnot(is.na(x$shipment_dataset_version),is.na(x$shipment_evidence_snapshot_id),

@@ -46,6 +46,7 @@ for (share in c(0,.5,1)) {
     tibble(hts10='1111111111',qualifying_share=share))
   out <- restore_s232_semiconductor_model(rows,h,'1111111111',cfg)
   stopifnot(is.na(out$statutory_rate_232[1]),out$published_rate_232_semiconductors[1]==.25,
+    out$published_rate_232[1]==.25, is.na(out$published_rate_232[2]),
     out$statutory_rate_232[2]==.4, out$rate_232[1]==.25*share,
     out$shipment_232_scope_status[1]=='needs_inputs',
     length(jsonlite::fromJSON(out$shipment_232_required_facts_json[1]))==4)

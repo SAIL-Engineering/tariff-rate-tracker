@@ -316,7 +316,7 @@
       "authority_key": "301",
       "status": "active",
       "short_label": "Section 301 (China)",
-      "legal_authority": "USTR Section 301 action; HTSUS 9903.88.xx",
+      "legal_authority": "USTR China technology-transfer action; HTSUS notes 20/31 and headings 9903.88, 9903.91, 9903.92.10",
       "statute": "19 U.S.C. 2411",
       "mechanism": "flat",
       "narrative": "Section 301 China duty {applied_pct} on {hts10} ({program_ch99}), per the USTR action lists."
@@ -328,7 +328,23 @@
       "legal_authority": "USTR Section 301 exclusion/expired list",
       "statute": "19 U.S.C. 2411",
       "mechanism": "flat",
-      "narrative": "{hts10} is outside the active Section 301 lists for {country_name} (excluded or never listed) in {revision}, so no Section 301 duty applies. A {counterfactual_pct} charge would reflect a 301 line that does not cover this code."
+      "narrative": "The China technology-transfer charge is not applied to {hts10} from {country_name} in {revision}. Consult the source decision for the scope or exclusion basis; other Section 301 investigations require their own determination."
+    },
+    "s301_scope_pending": {
+      "status": "conditional",
+      "short_label": "Section 301 product facts required",
+      "legal_authority": "Revision-specific HTSUS notes 20/31 and heading description",
+      "statute": "19 U.S.C. 2411",
+      "mechanism": "flat",
+      "narrative": "Potential China technology-transfer duty on {hts10} ({program_ch99}); the preserved legal product description must be established before a shipment amount is known."
+    },
+    "s301_maritime": {
+      "status": "conditional",
+      "short_label": "Section 301 maritime equipment",
+      "legal_authority": "USTR maritime action, note 31(k)-(l); FR 2025-19568 and suspension FR 2025-19873",
+      "statute": "19 U.S.C. 2411; 19 U.S.C. 2417",
+      "mechanism": "flat",
+      "narrative": "Potential maritime equipment duty on {hts10} ({program_ch99}); product description, Chinese origin/components/ownership, applicable claim and entry time require determination."
     },
     "s301fl_active": {
       "status": "active",
@@ -549,6 +565,141 @@
       "statute": "19 U.S.C. 2132",
       "mechanism": "stacking",
       "narrative": "The Section 122 surcharge does not apply in addition to Section 232 on the same value portion: where Section 232 applies to part of an import, Section 122 applies only to the part not subject to Section 232. It is not a blended or discounted rate — each portion carries its own published rate."
+    },
+    "s232_full_value_no_content_split": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Not owed: Section 232 covers the full value",
+      "legal_authority": "EO 14257 sec. 3(b) (reciprocal); EO 14289 sec. 3(a), 90 FR 18907, CBP CSMS #65054270 (non-stacking); Proclamation 11012 (91 FR 9339) (Section 122)",
+      "statute": "50 U.S.C. 1701 et seq.; 19 U.S.C. 2132; 19 U.S.C. 1862",
+      "mechanism": "stacking",
+      "narrative": "This duty applies only to the part of an article's value that is not subject to Section 232. Section 232 applies to the full value of this article, so no part remains for this duty: it is replaced, not reduced. Where Section 232 applies to part of the value, this duty applies to the remainder."
+    },
+    "s232_auto_parts_use_condition": {
+      "authority_key": "232",
+      "status": "conditional",
+      "short_label": "Applies only to parts of passenger vehicles and light trucks",
+      "legal_authority": "Proclamation 10908 (90 FR 14705); HTSUS chapter 99 U.S. note 33(f)-(h), headings 9903.94.05 and 9903.94.06",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "scope",
+      "narrative": "Heading 9903.94.05 applies the 25% duty only to parts of passenger vehicles (sedans, sport utility vehicles, crossover utility vehicles, minivans and cargo vans) and light trucks classified in a provision listed in U.S. note 33(g). An article in a listed provision that is not such a part reports under 9903.94.06 and owes no automobile-parts duty (note 33(h)(ii)); a USMCA-qualifying part also reports under 9903.94.06 (note 33(h)(i)). To decide, establish what the article is designed and sold for: the part number's vehicle application (make, model and fitment), the buyer and its use, and the product literature. If it is such a part: 25% under 9903.94.05, and the reciprocal and Section 122 duties do not apply to it. If not: 9903.94.06, no automobile-parts duty."
+    },
+    "s232_semiconductor_criteria": {
+      "authority_key": "232",
+      "status": "conditional",
+      "short_label": "Applies only to semiconductor articles meeting U.S. note 39's criteria",
+      "legal_authority": "Proclamation 11002 (91 FR 2443), effective January 15, 2026; HTSUS chapter 99 U.S. note 39(b), headings 9903.79.01-.09; CBP CSMS 67400472",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "scope",
+      "narrative": "Heading 9903.79.01 applies the 25% duty only to a logic integrated circuit, or an article containing one, classified in 8471.50, 8471.80 or 8473.30, with either (1) total processing performance (TPP) above 14,000 and below 17,500 and total DRAM bandwidth above 4,500 GB/s and below 5,000 GB/s, or (2) TPP above 20,800 and below 21,100 and total DRAM bandwidth above 5,800 GB/s and below 6,200 GB/s (U.S. note 39(b)). To decide, check the product datasheet for TPP and DRAM bandwidth, then the end use: entries for U.S. data centers (over 100 MW of new AI load), repair or replacement, research and development, startups, consumer, civil industrial or public-sector use report under 9903.79.03-.09 at 0%. Meets the parameters with no exempt end use: 25% under 9903.79.01. Otherwise: 9903.79.02 (parameters not met) or the end-use heading, no Section 232 semiconductor duty."
+    },
+    "proc10947_6_non_metal_content": {
+      "authority_key": "ieepa_recip",
+      "status": "note",
+      "short_label": "Applies to the declared non-metal value of a Section 232 derivative",
+      "legal_authority": "Proclamation 10947 of June 3, 2025, clause (6) (90 FR 24199); EO 14257 sec. 3(b); CBP CSMS 64348411, 65236374; copper: Proclamation 10962 clause (4), CSMS 65794272",
+      "statute": "50 U.S.C. 1701 et seq.; 19 U.S.C. 1862",
+      "mechanism": "stacking",
+      "narrative": "From June 4, 2025 the non-steel, non-aluminum content of a Section 232 derivative article is subject to the reciprocal duty and any other applicable tariffs, reported on its own entry line; the metal content carries Section 232. Before June 4, 2025 the whole article was outside the reciprocal duty (EO 14257 sec. 3(b), heading 9903.01.33). The split needs the declared metal content value: when it is unknown, CBP collects Section 232 on the entire entered value on one line, and no non-metal portion remains for the reciprocal duty. The copper heading (9903.78.01) splits the same way from August 1, 2025."
+    },
+    "ieepa_country_eo_active": {
+      "authority_key": "ieepa_recip",
+      "status": "active",
+      "short_label": "Country-specific IEEPA duty (in addition to the reciprocal duty)",
+      "legal_authority": "Brazil: EO 14323 (90 FR 37739), heading 9903.01.77, from Aug 6, 2025. India: EO 14329, heading 9903.01.84, from Aug 27, 2025",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "surcharge",
+      "narrative": "A country-specific IEEPA duty of {applied_pct} on {hts10} from {country_name} ({program_ch99}), owed in addition to the reciprocal duty and reported under its own heading."
+    },
+    "in_transit_fentanyl_cn_2025_02": {
+      "authority_key": "ieepa_fent",
+      "status": "conditional",
+      "short_label": "In-transit exception (China fentanyl duty, February 2025)",
+      "legal_authority": "EO 14195; CBP notice 90 FR 9038, heading 9903.01.23",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods loaded onto a vessel at the port of loading, or in transit on the final mode of transport, before 12:01 a.m. EST February 1, 2025 and entered before March 7, 2025 do not owe the 10% duty; they report under 9903.01.23. Verify the on-board date on the bill of lading. Otherwise the duty shown applies."
+    },
+    "in_transit_reciprocal_2025_04_05": {
+      "authority_key": "ieepa_recip",
+      "status": "conditional",
+      "short_label": "In-transit exception (reciprocal duty, April 2025)",
+      "legal_authority": "EO 14257 (90 FR 15041); CBP CSMS 64649265, 64680374; heading 9903.01.28",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods loaded onto a vessel at the port of loading, or in transit on the final mode of transport, before 12:01 a.m. EDT April 5, 2025 and entered before May 27, 2025 owe no reciprocal duty; they report under 9903.01.28. Verify the on-board date on the bill of lading. Otherwise the duty shown applies."
+    },
+    "in_transit_reciprocal_2025_04_09": {
+      "authority_key": "ieepa_recip",
+      "status": "conditional",
+      "short_label": "In-transit exception (April 9, 2025 country rates)",
+      "legal_authority": "EO 14257 Annex I; CBP CSMS 64680374",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods loaded before 12:01 a.m. EDT April 9, 2025 and entered before May 27, 2025 owe the 10% baseline under 9903.01.25 instead of the country rate. Verify the on-board date on the bill of lading. Otherwise the country rate shown applies."
+    },
+    "in_transit_reciprocal_2025_08_07": {
+      "authority_key": "ieepa_recip",
+      "status": "conditional",
+      "short_label": "In-transit exception (August 7, 2025 country rates)",
+      "legal_authority": "EO 14326 (90 FR 37963); CBP CSMS 65829726",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods loaded before 12:01 a.m. EDT August 7, 2025 and entered before October 5, 2025 owe the 10% baseline under 9903.01.25 instead of the country rate. Verify the on-board date on the bill of lading. Otherwise the country rate shown applies."
+    },
+    "in_transit_brazil_2025_08_06": {
+      "authority_key": "ieepa_recip",
+      "status": "conditional",
+      "short_label": "In-transit exception (Brazil additional duty)",
+      "legal_authority": "EO 14323 (90 FR 37739); CBP CSMS 65807735; heading 9903.01.78",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods of Brazil loaded before 12:01 a.m. EDT August 6, 2025 and entered before October 5, 2025 do not owe the additional 40%; they report under 9903.01.78. Verify the on-board date on the bill of lading. Otherwise the duty shown applies."
+    },
+    "in_transit_india_2025_08_27": {
+      "authority_key": "ieepa_recip",
+      "status": "conditional",
+      "short_label": "In-transit exception (India additional duty)",
+      "legal_authority": "EO 14329; CBP notice 90 FR 41837; CBP CSMS 66027027; heading 9903.01.85",
+      "statute": "50 U.S.C. 1701 et seq. (IEEPA)",
+      "mechanism": "in_transit",
+      "narrative": "Goods of India loaded before 12:01 a.m. EDT August 27, 2025 and entered before September 17, 2025 do not owe the additional 25%; they report under 9903.01.85. Verify the on-board date on the bill of lading. Otherwise the duty shown applies."
+    },
+    "eo14289_3a_i_auto": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Not owed: the Section 232 automobile duty takes precedence",
+      "legal_authority": "Executive Order 14289 of April 29, 2025, sec. 3(a)(i) (90 FR 18907)",
+      "statute": "19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+      "mechanism": "stacking",
+      "narrative": "An article subject to the Section 232 automobile or automobile parts duty is not subject to the IEEPA Canada or Mexico duty, or to the Section 232 steel and aluminum duties."
+    },
+    "eo14289_3a_ii_ieepa_camx": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Not owed: the IEEPA Canada/Mexico duty takes precedence",
+      "legal_authority": "Executive Order 14289 of April 29, 2025, sec. 3(a)(ii) as originally issued (90 FR 18907); reversed from June 4, 2025 by Proclamation 10947 clause (5)",
+      "statute": "19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+      "mechanism": "stacking",
+      "narrative": "Before June 4, 2025, an article subject to the IEEPA Canada or Mexico duty is not subject to the Section 232 steel and aluminum duties."
+    },
+    "proc10947_5_metals": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Not owed: the Section 232 steel/aluminum duty takes precedence",
+      "legal_authority": "Proclamation 10947 of June 3, 2025, clause (5), amending EO 14289 sec. 3(a)(ii) (90 FR 24199), effective June 4, 2025",
+      "statute": "19 U.S.C. 1862; 50 U.S.C. 1701 et seq.",
+      "mechanism": "stacking",
+      "narrative": "From June 4, 2025, an article subject to the Section 232 steel or aluminum duty is not subject to the IEEPA Canada or Mexico duty."
+    },
+    "proc10962_5_auto": {
+      "authority_key": "232",
+      "status": "note",
+      "short_label": "Not owed: the Section 232 automobile duty takes precedence over copper",
+      "legal_authority": "Proclamation 10962 of July 30, 2025, clause (5) (90 FR 37727), effective August 1, 2025",
+      "statute": "19 U.S.C. 1862",
+      "mechanism": "stacking",
+      "narrative": "An article subject to the Section 232 automobile or automobile parts duty is not subject to the Section 232 copper duty."
     },
     "ieepa_terminated_eo14389": {
       "authority_key": "ieepa_recip",

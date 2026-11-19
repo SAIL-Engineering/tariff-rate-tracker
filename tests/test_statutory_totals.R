@@ -82,6 +82,46 @@ run_test('summing statutory columns naively would double-count; EO 14289 does no
               TRUE)  # suppression happens inside the shadow, not on df
 })
 
+run_test('the statutory columns carry the order\'s outcome, so a reader cannot resurrect a removed duty', {
+  # Same row: SAIL now reads statutory_rate_* as what the entry owes. The
+  # IEEPA Mexico duty sec. 3(a)(i) removes must read 0 there, with the trace
+  # kept for the determination; §232 stays.
+  r <- mk('8708936000', CTY_MX,
+          base_rate = 0.025, statutory_base_rate = 0.025,
+          rate_232 = 0.25, rate_232_auto = 0.25,
+          statutory_rate_232 = 0.25, statutory_rate_ieepa_fent = 0.25,
+          rate_ieepa_fent = 0.0537, total_additional = 0.25, total_rate = 0.275)
+  out <- compute_statutory_totals(r, apply_eo = TRUE)
+  stopifnot(out$statutory_rate_ieepa_fent == 0, out$statutory_rate_232 == 0.25,
+            grepl('eo14289_3a_i_auto', out$statutory_suppressed_json, fixed = TRUE),
+            abs(out$rate_ieepa_fent - 0.0537) < 1e-12)   # weighted column untouched
+})
+
+run_test('before June 4, 2025 the Canadian IEEPA duty removes §232 steel from the statutory column', {
+  # Original EO 14289 sec. 3(a)(ii): an unclaimed Canadian steel article owes
+  # the IEEPA Canada duty and not §232 steel. A conditional-scope row's posted
+  # rate goes to 0 the same way.
+  r <- mk(c('7208101500', '7318158085'), CTY_CA,
+          rate_232 = 0.25, rate_232_steel = 0.25, statutory_rate_232 = c(0.25, NA),
+          rate_ieepa_fent = 0.25, statutory_rate_ieepa_fent = 0.25)
+  r$published_rate_232 <- c(NA, 0.25)
+  out <- compute_statutory_totals(r, apply_eo = TRUE)
+  stopifnot(out$statutory_rate_232[1] == 0, is.na(out$statutory_rate_232[2]),
+            out$published_rate_232[2] == 0, all(out$statutory_rate_ieepa_fent == 0.25),
+            all(grepl('eo14289_3a_ii_ieepa_camx', out$statutory_suppressed_json, fixed = TRUE)))
+})
+
+run_test('a §232 scope shown as potentially applicable cannot displace the IEEPA Mexico duty', {
+  # A Mexican computer (8471, general-purpose auto-parts provision) owes IEEPA
+  # Mexico; the unconfirmed auto-parts action is not owed, so sec. 3(a)(i) does
+  # not remove it.
+  r <- mk('8471300100', CTY_MX, rate_232 = 0.237625, rate_232_auto = 0.237625,
+          statutory_rate_232 = NA_real_, statutory_rate_ieepa_fent = 0.25, rate_ieepa_fent = 0.25)
+  r$s232_scope_default <- 'potential'
+  out <- compute_statutory_totals(r, apply_eo = TRUE)
+  stopifnot(out$statutory_rate_ieepa_fent == 0.25, is.na(out$statutory_suppressed_json))
+})
+
 run_test('a non-USMCA origin stacks the base rate and IEEPA reciprocal additively', {
   # 8482200090 / DE: 5.8% MFN + 10% EU reciprocal, no §232, so no metal-content
   # split is in play. EO 14289 sec. 3(a) governs 232-vs-IEEPA-CA/MX only;

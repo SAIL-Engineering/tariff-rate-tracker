@@ -2425,9 +2425,10 @@ enforce_rate_schema <- function(df) {
   # Audit/model fields have stable types in every revision. Missing evidence
   # remains NA; an absent newer field never implies zero shipment liability.
   for(col in c('modeled_s232_unattributed_rate','modeled_s232_uk_metal_origin_qualification',
-    'modeled_ieepa_reciprocal_parameter','modeled_ieepa_reciprocal_rate','modeled_ieepa_country_eo_rate'))
+    'modeled_ieepa_reciprocal_parameter','modeled_ieepa_reciprocal_rate','modeled_ieepa_country_eo_rate',
+    'published_rate_232','floor_rate_232','floor_rate_s301fl'))
     defaults[[col]] <- NA_real_
-  for(col in c('s232_action_attribution_status','modeled_s232_residual_action',
+  for(col in c('s232_action_attribution_status','modeled_s232_residual_action','published_duty_basis_232','s232_scope_default','s232_scope_citation',
     's232_note16_status','s232_note16_lists_json','s232_note16_metals_json','s232_legacy_status',
     'ieepa_recip_ch99','ieepa_selected_actions_json','ch99_src_ieepa_country_eo','ch99_src_ieepa_fent')) defaults[[col]] <- NA_character_
   for(col in c('modeled_s232_note16_combined_metals','modeled_ieepa_reciprocal_exempt','modeled_ieepa_duty_free'))
@@ -2444,6 +2445,7 @@ enforce_rate_schema <- function(df) {
   defaults[['statutory_total_additional']] <- NA_real_
   defaults[['statutory_total_rate']] <- NA_real_
   defaults[['statutory_alternatives_json']] <- NA_character_
+  defaults[['statutory_suppressed_json']] <- NA_character_
 
   for(col in setdiff(names(defaults),RATE_SCHEMA)) if(!col %in% names(df)) df[[col]] <- rep(defaults[[col]],nrow(df))
 
@@ -2879,9 +2881,20 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
   # value), the metal it attaches to, and the posted statutory rate when it
   # differs from the applied AVE. The frontend determination layer reads these
   # instead of inferring the basis from trigger heuristics.
-  basis232 <- chr('duty_basis_232')
+  # Where §232 scope turns on a shipment fact (auto-parts use, note 16 or
+  # legacy metal predicates, semiconductor eligibility) the scope markers blank
+  # statutory_rate_232 and keep the posted heading rate in published_rate_232,
+  # with the basis it is charged on in published_duty_basis_232 when
+  # duty_basis_232 was blanked too. The determination states that published
+  # rate. It never falls back to rate_232: that column carries modelled
+  # adjustments (the 3.75% x 33% US-assembly credit, floors closed against the
+  # trade-weighted base) that are not a rate any entry is charged.
+  basis232 <- dplyr::coalesce(chr('duty_basis_232'), chr('published_duty_basis_232'))
   stat232  <- num('statutory_rate_232')
-  basis_metal_232 <- dplyr::coalesce(s232_metal, deriv)
+  pub232   <- num('published_rate_232')
+  stat232  <- ifelse(stat232 > EPS, stat232, pub232)
+  copper_heading <- as.logical(gv('is_copper_heading', FALSE)); copper_heading[is.na(copper_heading)] <- FALSE
+  basis_metal_232 <- dplyr::coalesce(s232_metal, deriv, ifelse(copper_heading, 'copper', NA_character_))
   extra232 <- paste0(
     ifelse(!is.na(basis232), paste0(',"basis":"', basis232, '"'), ''),
     ifelse(!is.na(basis232) & basis232 == 'metal_content_value' & !is.na(basis_metal_232),
@@ -2916,7 +2929,7 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
   rule_frag <- function(code, authority, program, status, statutory = NULL,
                         rate_type = NULL, stacking_class = NULL, basis = NULL,
                         basis_metal = NULL, req_inputs = NULL,
-                        stack_cite = NULL, basis_cite = NULL, keep) {
+                        stack_cite = NULL, basis_cite = NULL, scope_cite = NULL, floor = NULL, keep) {
     # Recycle every arg to length n: ifelse() with a length-1 condition would
     # otherwise collapse the fragment vector to one element.
     code <- rep_len(code, n); authority <- rep_len(authority, n)
@@ -2929,6 +2942,8 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     if (!is.null(req_inputs)) req_inputs <- rep_len(req_inputs, n)
     if (!is.null(stack_cite)) stack_cite <- rep_len(stack_cite, n)
     if (!is.null(basis_cite)) basis_cite <- rep_len(basis_cite, n)
+    if (!is.null(scope_cite)) scope_cite <- rep_len(scope_cite, n)
+    if (!is.null(floor)) floor <- rep_len(floor, n)
     s <- paste0(',{"ch99_code":',
                 ifelse(is.na(code), 'null', paste0('"', code, '"')),
                 ',"authority":"', authority, '"',
@@ -2940,6 +2955,11 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     }
     if (!is.null(rate_type)) {
       s <- ifelse(!is.na(rate_type), paste0(s, ',"rate_type":"', rate_type, '"'), s)
+    }
+    # A floor or cap's published rate: the total duty including the Column 1
+    # rate. statutory_rate is what the program adds on top of that base.
+    if (!is.null(floor)) {
+      s <- ifelse(!is.na(floor) & floor > EPS, paste0(s, ',"floor_rate":', fmt(floor)), s)
     }
     if (!is.null(stacking_class)) {
       s <- ifelse(!is.na(stacking_class),
@@ -2963,6 +2983,12 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     if (!is.null(basis_cite)) {
       s <- ifelse(!is.na(basis_cite),
                   paste0(s, ',"basis_citation":"', basis_cite, '"'), s)
+    }
+    # The condition the rule's applicability turns on: what decides yes or
+    # no, the evidence, and the outcome either way (config/duty_citations.yaml).
+    if (!is.null(scope_cite)) {
+      s <- ifelse(!is.na(scope_cite),
+                  paste0(s, ',"scope_citation":"', scope_cite, '"'), s)
     }
     s <- paste0(s, '}')
     keep[is.na(keep)] <- FALSE
@@ -2988,11 +3014,51 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
                   ',"primary_smelt_country","secondary_smelt_country","cast_country"', '')),
     ''
   )
+  # Scope facts the published rate is conditional on (e.g. note 33(g)/(h)(ii)
+  # passenger-vehicle/light-truck parts use). The rule stays 'applied' at the
+  # published rate; the facts tell the reader what to confirm for the entry.
+  scope_status_232 <- chr('shipment_232_scope_status')
+  scope_facts_232 <- gsub('^\\[|\\]$', '', dplyr::coalesce(chr('shipment_232_required_facts_json'), ''))
+  scope_facts_232[is.na(scope_status_232) | scope_status_232 != 'needs_inputs'] <- ''
+  req232 <- ifelse(nzchar(req232) & nzchar(scope_facts_232), paste0(req232, ',', scope_facts_232),
+                   paste0(req232, scope_facts_232))
+
+  # Actions the non-stacking order removes from an unclaimed entry
+  # (compute_statutory_totals' trace). The rule says replaced and cites the
+  # clause; the effective column may still carry a weighted remainder.
+  sup_trace <- chr('statutory_suppressed_json')
+  sup_fent_rule <- rep(NA_character_, n); sup_232_rule <- rep(NA_character_, n)
+  sup_u <- unique(sup_trace[!is.na(sup_trace)])
+  if (length(sup_u)) {
+    sup_rules <- lapply(sup_u, function(s)
+      tryCatch(jsonlite::fromJSON(s, simplifyVector = FALSE)$rules, error = function(e) list()))
+    first_rule <- function(rules, test) {
+      hit <- Filter(function(x) isTRUE(test(x$action)), rules)
+      if (length(hit)) as.character(hit[[1]]$rule) else NA_character_
+    }
+    at <- match(sup_trace, sup_u)
+    sup_fent_rule <- vapply(sup_rules, first_rule, character(1),
+                            test = function(a) a %in% c('ieepa_canada', 'ieepa_mexico'))[at]
+    sup_232_rule <- vapply(sup_rules, first_rule, character(1),
+                           test = function(a) startsWith(a, 's232_'))[at]
+  }
+  # §232 is replaced only where the order left none of it (stat232 is post-order).
+  sup_232_all <- !is.na(sup_232_rule) & stat232 <= EPS
+
+  # Scope shown as potentially applicable: the posted rate if the condition
+  # holds, outside the total until it is established.
+  potential232 <- dplyr::coalesce(chr('s232_scope_default') == 'potential', FALSE)
+  floor232 <- suppressWarnings(as.numeric(gv('floor_rate_232', NA_real_)))
   r232_rule <- rule_frag(
-    c232, 'section_232', s232_reason, 'applied',
-    statutory = pmax(stat232, r232),
-    rate_type = ifelse(!is.na(s232_annex) & s232_annex == 'annex_3',
+    c232, 'section_232', s232_reason,
+    ifelse(sup_232_all, 'exempt_or_replaced',
+           ifelse(potential232, 'potentially_applicable_requires_more_facts', 'applied')),
+    stack_cite = ifelse(sup_232_all, sup_232_rule, NA_character_),
+    scope_cite = ifelse(nzchar(scope_facts_232), chr('s232_scope_citation'), NA_character_),
+    statutory = ifelse(stat232 > EPS, stat232, NA_real_),
+    rate_type = ifelse((!is.na(s232_annex) & s232_annex == 'annex_3') | !is.na(floor232),
                        'floor_static', 'surcharge'),
+    floor = floor232,
     stacking_class = ifelse(is_metal_basis, 'primary_metal', 'primary_full'),
     basis = basis232,
     basis_metal = ifelse(is_metal_basis, basis_metal_232, NA_character_),
@@ -3013,6 +3079,18 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     rate_type = 'surcharge', stacking_class = 'additive',
     keep = r301 > EPS
   )
+  # Section 301 note 52 (forced labor): the unclaimed entry's rate, with the
+  # published cap where the tier is "net of MFN" (10% / 12.5% including the
+  # Column 1 rate). USMCA, FTA and use claims reduce it; they are not applied.
+  statfl <- suppressWarnings(as.numeric(gv('statutory_rate_s301fl', NA_real_)))
+  floorfl <- suppressWarnings(as.numeric(gv('floor_rate_s301fl', NA_real_)))
+  r301fl_rule <- rule_frag(
+    chr('ch99_code_s301fl'), 's301_forced_labor', 's301fl_active', 'applied',
+    statutory = statfl,
+    rate_type = ifelse(!is.na(floorfl), 'floor_post_mfn', 'surcharge'),
+    floor = floorfl, stacking_class = 'additive',
+    keep = !is.na(statfl) & statfl > EPS
+  )
   maritime301 <- num('rate_s301_maritime')
   r301_maritime_rule <- rule_frag(
     chr('ch99_code_s301_maritime'),'section_301','s301_maritime',
@@ -3022,12 +3100,83 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     keep=maritime301>EPS
   )
 
+  # Content-split programs apply only to the value §232 does not reach. Where
+  # §232 reaches the full value (stacking nonmetal_share 0) nothing is left:
+  # apply_stacking_rules() already leaves the reciprocal duty and §122, and
+  # IEEPA fentanyl outside China, out of the total, so the rule must say
+  # replaced rather than applied. A metal-content basis is left alone: the
+  # remainder there depends on the declared content value.
+  metal_share <- as.numeric(gv('metal_share', 1)); metal_share[is.na(metal_share)] <- 1
+  # A §232 the non-stacking order removed covers nothing (before June 4, 2025
+  # the IEEPA Canada/Mexico duty displaces §232 steel/aluminum, not the reverse).
+  full232 <- r232 > EPS & !is_metal_basis & metal_share >= 1 - EPS & !sup_232_all & !potential232
+  split_status <- ifelse(full232, 'exempt_or_replaced', 'applied')
+  split_cite <- ifelse(full232, 's232_full_value_no_content_split', NA_character_)
+
+  # A floor is closed against the base it is expressed on. statutory_rate_ieepa_recip
+  # is closed against the statutory base; rate_ieepa_recip is re-closed against
+  # the trade-weighted base (step 6d), so it overstates what an entry owes.
+  is_floor_rec <- !is.na(ci_type) & ci_type == 'floor'
+  # A country-specific IEEPA action (Brazil +40% 9903.01.77, India +25%
+  # 9903.01.84) is owed with the reciprocal duty but under its own heading, so
+  # the scalar ch99_code_ieepa_recip cannot carry both. The rules state each
+  # component with its own code; the reciprocal rule keeps its own share.
+  ceo_rate <- num('modeled_ieepa_country_eo_rate')
+  ceo_code <- chr('ch99_src_ieepa_country_eo')
+  has_ceo <- ceo_rate > EPS & !is.na(ceo_code) & rrec > EPS
+  rec_stat <- ifelse(is_floor_rec, statrec, pmax(statrec, rrec))
+  rec_stat <- ifelse(has_ceo, pmax(0, rec_stat - ceo_rate), rec_stat)
+  rceo_rule <- rule_frag(
+    ceo_code, 'ieepa_reciprocal', 'ieepa_country_eo_active', split_status,
+    statutory = ceo_rate, rate_type = 'surcharge', stacking_class = 'content_split',
+    stack_cite = split_cite,
+    keep = has_ceo & ie_status == 'active'
+  )
+  # In-transit exceptions (config in_transit_provisions): goods loaded before
+  # an action took effect and entered before a deadline owe less under an
+  # in-transit heading. The on-board date is a shipment fact, so each is a
+  # potentially applicable rule while its entry window is open; the unclaimed
+  # rate stays in the total.
+  intransit_frag <- rep('', n)
+  it_cfg <- tryCatch(yaml::read_yaml(here::here('config', 'policy_params.yaml'))$in_transit_provisions,
+                     error = function(e) NULL)
+  entry_day <- suppressWarnings(as.Date(gv('effective_date', NA)))
+  for (p in it_cfg %||% list()) {
+    in_window <- !is.na(entry_day) & entry_day >= as.Date(p$entries_from) &
+      entry_day < as.Date(p$entries_until)
+    origin <- if (identical(p$countries, 'all')) rep(TRUE, n) else country %in% unlist(p$countries)
+    origin <- origin & !country %in% unlist(p$excluded_countries %||% list())
+    owed <- switch(p$relieves,
+      ieepa_fentanyl = rfent > EPS,
+      ieepa_reciprocal = rrec > EPS & !full232,
+      ieepa_reciprocal_country_rate = rrec > EPS & !full232 & rec_stat > as.numeric(p$relieved_to) + EPS,
+      ieepa_country_eo = has_ceo & !full232,
+      section_122 = rs122 > EPS & !full232,
+      stop('Unknown in-transit relief: ', p$relieves))
+    hit <- in_window & origin & owed
+    if (!any(hit)) next
+    authority <- switch(p$relieves, ieepa_fentanyl = 'ieepa_fentanyl', section_122 = 'section_122', 'ieepa_reciprocal')
+    # The provision id is the program (and its citation): two windows can
+    # relieve the same duty on one row (China, April 2025).
+    program <- p$id
+    if (!startsWith(program, 'in_transit_')) stop('In-transit provision ids must start with in_transit_: ', program)
+    intransit_frag[hit] <- paste0(intransit_frag[hit],
+      ',{"ch99_code":"', p$heading, '","authority":"', authority, '","program":"', program,
+      '","status":"potentially_applicable_requires_more_facts","rate_text":"', jesc(p$rate_text),
+      '","required_user_inputs":["date_loaded_for_export"],"scope_citation":"', p$id, '"}')
+  }
+
+  # On a metal-content §232 article the reciprocal duty reaches only the
+  # declared non-metal value (Proc. 10947 clause (6), from June 4, 2025; before
+  # that the whole article was excluded and no reciprocal rate reaches here).
+  content_cite <- ifelse(is_metal_basis & r232 > EPS, 'proc10947_6_non_metal_content', NA_character_)
   rrec_rule <- rule_frag(
-    ie_prog, 'ieepa_reciprocal', ie_reason, 'applied',
-    statutory = pmax(statrec, rrec),
-    rate_type = ifelse(!is.na(ci_type) & ci_type == 'floor',
-                       'floor_post_mfn', 'surcharge'),
+    ie_prog, 'ieepa_reciprocal', ie_reason, split_status,
+    statutory = rec_stat,
+    rate_type = ifelse(is_floor_rec, 'floor_post_mfn', 'surcharge'),
+    floor = ifelse(is_floor_rec, ci_rate, NA_real_),
     stacking_class = 'content_split',
+    stack_cite = dplyr::coalesce(split_cite, content_cite),
     keep = rrec > EPS & ie_status == 'active' & !is.na(ie_reason)
   )
 
@@ -3043,19 +3192,23 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     keep = ie_status == 'exempt' & !is.na(ie_reason)
   )
 
+  fent_split <- full232 & country != CTY_CHINA
+  fent_replaced <- fent_split | !is.na(sup_fent_rule)
   rfent_rule <- rule_frag(
-    cfent, 'ieepa_fentanyl', fent_reason, 'applied',
-    statutory = pmax(statfent, rfent),
+    cfent, 'ieepa_fentanyl', fent_reason, ifelse(fent_replaced, 'exempt_or_replaced', 'applied'),
+    statutory = ifelse(fent_replaced, NA_real_, pmax(statfent, rfent)),
     rate_type = 'surcharge',
     stacking_class = ifelse(country == CTY_CHINA, 'additive', 'content_split'),
+    stack_cite = dplyr::coalesce(sup_fent_rule,
+                                 ifelse(fent_split, 's232_full_value_no_content_split', NA_character_)),
     keep = rfent > EPS & !is.na(fent_reason)
   )
 
   rs122_rule <- rule_frag(
-    cs122, 'section_122', dplyr::coalesce(s122_reason, 's122_active'), 'applied',
+    cs122, 'section_122', dplyr::coalesce(s122_reason, 's122_active'), split_status,
     statutory = pmax(stats122, rs122),
     rate_type = 'surcharge', stacking_class = 'content_split',
-    stack_cite = 's122_non232_portion_only',
+    stack_cite = dplyr::coalesce(split_cite, 's122_non232_portion_only'),
     keep = rs122 > EPS
   )
 
@@ -3180,9 +3333,9 @@ attach_duty_provenance <- function(rates, country_ieepa = NULL,
     }
   }
 
-  rules_all <- paste0(r232_rule, r301_rule, r301_maritime_rule, excl_frag, rrec_rule,
+  rules_all <- paste0(r232_rule, r301_rule, r301fl_rule, r301_maritime_rule, excl_frag, rrec_rule, rceo_rule,
                       rrec_exempt_rule, rfent_rule, rs122_rule, r201_rule,
-                      quartz_frag, other_frag)
+                      quartz_frag, intransit_frag, other_frag)
   rules_all <- sub('^,', '', rules_all)
   rates$ch99_rules_json <- paste0('[', rules_all, ']')
 
@@ -3750,6 +3903,16 @@ compute_statutory_totals <- function(df, cty_china = '5700',
         !all(S232_ACTION_RATE_COLS %in% names(action_inputs))) stop('Invalid pre-stacking actions')
     shadow[S232_ACTION_RATE_COLS] <- action_inputs[S232_ACTION_RATE_COLS]
   }
+  # A §232 scope shown as potentially applicable is not owed by the unclaimed
+  # entry, so it cannot take precedence over another action (a Mexican
+  # computer still owes the IEEPA Mexico duty).
+  if ('s232_scope_default' %in% names(df)) {
+    potential <- coalesce(df$s232_scope_default == 'potential', FALSE)
+    if (any(potential)) {
+      shadow$rate_232[potential] <- 0
+      for (col in S232_ACTION_RATE_COLS) shadow[[col]][potential] <- 0
+    }
+  }
 
   .run <- function(s) {
     if (isTRUE(apply_eo)) {
@@ -3795,6 +3958,36 @@ compute_statutory_totals <- function(df, cty_china = '5700',
   df$statutory_total_rate       <- unclaimed$total_rate
   for (i in seq_along(S232_ACTION_RATE_COLS)) {
     df[[STATUTORY_S232_ACTION_RATE_COLS[i]]] <- unclaimed[[S232_ACTION_RATE_COLS[i]]]
+  }
+  # The per-program statutory columns are snapshotted before the non-stacking
+  # order runs, so on their own they still carry every action EO 14289 /
+  # Proc. 10947 / Proc. 10962 removes from an unclaimed entry (a Canadian auto
+  # part's IEEPA duty; a Canadian steel article's §232 before June 4, 2025).
+  # A consumer reading statutory_rate_* as "what this entry owes" would
+  # resurrect them. Write the unclaimed branch's post-precedence value back for
+  # the actions it suppressed, and keep its trace for the determination.
+  df$statutory_suppressed_json <- NA_character_
+  if ('s232_suppressed_json' %in% names(unclaimed)) {
+    trace <- unclaimed$s232_suppressed_json
+    hit <- !is.na(trace)
+    if (any(hit)) {
+      df$statutory_suppressed_json[hit] <- trace[hit]
+      camx_dropped <- hit & grepl('"ieepa_camx"', trace, fixed = TRUE)
+      if ('statutory_rate_ieepa_fent' %in% names(df))
+        df$statutory_rate_ieepa_fent[camx_dropped & !is.na(df$statutory_rate_ieepa_fent)] <- 0
+      metal_dropped <- hit & grepl('"s232_(steel|aluminum|copper)"', trace)
+      if ('statutory_rate_232' %in% names(df)) {
+        known <- metal_dropped & !is.na(df$statutory_rate_232)
+        df$statutory_rate_232[known] <- unclaimed$rate_232[known]
+        # A conditional-scope row keeps its posted rate in published_rate_232;
+        # where the order removed every §232 action the entry owes none.
+        if ('published_rate_232' %in% names(df)) {
+          remaining <- rowSums(as.matrix(unclaimed[, S232_ACTION_RATE_COLS, drop = FALSE]))
+          gone <- metal_dropped & is.na(df$statutory_rate_232) & !is.na(df$published_rate_232) & remaining <= 1e-9
+          df$published_rate_232[gone] <- 0
+        }
+      }
+    }
   }
 
   forked <- is_camx & abs(unclaimed$total_rate - claimed$total_rate) > 1e-9
@@ -6568,6 +6761,7 @@ restore_s232_semiconductor_model <- function(rates, heading_rates, semi_products
   scoped <- heading_rates %>% filter(hts10 %in% semi_products) %>%
     select(hts10, .semi_heading_rate = heading_232_rate, all_of(metadata))
   facts_json <- as.character(jsonlite::toJSON(unname(unlist(cfg$required_shipment_facts))))
+  if (!'published_rate_232' %in% names(rates)) rates$published_rate_232 <- NA_real_
   # Join at the final grid grain too: zero-model-duty products may only have
   # acquired rows during grid expansion, after the first heading lookup.
   rates %>% select(-any_of(metadata)) %>%
@@ -6579,10 +6773,16 @@ restore_s232_semiconductor_model <- function(rates, heading_rates, semi_products
       deriv_content_scaled = if_else(!is.na(.semi_heading_rate), FALSE, coalesce(deriv_content_scaled, FALSE)),
       # Note 39(b)/(d), CSMS 67400472. Published 25% is conditional, not the
       # duty for every shipment in this code. Do not copy an aggregate share.
+      # The posted heading rate (see retain_published_rate_232), not the
+      # qualifying-share x end-use model held in rate_232.
+      published_rate_232 = if_else(!is.na(.semi_heading_rate) & is.na(published_rate_232),
+                                   published_rate_232_semiconductors, published_rate_232),
       statutory_rate_232 = if_else(!is.na(.semi_heading_rate), NA_real_, statutory_rate_232),
       shipment_232_scope_status = if_else(!is.na(.semi_heading_rate), 'needs_inputs', NA_character_),
       shipment_232_required_facts_json = if_else(!is.na(.semi_heading_rate), facts_json, NA_character_),
-      shipment_232_scope_source = if_else(!is.na(.semi_heading_rate), cfg$scope_source, NA_character_)
+      shipment_232_scope_source = if_else(!is.na(.semi_heading_rate), cfg$scope_source, NA_character_),
+      s232_scope_default = if_else(!is.na(.semi_heading_rate), cfg$scope_default %||% 'applied', NA_character_),
+      s232_scope_citation = if_else(!is.na(.semi_heading_rate), cfg$scope_citation %||% NA_character_, NA_character_)
     ) %>% select(-.semi_heading_rate)
 }
 
@@ -6622,15 +6822,52 @@ match_s232_heading_products <- function(products, cfg, root = here::here()) {
 }
 
 
+# The posted Chapter 99 rate a conditional-scope line owes once the shipment
+# meets its scope facts. Every scope marker calls this BEFORE it blanks
+# statutory_rate_232, so the determination (attach_duty_provenance) can state
+# the published rate instead of falling back to rate_232, which carries
+# modelled adjustments: 8708.30.50.90 from China published 23.76%, the 25%
+# heading rate less the 3.75% x 33% US-assembly credit. The first marker to
+# reach a row wins; a later marker finds statutory_rate_232 already blank.
+retain_published_rate_232 <- function(rates, rows) {
+  if (!'published_rate_232' %in% names(rates)) rates$published_rate_232 <- NA_real_
+  rows <- rows & is.na(rates$published_rate_232)
+  rates$published_rate_232[rows] <- rates$statutory_rate_232[rows]
+  rates
+}
+
+# How a listed automobile-parts provision is shown before its use is known.
+# 'applied' (confirm the use) for vehicle-specific provisions; 'potential'
+# (outside the total) for the general-purpose provisions in the reviewed
+# defaults file, where most entries are not parts of passenger vehicles or
+# light trucks (note 33(h)(ii), 9903.94.06). An HTS number matched by any
+# vehicle-specific provision stays 'applied'.
+s232_auto_parts_scope_default <- function(hts10, cfg, scope_matches = NULL, root = here::here()) {
+  out <- rep('applied', length(hts10))
+  if (is.null(cfg$scope_defaults_file) || is.null(scope_matches) || !nrow(scope_matches)) return(out)
+  path <- file.path(root, cfg$scope_defaults_file)
+  if (!file.exists(path)) stop('Automobile-parts scope defaults missing: ', cfg$scope_defaults_file)
+  defaults <- readr::read_csv(path, col_types = readr::cols(.default = readr::col_character()), show_col_types = FALSE)
+  if (!all(c('scope_code', 'default') %in% names(defaults)) || any(!defaults$default %in% c('applied', 'potential')))
+    stop('Invalid automobile-parts scope defaults')
+  m <- scope_matches[scope_matches$hts10 %in% hts10, c('hts10', 'scope_code')]
+  m$potential <- m$scope_code %in% defaults$scope_code[defaults$default == 'potential']
+  all_potential <- tapply(m$potential, m$hts10, all)
+  hit <- hts10 %in% names(all_potential)[all_potential]
+  out[hit] <- 'potential'
+  out
+}
+
 # Proclamation 10908 Annex I, note 33(g)/(h)(ii): listed HTS provisions
 # remain conditional on passenger-vehicle/light-truck parts use. Preserve the
 # aggregate projection, but do not publish it as a shipment's statutory duty.
-mark_s232_auto_parts_scope <- function(rates, parts_candidates, cfg) {
+mark_s232_auto_parts_scope <- function(rates, parts_candidates, cfg, scope_matches = NULL, root = here::here()) {
   if(!length(parts_candidates)) return(rates)
   if(!length(cfg$required_shipment_facts) || is.null(cfg$scope_source))
     stop('Missing automobile-parts scope evidence')
   rows <- rates$hts10 %in% parts_candidates
-  for (column in c('shipment_232_scope_status','shipment_232_required_facts_json','shipment_232_scope_source'))
+  for (column in c('shipment_232_scope_status','shipment_232_required_facts_json','shipment_232_scope_source',
+                   's232_scope_default','s232_scope_citation'))
     if(!column %in% names(rates)) rates[[column]] <- NA_character_
   # A previously recorded conditional semiconductor action is evaluated first;
   # both candidates survive in authority_product_candidates for reevaluation.
@@ -6638,6 +6875,9 @@ mark_s232_auto_parts_scope <- function(rates, parts_candidates, cfg) {
   rates$shipment_232_scope_status[fresh] <- 'needs_inputs'
   rates$shipment_232_required_facts_json[fresh] <- as.character(jsonlite::toJSON(unname(unlist(cfg$required_shipment_facts))))
   rates$shipment_232_scope_source[fresh] <- cfg$scope_source
+  rates$s232_scope_default[fresh] <- s232_auto_parts_scope_default(rates$hts10[fresh], cfg, scope_matches, root)
+  rates$s232_scope_citation[fresh] <- cfg$scope_citation %||% NA_character_
+  rates <- retain_published_rate_232(rates, rows)
   rates$statutory_rate_232[rows] <- NA_real_
   if('statutory_rate_232_auto' %in% names(rates)) rates$statutory_rate_232_auto[rows] <- NA_real_
   rates

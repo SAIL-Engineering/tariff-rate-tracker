@@ -5,6 +5,19 @@ raw <- function(rev) jsonlite::fromJSON(paste0('data/hts_archives/hts_',rev,'.js
 extract <- function(rev,day) extract_ieepa_rates(raw(rev),lookup,day)
 choose <- function(x) select_ieepa_country_actions(x,unique(unname(lookup)),c('1220','2010','4631','4649','5790','2390'))
 rate <- function(x,country) x$ieepa_country_rate[x$census_code==country]
+# Annex I country rates start April 9, 2025 (EO 14257; CSMS 64680374): entries
+# on April 5-8 owe the 10% baseline under 9903.01.25, China included, although
+# the April 5 HTS revision already prints the country headings.
+w <- choose(extract('2025_rev_7','2025-04-05'))
+stopifnot(rate(w,'5880')==.1,rate(w,'5700')==.1,rate(w,'5520')==.1,
+  w$ieepa_recip_ch99[w$census_code=='5700']=='9903.01.25',
+  rate(w,'1220')==0,rate(w,'2010')==0)
+# EO 14323 (Brazil +40%) applies from August 6, 2025; the heading is first
+# printed in the August 7 revision, so the August 6 day carries it forward.
+br5 <- choose(extract('2025_rev_17','2025-08-05')) %>% filter(census_code=='3510')
+br6 <- choose(extract('2025_rev_17','2025-08-06')) %>% filter(census_code=='3510')
+stopifnot(abs(br5$ieepa_country_rate-.1)<1e-12, abs(br6$ieepa_country_rate-.5)<1e-12,
+  br6$country_eo_rate==.4, br6$country_eo_ch99=='9903.01.77')
 # EO 14266 suspends the operative country headings from April 10, not April 9.
 x <- extract('2025_rev_8','2025-04-09'); before <- choose(x)
 y <- extract('2025_rev_9','2025-04-10'); after <- choose(y)

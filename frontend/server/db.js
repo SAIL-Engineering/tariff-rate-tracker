@@ -130,6 +130,10 @@ export const RATES_COLUMNS = [
   // Set when a duty is computed onto a snapshot whose interval starts before
   // the duty activates (§338 on 2026 Rev 13-16 before 2026-08-19).
   'pending_activation_json',
+  // Actions the EO 14289 / Proc. 10947 / Proc. 10962 non-stacking order removed
+  // from the unclaimed entry (the statutory columns already exclude them): the
+  // reason a program reads 0 for that entry.
+  'statutory_suppressed_json',
   // Versioned, nullable shipment projection. These fields carry the decision
   // references and explicit incompleteness; aggregate columns are separate.
   'statutory_total_rate', 'statutory_total_additional',

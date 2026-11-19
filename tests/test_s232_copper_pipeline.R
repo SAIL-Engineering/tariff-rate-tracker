@@ -24,6 +24,11 @@ for(s in specs) {
  ch99<-parse_chapter99(path,revision_id=s$revision)
  rates<-calculate_rates_for_revision(products,ch99,NULL,NULL,s$countries,s$revision,as.Date(s$date),
   policy_params=load_policy_params(),normalized_output_dir=out,normalized_valid_until=as.Date(s$date))
+ # 9903.78.01 is owed on the copper content before the April 2026 annexes, on
+ # the full value after them; never 50% of the entered value pre-annex.
+ copper<-rates$hts10=='7408113000'&rates$rate_232>0
+ if(s$revision=='2025_rev_17')stopifnot(any(copper),all(rates$duty_basis_232[copper]=='metal_content_value'))
+ if(s$revision=='2026_rev_5')stopifnot(any(copper),all(rates$duty_basis_232[copper]=='full_value'))
  arrow::write_parquet(rates,file.path(out,'rates_fixture.parquet'))
  dir<-file.path(out,s$revision)
  validation<-validate_shipment_partition(dir,file.path(out,'rates_fixture.parquet'))

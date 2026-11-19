@@ -79,6 +79,7 @@ mark_s232_legacy_scope <- function(rates,matches) {
   hit<-rates$hts10 %in% matches$hts10
   # Content, material production, limited descriptions and competing actions
   # cannot be resolved using the model's metal-share/country assumptions.
+  rates<-retain_published_rate_232(rates,hit)
   rates$statutory_rate_232[hit]<-NA_real_
   rates$s232_legacy_status<-ifelse(hit,'candidate_requires_legal_predicates','outside_legacy_metal_scope')
   rates

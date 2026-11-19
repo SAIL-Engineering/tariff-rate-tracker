@@ -37,7 +37,22 @@ r <- mark_s232_auto_parts_scope(r,products[1:2],pp$section_232_headings$auto_par
 stopifnot(all(is.na(r$statutory_rate_232[1:2])),r$statutory_rate_232[3]==.1,
   identical(before$rate_232,r$rate_232),identical(before$total_rate,r$total_rate),
   all(r$shipment_232_scope_status[1:2]=='needs_inputs'))
+# The posted rate survives the blanking for the determination; an unmarked row
+# records none, and a second marker cannot overwrite it with the blank.
+stopifnot(identical(r$published_rate_232,c(.25,0,NA)))
+stopifnot(identical(mark_s232_auto_parts_scope(r,products[1:2],pp$section_232_headings$auto_parts)$published_rate_232,
+  c(.25,0,NA)))
 r <- suppressWarnings(compute_statutory_totals(r))
 stopifnot(all(is.na(r$statutory_total_rate[1:2])),r$statutory_total_rate[3]==.1)
 stopifnot(inherits(try(mark_s232_auto_parts_scope(before,products,list()),silent=TRUE),'try-error'))
 cat('Conditional automobile-parts columns cannot produce a complete statutory total\n')
+# Note 33(h)(ii): a general-purpose provision (8471) is potentially applicable
+# until the use is known; a vehicle-specific one (8708) is applied with the use
+# to confirm; an HTS number also matched by a vehicle-specific code stays applied.
+d <- tibble(hts10=c('8471300100','8708305090','8501320000'),country='5700',rate_232=.237625,statutory_rate_232=.25)
+m <- data.frame(hts10=c('8471300100','8708305090','8501320000','8501320000'),scope_code=c('8471','8708.30','850132','8501'))
+m$scope_code <- gsub('\\.','',m$scope_code)
+out <- mark_s232_auto_parts_scope(d,d$hts10,pp$section_232_headings$auto_parts,scope_matches=m)
+stopifnot(identical(out$s232_scope_default,c('potential','applied','applied')),
+  all(out$s232_scope_citation=='s232_auto_parts_use_condition'),all(out$published_rate_232==.25))
+cat('Automobile-parts scope defaults follow the reviewed provision list\n')

@@ -272,6 +272,38 @@ extract_ieepa_rates <- function(hts_raw, country_lookup, effective_date = NULL) 
     }
   }
 
+  # Annex I country headings (9903.01.43-.76) carry no activation date in
+  # their own text but did not apply before April 9, 2025 (EO 14257 Annex I;
+  # CSMS 64680374). Before that, every country owed the 10% baseline.
+  if (!is.null(effective_date)) {
+    ranges <- tryCatch(yaml::read_yaml(here::here('config', 'policy_params.yaml'))$authority_ranges,
+                       error = function(e) NULL)
+    # An action in force before the HTS revision that first prints it (Brazil
+    # +40% from August 6, 2025; first printed August 7): take its heading from
+    # that later revision for the days it already applied.
+    present <- vapply(ieepa_items, function(x) x$htsno %||% '', character(1))
+    for (carry in ranges$ieepa_carried_forward_headings %||% list()) {
+      if (carry$heading %in% present) next
+      if (as.Date(effective_date) < as.Date(substr(carry$effective_at, 1, 10))) next
+      src <- here::here('data', 'hts_archives', paste0('hts_', carry$source_revision, '.json'))
+      if (!file.exists(src)) stop('Carried-forward IEEPA heading source missing: ', src)
+      item <- Filter(function(x) identical(x$htsno, carry$heading), jsonlite::fromJSON(src, simplifyVector = FALSE))
+      if (length(item) != 1L) stop('Carried-forward IEEPA heading not found: ', carry$heading, ' in ', carry$source_revision)
+      ieepa_items <- c(ieepa_items, item)
+      message('  Carried forward ', carry$heading, ' from ', carry$source_revision, ' (in force ', carry$effective_at, ')')
+    }
+    phase1_from <- ranges$ieepa_phase1_range$effective_date
+    if (is.null(phase1_from)) stop('IEEPA Annex I effective date missing from policy_params.yaml')
+    if (as.Date(effective_date) < as.Date(phase1_from)) {
+      n_before <- length(ieepa_items)
+      ieepa_items <- Filter(function(x) !grepl('^9903\\.01\\.(4[3-9]|[5-6][0-9]|7[0-6])$', x$htsno %||% ''),
+                            ieepa_items)
+      if (length(ieepa_items) < n_before)
+        message('  Dropping ', n_before - length(ieepa_items),
+                ' Annex I country heading(s) not in force before ', phase1_from)
+    }
+  }
+
   message('  IEEPA tier entries found: ', length(ieepa_items))
 
   if (length(ieepa_items) == 0) {

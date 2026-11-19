@@ -28,6 +28,9 @@ for(c in unname(STATUTORY_RATE_COL_MAP)) out[[c]] <- 0
 out$statutory_rate_232 <- out$rate_232
 marked <- mark_s232_note16_scope(out,p)
 stopifnot(identical(marked$rate_232,out$rate_232),all(is.na(marked$statutory_rate_232[c(1:3,6)])))
+# The determination keeps the posted rate the candidates were blanked from.
+stopifnot(identical(marked$published_rate_232[c(1:3,6)],out$statutory_rate_232[c(1:3,6)]),
+  all(is.na(marked$published_rate_232[4:5])))
 total <- compute_statutory_totals(marked,apply_eo=FALSE)
 stopifnot(all(is.na(total$statutory_total_rate[c(1:3,6)])))
 

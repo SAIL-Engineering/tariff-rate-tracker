@@ -1964,6 +1964,9 @@ calculate_rates_for_revision <- function(
               rate_232
             )
           )
+        # The published rate: total duty including the Column 1 rate.
+        if (!'floor_rate_232' %in% names(rates)) rates$floor_rate_232 <- NA_real_
+        rates$floor_rate_232[rates$hts10 %in% deal_products & rates$country %in% census_codes] <- deal$rate
       } else {
         # surcharge: flat additional rate
         rates <- rates %>%
@@ -2025,6 +2028,8 @@ calculate_rates_for_revision <- function(
               rate_232
             )
           )
+        if (!'floor_rate_232' %in% names(rates)) rates$floor_rate_232 <- NA_real_
+        rates$floor_rate_232[rates$hts10 %in% all_wood_products & rates$country %in% census_codes] <- deal$rate
       } else {
         rates <- rates %>%
           mutate(
@@ -2258,6 +2263,9 @@ calculate_rates_for_revision <- function(
       # assumption; a UK origin alone does not establish the smelt/pour test.
       uk_code <- get_country_constants()$CTY_UK %||% '4120'
       rates$modeled_s232_uk_metal_origin_qualification <- 0
+      # The tier rate an unqualified UK article owes; restored to the statutory
+      # column below (note 16(d) qualification is a shipment fact).
+      .pre_uk_rate_232 <- rates$rate_232
       for(code in c('9903.82.04','9903.82.05')) {
         h <- Filter(function(h) h$code==code,s232_note16_source$headings)[[1]]
         scope <- unique(s232_note16_matches$hts10[s232_note16_matches$list_id %in% unlist(h$list_ids)])
@@ -2334,6 +2342,19 @@ calculate_rates_for_revision <- function(
         mutate(statutory_rate_232 = if_else(
           !is.na(s232_annex) & !(hts10 %in% heading_program_products),
           rate_232, statutory_rate_232))
+      # Note 16(d): headings 9903.82.04/.05 apply only where at least 95% of
+      # the aluminum was smelted or most recently cast, or 95% of the steel
+      # melted and poured, in the United Kingdom. The aggregate model assumes
+      # qualification (rate_232 keeps the UK rate); an entry that has not
+      # established it owes the general tier rate.
+      # Annex III: the published rate is a floor including the Column 1 rate.
+      if (!'floor_rate_232' %in% names(rates)) rates$floor_rate_232 <- NA_real_
+      .annex3 <- coalesce(rates$s232_annex == 'annex_3', FALSE) & !(rates$hts10 %in% heading_program_products)
+      rates$floor_rate_232[.annex3] <- annex_cfg$annexes$annex_3$floor_rate
+      if (exists('.pre_uk_rate_232', inherits = FALSE)) {
+        uk_qualified <- coalesce(rates$modeled_s232_uk_metal_origin_qualification == 1, FALSE)
+        rates$statutory_rate_232[uk_qualified] <- .pre_uk_rate_232[uk_qualified]
+      }
 
       n_by_annex <- rates %>% filter(!is.na(s232_annex), rate_232 > 0) %>% count(s232_annex)
       if (nrow(n_by_annex) > 0) {
@@ -2873,6 +2894,45 @@ calculate_rates_for_revision <- function(
     }
   })
 
+  # EO 14257 sec. 3(b)(ii)/(iii) (heading 9903.01.33): an article subject to
+  # §232 — steel and aluminum derivatives included — is wholly outside the
+  # reciprocal duty. Only from June 4, 2025 does Proclamation 10947 clause (6)
+  # subject the non-steel, non-aluminum content of derivatives to it (CSMS
+  # 65236374), which apply_stacking_rules() models as the content split.
+  # Before that date the whole article is excluded, not its metal part, so the
+  # reciprocal duty is removed from both columns here rather than split later.
+  if ('rate_ieepa_recip' %in% names(rates)) {
+    .recip_era <- resolve_stacking_era(effective_date)$id
+    if (.recip_era %in% c('legacy', 'eo14289')) {
+      .s232_article <- coalesce(rates$rate_232 > 0, FALSE)
+      if (any(.s232_article & coalesce(rates$rate_ieepa_recip > 0, FALSE))) {
+        message('  Reciprocal: ', sum(.s232_article & rates$rate_ieepa_recip > 0),
+                ' §232 article row(s) wholly excluded before 2025-06-04 (EO 14257 sec. 3(b))')
+        rates$rate_ieepa_recip[.s232_article] <- 0
+        if ('modeled_ieepa_reciprocal_rate' %in% names(rates))
+          rates$modeled_ieepa_reciprocal_rate[.s232_article] <- 0
+      }
+    }
+  }
+
+  # Country-specific IEEPA actions (Brazil +40%, EO 14323 sec. 3(a); India
+  # +25%, EO 14329) do not apply to an article subject to §232: "unless subject
+  # to existing or future actions under section 232 ... the ad valorem duty
+  # imposed in this order shall not apply" (CSMS 65807735; exception headings
+  # 9903.01.83 / 9903.01.87). The order is worded per article, so the whole
+  # article is out, not only its §232 content. How CBP treats a derivative's
+  # non-metal line is not stated; the order text governs here.
+  if (all(c('rate_ieepa_recip', 'modeled_ieepa_country_eo_rate') %in% names(rates))) {
+    .eo_232 <- coalesce(rates$rate_232 > 0, FALSE) & coalesce(rates$modeled_ieepa_country_eo_rate > 0, FALSE)
+    if (any(.eo_232)) {
+      message('  Country-specific IEEPA actions: ', sum(.eo_232),
+              ' §232 article row(s) excluded (EO 14323 / EO 14329 sec. 3(a))')
+      rates$rate_ieepa_recip[.eo_232] <- pmax(0, rates$rate_ieepa_recip[.eo_232] -
+                                                rates$modeled_ieepa_country_eo_rate[.eo_232])
+      rates$modeled_ieepa_country_eo_rate[.eo_232] <- 0
+    }
+  }
+
   # Save statutory rates for all non-232 authorities (pre-USMCA, pre-stacking).
   # 232 statutory rates are already saved as statutory_rate_232 in apply_232_derivatives().
   rates <- rates %>%
@@ -3216,6 +3276,10 @@ calculate_rates_for_revision <- function(
         rates$statutory_rate_s301fl <- compute_s301fl_rates(
           rates, fl_cfg, effective_date = .fl_eff_date, mfn_shares = .fl_mfn,
           statutory = TRUE)
+        # Note 52 'net of MFN' tiers publish a cap including the Column 1 rate.
+        .fl_tiers <- s301fl_country_tiers(unique(rates$country), fl_cfg)
+        .fl_cap <- .fl_tiers[.fl_tiers$fl_is_cap, ]
+        rates$floor_rate_s301fl <- .fl_cap$fl_rate[match(rates$country, .fl_cap$country)]
         n_fl <- sum(rates$rate_s301fl > 0)
         message('  Section 301 forced labor: ', format(n_fl, big.mark = ','),
                 ' product-country pairs across ',
@@ -3410,7 +3474,8 @@ calculate_rates_for_revision <- function(
   # Read candidates captured before semiconductor/model suppression.
   if (exists('heading_candidate_lists', inherits=FALSE)) {
     rates <- mark_s232_auto_parts_scope(rates,
-      heading_candidate_lists$auto_parts$products %||% character(), s232_headings$auto_parts)
+      heading_candidate_lists$auto_parts$products %||% character(), s232_headings$auto_parts,
+      scope_matches = heading_candidate_lists$auto_parts$scope_matches)
   }
   if (!is.null(s232_note16_projection)) {
     rates <- mark_s232_note16_scope(rates,s232_note16_projection)
@@ -3461,15 +3526,29 @@ calculate_rates_for_revision <- function(
   #     signals derive from parsed data (derivative CSV + annex CSV).
   if (!'s232_annex' %in% names(rates)) rates$s232_annex <- NA_character_
   if (!'deriv_content_scaled' %in% names(rates)) rates$deriv_content_scaled <- FALSE
+  if (!'is_copper_heading' %in% names(rates)) rates$is_copper_heading <- FALSE
+  # The copper heading (9903.78.01, Proclamation 10962 clause (4)) is owed on
+  # the value of the copper content, like a pre-annex derivative: step 5b
+  # scales rate_232 by an estimated copper share for the aggregate model, and
+  # statutory_rate_232 keeps the 50% heading rate, which applies to the
+  # declared copper value only. Labelling it full value let consumers bill
+  # 50% of the entered value.
   rates <- rates %>%
     mutate(duty_basis_232 = case_when(
       rate_232 <= 0 ~ NA_character_,
       !is.na(s232_annex) ~ 'full_value',
       coalesce(deriv_content_scaled, FALSE) ~ 'metal_content_value',
+      coalesce(is_copper_heading, FALSE) ~ 'metal_content_value',
       TRUE ~ 'full_value'
     ))
-  if(!is.null(s232_legacy_memberships))
-    rates$duty_basis_232[rates$hts10 %in% s232_legacy_memberships$hts10] <- NA_character_
+  if(!is.null(s232_legacy_memberships)) {
+    legacy_232 <- rates$hts10 %in% s232_legacy_memberships$hts10
+    # Keep the basis the published heading rate is charged on (metal content
+    # for a derivative, full value otherwise) beside published_rate_232, so
+    # the determination states the posted rate on its own basis.
+    rates$published_duty_basis_232 <- if_else(legacy_232, rates$duty_basis_232, NA_character_)
+    rates$duty_basis_232[legacy_232] <- NA_character_
+  }
 
   # 9a. Add revision metadata
   rates <- rates %>%

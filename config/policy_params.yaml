@@ -98,6 +98,23 @@ authority_ranges:
   ieepa_phase1_range:
     start: '9903.01.43'
     end:   '9903.01.75'
+    # EO 14257 Annex I country rates took effect for entries on or after
+    # 12:01 a.m. EDT April 9, 2025; April 5-8 entries owed the 10% baseline
+    # (9903.01.25). CBP CSMS 64680374: headings 9903.01.43-.76 are "effective
+    # April 9, 2025" and "will replace the 10% additional ad valorem duty rate
+    # under 9903.01.25". The headings appear in the April 5 HTS revision with
+    # no activation date in their own text.
+    effective_date: '2025-04-09'
+  # IEEPA actions in force before the HTS revision that first prints them.
+  # The heading text is taken from the named later revision; effective_at also
+  # splits the earlier revision's interval at that instant (legal_event_days).
+  ieepa_carried_forward_headings:
+    - heading: '9903.01.77'
+      source_revision: '2025_rev_18'
+      # EO 14323 (90 FR 37739), Brazil +40%: goods entered on or after
+      # 12:01 a.m. EDT August 6, 2025 (CSMS 65807735). The first HTS printing
+      # is the August 7 revision.
+      effective_at: '2025-08-06T00:01:00-04:00'
   ieepa_phase2_range:
     start: '9903.02.02'
     end:   '9903.02.91'   # Extended from .81 to .91 to cover Swiss/Liechtenstein framework entries
@@ -198,6 +215,14 @@ section_232_headings:
     prefixes_file: 'resources/s232_auto_parts.txt'
     scope_source: 'https://www.govinfo.gov/content/pkg/FR-2025-04-03/pdf/2025-05930.pdf'
     required_shipment_facts: ['is_part_for_passenger_vehicle_or_light_truck']
+    # Note 33(h)(ii): an article in a listed provision that is not a part of a
+    # passenger vehicle or light truck reports under 9903.94.06 (no duty). For
+    # vehicle-specific provisions (8708, vehicle engines, vehicle glass ...)
+    # the duty is shown as applied with the use to confirm; for the general-
+    # purpose provisions in this file it is shown as potentially applicable,
+    # outside the total, until the use is established.
+    scope_defaults_file: 'resources/s232_auto_parts_scope_defaults.csv'
+    scope_citation: 's232_auto_parts_use_condition'
     default_rate: 0.25
     usmca_exempt: true
     # THE Class 2 fix. 9903.94.05 is the automobile PARTS heading (note 33(g));
@@ -231,6 +256,10 @@ section_232_headings:
     qualifying_shares_file: 'resources/semi_qualifying_shares.csv'
     scope_source: 'https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4047318'
     required_shipment_facts: [contains_logic_integrated_circuit, total_processing_performance, dram_bandwidth_gb_s, semiconductor_end_use]
+    # Note 39 covers only articles meeting its technical criteria and not
+    # entered for an exempt end use: potentially applicable until established.
+    scope_default: potential
+    scope_citation: 's232_semiconductor_criteria'
     prefixes: ['847150', '847180', '847330']  # descriptive; products_file is authoritative
     default_rate: 0.25
     usmca_exempt: false
@@ -876,3 +905,87 @@ validation_thresholds:
   exact: 0.005
   within_2pp: 0.02
   within_5pp: 0.05
+
+# --- In-transit exceptions (potential claims, never deductions) ---
+# Goods loaded for export (or in transit on the final mode) before an action
+# took effect, and entered before a deadline, owe a lower duty under an
+# in-transit heading. Whether a shipment qualifies is a fact (the on-board
+# date), so each entry is emitted as a potentially applicable rule while the
+# entry window is open: the unclaimed rate stays in the total.
+# entries_from / entries_until (exclusive: the first day no longer covered) are
+# legal events in legal_event_days(), so revision intervals split exactly where
+# a window opens and closes. Sources: govinfo.gov / CBP CSMS, retrieved 2026-11-16.
+in_transit_provisions:
+  - id: in_transit_fentanyl_cn_2025_02
+    heading: '9903.01.23'
+    relieves: ieepa_fentanyl
+    countries: ['5700', '5820']
+    entries_from: '2025-02-04'
+    entries_until: '2025-03-04'   # .20 period; whether .23 survives the Mar 4 increase to .24 is unverified
+    relieved_to: 0
+    rate_text: '0% if loaded before 12:01 a.m. EST Feb 1, 2025 and entered before Mar 7, 2025'
+    source: 'EO 14195; CBP notice 90 FR 9038 (heading 9903.01.23)'
+  - id: in_transit_reciprocal_2025_04_05
+    heading: '9903.01.28'
+    relieves: ieepa_reciprocal
+    countries: all
+    entries_from: '2025-04-05'
+    entries_until: '2025-06-16'   # May 27 in CSMS 64680374, extended to Jun 16 by CSMS 65201773
+    relieved_to: 0
+    rate_text: '0% if loaded before 12:01 a.m. EDT Apr 5, 2025 and entered before Jun 16, 2025'
+    source: 'EO 14257 (90 FR 15041); CBP CSMS 64649265, 64680374, 65201773'
+  - id: in_transit_reciprocal_2025_04_09
+    heading: '9903.01.25'
+    relieves: ieepa_reciprocal_country_rate
+    countries: all                         # includes China's 84% / 125% (CSMS 65201773)
+    entries_from: '2025-04-09'
+    entries_until: '2025-06-16'
+    relieved_to: 0.10
+    rate_text: '10% (not the country rate) if loaded on or after Apr 5 and before 12:01 a.m. EDT Apr 9, 2025, and entered before Jun 16, 2025'
+    source: 'EO 14257 Annex I; CBP CSMS 64680374, 65201773'
+  - id: in_transit_reciprocal_cn_2025_04_10
+    heading: '9903.01.25'
+    relieves: ieepa_reciprocal_country_rate
+    countries: ['5700', '5820', '5660']
+    entries_from: '2025-04-10'
+    entries_until: '2025-06-16'
+    relieved_to: 0.10
+    rate_text: '10% (not 125%) if loaded on or after 12:01 a.m. EDT Apr 9 and before 12:01 a.m. EDT Apr 10, 2025, and entered before Jun 16, 2025'
+    source: 'EO 14266 (90 FR 15625); CBP CSMS 65201773'
+  - id: in_transit_reciprocal_2025_08_07
+    heading: '9903.01.25'
+    relieves: ieepa_reciprocal_country_rate
+    countries: all
+    excluded_countries: ['5700', '5820']
+    entries_from: '2025-08-07'
+    entries_until: '2025-10-05'
+    relieved_to: 0.10
+    rate_text: '10% (not the country rate) if loaded before 12:01 a.m. EDT Aug 7, 2025 and entered before Oct 5, 2025'
+    source: 'EO 14326 (90 FR 37963); CBP CSMS 65829726'
+  - id: in_transit_brazil_2025_08_06
+    heading: '9903.01.78'
+    relieves: ieepa_country_eo
+    countries: ['3510']
+    entries_from: '2025-08-06'
+    entries_until: '2025-10-05'
+    relieved_to: 0
+    rate_text: 'No additional 40% if loaded before 12:01 a.m. EDT Aug 6, 2025 and entered before Oct 5, 2025'
+    source: 'EO 14323 (90 FR 37739); CBP CSMS 65807735'
+  - id: in_transit_india_2025_08_27
+    heading: '9903.01.85'
+    relieves: ieepa_country_eo
+    countries: ['5330']
+    entries_from: '2025-08-27'
+    entries_until: '2025-09-17'
+    relieved_to: 0
+    rate_text: 'No additional 25% if loaded before 12:01 a.m. EDT Aug 27, 2025 and entered before Sep 17, 2025'
+    source: 'EO 14329; CBP notice 90 FR 41837; CBP CSMS 66027027'
+  - id: in_transit_s122_2026_02_24
+    heading: '9903.03.02'
+    relieves: section_122
+    countries: all
+    entries_from: '2026-02-24'
+    entries_until: '2026-02-28'
+    relieved_to: 0
+    rate_text: '0% if loaded before 12:01 a.m. EST Feb 24, 2026 and entered before 12:01 a.m. EST Feb 28, 2026'
+    source: 'Proclamation 11012 (91 FR 9339); CBP CSMS 67844987'

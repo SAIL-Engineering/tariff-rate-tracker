@@ -258,6 +258,216 @@ run_test('provenance 232 slot carries basis/basis_metal/statutory', {
             abs(p[['232']]$statutory - 0.5) < 1e-9)
 })
 
+message('\n=== Conditional-scope §232 states the published rate ===')
+
+# 8708.30.50.90 from China in 2026 Rev 23 published 23.76% as the §232
+# statutory rate: rate_232 keeps the modelled US-assembly credit (25% less
+# 3.75% x 33%), the scope markers blank statutory_rate_232 because the parts
+# use is a shipment fact, and the rule fell back to rate_232. The rule must
+# state the posted 25% (published_rate_232), ask for the scope fact, and never
+# publish the modelled figure as a statutory rate.
+#   1 auto part, scope needs the vehicle-use fact
+#   2 conditional row with no published rate recorded
+#   3 full-value §232 row with no open scope fact
+#   4 pre-annex legacy derivative: basis kept beside the published rate
+#   5 Korea reciprocal floor, MFN 8.5%, trade-weighted base 1%
+cond_fixture <- tibble(
+  hts10 = c('8708305090', '8708305090', '8708305090', '7318158085', '6403406000'),
+  country = c('5700', '5700', '5700', '5700', '5800'),
+  base_rate = c(0.025, 0.025, 0.025, 0.05, 0.01),
+  statutory_base_rate = c(0.025, 0.025, 0.025, 0.05, 0.085),
+  rate_232 = c(0.237625, 0.237625, 0.237625, 0.1, 0),
+  statutory_rate_232 = c(NA, NA, NA, NA, 0),
+  published_rate_232 = c(0.25, NA, 0.25, 0.5, NA),
+  published_duty_basis_232 = c(NA, NA, NA, 'metal_content_value', NA),
+  duty_basis_232 = c('full_value', 'full_value', 'full_value', NA, NA),
+  shipment_232_scope_status = c('needs_inputs', 'needs_inputs', NA, NA, NA),
+  shipment_232_required_facts_json = c('["is_part_for_passenger_vehicle_or_light_truck"]',
+                                       '["is_part_for_passenger_vehicle_or_light_truck"]',
+                                       NA, NA, NA),
+  rate_301 = 0, rate_ieepa_fent = 0, rate_section_201 = 0,
+  rate_ieepa_recip = c(0.1, 0, 0.1, 0.1, 0.14),
+  statutory_rate_ieepa_recip = c(0.1, 0, 0.1, 0.1, 0.065),
+  rate_s122 = c(0.1, 0, 0, 0.1, 0), statutory_rate_s122 = c(0.1, 0, 0, 0.1, 0),
+  metal_share = c(1, 1, 1, 0.4, 1),
+  ch99_code_232 = c('9903.94.05', '9903.94.05', '9903.94.05', '9903.81.91', NA),
+  ch99_code_ieepa_recip = c('9903.01.25', NA, '9903.01.25', '9903.01.25', '9903.02.73'),
+  ch99_code_s122 = c('9903.03.01', NA, NA, '9903.03.01', NA),
+  deriv_type = c(NA, NA, NA, 'steel', NA),
+  s232_annex = NA_character_, s232_metal = NA_character_,
+  usmca_eligible = FALSE
+)
+cond_ieepa <- tibble(census_code = c('5700', '5800'), ieepa_country_rate = c(0.1, 0.15),
+                     ieepa_type = c('surcharge', 'floor'),
+                     ieepa_recip_ch99 = c('9903.01.25', '9903.02.73'))
+cond_out <- attach_duty_provenance(cond_fixture, country_ieepa = cond_ieepa)
+rule_of <- function(i, authority) {
+  j <- fromJSON(cond_out$ch99_rules_json[i], simplifyDataFrame = FALSE)
+  hit <- Filter(function(x) identical(x$authority, authority), j)
+  if (length(hit)) hit[[1]] else NULL
+}
+
+run_test('conditional auto part states the published 25%, applied, with the use fact', {
+  r <- rule_of(1, 'section_232')
+  stopifnot(r$status == 'applied', abs(r$statutory_rate - 0.25) < 1e-9,
+            'is_part_for_passenger_vehicle_or_light_truck' %in% unlist(r$required_user_inputs),
+            r$stacking_class == 'primary_full')
+  p <- fromJSON(cond_out$duty_provenance_json[1], simplifyDataFrame = FALSE)
+  stopifnot(abs(p[['232']]$statutory - 0.25) < 1e-9)
+})
+
+run_test('a modelled rate_232 is never published as the statutory rate', {
+  r <- rule_of(2, 'section_232')
+  stopifnot(!is.null(r), r$status == 'applied', is.null(r$statutory_rate))
+})
+
+run_test('a full-value row with no open scope fact asks for nothing', {
+  r <- rule_of(3, 'section_232')
+  stopifnot(abs(r$statutory_rate - 0.25) < 1e-9, is.null(r$required_user_inputs))
+})
+
+run_test('reciprocal and §122 are replaced, not applied, where §232 covers the full value', {
+  rec <- rule_of(1, 'ieepa_reciprocal'); s122 <- rule_of(1, 'section_122')
+  stopifnot(rec$status == 'exempt_or_replaced', s122$status == 'exempt_or_replaced',
+            rec$stacking_citation == 's232_full_value_no_content_split',
+            s122$stacking_citation == 's232_full_value_no_content_split')
+})
+
+run_test('legacy derivative keeps its metal-content basis beside the published rate', {
+  r <- rule_of(4, 'section_232')
+  stopifnot(abs(r$statutory_rate - 0.5) < 1e-9, r$duty_basis == 'metal_content_value',
+            r$stacking_class == 'primary_metal', 'metal_content_value' %in% unlist(r$required_user_inputs))
+  # Content split: the reciprocal still applies to the non-metal remainder.
+  stopifnot(rule_of(4, 'ieepa_reciprocal')$status == 'applied')
+})
+
+run_test('a duty the non-stacking order removes reads replaced and cites the clause', {
+  # Mexican auto part (sec. 3(a)(i) removes IEEPA Mexico; §232 stays) and a
+  # Canadian steel article before June 4, 2025 (sec. 3(a)(ii) removes §232
+  # steel). The weighted columns still carry a remainder; the rules must not
+  # say applied.
+  auto_trace <- '{"rule":"eo14289_3a_i_auto","suppressed":{"ieepa_camx":0.25},"rules":[{"rule":"eo14289_3a_i_auto","action":"ieepa_mexico","rate":0.25,"citation_key":"eo_14289_non_stacking","cite_locator":"sec. 3(a)(i)"}]}'
+  steel_trace <- '{"rule":"eo14289_3a_ii_ieepa_camx","suppressed":{"s232_steel":0.25},"rules":[{"rule":"eo14289_3a_ii_ieepa_camx","action":"s232_steel","rate":0.25,"citation_key":"eo_14289_non_stacking","cite_locator":"sec. 3(a)(ii)"}]}'
+  fx <- tibble(hts10 = c('8708936000', '7208101500'), country = c('2010', '1220'),
+               base_rate = 0, statutory_base_rate = 0,
+               rate_232 = c(0.25, 0.25), statutory_rate_232 = c(0.25, 0),
+               rate_301 = 0, rate_ieepa_recip = 0, rate_s122 = 0, rate_section_201 = 0,
+               rate_ieepa_fent = c(0.0537, 0.25), statutory_rate_ieepa_fent = c(0, 0.25),
+               ch99_code_232 = c('9903.94.05', '9903.80.01'), ch99_code_ieepa_fent = c('9903.01.01', '9903.01.10'),
+               duty_basis_232 = 'full_value', metal_share = 1, deriv_type = NA_character_,
+               s232_annex = NA_character_, s232_metal = NA_character_, usmca_eligible = FALSE,
+               statutory_suppressed_json = c(auto_trace, steel_trace))
+  out <- attach_duty_provenance(fx)
+  rule <- function(i, a) Filter(function(x) identical(x$authority, a),
+                                fromJSON(out$ch99_rules_json[i], simplifyDataFrame = FALSE))[[1]]
+  stopifnot(rule(1, 'ieepa_fentanyl')$status == 'exempt_or_replaced',
+            rule(1, 'ieepa_fentanyl')$stacking_citation == 'eo14289_3a_i_auto',
+            rule(1, 'section_232')$status == 'applied',
+            rule(2, 'section_232')$status == 'exempt_or_replaced',
+            rule(2, 'section_232')$stacking_citation == 'eo14289_3a_ii_ieepa_camx',
+            rule(2, 'ieepa_fentanyl')$status == 'applied')
+})
+
+message('\n=== Conditions, in-transit candidates and country-specific IEEPA actions ===')
+
+cx <- tibble(
+  # 1 laptop (general-purpose 8471, potential)  2 brake part (8708, applied + confirm)
+  # 3 Brazil sweater Aug 10 2025 (reciprocal 10% + EO 40%)  4 China sweater Apr 15 2025 (125%)
+  # 5 aluminum derivative from Germany Jul 10 2025 (content split)
+  hts10 = c('8471300100', '8708305090', '6110202079', '6110202079', '7616995190'),
+  country = c('5700', '5700', '3510', '5700', '4280'),
+  effective_date = as.Date(c('2025-07-10', '2025-07-10', '2025-08-10', '2025-04-15', '2025-07-10')),
+  base_rate = 0, statutory_base_rate = 0,
+  rate_232 = c(0.237625, 0.237625, 0, 0, 0.1), statutory_rate_232 = c(NA, NA, 0, 0, NA),
+  published_rate_232 = c(0.25, 0.25, NA, NA, 0.5),
+  published_duty_basis_232 = c(NA, NA, NA, NA, 'metal_content_value'),
+  duty_basis_232 = c('full_value', 'full_value', NA, NA, NA),
+  s232_scope_default = c('potential', 'applied', NA, NA, NA),
+  s232_scope_citation = c('s232_auto_parts_use_condition', 's232_auto_parts_use_condition', NA, NA, NA),
+  shipment_232_scope_status = c('needs_inputs', 'needs_inputs', NA, NA, NA),
+  shipment_232_required_facts_json = c('["is_part_for_passenger_vehicle_or_light_truck"]',
+                                       '["is_part_for_passenger_vehicle_or_light_truck"]', NA, NA, NA),
+  rate_301 = 0, rate_ieepa_fent = 0, rate_section_201 = 0, rate_s122 = 0,
+  rate_ieepa_recip = c(0.1, 0.1, 0.5, 1.25, 0.15), statutory_rate_ieepa_recip = c(0.1, 0.1, 0.5, 1.25, 0.15),
+  modeled_ieepa_country_eo_rate = c(0, 0, 0.4, 0, 0),
+  ch99_src_ieepa_country_eo = c(NA, NA, '9903.01.77', NA, NA),
+  metal_share = c(1, 1, 1, 1, 0.3),
+  ch99_code_232 = c('9903.94.05', '9903.94.05', NA, NA, '9903.85.08'),
+  ch99_code_ieepa_recip = c('9903.01.25', '9903.01.25', NA, '9903.01.63', '9903.02.20'),
+  deriv_type = c(NA, NA, NA, NA, 'aluminum'),
+  s232_annex = NA_character_, s232_metal = NA_character_, usmca_eligible = FALSE)
+cx_ieepa <- tibble(census_code = c('5700', '3510', '4280'), ieepa_country_rate = c(0.1, 0.5, 0.15),
+                   ieepa_type = 'surcharge', ieepa_recip_ch99 = c('9903.01.25', '9903.01.25', '9903.02.20'))
+cx_out <- attach_duty_provenance(cx, country_ieepa = cx_ieepa)
+rules_of <- function(i) fromJSON(cx_out$ch99_rules_json[i], simplifyDataFrame = FALSE)
+pick <- function(i, f) Filter(f, rules_of(i))
+
+run_test('a general-purpose auto-parts provision is potentially applicable, explained, and leaves IEEPA applied', {
+  r <- pick(1, function(x) x$authority == 'section_232')[[1]]
+  stopifnot(r$status == 'potentially_applicable_requires_more_facts', abs(r$statutory_rate - 0.25) < 1e-9,
+            r$scope_citation == 's232_auto_parts_use_condition',
+            'is_part_for_passenger_vehicle_or_light_truck' %in% unlist(r$required_user_inputs),
+            pick(1, function(x) x$authority == 'ieepa_reciprocal' && !startsWith(x$program, 'in_transit_'))[[1]]$status == 'applied')
+  a <- pick(2, function(x) x$authority == 'section_232')[[1]]
+  stopifnot(a$status == 'applied', a$scope_citation == 's232_auto_parts_use_condition')
+})
+
+run_test('Brazil states the reciprocal and the 40% under their own headings, with its in-transit window', {
+  rec <- pick(3, function(x) x$authority == 'ieepa_reciprocal' && x$status == 'applied')
+  codes <- vapply(rec, function(x) x$ch99_code, character(1))
+  stopifnot(setequal(codes, c('9903.01.25', '9903.01.77')),
+            abs(Filter(function(x) x$ch99_code == '9903.01.77', rec)[[1]]$statutory_rate - 0.4) < 1e-9,
+            abs(Filter(function(x) x$ch99_code == '9903.01.25', rec)[[1]]$statutory_rate - 0.1) < 1e-9)
+  it <- pick(3, function(x) identical(x$program, 'in_transit_brazil_2025_08_06'))
+  stopifnot(length(it) == 1, it[[1]]$ch99_code == '9903.01.78',
+            it[[1]]$status == 'potentially_applicable_requires_more_facts',
+            'date_loaded_for_export' %in% unlist(it[[1]]$required_user_inputs))
+  # The 10% component is the baseline itself: no country-rate in-transit relief.
+  stopifnot(length(pick(3, function(x) grepl('^in_transit_reciprocal_20', x$program) && x$ch99_code == '9903.01.25')) == 0)
+})
+
+run_test('China on April 15, 2025: the 9903.01.28 in-transit candidate, the 125% stays applied', {
+  it <- pick(4, function(x) identical(x$program, 'in_transit_reciprocal_2025_04_05'))
+  # Loaded Apr 5-8 or (China) on Apr 9: 10% instead of 125% under 9903.01.25.
+  cr <- pick(4, function(x) x$program %in% c('in_transit_reciprocal_2025_04_09', 'in_transit_reciprocal_cn_2025_04_10'))
+  stopifnot(length(it) == 1, it[[1]]$ch99_code == '9903.01.28', length(cr) == 2,
+            pick(4, function(x) x$authority == 'ieepa_reciprocal' && x$status == 'applied')[[1]]$statutory_rate == 1.25)
+  stopifnot(length(pick(1, function(x) grepl('^in_transit', x$program))) == 0)   # July: no open window
+})
+
+run_test('the reciprocal on a metal-content derivative cites the non-metal-content rule', {
+  rec <- pick(5, function(x) x$authority == 'ieepa_reciprocal' && x$status == 'applied')[[1]]
+  stopifnot(rec$stacking_citation == 'proc10947_6_non_metal_content')
+})
+
+run_test('a floor or cap states its published rate beside what it adds', {
+  # Korea reciprocal floor 15% (row 5 of cond_fixture: 6.5% on an 8.5% base);
+  # a Japanese auto part under the 15% deal floor; a Korean shoe under the
+  # note 52 12.5% net-of-MFN cap (4% on an 8.5% base).
+  rec <- rule_of(5, 'ieepa_reciprocal')
+  stopifnot(abs(rec$floor_rate - 0.15) < 1e-9, abs(rec$statutory_rate - 0.065) < 1e-9)
+  fx <- tibble(hts10 = c('8708305090', '6403406000'), country = c('5880', '5800'),
+               base_rate = c(0.025, 0.01), statutory_base_rate = c(0.025, 0.085),
+               rate_232 = c(0.125, 0), statutory_rate_232 = c(0.125, 0), floor_rate_232 = c(0.15, NA),
+               rate_301 = 0, rate_ieepa_recip = 0, rate_ieepa_fent = 0, rate_s122 = 0, rate_section_201 = 0,
+               rate_s301fl = c(0, 0.1149), statutory_rate_s301fl = c(0, 0.04), floor_rate_s301fl = c(NA, 0.125),
+               ch99_code_232 = c('9903.94.52', NA), ch99_code_s301fl = c(NA, '9903.05.29'),
+               duty_basis_232 = c('full_value', NA), metal_share = 1, deriv_type = NA_character_,
+               s232_annex = NA_character_, s232_metal = NA_character_, usmca_eligible = FALSE)
+  out <- attach_duty_provenance(fx)
+  r <- function(i, a) Filter(function(x) identical(x$authority, a), fromJSON(out$ch99_rules_json[i], simplifyDataFrame = FALSE))[[1]]
+  stopifnot(r(1, 'section_232')$rate_type == 'floor_static', abs(r(1, 'section_232')$floor_rate - 0.15) < 1e-9,
+            abs(r(1, 'section_232')$statutory_rate - 0.125) < 1e-9,
+            r(2, 's301_forced_labor')$rate_type == 'floor_post_mfn', abs(r(2, 's301_forced_labor')$floor_rate - 0.125) < 1e-9,
+            abs(r(2, 's301_forced_labor')$statutory_rate - 0.04) < 1e-9, r(2, 's301_forced_labor')$ch99_code == '9903.05.29')
+})
+
+run_test('reciprocal floor states the rate closed against the statutory base', {
+  r <- rule_of(5, 'ieepa_reciprocal')
+  stopifnot(r$status == 'applied', r$rate_type == 'floor_post_mfn',
+            abs(r$statutory_rate - 0.065) < 1e-9)
+})
+
 message('\n=== Section 301 exclusion candidates ===')
 
 s301_excl_fixture <- tibble(

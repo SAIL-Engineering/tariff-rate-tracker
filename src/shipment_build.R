@@ -780,6 +780,25 @@ mark_aggregate_only_scope <- function(rates,reason) {
     rates[[paste0('modeled_legacy_',name)]] <- rates[[name]]
   for(name in grep('^ch99_code_',names(rates),value=TRUE))
     rates[[paste0('aggregate_',name)]] <- rates[[name]]
+  # Conditional-scope §232 (auto-parts use, note 16 / legacy metal predicates,
+  # semiconductor eligibility): the scope markers blank statutory_rate_232 and
+  # keep the posted heading rate in published_rate_232. This writer serves that
+  # posted rate as the statutory rate -- applied, with the scope facts in
+  # ch99_rules_json to confirm (WJR, 2026-11-16) -- because SAIL coerces a NULL
+  # statutory field to zero and its shipment pricing undoes the modelled
+  # US-assembly credit against this column. It is the heading rate the row was
+  # blanked from, never rate_232. The contract path below keeps it blank.
+  # A scope shown as potentially applicable (s232_scope_default 'potential':
+  # general-purpose automobile-parts provisions, note 39 semiconductors) is not
+  # owed until its condition is established: it serves 0, and the rules state
+  # the posted rate as potentially applicable with what decides it.
+  if(all(c('statutory_rate_232','published_rate_232') %in% names(rates))) {
+    potential <- if('s232_scope_default' %in% names(rates))
+      dplyr::coalesce(rates$s232_scope_default=='potential',FALSE) else rep(FALSE,nrow(rates))
+    posted <- is.na(rates$statutory_rate_232) & !is.na(rates$published_rate_232)
+    rates$statutory_rate_232[posted & !potential] <- rates$published_rate_232[posted & !potential]
+    rates$statutory_rate_232[posted & potential] <- 0
+  }
   rates$shipment_status <- 'aggregate_only'
   rates$shipment_contract_version <- 'aggregate_modeled_no_shipment_contract'
   rates$shipment_projection_version <- 'sail.shipment-wide/v1'

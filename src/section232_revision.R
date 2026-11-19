@@ -82,6 +82,7 @@ mark_s232_note16_scope <- function(rates,projection) {
   candidate <- !is.na(at) & projection$s232_note16_status[at]=='candidate_requires_legal_predicates'
   # Outside this particular list is not an attestation of no Section 232 action.
   # All matched articles need actual metal/claim facts before a shipment total.
+  rates <- retain_published_rate_232(rates, candidate)
   rates$statutory_rate_232[candidate] <- NA_real_
   rates$s232_note16_status <- projection$s232_note16_status[at]
   rates$s232_note16_lists_json <- projection$s232_note16_lists_json[at]
