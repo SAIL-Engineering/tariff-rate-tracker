@@ -1,9 +1,12 @@
 """build_my: ad valorem / specific / compound import duty (unit from column 4),
 Appendix B quota lines, SST/excise/cess as taxes, unresolved and unreadable
-cells flagged, export duty absent, artifact shape."""
+cells flagged, export duty absent, artifact shape -- and the amendments made
+after the Order (config/duty_overlays/my.json), P.U. (A) 350/2026 first."""
 from __future__ import annotations
 
+import copy
 import csv
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -16,11 +19,16 @@ sys.path.insert(0, str(HERE))
 import build_duty_rates as bdr                          # noqa: E402
 
 FIXTURE = Path(__file__).parent / "fixtures" / "my_duty_rates_slice.csv"
+ROOT = Path(__file__).resolve().parents[2]
+CANONICAL = ROOT / "data" / "my_tariff_source" / "my_tariff_2025_rev_1101.csv"
+OVERLAY = ROOT / "config" / "duty_overlays" / "my.json"
 REV = "2025_rev_1101"
 
 
-def _build(path=FIXTURE):
-    return bdr.build_my(path, "MY", REV)
+def _build(path=FIXTURE, overlay=None):
+    """No overlay unless given: these tests pin what the GAZETTE says."""
+    return bdr.build_my(path, "MY", REV,
+                        overlay=overlay if overlay is not None else {})
 
 
 def _by(records, digits):
@@ -183,6 +191,7 @@ def test_export_duty_and_internal_nodes_are_not_emitted():
 
 
 def test_cli_writes_the_three_artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(bdr, "load_overlay", lambda jur: {})
     out = tmp_path / "out"
     monkeypatch.setattr(sys, "argv", [
         "build_duty_rates.py", str(FIXTURE), "--source-format", "my",
@@ -198,3 +207,103 @@ def test_cli_writes_the_three_artifacts(tmp_path, monkeypatch):
         assert {"treatment", "name", "origin_countries",
                 "conditional"} <= t.keys()
     assert "P.U. (A) 384" in tdoc["coverage"]["source"]
+
+
+# ── amendments after the Order (config/duty_overlays/my.json) ────────────────
+
+def _shipped_overlay():
+    return json.loads(OVERLAY.read_text(encoding="utf-8"))
+
+
+def _with_7115(tmp_path, changes: dict[str, dict] | None = None):
+    """The fixture plus 7115.90 exactly as the parsed gazette has it (page 788)."""
+    with FIXTURE.open(newline="", encoding="utf-8") as fh:
+        rd = csv.DictReader(fh)
+        fields, rows = rd.fieldnames, list(rd)
+    with CANONICAL.open(newline="", encoding="utf-8-sig") as fh:
+        rows += [r for r in csv.DictReader(fh)
+                 if r["GOODS_CODE"].startswith("711590")]
+    for r in rows:
+        r.update((changes or {}).get(r["GOODS_CODE"], {}))
+    p = tmp_path / "my_tariff_7115.csv"
+    with p.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
+    return p
+
+
+def test_shipped_overlay_cites_pua_350_2026():
+    (a,) = _shipped_overlay()["rate_amendments"]
+    assert a["regulation_id"] == "P.U. (A) 350/2026"
+    assert a["valid_from"] == "2026-11-01"
+    # Para. 2 amends exactly one line, in column (5); nothing else.
+    assert a["lines"] == {"7115901000": {"base_rate": "10%", "rate": "0%"}}
+    assert "P.U. (A) 384/2025" in a["amends"] and "column (5)" in a["amends"]
+    (inst,) = a["instruments"]
+    assert inst["url"].startswith("https://lom.agc.gov.my/")
+    assert len(inst["sha256"]) == 64
+    assert (inst["made"], inst["gazetted"]) == ("2026-09-17", "2026-10-02")
+
+
+def test_the_gazette_row_is_kept_and_the_amendment_follows_it(tmp_path):
+    records, treatments, coverage = _build(_with_7115(tmp_path),
+                                           overlay=_shipped_overlay())
+    line = _by(records, "7115901000")
+    # The P.U. (A) 384 rate is never rewritten: 10%, ended the day before.
+    assert line["MFN"]["rate_text"] == "10%"
+    assert line["MFN"]["ad_valorem"] == pytest.approx(0.1)
+    assert line["MFN"]["valid_until"] == "2026-10-31"
+    assert "valid_from" not in line["MFN"]
+    # The substituted rate, dated and cited, as its scheduled successor.
+    nxt = line["MFN_scheduled"]
+    assert (nxt["rate_text"], nxt["ad_valorem"]) == ("0%", 0.0)
+    assert nxt["valid_from"] == "2026-11-01"
+    assert nxt["category"] == "scheduled_rate" and nxt["informational"]
+    assert nxt["regulation_id"] == "P.U. (A) 350/2026"
+    assert nxt["amendment_basis"].startswith("P.U. (A) 350/2026")
+    # The separate SST row is untouched.
+    assert (line["SST"]["rate_text"], line["SST"]["category"]) == ("0%", "tax")
+    assert "valid_until" not in line["SST"]
+    # 7115.90.20 00 (metal clad with gold or silver) is not amended.
+    clad = _by(records, "7115902000")
+    assert clad["MFN"]["rate_text"] == "10%" and "valid_until" not in clad["MFN"]
+    assert "MFN_scheduled" not in clad
+    assert {t["treatment"]: t for t in treatments}["MFN_scheduled"][
+        "category"] == "scheduled_rate"
+    assert not any(t["treatment"].startswith("unknown_MFN") for t in treatments)
+    assert "as amended by P.U. (A) 350/2026 (from 2026-11-01" in coverage["as_of"]
+
+
+def test_the_build_is_the_same_whatever_day_it_runs(tmp_path):
+    """No snapshot date: the route switches on commencement, so a build before
+    or after 1 November writes the same rows."""
+    one = _build(_with_7115(tmp_path), overlay=_shipped_overlay())[0]
+    two = _build(_with_7115(tmp_path), overlay=_shipped_overlay())[0]
+    assert one == two
+
+
+def test_a_gazette_that_has_moved_on_stops_the_build(tmp_path):
+    # A new edition printing 0% means the overlay needs reading, not applying.
+    path = _with_7115(tmp_path, {"7115901000": {"IMPORT_RATE": "0%"}})
+    with pytest.raises(SystemExit, match="expects the gazette to print '10%'"):
+        _build(path, overlay=_shipped_overlay())
+
+
+def test_an_amended_line_missing_from_the_edition_stops_the_build():
+    with pytest.raises(SystemExit, match="not leaves of"):
+        _build(FIXTURE, overlay=_shipped_overlay())
+
+
+def test_malformed_or_overlapping_amendments_stop_the_build():
+    o = _shipped_overlay()
+    bad = copy.deepcopy(o)
+    del bad["rate_amendments"][0]["instruments"][0]["url"]
+    with pytest.raises(SystemExit, match="number and url"):
+        bdr._my_amendments(bad)
+    twice = copy.deepcopy(o)
+    twice["rate_amendments"].append({**copy.deepcopy(o["rate_amendments"][0]),
+                                     "id": "again"})
+    with pytest.raises(SystemExit, match="amended by both"):
+        bdr._my_amendments(twice)
+    assert bdr._my_amendments(o)["7115901000"]["_start"] == dt.date(2026, 11, 1)

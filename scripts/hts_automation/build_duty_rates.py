@@ -2404,7 +2404,44 @@ def _my_parse(cell: str, unit_of_quantity: str = "",
                             allow_alternatives=allow_alternatives)
 
 
-def build_my(csv_path: Path, jur: str, revision: str):
+def _my_amendments(overlay: dict) -> dict[str, dict]:
+    """config/duty_overlays/my.json `rate_amendments` -> {digits: amendment
+    with that line's base_rate / rate}. Malformed or overlapping entries stop
+    the build: a rate that changes law must not be half-applied."""
+    by_digits: dict[str, dict] = {}
+    for a in overlay.get("rate_amendments", []):
+        for key in ("id", "regulation_id", "title", "valid_from", "amends",
+                    "lines", "instruments"):
+            if key not in a:
+                raise SystemExit(f"ERROR: my overlay amendment "
+                                 f"{a.get('id', '?')!r} lacks {key!r}")
+        start = _dt.date.fromisoformat(a["valid_from"])
+        if not a["instruments"] or not all(
+                i.get("number") and i.get("url") for i in a["instruments"]):
+            raise SystemExit(f"ERROR: my overlay amendment {a['id']!r} must "
+                             f"cite each instrument's number and url")
+        if not a["lines"]:
+            raise SystemExit(f"ERROR: my overlay amendment {a['id']!r} names "
+                             f"no lines")
+        for digits, line in a["lines"].items():
+            if not (line.get("base_rate") and line.get("rate")):
+                raise SystemExit(f"ERROR: my overlay amendment {a['id']!r}: "
+                                 f"{digits} needs base_rate and rate")
+            if digits in by_digits:
+                raise SystemExit(f"ERROR: {digits} is amended by both "
+                                 f"{by_digits[digits]['id']!r} and "
+                                 f"{a['id']!r} in the my overlay")
+            by_digits[digits] = {**a, **line, "_start": start}
+    return by_digits
+
+
+def _my_amendment_basis(a: dict) -> str:
+    """'P.U. (A) 350/2026 (Customs Duties (Amendment) Order 2026)'."""
+    return f"{a['regulation_id']} ({a['title']})"
+
+
+def build_my(csv_path: Path, jur: str, revision: str,
+             overlay: dict | None = None):
     """MY: Customs Duties Order 2025 import duty per 10-digit leaf (the 11
     eight-digit codes are internal nodes and carry nothing), quota lines
     from Appendix B, and the ezHS portal's SST/excise/cess as taxes.
@@ -2425,6 +2462,16 @@ def build_my(csv_path: Path, jur: str, revision: str):
     the in-quota rate an informational 'quota' row; the in-quota rate is
     never auto-selected.
 
+    AMENDMENTS made after the Order (config/duty_overlays/my.json
+    `rate_amendments`, e.g. P.U. (A) 350/2026 on 7115.90.10 00) never rewrite
+    the P.U. (A) 384 row: it keeps the printed rate and gains valid_until, the
+    day before the amendment commences, and the substituted rate follows as an
+    informational `MFN_scheduled` row dated from commencement.
+    /api/duty-rates serves the scheduled row as the MFN rate from that date
+    (applyScheduledRates), so the build is the same whatever day it runs. The
+    parsed gazette must still print the base rate the overlay expects, or the
+    build stops: the edition has moved on, and the overlay needs reading.
+
     EXPORT_RATE is not emitted: no builder here models export duties."""
     rows = _read_canonical(csv_path, MY_REQUIRED, "MY")
     leaves = [r for r in rows if r["GOODS_CODE"] and r["IS_LEAF"] == "1"]
@@ -2432,6 +2479,53 @@ def build_my(csv_path: Path, jur: str, revision: str):
         raise SystemExit(f"ERROR: no IS_LEAF rows in {csv_path}")
     _nonleaf_rate_note("my", rows, ("IMPORT_RATE", "TRQ_IN_QUOTA",
                                     "TRQ_OUT_QUOTA"))
+    if overlay is None:
+        overlay = load_overlay("my")
+    amendments = _my_amendments(overlay)
+    leaf_digits = {bhc._digits_only(r["GOODS_CODE"]) for r in leaves}
+    missing = sorted(set(amendments) - leaf_digits)
+    if missing:
+        raise SystemExit(f"ERROR: the my overlay amends {missing}, which are "
+                         f"not leaves of {csv_path.name} -- review "
+                         f"config/duty_overlays/my.json")
+    applied: dict[str, dict] = {}
+
+    def amend(r, code, digits, cell, unit, base_rec) -> list[dict]:
+        """The P.U. (A) 384 row, ended the day before the amendment, and the
+        amended rate as its dated successor (see docstring)."""
+        a = amendments[digits]
+        if " ".join(cell.split()) != a["base_rate"]:
+            raise SystemExit(
+                f"ERROR: {code}: the my overlay amendment {a['id']!r} expects "
+                f"the gazette to print {a['base_rate']!r}, but it prints "
+                f"{cell!r} -- review config/duty_overlays/my.json")
+        p_new = _my_parse(a["rate"], unit)
+        if "error" in p_new:
+            raise SystemExit(f"ERROR: {code}: the my overlay amendment "
+                             f"{a['id']!r} rate {a['rate']!r} does not parse "
+                             f"({p_new['error']})")
+        basis = _my_amendment_basis(a)
+        ends = (a["_start"] - _dt.timedelta(days=1)).isoformat()
+        base_rec["valid_until"] = ends
+        base_rec["amendment_id"] = a["id"]
+        base_rec["note"] = (f"{a['base_rate']} under the Customs Duties Order "
+                            f"2025, P.U. (A) 384, until {ends}; {a['rate']} "
+                            f"from {a['valid_from']} under {basis}.")
+        nxt = _expr_record(jur, revision, code, digits, "MFN_scheduled",
+                           a["rate"], p_new, informational=True,
+                           category="scheduled_rate")
+        nxt.update({
+            "valid_from": a["valid_from"],
+            "regulation_id": a["regulation_id"],
+            "regulation_effective": a["valid_from"],
+            "amendment_basis": basis,
+            "amendment_id": a["id"],
+            "source_url": a["instruments"][0]["url"],
+            "note": (f"{a['amends']}: {a['base_rate']} replaced by "
+                     f"{a['rate']} from {a['valid_from']} ({basis})."),
+        })
+        applied[a["id"]] = a
+        return [base_rec, nxt]
 
     records: list[dict] = []
     bases: dict[str, int] = {}
@@ -2449,12 +2543,24 @@ def build_my(csv_path: Path, jur: str, revision: str):
                     "no_rate_in_source", "IMPORT_RATE"))
             else:
                 p = _my_parse(cell, unit)
-                records.append(
-                    _unrepresentable(jur, revision, code, digits, "MFN", cell,
-                                     p["error"], "IMPORT_RATE")
-                    if "error" in p
-                    else _expr_record(jur, revision, code, digits, "MFN",
-                                      cell, p))
+                if "error" in p:
+                    if digits in amendments:
+                        raise SystemExit(
+                            f"ERROR: {code}: amended by the my overlay but "
+                            f"its gazette rate {cell!r} does not parse")
+                    records.append(_unrepresentable(
+                        jur, revision, code, digits, "MFN", cell,
+                        p["error"], "IMPORT_RATE"))
+                else:
+                    rec = _expr_record(jur, revision, code, digits, "MFN",
+                                       cell, p)
+                    records.extend(amend(r, code, digits, cell, unit, rec)
+                                   if digits in amendments else [rec])
+        elif digits in amendments:
+            raise SystemExit(
+                f"ERROR: {code}: the my overlay amends a line whose import "
+                f"duty basis is {basis!r}, not the schedule column -- review "
+                f"config/duty_overlays/my.json")
         elif basis == "trq_appendix_b":
             in_q, out_q, agency = (r["TRQ_IN_QUOTA"], r["TRQ_OUT_QUOTA"],
                                    r["TRQ_AGENCY"])
@@ -2526,6 +2632,15 @@ def build_my(csv_path: Path, jur: str, revision: str):
          "conditional": False,
          "legal_basis": "Customs Duties Order 2025, P.U. (A) 384, paras 2(1) "
                         "and 3; quota lines para 2(4) and Appendix B"},
+        {"treatment": "MFN_scheduled",
+         "name": "Import duty as amended, from the amendment's commencement",
+         "origin_countries": [], "applies": "all_origins",
+         "conditional": False, "category": "scheduled_rate",
+         "legal_basis": "The amending order named on the line "
+                        "(regulation_id), e.g. P.U. (A) 350/2026",
+         "note": "Informational until its valid_from: the rate an amending "
+                 "order substitutes in column (5). From that date it is the "
+                 "import duty served, in place of the P.U. (A) 384 rate."},
         {"treatment": "quota_in",
          "name": "Tariff-rate quota — in-quota rate (Appendix B)",
          "origin_countries": [], "applies": None, "conditional": True,
@@ -2549,9 +2664,16 @@ def build_my(csv_path: Path, jur: str, revision: str):
                if col == "SST" else {})})
     tout += _unknown_treatments(records, {})
     coverage = dict(MY_COVERAGE)
+    amended = "".join(
+        f", as amended by {a['regulation_id']} (from {a['valid_from']}, "
+        f"{len(a['lines'])} line{'s' if len(a['lines']) != 1 else ''})"
+        for a in applied.values())
     coverage["as_of"] = (f"{revision} · Customs Duties Order 2025, in force "
-                         f"2025-11-01 ({csv_path.name})")
-    overlay = load_overlay("my")
+                         f"2025-11-01{amended} ({csv_path.name})")
+    if applied:
+        print(f"[my] amendments applied: "
+              + ", ".join(f"{a['regulation_id']} from {a['valid_from']} on "
+                          f"{sorted(a['lines'])}" for a in applied.values()))
     if overlay.get("flat_taxes"):
         coverage["flat_taxes"] = overlay["flat_taxes"]
     return records, tout, coverage

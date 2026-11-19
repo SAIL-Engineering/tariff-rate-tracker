@@ -105,6 +105,30 @@ def _vn_general(row: dict, amendments: dict, snapshot: dt.date) -> str:
     return f"{base}%"
 
 
+def _my_general(row: dict, amendments: dict, snapshot: dt.date) -> str:
+    """The Explorer's general column for a MY line: the import duty as the
+    Customs Duties Order 2025 prints it, except on a line an amending order
+    changes (config/duty_overlays/my.json, the same overlay build_duty_rates.py
+    applies). There it states, dated, the rate in force on the build date and
+    the other one: "0% from 2026-11-01 (P.U. (A) 350/2026); 10% before". The
+    printed base must still match the overlay, or the build stops."""
+    cell = " ".join((row.get("IMPORT_RATE") or "").split())
+    a = amendments.get((row.get("GOODS_CODE") or "").strip())
+    if not a:
+        return cell
+    if cell != a["base_rate"]:
+        raise SystemExit(
+            f"ERROR: {row.get('GOODS_CODE')}: the my overlay amendment "
+            f"{a['id']!r} expects the gazette to print {a['base_rate']!r}, "
+            f"but it prints {cell!r} -- review config/duty_overlays/my.json")
+    if snapshot >= a["_start"]:
+        return (f"{a['rate']} from {a['valid_from']} ({a['regulation_id']}); "
+                f"{a['base_rate']} before")
+    ends = (a["_start"] - dt.timedelta(days=1)).isoformat()
+    return (f"{a['base_rate']} until {ends}; then {a['rate']} "
+            f"({a['regulation_id']})")
+
+
 def _vn_pct(value: str | None) -> str:
     """Vietnam states its duty columns as bare percentages, so the sign has to
     be added here -- but only where the cell is nothing but a number. 49 of the
@@ -156,6 +180,8 @@ def main() -> int:
     today = dt.date.today()
     vn_amendments = (bdr._vn_amendments(bdr.load_overlay("vn"))
                      if args.source_format == "vn" else {})
+    my_amendments = (bdr._my_amendments(bdr.load_overlay("my"))
+                     if args.source_format == "my" else {})
     if args.source_format in ("sg", "my", "vn"):
         # The duty columns are already on the parsed row, keyed by code.
         with args.csv_path.open(newline="", encoding="utf-8-sig") as fh:
@@ -190,7 +216,7 @@ def main() -> int:
             other = f"Excise: {excise}" if excise else ""
         elif args.source_format == "my" and digits in rates:
             r = rates[digits]
-            general = (r.get("IMPORT_RATE") or "").strip()
+            general = _my_general(r, my_amendments, today)
             in_q = (r.get("TRQ_IN_QUOTA") or "").strip()
             out_q = (r.get("TRQ_OUT_QUOTA") or "").strip()
             if in_q or out_q:

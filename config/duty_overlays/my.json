@@ -1,0 +1,27 @@
+{
+  "_comment": "Malaysia import duty amendments made AFTER the Customs Duties Order 2025 [P.U. (A) 384/2025], the edition data/my_tariff_source parses. Applied by build_duty_rates.py build_my and build_explorer_dataset.py on every build. Each entry names the lines it changes, the rate P.U. (A) 384 prints for each (the parsed gazette must still show it, or the build stops: the base edition has moved on and this overlay needs review), the rate it substitutes, its commencement, and the gazetted instrument. The P.U. (A) 384 row is never rewritten: it keeps its rate and ends the day before commencement, and the amended rate follows as a dated scheduled row, so /api/duty-rates serves each on its own dates without a rebuild.",
+  "_coverage": "Not an inventory of every amendment. Only the orders listed here have been read (2026-11-19). Customs Duties (Amendment) Orders made since 2025-11-01 have not otherwise been surveyed.",
+  "rate_amendments": [
+    {
+      "id": "pua_350_2026",
+      "summary": "Import duty on 7115.90.10 00 (other articles of precious metal: of gold or silver) from 10% to 0%",
+      "regulation_id": "P.U. (A) 350/2026",
+      "title": "Customs Duties (Amendment) Order 2026",
+      "valid_from": "2026-11-01",
+      "amends": "Customs Duties Order 2025 [P.U. (A) 384/2025], First Schedule, column (5)",
+      "lines": {
+        "7115901000": {"base_rate": "10%", "rate": "0%"}
+      },
+      "instruments": [
+        {
+          "number": "P.U. (A) 350/2026",
+          "made": "2026-09-17",
+          "gazetted": "2026-10-02",
+          "effect": "Para. 2: the Customs Duties Order 2025 [P.U. (A) 384/2025] is amended in the First Schedule, in relation to subheading 7115.90.10 00, in column (5), by substituting for the words \"10%\" the words \"0%\". Para. 1(2): comes into operation on 1 November 2026. No other line or column is amended.",
+          "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputp/3742995/PUA%20350_2026.pdf",
+          "sha256": "b3b7641554ac41eeee2f6e8a142915c31afe98b30794076a025385f703ad49e0"
+        }
+      ]
+    }
+  ]
+}
