@@ -73,11 +73,13 @@ def _row(hsk="0101211000", cls="A", rate="8", unit_tax="", base="",
     return [hsk, cls, rate, unit_tax, base, country, use, start, end]
 
 
-def _build(tmp_path, rows, leaves=("0101211000",)):
+def _build(tmp_path, rows, leaves=("0101211000",), overlay=None, snap=SNAP):
+    """No overlay unless given: these tests pin what the KCS FILE says."""
     return bdr.build_kr(_rates_xlsx(tmp_path, rows), "KR", "2026_rev_101",
                         nomenclature_csv=_nomenclature(tmp_path, leaves),
-                        snapshot_date=SNAP, classes_json=CLASSES,
-                        rates_date="20260211")
+                        snapshot_date=snap, classes_json=CLASSES,
+                        rates_date="20260211",
+                        overlay=overlay if overlay is not None else {})
 
 
 def test_applied_rate_c_wins_when_lower(tmp_path):
@@ -169,3 +171,139 @@ def test_class_variants_stay_distinguishable(tmp_path):
 def test_coverage_floor_trips_without_a_rows(tmp_path):
     with pytest.raises(SystemExit):
         _build(tmp_path, [_row(cls="FUS1", rate="0", country="2")])
+
+
+# ── quota tariff annexes (config/duty_overlays/kr.json) ──────────────────────
+
+import copy                                              # noqa: E402
+import json                                              # noqa: E402
+
+OVERLAY = json.loads((Path(__file__).resolve().parents[2] / "config" / "duty_overlays"
+                      / "kr.json").read_text(encoding="utf-8"))
+NOV = dt.date(2026, 11, 19)
+# Leaves under every annex scope (the build stops on a scope that covers none),
+# plus neighbours that must stay untouched.
+QUOTA_LEAVES = ("1803100000", "1804000000", "1805000000", "1806100000",
+                "2711121000", "2711130000", "2711110000", "2711210000",
+                "2008200000", "2008190000", "2009290000", "2009490000",
+                "2009790000", "2306600000")
+
+
+def _quota_rows():
+    """Base rates run past the annex (a real A row carries no 2026 end date)."""
+    def base(**kw):
+        return _row(**{"end": "20271231", **kw})
+    rows = [base(hsk=h, cls="A", rate="5") for h in ("1803100000", "1804000000",
+                                                      "1805000000")]
+    rows += [base(hsk="1803100000", cls="C", rate="19.7"),
+             # the KCS file's H1 quota row: expired by the validity filter
+             _row(hsk="1803100000", cls="P3", rate="0", start="20260101", end="20260630"),
+             base(hsk="1806100000", cls="A", rate="8"),                  # sweetened: not cut
+             base(hsk="2711121000", cls="A", rate="3"),
+             # a stale H2 row from the superseded annex: dropped while the decree is in force
+             _row(hsk="2711121000", cls="P3", rate="1", start="20260701", end="20261231"),
+             base(hsk="2711130000", cls="A", rate="3"),
+             base(hsk="2711110000", cls="A", rate="3"),
+             base(hsk="2711210000", cls="A", rate="3"),
+             base(hsk="2008200000", cls="A", rate="45"), base(hsk="2008200000", cls="C", rate="45"),
+             base(hsk="2008190000", cls="A", rate="45"),
+             base(hsk="2009290000", cls="A", rate="54"),
+             base(hsk="2009490000", cls="A", rate="50"),
+             base(hsk="2009790000", cls="A", rate="45"),
+             base(hsk="2306600000", cls="A", rate="3")]
+    return rows
+
+
+def _by(records, digits):
+    return {r["treatment"]: r for r in records if r["digits"] == digits}
+
+
+def _quota_build(tmp_path, snap=NOV, overlay=None, rows=None):
+    return _build(tmp_path, rows or _quota_rows(), leaves=QUOTA_LEAVES,
+                  overlay=overlay if overlay is not None else OVERLAY, snap=snap)
+
+
+def test_shipped_overlay_cites_decree_36450_annex5():
+    (a,) = OVERLAY["quota_tariffs"]
+    assert a["regulation_id"] == "대통령령 제36450호"
+    assert (a["promulgated"], a["valid_from"], a["valid_until"]) == (
+        "2026-06-30", "2026-07-01", "2026-12-31")
+    assert a["annex"].startswith("별표 5")
+    assert len(a["instruments"][0]["annex_sha256"]) == 64
+    by = {ln["scope"]: ln for ln in a["lines"]}
+    for s in ("1803.10", "1804.00", "1805.00"):
+        assert (by[s]["rate_pct"], by[s]["volume"]) == (0, "all")
+    assert by["2008.20"]["rate_pct"] == 15 and by["2008.20"]["volume"] == {"amount": 8000, "unit": "t"}
+    assert a["not_modelled"], "lines with a specification or sub-item are listed, not guessed"
+
+
+def test_all_volume_quota_tariff_is_the_applied_rate_dated(tmp_path):
+    records, treatments, coverage = _quota_build(tmp_path)
+    cocoa = _by(records, "1803100000")
+    erga = cocoa["erga_omnes"]
+    assert (erga["rate_text"], erga["source_class"]) == ("0%", "할당관세")
+    assert (erga["valid_from"], erga["valid_until"]) == ("2026-07-01", "2026-12-31")
+    assert erga["regulation_id"] == "대통령령 제36450호"
+    nxt = cocoa["erga_omnes_scheduled"]
+    assert (nxt["rate_text"], nxt["valid_from"], nxt["source_class"]) == ("5%", "2027-01-01", "A")
+    assert nxt["informational"] and nxt["category"] == "scheduled_rate"
+    for h in ("1804000000", "1805000000", "2711130000", "2711110000", "2711210000"):
+        assert _by(records, h)["erga_omnes"]["rate_text"] == "0%"
+    names = {t["treatment"]: t for t in treatments}
+    assert names["erga_omnes_scheduled"]["category"] == "scheduled_rate"
+    assert "대통령령 제36450호" in coverage["as_of"]
+
+
+def test_a_stale_kcs_quota_row_is_superseded(tmp_path):
+    records, _, _ = _quota_build(tmp_path)
+    lpg = _by(records, "2711121000")
+    assert lpg["erga_omnes"]["rate_text"] == "0%"
+    assert not any(r.get("rate_class") == "P3" for r in records if r["digits"] == "2711121000")
+
+
+def test_a_finite_quota_never_replaces_the_applied_rate(tmp_path):
+    records, treatments, _ = _quota_build(tmp_path)
+    pine = _by(records, "2008200000")
+    assert pine["erga_omnes"]["rate_text"] == "45%" and "valid_until" not in pine["erga_omnes"]
+    assert "erga_omnes_scheduled" not in pine
+    q = pine["quota_art71"]
+    assert q["rate_text"] == "15%" and q["informational"] and q["conditional"]
+    assert q["category"] == "quota"
+    assert (q["valid_from"], q["valid_until"]) == ("2026-07-01", "2026-12-31")
+    assert "8,000 t" in q["conditions"][0]
+    assert {t["treatment"]: t for t in treatments}["quota_art71"]["category"] == "quota"
+
+
+def test_neighbours_are_untouched(tmp_path):
+    records, _, _ = _quota_build(tmp_path)
+    sweet = _by(records, "1806100000")
+    assert sweet["erga_omnes"]["rate_text"] == "8%" and "erga_omnes_scheduled" not in sweet
+    other = _by(records, "2008190000")
+    assert other["erga_omnes"]["rate_text"] == "45%" and "quota_art71" not in other
+
+
+def test_window_edges(tmp_path):
+    def cocoa_on(day):
+        return _by(_quota_build(tmp_path, snap=day)[0], "1803100000")
+    before = cocoa_on(dt.date(2026, 6, 30))
+    assert before["erga_omnes"]["rate_text"] == "5%" and "erga_omnes_scheduled" not in before
+    assert cocoa_on(dt.date(2026, 7, 1))["erga_omnes"]["rate_text"] == "0%"
+    assert cocoa_on(dt.date(2026, 12, 31))["erga_omnes"]["rate_text"] == "0%"
+    after = cocoa_on(dt.date(2027, 1, 1))
+    assert after["erga_omnes"]["rate_text"] == "5%" and "erga_omnes_scheduled" not in after
+    pine_after = _by(_quota_build(tmp_path, snap=dt.date(2027, 1, 1))[0], "2008200000")
+    assert "quota_art71" not in pine_after
+
+
+def test_bad_annex_entries_stop_the_build(tmp_path):
+    with pytest.raises(SystemExit, match="covers no HSK leaf"):
+        _build(tmp_path, _quota_rows(), leaves=QUOTA_LEAVES[:-1], overlay=OVERLAY, snap=NOV)
+    twice = copy.deepcopy(OVERLAY)
+    twice["quota_tariffs"][0]["lines"].append(
+        {"scope": "1803.10", "rate_pct": 0, "volume": "all", "page": 3})
+    with pytest.raises(SystemExit, match="covered twice"):
+        _quota_build(tmp_path, overlay=twice)
+    rows = [r for r in _quota_rows() if r[0] != "1804000000"] + [
+        _row(hsk="1804000000", cls="A", rate="", unit_tax="1200")]
+    with pytest.raises(SystemExit, match="not a plain percentage"):
+        _quota_build(tmp_path, rows=rows)

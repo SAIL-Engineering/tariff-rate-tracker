@@ -1,13 +1,168 @@
 {
- "_comment": "Curated Korean duty overlays, applied automatically on every build.",
- "flat_taxes": [
-  {
-   "treatment": "VAT",
-   "name": "VAT — Value Added Tax (부가가치세, on the duty-inclusive value)",
-   "rate_text": "10%",
-   "ad_valorem": 0.1,
-   "applies_note": "Standard rate on imports; certain goods are exempt or zero-rated under the VAT Act.",
-   "legal_basis": "Value-Added Tax Act (부가가치세법)"
-  }
- ]
+  "_comment": "Curated Korean duty overlays, applied automatically on every build.",
+  "_comment_quota_tariffs": "할당관세 (Customs Act Art. 71) decree annexes made after the KCS rate file we ingest, applied by build_duty_rates.py build_kr. Each entry is one annex: printed 6-digit scopes cover every HSK leaf under them; volume 'all' (수입 전량) or a quantity limit (한계수량). While an annex is in force at the build's snapshot date: an all-volume rate lower than the computed applied rate IS the applied rate served (Customs Act Art. 50: Art. 71 rates take precedence over the basic and provisional rates), dated, with the computed rate scheduled to return the day after; a quantity-limited rate is an informational in-quota row, never auto-selected. KCS quota (P-class) rows for a covered leaf whose window overlaps the annex are superseded and dropped. Annex lines carrying a specification or a national sub-item are listed under not_modelled until mapped.",
+  "_coverage": "Not an inventory: only the annexes listed here have been read (2026-11-19). 별표 3 (full-year, also amended by 대통령령 제36450호) and the adjustment tariffs (조정관세) are not overlaid; the KCS file's own quota rows stay informational.",
+  "flat_taxes": [
+    {
+      "treatment": "VAT",
+      "name": "VAT — Value Added Tax (부가가치세, on the duty-inclusive value)",
+      "rate_text": "10%",
+      "ad_valorem": 0.1,
+      "applies_note": "Standard rate on imports; certain goods are exempt or zero-rated under the VAT Act.",
+      "legal_basis": "Value-Added Tax Act (부가가치세법)"
+    }
+  ],
+  "quota_tariffs": [
+    {
+      "id": "pd_36450_annex5_2026h2",
+      "regulation_id": "대통령령 제36450호",
+      "title": "관세법 제71조에 따른 할당관세의 적용에 관한 규정 일부개정령",
+      "annex": "별표 5 (2026년 7월 1일부터 12월 31일까지 관세율을 인하하여 적용하는 물품)",
+      "legal_basis": "관세법 제71조제1항; 부칙 제2조제2항",
+      "promulgated": "2026-06-30",
+      "valid_from": "2026-07-01",
+      "valid_until": "2026-12-31",
+      "quantity_note": "한계수량 counts imports declared before 2026-07-01 that received the 별표 2 rate (부칙 제2조제2항), except 2709.00, 2711.11 and 2711.21.",
+      "lines": [
+        {
+          "scope": "1803.10",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 3
+        },
+        {
+          "scope": "1804.00",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 3
+        },
+        {
+          "scope": "1805.00",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 3
+        },
+        {
+          "scope": "2711.12",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 8
+        },
+        {
+          "scope": "2711.13",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 8
+        },
+        {
+          "scope": "2711.11",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 8
+        },
+        {
+          "scope": "2711.21",
+          "rate_pct": 0,
+          "volume": "all",
+          "page": 8
+        },
+        {
+          "scope": "2008.20",
+          "rate_pct": 15,
+          "volume": {
+            "amount": 8000,
+            "unit": "t"
+          },
+          "page": 5
+        },
+        {
+          "scope": "2009.29",
+          "rate_pct": 0,
+          "volume": {
+            "amount": 1000,
+            "unit": "t"
+          },
+          "page": 5
+        },
+        {
+          "scope": "2009.49",
+          "rate_pct": 20,
+          "volume": {
+            "amount": 700,
+            "unit": "t"
+          },
+          "page": 6
+        },
+        {
+          "scope": "2009.79",
+          "rate_pct": 15,
+          "volume": {
+            "amount": 3000,
+            "unit": "t"
+          },
+          "page": 6
+        },
+        {
+          "scope": "2306.60",
+          "rate_pct": 0,
+          "volume": {
+            "amount": 20000,
+            "unit": "t"
+          },
+          "page": 7
+        }
+      ],
+      "not_modelled": [
+        {
+          "scope": "0408.11, 0408.19, 0408.91, 0408.99 1. / 3502.11, 3502.19",
+          "why": "0%, 8,000 t shared: Gallus domesticus only, liquid or frozen state, and egg albumin for food-ingredient use (규격) -- a condition on the goods, not a leaf"
+        },
+        {
+          "scope": "0811.90",
+          "why": "5%, 10,000 t: fruit only (과실로 한정한다)"
+        },
+        {
+          "scope": "1512.19 1.가",
+          "why": "0%, 10,000 t: refined sunflower oil, a national sub-item to map to HSK leaves"
+        },
+        {
+          "scope": "1702.60",
+          "why": "0%, 3,000 t: fructose syrup only (과당시럽)"
+        },
+        {
+          "scope": "1901.90 1.",
+          "why": "0%, 600 t: malt extract, a national sub-item"
+        },
+        {
+          "scope": "2008.97 1.가, 1.나, 2.",
+          "why": "20% / 15% / 15%, 5,500 t shared: national sub-items; 2. limited to fruit salads and other fruit mixtures"
+        },
+        {
+          "scope": "2008.99 6.",
+          "why": "15%, 7,500 t: a national sub-item"
+        },
+        {
+          "scope": "2009.31, 2009.39",
+          "why": "20%, 7,500 t shared: lemon juice only (레몬주스)"
+        },
+        {
+          "scope": "2009.89 1.",
+          "why": "20%, 11,000 t: a national sub-item, excluding strawberry and coconut juice and nut juices"
+        },
+        {
+          "scope": "2709.00",
+          "why": "0%, 16,500,000 barrels: crude used to make propane and butane (end use)"
+        }
+      ],
+      "instruments": [
+        {
+          "number": "대통령령 제36450호",
+          "promulgated": "2026-06-30",
+          "url": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=287543&efYd=20260701",
+          "annex_url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=166193793",
+          "annex_sha256": "4cb7d2bc564092d649b41e43eff1a58e6ce3952e78c5e2988309196d9540d6c5"
+        }
+      ]
+    }
+  ]
 }

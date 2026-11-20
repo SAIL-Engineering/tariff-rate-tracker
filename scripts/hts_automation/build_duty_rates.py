@@ -1393,6 +1393,10 @@ KR_COVERAGE = {
         "Specific-duty components (unit tax amount, base price) verbatim, "
         "never converted to percentages.",
         "Korean and English nomenclature at every hierarchy level.",
+        "Quota tariff (할당관세) annexes made after the KCS file, from the "
+        "decrees listed in config/duty_overlays/kr.json: an all-volume rate "
+        "in force is the applied rate (Customs Act Art. 50), dated; a "
+        "quantity-limited rate is a conditional in-quota row.",
     ],
     "excludes": [
         "FTA origin-rule verification: preference rows are candidates — proof "
@@ -1439,13 +1443,70 @@ def _kr_rate_text(rate: str, unit_tax: str, base_price: str) -> str:
     return " ".join(parts)
 
 
+def _kr_quota_tariffs(overlay: dict, leaves: list[str]) -> dict[str, dict]:
+    """config/duty_overlays/kr.json `quota_tariffs` -> {leaf: line + annex}.
+    A printed 6-digit scope covers every HSK leaf under it. Malformed,
+    empty or overlapping entries stop the build: a rate that changes law must
+    not be half-applied."""
+    by_leaf: dict[str, dict] = {}
+    for a in overlay.get("quota_tariffs", []):
+        for key in ("id", "regulation_id", "annex", "legal_basis",
+                    "valid_from", "valid_until", "lines", "instruments"):
+            if key not in a:
+                raise SystemExit(f"ERROR: kr overlay quota tariff "
+                                 f"{a.get('id', '?')!r} lacks {key!r}")
+        start = _dt.date.fromisoformat(a["valid_from"])
+        end = _dt.date.fromisoformat(a["valid_until"])
+        if end < start:
+            raise SystemExit(f"ERROR: kr overlay {a['id']!r} ends before it "
+                             f"starts")
+        if not a["instruments"] or not all(
+                i.get("number") and i.get("url") for i in a["instruments"]):
+            raise SystemExit(f"ERROR: kr overlay {a['id']!r} must cite each "
+                             f"instrument's number and url")
+        annex = {**a, "_start": start, "_end": end}
+        for line in a["lines"]:
+            scope = bhc._digits_only(line.get("scope", ""))
+            vol = line.get("volume")
+            if len(scope) != 6 or not isinstance(line.get("rate_pct"), (int, float)) \
+                    or not (vol == "all" or (isinstance(vol, dict) and vol.get("amount")
+                                             and vol.get("unit"))):
+                raise SystemExit(f"ERROR: kr overlay {a['id']!r}: line "
+                                 f"{line!r} needs a 6-digit scope, rate_pct "
+                                 f"and volume ('all' or amount+unit)")
+            covered = [lf for lf in leaves if lf.startswith(scope)]
+            if not covered:
+                raise SystemExit(f"ERROR: kr overlay {a['id']!r}: "
+                                 f"{line['scope']} covers no HSK leaf -- "
+                                 f"review config/duty_overlays/kr.json")
+            for lf in covered:
+                if lf in by_leaf:
+                    raise SystemExit(f"ERROR: {lf} is covered twice in the kr "
+                                     f"overlay ({by_leaf[lf]['annex']['id']!r}, "
+                                     f"{a['id']!r})")
+                by_leaf[lf] = {**line, "annex": annex}
+    return by_leaf
+
+
 def build_kr(rates_xlsx: Path, jur: str, revision: str,
              nomenclature_csv: Path, snapshot_date,
-             classes_json: Path, rates_date: str = ""):
+             classes_json: Path, rates_date: str = "",
+             overlay: dict | None = None):
     """KR: every rate row declared at 10-digit HSK (inherit 'exact'), the
     applied non-preferential rate computed per the official UNI-PASS
     precedence, everything else carried as labeled candidates. Blank duty
-    components stay NULL, never 0."""
+    components stay NULL, never 0.
+
+    QUOTA TARIFF ANNEXES made after the KCS file (config/duty_overlays/kr.json
+    `quota_tariffs`, e.g. 대통령령 제36450호 별표 5 for 2026-07-01..12-31):
+    while an annex is in force at `snapshot_date`, an all-volume (수입 전량)
+    rate lower than the computed applied rate IS the applied rate -- Customs
+    Act Art. 50 puts Art. 71 rates ahead of the basic and provisional rates --
+    served dated, with the computed rate as an informational
+    `erga_omnes_scheduled` row from the day after the annex ends. A
+    quantity-limited rate (한계수량) is an informational in-quota row, never
+    auto-selected. The KCS file's own quota rows for a covered leaf are
+    superseded while the annex is in force."""
     from acquire._xlsx_lite import read_sheets
 
     rules = _kr_load_classes(classes_json)
@@ -1459,6 +1520,14 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
                 leaves.append((r.get("GOODS_CODE") or "").strip())
     if not leaves:
         raise SystemExit(f"ERROR: no IS_LEAF rows in {nomenclature_csv}")
+    if overlay is None:
+        overlay = load_overlay("kr")
+    quota_lines = _kr_quota_tariffs(overlay, leaves)
+    live_quota = {lf: q for lf, q in quota_lines.items()
+                  if q["annex"]["_start"] <= snapshot_date <= q["annex"]["_end"]}
+    annexes_in_force: dict[str, dict] = {}
+    superseded = 0
+    scheduled_emitted = quota_rows_emitted = False
 
     # Both period sheets merged; identical rows deduped; expired rows dropped.
     seen_rows = set()
@@ -1492,6 +1561,11 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
                 stats["dupes"] += 1
                 continue
             seen_rows.add(key)
+            rule = _kr_rule_for(rules, cls)
+            if hsk in live_quota and rule and rule.get("category") == "quota":
+                # superseded by the decree annex in force for this leaf
+                superseded += 1
+                continue
             per_hsk.setdefault(hsk, []).append({
                 "cls": cls, "rate": rate, "unit_tax": unit_tax,
                 "base_price": base_price, "country_cls": country_cls,
@@ -1525,6 +1599,7 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
         elif cs and base is None:
             chosen, source = min(cs, key=_num), "C-family"
         applied_from[source] += 1
+        q = live_quota.get(hsk)
         if chosen is not None:
             rec = _record(jur, revision, display, hsk, "erga_omnes",
                           _kr_rate_text(chosen["rate"], chosen["unit_tax"],
@@ -1533,7 +1608,69 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
             if chosen["use_cls"]:
                 rec["use_class"] = chosen["use_cls"]
                 rec["conditional"] = True
-            records.append(rec)
+            if q and q["volume"] == "all":
+                a = q["annex"]
+                base_num = _num(chosen)
+                if base_num is None or chosen["unit_tax"]:
+                    raise SystemExit(
+                        f"ERROR: {hsk}: the kr overlay {a['id']!r} sets an "
+                        f"all-volume {q['rate_pct']}% but the applied rate "
+                        f"{rec['rate_text']!r} is not a plain percentage -- "
+                        f"review config/duty_overlays/kr.json")
+                if q["rate_pct"] < base_num:
+                    annexes_in_force[a["id"]] = a
+                    nxt = _record(jur, revision, display, hsk,
+                                  "erga_omnes_scheduled", rec["rate_text"],
+                                  informational=True, category="scheduled_rate")
+                    nxt["source_class"] = chosen["cls"]
+                    nxt["valid_from"] = (a["_end"] + _dt.timedelta(days=1)).isoformat()
+                    nxt["note"] = (f"The applied rate, which applies again when "
+                                   f"the {a['regulation_id']} quota tariff ends")
+                    rec = _record(jur, revision, display, hsk, "erga_omnes",
+                                  _kr_rate_text(f"{q['rate_pct']:g}", "", ""))
+                    rec.update({
+                        "source_class": "할당관세",
+                        "valid_from": a["valid_from"],
+                        "valid_until": a["valid_until"],
+                        "regulation_id": a["regulation_id"],
+                        "regulation_effective": a["valid_from"],
+                        "temporary_basis": (f"{a['regulation_id']} "
+                                            f"{a['annex'].split(' (')[0]} "
+                                            f"(Customs Act Art. 71), until "
+                                            f"{a['valid_until']}"),
+                        "amendment_id": a["id"],
+                        "note": (f"Quota tariff (할당관세) on all imports "
+                                 f"(수입 전량), {a['valid_from']} to "
+                                 f"{a['valid_until']}, {a['regulation_id']} "
+                                 f"{a['annex']}, printed scope {q['scope']}; "
+                                 f"applied rate {nxt['rate_text']} "
+                                 f"({chosen['cls']}) after that")})
+                    records.extend([rec, nxt])
+                    scheduled_emitted = True
+                else:
+                    records.append(rec)
+            else:
+                records.append(rec)
+        if q and q["volume"] != "all":
+            a = q["annex"]
+            annexes_in_force[a["id"]] = a
+            vol = q["volume"]
+            qrec = _record(jur, revision, display, hsk, "quota_art71",
+                           _kr_rate_text(f"{q['rate_pct']:g}", "", ""),
+                           informational=True, category="quota",
+                           conditional=True)
+            qrec.update({
+                "valid_from": a["valid_from"], "valid_until": a["valid_until"],
+                "regulation_id": a["regulation_id"], "amendment_id": a["id"],
+                "conditions": [f"Within the quantity limit (한계수량) of "
+                               f"{vol['amount']:,} {vol['unit']}"
+                               + (f"; {a['quantity_note']}" if a.get("quantity_note") else "")],
+                "quota_note": (f"{a['regulation_id']} {a['annex']}, printed "
+                               f"scope {q['scope']}: {q['rate_pct']:g}% within "
+                               f"{vol['amount']:,} {vol['unit']}; the applied "
+                               f"rate otherwise")})
+            records.append(qrec)
+            quota_rows_emitted = True
 
         for x in rows:
             rule = x["rule"]
@@ -1652,10 +1789,44 @@ def build_kr(rates_xlsx: Path, jur: str, revision: str,
              "conditional": False,
              "legal_basis": "Customs Act; 세율적용 우선순위 (UNI-PASS)"}]
     tout += [treatments_seen[k] for k in sorted(treatments_seen)]
+    if scheduled_emitted:
+        tout.append({
+            "treatment": "erga_omnes_scheduled",
+            "name": "Applied rate that applies again when a quota tariff "
+                    "(할당관세) ends",
+            "origin_countries": [], "applies": "all_origins",
+            "conditional": False, "category": "scheduled_rate",
+            "legal_basis": "Customs Act; the decree named on the line "
+                           "(regulation_id)",
+            "note": "Informational: the applied rate an all-volume quota "
+                    "tariff displaces, dated from the day after the annex "
+                    "ends. Never the rate in force."})
+    if quota_rows_emitted:
+        tout.append({
+            "treatment": "quota_art71",
+            "name": "Quota tariff (할당관세, Customs Act Art. 71) — in-quota "
+                    "rate within the decree's quantity limit",
+            "origin_countries": [], "applies": None, "conditional": True,
+            "category": "quota",
+            "legal_basis": "Customs Act Art. 71; the decree annex named on "
+                           "the line (regulation_id)",
+            "note": "Applies only within the quantity limit (한계수량), as "
+                    "allocated; never auto-selected."})
+    if superseded:
+        print(f"[kr] {superseded} KCS quota row(s) superseded by the decree "
+              f"annex in force")
+    for a in annexes_in_force.values():
+        n_all = sum(1 for q in live_quota.values() if q["annex"]["id"] == a["id"]
+                    and q["volume"] == "all")
+        print(f"[kr] {a['regulation_id']} {a['annex'].split(' (')[0]} in force at "
+              f"{snapshot}: {len(live_quota)} leaves ({n_all} all-volume)")
     coverage = dict(KR_COVERAGE)
-    coverage["as_of"] = (f"{snapshot} · 관세율표 {rates_date}"
-                        if rates_date else snapshot)
-    overlay = load_overlay("kr")
+    coverage["as_of"] = ((f"{snapshot} · 관세율표 {rates_date}"
+                          if rates_date else snapshot)
+                         + "".join(f"; quota tariffs {a['regulation_id']} "
+                                   f"{a['annex'].split(' (')[0]} to "
+                                   f"{a['valid_until']}"
+                                   for a in annexes_in_force.values()))
     if overlay.get("flat_taxes"):
         coverage["flat_taxes"] = overlay["flat_taxes"]
     return records, tout, coverage
