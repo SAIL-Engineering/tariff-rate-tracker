@@ -32,6 +32,8 @@ import {
 } from './server/db.js';
 import { getConfig } from './server/config.js';
 import { createGuardedPool } from './server/db-pool.js';
+import { compressResponses, gzipBuffer, sendGzipped } from './server/compress.js';
+import { createRatesCache } from './server/rates-cache.js';
 import { registerShipmentRoutes } from './server/shipment-routes.js';
 import { createRequireSupabaseAuth, createSupabaseVerifier } from './server/supabase-auth.js';
 
@@ -56,6 +58,17 @@ let pool = null;
 function pickConn() {
   return pool.pick();
 }
+// A product's rates for every country over every revision (about 40,000 rows, close to 90 s on MotherDuck) run on
+// their own session, so they never hold the sessions every other lookup uses (2026-11-23). Without one (a database
+// that cannot open another session) they share the pool.
+let heavyPool = null;
+function pickHeavyConn() {
+  return (heavyPool ?? pool).pick();
+}
+// Identical all-country requests in flight share one query: the first computes and caches, the others wait for it.
+const arrowInFlight = new Map(); // cache key → Promise that settles when the first request is done
+// An all-country answer is kept an hour: rate data changes only when the MotherDuck push runs.
+const HEAVY_ANSWER_TTL_MS = 60 * 60 * 1000;
 // Census codes of countries that have at least one row in the `rates` table.
 // Populated once at startup from `SELECT DISTINCT country FROM rates`. Used
 // to short-circuit the two rates queries for countries (e.g. CZ, most of the
@@ -63,38 +76,25 @@ function pickConn() {
 // product_base_rates synthesis path anyway. Null until init completes.
 let knownRatesCountries = null;
 
-// Tiny in-memory LRU cache for /api/rates responses. Rate data changes only
-// when the MotherDuck push script runs (daily/weekly), so a 10-minute TTL
-// gives us cache-warm performance with bounded staleness.
-const RATES_CACHE_MAX_ENTRIES = 500;
-const RATES_CACHE_TTL_MS = 10 * 60 * 1000;
-const ratesCache = new Map(); // key → { value, expiresAt }
+// The answer cache (server/rates-cache.js): least recently used, by entries, bytes and age. Rate data changes only
+// when the MotherDuck push script runs (daily/weekly), so a 10-minute TTL gives cache-warm performance with bounded
+// staleness; a byte budget keeps large all-country answers from filling memory (2026-11-23).
+const ratesCache = createRatesCache({
+  maxEntries: 500,
+  maxBytes: Number(process.env.RATES_CACHE_MAX_BYTES) || 256 * 1024 * 1024,
+  ttlMs: 10 * 60 * 1000,
+});
 
 function ratesCacheKey(parts) {
   return JSON.stringify(parts);
 }
 
 function ratesCacheGet(key) {
-  const entry = ratesCache.get(key);
-  if (!entry) return null;
-  if (entry.expiresAt <= Date.now()) {
-    ratesCache.delete(key);
-    return null;
-  }
-  // LRU touch: reinsert so Map iteration order marks this as most-recent.
-  ratesCache.delete(key);
-  ratesCache.set(key, entry);
-  return entry.value;
+  return ratesCache.get(key);
 }
 
-function ratesCacheSet(key, value) {
-  if (ratesCache.size >= RATES_CACHE_MAX_ENTRIES) {
-    // Evict oldest. Map iteration is insertion order, so the first key is
-    // the least-recently-used.
-    const oldest = ratesCache.keys().next().value;
-    if (oldest !== undefined) ratesCache.delete(oldest);
-  }
-  ratesCache.set(key, { value, expiresAt: Date.now() + RATES_CACHE_TTL_MS });
+function ratesCacheSet(key, value, ttlMs) {
+  ratesCache.set(key, value, ttlMs);
 }
 
 // DuckDB DATE type comes back as { days: N } (epoch days since 1970-01-01).
@@ -407,6 +407,8 @@ const app = express();
 }
 
 app.use(express.json({ limit: '8mb' }));
+// Every answer of 1 KB or more goes gzipped to a client that accepts it (server/compress.js).
+app.use(compressResponses());
 
 // --- Supabase JWT auth (bulk endpoints) ------------------------------------
 // POST /api/rates/batch and /api/shipments/resolve serve the rate corpus in
@@ -673,13 +675,19 @@ app.get('/api/rates/arrow', async (req, res) => {
       r: revision ? String(revision) : '',
       d: date && /^\d{4}-\d{2}-\d{2}$/.test(String(date)) ? String(date) : '',
     });
-    const cachedBuf = ratesCacheGet(arrowCacheKey);
-    if (cachedBuf) {
+    // Every country over every revision (or an HTS prefix): the heavy answer, on its own session, kept an hour.
+    const heavy = (countryCodes.length === 0 && !revision && !date) || cleanCode.length < 10;
+    let cached = ratesCacheGet(arrowCacheKey);
+    if (!cached && arrowInFlight.has(arrowCacheKey)) {
+      await arrowInFlight.get(arrowCacheKey);
+      cached = ratesCacheGet(arrowCacheKey);
+    }
+    if (cached) {
       res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
-      res.setHeader('Content-Length', cachedBuf.byteLength);
       res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
       res.setHeader('X-SAIL-Cache', 'hit');
-      return res.send(cachedBuf);
+      // Kept gzipped ({ gz }); an empty answer is kept as an empty Buffer.
+      return Buffer.isBuffer(cached) ? res.send(cached) : sendGzipped(req, res, cached.gz);
     }
 
     let whereParts = [];
@@ -707,7 +715,14 @@ app.get('/api/rates/arrow', async (req, res) => {
       ORDER BY country, effective_date ASC
     `;
 
-    const reader = await pickConn().runAndReadAll(sql);
+    let settleFlight = () => {};
+    if (!arrowInFlight.has(arrowCacheKey)) {
+      const flight = new Promise((resolve) => { settleFlight = resolve; });
+      arrowInFlight.set(arrowCacheKey, flight);
+      res.on('close', () => { if (arrowInFlight.get(arrowCacheKey) === flight) arrowInFlight.delete(arrowCacheKey); settleFlight(); });
+    }
+
+    const reader = await (heavy ? pickHeavyConn() : pickConn()).runAndReadAll(sql);
     let rows = reader.getRowObjects().map(cleanRow);
 
     // Phase 1 stopgap: for each requested country, fill revision gaps with
@@ -758,12 +773,14 @@ app.get('/api/rates/arrow', async (req, res) => {
     const ipcBytes = encodeRateRows(rows);
 
     const outBuf = Buffer.from(ipcBytes);
-    ratesCacheSet(arrowCacheKey, outBuf);
+    // Kept and sent gzipped: an all-country answer is about 39 MB raw and 1.2 MB gzipped (server/compress.js).
+    const gz = await gzipBuffer(outBuf);
+    ratesCacheSet(arrowCacheKey, { gz, rawBytes: outBuf.byteLength }, heavy ? HEAVY_ANSWER_TTL_MS : undefined);
+    settleFlight();
     res.setHeader('Content-Type', 'application/vnd.apache.arrow.stream');
-    res.setHeader('Content-Length', outBuf.byteLength);
     res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
     res.setHeader('X-SAIL-Cache', 'miss');
-    res.send(outBuf);
+    await sendGzipped(req, res, gz);
   } catch (err) {
     console.error('Arrow endpoint error:', err);
     if (!res.headersSent) {
@@ -1140,6 +1157,15 @@ async function start() {
   const { connections: conns, stats, openConnection } = await initDatabase();
   const timeoutMs = Number(process.env.DB_QUERY_TIMEOUT_MS) || 90_000;
   pool = createGuardedPool({ connections: conns, openConnection: openConnection ?? null, timeoutMs });
+  if (openConnection) {
+    const heavyTimeoutMs = Number(process.env.DB_HEAVY_QUERY_TIMEOUT_MS) || 240_000;
+    try {
+      heavyPool = createGuardedPool({ connections: [await openConnection()], openConnection, timeoutMs: heavyTimeoutMs });
+      console.log(`  All-country answers on their own session (each answers within ${Math.round(heavyTimeoutMs / 1000)} s or fails)`);
+    } catch (err) {
+      console.warn('Could not open a session for all-country answers; they share the pool:', err.message);
+    }
+  }
   console.log(`  Connection pool size: ${pool.size} (each query answers within ${Math.round(timeoutMs / 1000)} s or fails)`);
   try {
     knownRatesCountries = await loadKnownRatesCountries(conns[0]);
