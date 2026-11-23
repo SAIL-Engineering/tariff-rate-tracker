@@ -3,7 +3,7 @@ import { activeShipmentRelease, resolveStoredShipment, SHIPMENT_CONTRACT } from 
 
 /** Additive contract; old aggregate consumers opt in explicitly during rollout. */
 export function registerShipmentRoutes(app, { connection, requireAuth }) {
-  app.get('/api/shipment-dataset', async (_req, res) => {
+  app.get('/api/shipment-dataset', requireAuth, async (_req, res) => {
     try {
       const release = await activeShipmentRelease(connection());
       res.set('Cache-Control', 'no-store');
@@ -52,7 +52,7 @@ export function registerShipmentRoutes(app, { connection, requireAuth }) {
     }
   };
   app.post('/api/shipments/resolve', requireAuth, handle);
-  app.get('/api/rates', handle);
-  app.get('/api/rates/arrow', handle);
+  app.get('/api/rates', requireAuth, handle);
+  app.get('/api/rates/arrow', requireAuth, handle);
   app.post('/api/rates/batch', requireAuth, handle);
 }

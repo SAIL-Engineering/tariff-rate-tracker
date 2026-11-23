@@ -12,7 +12,12 @@ import { encodeRateRows } from './server/rate-arrow.js';
 //   GET /api/rates/arrow?hts10=...&country=... — rate lookup (Arrow IPC stream)
 //   POST /api/rates/batch { keys: [{hts10,country,date}] } — bulk rate lookup (Arrow)
 //   GET /api/products?q=...                     — HTS code search/autocomplete
+//   GET /api/rankings, GET /api/product-info, GET /api/shipment-dataset,
+//   POST /api/shipments/resolve
 //   GET /api/health                             — health check
+//
+// Every endpoint but /api/health requires a Supabase sign-in once
+// verification is configured (see "Supabase sign-in" below).
 //
 // Usage:
 //   node server.js
@@ -36,6 +41,7 @@ import { compressResponses, gzipBuffer, sendGzipped } from './server/compress.js
 import { createRatesCache } from './server/rates-cache.js';
 import { registerShipmentRoutes } from './server/shipment-routes.js';
 import { createRequireSupabaseAuth, createSupabaseVerifier } from './server/supabase-auth.js';
+import { createRequireSignInForData } from './server/data-auth.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load .env from repo root (one level up from frontend/). No-op in Railway
@@ -406,26 +412,22 @@ const app = express();
   }
 }
 
-app.use(express.json({ limit: '8mb' }));
-// Every answer of 1 KB or more goes gzipped to a client that accepts it (server/compress.js).
-app.use(compressResponses());
-
-// --- Supabase JWT auth (bulk endpoints) ------------------------------------
-// POST /api/rates/batch and /api/shipments/resolve serve the rate corpus in
-// bulk, so they require a valid Supabase access token once verification is
-// configured. Two schemes, each enabled by its own variable:
+// --- Supabase sign-in (every data endpoint) --------------------------------
+// Every endpoint but /api/health answers only a request with a valid Supabase
+// access token once verification is configured (WJR 2026-11-23); the SAIL site
+// sends the signed-in person's token on every call. Two schemes, each enabled
+// by its own variable:
 //
-//   SUPABASE_JWT_SECRET  HS256 tokens signed with the project's legacy secret
-//                        (SAIL's server signs its own calls this way).
+//   SUPABASE_JWT_SECRET  HS256 tokens signed with the project's legacy secret.
 //   SUPABASE_URL         ES256 / RS256 tokens signed with the project's
 //                        asymmetric key, checked against its JWKS
 //                        (<SUPABASE_URL>/auth/v1/.well-known/jwks.json). Once a
 //                        project rotates to an asymmetric signing key, every
 //                        signed-in user's token is ES256.
 //
-// Enforcement is env-gated on purpose: standalone deployments of this repo
-// (this frontend has no Supabase) leave both unset. Single-key GET endpoints
-// stay open; bulk extraction is the exposure being closed here.
+// With neither set nothing can be verified, so nothing is enforced: local
+// development runs from the repository's .env, which names neither, and this
+// repo's own dev frontend has no sign-in. Production sets both.
 const supabaseVerifier = createSupabaseVerifier({
   secret: process.env.SUPABASE_JWT_SECRET || '',
   supabaseUrl: process.env.SUPABASE_URL || '',
@@ -437,15 +439,30 @@ if (supabaseVerifier.asymmetric) {
 } else if (supabaseVerifier.enforced) {
   console.warn('[auth] SUPABASE_URL is unset: only HS256 tokens are accepted, so ES256 user tokens are refused.');
 }
+if (supabaseVerifier.enforced) {
+  console.log('[auth] Every endpoint but /api/health requires a Supabase sign-in.');
+} else {
+  console.warn('[auth] Neither SUPABASE_JWT_SECRET nor SUPABASE_URL is set: every endpoint answers without a sign-in (local development only).');
+}
 
 const requireSupabaseAuth = createRequireSupabaseAuth(supabaseVerifier);
 
+// Ahead of the body parser and every route: a request without a sign-in is
+// refused before its body is read, and no route can be added open by mistake.
+app.use(createRequireSignInForData(requireSupabaseAuth));
+
+app.use(express.json({ limit: '8mb' }));
+// Every answer of 1 KB or more goes gzipped to a client that accepts it (server/compress.js).
+app.use(compressResponses());
+
+// Each data route also names the check on its own line (requireSupabaseAuth /
+// requireAuth), so a route moved ahead of the gate stays signed in.
 registerShipmentRoutes(app, { connection: pickConn, requireAuth: requireSupabaseAuth });
 
 // --- Rate lookup endpoint ---
 // Returns all revision periods for an HTS code + country pair.
 // Supports exact match and 8-digit prefix fallback.
-app.get('/api/rates', async (req, res) => {
+app.get('/api/rates', requireSupabaseAuth, async (req, res) => {
   try {
     const { hts10, country, revision, date } = req.query;
 
@@ -645,7 +662,7 @@ app.get('/api/rates', async (req, res) => {
 // Returns query results as Arrow IPC stream for zero-copy deserialization.
 // Ideal for large result sets (multi-country comparisons, chart data).
 // Uses apache-arrow JS to serialize DuckDB rows into Arrow IPC format.
-app.get('/api/rates/arrow', async (req, res) => {
+app.get('/api/rates/arrow', requireSupabaseAuth, async (req, res) => {
   try {
     const { hts10, country, revision, date } = req.query;
 
@@ -922,7 +939,7 @@ app.post('/api/rates/batch', requireSupabaseAuth, async (req, res) => {
 });
 
 // --- Product search/autocomplete endpoint ---
-app.get('/api/products', async (req, res) => {
+app.get('/api/products', requireSupabaseAuth, async (req, res) => {
   try {
     const { q } = req.query;
     if (!q || String(q).length < 2) {
@@ -964,7 +981,7 @@ app.get('/api/products', async (req, res) => {
 // modes — same SQL, same `rates`.
 //
 //   GET /api/rankings?level=chapter|heading|subheading|hts8|hts10&code=<digits>&date=<iso>
-app.get('/api/rankings', async (req, res) => {
+app.get('/api/rankings', requireSupabaseAuth, async (req, res) => {
   try {
     const { level, code, date } = req.query;
     const LEVEL_LEN = { chapter: 2, heading: 4, subheading: 6, hts8: 8, hts10: 10 };
@@ -1108,7 +1125,7 @@ function buildHtsDescriptionIndex() {
 
 // --- Product info endpoint ---
 // Returns hierarchical description for an HTS code.
-app.get('/api/product-info', (req, res) => {
+app.get('/api/product-info', requireSupabaseAuth, (req, res) => {
   const { hts10 } = req.query;
   if (!hts10) {
     return res.status(400).json({ error: 'hts10 parameter required' });
@@ -1182,7 +1199,13 @@ async function start() {
   });
 }
 
-start().catch(err => {
-  console.error('Failed to start API server:', err);
-  process.exit(1);
-});
+// The tests drive `app` without a database (TARIFF_API_NO_START=1); everywhere
+// else, importing this file starts the server, as before.
+export { app };
+
+if (process.env.TARIFF_API_NO_START !== '1') {
+  start().catch(err => {
+    console.error('Failed to start API server:', err);
+    process.exit(1);
+  });
+}
