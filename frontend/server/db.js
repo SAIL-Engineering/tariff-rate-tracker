@@ -288,7 +288,9 @@ async function initLocal() {
   const reader = await members[0].connection.runAndReadAll(STATS_SQL);
   const stats = reader.getRowObjects()[0];
   await members[0].connection.runAndReadAll('SELECT count(*) FROM product_base_rates');
-  return { connections: members.map((m) => m.connection), stats };
+  // A fresh member for the guarded pool (server/db-pool.js) to put in place of a stuck one.
+  const openConnection = async () => (await createLocalMember()).connection;
+  return { connections: members.map((m) => m.connection), stats, openConnection };
 }
 
 async function initMotherDuck({ motherduckToken, motherduckDb }) {
@@ -301,7 +303,9 @@ async function initMotherDuck({ motherduckToken, motherduckDb }) {
   );
   const reader = await members[0].connection.runAndReadAll(STATS_SQL);
   const stats = reader.getRowObjects()[0];
-  return { connections: members.map((m) => m.connection), stats };
+  // A fresh cloud session for the guarded pool (server/db-pool.js) to put in place of one that stopped answering.
+  const openConnection = async () => (await createMotherDuckMember(motherduckDb)).connection;
+  return { connections: members.map((m) => m.connection), stats, openConnection };
 }
 
 // Returns the set of country census codes that have at least one row in the
@@ -329,7 +333,9 @@ export async function initDatabase() {
         : await initLocal();
   // Schema is identical across pool members; resolve once off member 0.
   await resolveRatesProjection(db.connections[0]);
-  return db; // { connections: DuckDBConnection[], stats }
+  // { connections: DuckDBConnection[], stats, openConnection?: () => Promise<DuckDBConnection> }; a shipment release
+  // opens no further sessions, so a stuck one there asks for a restart (server/db-pool.js).
+  return db;
 }
 
 /** Serve a prepared-and-validated local release through the real API pool.

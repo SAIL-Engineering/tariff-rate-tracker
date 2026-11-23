@@ -31,6 +31,7 @@ import {
   loadKnownRatesCountries,
 } from './server/db.js';
 import { getConfig } from './server/config.js';
+import { createGuardedPool } from './server/db-pool.js';
 import { registerShipmentRoutes } from './server/shipment-routes.js';
 import { createRequireSupabaseAuth, createSupabaseVerifier } from './server/supabase-auth.js';
 
@@ -49,12 +50,11 @@ const PORT = process.env.PORT || process.env.API_PORT || 3001;
 // different connections concurrently. pickConn() hands out the next connection;
 // read-only queries carry no per-connection session state, so round-robin is
 // safe even within a single request that fires several queries.
-let connections = [];
-let __rrCursor = 0;
+// Each query handed out has a deadline (server/db-pool.js): a session that stops answering fails the request fast,
+// is replaced, and the process restarts when sessions cannot be replaced (2026-11-23).
+let pool = null;
 function pickConn() {
-  const c = connections[__rrCursor % connections.length];
-  __rrCursor = (__rrCursor + 1) % connections.length;
-  return c;
+  return pool.pick();
 }
 // Census codes of countries that have at least one row in the `rates` table.
 // Populated once at startup from `SELECT DISTINCT country FROM rates`. Used
@@ -1137,11 +1137,12 @@ async function start() {
   const { target } = getConfig();
   console.log(`Initializing database (DATABASE_TARGET=${target})...`);
   if (target === 'local') console.log('Parquet path:', PARQUET_PATH);
-  const { connections: conns, stats } = await initDatabase();
-  connections = conns;
-  console.log(`  Connection pool size: ${connections.length}`);
+  const { connections: conns, stats, openConnection } = await initDatabase();
+  const timeoutMs = Number(process.env.DB_QUERY_TIMEOUT_MS) || 90_000;
+  pool = createGuardedPool({ connections: conns, openConnection: openConnection ?? null, timeoutMs });
+  console.log(`  Connection pool size: ${pool.size} (each query answers within ${Math.round(timeoutMs / 1000)} s or fails)`);
   try {
-    knownRatesCountries = await loadKnownRatesCountries(connections[0]);
+    knownRatesCountries = await loadKnownRatesCountries(conns[0]);
     console.log(`  Loaded ${knownRatesCountries.size} countries with rates rows`);
   } catch (err) {
     // Non-fatal — if the startup probe fails, we just don't short-circuit.
