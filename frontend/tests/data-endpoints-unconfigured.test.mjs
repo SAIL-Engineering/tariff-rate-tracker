@@ -6,8 +6,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 process.env.TARIFF_API_NO_START = '1';
-delete process.env.SUPABASE_JWT_SECRET;
-delete process.env.SUPABASE_URL;
+// Set but empty, so a repository .env can never supply them.
+process.env.SUPABASE_JWT_SECRET = '';
+process.env.SUPABASE_URL = '';
 delete process.env.CORS_ALLOWED_ORIGINS;
 process.env.DATABASE_TARGET = 'local';
 

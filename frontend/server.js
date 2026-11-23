@@ -433,10 +433,13 @@ const supabaseVerifier = createSupabaseVerifier({
   supabaseUrl: process.env.SUPABASE_URL || '',
   onRefreshError: (error) => console.warn(`[auth] ${error.message}`),
 });
+if (supabaseVerifier.urlUnusable) {
+  console.error('[auth] SUPABASE_URL is set but is not an https project address: ES256 / RS256 tokens are refused.');
+}
 if (supabaseVerifier.asymmetric) {
   supabaseVerifier.refresh();
   setInterval(() => supabaseVerifier.refresh(), 10 * 60 * 1000).unref();
-} else if (supabaseVerifier.enforced) {
+} else if (supabaseVerifier.enforced && !supabaseVerifier.urlUnusable) {
   console.warn('[auth] SUPABASE_URL is unset: only HS256 tokens are accepted, so ES256 user tokens are refused.');
 }
 if (supabaseVerifier.enforced) {

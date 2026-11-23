@@ -1,4 +1,4 @@
-// Supabase access token verification for the bulk endpoints.
+// Supabase access token verification for every data endpoint (server/data-auth.js).
 //
 // Supabase signs user access tokens one of two ways:
 //   HS256         the project's legacy shared JWT secret (SUPABASE_JWT_SECRET).
@@ -8,6 +8,10 @@
 // A project that rotates to an asymmetric signing key starts issuing ES256
 // tokens to every user at once, so a verifier that knows only HS256 refuses
 // every signed-in request ("unsupported algorithm"). This one accepts both.
+//
+// Only a signed-in person's access token passes: role `authenticated`, a subject
+// and an expiry. The project's API keys (the legacy anon key is public) and
+// anonymous sign-ins are refused.
 //
 // Dependency-free (node:crypto). Each algorithm branch pins exactly one key type,
 // so `alg: none` and HS/RS key-confusion tokens are refused. An asymmetric token
@@ -36,11 +40,21 @@ function decode(token) {
   }
 }
 
-function expired(payload, now) {
-  return typeof payload.exp === 'number' && payload.exp * 1000 < now();
+/**
+ * Why a verified token is still not a signed-in person's, or null when it is. The project's API keys (the legacy
+ * anon and service_role keys are JWTs signed with the same secret, good for years, and the anon key is public) and
+ * anonymous sign-ins are not a sign-in; neither is a token with no expiry or no subject.
+ */
+function userProblem(payload, now) {
+  if (typeof payload.exp !== 'number' || !Number.isFinite(payload.exp)) return 'token has no expiry';
+  if (payload.exp * 1000 < now()) return 'token expired';
+  if (payload.role !== 'authenticated' || typeof payload.sub !== 'string' || !payload.sub || payload.is_anonymous === true) {
+    return 'not a signed-in user';
+  }
+  return null;
 }
 
-/** HS256 with the legacy shared secret: signature and expiry. */
+/** HS256 with the legacy shared secret: signature, expiry, and a signed-in person's token. */
 export function verifyHs256(token, secret, now = Date.now) {
   const d = decode(token);
   if (!d) return { ok: false, error: 'malformed token' };
@@ -51,8 +65,9 @@ export function verifyHs256(token, secret, now = Date.now) {
   if (expected.length !== actual.length || !crypto.timingSafeEqual(expected, actual)) {
     return { ok: false, error: 'invalid signature' };
   }
-  if (expired(d.payload, now)) return { ok: false, error: 'token expired' };
-  return { ok: true, userId: d.payload.sub ?? null };
+  const problem = userProblem(d.payload, now);
+  if (problem) return { ok: false, error: problem };
+  return { ok: true, userId: d.payload.sub };
 }
 
 /**
@@ -134,13 +149,19 @@ export function createSupabaseVerifier({
       : crypto.verify('sha256', data, entry.key, signature);
     if (!valid) return { ok: false, error: 'invalid signature' };
     if (d.payload.iss !== urls.issuer) return { ok: false, error: 'wrong issuer' };
-    if (expired(d.payload, now)) return { ok: false, error: 'token expired' };
-    return { ok: true, userId: d.payload.sub ?? null };
+    const problem = userProblem(d.payload, now);
+    if (problem) return { ok: false, error: problem };
+    return { ok: true, userId: d.payload.sub };
   }
 
   return {
-    /** Whether any verification is configured; unconfigured means no enforcement. */
-    enforced: Boolean(secret) || Boolean(urls),
+    /**
+     * Whether either variable is set; neither means no enforcement. A SUPABASE_URL that is set but unusable still
+     * enforces (it refuses every asymmetric token), so a typo never opens the endpoints.
+     */
+    enforced: Boolean(secret) || Boolean(supabaseUrl),
+    /** SUPABASE_URL is set but is not an https project address. */
+    urlUnusable: Boolean(supabaseUrl) && !urls,
     /** Whether asymmetric tokens can be verified. */
     asymmetric: Boolean(urls),
     refresh,

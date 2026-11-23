@@ -126,6 +126,34 @@ test('nothing configured means nothing enforced', () => {
   assert.equal(createSupabaseVerifier({}).enforced, false);
 });
 
+test('only a signed-in person\'s token passes: never an API key, an anonymous sign-in, or a token with no expiry or subject', async () => {
+  const v = createSupabaseVerifier({ secret: SECRET, supabaseUrl: SUPABASE_URL, fetchImpl: jwksFetch(() => [es]), now });
+  await v.refresh();
+  // The project's legacy anon and service_role keys are HS256 JWTs signed with the same secret, good for ten years.
+  const anonKey = { iss: 'supabase', ref: 'example-project', role: 'anon', iat: NOW / 1000 - 1e6, exp: NOW / 1000 + 3e8 };
+  const serviceKey = { ...anonKey, role: 'service_role' };
+  for (const sign of [(p) => signHs256(p), (p) => signAsym({ ...p, iss: ISSUER }, es)]) {
+    assert.equal((await v.verify(sign(anonKey))).error, 'not a signed-in user');
+    assert.equal((await v.verify(sign(serviceKey))).error, 'not a signed-in user');
+    assert.equal((await v.verify(sign(claims({ is_anonymous: true })))).error, 'not a signed-in user');
+    assert.equal((await v.verify(sign(claims({ sub: '' })))).error, 'not a signed-in user');
+    const { exp: _exp, ...noExpiry } = claims();
+    assert.equal((await v.verify(sign(noExpiry))).error, 'token has no expiry');
+    assert.equal((await v.verify(sign(claims({ exp: String(NOW / 1000 + 600) })))).error, 'token has no expiry');
+    assert.equal((await v.verify(sign(claims()))).ok, true);
+  }
+  assert.equal(verifyHs256(signHs256(anonKey), SECRET, now).error, 'not a signed-in user');
+});
+
+test('a SUPABASE_URL that is set but unusable refuses every token, never opens the endpoints', async () => {
+  for (const supabaseUrl of ['not a url', 'example-project.supabase.co', 'http://example-project.supabase.co']) {
+    const v = createSupabaseVerifier({ supabaseUrl, now });
+    assert.equal(v.enforced, true, supabaseUrl);
+    assert.equal(v.asymmetric, false);
+    assert.equal((await v.verify(signHs256(claims()))).ok, false);
+  }
+});
+
 test('the Express middleware lets a verified ES256 or HS256 request through and refuses the rest with 401', async () => {
   const { default: express } = await import('express');
   const { createRequireSupabaseAuth } = await import('../server/supabase-auth.js');

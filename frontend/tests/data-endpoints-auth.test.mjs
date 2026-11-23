@@ -17,7 +17,7 @@ const ORIGIN = 'https://sailgtx.ai';
 
 process.env.TARIFF_API_NO_START = '1';
 process.env.SUPABASE_JWT_SECRET = SECRET;
-delete process.env.SUPABASE_URL;
+process.env.SUPABASE_URL = ''; // set, so a repository .env can never supply one
 process.env.CORS_ALLOWED_ORIGINS = ORIGIN;
 process.env.DATABASE_TARGET = 'local';
 
@@ -112,6 +112,12 @@ for (const e of DATA_ENDPOINTS) {
     assert.equal(r.status, e.signedIn, JSON.stringify(r.json));
   });
 }
+
+test('the project\'s public API key is not a sign-in', async () => {
+  const anonKey = signHs256({ iss: 'supabase', ref: 'example-project', role: 'anon', exp: now() + 3e8 });
+  assert.equal((await call('GET', '/api/rates/arrow?hts10=0101210000', { token: anonKey })).status, 401);
+  assert.equal((await call('POST', '/api/rates/batch', { token: anonKey, body: {} })).status, 401);
+});
 
 test('a refused request is answered before its body is read', async () => {
   const res = await fetch(`${base}/api/rates/batch`, {
