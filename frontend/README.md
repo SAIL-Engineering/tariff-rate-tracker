@@ -71,7 +71,7 @@ Open **http://localhost:5173** in your browser. The Vite dev server proxies all 
 | `/api/products?q=...` | GET | HTS code autocomplete (prefix search, returns up to 50 matches). |
 | `/api/health` | GET | Health check with row count. |
 
-**Sign-in.** When `SUPABASE_JWT_SECRET` or `SUPABASE_URL` is set (production sets both), every endpoint except `/api/health` answers 401 unless the request carries `Authorization: Bearer <Supabase access token>`. Locally, with neither set (the repository `.env` names neither), nothing is enforced and the examples below and the dev frontend work as they are. To try enforcement locally, set `SUPABASE_JWT_SECRET` to a test value and send an HS256 token signed with it; the dev frontend has no sign-in, so it gets 401 while that is set.
+**Sign-in.** When `SUPABASE_JWT_SECRET` or `SUPABASE_URL` is set (production sets both), every endpoint except `/api/health` answers 401 unless the request carries `Authorization: Bearer <Supabase access token>`. On Railway with neither set, every endpoint except `/api/health` answers 503 instead. `/api/health` reports the mode as `auth`: `enforced`, `refusing` (Railway, neither set) or `open`. Locally, with neither set (the repository `.env` names neither), nothing is enforced and the examples below and the dev frontend work as they are. To try enforcement locally, set `SUPABASE_JWT_SECRET` to a test value and send an HS256 token signed with it; the dev frontend has no sign-in, so it gets 401 while that is set.
 
 ### Example queries
 

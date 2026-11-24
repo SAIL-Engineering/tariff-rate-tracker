@@ -41,7 +41,7 @@ import { compressResponses, gzipBuffer, sendGzipped } from './server/compress.js
 import { createRatesCache } from './server/rates-cache.js';
 import { registerShipmentRoutes } from './server/shipment-routes.js';
 import { createRequireSupabaseAuth, createSupabaseVerifier } from './server/supabase-auth.js';
-import { createRequireSignInForData } from './server/data-auth.js';
+import { createRequireSignInForData, refuseUnconfigured, signInMode } from './server/data-auth.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load .env from repo root (one level up from frontend/). No-op in Railway
@@ -425,9 +425,11 @@ const app = express();
 //                        project rotates to an asymmetric signing key, every
 //                        signed-in user's token is ES256.
 //
-// With neither set nothing can be verified, so nothing is enforced: local
+// With neither set nothing can be verified. On Railway every data request is
+// then refused (503, a service fault); off Railway nothing is enforced: local
 // development runs from the repository's .env, which names neither, and this
-// repo's own dev frontend has no sign-in. Production sets both.
+// repo's own dev frontend has no sign-in. Production sets both. /api/health
+// reports which ('enforced' | 'refusing' | 'open').
 const supabaseVerifier = createSupabaseVerifier({
   secret: process.env.SUPABASE_JWT_SECRET || '',
   supabaseUrl: process.env.SUPABASE_URL || '',
@@ -442,13 +444,17 @@ if (supabaseVerifier.asymmetric) {
 } else if (supabaseVerifier.enforced && !supabaseVerifier.urlUnusable) {
   console.warn('[auth] SUPABASE_URL is unset: only HS256 tokens are accepted, so ES256 user tokens are refused.');
 }
-if (supabaseVerifier.enforced) {
+const authMode = signInMode(supabaseVerifier);
+if (authMode === 'enforced') {
   console.log('[auth] Every endpoint but /api/health requires a Supabase sign-in.');
+} else if (authMode === 'refusing') {
+  console.error('[auth] On Railway with neither SUPABASE_JWT_SECRET nor SUPABASE_URL set: every endpoint but /api/health answers 503 until one is set.');
 } else {
   console.warn('[auth] Neither SUPABASE_JWT_SECRET nor SUPABASE_URL is set: every endpoint answers without a sign-in (local development only).');
 }
 
-const requireSupabaseAuth = createRequireSupabaseAuth(supabaseVerifier);
+// The one check every data route uses: the gate below and each route's own line.
+const requireSupabaseAuth = authMode === 'refusing' ? refuseUnconfigured : createRequireSupabaseAuth(supabaseVerifier);
 
 // Ahead of the body parser and every route: a request without a sign-in is
 // refused before its body is read, and no route can be added open by mistake.
@@ -1163,9 +1169,9 @@ app.get('/api/health', async (_req, res) => {
   try {
     const reader = await pickConn().runAndReadAll('SELECT count(*) as n FROM rates');
     const result = reader.getRowObjects()[0];
-    res.json({ status: 'ok', rows: Number(result.n) });
+    res.json({ status: 'ok', rows: Number(result.n), auth: authMode });
   } catch (err) {
-    res.status(500).json({ status: 'error', message: err.message });
+    res.status(500).json({ status: 'error', message: err.message, auth: authMode });
   }
 });
 

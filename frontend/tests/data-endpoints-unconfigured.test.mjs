@@ -9,6 +9,8 @@ process.env.TARIFF_API_NO_START = '1';
 // Set but empty, so a repository .env can never supply them.
 process.env.SUPABASE_JWT_SECRET = '';
 process.env.SUPABASE_URL = '';
+process.env.RAILWAY_ENVIRONMENT = ''; // off Railway (data-endpoints-railway.test.mjs covers Railway)
+process.env.RAILWAY_ENVIRONMENT_NAME = '';
 delete process.env.CORS_ALLOWED_ORIGINS;
 process.env.DATABASE_TARGET = 'local';
 
@@ -22,4 +24,9 @@ test('unconfigured (local development): a data endpoint answers without a sign-i
   assert.equal(info.status, 200);
   const rates = await fetch(`${base}/api/rates`);
   assert.equal(rates.status, 400); // the handler's own input check, not a refusal
+});
+
+test('unconfigured off Railway: /api/health says the endpoints are open', async () => {
+  const health = await fetch(`${base}/api/health`);
+  assert.equal((await health.json()).auth, 'open');
 });

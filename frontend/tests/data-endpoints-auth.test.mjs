@@ -19,6 +19,8 @@ process.env.TARIFF_API_NO_START = '1';
 process.env.SUPABASE_JWT_SECRET = SECRET;
 process.env.SUPABASE_URL = ''; // set, so a repository .env can never supply one
 process.env.CORS_ALLOWED_ORIGINS = ORIGIN;
+process.env.RAILWAY_ENVIRONMENT = '';
+process.env.RAILWAY_ENVIRONMENT_NAME = '';
 process.env.DATABASE_TARGET = 'local';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -131,9 +133,11 @@ test('any other path asks for a sign-in too, so a new route is never open by def
   assert.equal((await call('GET', '/API/RATES?hts10=0101210000')).status, 401);
 });
 
-test('/api/health stays open (Railway\'s deploy check cannot sign in)', async () => {
+test('/api/health stays open (Railway\'s deploy check cannot sign in) and says sign-in is enforced', async () => {
   const r = await call('GET', '/api/health');
   assert.notEqual(r.status, 401);
+  assert.equal(r.json.auth, 'enforced');
+  assert.ok('status' in r.json);
 });
 
 test('the site\'s browser calls work: the preflight passes without a token, and a 401 carries the CORS headers', async () => {
